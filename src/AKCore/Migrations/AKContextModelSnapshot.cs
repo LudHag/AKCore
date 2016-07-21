@@ -91,9 +91,9 @@ namespace AKCore.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("Authority");
-
                     b.Property<string>("Content");
+
+                    b.Property<bool>("LoggedIn");
 
                     b.Property<string>("Name")
                         .IsRequired();

@@ -8,7 +8,7 @@ using AKCore.DataModel;
 namespace AKCore.Migrations
 {
     [DbContext(typeof(AKContext))]
-    [Migration("20160719185528_init")]
+    [Migration("20160721142246_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -92,9 +92,9 @@ namespace AKCore.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("Authority");
-
                     b.Property<string>("Content");
+
+                    b.Property<bool>("LoggedIn");
 
                     b.Property<string>("Name")
                         .IsRequired();

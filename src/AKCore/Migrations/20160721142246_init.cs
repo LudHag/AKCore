@@ -40,8 +40,8 @@ namespace AKCore.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Autoincrement", true),
-                    Authority = table.Column<int>(nullable: false),
                     Content = table.Column<string>(nullable: true),
+                    LoggedIn = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(nullable: false),
                     ParentId = table.Column<int>(nullable: true),
                     Path = table.Column<string>(maxLength: 450, nullable: false),

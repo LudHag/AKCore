@@ -46,7 +46,6 @@ namespace AKCore.Controllers
                 }
                 var page = new Page
                 {
-                    Authority = 0,
                     Name = name,
                     Slug = slug,
                     Path = slug

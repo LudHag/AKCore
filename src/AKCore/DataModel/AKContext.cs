@@ -12,7 +12,6 @@ namespace AKCore.DataModel
 {
     public class AKContext : IdentityDbContext<AkUser>
     {
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var path = Directory.GetCurrentDirectory();
@@ -20,11 +19,7 @@ namespace AKCore.DataModel
             optionsBuilder.UseSqlite(connection);
         }
 
-        // Add a DbSet for each entity type that you want to include in your model. For more information 
-        // on configuring and using a Code First model, see http://go.microsoft.com/fwlink/?LinkId=390109.
-
         public DbSet<Page> Pages { get; set; }
-        //public DbSet<User> Users { get; set; }
         public DbSet<Menu> Menus { get; set; }
         public DbSet<SubMenu> SubMenus { get; set; }
     }
@@ -43,25 +38,10 @@ namespace AKCore.DataModel
         public string Path { get; set; }
         public string Content { get; set; }
         [Required]
-        public AuthorityRank Authority { get; set; }
+        public bool LoggedIn { get; set; }
         public Page Parent { get; set; }
     }
-    /**
-    public class User 
-    {
-        [Key]
-        public int Id { get; set; }
-        [Required]
-        [StringLength(450)]
-        public string Name { get; set; }
-        [Required]
-        [DataType(DataType.Password)]
-        public string Password { get; set; }
-        public string Email { get; set; }
-        [Required]
-        public AuthorityRank Authority { get; set; }
-    }
-    */
+  
     public class Menu
     {
         [Key]
@@ -85,11 +65,4 @@ namespace AKCore.DataModel
         public int SubPosIndex { get; set; }
     }
 
-    public enum AuthorityRank
-    {
-        Guest=1,
-        User=2,
-        Styrelse=3,
-        SuperNintendo=4
-    }
 }
