@@ -11,8 +11,6 @@ namespace AKCore.Controllers
     [Authorize(Roles = "SuperNintendo")]
     public class MenuEditController : Controller
     {
-        // GET: Edit
-        //[MyAuthorize(Roles = "SuperNintendo,Styrelse")]
         public ActionResult Index()
         {
             ViewBag.Title = "Editera Menyer";
@@ -31,7 +29,6 @@ namespace AKCore.Controllers
             }
         }
 
-        //[MyAuthorize(Roles = "SuperNintendo,Styrelse")]
         [Route("MenuList")]
         public ActionResult MenuList()
         {
@@ -50,7 +47,6 @@ namespace AKCore.Controllers
         }
 
         [HttpPost]
-        //[MyAuthorize(Roles = "SuperNintendo,Styrelse")]
         [Route("AddTopMenu")]
         public ActionResult AddTopMenu(string name, string pageId)
         {
@@ -89,7 +85,6 @@ namespace AKCore.Controllers
         }
 
         [HttpPost]
-        //[MyAuthorize(Roles = "SuperNintendo,Styrelse")]
         [Route("EditMenu")]
         public ActionResult EditMenu(string parentId, string menuId, string text, string pageId)
         {
@@ -157,7 +152,6 @@ namespace AKCore.Controllers
         }
 
         [HttpPost]
-        //[MyAuthorize(Roles = "SuperNintendo,Styrelse")]
         [Route("AddSubMenu")]
         public ActionResult AddSubMenu(string parentId, string pageId, string text)
         {
@@ -205,7 +199,6 @@ namespace AKCore.Controllers
         }
 
         [HttpPost]
-        //[MyAuthorize(Roles = "SuperNintendo,Styrelse")]
         [Route("RemoveTopMenu")]
         public ActionResult RemoveTopMenu(string id)
         {
@@ -237,7 +230,6 @@ namespace AKCore.Controllers
         }
 
         [HttpPost]
-        //[MyAuthorize(Roles = "SuperNintendo,Styrelse")]
         [Route("MoveLeft")]
         public ActionResult MoveLeft(string id)
         {
@@ -271,7 +263,6 @@ namespace AKCore.Controllers
         }
 
         [HttpPost]
-        //[MyAuthorize(Roles = "SuperNintendo,Styrelse")]
         [Route("MoveRight")]
         public ActionResult MoveRight(string id)
         {
@@ -305,7 +296,6 @@ namespace AKCore.Controllers
         }
 
         [HttpPost]
-        //[MyAuthorize(Roles = "SuperNintendo,Styrelse")]
         [Route("MoveUp")]
         public ActionResult MoveUp(string id,string parent)
         {
@@ -354,7 +344,6 @@ namespace AKCore.Controllers
         }
 
         [HttpPost]
-        //[MyAuthorize(Roles = "SuperNintendo,Styrelse")]
         [Route("MoveDown")]
         public ActionResult MoveDown(string id, string parent)
         {
@@ -403,7 +392,6 @@ namespace AKCore.Controllers
         }
 
         [HttpPost]
-        //[MyAuthorize(Roles = "SuperNintendo,Styrelse")]
         [Route("RemoveSubMenu")]
         public ActionResult RemoveSubMenu(string id)
         {

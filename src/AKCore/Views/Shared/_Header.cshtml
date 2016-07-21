@@ -3,7 +3,7 @@
 @using System.Security.Principal
 @{
     var loggedIn = User.Identity.IsAuthenticated;
-    var uName = Context.User.Identity.Name;
+    var uName = User.Identity.Name;
     var menus = MenuHelper.GetMenus();
     var currentUrl = Context.Request.Path.ToString();
     var p = ViewContext.RouteData.Values;
@@ -90,7 +90,7 @@
                 </li>
             }
 
-            @if (loggedIn)// && user.Authority > AuthorityRank.User)
+            @if (loggedIn && User.IsInRole("SuperNintendo"))
             {
                 <li class="exp">
                     <a href="/Edit" class="@(currentUrl == "/Edit" ? "active" : "")">

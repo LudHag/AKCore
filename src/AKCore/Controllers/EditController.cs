@@ -11,7 +11,6 @@ namespace AKCore.Controllers
     [Authorize(Roles="SuperNintendo")]
     public class EditController : Controller
     {
-        //[MyAuthorize(Roles = "SuperNintendo,Nintendo,Styrelse")]
         public ActionResult Index()
         {
             ViewBag.Title = "Editera sidor";
@@ -28,7 +27,6 @@ namespace AKCore.Controllers
 
         [HttpPost]
         [Route("CreatePage")]
-        //[MyAuthorize(Roles = "SuperNintendo,Nintendo,Styrelse")]
         public ActionResult CreatePage(string name, string slug)
         {
             if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(slug))
@@ -60,7 +58,6 @@ namespace AKCore.Controllers
             }
         }
 
-        //[MyAuthorize(Roles = "SuperNintendo,Nintendo,Styrelse")]
         [Route("Page/{id:int}")]
         public ActionResult Page(string id)
         {
@@ -77,7 +74,7 @@ namespace AKCore.Controllers
                 {
                     return Redirect("/Edit");
                 }
-                int parent = 0;
+                var parent = 0;
                 if (page.Parent != null)
                 {
                     parent = page.Parent.Id;
@@ -93,7 +90,6 @@ namespace AKCore.Controllers
                 return View("EditPage", model);
             }
         }
-        //[MyAuthorize(Roles = "SuperNintendo,Nintendo,Styrelse")]
         [HttpPost]
         [Route("Page/{id:int}")]
         public ActionResult Page(PageEditModel model,string id)
@@ -127,11 +123,10 @@ namespace AKCore.Controllers
             }
         }
 
-        //[MyAuthorize(Roles = "SuperNintendo,Nintendo,Styrelse")]
         [Route("RemovePage/{id:int}")]
         public ActionResult RemovePage(string id)
         {
-            int pId = 0;
+            var pId = 0;
             int.TryParse(id, out pId);
             if (pId == 0)
             {
