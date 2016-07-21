@@ -1,0 +1,36 @@
+﻿@model AKCore.Models.UsersModel
+@{
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+}
+
+
+<div class="row">
+    <div class="col-md-8">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Användarnamn</th> <th>Email</th> <th>Roller</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var u in Model.Users)
+            {
+                var roles = Model.Roles[u.UserName] as IList<string>;
+                <tr>
+                    <td>@u.UserName</td>
+                    <td>@u.Email</td>
+                    <td class="roles">
+                        @foreach (var r in roles)
+                        {
+                            <span class="role">@r</span>
+                        }
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-4">
+        <a class="btn btn-default" id="create-user" href="#" role="button">Lägg till ny användare</a>
+    </div>
+</div>
