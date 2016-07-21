@@ -1,0 +1,139 @@
+﻿html{
+    overflow-y: scroll;
+}
+
+html,body,.wrap{
+    height: 100%;
+}
+html,
+body {
+  overflow: auto;
+  height: 100%;
+}
+
+header{
+    display: block;
+    position: relative;
+    border-bottom: 2px solid #1a1a1a;
+    margin: 0 -15px;
+    padding: 20px;
+}
+body{
+    background: url('/images/background.png') repeat scroll;
+    height: 100%;
+    font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+    color: #dddddd;
+    font-size: 15px;
+}
+a:visited,
+a {
+    color: #b10000;
+}
+a:hover, a:visited, a:link, a:active
+{
+    text-decoration: none;
+}
+
+
+nav{
+    display: block;
+    position: relative;
+    bottom: -15px;
+    right: 0px;
+    margin: 0px;
+}
+
+.body-content{
+    background:#000;
+    color:#fff;
+    height:100%;
+}
+
+.navigation{
+    display: block;
+    position: absolute;
+    bottom: 1px;
+    right: 5px;
+    margin: 0px;
+    li{
+        position: relative;
+        background-color: black;
+        a {
+            font-weight: bold;
+            display: block;
+            color: #999999;
+            border-bottom: 4px solid white;
+            font-size: 12px;
+            padding-bottom: 3px;
+            margin-left: 4px;
+            &.active,
+            &:hover{
+                display: block;
+                color: #cccccc;
+                border-color: red;
+                text-decoration: none;
+            }
+        }
+    }
+}
+.navigation > * {
+    display: inline-block;
+}
+
+::-moz-selection { background: #aa0000; color: #fff; text-shadow: none; }
+::selection { background: #b10000; color: #fff; text-shadow: none; }
+
+.account{
+    text-align: right;
+    padding: 5px;
+    color: #444444;
+    z-index: 10;
+    top: 5px;
+    position: absolute;
+    right: 20px;
+}
+.content-wrapper{
+    padding: 30px 30px;
+}
+
+.btn.btn-default,
+.btn.btn-primary{
+    background-color:#b10000;
+    border-color:#6E1601;
+    color:white;
+    &:focus{
+        background-color:#b10000;
+        border-color:#6E1601;
+        color:white;
+    }
+    &:hover{
+        color: #333;
+        background-color: #fff;
+        border-color: #ccc;
+    }
+}
+
+a:visited,
+    a {
+    &.btn{
+        color: white;
+    }
+}
+
+.side-image{
+    width:100%;
+}
+.subnav{
+    display: none;
+    position: absolute;
+    list-style: none;
+    padding: 5px 0;
+    z-index: 2;
+    li{
+        padding-right: 5px;
+    }
+}
+
+.exp:hover .subnav{
+    display:block;
+}

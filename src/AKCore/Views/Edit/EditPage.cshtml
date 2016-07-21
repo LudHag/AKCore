@@ -1,0 +1,32 @@
+﻿@model AKCore.Models.PageEditModel
+@{
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+}
+
+
+<div class="row">
+    <div class="col-md-6">
+        <form id="page-edit" action="" method="post">
+            <div class="alert alert-danger" style="display: none;"></div>
+            <div class="alert alert-success" style="display: none;"></div>
+            <div class="form-group">
+                <label for="name">Namn</label>
+                <input type="text" class="form-control" required="required" id="name" name="Name" placeholder="Namn" value="@Model.Name">
+            </div>
+            <div class="form-group">
+                <label for="slug">Sidlänk</label>
+                <input type="text" class="form-control" data-oldslug="@Model.Slug" required="required" id="slug" name="Slug" placeholder="Sidlänk" value="@Model.Slug">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" id="start-page"> Startsida
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="content">Innehåll</label>
+                <textarea class="form-control" id="content" name="Content" rows="3">@(Model.Content ?? "")</textarea>
+            </div>
+            <button type="submit" class="btn btn-default">Spara</button>
+        </form>
+    </div>
+</div>

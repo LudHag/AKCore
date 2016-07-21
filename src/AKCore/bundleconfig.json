@@ -1,0 +1,17 @@
+[
+  {
+    "outputFileName": "wwwroot/js/main.js",
+    "inputFiles": [
+      "Scripts/jquery-2.2.3.min.js",
+      "Scripts/bootstrap.min.js",
+      "Scripts/general.js",
+      "Scripts/menuedit.js",
+      "Scripts/pageedit.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": true
+  }
+]

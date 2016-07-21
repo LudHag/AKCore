@@ -1,0 +1,110 @@
+﻿@using AKCore.Helpers
+@using AKCore.DataModel
+@using System.Security.Principal
+@{
+    var loggedIn = User.Identity.IsAuthenticated;
+    var uName = Context.User.Identity.Name;
+    var menus = MenuHelper.GetMenus();
+    var currentUrl = Context.Request.Path.ToString();
+    var p = ViewContext.RouteData.Values;
+}
+<header>
+    <a href="/">
+        <img src="~/images/ak_logo.png"/>
+    </a>
+    <div class="account">
+        @if (!loggedIn)
+        {
+            <a href="#" class="login">Logga in</a>
+        }
+        else
+        {
+            <p>Inloggad som @uName </p>
+            <a href="/Account/Logout" class="logout">Logga ut</a>
+        }
+    </div>
+    <nav>
+        <ul class="navigation">
+            @foreach (var m in menus)
+            {
+                var active = "";
+                if (m.Link?.Slug == currentUrl)
+                {
+                    active = "active";
+                }
+                else
+                {
+                    if (m.Link != null && (m.Children?.FirstOrDefault(x => x.Link.Slug == currentUrl) != null))
+                    {
+                        active = "active";
+                    }
+                }
+                <li class="@(m.Children.Count > 0 ? "exp" : "")">
+                    @if (m.Link == null)
+                    {
+                        <a class="@active">
+                            @m.Name
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="@m.Link.Slug" class="@active">
+                            @m.Name
+                        </a>
+                    }
+
+                    @if (m.Children.Count > 0)
+                    {
+                        <ul class="subnav">
+                            @foreach (var c in m.Children)
+                            {
+                                var cactive = "";
+                                if (c.Link?.Slug == currentUrl)
+                                {
+                                    cactive = "active";
+                                }
+                                else
+                                {
+                                    if (c.Link != null && (c.Children?.FirstOrDefault(x => x.Link.Slug == currentUrl) != null))
+                                    {
+                                        cactive = "active";
+                                    }
+                                }
+                                <li>
+                                    @if (c.Link == null)
+                                    {
+                                        <a class="@cactive">
+                                            @c.Name
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a href="@c.Link.Slug" class="@cactive">
+                                            @c.Name
+                                        </a>
+                                    }
+                                </li>
+                            }
+                        </ul>
+                    }
+                </li>
+            }
+
+            @if (loggedIn)// && user.Authority > AuthorityRank.User)
+            {
+                <li class="exp">
+                    <a href="/Edit" class="@(currentUrl == "/Edit" ? "active" : "")">
+                        Edit pages
+                    </a>
+                    <ul class="subnav">
+                        <li>
+                            <a href="/MenuEdit" class="@(currentUrl == "/MenuEdit" ? "active" : "")">
+                                Edit menus
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            }
+        </ul>
+    </nav>
+</header>

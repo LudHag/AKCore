@@ -1,0 +1,17 @@
+﻿@model AKCore.Models.PageRenderModel
+@{
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+    ViewData["Title"] = Model.PageInfo.Name;
+}
+
+
+<div class="row">
+    <div class="col-sm-6">
+        <h2>@Model.PageInfo.Name</h2>
+        <p>@Model.PageInfo.Content</p>
+
+    </div>
+    <div class="col-sm-6">
+        <img class="side-image" src="~/images/webposterliten.png"/>
+    </div>
+</div>
