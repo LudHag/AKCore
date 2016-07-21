@@ -6,6 +6,8 @@ DB:
 Entityframeworkcore med SQLite
 EFCore gillar att man använder .Include() förreferenser till andra tabeller.
 
+Migrationer hanteras med Add-Migration och Uppdate-Database i package manager console.
+
 Använd gärna annan databas via EF men mysql har än så länge inget stöd i CORE.
 
 Fil för db sätts i AkContext.OnConfiguring vore snyggare att kontrollera via config.
