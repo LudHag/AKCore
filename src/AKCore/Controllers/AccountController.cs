@@ -79,9 +79,10 @@ namespace AKCore.Controllers
             {
                 await _userManager.CreateAsync(newUser, "123456");
             }
-            else if (user.Roles.Count < 1)
+            else
             {
                 await _userManager.AddToRoleAsync(user, "SuperNintendo");
+                await _userManager.AddToRoleAsync(user, "Medlem");
             }
             
             var user2 = await _userManager.FindByNameAsync("test");

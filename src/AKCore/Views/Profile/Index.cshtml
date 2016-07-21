@@ -1,0 +1,38 @@
+﻿@model AKCore.Models.ProfileModel
+@{
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+}
+
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="">
+            <h3>Roller</h3>
+            <div class="roles">
+                @foreach (var r in Model.Roles)
+                {
+                    <span class="role">
+                        @r.ToString()
+                    </span>
+                }
+            </div>
+        </div>
+        <h3>Användarinfo</h3>
+        <form id="update-profile-form" method="POST" action="/Profile/EditProfile">
+            <div class="alert alert-danger" style="display: none;"></div>
+            <div class="alert alert-success" style="display: none;">Profil uppdaterad</div>
+            <div class="form-group">
+                <label for="UserName">Användarnamn</label>
+                <input type="text" class="form-control" name="UserName" id="UserName" placeholder="Användarnamn" value="@Model.UserName">
+            </div>
+            <div class="form-group">
+                <label for="Email">Epost</label>
+                <input type="text" class="form-control" name="Email" id="Email" placeholder="Epost" value="@Model.Email">
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-default">Uppdatera profil</button>
+            </div>
+        </form>
+
+    </div>
+</div>

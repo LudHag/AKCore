@@ -6,7 +6,8 @@
       "Scripts/bootstrap.min.js",
       "Scripts/general.js",
       "Scripts/menuedit.js",
-      "Scripts/pageedit.js"
+      "Scripts/pageedit.js",
+      "Scripts/profile.js"
     ],
     "minify": {
       "enabled": true,
