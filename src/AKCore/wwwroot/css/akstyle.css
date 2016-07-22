@@ -7262,6 +7262,9 @@ textarea {
   background-color: #fff;
   border-color: #ccc;
 }
+.hover-grey:hover {
+  background-color: #010;
+}
 html {
   overflow-y: scroll;
 }

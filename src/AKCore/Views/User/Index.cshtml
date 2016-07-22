@@ -5,32 +5,16 @@
 
 
 <div class="row">
-    <div class="col-md-8">
-        <table class="table">
-            <thead>
-            <tr>
-                <th>Användarnamn</th> <th>Email</th> <th>Roller</th>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach (var u in Model.Users)
-            {
-                var roles = Model.Roles[u.UserName] as IList<string>;
-                <tr>
-                    <td>@u.UserName</td>
-                    <td>@u.Email</td>
-                    <td class="roles">
-                        @foreach (var r in roles)
-                        {
-                            <span class="role">@r</span>
-                        }
-                    </td>
-                </tr>
-            }
-            </tbody>
+    <div class="col-md-9">
+        <div class="alert alert-danger" style="display: none;"></div>
+        <div class="alert alert-success" style="display: none;">Användare skapad</div>
+        <table class="table" id="user-table">
+            @Html.Partial("_UserList", Model)
         </table>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
         <a class="btn btn-default" id="create-user" href="#" role="button">Lägg till ny användare</a>
     </div>
 </div>
+
+@Html.Partial("_CreateUserModal")

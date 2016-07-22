@@ -1,0 +1,30 @@
+﻿@model AKCore.Models.UsersModel
+
+<thead>
+<tr>
+    <th>Användarnamn</th>
+    <th>Email</th>
+    <th>Roller</th>
+</tr>
+</thead>
+<tbody>
+@foreach (var u in Model.Users)
+{
+    var roles = Model.Roles[u.UserName] as IList<string>;
+    <tr data-toggle="collapse" data-target="#accordion-@u.UserName" class="clickable hover-grey">
+        <td>@u.UserName</td>
+        <td>@u.Email</td>
+        <td class="roles">
+            @foreach (var r in roles)
+            {
+                <span class="role">@r</span>
+            }
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3">
+            <div id="accordion-@u.UserName" class="collapse">Editerbar info</div>
+        </td>
+    </tr>
+}
+</tbody>
