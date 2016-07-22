@@ -68,5 +68,16 @@ namespace AKCore.Controllers
 
             return Json(new {success = true, message = "Användare skapades"});
         }
+        [Route("RemoveUser")]
+        public async Task<ActionResult> RemoveUser(string userName)
+        {
+            var res = await _userManager.FindByNameAsync(userName);
+            var delRes = await _userManager.DeleteAsync(res);
+            if (delRes.Succeeded)
+            {
+                return Json(new {success = true, message = "Användare borttagen"});
+            }
+                return Json(new {success = false, message = delRes.ToString()});
+        }
     }
 }

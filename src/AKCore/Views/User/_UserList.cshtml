@@ -5,6 +5,7 @@
     <th>Användarnamn</th>
     <th>Email</th>
     <th>Roller</th>
+    <th></th>
 </tr>
 </thead>
 <tbody>
@@ -20,9 +21,10 @@
                 <span class="role">@r</span>
             }
         </td>
+        <td><a class="btn remove-user glyphicon glyphicon-remove" data-user="@u.UserName"></a></td>
     </tr>
     <tr>
-        <td colspan="3">
+        <td colspan="4">
             <div id="accordion-@u.UserName" class="collapse">Editerbar info</div>
         </td>
     </tr>
