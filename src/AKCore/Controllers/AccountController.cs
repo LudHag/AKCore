@@ -55,20 +55,28 @@ namespace AKCore.Controllers
         public async System.Threading.Tasks.Task<ActionResult> InitNintendo()
         {
 
-            var roleresult = await _roleManager.FindByNameAsync("SuperNintendo");
-            var nintendoRole = new IdentityRole("SuperNintendo");
+            var roleresult = await _roleManager.FindByNameAsync(AkRoles.SuperNintendo);
+            var nintendoRole = new IdentityRole(AkRoles.SuperNintendo);
 
             if (roleresult == null)
             {
                 await _roleManager.CreateAsync(nintendoRole);
             }
 
-            var roleresult2 = await _roleManager.FindByNameAsync("Medlem");
-            var memberRole = new IdentityRole("Medlem");
+            var roleresult2 = await _roleManager.FindByNameAsync(AkRoles.Medlem);
+            var memberRole = new IdentityRole(AkRoles.Medlem);
 
             if (roleresult2 == null)
             {
                 await _roleManager.CreateAsync(memberRole);
+            }
+
+            var roleresult3 = await _roleManager.FindByNameAsync(AkRoles.Editor);
+            var editorRole = new IdentityRole(AkRoles.Editor);
+
+            if (roleresult3 == null)
+            {
+                await _roleManager.CreateAsync(editorRole);
             }
 
             var newUser = new AkUser() {UserName = "nintendo"};
@@ -78,24 +86,20 @@ namespace AKCore.Controllers
             if (user == null)
             {
                 await _userManager.CreateAsync(newUser, "123456");
-            }
-            else
-            {
-                await _userManager.AddToRoleAsync(user, "SuperNintendo");
-                await _userManager.AddToRoleAsync(user, "Medlem");
+                user = await _userManager.FindByNameAsync("nintendo");
+                await _userManager.AddToRoleAsync(user, AkRoles.SuperNintendo);
+                await _userManager.AddToRoleAsync(user, AkRoles.Medlem);
             }
             
             var user2 = await _userManager.FindByNameAsync("test");
             if (user2 == null)
             {
                 await _userManager.CreateAsync(newCommonUser, "123456");
+                user2 = await _userManager.FindByNameAsync("test");
+                await _userManager.AddToRoleAsync(user2, AkRoles.Medlem);
+
                 return Json(new {success = true});
             }
-            else if(user2.Roles.Count<1)
-            {
-                var res= await _userManager.AddToRoleAsync(user2, "Medlem");
-            }
-
 
             return Json(new {success = true});
         }

@@ -5,6 +5,7 @@ using AKCore.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace AKCore.Controllers
 {
@@ -13,10 +14,14 @@ namespace AKCore.Controllers
     public class UserController : Controller
     {
         private readonly UserManager<AkUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         public UserController(
-            UserManager<AkUser> userManager)
+            UserManager<AkUser> userManager,
+            RoleManager<IdentityRole> roleManager
+            )
         {
+            _roleManager = roleManager;
             _userManager = userManager;
         }
 
@@ -64,7 +69,7 @@ namespace AKCore.Controllers
                 return Json(new {success = false, message = createRes.ToString()});
             }
 
-            await _userManager.AddToRoleAsync(newUser, "Medlem");
+            await _userManager.AddToRoleAsync(newUser, AkRoles.Medlem);
 
             return Json(new {success = true, message = "Användare skapades"});
         }
@@ -78,6 +83,24 @@ namespace AKCore.Controllers
                 return Json(new {success = true, message = "Användare borttagen"});
             }
                 return Json(new {success = false, message = delRes.ToString()});
+        }
+        [Route("AddRole")]
+        public async Task<ActionResult> AddRole(string UserName, string Role)
+        {
+            var user = await _userManager.FindByNameAsync(UserName);
+            var role = await _roleManager.FindByNameAsync(Role);
+            if(user == null || role == null) { 
+                return Json(new { success = false, message = "Misslyckades att lägga till roll" });
+            }
+
+            var result=await _userManager.AddToRoleAsync(user, Role);
+            if (result.Succeeded)
+            {
+                return Json(new { success = true });
+            }else
+            {
+                return Json(new { success = false, message = "Misslyckades att lägga till roll" });
+            }
         }
     }
 }

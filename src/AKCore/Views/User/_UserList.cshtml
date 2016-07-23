@@ -1,4 +1,5 @@
-﻿@model AKCore.Models.UsersModel
+﻿@using AKCore.DataModel
+@model AKCore.Models.UsersModel
 
 <thead>
 <tr>
@@ -25,7 +26,27 @@
     </tr>
     <tr>
         <td colspan="4">
-            <div id="accordion-@u.UserName" class="collapse">Editerbar info</div>
+            <div id="accordion-@u.UserName" class="collapse user-edit">
+                <p>Ändra användarinställningar:</p>
+                <form class="form-inline add-role" action="/User/AddRole" method="POST">
+                    <div class="form-group">
+                        <label for="all-roles">Lägg till roll: </label>
+                        <select class="form-control input-sm" name="Role" id="all-roles">
+                            <option value="">Välj roll</option>
+                            @foreach (var r in AkRoles.Roles)
+                            {
+                                if (!roles.Contains(r)) { 
+                                    <option value="@r">@r</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <input type="hidden" name="UserName" value="@u.UserName" />
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary input-sm">Lägg till</button>
+                    </div>
+                </form>
+            </div>
         </td>
     </tr>
 }
