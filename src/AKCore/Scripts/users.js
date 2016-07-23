@@ -66,8 +66,13 @@ $("#user-table")
             }
         });
 
+$('#search-user-form').on('submit', function (e) {
+    e.preventDefault();
+    updateUserList($('#searchtext').val());
+});
+
 function updateUserList(search) {
-    $.get("/User/UserList",
+    $.get("/User/UserList?SearchPhrase=" + search,
         function(data) {
             $("#user-table").empty().append(data);
         });
