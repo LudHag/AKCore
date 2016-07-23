@@ -71,6 +71,34 @@ $('#search-user-form').on('submit', function (e) {
     updateUserList($('#searchtext').val());
 });
 
+
+$("#user-table").on('submit', '.add-role', function (e) {
+    e.preventDefault();
+    var form = $(this);
+    var error = $(".alert-danger");
+    var success = $(".alert-success");
+    $.ajax({
+        url: form.attr("action"),
+        type: form.attr("method"),
+        data: form.serialize(),
+        success: function (res) {
+            if (res.success) {
+                success.text("Roll tillagd");
+                success.slideDown().delay(4000).slideUp();
+                updateUserList($('#searchtext').val());
+            } else {
+                error.text(res.message);
+                error.slideDown().delay(4000).slideUp();
+            }
+        },
+        error: function (err) {
+            error.text("Misslyckades med att spara sida");
+            error.slideDown().delay(4000).slideUp();
+        }
+    });
+});
+
+
 function updateUserList(search) {
     $.get("/User/UserList?SearchPhrase=" + search,
         function(data) {
