@@ -22,6 +22,7 @@ namespace AKCore.DataModel
         public DbSet<Page> Pages { get; set; }
         public DbSet<Menu> Menus { get; set; }
         public DbSet<SubMenu> SubMenus { get; set; }
+        public DbSet<Media> Medias { get; set; }
     }
 
     public class Page
@@ -64,5 +65,10 @@ namespace AKCore.DataModel
         public Page Link { get; set; }
         public int SubPosIndex { get; set; }
     }
-
+    public class Media
+    {
+        [Key]
+        public int Id { get; set; }
+        public string Name { get; set; }
+    }
 }

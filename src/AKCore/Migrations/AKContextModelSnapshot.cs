@@ -66,6 +66,18 @@ namespace AKCore.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("AKCore.DataModel.Media", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Medias");
+                });
+
             modelBuilder.Entity("AKCore.DataModel.Menu", b =>
                 {
                     b.Property<int>("Id")

@@ -1,0 +1,14 @@
+﻿@model AKCore.Models.MediaModel
+@{
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+}
+
+
+<div class="row">
+    <div class="col-md-8">
+        <form action="/Media/UploadFile" method="post" enctype="multipart/form-data">
+            <input type="file" name="UploadFile" id="file1"/>
+            <input type="submit" value="submit"/>
+        </form>
+    </div>
+</div>

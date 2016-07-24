@@ -1,12 +1,13 @@
 ﻿@using AKCore.Helpers
-@using AKCore.DataModel
-@using System.Security.Principal
 @{
     var loggedIn = User.Identity.IsAuthenticated;
     var uName = User.Identity.Name;
     var menus = MenuHelper.GetMenus();
     var currentUrl = Context.Request.Path.ToString();
     var p = ViewContext.RouteData.Values;
+
+    var nintendo = User.IsInRole("SuperNintendo");
+    var editor= User.IsInRole("Editor");
 }
 <header>
     <a href="/">
@@ -19,7 +20,9 @@
         }
         else
         {
-            <p>Inloggad som <a href="/Profile">@uName</a> </p>
+            <p>
+                Inloggad som <a href="/Profile">@uName</a>
+            </p>
             <a href="/Account/Logout" class="logout">Logga ut</a>
         }
     </div>
@@ -90,14 +93,15 @@
                 </li>
             }
 
-            @if (User.IsInRole("SuperNintendo") || User.IsInRole("Editor"))
+            @if (nintendo || editor)
             {
                 <li class="exp">
                     <a href="/Edit" class="@(currentUrl == "/Edit" ? "active" : "")">
                         Ändra sidor
                     </a>
-                    @if (User.IsInRole("SuperNintendo")) {
-                        <ul class="subnav">
+                    <ul class="subnav">
+                        @if (nintendo)
+                        {
                             <li>
                                 <a href="/MenuEdit" class="@(currentUrl == "/MenuEdit" ? "active" : "")">
                                     Ändra menyer
@@ -108,8 +112,13 @@
                                     Användare
                                 </a>
                             </li>
-                        </ul>
-                    }
+                        }
+                        <li>
+                            <a href="/Media" class="@(currentUrl == "/Media" ? "active" : "")">
+                                Ladda upp filer
+                            </a>
+                        </li>
+                    </ul>
                 </li>
             }
         </ul>
