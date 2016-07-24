@@ -8,7 +8,8 @@
       "Scripts/menuedit.js",
       "Scripts/pageedit.js",
       "Scripts/profile.js",
-      "Scripts/users.js"
+      "Scripts/users.js",
+      "Scripts/media.js"
     ],
     "minify": {
       "enabled": true,

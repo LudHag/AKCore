@@ -22,6 +22,7 @@ namespace AKCore.Controllers
         public ActionResult Index()
         {
             var model=new MediaModel();
+            ViewBag.Title = "Filuppladdning";
             return View(model);
         }
 
