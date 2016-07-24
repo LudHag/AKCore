@@ -66,13 +66,13 @@ $("#user-table")
             }
         });
 
-$('#search-user-form').on('submit', function (e) {
+$("#search-user-form").on("submit", function (e) {
     e.preventDefault();
-    updateUserList($('#searchtext').val());
+    updateUserList($("#searchtext").val());
 });
 
 
-$("#user-table").on('submit', '.add-role', function (e) {
+$("#user-table").on("submit", ".add-role", function (e) {
     e.preventDefault();
     var form = $(this);
     var error = $(".alert-danger");
@@ -83,9 +83,8 @@ $("#user-table").on('submit', '.add-role', function (e) {
         data: form.serialize(),
         success: function (res) {
             if (res.success) {
-                success.text("Roll tillagd");
-                success.slideDown().delay(4000).slideUp();
-                updateUserList($('#searchtext').val());
+                var id = "#roles-" + form.find("input[name=UserName]").val();
+                updateRoles(id);
             } else {
                 error.text(res.message);
                 error.slideDown().delay(4000).slideUp();
@@ -97,11 +96,44 @@ $("#user-table").on('submit', '.add-role', function (e) {
         }
     });
 });
+$("#user-table")
+    .on('click',
+        '.remove-role',
+        function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            var self = $(this);
 
+            var error = $(".alert-danger");
+            var success = $(".alert-success");
+            $.ajax({
+                url: '/User/RemoveRole?UserName=' + self.data('user') + '&Role=' + self.data('role'),
+                type: 'POST',
+                success: function (res) {
+                    if (res.success) {
+                        self.parent().remove();
+                    } else {
+                        error.text(res.message);
+                        error.slideDown().delay(4000).slideUp();
+                    }
+                },
+                error: function (err) {
+                    error.text("Misslyckades med att spara sida");
+                    error.slideDown().delay(4000).slideUp();
+                }
+            });
+        });
 
 function updateUserList(search) {
     $.get("/User/UserList?SearchPhrase=" + search,
         function(data) {
             $("#user-table").empty().append(data);
+        });
+}
+
+function updateRoles(roleId) {
+    $.get("/User/UserList",
+        function (data) {
+            $(roleId).empty().append($(data).find(roleId).children());
         });
 }

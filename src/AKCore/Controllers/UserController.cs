@@ -102,5 +102,26 @@ namespace AKCore.Controllers
                 return Json(new { success = false, message = "Misslyckades att lägga till roll" });
             }
         }
+
+        [Route("RemoveRole")]
+        public async Task<ActionResult> RemoveRole(string UserName, string Role)
+        {
+            var user = await _userManager.FindByNameAsync(UserName);
+            var role = await _roleManager.FindByNameAsync(Role);
+            if (user == null || role == null)
+            {
+                return Json(new { success = false, message = "Misslyckades att ta bort roll" });
+            }
+
+            var result = await _userManager.RemoveFromRoleAsync(user, Role);
+            if (result.Succeeded)
+            {
+                return Json(new { success = true });
+            }
+            else
+            {
+                return Json(new { success = false, message = result.ToString() });
+            }
+        }
     }
 }

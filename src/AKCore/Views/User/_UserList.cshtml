@@ -13,13 +13,13 @@
 @foreach (var u in Model.Users)
 {
     var roles = Model.Roles[u.UserName] as IList<string>;
-    <tr data-toggle="collapse" data-target="#accordion-@u.UserName" class="clickable hover-grey">
+    <tr data-toggle="collapse" data-target="#accordion-@u.UserName" class="clickable collapsed hover-grey">
         <td>@u.UserName</td>
         <td>@u.Email</td>
-        <td class="roles">
+        <td class="roles" id="roles-@u.UserName">
             @foreach (var r in roles)
             {
-                <span class="role">@r</span>
+                <span class="role">@r <a class="remove-role glyphicon glyphicon-remove" data-user="@u.UserName" data-role="@r"></a></span>
             }
         </td>
         <td><a class="btn remove-user glyphicon glyphicon-remove" data-user="@u.UserName"></a></td>
@@ -30,8 +30,8 @@
                 <p>Ändra användarinställningar:</p>
                 <form class="form-inline add-role" action="/User/AddRole" method="POST">
                     <div class="form-group">
-                        <label for="all-roles">Lägg till roll: </label>
-                        <select class="form-control input-sm" name="Role" id="all-roles">
+                        <label >Lägg till roll: </label>
+                        <select class="form-control input-sm" name="Role">
                             <option value="">Välj roll</option>
                             @foreach (var r in AkRoles.Roles)
                             {
