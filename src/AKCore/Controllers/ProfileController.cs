@@ -1,17 +1,14 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using AKCore.DataModel;
 using AKCore.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AKCore.Controllers
 {
     [Route("Profile")]
-    [Authorize]
+    [Authorize(Roles = "Medlem")]
     public class ProfileController : Controller
     {
         private readonly UserManager<AkUser> _userManager;

@@ -90,24 +90,26 @@
                 </li>
             }
 
-            @if (loggedIn && User.IsInRole("SuperNintendo"))
+            @if (User.IsInRole("SuperNintendo") || User.IsInRole("Editor"))
             {
                 <li class="exp">
                     <a href="/Edit" class="@(currentUrl == "/Edit" ? "active" : "")">
                         Ändra sidor
                     </a>
-                    <ul class="subnav">
-                        <li>
-                            <a href="/MenuEdit" class="@(currentUrl == "/MenuEdit" ? "active" : "")">
-                                Ändra menyer
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/User" class="@(currentUrl == "/User" ? "active" : "")">
-                                Användare
-                            </a>
-                        </li>
-                    </ul>
+                    @if (User.IsInRole("SuperNintendo")) {
+                        <ul class="subnav">
+                            <li>
+                                <a href="/MenuEdit" class="@(currentUrl == "/MenuEdit" ? "active" : "")">
+                                    Ändra menyer
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/User" class="@(currentUrl == "/User" ? "active" : "")">
+                                    Användare
+                                </a>
+                            </li>
+                        </ul>
+                    }
                 </li>
             }
         </ul>

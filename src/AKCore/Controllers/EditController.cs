@@ -8,9 +8,10 @@ using Microsoft.AspNetCore.Authorization;
 namespace AKCore.Controllers
 {
     [Route("Edit")]
-    [Authorize(Roles="SuperNintendo")]
+    [Authorize(Roles= "SuperNintendo,Editor")]
     public class EditController : Controller
     {
+        [Authorize(Roles = "SuperNintendo,Editor")]
         public ActionResult Index()
         {
             ViewBag.Title = "Editera sidor";
@@ -27,6 +28,7 @@ namespace AKCore.Controllers
 
         [HttpPost]
         [Route("CreatePage")]
+        [Authorize(Roles = "SuperNintendo")]
         public ActionResult CreatePage(string name, string slug)
         {
             if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(slug))
@@ -58,6 +60,7 @@ namespace AKCore.Controllers
         }
 
         [Route("Page/{id:int}")]
+        [Authorize(Roles = "SuperNintendo,Editor")]
         public ActionResult Page(string id)
         {
             var pId = 0;
@@ -91,6 +94,7 @@ namespace AKCore.Controllers
         }
         [HttpPost]
         [Route("Page/{id:int}")]
+        [Authorize(Roles = "SuperNintendo,Editor")]
         public ActionResult Page(PageEditModel model,string id)
         {
             var pId = 0;
@@ -123,6 +127,7 @@ namespace AKCore.Controllers
         }
 
         [Route("RemovePage/{id:int}")]
+        [Authorize(Roles = "SuperNintendo")]
         public ActionResult RemovePage(string id)
         {
             var pId = 0;
