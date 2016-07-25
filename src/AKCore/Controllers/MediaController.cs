@@ -56,8 +56,6 @@ namespace AKCore.Controllers
                 return searched.Skip((page - 1)*8).Take(8).ToList();
             }
         }
-
-
         [Route("UploadFile")]
         public ActionResult UploadFile(MediaModel model)
         {
@@ -89,6 +87,32 @@ namespace AKCore.Controllers
             }
 
             return Json(new {success = true});
+        }
+        [Route("RemoveFile")]
+        public ActionResult RemoveFile(string filename)
+        {
+            var filepath = _hostingEnv.WebRootPath + $@"\media\{filename}";
+
+            using (var db = new AKContext())
+            {
+                var file = db.Medias.FirstOrDefault(x => x.Name == filename);
+                if (file == null)
+                {
+                    return Json(new { success = false, message = "Filen finns ej" });
+                }
+                try
+                {
+                    System.IO.File.Delete(filepath);
+                }
+                catch
+                {
+                    return Json(new { success = false, message = "Misslyckades ta bort filen" });
+                }
+                db.Medias.Remove(file);
+                db.SaveChanges();
+            }
+
+            return Json(new { success = true });
         }
     }
 }

@@ -58,10 +58,10 @@ uploadForm.on("submit",
         $.ajax({
             type: "POST",
             url: "/Media/UploadFile",
-            contentType: false, 
+            contentType: false,
             processData: false,
             data: mediaData,
-            success: function (res) {
+            success: function(res) {
                 if (res.success) {
                     success.slideDown().delay(3000).slideUp();
                     updateMediaList("", "1");
@@ -70,7 +70,7 @@ uploadForm.on("submit",
                     error.slideDown().delay(3000).slideUp();
                 }
             },
-            error: function (err) {
+            error: function(err) {
                 error.text("Misslyckades med att ladda upp filen");
                 error.slideDown().delay(3000).slideUp();
             }
@@ -89,8 +89,26 @@ $("#uploaded-files")
         ".remove-media",
         function(e) {
             e.preventDefault();
-
-
+            var self = $(this);
+            if (window.confirm("Är du säker på att du vill ta bort filen: " + self.data("name"))) {
+                var error = $(".alert-danger");
+                $.ajax({
+                    url: "/Media/RemoveFile?filename=" + self.data("name"),
+                    type: "POST",
+                    success: function(res) {
+                        if (res.success) {
+                            updateSearch();
+                        } else {
+                            error.text(res.message);
+                            error.slideDown().delay(4000).slideUp();
+                        }
+                    },
+                    error: function() {
+                        error.text("Misslyckades med att ta bort fil");
+                        error.slideDown().delay(4000).slideUp();
+                    }
+                });
+            }
         });
 
 
@@ -99,9 +117,9 @@ function updateSearch() {
     updateMediaList(st, "");
 }
 
-function updateMediaList(search,page) {
+function updateMediaList(search, page) {
     $.get("/Media/MediaList?SearchPhrase=" + search + "&Page=" + page,
-        function (data) {
+        function(data) {
             $("#uploaded-files").empty().append(data);
         });
 }
