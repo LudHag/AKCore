@@ -7,7 +7,7 @@
     var p = ViewContext.RouteData.Values;
 
     var nintendo = User.IsInRole("SuperNintendo");
-    var editor= User.IsInRole("Editor");
+    var editor = User.IsInRole("Editor");
 }
 <header>
     <a href="/">
@@ -31,66 +31,71 @@
             @foreach (var m in menus)
             {
                 var active = "";
-                if (m.Link?.Slug == currentUrl)
-                {
-                    active = "active";
-                }
-                else
-                {
-                    if (m.Link != null && (m.Children?.FirstOrDefault(x => x.Link.Slug == currentUrl) != null))
-                    {
-                        active = "active";
-                    }
-                }
-                <li class="@(m.Children.Count > 0 ? "exp" : "")">
-                    @if (m.Link == null)
-                    {
-                        <a class="@active">
-                            @m.Name
-                        </a>
-                    }
-                    else
-                    {
-                        <a href="@m.Link.Slug" class="@active">
-                            @m.Name
-                        </a>
-                    }
+                @if (!m.LoggedIn || loggedIn)
+                 {
+                     if (m.Link?.Slug == currentUrl)
+                     {
+                         active = "active";
+                     }
+                     else
+                     {
+                         if (m.Link != null && (m.Children?.FirstOrDefault(x => x.Link.Slug == currentUrl) != null))
+                         {
+                             active = "active";
+                         }
+                     }
+                     <li class="@(m.Children.Count > 0 ? "exp" : "")">
+                         @if (m.Link == null)
+                         {
+                             <a class="@active">
+                                 @m.Name
+                             </a>
+                         }
+                         else
+                         {
+                             <a href="@m.Link.Slug" class="@active">
+                                 @m.Name
+                             </a>
+                         }
 
-                    @if (m.Children.Count > 0)
-                    {
-                        <ul class="subnav">
-                            @foreach (var c in m.Children)
-                            {
-                                var cactive = "";
-                                if (c.Link?.Slug == currentUrl)
-                                {
-                                    cactive = "active";
-                                }
-                                else
-                                {
-                                    if (c.Link != null && (c.Children?.FirstOrDefault(x => x.Link.Slug == currentUrl) != null))
-                                    {
-                                        cactive = "active";
-                                    }
-                                }
-                                <li>
-                                    @if (c.Link == null)
-                                    {
-                                        <a class="@cactive">
-                                            @c.Name
-                                        </a>
-                                    }
-                                    else
-                                    {
-                                        <a href="@c.Link.Slug" class="@cactive">
-                                            @c.Name
-                                        </a>
-                                    }
-                                </li>
-                            }
-                        </ul>
-                    }
-                </li>
+                         @if (m.Children.Count > 0)
+                         {
+                             <ul class="subnav">
+                                 @foreach (var c in m.Children)
+                                 {
+                                     if (!c.LoggedIn || loggedIn) { 
+                                     var cactive = "";
+                                     if (c.Link?.Slug == currentUrl)
+                                     {
+                                         cactive = "active";
+                                     }
+                                     else
+                                     {
+                                         if (c.Link != null && (c.Children?.FirstOrDefault(x => x.Link.Slug == currentUrl) != null))
+                                         {
+                                             cactive = "active";
+                                         }
+                                     }
+                                         <li>
+                                             @if (c.Link == null)
+                                             {
+                                                 <a class="@cactive">
+                                                     @c.Name
+                                                 </a>
+                                             }
+                                             else
+                                             {
+                                                 <a href="@c.Link.Slug" class="@cactive">
+                                                     @c.Name
+                                                 </a>
+                                             }
+                                         </li>
+                                     }
+                                 }
+                             </ul>
+                         }
+                     </li>
+                 }
             }
 
             @if (nintendo || editor)

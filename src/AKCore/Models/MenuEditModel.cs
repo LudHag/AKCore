@@ -16,6 +16,7 @@ namespace AKCore.Models
         public Page Link { get; set; }
         public List<ModelMenu> Children { get; set; }
         public int PosIndex { get; set; }
+        public bool LoggedIn { get; set; }
 
         public ModelMenu(Menu menu)
         {
@@ -23,6 +24,7 @@ namespace AKCore.Models
             Id = menu.Id;
             Name = menu.Name;
             Link = menu.Link;
+            if (menu.Link != null) LoggedIn = menu.Link.LoggedIn;
             PosIndex = menu.PosIndex;
             if (menu.Children == null) return;
             foreach (var m in menu.Children.OrderBy(x=>x.SubPosIndex).ToList())
@@ -33,6 +35,7 @@ namespace AKCore.Models
         public ModelMenu(SubMenu menu)
         {
             Id = menu.Id;
+            if (menu.Link != null) LoggedIn = menu.Link.LoggedIn;
             Name = menu.Name;
             Link = menu.Link;
             PosIndex = menu.SubPosIndex;
