@@ -81,6 +81,8 @@ $("#search-media-form")
     .on("submit",
         function(e) {
             e.preventDefault();
+            $(".pagination li").removeClass("active");
+            $($(".pagination li")[0]).addClass("active");
             updateSearch();
         });
 
@@ -111,10 +113,23 @@ $("#uploaded-files")
             }
         });
 
+$("#uploaded-files")
+    .on("click",
+        ".pagination li",
+        function(e) {
+            e.preventDefault();
+            var self = $(this);
+            if (!self.hasClass("active")) {
+                $(".pagination li").removeClass("active");
+                self.addClass("active");
+                updateSearch();
+            }
+        });
 
 function updateSearch() {
     var st = $("#searchtext").val();
-    updateMediaList(st, "");
+    var page = $(".pagination li.active a").data('page');
+    updateMediaList(st, page);
 }
 
 function updateMediaList(search, page) {

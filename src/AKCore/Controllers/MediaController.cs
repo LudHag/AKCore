@@ -29,7 +29,8 @@ namespace AKCore.Controllers
             var model = new MediaModel
             {
                 MediaFiles = medias,
-                TotalPages = totalPages
+                TotalPages = totalPages,
+                CurrentPage = 1
             };
             return View(model);
         }
@@ -39,10 +40,12 @@ namespace AKCore.Controllers
         {
             int totalPages;
             var medias = PopulateList(search.Page<1 ? 1 : search.Page, out totalPages, search.SearchPhrase ?? "");
+            if (totalPages < search.Page) search.Page = totalPages;
             var model = new MediaModel
             {
                 MediaFiles = medias,
-                TotalPages = totalPages
+                TotalPages = totalPages,
+                CurrentPage = search.Page < 1 ? 1 : search.Page
             };
             return PartialView("_MediaList",model);
         }
@@ -52,7 +55,8 @@ namespace AKCore.Controllers
             using (var db = new AKContext())
             {
                 var searched=db.Medias.Where(x=>x.Name.Contains(searchPhrase));
-                totalPages = 1 + searched.Count() / 8;
+                totalPages = ((searched.Count()-1) / 8)+1;
+                if (totalPages < page) page = totalPages;
                 return searched.Skip((page - 1)*8).Take(8).ToList();
             }
         }
