@@ -23,7 +23,14 @@
             <label for="slug">Sidlänk: </label>
             <input type="text" class="form-control" name="slug" id="slug" placeholder="sidlänk">
         </div>
-        <button type="submit" class="btn btn-default">Create</button>
+        <div class="form-group">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" name="loggedIn"> Enbart för inloggade
+                </label>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-default">Skapa</button>
     </form>
 
 </div>
@@ -36,10 +43,10 @@
             Sidlänk
         </div>
         <div class="col-xs-3">
-            Föräldrasida
+            Kräver inloggning
         </div>
         <div class="col-xs-3">
-            
+
         </div>
     </div>
 
@@ -53,7 +60,7 @@
                 <a href="@p.Path">@p.Slug</a>
             </div>
             <div class="col-xs-3">
-                @p.Parent
+                @p.LoggedIn
             </div>
             <div class="col-xs-3">
                 <a class="btn btn-default" href="/Edit/Page/@p.Id">Ändra</a>

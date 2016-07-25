@@ -29,7 +29,7 @@ namespace AKCore.Controllers
         [HttpPost]
         [Route("CreatePage")]
         [Authorize(Roles = "SuperNintendo")]
-        public ActionResult CreatePage(string name, string slug)
+        public ActionResult CreatePage(string name, string slug, string loggedIn)
         {
             if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(slug))
             {
@@ -50,7 +50,8 @@ namespace AKCore.Controllers
                 {
                     Name = name,
                     Slug = slug,
-                    Path = slug
+                    Path = slug,
+                    LoggedIn = loggedIn=="on"
                 };
                 db.Pages.Add(page);
                 db.SaveChanges();
@@ -76,17 +77,12 @@ namespace AKCore.Controllers
                 {
                     return Redirect("/Edit");
                 }
-                var parent = 0;
-                if (page.Parent != null)
-                {
-                    parent = page.Parent.Id;
-                }
                 var model = new PageEditModel
                 {
                     Name = page.Name,
-                    Parent = parent,
                     Slug = page.Slug,
-                    Content = page.Content
+                    Content = page.Content,
+                    LoggedIn = page.LoggedIn
                 };
                 ViewBag.Title = "Editera " + page.Name;
                 return View("EditPage", model);
@@ -120,6 +116,7 @@ namespace AKCore.Controllers
                 page.Slug = model.Slug;
                 page.Path = model.Slug;
                 page.Content = model.Content;
+                page.LoggedIn = model.LoggedIn;
                 db.SaveChanges();
 
                 return Json(new { success = true, message = "Uppdaterade sidan framgångsrikt" });

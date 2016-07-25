@@ -34,6 +34,11 @@ namespace AKCore.Controllers
                 {
                     return View("Error");
                 }
+                if (page.LoggedIn && !User.Identity.IsAuthenticated)
+                {
+                    return Redirect("/");
+                }
+
                 var model = new PageRenderModel()
                 {
                     PageInfo = page

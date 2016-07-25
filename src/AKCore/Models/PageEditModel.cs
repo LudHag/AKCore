@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace AKCore.Models
 {
@@ -10,7 +11,8 @@ namespace AKCore.Models
         [StringLength(450)]
         public string Slug { get; set; }
         public string Content { get; set; }
-        public int Parent { get; set; }
+        [DisplayName("Kräver inloggning")]
+        public bool LoggedIn { get; set; }
         public string Template { get; set; }
     }
 }

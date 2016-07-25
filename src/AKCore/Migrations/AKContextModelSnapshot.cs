@@ -110,8 +110,6 @@ namespace AKCore.Migrations
                     b.Property<string>("Name")
                         .IsRequired();
 
-                    b.Property<int?>("ParentId");
-
                     b.Property<string>("Path")
                         .IsRequired()
                         .HasAnnotation("MaxLength", 450);
@@ -121,8 +119,6 @@ namespace AKCore.Migrations
                         .HasAnnotation("MaxLength", 450);
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ParentId");
 
                     b.ToTable("Pages");
                 });
@@ -263,13 +259,6 @@ namespace AKCore.Migrations
                     b.HasOne("AKCore.DataModel.Page", "Link")
                         .WithMany()
                         .HasForeignKey("LinkId");
-                });
-
-            modelBuilder.Entity("AKCore.DataModel.Page", b =>
-                {
-                    b.HasOne("AKCore.DataModel.Page", "Parent")
-                        .WithMany()
-                        .HasForeignKey("ParentId");
                 });
 
             modelBuilder.Entity("AKCore.DataModel.SubMenu", b =>

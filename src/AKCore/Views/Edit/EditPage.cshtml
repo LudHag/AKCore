@@ -23,6 +23,13 @@
                 </div>
             </div>
             <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        @Html.EditorFor(x => x.LoggedIn) Kräver inloggning
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
                 <label for="content">Innehåll</label>
                 <textarea class="form-control" id="content" name="Content" rows="3">@(Model.Content ?? "")</textarea>
             </div>

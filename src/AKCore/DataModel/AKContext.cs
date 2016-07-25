@@ -40,7 +40,6 @@ namespace AKCore.DataModel
         public string Content { get; set; }
         [Required]
         public bool LoggedIn { get; set; }
-        public Page Parent { get; set; }
     }
   
     public class Menu

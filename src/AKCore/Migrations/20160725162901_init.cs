@@ -56,19 +56,12 @@ namespace AKCore.Migrations
                     Content = table.Column<string>(nullable: true),
                     LoggedIn = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(nullable: false),
-                    ParentId = table.Column<int>(nullable: true),
                     Path = table.Column<string>(maxLength: 450, nullable: false),
                     Slug = table.Column<string>(maxLength: 450, nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Pages", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Pages_Pages_ParentId",
-                        column: x => x.ParentId,
-                        principalTable: "Pages",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -249,11 +242,6 @@ namespace AKCore.Migrations
                 name: "IX_Menus_LinkId",
                 table: "Menus",
                 column: "LinkId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Pages_ParentId",
-                table: "Pages",
-                column: "ParentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SubMenus_LinkId",
