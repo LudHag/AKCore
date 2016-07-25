@@ -8,6 +8,7 @@ namespace AKCore.Models
     {
         public IFormFile UploadFile { get; set; }
         public List<Media> MediaFiles { get; set; }
+        public int TotalPages { get; set; }
 
         public MediaModel()
         {

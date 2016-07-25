@@ -1,0 +1,9 @@
+﻿@model AKCore.Models.MediaModel
+
+@foreach (var m in Model.MediaFiles)
+{
+    <div class="col-sm-3 image-box">
+        <img src="/media/@m.Name"/>
+        <p>@m.Name</p>
+    </div>
+}

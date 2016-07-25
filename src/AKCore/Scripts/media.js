@@ -64,6 +64,7 @@ uploadForm.on("submit",
             success: function (res) {
                 if (res.success) {
                     success.slideDown().delay(3000).slideUp();
+                    updateMediaList("", "1");
                 } else {
                     error.text(res.message);
                     error.slideDown().delay(3000).slideUp();
@@ -76,3 +77,21 @@ uploadForm.on("submit",
         });
 
     });
+$("#search-media-form")
+    .on("submit",
+        function(e) {
+            e.preventDefault();
+            updateSearch();
+        });
+
+function updateSearch() {
+    var st = $("#searchtext").val();
+    updateMediaList(st, "");
+}
+
+function updateMediaList(search,page) {
+    $.get("/Media/MediaList?SearchPhrase=" + search + "&Page=" + page,
+        function (data) {
+            $("#uploaded-files").empty().append(data);
+        });
+}

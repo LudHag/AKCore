@@ -1,4 +1,4 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
 using AKCore.DataModel;
 using AKCore.Models;
@@ -19,36 +19,68 @@ namespace AKCore.Controllers
         {
             _hostingEnv = env;
         }
+
         public ActionResult Index()
         {
-            var model=new MediaModel();
             ViewBag.Title = "Filuppladdning";
+
+            int totalPages;
+            var medias = PopulateList(1, out totalPages,"");
+            var model = new MediaModel
+            {
+                MediaFiles = medias,
+                TotalPages = totalPages
+            };
             return View(model);
         }
+
+        [Route("MediaList")]
+        public ActionResult MediaList(SearchModel search)
+        {
+            int totalPages;
+            var medias = PopulateList(search.Page<1 ? 1 : search.Page, out totalPages, search.SearchPhrase ?? "");
+            var model = new MediaModel
+            {
+                MediaFiles = medias,
+                TotalPages = totalPages
+            };
+            return PartialView("_MediaList",model);
+        }
+
+        private static List<Media> PopulateList(int page, out int totalPages,string searchPhrase)
+        {
+            using (var db = new AKContext())
+            {
+                var searched=db.Medias.Where(x=>x.Name.Contains(searchPhrase));
+                totalPages = 1 + searched.Count() / 8;
+                return searched.Skip((page - 1)*8).Take(8).ToList();
+            }
+        }
+
 
         [Route("UploadFile")]
         public ActionResult UploadFile(MediaModel model)
         {
             var file = model.UploadFile;
             var filename = ContentDispositionHeaderValue
-                            .Parse(file.ContentDisposition)
-                            .FileName
-                            .Trim('"');
-            var filepath= _hostingEnv.WebRootPath + $@"\media\{filename}";
+                .Parse(file.ContentDisposition)
+                .FileName
+                .Trim('"');
+            var filepath = _hostingEnv.WebRootPath + $@"\media\{filename}";
 
-            
+
             using (var db = new AKContext())
             {
                 if (db.Medias.FirstOrDefault(x => x.Name == filename) != null)
                 {
-                    return Json(new { success = false, message = "Filen finns redan uppladdad" });
+                    return Json(new {success = false, message = "Filen finns redan uppladdad"});
                 }
                 using (var fs = System.IO.File.Create(filepath))
                 {
                     file.CopyTo(fs);
                     fs.Flush();
                 }
-                var mediaFile = new Media()
+                var mediaFile = new Media
                 {
                     Name = filename
                 };
@@ -56,7 +88,7 @@ namespace AKCore.Controllers
                 db.SaveChanges();
             }
 
-            return Json(new { success = true });
+            return Json(new {success = true});
         }
     }
 }

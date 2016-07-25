@@ -1,4 +1,5 @@
-﻿@model AKCore.Models.MediaModel
+﻿@using Microsoft.EntityFrameworkCore.Metadata.Internal
+@model AKCore.Models.MediaModel
 @{
     Layout = "~/Views/Shared/_MasterLayout.cshtml";
 }
@@ -32,3 +33,20 @@
         </div>
     </div>
 </div>
+
+<div class="row gallery">
+    <div class="col-md-12">
+        <h3>Uppladdade filer:</h3>
+        <form class="form-inline ak-search" id="search-media-form" action="" method="GET">
+            <div class="form-group">
+                <input type="text" class="form-control" name="SearchPhrase" id="searchtext">
+            </div>
+            <button type="submit" class="btn btn-default">Sök</button>
+        </form>
+    </div>
+    <div id="uploaded-files">
+        @Html.Partial("_MediaList", Model)
+    </div>
+</div>
+
+<p>@Model.TotalPages</p>
