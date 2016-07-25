@@ -103,8 +103,6 @@ namespace AKCore.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Content");
-
                     b.Property<bool>("LoggedIn");
 
                     b.Property<string>("Name")
@@ -117,6 +115,8 @@ namespace AKCore.Migrations
                     b.Property<string>("Slug")
                         .IsRequired()
                         .HasAnnotation("MaxLength", 450);
+
+                    b.Property<string>("Widgets");
 
                     b.HasKey("Id");
 

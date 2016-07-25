@@ -81,7 +81,7 @@ namespace AKCore.Controllers
                 {
                     Name = page.Name,
                     Slug = page.Slug,
-                    Content = page.Content,
+                    Widgets = page.Widgets,
                     LoggedIn = page.LoggedIn
                 };
                 ViewBag.Title = "Editera " + page.Name;
@@ -115,7 +115,7 @@ namespace AKCore.Controllers
                 page.Name = model.Name;
                 page.Slug = model.Slug;
                 page.Path = model.Slug;
-                page.Content = model.Content;
+                page.Widgets = model.Widgets;
                 page.LoggedIn = model.LoggedIn;
                 db.SaveChanges();
 

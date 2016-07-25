@@ -53,11 +53,11 @@ namespace AKCore.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Autoincrement", true),
-                    Content = table.Column<string>(nullable: true),
                     LoggedIn = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(nullable: false),
                     Path = table.Column<string>(maxLength: 450, nullable: false),
-                    Slug = table.Column<string>(maxLength: 450, nullable: false)
+                    Slug = table.Column<string>(maxLength: 450, nullable: false),
+                    Widgets = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
