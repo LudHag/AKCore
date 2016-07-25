@@ -84,6 +84,16 @@ $("#search-media-form")
             updateSearch();
         });
 
+$("#uploaded-files")
+    .on("click",
+        ".remove-media",
+        function(e) {
+            e.preventDefault();
+
+
+        });
+
+
 function updateSearch() {
     var st = $("#searchtext").val();
     updateMediaList(st, "");
