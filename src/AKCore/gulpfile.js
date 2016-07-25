@@ -1,6 +1,9 @@
-﻿/// <binding BeforeBuild='less' />
+/// <binding BeforeBuild='less, scripts' />
 var gulp = require('gulp');
 var less = require('gulp-less');
+var sourcemaps = require('gulp-sourcemaps');
+var concat = require('gulp-concat');
+var uglify = require('gulp-uglify');
 var path = require('path');
 var plumber = require('gulp-plumber');
 gulp.task('less', function () {
@@ -10,4 +13,21 @@ gulp.task('less', function () {
           paths: [path.join(__dirname, 'less', 'includes')]
       }))
       .pipe(gulp.dest('./wwwroot/css/'));
+});
+gulp.task('scripts', function () {
+    return gulp.src([
+        "Scripts/jquery-2.2.3.min.js",
+        "Scripts/bootstrap.min.js",
+        "Scripts/general.js",
+        "Scripts/menuedit.js",
+        "Scripts/pageedit.js",
+        "Scripts/profile.js",
+        "Scripts/users.js",
+        "Scripts/media.js"
+    ])
+	.pipe(sourcemaps.init())
+	.pipe(concat('main.js'))
+	.pipe(uglify())
+	.pipe(sourcemaps.write('./'))
+	.pipe(gulp.dest('./wwwroot/js/'));
 });
