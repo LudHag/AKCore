@@ -140,3 +140,33 @@
     height: 20px;
     top: 125px;
 }   
+
+.widget-choose{
+    //opacity: 0.3;
+    background-color: #4C4C4C;
+    &.dropdown-menu > li{
+        padding:10px;
+        color:#6b6b6b;
+        &:hover{
+            //opacity: 1.0;
+        }
+        &> a{
+            border: 2px dashed #6b6b6b;
+            width: 230px;
+            height: 100px;
+            color:#6b6b6b;
+            &:hover{
+                background-color: #4C4C4C;
+                border-color:#303030;
+                color:#303030;
+            }
+        }
+    }
+    .glyphicon{
+        font-size: 80px;
+        margin-right: 20px;
+        &.nomargin{
+            margin-right: -9px;
+        }
+    }
+}

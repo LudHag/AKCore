@@ -5,8 +5,8 @@
 
 
 <div class="row">
-    <div class="col-md-6">
-        <form id="page-edit" action="" method="post">
+    <form id="page-edit" action="" method="post">
+        <div class="col-md-6">
             <div class="alert alert-danger" style="display: none;"></div>
             <div class="alert alert-success" style="display: none;"></div>
             <div class="form-group">
@@ -16,13 +16,17 @@
             <div class="form-group">
                 <label for="slug">Sidlänk</label>
                 <input type="text" class="form-control" data-oldslug="@Model.Slug" required="required" id="slug" name="Slug" placeholder="Sidlänk" value="@Model.Slug">
+
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="slug">Inställningar</label>
                 <div class="checkbox">
                     <label>
                         <input type="checkbox" id="start-page"> Startsida
                     </label>
                 </div>
-            </div>
-            <div class="form-group">
                 <div class="checkbox">
                     <label>
                         @Html.EditorFor(x => x.LoggedIn) Kräver inloggning
@@ -30,6 +34,40 @@
                 </div>
             </div>
             <button type="submit" class="btn btn-default">Spara</button>
-        </form>
+        </div>
+    </form>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="dropdown">
+            <button class="btn btn-default dropdown-toggle add-widgets-btn" type="button" id="add-widgets-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                Lägg till widget
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu widget-choose" aria-labelledby="add-widgets-btn">
+                <li><a href="#">
+                    <span class="glyphicon glyphicon-align-left"></span> 
+                    <span class="glyphicon glyphicon-picture"></span>
+                </a></li>
+                <li><a href="#">
+                    <span class="glyphicon glyphicon-align-justify nomargin"></span>
+                    <span class="glyphicon glyphicon-align-left"></span>
+                </a></li>
+                <li>
+                    <a href="#" style="text-align: center;">
+                        <span class="glyphicon glyphicon-picture"></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
     </div>
 </div>
+<div id="widget-area">
+    <div class="row">
+        <div class="col-xs-12">
+            woot
+        </div>
+    </div>
+</div>
+

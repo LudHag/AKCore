@@ -74,3 +74,11 @@ $('#start-page')
             }
 
         });
+
+$('.widget-choose')
+    .on('click',
+        'a',
+        function(e) {
+            e.preventDefault();
+            console.log('do something');
+        });
