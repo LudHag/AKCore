@@ -32,4 +32,4 @@ JS och lessfiler (css) bundlas med gulp. Vill du lägga till en javascriptfil l�
 
 ##Less
 
-Less är som css men med mer funktionalitet. Vet man inte vad man ska göra så skriv vanlig css och använd filändelsen less så funkar det aldeles utmärkt.
+Less är som css men med mer funktionalitet. Vet man inte vad man ska göra så skriv vanlig css och använd filändelsen less så funkar det alldeles utmärkt.
