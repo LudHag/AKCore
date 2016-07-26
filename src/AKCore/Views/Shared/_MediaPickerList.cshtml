@@ -1,0 +1,17 @@
+﻿@model AKCore.Models.MediaModel
+
+@foreach (var m in Model.MediaFiles)
+{
+    <div class="col-sm-3 image-box" data-path="/media/@m.Name">
+        <img src="/media/@m.Name"/>
+        <p class="name">@m.Name</p>
+    </div>
+}
+
+<nav class="col-xs-12">
+    <ul class="pagination">
+        @for(var i = 1; i <= Model.TotalPages; i++) {
+            <li class="@(Model.CurrentPage == i ? "active" : "")"><a href="#" data-page="@i">@i</a></li>
+        }
+    </ul>
+</nav>

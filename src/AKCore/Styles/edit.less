@@ -142,7 +142,6 @@
 }   
 
 .widget-choose{
-    //opacity: 0.3;
     background-color: #4C4C4C;
     &.dropdown-menu > li{
         padding:10px;
@@ -155,7 +154,8 @@
             width: 230px;
             height: 100px;
             color:#6b6b6b;
-            &:hover{
+            &:hover,
+            &:focus{
                 background-color: #4C4C4C;
                 border-color:#303030;
                 color:#303030;
@@ -182,12 +182,14 @@
     margin-top:20px;
     color:black;
     padding-bottom:20px;
+    border-radius: 4px;
 }
 .widget-header{
     position: relative;
     padding: 12px 15px 12px 40px;
     background-color: #ece8e5;
     margin-bottom:20px;
+    border-radius: 4px;
 }
 
 .picture-select{
@@ -208,4 +210,10 @@
 .remove-widget{
     font-size: 22px;
     top: -41px;
+}
+
+#picker-images{
+    .image-box{
+        cursor: pointer;
+    }
 }

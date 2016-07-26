@@ -45,14 +45,18 @@
                 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu widget-choose" aria-labelledby="add-widgets-btn">
-                <li><a href="#">
-                    <span class="glyphicon glyphicon-align-left"></span> 
-                    <span class="glyphicon glyphicon-picture"></span>
-                </a></li>
-                <li><a href="#">
-                    <span class="glyphicon glyphicon-align-justify nomargin"></span>
-                    <span class="glyphicon glyphicon-align-left"></span>
-                </a></li>
+                <li>
+                    <a href="#">
+                        <span class="glyphicon glyphicon-align-left"></span> 
+                        <span class="glyphicon glyphicon-picture"></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="glyphicon glyphicon-align-justify nomargin"></span>
+                        <span class="glyphicon glyphicon-align-left"></span>
+                    </a>
+                </li>
                 <li>
                     <a href="#" style="text-align: center;">
                         <span class="glyphicon glyphicon-picture"></span>
@@ -65,15 +69,15 @@
 </div>
 <div id="widget-area">
     <div class="row widget" data-type="textimage">
-        <div class="widget-header"><h4>Text-bild-widget</h4> <span class="btn pull-right remove-widget glyphicon glyphicon-remove"></span></div>
-        <div class="col-xs-6">
+        <div class="widget-header">
+            <h4>Text-bild-widget</h4> <span class="btn pull-right remove-widget glyphicon glyphicon-remove"></span></div>
+        <div class="col-sm-6">
             <textarea class="mce-content">
-                hej
             </textarea>
         </div>
-        <div class="col-xs-6">
+        <div class="col-sm-6">
             <div class="picture-select">
-                <img src=""/>
+                <img class="selected-image" src=""/>
                 <a class="btn btn-default choose-picture-btn">Välj bild</a>
             </div>
         </div>
@@ -84,5 +88,29 @@
     test
 </div>
 
+
+<div id="imagePickerModal" class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Välj en bild</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-inline ak-search" id="search-pickermedia-form" action="" method="GET">
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="SearchPhrase" id="searchtext">
+                    </div>
+                    <button type="submit" class="btn btn-default">Sök</button>
+                </form>
+                <div class="row gallery" id="picker-images"></div>
+            </div>
+            <div class="modal-footer">
+                Välj bild
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
-    

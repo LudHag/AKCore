@@ -50,6 +50,22 @@ namespace AKCore.Controllers
             return PartialView("_MediaList",model);
         }
 
+        [Route("MediaPickerList")]
+        public ActionResult MediaPickerList(SearchModel search)
+        {
+            int totalPages;
+            var medias = PopulateList(search.Page < 1 ? 1 : search.Page, out totalPages, search.SearchPhrase ?? "");
+            if (totalPages < search.Page) search.Page = totalPages;
+            var model = new MediaModel
+            {
+                MediaFiles = medias,
+                TotalPages = totalPages,
+                CurrentPage = search.Page < 1 ? 1 : search.Page
+            };
+            return PartialView("_MediaPickerList", model);
+        }
+
+
         private static List<Media> PopulateList(int page, out int totalPages,string searchPhrase)
         {
             using (var db = new AKContext())

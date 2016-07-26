@@ -104,10 +104,79 @@ if($(".mce-content").length>0){
         body_class: "body-content",
         file_browser_callback: function (field_name, url, type, win) {
             if (type === "image") {
-                console.log('hej');
+                $('#imagePickerModal').modal('show');
+                $('#picker-images')
+                    .on('click',
+                        '.image-box',
+                        function (e) {
+                            $('#imagePickerModal').modal('hide');
+                            $('#' + field_name).val($(this).data('path'));
+                            $('#imagePickerModal').modal('hide');
+                        });
+
             }
         }
     };
     tinymce.init(options);
 
+}
+$("#picker-images")
+    .on("click",
+        ".pagination li",
+        function (e) {
+            e.preventDefault();
+            var self = $(this);
+            if (!self.hasClass("active")) {
+                $(".pagination li").removeClass("active");
+                self.addClass("active");
+                updatePickerSearch();
+            }
+        });
+
+$("#search-pickermedia-form")
+    .on("submit",
+        function (e) {
+            e.preventDefault();
+            $(".pagination li").removeClass("active");
+            $($(".pagination li")[0]).addClass("active");
+            updatePickerSearch();
+        });
+$('#imagePickerModal')
+    .on('shown.bs.modal',
+        function(e) {
+            updateMediaPickerList("", "");
+        });
+$('#imagePickerModal')
+    .on('hidden.bs.modal',
+        function (e) {
+            $('#searchtext').val("");
+        });
+
+$('#widget-area')
+    .on('click',
+        '.choose-picture-btn',
+        function(e) {
+            e.preventDefault();
+            var self = $(this);
+            var target=self.parent().find('.selected-image');
+            $('#imagePickerModal').modal('show');
+            $('#picker-images')
+                .on('click',
+                    '.image-box',
+                    function(e) {
+                        $('#imagePickerModal').modal('hide');
+                        target.attr("src", $(this).data('path'));
+                    });
+        });
+
+function updatePickerSearch() {
+    var st = $("#searchtext").val();
+    var page = $(".pagination li.active a").data('page');
+    updateMediaPickerList(st, page);
+}
+function updateMediaPickerList(search, page) {
+    $.get("/Media/MediaPickerList?SearchPhrase=" + search + "&Page=" + page,
+        function (data) {
+            $("#picker-images").empty().append(data);
+        });
 }
