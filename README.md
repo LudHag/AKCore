@@ -1,4 +1,4 @@
-# Instrinktioner för installation
+# Instruktioner för installation
 
 Utvecklat med VS 2015 Update 3 + .NET CORE 1.0 
 [Ladda ner!](https://www.microsoft.com/net/core#windows)
