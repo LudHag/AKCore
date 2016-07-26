@@ -111,7 +111,7 @@ if($(".mce-content").length>0){
                         function (e) {
                             $('#imagePickerModal').modal('hide');
                             $('#' + field_name).val($(this).data('path'));
-                            $('#imagePickerModal').modal('hide');
+                            $("#imagePickerModal").modal('hide');
                         });
 
             }

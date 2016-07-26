@@ -244,7 +244,5 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
-/src/AKCore/wwwroot/js/main.min.js.map
-/src/AKCore/wwwroot/js/main.min.js
-/src/AKCore/wwwroot/js/main.js
+/src/AKCore/wwwroot/js/
 /src/AKCore/wwwroot/css/
