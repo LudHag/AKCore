@@ -5,7 +5,7 @@ Utvecklat med VS 2015 Update 3 + .NET CORE 1.0
 
 Rekomenderas inte att installera med äldre verktyg.
 
-Om du rensar databasen som kommer med i versionshanteringen så behöver du skapa initiala användare med /accountcontroller/initnintendo Då skapas bla användaren nintendo med lösen 123456.
+Om du rensar databasen som kommer med i versionshanteringen så behöver du skapa initiala användare med /account/initnintendo Då skapas bla användaren nintendo med lösen 123456.
 
 # Databas orm:
 Entityframeworkcore med SQLite
