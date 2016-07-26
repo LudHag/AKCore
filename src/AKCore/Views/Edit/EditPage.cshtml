@@ -46,19 +46,19 @@
             </button>
             <ul class="dropdown-menu widget-choose" aria-labelledby="add-widgets-btn">
                 <li>
-                    <a href="#">
+                    <a href="#" data-type="textimage">
                         <span class="glyphicon glyphicon-align-left"></span> 
                         <span class="glyphicon glyphicon-picture"></span>
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="#" data-type="text">
                         <span class="glyphicon glyphicon-align-justify nomargin"></span>
                         <span class="glyphicon glyphicon-align-left"></span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" style="text-align: center;">
+                    <a href="#" data-type="image" style="text-align: center;">
                         <span class="glyphicon glyphicon-picture"></span>
                     </a>
                 </li>
@@ -68,12 +68,16 @@
     </div>
 </div>
 <div id="widget-area">
-    <div class="row widget" data-type="textimage">
+    
+</div>
+
+<div id="widget-templates">
+    <div class="row widget textimage" data-type="textimage">
         <div class="widget-header">
-            <h4>Text-bild-widget</h4> <span class="btn pull-right remove-widget glyphicon glyphicon-remove"></span></div>
+            <h4>Text-bild-widget</h4> <span class="btn pull-right remove-widget glyphicon glyphicon-remove"></span>
+        </div>
         <div class="col-sm-6">
-            <textarea class="mce-content">
-            </textarea>
+            <textarea class="mce-content"></textarea>
         </div>
         <div class="col-sm-6">
             <div class="picture-select">
@@ -82,10 +86,25 @@
             </div>
         </div>
     </div>
-</div>
-
-<div id="widget-templates">
-    test
+    <div class="row widget text" data-type="text">
+        <div class="widget-header">
+            <h4>Text-widget</h4> <span class="btn pull-right remove-widget glyphicon glyphicon-remove"></span>
+        </div>
+        <div class="col-sm-12">
+            <textarea class="mce-content"></textarea>
+        </div>
+    </div>
+    <div class="row widget image" data-type="image">
+        <div class="widget-header">
+            <h4>Text-bild-widget</h4> <span class="btn pull-right remove-widget glyphicon glyphicon-remove"></span>
+        </div>
+        <div class="col-sm-12">
+            <div class="picture-select">
+                <img class="selected-image" src="" />
+                <a class="btn btn-default choose-picture-btn">Välj bild</a>
+            </div>
+        </div>
+    </div>
 </div>
 
 
