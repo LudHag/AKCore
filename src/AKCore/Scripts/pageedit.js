@@ -96,9 +96,11 @@ var options = {
     height: "200",
     content_css: "/css/akstyle.css",
     body_class: "body-content",
+    browser_spellcheck: true,
     file_browser_callback: function(field_name, url, type, win) {
         if (type === "image") {
             $("#imagePickerModal").modal("show");
+            $("#picker-images").off("click", ".image-box");
             $("#picker-images")
                 .on("click",
                     ".image-box",

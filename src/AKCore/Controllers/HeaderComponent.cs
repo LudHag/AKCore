@@ -11,13 +11,11 @@ namespace AKCore.Controllers
 {
     public class HeaderViewComponent : ViewComponent
     {
-        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<AkUser> _userManager;
 
-        public HeaderViewComponent(UserManager<AkUser> userManager, RoleManager<IdentityRole> roleManager)
+        public HeaderViewComponent(UserManager<AkUser> userManager)
         {
             _userManager = userManager;
-            _roleManager = roleManager;
         }
 
         public async Task<IViewComponentResult> InvokeAsync()
