@@ -49,7 +49,6 @@ namespace AKCore.Controllers
                 {
                     Name = name,
                     Slug = slug,
-                    Path = slug,
                     LoggedIn = loggedIn=="on"
                 };
                 db.Pages.Add(page);
@@ -113,7 +112,6 @@ namespace AKCore.Controllers
                 }
                 page.Name = model.Name;
                 page.Slug = model.Slug;
-                page.Path = model.Slug;
                 page.Widgets = model.Widgets;
                 page.LoggedIn = model.LoggedIn;
                 db.SaveChanges();

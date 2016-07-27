@@ -24,11 +24,11 @@ namespace AKCore.Controllers
                 Page page;
                 if (string.IsNullOrWhiteSpace(slug))
                 {
-                    page = db.Pages.FirstOrDefault(x => x.Path == "/");
+                    page = db.Pages.FirstOrDefault(x => x.Slug == "/");
                 }
                 else
                 {
-                    page = db.Pages.FirstOrDefault(x => x.Path == ("/" + slug));
+                    page = db.Pages.FirstOrDefault(x => x.Slug == ("/" + slug));
                 }
                 if (page == null)
                 {

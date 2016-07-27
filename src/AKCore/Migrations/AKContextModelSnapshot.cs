@@ -108,10 +108,6 @@ namespace AKCore.Migrations
                     b.Property<string>("Name")
                         .IsRequired();
 
-                    b.Property<string>("Path")
-                        .IsRequired()
-                        .HasAnnotation("MaxLength", 450);
-
                     b.Property<string>("Slug")
                         .IsRequired()
                         .HasAnnotation("MaxLength", 450);

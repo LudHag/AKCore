@@ -8,7 +8,7 @@ using AKCore.DataModel;
 namespace AKCore.Migrations
 {
     [DbContext(typeof(AKContext))]
-    [Migration("20160725202030_init")]
+    [Migration("20160727172908_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -108,10 +108,6 @@ namespace AKCore.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired();
-
-                    b.Property<string>("Path")
-                        .IsRequired()
-                        .HasAnnotation("MaxLength", 450);
 
                     b.Property<string>("Slug")
                         .IsRequired()

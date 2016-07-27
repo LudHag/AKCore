@@ -34,9 +34,6 @@ namespace AKCore.DataModel
         [Required]
         [StringLength(450)]
         public string Slug { get; set; }
-        [Required]
-        [StringLength(450)]
-        public string Path { get; set; }
         public string Widgets { get; set; }
         [Required]
         public bool LoggedIn { get; set; }
