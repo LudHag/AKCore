@@ -1,0 +1,93 @@
+﻿@using Microsoft.EntityFrameworkCore.Metadata.Internal
+@model AKCore.Models.HeaderModel
+@{
+    var currentUrl = Context.Request.Path.ToString();
+}
+
+<header>
+    <a href="/">
+        <img src="~/images/ak_logo.png"/>
+    </a>
+    <div class="account">
+        @if (!Model.LoggedIn)
+        {
+            <a href="#" class="login">Logga in</a>
+        }
+        else
+        {
+            <p>
+                Inloggad som <a href="/Profile">@Model.UserName</a>
+
+            </p>
+            <a href="/Account/Logout" class="logout">Logga ut</a>
+        }
+    </div>
+    <nav>
+        <ul class="navigation">
+            @foreach (var m in Model.Menus)
+            {
+                var active = "";
+                if (m.Link == currentUrl)
+                {
+                    active = "active";
+                }
+                else
+                {
+                    if (m.Link != null && (m.Children?.FirstOrDefault(x => x.Link == currentUrl) != null))
+                    {
+                        active = "active";
+                    }
+                }
+                <li class="@(m.Children.Count > 0 ? "exp" : "")">
+                    @if (m.Link == null)
+                    {
+                        <a class="@active">
+                            @m.Name
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="@m.Link" class="@active">
+                            @m.Name
+                        </a>
+                    }
+
+                    @if (m.Children.Count > 0)
+                    {
+                        <ul class="subnav">
+                            @foreach (var c in m.Children)
+                            {
+                                var cactive = "";
+                                if (c.Link == currentUrl)
+                                {
+                                    cactive = "active";
+                                }
+                                else
+                                {
+                                    if (c.Link != null && (c.Children?.FirstOrDefault(x => x.Link == currentUrl) != null))
+                                    {
+                                        cactive = "active";
+                                    }
+                                }
+                                <li>
+                                    @if (c.Link == null)
+                                    {
+                                        <a class="@cactive">
+                                            @c.Name
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a href="@c.Link" class="@cactive">
+                                            @c.Name
+                                        </a>
+                                    }
+                                </li>
+                            }
+                        </ul>
+                    }
+                </li>
+            }
+        </ul>
+    </nav>
+</header>

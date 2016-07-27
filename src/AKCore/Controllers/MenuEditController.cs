@@ -18,7 +18,7 @@ namespace AKCore.Controllers
             {
                 var pages = db.Pages.ToList();
                 var menus = db.Menus.Include(x=>x.Children).OrderBy(x=>x.PosIndex).ToList();
-                var modelMenus = menus.Select(m => new ModelMenu(m)).ToList();
+                var modelMenus = menus.Select(m => new ModelMenu(m,true)).ToList();
 
                 var model = new MenuEditModel
                 {
@@ -36,7 +36,7 @@ namespace AKCore.Controllers
             {
                 var pages = db.Pages.ToList();
                 var menus = db.Menus.Include(x=>x.Children).OrderBy(x => x.PosIndex).ToList();
-                var modelMenus = menus.Select(m => new ModelMenu(m)).ToList();
+                var modelMenus = menus.Select(m => new ModelMenu(m,true)).ToList();
                 var model = new MenuEditModel
                 {
                     Pages = pages,

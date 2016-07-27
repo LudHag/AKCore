@@ -8,7 +8,8 @@
 </head>
 <body>
     <div class="container body-content">
-        @Html.Partial("_Header")
+        @*@Html.Partial("_Header")*@
+        @await Component.InvokeAsync("Header")
         <div class="content-wrapper">
             @RenderBody()
         </div>
