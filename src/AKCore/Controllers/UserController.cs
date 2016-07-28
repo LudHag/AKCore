@@ -123,5 +123,19 @@ namespace AKCore.Controllers
                 return Json(new { success = false, message = result.ToString() });
             }
         }
+        [Route("ChangePassword")]
+        public async Task<ActionResult> ChangePassword(string userName,string password)
+        {
+            var user = await _userManager.FindByNameAsync(userName);
+
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var result = await _userManager.ResetPasswordAsync(user, token, password);
+            if (!result.Succeeded)
+            {
+                return Json(new { success = result.Succeeded, message = result.ToString() });
+            }
+
+            return Json(new { success = result.Succeeded, message = "Lösenord ändrat" });
+        }
     }
 }

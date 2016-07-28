@@ -27,27 +27,32 @@
     <tr>
         <td colspan="4">
             <div id="accordion-@u.UserName" class="collapse user-edit">
-                <div class="user-edit-area">
-                    <p>Ändra användarinställningar:</p>
-                    <form class="form-inline add-role" action="/User/AddRole" method="POST">
-                        <div class="form-group">
-                            <label>Lägg till roll: </label>
-                            <select class="form-control input-sm" name="Role">
-                                <option value="">Välj roll</option>
-                                @foreach (var r in AkRoles.Roles)
-                                {
-                                    if (!roles.Contains(r))
+                <div class="user-edit-area row">
+                    <div class="col-sm-6">
+                        <p>Ändra användarinställningar:</p>
+                        <form class="form-inline add-role" action="/User/AddRole" method="POST">
+                            <div class="form-group">
+                                <label>Lägg till roll: </label>
+                                <select class="form-control input-sm" name="Role">
+                                    <option value="">Välj roll</option>
+                                    @foreach (var r in AkRoles.Roles)
                                     {
-                                        <option value="@r">@r</option>
+                                        if (!roles.Contains(r))
+                                        {
+                                            <option value="@r">@r</option>
+                                        }
                                     }
-                                }
-                            </select>
-                        </div>
-                        <input type="hidden" name="UserName" value="@u.UserName" />
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary input-sm">Lägg till</button>
-                        </div>
-                    </form>
+                                </select>
+                            </div>
+                            <input type="hidden" name="UserName" value="@u.UserName"/>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary input-sm">Lägg till</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-sm-6">
+                        <a href="#" class="btn btn-primary reset-pass-btn" data-user="@u.UserName">Nytt lösenord</a>
+                    </div>
                 </div>
             </div>
         </td>
