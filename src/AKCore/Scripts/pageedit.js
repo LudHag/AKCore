@@ -85,12 +85,21 @@ var options = {
         "table contextmenu directionality emoticons template textcolor paste textcolor colorpicker textpattern"
     ],
     toolbar1:
-        "bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | formatselect code",
+        "bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | styleselect code fullscreen",
     toolbar2:
-        "searchreplace bullist | undo redo | link unlink image | hr removeformat | charmap emoticons |  fullscreen ",
+        "searchreplace bullist | undo redo | link unlink image | hr removeformat | charmap table",
+    table_appearance_options: false,
     menubar: false,
-    elementpath: false,
+    elementpath: true,
     convert_urls: false,
+    style_formats: [
+        { title: 'Vanlig text', block: 'p' },
+        { title: 'Stor text', block: 'p', classes: 'big' },
+        { title: 'Rubrik 1', block: 'h1'},
+        { title: 'Rubrik 2', block: 'h2' },
+        { title: 'Infobox', selector: 'p', classes: 'infobox' },
+        { title: '3-delskolumn', block: 'p', classes: 'col-sm-4' }
+    ],
     toolbar_items_size: "small",
     width: "500",
     height: "200",
