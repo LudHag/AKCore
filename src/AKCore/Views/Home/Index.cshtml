@@ -1,15 +1,35 @@
 ﻿@model AKCore.Models.PageRenderModel
 @{
     Layout = "~/Views/Shared/_MasterLayout.cshtml";
-    ViewData["Title"] = Model.PageInfo.Name;
 }
 
-
-<div class="row">
-    <div class="col-sm-6">
-        <h2>@Model.PageInfo.Name</h2>
-    </div>
-    <div class="col-sm-6">
-        <img class="side-image" src="~/images/webposterliten.png"/>
-    </div>
-</div>
+@foreach (var w in Model.Widgets)
+{
+    @if (w.Type == "textimage")
+     {
+         <div class="row">
+             <div class="col-sm-6">
+                 @Html.Raw(w.Text)
+             </div>
+             <div class="col-sm-6 center-image">
+                 <img class="side-image" src="@w.Image"/>
+             </div>
+         </div>
+    }
+    else if (w.Type == "text")
+    {
+        <div class="row">
+            <div class="col-sm-12">
+                @Html.Raw(w.Text)
+            </div>
+        </div>
+    }
+    else if (w.Type == "image")
+    {
+        <div class="row">
+            <div class="col-sm-12 center-image">
+                <img class="main-image" src="@w.Image" />
+            </div>
+        </div>
+    }
+}

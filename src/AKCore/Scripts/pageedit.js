@@ -44,7 +44,7 @@ $("#page-edit")
             $.ajax({
                 url: form.attr("action"),
                 type: "POST",
-                data: form.serialize()+'&WidgetsJson='+jsonifyWidgets(),
+                data: form.serialize() + "&WidgetsJson=" + jsonifyWidgets(),
                 success: function(res) {
                     if (res.success) {
                         success.text(res.message);
@@ -169,7 +169,17 @@ $("#widget-area")
         ".remove-widget",
         function(e) {
             e.preventDefault();
-            $(this).parent().parent().remove();
+            if (window.confirm("Är du säker att du vill ta bort den här widgeten?")) {
+                $(this).parent().parent().remove();
+            }
+        });
+$("#widget-area")
+    .on("click",
+        ".min-widget",
+        function(e) {
+            e.preventDefault();
+            var widget = $(this).parent().parent();
+            widget.toggleClass("minimized");
         });
 
 function updatePickerSearch() {
@@ -233,22 +243,20 @@ function jsonifyWidgets() {
     var widgets = [];
     $("#widget-area")
         .find(".widget")
-        .each(function (i, o) {
+        .each(function(i, o) {
             var wig = new Object();
             var type = $(o).data("type");
             wig.Type = type;
             var tId;
             if (type === "text") {
-                tId = $(o).find('.mce-content').attr('id');
+                tId = $(o).find(".mce-content").attr("id");
                 wig.Text = tinymce.get(tId).getContent();
-            }else if (type === "image") {
-                wig.Image = $(o).find('.selected-image').attr('src');
-            }
-            else
-            {
-                tId = $(o).find('.mce-content').attr('id');
+            } else if (type === "image") {
+                wig.Image = $(o).find(".selected-image").attr("src");
+            } else {
+                tId = $(o).find(".mce-content").attr("id");
                 wig.Text = tinymce.get(tId).getContent();
-                wig.Image = $(o).find('.selected-image').attr('src');
+                wig.Image = $(o).find(".selected-image").attr("src");
             }
             widgets.push(wig);
         });

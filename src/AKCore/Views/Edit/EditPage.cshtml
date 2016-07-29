@@ -72,69 +72,83 @@
     {
         <li class="row widget @w.Type" data-type="@w.Type">
             <div class="widget-header">
-                <h4>@w.GetHeader()</h4> <span class="btn pull-right remove-widget glyphicon glyphicon-remove"></span>
+                <h4>@w.GetHeader()</h4> <span class="btn pull-right remove-widget glyphicon glyphicon-remove"></span><span class="btn pull-right min-widget glyphicon glyphicon-minus"></span>
             </div>
-            @if (w.Type == "textimage")
-            {
-                <div class="col-sm-6">
-                    <textarea class="mce-content">@w.Text</textarea>
-                </div>
-                <div class="col-sm-6">
-                    <div class="picture-select">
-                        <img class="selected-image" src="@w.Image"/>
-                        <a class="btn btn-default choose-picture-btn">Välj bild</a>
+            <div class="widget-body">
+                @if (w.Type == "textimage")
+                {
+                    <div class="col-sm-6">
+                        <textarea class="mce-content">@w.Text</textarea>
                     </div>
-                </div>
-            }
-            else if (w.Type == "text")
-            {
-                <div class="col-sm-12">
-                    <textarea class="mce-content">@w.Text</textarea>
-                </div>
-            }
-            else if (w.Type == "image")
-            {
-                <div class="col-sm-12">
-                    <div class="picture-select">
-                        <img class="selected-image" src="@w.Image" />
-                        <a class="btn btn-default choose-picture-btn">Välj bild</a>
+                    <div class="col-sm-6">
+                        <div class="picture-select">
+                            <img class="selected-image" src="@w.Image"/>
+                            <a class="btn btn-default choose-picture-btn">Välj bild</a>
+                        </div>
                     </div>
-                </div>
-            }
+                }
+                else if (w.Type == "text")
+                {
+                    <div class="col-sm-12">
+                        <textarea class="mce-content">@w.Text</textarea>
+                    </div>
+                }
+                else if (w.Type == "image")
+                {
+                    <div class="col-sm-12">
+                        <div class="picture-select">
+                            <img class="selected-image" src="@w.Image"/>
+                            <a class="btn btn-default choose-picture-btn">Välj bild</a>
+                        </div>
+                    </div>
+                }
+            </div>
         </li>
     }
 </ul>
 <ul id="widget-templates">
     <li class="row widget textimage" data-type="textimage">
         <div class="widget-header">
-            <h4>Text-bild-widget</h4> <span class="btn pull-right remove-widget glyphicon glyphicon-remove"></span>
+            <h4>Text-bild-widget</h4>
+            <span class="btn pull-right remove-widget glyphicon glyphicon-remove"></span>
+            <span class="btn pull-right min-widget glyphicon glyphicon-minus"></span>
         </div>
-        <div class="col-sm-6">
-            <textarea class="mce-content"></textarea>
-        </div>
-        <div class="col-sm-6">
-            <div class="picture-select">
-                <img class="selected-image" src=""/>
-                <a class="btn btn-default choose-picture-btn">Välj bild</a>
+        <div class="widget-body">
+            <div class="col-sm-6">
+                <textarea class="mce-content"></textarea>
+            </div>
+            <div class="col-sm-6">
+                <div class="picture-select">
+                    <img class="selected-image" src=""/>
+                    <a class="btn btn-default choose-picture-btn">Välj bild</a>
+                </div>
             </div>
         </div>
     </li>
     <li class="row widget text" data-type="text">
         <div class="widget-header">
-            <h4>Text-widget</h4> <span class="btn pull-right remove-widget glyphicon glyphicon-remove"></span>
+            <h4>Text-widget</h4>
+            <span class="btn pull-right remove-widget glyphicon glyphicon-remove"></span>
+            <span class="btn pull-right min-widget glyphicon glyphicon-minus"></span>
         </div>
-        <div class="col-sm-12">
-            <textarea class="mce-content"></textarea>
+        <div class="widget-body">
+            <div class="col-sm-12">
+                <textarea class="mce-content"></textarea>
+            </div>
         </div>
     </li>
     <li class="row widget image" data-type="image">
         <div class="widget-header">
-            <h4>Bild-widget</h4> <span class="btn pull-right remove-widget glyphicon glyphicon-remove"></span>
+            <h4>Bild-widget</h4>
+            <span class="btn pull-right remove-widget glyphicon glyphicon-remove"></span>
+            <span class="btn pull-right min-widget glyphicon glyphicon-minus"></span>
         </div>
-        <div class="col-sm-12">
-            <div class="picture-select">
-                <img class="selected-image" src=""/>
-                <a class="btn btn-default choose-picture-btn">Välj bild</a>
+        <div class="widget-body">
+            <div class="col-sm-12">
+                <div class="picture-select">
+                    <img class="selected-image" src=""/>
+                    <a class="btn btn-default choose-picture-btn">Välj bild</a>
+                </div>
             </div>
         </div>
     </li>

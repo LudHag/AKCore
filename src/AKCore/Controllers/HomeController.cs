@@ -1,7 +1,9 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using AKCore.DataModel;
 using AKCore.Models;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace AKCore.Controllers
 {
@@ -10,9 +12,7 @@ namespace AKCore.Controllers
         public ActionResult Index()
         {
             ViewData["Title"] = "Home";
-
             var model = new PageRenderModel();
-
 
             return View(model);
         }
@@ -38,10 +38,10 @@ namespace AKCore.Controllers
                 {
                     return Redirect("/");
                 }
-
+                ViewData["Title"] = page.Name;
                 var model = new PageRenderModel()
                 {
-                    PageInfo = page
+                    Widgets = page.WidgetsJson != null ? JsonConvert.DeserializeObject<List<Widget>>(page.WidgetsJson) : new List<Widget>()
                 };
                 return View("Index", model);
             }
