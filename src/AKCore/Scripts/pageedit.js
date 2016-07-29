@@ -206,4 +206,19 @@ if (templates.length > 0) {
                     $("#widget-area").append(imageTemplate.clone());
                 }
             });
+    $("#widget-area").sortable({
+        axis: "y",
+        handle: ".widget-header",
+        start: function (e, ui) {
+            $(ui.item).find('textarea').each(function () {
+                tinymce.execCommand('mceRemoveEditor', false, $(this).attr('id'));
+            });
+        },
+        stop: function (e, ui) {
+            $(ui.item).find('textarea').each(function () {
+                tinymce.execCommand('mceAddEditor', true, $(this).attr('id'));
+            });
+        }
+    });
 }
+

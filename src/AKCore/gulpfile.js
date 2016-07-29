@@ -18,6 +18,7 @@ gulp.task('scripts', function () {
     return gulp.src([
         "Scripts/jquery-2.2.3.min.js",
         "Scripts/bootstrap.min.js",
+        "Scripts/jquery-ui.js",
         "Scripts/general.js",
         "Scripts/menuedit.js",
         "Scripts/pageedit.js",
