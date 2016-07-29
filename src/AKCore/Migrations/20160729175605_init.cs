@@ -56,7 +56,7 @@ namespace AKCore.Migrations
                     LoggedIn = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(nullable: false),
                     Slug = table.Column<string>(maxLength: 450, nullable: false),
-                    Widgets = table.Column<string>(nullable: true)
+                    WidgetsJson = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

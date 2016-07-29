@@ -44,7 +44,7 @@ $("#page-edit")
             $.ajax({
                 url: form.attr("action"),
                 type: "POST",
-                data: form.serialize(),
+                data: form.serialize()+'&WidgetsJson='+jsonifyWidgets(),
                 success: function(res) {
                     if (res.success) {
                         success.text(res.message);
@@ -167,7 +167,7 @@ $("#widget-area")
 $("#widget-area")
     .on("click",
         ".remove-widget",
-        function (e) {
+        function(e) {
             e.preventDefault();
             $(this).parent().parent().remove();
         });
@@ -190,35 +190,68 @@ if (templates.length > 0) {
     var textImageTemplate = templates.find(".textimage");
     var textTemplate = templates.find(".text");
     var imageTemplate = templates.find(".image");
+    tinymce.init(options);
     $(".widget-choose")
         .on("click",
             "a",
             function(e) {
                 e.preventDefault();
                 var type = $(this).data("type");
-                if (type === "textimage"){
+                if (type === "textimage") {
                     $("#widget-area").append(textImageTemplate.clone());
                     tinymce.init(options);
-                }else if (type === "text") {
+                } else if (type === "text") {
                     $("#widget-area").append(textTemplate.clone());
                     tinymce.init(options);
                 } else if (type === "image") {
                     $("#widget-area").append(imageTemplate.clone());
                 }
             });
-    $("#widget-area").sortable({
-        axis: "y",
-        handle: ".widget-header",
-        start: function (e, ui) {
-            $(ui.item).find('textarea').each(function () {
-                tinymce.execCommand('mceRemoveEditor', false, $(this).attr('id'));
-            });
-        },
-        stop: function (e, ui) {
-            $(ui.item).find('textarea').each(function () {
-                tinymce.execCommand('mceAddEditor', true, $(this).attr('id'));
-            });
-        }
-    });
+    $("#widget-area")
+        .sortable({
+            axis: "y",
+            handle: ".widget-header",
+            distance: 30,
+            start: function(e, ui) {
+                $(ui.item)
+                    .find("textarea")
+                    .each(function() {
+                        tinymce.execCommand("mceRemoveEditor", false, $(this).attr("id"));
+                    });
+            },
+            stop: function(e, ui) {
+                $(ui.item)
+                    .find("textarea")
+                    .each(function() {
+                        tinymce.execCommand("mceAddEditor", true, $(this).attr("id"));
+                    });
+            }
+        });
 }
 
+function jsonifyWidgets() {
+    var widgets = [];
+    $("#widget-area")
+        .find(".widget")
+        .each(function (i, o) {
+            var wig = new Object();
+            var type = $(o).data("type");
+            wig.Type = type;
+            var tId;
+            if (type === "text") {
+                tId = $(o).find('.mce-content').attr('id');
+                wig.Text = tinymce.get(tId).getContent();
+            }else if (type === "image") {
+                wig.Image = $(o).find('.selected-image').attr('src');
+            }
+            else
+            {
+                tId = $(o).find('.mce-content').attr('id');
+                wig.Text = tinymce.get(tId).getContent();
+                wig.Image = $(o).find('.selected-image').attr('src');
+            }
+            widgets.push(wig);
+        });
+    var res = JSON.stringify(widgets);
+    return encodeURIComponent(res);
+}

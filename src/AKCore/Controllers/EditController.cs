@@ -1,8 +1,11 @@
-﻿using AKCore.Models;
+﻿using System.Collections.Generic;
+using AKCore.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using AKCore.DataModel;
 using Microsoft.AspNetCore.Authorization;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace AKCore.Controllers
 {
@@ -79,8 +82,9 @@ namespace AKCore.Controllers
                 {
                     Name = page.Name,
                     Slug = page.Slug,
-                    Widgets = page.Widgets,
-                    LoggedIn = page.LoggedIn
+                    WidgetsJson = page.WidgetsJson,
+                    LoggedIn = page.LoggedIn,
+                    Widgets = page.WidgetsJson != null ? JsonConvert.DeserializeObject<List<Widget>>(page.WidgetsJson) : new List<Widget>()
                 };
                 ViewBag.Title = "Editera " + page.Name;
                 return View("EditPage", model);
@@ -112,7 +116,7 @@ namespace AKCore.Controllers
                 }
                 page.Name = model.Name;
                 page.Slug = model.Slug;
-                page.Widgets = model.Widgets;
+                page.WidgetsJson = model.WidgetsJson;
                 page.LoggedIn = model.LoggedIn;
                 db.SaveChanges();
 

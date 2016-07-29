@@ -8,7 +8,7 @@ using AKCore.DataModel;
 namespace AKCore.Migrations
 {
     [DbContext(typeof(AKContext))]
-    [Migration("20160727172908_init")]
+    [Migration("20160729175605_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -113,7 +113,7 @@ namespace AKCore.Migrations
                         .IsRequired()
                         .HasAnnotation("MaxLength", 450);
 
-                    b.Property<string>("Widgets");
+                    b.Property<string>("WidgetsJson");
 
                     b.HasKey("Id");
 

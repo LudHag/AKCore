@@ -112,7 +112,7 @@ namespace AKCore.Migrations
                         .IsRequired()
                         .HasAnnotation("MaxLength", 450);
 
-                    b.Property<string>("Widgets");
+                    b.Property<string>("WidgetsJson");
 
                     b.HasKey("Id");
 

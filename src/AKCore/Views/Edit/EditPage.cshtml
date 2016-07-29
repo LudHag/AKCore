@@ -68,9 +68,42 @@
     </div>
 </div>
 <ul id="widget-area">
-    
+    @foreach (var w in Model.Widgets)
+    {
+        <li class="row widget @w.Type" data-type="@w.Type">
+            <div class="widget-header">
+                <h4>@w.GetHeader()</h4> <span class="btn pull-right remove-widget glyphicon glyphicon-remove"></span>
+            </div>
+            @if (w.Type == "textimage")
+            {
+                <div class="col-sm-6">
+                    <textarea class="mce-content">@w.Text</textarea>
+                </div>
+                <div class="col-sm-6">
+                    <div class="picture-select">
+                        <img class="selected-image" src="@w.Image"/>
+                        <a class="btn btn-default choose-picture-btn">Välj bild</a>
+                    </div>
+                </div>
+            }
+            else if (w.Type == "text")
+            {
+                <div class="col-sm-12">
+                    <textarea class="mce-content">@w.Text</textarea>
+                </div>
+            }
+            else if (w.Type == "image")
+            {
+                <div class="col-sm-12">
+                    <div class="picture-select">
+                        <img class="selected-image" src="@w.Image" />
+                        <a class="btn btn-default choose-picture-btn">Välj bild</a>
+                    </div>
+                </div>
+            }
+        </li>
+    }
 </ul>
-
 <ul id="widget-templates">
     <li class="row widget textimage" data-type="textimage">
         <div class="widget-header">
@@ -100,7 +133,7 @@
         </div>
         <div class="col-sm-12">
             <div class="picture-select">
-                <img class="selected-image" src="" />
+                <img class="selected-image" src=""/>
                 <a class="btn btn-default choose-picture-btn">Välj bild</a>
             </div>
         </div>
