@@ -22,12 +22,44 @@
             <div class="alert alert-danger" style="display: none;"></div>
             <div class="alert alert-success" style="display: none;">Profil uppdaterad</div>
             <div class="form-group">
-                <label for="UserName">Användarnamn</label>
-                <input type="text" class="form-control" name="UserName" id="UserName" placeholder="Användarnamn" value="@Model.UserName">
+                <label asp-for="UserName"></label>
+                <input type="text" class="form-control" placeholder="Användarnamn" asp-for="UserName">
             </div>
             <div class="form-group">
-                <label for="Email">Epost</label>
-                <input type="email" class="form-control" name="Email" id="Email" placeholder="Epost" value="@Model.Email">
+                <label asp-for="Email"></label>
+                <input class="form-control" placeholder="Epost" asp-for="Email">
+            </div>
+            <div class="form-group">
+                <label asp-for="FirstName"></label>
+                <input class="form-control" placeholder="Förnamn" asp-for="FirstName">
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName"></label>
+                <input class="form-control" placeholder="Efternamn" asp-for="LastName">
+            </div>
+            <div class="form-group">
+                <label asp-for="Adress"></label>
+                <input class="form-control" placeholder="Adress" asp-for="Adress">
+            </div>
+            <div class="form-group">
+                <label asp-for="ZipCode"></label>
+                <input class="form-control" placeholder="Postnummer" asp-for="ZipCode">
+            </div>
+            <div class="form-group">
+                <label asp-for="City"></label>
+                <input class="form-control" placeholder="Stad" asp-for="City">
+            </div>
+            <div class="form-group">
+                <label asp-for="Phone"></label>
+                <input class="form-control" placeholder="Telefonnummer" asp-for="Phone">
+            </div>
+            <div class="form-group">
+                <label asp-for="Nation"></label>
+                <input class="form-control" placeholder="Nation" asp-for="Nation">
+            </div>
+            <div class="form-group">
+                <label asp-for="Instrument"></label>
+                <input class="form-control" placeholder="Instrument" asp-for="Instrument">
             </div>
             <div class="form-group">
                 <button type="submit" class="btn btn-default">Uppdatera profil</button>
