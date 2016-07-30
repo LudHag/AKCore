@@ -146,13 +146,14 @@
 
 .widget-choose{
     background-color: #4C4C4C;
-    &.dropdown-menu > li{
+    height: 252px;
+    columns: 2;
+    column-fill: auto;
+    padding: 5px 8px;
+    &.dropdown-menu li{
         padding:10px;
         color:#6b6b6b;
-        &:hover{
-            //opacity: 1.0;
-        }
-        &> a{
+        & a{
             border: 2px dashed #6b6b6b;
             width: 230px;
             height: 100px;

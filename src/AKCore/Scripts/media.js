@@ -51,6 +51,7 @@ $("#upload-file-btn")
 uploadForm.on("submit",
     function(e) {
         e.preventDefault();
+        var form = $(this);
         var mediaData = new FormData();
         mediaData.append("UploadFile", droppedFiles[0]);
         var success = $(".alert-success");
@@ -65,6 +66,9 @@ uploadForm.on("submit",
                 if (res.success) {
                     success.slideDown().delay(3000).slideUp();
                     updateMediaList("", "1");
+                    form.find('.box__file').val('');
+                    droppedFiles = false;
+                    form.find('.file-name').text('Dra hit filen');
                 } else {
                     error.text(res.message);
                     error.slideDown().delay(3000).slideUp();
