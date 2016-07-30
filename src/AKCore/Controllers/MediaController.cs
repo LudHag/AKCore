@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AKCore.DataModel;
 using AKCore.Models;
@@ -70,7 +71,7 @@ namespace AKCore.Controllers
         {
             using (var db = new AKContext())
             {
-                var searched=db.Medias.Where(x=>x.Name.Contains(searchPhrase));
+                var searched=db.Medias.Where(x=>x.Name.Contains(searchPhrase)).OrderByDescending(x=>x.Created);
                 totalPages = ((searched.Count()-1) / 8)+1;
                 if (totalPages < page) page = totalPages;
                 return searched.Skip((page - 1)*8).Take(8).ToList();
@@ -100,7 +101,8 @@ namespace AKCore.Controllers
                 }
                 var mediaFile = new Media
                 {
-                    Name = filename
+                    Name = filename,
+                    Created = DateTime.Now
                 };
                 db.Medias.Add(mediaFile);
                 db.SaveChanges();
