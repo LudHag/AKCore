@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using AKCore.DataModel;
 using AKCore.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -26,22 +27,28 @@ namespace AKCore.Controllers
         {
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
             ViewBag.Title = "Profil";
-
-            var model = new ProfileModel
+            using (var db = new AKContext())
             {
-                UserName = user.UserName,
-                Email = user.Email,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Adress = user.Adress,
-                ZipCode = user.ZipCode,
-                City = user.City,
-                Phone = user.Phone,
-                Nation = user.Nation,
-                Instrument = user.Instrument,
-                Roles = await _userManager.GetRolesAsync(user)
-            };
-            return View(model);
+                var logins=db.UserLogins.Where(x => x.ProviderDisplayName == user.UserName).ToList();
+
+                var model = new ProfileModel
+                {
+                    UserName = user.UserName,
+                    Email = user.Email,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Adress = user.Adress,
+                    ZipCode = user.ZipCode,
+                    City = user.City,
+                    Phone = user.Phone,
+                    Nation = user.Nation,
+                    Instrument = user.Instrument,
+                    Facebook = logins.Any(x=>x.LoginProvider=="Facebook"),
+                    Google = user.GoogleId != null,
+                    Roles = await _userManager.GetRolesAsync(user)
+                };
+                return View(model);
+            }
         }
 
         [Route("EditProfile")]
@@ -80,6 +87,34 @@ namespace AKCore.Controllers
             }
 
             return Json(new {success = result.Succeeded, message = "Lösenord ändrat"});
+        }
+
+        [Route("FbConnect")]
+        public async Task<ActionResult> FbConnect(string fbId)
+        {
+            if (fbId == null)
+            {
+                return Json(new {success = false, message = "Inget login kopplat"});
+            }
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            var loginInfo = new UserLoginInfo("Facebook", fbId, user.UserName);
+            var addLoginAsync = await _userManager.AddLoginAsync(user, loginInfo);
+
+            return Json(new {success = addLoginAsync.Succeeded, message = addLoginAsync.ToString()});
+        }
+
+        [Route("RemoveFbConnect")]
+        public async Task<ActionResult> RemoveFbConnect(string fbId)
+        {
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            var res = await _userManager.RemoveLoginAsync(user, "Facebook", fbId);
+
+            if (res.Succeeded)
+            {
+                await _signInManager.SignInAsync(user, true);
+            }
+
+            return Json(new {success = res.Succeeded, message = res.ToString()});
         }
     }
 }

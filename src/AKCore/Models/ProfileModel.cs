@@ -28,6 +28,9 @@ namespace AKCore.Models
         [Display(Name = "Instrument")]
         public string Instrument { get; set; }
 
+        public bool Facebook { get; set; }
+        public bool Google { get; set; }
+
         public IList<string> Roles { get; set; }
         public ProfileModel()
         {

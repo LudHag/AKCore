@@ -1,4 +1,5 @@
-﻿using AKCore.DataModel;
+﻿using System.Threading.Tasks;
+using AKCore.DataModel;
 using AKCore.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -49,6 +50,19 @@ namespace AKCore.Controllers
         {
             await _signInManager.SignOutAsync();
             return Redirect("/");
+        }
+
+        [Route("FbLogin")]
+        public async Task<ActionResult> FbLogin(string fbId)
+        {
+            if (fbId == null)
+            {
+                return Json(new { success = false, message = "Inget login skickat" });
+            }
+
+            var res = await _signInManager.ExternalLoginSignInAsync("Facebook", fbId, true);
+
+            return Json(new { success = res.Succeeded, message = res.ToString() });
         }
 
         [Route("InitNintendo")]

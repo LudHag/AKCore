@@ -26,15 +26,15 @@ $("#update-profile-form")
             });
         });
 
-$('#change-profile-password')
-    .on('submit',
+$("#change-profile-password")
+    .on("submit",
         function(e) {
             e.preventDefault();
             var form = $(this);
             var success = form.find(".alert-success");
             var error = form.find(".alert-danger");
-            var newpass = form.find('#newpass');
-            var confirmPass = form.find('#confirmpass');
+            var newpass = form.find("#newpass");
+            var confirmPass = form.find("#confirmpass");
             if (newpass.val() !== confirmPass.val()) {
                 error.text("Lösenord matchar ej");
                 error.slideDown().delay(3500).slideUp();
@@ -60,4 +60,49 @@ $('#change-profile-password')
                     error.slideDown().delay(3500).slideUp();
                 }
             });
+        });
+
+$("#fb-connect")
+    .on("click",
+        function(e) {
+            e.preventDefault();
+            fbGetLoginId(function(fbId) {
+                $.ajax({
+                    url: "/Profile/FbConnect?fbId=" + fbId,
+                    type: "POST",
+                    success: function(res) {
+                        if (res.success) {
+                            $("#fb-connect").hide();
+                            $("#fb-disconnect").show();
+                        } else {
+                        }
+                    },
+                    error: function(err) {
+                        console.log(err);
+                    }
+                });
+            });
+        });
+
+$("#fb-disconnect")
+    .on("click",
+        function(e) {
+            e.preventDefault();
+            fbGetLoginId(function(fbId) {
+                $.ajax({
+                    url: "/Profile/RemoveFbConnect?fbId=" + fbId,
+                    type: "POST",
+                    success: function(res) {
+                        if (res.success) {
+                            $("#fb-disconnect").hide();
+                            $("#fb-connect").show();
+                        } else {
+                        }
+                    },
+                    error: function(err) {
+                        console.log(err);
+                    }
+                });
+            });
+
         });
