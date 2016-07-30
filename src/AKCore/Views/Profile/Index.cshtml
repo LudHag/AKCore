@@ -1,4 +1,5 @@
-﻿@model AKCore.Models.ProfileModel
+﻿@using AKCore.DataModel
+@model AKCore.Models.ProfileModel
 @{
     Layout = "~/Views/Shared/_MasterLayout.cshtml";
 }
@@ -59,7 +60,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="Instrument"></label>
-                <input class="form-control" placeholder="Instrument" asp-for="Instrument">
+                <select class="form-control" asp-for="Instrument" required>
+                    <option value="">Välj instrument</option>
+                    @foreach(var instr in AkInstruments.Instrument){
+                        <option>@instr</option>
+                    }
+                </select>
             </div>
             <div class="form-group">
                 <button type="submit" class="btn btn-default">Uppdatera profil</button>

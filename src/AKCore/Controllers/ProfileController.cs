@@ -38,6 +38,7 @@ namespace AKCore.Controllers
                 City = user.City,
                 Phone = user.Phone,
                 Nation = user.Nation,
+                Instrument = user.Instrument,
                 Roles = await _userManager.GetRolesAsync(user)
             };
             return View(model);
@@ -57,6 +58,7 @@ namespace AKCore.Controllers
             user.City = model.City;
             user.Phone = model.Phone;
             user.Nation = model.Nation;
+            user.Instrument = model.Instrument;
             var result = await _userManager.UpdateAsync(user);
             if (result.Succeeded && updateUName)
             {
