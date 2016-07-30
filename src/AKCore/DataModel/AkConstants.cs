@@ -46,5 +46,51 @@ namespace AKCore.DataModel
             Trumpet
         };
     }
+    public class AkPoster
+    {
+        public const string OK = "Överkamerer";
+        public const string SK = "Skrivkamerer";
+        public const string KK = "Kamrerskamerer";
+        public const string Balettkamerer = "Balettkamerer";
+        public const string Busskamerer = "Busskamerer";
+        public const string Klimatkamerer = "Klimatkamerer";
+        public const string Kamerakamerer = "Kamerakamerer";
+        public const string Myskamerer = "Myskamerer";
+        public const string Musikkamerer = "Musikkamerer";
+        public const string Nintendokamerer = "Nintendokamerer";
+        public const string Nostalgikamerer = "Nostalgikamerer";
+        public const string Notkamerer = "Notkamerer";
+        public const string Prkamerer = "Pr-kamerer";
+        public const string Prylkamerer = "Prylkamerer";
+        public const string Pubkamerer = "Pubkamerer";
+        public const string Sexkamerer = "Sexkamerer";
+        public const string Skrubbkamerer = "Skrubbkamerer";
+        public const string Sponsringskamerer = "Sponsringskamerer";
+        public const string Bardkamerer = "Bardkamerer";
+        public const string Moveskamerer = "Moveskamerer";
+        public static readonly List<string> Poster = new List<string>()
+        {
+            OK,
+            SK,
+            KK,
+            Balettkamerer,
+            Busskamerer,
+            Klimatkamerer,
+            Kamerakamerer,
+            Myskamerer,
+            Musikkamerer,
+            Nintendokamerer,
+            Nostalgikamerer,
+            Notkamerer,
+            Prkamerer,
+            Prylkamerer,
+            Pubkamerer,
+            Sexkamerer,
+            Skrubbkamerer,
+            Sponsringskamerer,
+            Bardkamerer,
+            Moveskamerer
+        };
+    }
 }
 

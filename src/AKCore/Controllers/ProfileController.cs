@@ -1,10 +1,12 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AKCore.DataModel;
 using AKCore.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace AKCore.Controllers
 {
@@ -45,6 +47,7 @@ namespace AKCore.Controllers
                     Instrument = user.Instrument,
                     Facebook = logins.Any(x=>x.LoginProvider=="Facebook"),
                     Google = user.GoogleId != null,
+                    Poster = user.SlavPoster != null ? JsonConvert.DeserializeObject<List<string>>(user.SlavPoster) : new List<string>(),
                     Roles = await _userManager.GetRolesAsync(user)
                 };
                 return View(model);

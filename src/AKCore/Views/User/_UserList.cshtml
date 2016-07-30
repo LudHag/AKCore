@@ -13,8 +13,11 @@
 @foreach (var u in Model.Users)
 {
     var roles = Model.Roles[u.UserName] as IList<string>;
+    var posts = Model.Posts[u.UserName] as IList<string>;
+    var fullName = u.FirstName != null && u.LastName != null ? u.FirstName + " " + u.LastName : u.UserName;
+
     <tr data-toggle="collapse" data-target="#accordion-@u.UserName" class="clickable collapsed hover-grey">
-        <td>@u.UserName</td>
+        <td>@fullName</td>
         <td>@u.Email</td>
         <td class="roles" id="roles-@u.UserName">
             @foreach (var r in roles)
@@ -22,36 +25,74 @@
                 <span class="role">@r <a class="remove-role glyphicon glyphicon-remove" data-user="@u.UserName" data-role="@r"></a></span>
             }
         </td>
-        <td><a class="btn remove-user glyphicon glyphicon-remove" data-user="@u.UserName"></a></td>
+        <td>
+            <a class="btn remove-user glyphicon glyphicon-remove" data-user="@u.UserName"></a>
+        </td>
     </tr>
     <tr>
         <td colspan="4">
             <div id="accordion-@u.UserName" class="collapse user-edit">
                 <div class="user-edit-area row">
                     <div class="col-sm-6">
-                        <p>Ändra användarinställningar:</p>
-                        <form class="form-inline add-role" action="/User/AddRole" method="POST">
-                            <div class="form-group">
-                                <label>Lägg till roll: </label>
-                                <select class="form-control input-sm" name="Role">
-                                    <option value="">Välj roll</option>
-                                    @foreach (var r in AkRoles.Roles)
-                                    {
-                                        if (!roles.Contains(r))
-                                        {
-                                            <option value="@r">@r</option>
-                                        }
-                                    }
-                                </select>
-                            </div>
-                            <input type="hidden" name="UserName" value="@u.UserName"/>
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-primary input-sm">Lägg till</button>
-                            </div>
-                        </form>
+                        <p>Användarinfo:</p>
+                        <div class="edit-group">
+                            <p>
+                                <strong>Användarnamn:</strong> @u.UserName</p>
+                            <p>
+                                <strong>Fullt namn:</strong> @u.FirstName @u.LastName</p>
+                            <p>
+                                <strong>Instrument:</strong> @u.Instrument</p>
+                            <p>
+                                <strong>Slavposter:</strong> 
+                                @foreach (var p in posts)
+                                {
+                                    <span> @p</span>
+                                }
+                            </p>
+                        </div>
                     </div>
                     <div class="col-sm-6">
-                        <a href="#" class="btn btn-primary reset-pass-btn" data-user="@u.UserName">Nytt lösenord</a>
+                        <p>Ändra användarinställningar:</p>
+                        <div class="edit-group">
+                            <form class="form-inline add-role" action="/User/AddRole" method="POST">
+                                <div class="form-group">
+                                    <label>Lägg till roll: </label>
+                                    <select class="form-control input-sm" name="Role">
+                                        <option value="">Välj roll</option>
+                                        @foreach (var r in AkRoles.Roles)
+                                        {
+                                            if (!roles.Contains(r))
+                                            {
+                                                <option value="@r">@r</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                                <input type="hidden" name="UserName" value="@u.UserName"/>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary input-sm">Lägg till</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="edit-group">
+                            <a href="#" class="btn btn-primary reset-pass-btn" data-user="@u.UserName">Nytt lösenord</a>
+                        </div>
+                        <div class="edit-group">
+                            <label>Lägg till post(er): </label>
+                            <form class="form-inline add-post" action="/User/AddPost" method="POST">
+                                <select name="post" multiple class="form-control" asp-for="@posts">
+                                    @foreach (var p in AkPoster.Poster)
+                                    {
+                                        <option>@p</option>
+                                    }
+                                </select>
+                                <input type="hidden" name="userName" value="@u.UserName" />
+                                <div class="form-group">
+                                    <button type="reset" class="btn btn-primary input-sm">Rensa</button>
+                                    <button type="submit" class="btn btn-primary input-sm">Uppdatera</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>

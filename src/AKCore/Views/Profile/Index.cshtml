@@ -7,7 +7,7 @@
 
 <div class="row">
     <div class="col-md-6">
-        <div class="">
+        <div>
             <h3>Roller</h3>
             <div class="roles">
                 @foreach (var r in Model.Roles)
@@ -17,6 +17,18 @@
                     </span>
                 }
             </div>
+            @if (Model.Poster.Any())
+            {
+                <h3>Slavposter</h3>
+                <div class="roles">
+                    @foreach (var p in Model.Poster)
+                    {
+                        <span class="role">
+                        @p.ToString()
+                    </span>
+                    }
+                </div>
+            }
         </div>
         <h3>Användarinfo</h3>
         <form id="update-profile-form" method="POST" action="/Profile/EditProfile">
@@ -62,7 +74,8 @@
                 <label asp-for="Instrument"></label>
                 <select class="form-control" asp-for="Instrument" required>
                     <option value="">Välj instrument</option>
-                    @foreach(var instr in AkInstruments.Instrument){
+                    @foreach (var instr in AkInstruments.Instrument)
+                    {
                         <option>@instr</option>
                     }
                 </select>
@@ -75,8 +88,8 @@
     <div class="col-md-6">
         <h3>Koppla till sociala konton:</h3>
         <div>
-            <a href="#" class="btn btn-facebook" style="@(Model.Facebook ? "display:none;": "")" id="fb-connect">Koppla till facebook</a>
-            <a href="#" class="btn btn-facebook" style="@(Model.Facebook ? "": "display:none;")" id="fb-disconnect">Ta bort koppling till facebook</a>
+            <a href="#" class="btn btn-facebook" style="@(Model.Facebook ? "display:none;" : "")" id="fb-connect">Koppla till facebook</a>
+            <a href="#" class="btn btn-facebook" style="@(Model.Facebook ? "" : "display:none;")" id="fb-disconnect">Ta bort koppling till facebook</a>
         </div>
 
         <h3>Byt lösenord:</h3>

@@ -32,6 +32,7 @@ namespace AKCore.Models
         public bool Google { get; set; }
 
         public IList<string> Roles { get; set; }
+        public IList<string> Poster { get; set; }
         public ProfileModel()
         {
             Roles=new List<string>();
