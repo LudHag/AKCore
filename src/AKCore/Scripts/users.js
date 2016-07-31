@@ -18,7 +18,7 @@ $("#create-user-form")
                 data: form.serialize(),
                 success: function(res) {
                     if (res.success) {
-                        updateUserList();
+                        updateUserList("");
                         $("#createUserModal").modal("hide");
                         success.text(res.message);
                         success.slideDown().delay(3000).slideUp();
@@ -50,7 +50,7 @@ $("#user-table")
                     type: "POST",
                     success: function(res) {
                         if (res.success) {
-                            updateUserList();
+                            updateUserList("");
                             success.text(res.message);
                             success.slideDown().delay(3000).slideUp();
                         } else {

@@ -37,6 +37,8 @@ namespace AKCore.Controllers
                     var roles = await _userManager.GetRolesAsync(user);
                     var nintendo = roles.Contains("SuperNintendo");
                     var editor = roles.Contains("Editor");
+                    var memberMenu = new ModelMenu("Adressregister", "/MemberList", true);
+                    modelMenus.Add(memberMenu);
                     if (nintendo || editor)
                     {
                         var adminMenu = new ModelMenu("Ändra sidor", "/Edit", true);
