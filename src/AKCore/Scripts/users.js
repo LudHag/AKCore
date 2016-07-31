@@ -100,6 +100,7 @@ $("#user-table").on("submit", ".add-role", function (e) {
 $("#user-table").on("submit", ".add-post", function (e) {
     e.preventDefault();
     var form = $(this);
+    var success = $(".alert-success");
     var error = $(".alert-danger");
     $.ajax({
         url: form.attr("action"),
@@ -107,6 +108,8 @@ $("#user-table").on("submit", ".add-post", function (e) {
         data: form.serialize(),
         success: function (res) {
             if (res.success) {
+                success.text("Post(er) tillagda");
+                success.slideDown().delay(4000).slideUp();
             } else {
                 error.text(res.message);
                 error.slideDown().delay(4000).slideUp();
