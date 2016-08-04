@@ -9,10 +9,10 @@
     @foreach (var group in Model.Users)
     {
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-sm-6">
                 @group.Key
             </div>
-            <div class="col-md-6">
+            <div class="col-sm-6">
                 @foreach (var user in group)
                 {
                     <p>@user.FirstName @user.LastName</p>
