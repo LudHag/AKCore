@@ -38,6 +38,8 @@ namespace AKCore.Controllers
                     var nintendo = roles.Contains("SuperNintendo");
                     var editor = roles.Contains("Editor");
                     var memberMenu = new ModelMenu("Adressregister", "/MemberList", true);
+                    var postList = new ModelMenu("Kamerersposter", "/MemberList/PostList", true);
+                    memberMenu.Children.Add(postList);
                     modelMenus.Add(memberMenu);
                     if (nintendo || editor)
                     {
