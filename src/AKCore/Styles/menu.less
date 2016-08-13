@@ -1,0 +1,39 @@
+﻿nav{
+    display: block;
+    position: relative;
+    bottom: -15px;
+    right: 0px;
+    margin: 0px;
+}
+
+
+.navigation{
+    display: block;
+    position: absolute;
+    bottom: 1px;
+    right: 5px;
+    margin: 0px;
+    li{
+        position: relative;
+        background-color: black;
+        a {
+            font-weight: bold;
+            display: block;
+            color: #999999;
+            border-bottom: 4px solid white;
+            font-size: 12px;
+            padding-bottom: 3px;
+            margin-left: 4px;
+            &.active,
+            &:hover{
+                display: block;
+                color: #cccccc;
+                border-color: red;
+                text-decoration: none;
+            }
+        }
+    }
+}
+.navigation > * {
+    display: inline-block;
+}
