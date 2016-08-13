@@ -57,6 +57,26 @@ $("#fb-login")
 
         });
 
+$('#search-member-form')
+    .on('submit',
+        function(e) {
+            e.preventDefault();
+            var form = $(this);
+            $.ajax({
+                url: form.attr("action"),
+                type: form.attr("method"),
+                data: form.serialize(),
+                success: function (res) {
+                    $('#adress-register').empty().append($(res).find('#adress-register').children());
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        });
+
+
+
 
 $(document)
     .ready(function() {

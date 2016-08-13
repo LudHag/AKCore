@@ -1,9 +1,11 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using AKCore.DataModel;
 using AKCore.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Query.Internal;
 
 namespace AKCore.Controllers
 {
@@ -27,6 +29,26 @@ namespace AKCore.Controllers
 
             return View(model);
         }
+        [Route("PostList")]
+        public ActionResult PostList()
+        {
+            ViewBag.Title = "Kamerersposter";
+            var model = new MemberListModel();
+            var query=_userManager.Users.Where(x => x.SlavPoster.Length > 2);
+            model.Users=new List<IGrouping<string, AkUser>>();
+            foreach (var p in AkPoster.Poster)
+            {
+                var g = new Grouping<string, AkUser>(p);
+                var users=query.Where(x => x.SlavPoster.Contains(p)).ToList();
+                foreach (var user in users)
+                {
+                    g.Add(user);
+                }
+                
+                model.Users.Add(g);
+            }
+            return View("PostList",model);
+        }
 
         private void PopulateModel(MemberListModel model)
         {
@@ -44,7 +66,6 @@ namespace AKCore.Controllers
                 userQuery = userQuery.Where(x => x.Instrument == model.Instrument);
             }
             model.Users = userQuery.OrderBy(x=>x.FirstName).GroupBy(x=>x.Instrument).ToList();
-            
         }
     }
 }

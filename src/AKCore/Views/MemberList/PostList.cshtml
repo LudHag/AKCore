@@ -1,0 +1,23 @@
+﻿@using AKCore.DataModel
+@model AKCore.Models.MemberListModel
+@{
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+}
+
+<h1>Kamerersposter</h1>
+<div id="kamerersposter">
+    @foreach (var group in Model.Users)
+    {
+        <div class="row">
+            <div class="col-sm-6">
+                @group.Key
+            </div>
+            <div class="col-sm-6">
+                @foreach (var user in group)
+                {
+                    <p>@user.FirstName @user.LastName</p>
+                }
+            </div>
+        </div>
+    }
+</div>
