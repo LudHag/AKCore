@@ -106,3 +106,28 @@ function fbGetLoginId(callback) {
         }
     });
 }
+
+$('#open-mobile-menu')
+    .on('click',
+        function(e) {
+            $('#mobile-menu').slideToggle();
+        });
+
+$('#mobile-menu')
+    .on('click',
+        'a',
+        function (e) {
+            var target = $(e.target);
+            if (target.hasClass('exp-submenu')) {
+                e.preventDefault();
+                if (target.hasClass('glyphicon-plus')) {
+                    target.addClass('glyphicon-minus');
+                    target.removeClass('glyphicon-plus');
+                } else {
+                    target.addClass('glyphicon-plus');
+                    target.removeClass('glyphicon-minus');
+                }
+
+                $(target.data('id')).slideToggle();
+            }
+        });
