@@ -5,7 +5,7 @@
 }
 
 <header>
-    <a href="/">
+    <a class="logo" href="/">
         <img src="~/images/ak_logo.png"/>
     </a>
     <div class="account">
@@ -22,6 +22,7 @@
             <a href="/Account/Logout" class="logout">Logga ut</a>
         }
     </div>
+
     <nav>
         <ul class="navigation">
             @foreach (var m in Model.Menus)
@@ -89,5 +90,8 @@
                 </li>
             }
         </ul>
+        <a href="#" id="open-mobile-menu" class="glyphicon glyphicon-menu-hamburger"></a>
+
+
     </nav>
 </header>

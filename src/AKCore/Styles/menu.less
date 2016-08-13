@@ -1,6 +1,6 @@
 ﻿nav{
     display: block;
-    position: relative;
+    position: absolute;
     bottom: -15px;
     right: 0px;
     margin: 0px;
@@ -9,10 +9,9 @@
 
 .navigation{
     display: block;
-    position: absolute;
-    bottom: 1px;
-    right: 5px;
-    margin: 0px;
+    position: relative;
+    margin-bottom: 20px;
+    right: 10px;
     li{
         position: relative;
         background-color: black;
@@ -36,4 +35,29 @@
 }
 .navigation > * {
     display: inline-block;
+}
+#open-mobile-menu{
+    display:none;
+    font-size: 55px;
+    right: 21px;
+    top: -42px;
+}
+@media screen and (max-width: 768px) {
+    .logo img{
+        width: 388px;
+        max-width:80%;
+    }
+    .account{
+        right: inherit;
+        top:82px;
+        p{
+            display: inline-block;
+        }
+    }
+    .navigation{
+        display:none;
+    }
+    #open-mobile-menu{
+        display:block;
+    }
 }
