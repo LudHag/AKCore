@@ -8,8 +8,8 @@ using AKCore.DataModel;
 namespace AKCore.Migrations
 {
     [DbContext(typeof(AKContext))]
-    [Migration("20160730140020_anv-info")]
-    partial class anvinfo
+    [Migration("20160813182406_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -35,8 +35,6 @@ namespace AKCore.Migrations
                     b.Property<bool>("EmailConfirmed");
 
                     b.Property<string>("FirstName");
-
-                    b.Property<string>("GoogleId");
 
                     b.Property<string>("Instrument");
 
@@ -85,6 +83,36 @@ namespace AKCore.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("AKCore.DataModel.Event", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("Day");
+
+                    b.Property<string>("Description");
+
+                    b.Property<DateTime>("Halan");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasAnnotation("MaxLength", 450);
+
+                    b.Property<bool>("Stand");
+
+                    b.Property<DateTime>("Starts");
+
+                    b.Property<DateTime>("There");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasAnnotation("MaxLength", 450);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Events");
+                });
+
             modelBuilder.Entity("AKCore.DataModel.Media", b =>
                 {
                     b.Property<int>("Id")
@@ -123,6 +151,8 @@ namespace AKCore.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("BalettOnly");
 
                     b.Property<bool>("LoggedIn");
 

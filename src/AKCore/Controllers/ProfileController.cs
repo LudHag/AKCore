@@ -46,7 +46,6 @@ namespace AKCore.Controllers
                     Nation = user.Nation,
                     Instrument = user.Instrument,
                     Facebook = logins.Any(x=>x.LoginProvider=="Facebook"),
-                    Google = user.GoogleId != null,
                     Poster = user.SlavPoster != null ? JsonConvert.DeserializeObject<List<string>>(user.SlavPoster) : new List<string>(),
                     Roles = await _userManager.GetRolesAsync(user)
                 };

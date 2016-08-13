@@ -7,8 +7,6 @@ namespace AKCore.DataModel
 {
     public class AkUser : IdentityUser
     {
-        public string GoogleId { get; set; }    //TODO: ta bort behövs ej
-        public string FacebookId { get; set; }  //TODO: ta bort behövs ej
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Adress { get; set; }

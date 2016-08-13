@@ -24,6 +24,7 @@ namespace AKCore.DataModel
         public DbSet<Menu> Menus { get; set; }
         public DbSet<SubMenu> SubMenus { get; set; }
         public DbSet<Media> Medias { get; set; }
+        public DbSet<Event> Events { get; set; }
     }
 
     public class Page
@@ -38,6 +39,7 @@ namespace AKCore.DataModel
         public string WidgetsJson { get; set; }
         [Required]
         public bool LoggedIn { get; set; }
+        public bool BalettOnly { get; set; }
     }
   
     public class Menu
@@ -69,4 +71,37 @@ namespace AKCore.DataModel
         public string Name { get; set; }
         public DateTime Created { get; set; }
     }
+
+    public class Event
+    {
+        [Key]
+        public int Id { get; set; }
+        [Required]
+        [StringLength(450)]
+        public string Type { get; set; }
+        [Required]
+        [StringLength(450)]
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public DateTime Day { get; set; }
+        public DateTime Halan { get; set; }
+        public DateTime There { get; set; }
+        public DateTime Starts { get; set; }
+        public bool Stand { get; set; }
+    }
+
+    public class SignUp
+    {
+        [Key]
+        public int Id { get; set; }
+        [Required]
+        public AkUser Person { get; set; }
+        [Required]
+        public Event Event { get; set; }
+        public string Where { get; set; }
+        public bool Car { get; set; }
+        public bool Instrument { get; set; }
+        public string Comment { get; set; }
+    }
+
 }
