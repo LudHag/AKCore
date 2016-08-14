@@ -92,5 +92,19 @@ namespace AKCore.DataModel
             Moveskamerer
         };
     }
+
+    public class AkEventTypes
+    {
+        public const string Spelning = "Spelning";
+        public const string Rep = "Rep";
+        public const string Fest = "Fest";
+
+        public static readonly List<string> Types = new List<string>()
+        {
+            Spelning,
+            Rep,
+            Fest
+        };
+    }
 }
 

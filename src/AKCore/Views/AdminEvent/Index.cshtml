@@ -1,0 +1,65 @@
+﻿@using AKCore.DataModel
+@using Microsoft.EntityFrameworkCore.Metadata.Internal
+@model AKCore.Models.AdminEventModel
+@{
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+}
+
+<div class="row">
+    <a href="#" class="btn btn-primary" id="create-new-event">Lägg till event</a>
+</div>
+<div class="row" id="admin-event-list">
+    <h1>Event:</h1>
+    @foreach (var e in Model.Events)
+    {
+        <div class="row event-row" data-id="@e.Id">
+            <div class="col-sm-6">
+                <p>@e.Name</p>
+            </div>  TR
+            <div class="col-sm-6">
+                <p>@e.Type</p>
+            </div>
+        </div>
+    }
+</div>
+<div id="edit-event-modal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Editera Event</h4>
+            </div>
+            <form action="/AdminEvent/Edit" id="edit-event-form" method="post">
+                <div class="modal-body">
+                    <div class="alert alert-success" style="display: none;">
+                    </div>
+                    <div class="alert alert-danger" style="display: none;">
+                    </div>
+                    <input type="hidden" asp-for="Id" value="0"/>
+                    <div class="form-group">
+                        <label asp-for="Name"></label>
+                        <input class="form-control" asp-for="Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Type"></label>
+                        <select class="form-control" asp-for="Type" required>
+                            <option value="">Typ av event</option>
+                            @foreach (var typ in AkEventTypes.Types)
+                            {
+                                <option>@typ</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Description"></label>
+                        <textarea class="form-control" asp-for="Description"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Stäng</button>
+                    <button type="submit" class="btn btn-primary">Spara</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
