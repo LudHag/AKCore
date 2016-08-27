@@ -82,6 +82,12 @@ $('#admin-event-list')
             }
         });
 
+$('#edit-event-modal')
+    .on('hidden.bs.modal',
+        function() {
+            clearEventModal();
+        });
+
 function clearEventModal() {
     $('#edit-event-form')[0].reset();
 }
