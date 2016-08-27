@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using AKCore.DataModel;
 using AKCore.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -50,6 +51,23 @@ namespace AKCore.Controllers
                     }
                 }
                 return Json(new {success = false, message = "Misslyckades med att spara ändringen"});
+            }
+        }
+
+        [HttpPost]
+        [Route("Remove/{id:int}")]
+        public ActionResult Remove(string id)
+        {
+            var eId = 0;
+            if (!int.TryParse(id, out eId))
+                return Json(new {success = false, message = "Misslyckades med att ta bort event"});
+            using (var db = new AKContext())
+            {
+                var e = db.Events.FirstOrDefault(x => x.Id == eId);
+                if (e == null) return Json(new {success = false, message = "Misslyckades med att ta bort event"});
+                db.Events.Remove(e);
+                db.SaveChanges();
+                return Json(new { success = true});
             }
         }
     }

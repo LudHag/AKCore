@@ -31,6 +31,30 @@ $('#edit-event-form')
                 }
             });
         });
+$('#admin-event-list')
+    .on('click',
+        '.remove-event',
+        function(e) {
+            e.preventDefault();
+            if (window.confirm("Är du säker på att du vill ta bort detta event?")){
+                var self = $(this);
+                $.ajax({
+                    url: self.attr("href"),
+                    type: "POST",
+                    success: function (res) {
+                        if (res.success) {
+                            reloadEvents('');
+                        } else {
+                            console.log(res.message);
+                        }
+                    },
+                    error: function (err) {
+                        console.log("FEL!");
+                    }
+                });
+            }
+        });
+
 
 function clearEventModal() {
     $('#edit-event-form')[0].reset();

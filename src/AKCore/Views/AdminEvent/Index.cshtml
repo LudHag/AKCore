@@ -13,11 +13,14 @@
     @foreach (var e in Model.Events)
     {
         <div class="row event-row" data-id="@e.Id">
-            <div class="col-sm-6">
+            <div class="col-sm-5">
                 <p>@e.Name</p>
-            </div> 
-            <div class="col-sm-6">
+            </div>
+            <div class="col-sm-5">
                 <p>@e.Type</p>
+            </div>
+            <div class="col-sm-2">
+                <a href="/AdminEvent/Remove/@e.Id" class="remove-event glyphicon glyphicon-remove"></a>
             </div>
         </div>
     }
