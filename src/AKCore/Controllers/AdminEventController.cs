@@ -4,6 +4,7 @@ using AKCore.DataModel;
 using AKCore.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace AKCore.Controllers
 {
@@ -31,6 +32,16 @@ namespace AKCore.Controllers
                 {
                     if (model.Id > 0) //editera
                     {
+                        var changeEvent=db.Events.FirstOrDefault(x => x.Id == model.Id);
+                        if (changeEvent == null)
+                        {
+                            return Json(new { success = false, message = "Misslyckades med att spara ändringen" });
+                        }
+                        changeEvent.Name = model.Name;
+                        changeEvent.Description = model.Description;
+                        changeEvent.Type = model.Type;
+                        db.SaveChanges();
+                        return Json(new { success = true });
                     }
                     else //skapa
                     {
@@ -68,6 +79,20 @@ namespace AKCore.Controllers
                 db.Events.Remove(e);
                 db.SaveChanges();
                 return Json(new { success = true});
+            }
+        }
+        [Route("GetEvent/{id:int}")]
+        public ActionResult GetEvent(string id)
+        {
+            var eId = 0;
+            if (!int.TryParse(id, out eId))
+                return Json(new { success = false, message = "Misslyckades med att hämta event" });
+            using (var db = new AKContext())
+            {
+                var e = db.Events.FirstOrDefault(x => x.Id == eId);
+                if (e == null) return Json(new { success = false, message = "Misslyckades med att hämta event" });
+                
+                return Json(new { success = true , e = JsonConvert.SerializeObject(e)});
             }
         }
     }

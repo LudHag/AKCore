@@ -55,6 +55,32 @@ $('#admin-event-list')
             }
         });
 
+$('#admin-event-list')
+    .on('click',
+        '.event-row',
+        function(e) {
+            e.preventDefault();
+            if (!$(e.target).hasClass('remove-event')) {
+                $.ajax({
+                    url: "/AdminEvent/GetEvent/" + $(this).data('id'),
+                    type: "GET",
+                    success: function (res) {
+                        if (res.success) {
+                            var event = JSON.parse(res.e);
+                            $('#Id').val(event.Id);
+                            $('#Name').val(event.Name);
+                            $('#Type').val(event.Type);
+                            $('#Description').val(event.Description);
+                            $('#edit-event-modal').modal('show');
+                        }
+                    },
+                    error: function (err) {
+                        console.log("FEL!");
+                    }
+                });
+
+            }
+        });
 
 function clearEventModal() {
     $('#edit-event-form')[0].reset();
