@@ -38,6 +38,7 @@ namespace AKCore.Controllers
                             return Json(new { success = false, message = "Misslyckades med att spara ändringen" });
                         }
                         changeEvent.Name = model.Name;
+                        changeEvent.Day = model.Day;
                         changeEvent.Description = model.Description;
                         changeEvent.Type = model.Type;
                         db.SaveChanges();
