@@ -42,12 +42,13 @@ namespace AKCore.Controllers
                     modelMenus.Add(memberMenu);
                     if (nintendo || editor)
                     {
-                        var adminMenu = new ModelMenu("Ändra sidor", "/Edit", true) {Id = 10001 };
+                        var adminMenu = new ModelMenu("Admin", "", true) { Id = 10001 };
+                        adminMenu.Children.Add(new ModelMenu("Ändra sidor", "/Edit", true) { Id = 10002 });
                         modelMenus.Add(adminMenu);
                         if (nintendo)
                         {
-                            adminMenu.Children.Add(new ModelMenu("Lägg till spelningar", "/AdminEvent", true));
                             adminMenu.Children.Add(new ModelMenu("Ändra menyer", "/MenuEdit", true));
+                            adminMenu.Children.Add(new ModelMenu("Lägg till spelningar", "/AdminEvent", true));
                             adminMenu.Children.Add(new ModelMenu("Användare", "/User", true));
                         }
                         adminMenu.Children.Add(new ModelMenu("Ladda upp filer", "/Media", true));
