@@ -17,7 +17,8 @@ namespace AKCore.Controllers
             ViewBag.Title = "Profil";
             using (var db = new AKContext())
             {
-                var model = new AdminEventModel {Events = db.Events.ToList()};
+                var events = db.Events.OrderBy(x => x.Day).ToList();
+                var model = new AdminEventModel {Events = events};
                 return View(model);
             }
         }

@@ -1,5 +1,6 @@
 ﻿@using AKCore.DataModel
 @using Microsoft.EntityFrameworkCore.Metadata.Internal
+@using System.Globalization
 @model AKCore.Models.AdminEventModel
 @{
     Layout = "~/Views/Shared/_MasterLayout.cshtml";
@@ -13,10 +14,13 @@
     @foreach (var e in Model.Events)
     {
         <div class="row event-row" data-id="@e.Id">
-            <div class="col-sm-5">
+            <div class="col-sm-2">
+                <p>@e.Day.ToString("dd MMM")</p>
+            </div>
+            <div class="col-sm-4">
                 <p>@e.Name</p>
             </div>
-            <div class="col-sm-5">
+            <div class="col-sm-4">
                 <p>@e.Type</p>
             </div>
             <div class="col-sm-2">
