@@ -1,13 +1,23 @@
 ﻿@using AKCore.DataModel
-@using Microsoft.EntityFrameworkCore.Metadata.Internal
-@using System.Globalization
 @model AKCore.Models.AdminEventModel
 @{
     Layout = "~/Views/Shared/_MasterLayout.cshtml";
 }
 
 <div class="row">
-    <a href="#" class="btn btn-primary" id="create-new-event">Lägg till event</a>
+    <div class="col-sm-2">
+        <a href="#" class="btn btn-primary" id="create-new-event">Lägg till event</a>
+    </div>
+    <div class="col-sm-3">
+        <form>
+            <div class="form-group">
+                <select id="sort-future-select" name="Future" class="form-control">
+                    <option>Kommande</option>
+                    <option>Gamla</option>
+                </select>
+            </div>
+        </form>
+    </div>
 </div>
 <div class="row" id="admin-event-list">
     <h1>Event:</h1>

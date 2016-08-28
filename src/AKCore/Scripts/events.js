@@ -18,7 +18,7 @@
                     data: form.serialize(),
                     success: function(res) {
                         if (res.success) {
-                            reloadEvents('');
+                            reloadEvents('', $('#sort-future-select').val());
                             $('#edit-event-modal').modal('hide');
                             clearEventModal();
                         } else {
@@ -44,7 +44,7 @@
                         type: "POST",
                         success: function(res) {
                             if (res.success) {
-                                reloadEvents('');
+                                reloadEvents('', $('#sort-future-select').val());
                             } else {
                                 console.log(res.message);
                             }
@@ -79,7 +79,6 @@
                                 var halan = new Date(event.Halan);
                                 $('#Halan').val(halan.getUTCHours() + ":" + halan.getMinutes());
                                 var there = new Date(event.There);
-                                console.log(event.There);
                                 $('#There').val(there.getUTCHours() + ":" + there.getMinutes());
                                 var starts = new Date(event.Starts);
                                 $('#Starts').val(starts.getUTCHours()+":"+starts.getMinutes());
@@ -104,14 +103,20 @@
             function() {
                 clearEventModal();
             });
+    $('#sort-future-select')
+        .on('change',
+            function(e) {
+                reloadEvents('', $(this).val());
+            });
+
 });
 function clearEventModal() {
     $('#edit-event-form')[0].reset();
     $('#Day').val('');
 }
 
-function reloadEvents(searchString) {
-    $.get('?SearchString=' + searchString,
+function reloadEvents(searchString,sort) {
+    $.get('?SearchString=' + searchString + '&Future='+sort,
         function(data) {
             $('#admin-event-list').empty().append($(data).find('#admin-event-list').children());
         });

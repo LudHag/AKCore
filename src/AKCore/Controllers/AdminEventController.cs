@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using AKCore.DataModel;
 using AKCore.Models;
@@ -12,13 +13,23 @@ namespace AKCore.Controllers
     [Authorize(Roles = "SuperNintendo")]
     public class AdminEventController : Controller
     {
-        public ActionResult Index()
+        public ActionResult Index(string Future)
         {
             ViewBag.Title = "Profil";
             using (var db = new AKContext())
             {
-                var events = db.Events.OrderBy(x => x.Day).ToList();
-                var model = new AdminEventModel {Events = events};
+                IQueryable<Event> eventsQuery;
+                if (!string.IsNullOrWhiteSpace(Future) && Future == "Gamla")
+                {
+                    eventsQuery = db.Events.OrderBy(x => x.Day).Where(x => x.Day < DateTime.UtcNow.Date);
+                }
+                else
+                {
+                    eventsQuery = db.Events.OrderBy(x => x.Day).Where(x => x.Day >= DateTime.UtcNow.Date);
+                }
+
+
+                var model = new AdminEventModel {Events = eventsQuery.ToList() };
                 return View(model);
             }
         }
