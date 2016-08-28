@@ -33,19 +33,13 @@ namespace AKCore.Controllers
         public ActionResult PostList()
         {
             ViewBag.Title = "Kamerersposter";
-            var model = new MemberListModel();
+            var model = new PostModel();
             var query=_userManager.Users.Where(x => x.SlavPoster.Length > 2);
-            model.Users=new List<IGrouping<string, AkUser>>();
+            model.Users=new Dictionary<string,IList<AkUser>>();
             foreach (var p in AkPoster.Poster)
             {
-                var g = new Grouping<string, AkUser>(p);
                 var users=query.Where(x => x.SlavPoster.Contains(p)).ToList();
-                foreach (var user in users)
-                {
-                    g.Add(user);
-                }
-                
-                model.Users.Add(g);
+                model.Users[p]=users;
             }
             return View("PostList",model);
         }

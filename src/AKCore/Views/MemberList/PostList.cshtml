@@ -1,23 +1,72 @@
 ﻿@using AKCore.DataModel
-@model AKCore.Models.MemberListModel
+@model AKCore.Models.PostModel
 @{
     Layout = "~/Views/Shared/_MasterLayout.cshtml";
 }
 
 <h1>Kamerersposter</h1>
 <div id="kamerersposter">
-    @foreach (var group in Model.Users)
-    {
+    <div class="kategori">
+        <h2>Styrelse</h2>
         <div class="row">
-            <div class="col-sm-6">
-                @group.Key
+            <div class="col-sm-4">
+                Överkamerer
             </div>
-            <div class="col-sm-6">
-                @foreach (var user in group)
+            <div class="col-sm-4">
+                @foreach (var user in Model.Users[AkPoster.OK])
                 {
                     <p>@user.FirstName @user.LastName</p>
                 }
             </div>
+            <div class="col-sm-4">
+                ÖK - Ordförande
+            </div>
         </div>
-    }
+        <div class="row">
+            <div class="col-sm-4">
+                Kamrerskamerer
+            </div>
+            <div class="col-sm-4">
+                @foreach (var user in Model.Users[AkPoster.KK])
+                {
+                    <p>@user.FirstName @user.LastName</p>
+                }
+            </div>
+            <div class="col-sm-4">
+                KK - kassör
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                Skrivkamerer
+            </div>
+            <div class="col-sm-4">
+                @foreach (var user in Model.Users[AkPoster.SK])
+                {
+                    <p>@user.FirstName @user.LastName</p>
+                }
+            </div>
+            <div class="col-sm-4">
+                SK - sekreterare
+            </div>
+        </div>
+    </div>
+    <div class="kategori">
+        <h2>Slavkamrerer</h2>
+        <div class="row">
+            <div class="col-sm-4">
+                Pubkamerer
+            </div>
+            <div class="col-sm-4">
+                @foreach (var user in Model.Users[AkPoster.Pubkamerer])
+                {
+                    <p>@user.FirstName @user.LastName</p>
+                }
+            </div>
+            <div class="col-sm-4">
+                Ansvarig för puben (1 ord, 1 stf)
+
+            </div>
+        </div>
+    </div>
 </div>
