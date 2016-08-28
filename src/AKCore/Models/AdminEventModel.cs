@@ -22,7 +22,7 @@ namespace AKCore.Models
         public DateTime Halan { get; set; }
         [Display(Name = "På plats")]
         public DateTime There { get; set; }
-        [Display(Name = "Spelning startar")]
+        [Display(Name = "Spelning")]
         public DateTime Starts { get; set; }
         [Display(Name = "Ståspelning")]
         public bool Stand { get; set; }

@@ -76,6 +76,13 @@
                                 } else {
                                     $('#Day').val('');
                                 }
+                                var halan = new Date(event.Halan);
+                                $('#Halan').val(halan.getUTCHours() + ":" + halan.getMinutes());
+                                var there = new Date(event.There);
+                                console.log(event.There);
+                                $('#There').val(there.getUTCHours() + ":" + there.getMinutes());
+                                var starts = new Date(event.Starts);
+                                $('#Starts').val(starts.getUTCHours()+":"+starts.getMinutes());
                                 $('#Type').val(event.Type);
                                 $('#Description').val(event.Description);
                                 $('#edit-event-modal').modal('show');

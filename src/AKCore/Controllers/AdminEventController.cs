@@ -39,6 +39,9 @@ namespace AKCore.Controllers
                         }
                         changeEvent.Name = model.Name;
                         changeEvent.Day = model.Day;
+                        changeEvent.Halan = model.Halan;
+                        changeEvent.There = model.There;
+                        changeEvent.Starts = model.Starts;
                         changeEvent.Description = model.Description;
                         changeEvent.Type = model.Type;
                         db.SaveChanges();
