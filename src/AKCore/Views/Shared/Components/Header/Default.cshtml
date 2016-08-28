@@ -110,9 +110,9 @@
         @foreach (var m in Model.Menus)
         {
             <li>
-                @if (m.Link == null)
+                @if (string.IsNullOrWhiteSpace(m.Link))
                 {
-                    <span>
+                    <a>
                         @m.Name
                         @if (m.Children.Count > 0)
                         {
@@ -120,7 +120,7 @@
 
                             </span>
                         }
-                    </span>
+                    </a>
                 }
                 else
                 {
