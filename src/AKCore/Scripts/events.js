@@ -55,7 +55,9 @@
                     });
                 }
             });
-
+    function fTime(n) {
+        return n < 10 ? '0' + n : n;
+    }
     $('#admin-event-list')
         .on('click',
             '.event-row',
@@ -65,23 +67,23 @@
                     $.ajax({
                         url: "/AdminEvent/GetEvent/" + $(this).data('id'),
                         type: "GET",
-                        success: function(res) {
+                        success: function (res) {
                             if (res.success) {
                                 var event = JSON.parse(res.e);
                                 $('#Id').val(event.Id);
                                 $('#Name').val(event.Name);
                                 var date = new Date(event.Day);
                                 if (date.getFullYear() > 2000) {
-                                    $('#Day').val(date.getMonth() + "/" + date.getDate() + "/" + date.getFullYear());
+                                    $('#Day').val((date.getMonth()+1) + "/" + date.getDate() + "/" + date.getFullYear());
                                 } else {
                                     $('#Day').val('');
                                 }
                                 var halan = new Date(event.Halan);
-                                $('#Halan').val(halan.getUTCHours() + ":" + halan.getMinutes());
+                                $('#Halan').val(fTime(halan.getUTCHours()) + ":" + fTime(halan.getMinutes()));
                                 var there = new Date(event.There);
-                                $('#There').val(there.getUTCHours() + ":" + there.getMinutes());
+                                $('#There').val(fTime(there.getUTCHours()) + ":" + fTime(there.getMinutes()));
                                 var starts = new Date(event.Starts);
-                                $('#Starts').val(starts.getUTCHours()+":"+starts.getMinutes());
+                                $('#Starts').val(fTime(starts.getUTCHours()) + ":" + fTime(starts.getMinutes()));
                                 $('#Type').val(event.Type);
                                 $('#Description').val(event.Description);
                                 $('#edit-event-modal').modal('show');
