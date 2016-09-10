@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AKCore.DataModel;
@@ -137,7 +138,7 @@ namespace AKCore.Controllers
         }
 
         [Route("AddPost")]
-        public async Task<ActionResult> AddPost(string userName, List<string> post)
+        public async Task<ActionResult> AddPost(string userName, IList post)
         {
             var user = await _userManager.FindByNameAsync(userName);
             if (user == null)

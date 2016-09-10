@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -8,7 +9,7 @@ namespace AKCore.Models
 {
     public class AdminEventModel
     {
-        public List<Event> Events { get; set; }
+        public IList Events { get; set; }
         public int Id { get; set; }
         [Display(Name = "Namn")]
         public string Name { get; set; }

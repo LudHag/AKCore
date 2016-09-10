@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 
 namespace AKCore.DataModel
 {
@@ -8,7 +9,7 @@ namespace AKCore.DataModel
         public const string Text = "Text";
         public const string Image = "Image";
 
-        public static readonly List<string> Widgets = new List<string>()
+        public static readonly IList Widgets = new List<string>()
         {
             TextImage,
             Text,

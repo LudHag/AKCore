@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using AKCore.DataModel;
@@ -16,6 +17,6 @@ namespace AKCore.Models
         [DisplayName("Kräver inloggning")]
         public bool LoggedIn { get; set; }
         public string Template { get; set; }
-        public List<Widget> Widgets { get; set; }
+        public IList Widgets { get; set; }
     }
 }

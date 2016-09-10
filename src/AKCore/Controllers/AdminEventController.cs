@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using AKCore.DataModel;
 using AKCore.Models;
 using Microsoft.AspNetCore.Authorization;
