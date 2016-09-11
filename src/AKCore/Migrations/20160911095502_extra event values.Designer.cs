@@ -8,9 +8,10 @@ using AKCore.DataModel;
 namespace AKCore.Migrations
 {
     [DbContext(typeof(AKContext))]
-    partial class AKContextModelSnapshot : ModelSnapshot
+    [Migration("20160911095502_extra event values")]
+    partial class extraeventvalues
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.0-rtm-21431");

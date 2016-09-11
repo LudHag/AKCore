@@ -72,6 +72,7 @@
                                 var event = JSON.parse(res.e);
                                 $('#Id').val(event.Id);
                                 $('#Name').val(event.Name);
+                                $('#Place').val(event.Place);
                                 var date = new Date(event.Day);
                                 if (date.getFullYear() > 2000) {
                                     $('#Day').val((date.getMonth()+1) + "/" + date.getDate() + "/" + date.getFullYear());
@@ -86,6 +87,7 @@
                                 $('#Starts').val(fTime(starts.getUTCHours()) + ":" + fTime(starts.getMinutes()));
                                 $('#Type').val(event.Type);
                                 $('#Description').val(event.Description);
+                                $('#InternalDescription').val(event.InternalDescription);
                                 $('#edit-event-modal').modal('show');
                             }
                         },

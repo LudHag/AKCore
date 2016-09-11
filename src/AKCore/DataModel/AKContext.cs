@@ -82,7 +82,9 @@ namespace AKCore.DataModel
         [Required]
         [StringLength(450)]
         public string Name { get; set; }
+        public string Place { get; set; }
         public string Description { get; set; }
+        public string InternalDescription { get; set; }
         public DateTime Day { get; set; }
         public DateTime Halan { get; set; }
         public DateTime There { get; set; }

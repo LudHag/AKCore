@@ -49,11 +49,13 @@ namespace AKCore.Controllers
                             return Json(new { success = false, message = "Misslyckades med att spara ändringen" });
                         }
                         changeEvent.Name = model.Name;
+                        changeEvent.Place = model.Place;
                         changeEvent.Day = model.Day;
                         changeEvent.Halan = model.Halan;
                         changeEvent.There = model.There;
                         changeEvent.Starts = model.Starts;
                         changeEvent.Description = model.Description;
+                        changeEvent.InternalDescription = model.InternalDescription;
                         changeEvent.Type = model.Type;
                         db.SaveChanges();
                         return Json(new { success = true });
@@ -63,7 +65,9 @@ namespace AKCore.Controllers
                         var newEvent = new Event
                         {
                             Name = model.Name,
+                            Place = model.Place,
                             Description = model.Description,
+                            InternalDescription =  model.InternalDescription,
                             Day = model.Day,
                             Type = model.Type,
                             Halan = model.Halan,

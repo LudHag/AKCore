@@ -13,10 +13,14 @@ namespace AKCore.Models
         public int Id { get; set; }
         [Display(Name = "Namn")]
         public string Name { get; set; }
+        [Display(Name = "Plats")]
+        public string Place { get; set; }
         [Display(Name = "Typ")]
         public string Type { get; set; }
         [Display(Name = "Beskrivning")]
         public string Description { get; set; }
+        [Display(Name = "Intern beskrivning")]
+        public string InternalDescription { get; set; }
         [Display(Name = "Dag")]
         public DateTime Day { get; set; }
         [Display(Name = "Vid hålan")]
