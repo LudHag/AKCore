@@ -8,7 +8,7 @@ namespace AKCore.DataModel
         public const string SuperNintendo = "SuperNintendo";
         public const string Medlem = "Medlem";
         public const string Editor = "Editor";
-        public static readonly IList Roles = new List<string>()
+        public static readonly IList<string> Roles = new List<string>()
         {
             SuperNintendo,
             Medlem,
@@ -30,7 +30,7 @@ namespace AKCore.DataModel
         public const string Tuba = "Tuba";
         public const string Trombon = "Trombon";
         public const string Trumpet = "Trumpet";
-        public static readonly IList Instrument = new List<string>()
+        public static readonly IList<string> Instrument = new List<string>()
         {
             Altsax,
             Banjo,
@@ -69,7 +69,7 @@ namespace AKCore.DataModel
         public const string Sponsringskamerer = "Sponsringskamerer";
         public const string Bardkamerer = "Bardkamerer";
         public const string Moveskamerer = "Moveskamerer";
-        public static readonly IList Poster = new List<string>()
+        public static readonly IList<string> Poster = new List<string>()
         {
             OK,
             SK,
@@ -100,7 +100,7 @@ namespace AKCore.DataModel
         public const string Rep = "Rep";
         public const string Fest = "Fest";
 
-        public static readonly IList Types = new List<string>()
+        public static readonly IList<string> Types = new List<string>()
         {
             Spelning,
             Rep,

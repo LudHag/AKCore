@@ -6,6 +6,6 @@ namespace AKCore.Models
 {
     public class EditPagesModel
     {
-        public IList Pages { get; set; }
+        public IList<Page> Pages { get; set; }
     }
 }

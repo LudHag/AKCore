@@ -6,7 +6,7 @@ namespace AKCore.Models
 {
     public class HeaderModel
     {
-        public IList Menus { get; set; }
+        public IList<ModelMenu> Menus { get; set; }
         public bool LoggedIn { get; set; }
         public string UserName { get; set; }
     }

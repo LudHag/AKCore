@@ -1,0 +1,26 @@
+﻿@using AKCore.DataModel
+@model AKCore.Models.UpcommingModel
+@{
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+}
+
+
+<div class="row" id="admin-event-list">
+    @foreach (var g in Model.Events)
+    {
+        <h2>@g.Key</h2>
+        foreach(var e in g) { 
+            <div class="row event-row">
+                <div class="col-sm-2">
+                    <p>@e.Day.ToString("dd MMM")</p>
+                </div>
+                <div class="col-sm-4">
+                    <p>@e.Name</p>
+                </div>
+                <div class="col-sm-4">
+                    <p>@e.Type</p>
+                </div>
+            </div>
+        }
+    }
+</div>

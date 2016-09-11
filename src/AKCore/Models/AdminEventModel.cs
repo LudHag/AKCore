@@ -9,7 +9,7 @@ namespace AKCore.Models
 {
     public class AdminEventModel
     {
-        public IList Events { get; set; }
+        public IList<Event> Events { get; set; }
         public int Id { get; set; }
         [Display(Name = "Namn")]
         public string Name { get; set; }

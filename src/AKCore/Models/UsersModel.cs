@@ -6,7 +6,7 @@ namespace AKCore.Models
 {
     public class UsersModel
     {
-        public IList Users { get; set; }
+        public IList<AkUser> Users { get; set; }
         public string SearchPhrase { get; set; }
         public Hashtable Roles { get; set; }
         public Hashtable Posts { get; set; }

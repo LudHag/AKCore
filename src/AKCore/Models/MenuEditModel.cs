@@ -1,15 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using AKCore.DataModel;
-using Microsoft.Extensions.Logging;
 
 namespace AKCore.Models
 {
     public class MenuEditModel
     {
-        public IList Pages { get; set; }
-        public IList Menus { get; set; }
+        public IList<Page> Pages { get; set; }
+        public IList<ModelMenu> Menus { get; set; }
     }
     public class ModelMenu
     {

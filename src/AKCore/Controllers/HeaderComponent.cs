@@ -40,10 +40,12 @@ namespace AKCore.Controllers
                     var postList = new ModelMenu("Kamerersposter", "/MemberList/PostList", true);
                     memberMenu.Children.Add(postList);
                     modelMenus.Add(memberMenu);
+                    var upcomming = new ModelMenu("På gång", "/Upcomming", true) { Id = 10003 };
+                    modelMenus.Add(upcomming);
                     if (nintendo || editor)
                     {
-                        var adminMenu = new ModelMenu("Admin", "", true) { Id = 10001 };
-                        adminMenu.Children.Add(new ModelMenu("Ändra sidor", "/Edit", true) { Id = 10002 });
+                        var adminMenu = new ModelMenu("Admin", "", true) { Id = 10005 };
+                        adminMenu.Children.Add(new ModelMenu("Ändra sidor", "/Edit", true) { Id = 10007 });
                         modelMenus.Add(adminMenu);
                         if (nintendo)
                         {

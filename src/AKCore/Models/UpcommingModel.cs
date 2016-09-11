@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.Linq;
 using AKCore.DataModel;
 
 namespace AKCore.Models
 {
     public class UpcommingModel
     {
-        public IList Events { get; set; }
+        public IEnumerable<IGrouping<int,Event>> Events { get; set; }
     }
 }

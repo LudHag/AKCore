@@ -17,6 +17,6 @@ namespace AKCore.Models
         [DisplayName("Kräver inloggning")]
         public bool LoggedIn { get; set; }
         public string Template { get; set; }
-        public IList Widgets { get; set; }
+        public IList<Widget> Widgets { get; set; }
     }
 }
