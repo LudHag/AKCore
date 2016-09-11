@@ -1,26 +1,35 @@
-﻿@using AKCore.DataModel
+﻿@using System.Globalization
 @model AKCore.Models.UpcommingModel
 @{
     Layout = "~/Views/Shared/_MasterLayout.cshtml";
+    var culture = new CultureInfo("sv");
 }
 
 
-<div class="row" id="admin-event-list">
-    @foreach (var g in Model.Events)
+
+@foreach (var g in Model.Events)
+{
+    <h2>@g.Key</h2>
+    var lastMonth = "";
+
+    foreach (var e in g)
     {
-        <h2>@g.Key</h2>
-        foreach(var e in g) { 
-            <div class="row event-row">
-                <div class="col-sm-2">
-                    <p>@e.Day.ToString("dd MMM")</p>
-                </div>
-                <div class="col-sm-4">
-                    <p>@e.Name</p>
-                </div>
-                <div class="col-sm-4">
-                    <p>@e.Type</p>
-                </div>
-            </div>
+        var newMonth = e.Day.ToString("MMMM", culture);
+        if (lastMonth != newMonth)
+        {
+            <h3>@newMonth</h3>
+            lastMonth = newMonth;
         }
+        <div class="row event-row">
+            <div class="col-sm-2">
+                <p>@e.Day.ToString("dd MMM")</p>
+            </div>
+            <div class="col-sm-4">
+                <p>@e.Name</p>
+            </div>
+            <div class="col-sm-4">
+                <p>@e.Type</p>
+            </div>
+        </div>
     }
-</div>
+}
