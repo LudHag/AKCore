@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using AKCore.DataModel;
 using AKCore.Models;
@@ -14,6 +15,7 @@ namespace AKCore.Controllers
     [Authorize(Roles = "SuperNintendo,Editor")]
     public class MediaController : Controller
     {
+        private static readonly string[] ImageExtensions = { "jpg", "bmp", "gif", "png","svg" };
         private readonly IHostingEnvironment _hostingEnv;
 
         public MediaController(IHostingEnvironment env)
@@ -81,6 +83,12 @@ namespace AKCore.Controllers
         public ActionResult UploadFile(MediaModel model)
         {
             var file = model.UploadFile;
+            var ext=Path.GetExtension(file.FileName).ToLower();
+            if (ImageExtensions.FirstOrDefault(x => ext.EndsWith(x))==null)
+            {
+                return Json(new { success = false, message = "Filen har fel format" });
+            }
+
             var filename = ContentDispositionHeaderValue
                 .Parse(file.ContentDisposition)
                 .FileName
