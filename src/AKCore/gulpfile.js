@@ -33,3 +33,8 @@ gulp.task('scripts', function () {
 	.pipe(sourcemaps.write('./'))
 	.pipe(gulp.dest('./wwwroot/js/'));
 });
+
+gulp.task('watch', function () {
+    gulp.watch('./Scripts/*.js', ['scripts']);
+    gulp.watch('./Styles/*.less', ['less']);
+});

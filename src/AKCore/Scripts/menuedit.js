@@ -221,7 +221,6 @@ $("#menus")
                 }
             });
         });
-
 $("#menus")
     .on("click",
         ".move-right",

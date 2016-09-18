@@ -20,14 +20,37 @@
         }
         <div class="row event-row">
             <div class="col-sm-4" style="font-weight: bold;">
-                <p style="text-transform: capitalize;">@e.Day.ToString("dddd dd", culture)</p>
+                <p style="text-transform: capitalize;">@e.Day.ToString("dddd dd", culture)/@e.Day.ToString("MM", culture) </p>
                 <p>@e.Name</p>
+                <p>@e.Place</p>
             </div>
             <div class="col-sm-4">
-                <p>@e.Name</p>
+                @{
+                    var halan = e.Halan.ToString("HH:mm");
+                    var there = e.There.ToString("HH:mm");
+                    var start = e.Starts.ToString("HH:mm");
+                    if (halan != "00:00")
+                    {
+                        <p>Samling i hålan: @halan</p>
+                    }
+                    if (there != "00:00")
+                    {
+                         <p>Samling på plats: @there</p>
+                    }
+                    if (start != "00:00")
+                    {
+                         <p>Samling på plats: @start</p>
+                     }
+                }
             </div>
             <div class="col-sm-4">
                 <p>@e.Type</p>
+            </div>
+            <div class="col-sm-12 description">
+                <p>@e.Description</p>
+            </div>
+            <div class="col-sm-12">
+                <p>@e.InternalDescription</p>
             </div>
         </div>
     }
