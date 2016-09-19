@@ -54,6 +54,7 @@ namespace AKCore.Controllers
                         changeEvent.Halan = model.Halan;
                         changeEvent.There = model.There;
                         changeEvent.Starts = model.Starts;
+                        changeEvent.Fika = model.Fika;
                         changeEvent.Description = model.Description;
                         changeEvent.InternalDescription = model.InternalDescription;
                         changeEvent.Type = model.Type;
@@ -70,6 +71,7 @@ namespace AKCore.Controllers
                             InternalDescription =  model.InternalDescription,
                             Day = model.Day,
                             Type = model.Type,
+                            Fika=model.Fika,
                             Halan = model.Halan,
                             Stand = model.Stand,
                             Starts = model.Starts,

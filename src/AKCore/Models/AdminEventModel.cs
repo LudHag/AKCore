@@ -17,6 +17,8 @@ namespace AKCore.Models
         public string Place { get; set; }
         [Display(Name = "Typ")]
         public string Type { get; set; }
+        [Display(Name = "Fika")]
+        public string Fika { get; set; }
         [Display(Name = "Beskrivning")]
         public string Description { get; set; }
         [Display(Name = "Intern beskrivning")]

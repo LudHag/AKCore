@@ -30,6 +30,8 @@ namespace AKCore.Controllers
                     .ToList()
                     .Where(x=>loggedIn || !x.Link.LoggedIn);
                 var modelMenus = menus.Select(m => new ModelMenu(m, loggedIn)).ToList();
+                var upcomming = new ModelMenu(loggedIn ?"På gång": "Spelningar", "/Upcomming", true) { Id = 10003 };
+                modelMenus.Add(upcomming);
                 if (loggedIn)
                 {
                     var user = await _userManager.FindByNameAsync(User.Identity.Name);
@@ -40,8 +42,7 @@ namespace AKCore.Controllers
                     var postList = new ModelMenu("Kamerersposter", "/MemberList/PostList", true);
                     memberMenu.Children.Add(postList);
                     modelMenus.Add(memberMenu);
-                    var upcomming = new ModelMenu("På gång", "/Upcomming", true) { Id = 10003 };
-                    modelMenus.Add(upcomming);
+                    
                     if (nintendo || editor)
                     {
                         var adminMenu = new ModelMenu("Admin", "", true) { Id = 10005 };

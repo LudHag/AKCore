@@ -86,8 +86,10 @@
                                 var starts = new Date(event.Starts);
                                 $('#Starts').val(fTime(starts.getUTCHours()) + ":" + fTime(starts.getMinutes()));
                                 $('#Type').val(event.Type);
+                                $('#Fika').val(event.Fika);
                                 $('#Description').val(event.Description);
                                 $('#InternalDescription').val(event.InternalDescription);
+                                replaceEventType(event.Type);
                                 $('#edit-event-modal').modal('show');
                             }
                         },
@@ -109,10 +111,12 @@
             });
     $('#sort-future-select')
         .on('change',
-            function(e) {
+            function() {
                 reloadEvents('', $(this).val());
             });
-
+    $('#edit-event-modal').on('change','#Type',function() {
+        replaceEventType($(this).val());
+    });
 });
 function clearEventModal() {
     $('#edit-event-form')[0].reset();
@@ -124,4 +128,11 @@ function reloadEvents(searchString,sort) {
         function(data) {
             $('#admin-event-list').empty().append($(data).find('#admin-event-list').children());
         });
+}
+
+function replaceEventType(type) {
+    $('#edit-event-modal').removeClass('Rep');
+    $('#edit-event-modal').removeClass('Fika');
+    $('#edit-event-modal').removeClass('Spelning');
+    $('#edit-event-modal').addClass(type);
 }

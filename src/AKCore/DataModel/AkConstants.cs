@@ -47,6 +47,26 @@ namespace AKCore.DataModel
             Trumpet
         };
     }
+    public class AkFika
+    {
+        public const string Sax = "Sax";
+        public const string Komp = "Komp";
+        public const string Balett = "Balett";
+        public const string Klarinett = "Klarinett";
+        public const string Flute = "Flöjt";
+        public const string Trombon = "Trombon";
+        public const string Trumpet = "Trumpet";
+        public static readonly IList<string> Sektioner = new List<string>()
+        {
+            Sax,
+            Komp,
+            Balett,
+            Klarinett,
+            Flute,
+            Trombon,
+            Trumpet
+        };
+    }
     public class AkPoster
     {
         public const string OK = "Överkamerer";

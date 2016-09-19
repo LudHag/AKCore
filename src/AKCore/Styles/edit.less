@@ -262,3 +262,22 @@ table{
     }
     border-bottom:1px solid #b10000;
 }
+
+#edit-event-modal{
+    .description,
+    .rep-fika,
+    .spelning-tid{
+        display:none;
+    }
+    &.Spelning{
+        .spelning-tid,
+        .description{
+            display:block;
+        }
+    }
+    &.Rep{
+        .rep-fika{
+            display:block;
+        }
+    }
+}

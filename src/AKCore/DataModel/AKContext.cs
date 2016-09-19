@@ -85,6 +85,7 @@ namespace AKCore.DataModel
         public string Place { get; set; }
         public string Description { get; set; }
         public string InternalDescription { get; set; }
+        public string Fika { get; set; }
         public DateTime Day { get; set; }
         public DateTime Halan { get; set; }
         public DateTime There { get; set; }

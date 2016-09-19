@@ -71,13 +71,23 @@
                                 <label asp-for="Halan"></label>
                                 <input class="form-control" type="time" asp-for="Halan">
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-3 spelning-tid">
                                 <label asp-for="There"></label>
                                 <input class="form-control" type="time" asp-for="There">
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-3 spelning-tid">
                                 <label asp-for="Starts"></label>
                                 <input class="form-control" type="time" asp-for="Starts" required>
+                            </div>
+                            <div class="col-sm-6 rep-fika">
+                                <label asp-for="Fika"></label>
+                                <select class="form-control" asp-for="Fika">
+                                    <option value="">Välj en sektion</option>
+                                    @foreach (var inst in AkFika.Sektioner)
+                                    {
+                                        <option>@inst</option>
+                                    }
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -91,7 +101,7 @@
                             }
                         </select>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group description">
                         <label asp-for="Description"></label>
                         <textarea class="form-control" asp-for="Description"></textarea>
                     </div>

@@ -35,23 +35,28 @@
                     }
                     if (there != "00:00")
                     {
-                         <p>Samling på plats: @there</p>
+                        <p>Samling på plats: @there</p>
                     }
                     if (start != "00:00")
                     {
-                         <p>Samling på plats: @start</p>
-                     }
+                        <p>Samling på plats: @start</p>
+                    }
                 }
             </div>
-            <div class="col-sm-4">
-                <p>@e.Type</p>
-            </div>
+            @if (e.Type == "Rep") { 
+                <div class="col-sm-4">
+                    <p>Fika och städning: @e.Fika</p>
+                </div>
+            }
             <div class="col-sm-12 description">
                 <p>@e.Description</p>
             </div>
-            <div class="col-sm-12">
-                <p>@e.InternalDescription</p>
-            </div>
+            @if (ViewBag.loggedIn)
+            {
+                <div class="col-sm-12">
+                    <p>@e.InternalDescription</p>
+                </div>
+            }
         </div>
     }
 }
