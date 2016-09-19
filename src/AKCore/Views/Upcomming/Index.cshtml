@@ -21,7 +21,10 @@
         <div class="row event-row">
             <div class="col-sm-4" style="font-weight: bold;">
                 <p style="text-transform: capitalize;">@e.Day.ToString("dddd dd", culture)/@e.Day.ToString("MM", culture) </p>
-                <p>@e.Name</p>
+                @if (e.Type != "Rep")
+                {
+                    <p>@e.Name</p>
+                }
                 <p>@e.Place</p>
             </div>
             <div class="col-sm-4">
@@ -43,7 +46,8 @@
                     }
                 }
             </div>
-            @if (e.Type == "Rep") { 
+            @if (e.Type == "Rep")
+            {
                 <div class="col-sm-4">
                     <p>Fika och städning: @e.Fika</p>
                 </div>

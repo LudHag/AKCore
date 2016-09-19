@@ -28,7 +28,10 @@
                 <p>@e.Day.ToString("dd MMM")</p>
             </div>
             <div class="col-sm-4">
-                <p>@e.Name</p>
+                @if (e.Type != "Rep")
+                { 
+                    <p>@e.Name</p>
+                }
             </div>
             <div class="col-sm-4">
                 <p>@e.Type</p>
@@ -54,8 +57,18 @@
                     </div>
                     <input type="hidden" asp-for="Id" value="0"/>
                     <div class="form-group">
+                        <label asp-for="Type"></label>
+                        <select class="form-control" asp-for="Type" required>
+                            <option value="">Typ av event</option>
+                            @foreach (var typ in AkEventTypes.Types)
+                            {
+                                <option>@typ</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group spelning-fest">
                         <label asp-for="Name"></label>
-                        <input class="form-control" asp-for="Name" required>
+                        <input class="form-control" asp-for="Name">
                     </div>
                     <div class="form-group">
                         <label asp-for="Place"></label>
@@ -91,16 +104,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label asp-for="Type"></label>
-                        <select class="form-control" asp-for="Type" required>
-                            <option value="">Typ av event</option>
-                            @foreach (var typ in AkEventTypes.Types)
-                            {
-                                <option>@typ</option>
-                            }
-                        </select>
-                    </div>
+                   
                     <div class="form-group description">
                         <label asp-for="Description"></label>
                         <textarea class="form-control" asp-for="Description"></textarea>
