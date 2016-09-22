@@ -51,7 +51,7 @@ namespace AKCore.Controllers
                         if (nintendo)
                         {
                             adminMenu.Children.Add(new ModelMenu("Ändra menyer", "/MenuEdit", true));
-                            adminMenu.Children.Add(new ModelMenu("Lägg till spelningar", "/AdminEvent", true));
+                            adminMenu.Children.Add(new ModelMenu("Ändra event", "/AdminEvent", true));
                             adminMenu.Children.Add(new ModelMenu("Användare", "/User", true));
                         }
                         adminMenu.Children.Add(new ModelMenu("Ladda upp filer", "/Media", true));

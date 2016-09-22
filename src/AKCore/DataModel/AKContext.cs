@@ -91,6 +91,7 @@ namespace AKCore.DataModel
         public DateTime There { get; set; }
         public DateTime Starts { get; set; }
         public bool Stand { get; set; }
+        public List<SignUp> SignUps { get; set; }
     }
 
     public class SignUp
@@ -99,8 +100,6 @@ namespace AKCore.DataModel
         public int Id { get; set; }
         [Required]
         public AkUser Person { get; set; }
-        [Required]
-        public Event Event { get; set; }
         public string Where { get; set; }
         public bool Car { get; set; }
         public bool Instrument { get; set; }

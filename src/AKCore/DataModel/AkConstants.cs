@@ -127,5 +127,19 @@ namespace AKCore.DataModel
             Fest
         };
     }
+
+    public class AkSignupType
+    {
+        public const string Halan = "Hålan";
+        public const string Direct = "Direkt";
+        public const string CantCome = "Kan inte komma";
+
+        public static readonly IList<string> Types = new List<string>()
+        {
+            Halan,
+            Direct,
+            CantCome
+        };
+    }
 }
 
