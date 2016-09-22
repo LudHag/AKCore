@@ -15,7 +15,7 @@
         var newMonth = e.Day.ToString("MMMM", culture);
         if (lastMonth != newMonth)
         {
-            <h3>@newMonth</h3>
+            <h3 class="new-month">@newMonth</h3>
             lastMonth = newMonth;
         }
         <div class="row event-row">

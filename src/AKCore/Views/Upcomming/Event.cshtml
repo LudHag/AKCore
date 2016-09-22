@@ -9,7 +9,9 @@
 <h1>@Model.Event.Name</h1>
 <div class="row">
     <div class="col-sm-6">
-        <form id="signup-form">
+        <form id="signup-form" action="/Upcomming/Signup/@e.Id" method="POST">
+            <div class="alert alert-danger" style="display: none;">
+            </div>
             <div class="form-group">
                 <label asp-for="Where"></label>
                 <div class="indent">
@@ -54,7 +56,7 @@
         <div class="col-sm-12" style="font-weight: bold;">
             <p style="text-transform: capitalize;">@e.Day.ToString("dddd dd", culture)/@e.Day.ToString("MM", culture) </p>
             <p>@e.Place</p>
-            <br />
+            <br/>
         </div>
         <div class="col-sm-12">
             @{
@@ -78,7 +80,7 @@
     </div>
 </div>
 <h2>Kommer</h2>
-@foreach(var s in Model.Event.SignUps){
+@foreach (var s in Model.Event.SignUps)
+{
     <p>blablahablaha</p>
-
 }
