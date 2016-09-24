@@ -53,6 +53,8 @@ namespace AKCore.Controllers
                 var spelning = db.Events.Include(x => x.SignUps).FirstOrDefault(x => x.Id == eId);
                 if (spelning == null) return Redirect("/Upcomming");
                 var user = await _userManager.FindByNameAsync(User.Identity.Name);
+                var roles = await _userManager.GetRolesAsync(user);
+                var nintendo = roles.Contains("SuperNintendo");
                 var signup = db.SignUps.FirstOrDefault(x => x.Person == user.UserName);
                 if (signup!=null)
                 {
@@ -61,7 +63,7 @@ namespace AKCore.Controllers
                     model.Instrument = signup.Instrument;
                     model.Comment = signup.Comment;
                 }
-
+                model.IsNintendo = nintendo;
                 model.Event = spelning;
 
                 return View(model);

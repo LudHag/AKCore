@@ -18,6 +18,8 @@ namespace AKCore.Models
         [Display(Name = "Kommentar")]
         public string Comment { get; set; }
 
+        public bool IsNintendo { get; set; }
+
         public Event Event { get; set; }
 
         public IList<SignUp> Comming()

@@ -95,9 +95,21 @@
             <div class="col-sm-2 signup-element">
                 <p>@s.GetInfo()</p>
             </div>
-            <div class="col-sm-6 signup-element">
-                <p>@s.Comment</p>
-            </div>
+            @if (Model.IsNintendo)
+            {
+                <div class="col-sm-3 signup-element">
+                    <p>@s.Comment</p>
+                </div>
+                <div class="col-sm-3 signup-element">
+                    <p>@s.SignupTime.ToString("MM-dd hh:mm")</p>
+                </div>
+            }
+            else
+            {
+                <div class="col-sm-6 signup-element">
+                    <p>@s.Comment</p>
+                </div>
+            }
         </div>
     }
     <h2>Kommer inte</h2>
@@ -110,9 +122,21 @@
             <div class="col-sm-3 signup-element">
                 <p>@s.InstrumentName</p>
             </div>
-            <div class="col-sm-6 signup-element">
-                <p>@s.Comment</p>
-            </div>
+            @if (Model.IsNintendo)
+            {
+                <div class="col-sm-3 signup-element">
+                    <p>@s.Comment</p>
+                </div>
+                <div class="col-sm-3 signup-element">
+                    <p>@s.SignupTime.ToString("MM-dd HH:mm")</p>
+                </div>
+            }
+            else
+            {
+                <div class="col-sm-6 signup-element">
+                    <p>@s.Comment</p>
+                </div>
+            }
         </div>
     }
 </div>
