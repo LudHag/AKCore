@@ -42,7 +42,7 @@ namespace AKCore.Controllers
 
         [Route("Event/{id:int}")]
         [Authorize]
-        public ActionResult Event(SignUpModel model, string id)
+        public async Task<ActionResult> Event(SignUpModel model, string id)
         {
             ViewBag.Title = "Anmälan";
             var eId = 0;
@@ -52,6 +52,15 @@ namespace AKCore.Controllers
             {
                 var spelning = db.Events.Include(x => x.SignUps).FirstOrDefault(x => x.Id == eId);
                 if (spelning == null) return Redirect("/Upcomming");
+                var user = await _userManager.FindByNameAsync(User.Identity.Name);
+                var signup = db.SignUps.FirstOrDefault(x => x.Person == user.UserName);
+                if (signup!=null)
+                {
+                    model.Where = signup.Where;
+                    model.Car = signup.Car;
+                    model.Instrument = signup.Instrument;
+                    model.Comment = signup.Comment;
+                }
 
                 model.Event = spelning;
 
@@ -72,11 +81,14 @@ namespace AKCore.Controllers
                 if (spelning == null) return Json(new {success = false, message = "Felaktigt id"});
                 var user = await _userManager.FindByNameAsync(User.Identity.Name);
                 var signup = spelning.SignUps.FirstOrDefault(x => x.Person == user.UserName) ?? new SignUp();
+                signup.SignupTime = signup.Where == null ? DateTime.Now : signup.SignupTime;
                 signup.Where = model.Where;
                 signup.Car = model.Car;
                 signup.Instrument = model.Instrument;
                 signup.Comment = model.Comment;
                 signup.Person = user.UserName;
+                signup.PersonName = user.GetName();
+                signup.InstrumentName = user.Instrument;
                 spelning.SignUps.Add(signup);
                 db.SaveChanges();
                 return Json(new {success = true});

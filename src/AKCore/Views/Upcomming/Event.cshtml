@@ -19,19 +19,19 @@
                 <div class="indent">
                     <div class="radio">
                         <label>
-                            <input type="radio" name="Where" value="Hålan" required>
+                            <input type="radio" asp-for="Where" value="Hålan" required>
                             Hålan
                         </label>
                     </div>
                     <div class="radio">
                         <label>
-                            <input type="radio" name="Where" value="Direkt" required>
+                            <input type="radio" asp-for="Where" value="Direkt" required>
                             Direkt
                         </label>
                     </div>
                     <div class="radio">
                         <label>
-                            <input type="radio" name="Where" value="Kan inte komma" required>
+                            <input type="radio" asp-for="Where" value="Kan inte komma" required>
                             Kan inte komma
                         </label>
                     </div>
@@ -58,7 +58,7 @@
         <div class="col-sm-12" style="font-weight: bold;">
             <p style="text-transform: capitalize;">@e.Day.ToString("dddd dd", culture)/@e.Day.ToString("MM", culture) </p>
             <p>@e.Place</p>
-            <br/>
+            <br />
         </div>
         <div class="col-sm-12">
             @{
@@ -81,8 +81,38 @@
         </div>
     </div>
 </div>
-<h2>Kommer</h2>
-@foreach (var s in Model.Event.SignUps)
-{
-    <p>blablahablaha</p>
-}
+<div id="signup-list">
+    <h2>Kommer</h2>
+    @foreach (var s in Model.Comming())
+    {
+        <div class="row signup-row">
+            <div class="col-sm-2 signup-element">
+                <p>@s.PersonName</p>
+            </div>
+            <div class="col-sm-2 signup-element">
+                <p>@s.InstrumentName</p>
+            </div>
+            <div class="col-sm-2 signup-element">
+                <p>@s.GetInfo()</p>
+            </div>
+            <div class="col-sm-6 signup-element">
+                <p>@s.Comment</p>
+            </div>
+        </div>
+    }
+    <h2>Kommer inte</h2>
+    @foreach (var s in Model.NotComming())
+    {
+        <div class="row signup-row">
+            <div class="col-sm-3 signup-element">
+                <p>@s.PersonName</p>
+            </div>
+            <div class="col-sm-3 signup-element">
+                <p>@s.InstrumentName</p>
+            </div>
+            <div class="col-sm-6 signup-element">
+                <p>@s.Comment</p>
+            </div>
+        </div>
+    }
+</div>

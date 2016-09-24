@@ -8,9 +8,10 @@ using AKCore.DataModel;
 namespace AKCore.Migrations
 {
     [DbContext(typeof(AKContext))]
-    partial class AKContextModelSnapshot : ModelSnapshot
+    [Migration("20160924160314_q")]
+    partial class q
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.1");
@@ -194,8 +195,6 @@ namespace AKCore.Migrations
                         .IsRequired();
 
                     b.Property<string>("PersonName");
-
-                    b.Property<DateTime>("SignupTime");
 
                     b.Property<string>("Where");
 

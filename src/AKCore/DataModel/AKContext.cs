@@ -101,11 +101,27 @@ namespace AKCore.DataModel
         public int Id { get; set; }
         [Required]
         public string Person { get; set; }
+        public string PersonName { get; set; }
         public string Where { get; set; }
         public bool Car { get; set; }
         public bool Instrument { get; set; }
         public string InstrumentName { get; set; }
         public string Comment { get; set; }
+        public DateTime SignupTime { get; set; }
+
+        public string GetInfo()
+        {
+            var info = Where;
+            if (Instrument)
+            {
+                info += ", har instrument";
+            }
+            if (Car)
+            {
+                info += ", har bil";
+            }
+            return info;
+        }
     }
 
 }

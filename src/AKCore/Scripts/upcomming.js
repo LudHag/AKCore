@@ -10,7 +10,7 @@
             data: form.serialize(),
             success: function (res) {
                 if (res.success) {
-                    //todo:reload signups
+                    reloadSignups();
                     success.text("Anmälan uppdaterad");
                     success.slideDown().delay(3000).slideUp();
                 } else {
@@ -24,4 +24,8 @@
             }
         });
     });
+
+    function reloadSignups() {
+        $('#signup-list').load(' #signup-list > *');
+    }
 });
