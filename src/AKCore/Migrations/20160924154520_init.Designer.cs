@@ -8,13 +8,13 @@ using AKCore.DataModel;
 namespace AKCore.Migrations
 {
     [DbContext(typeof(AKContext))]
-    [Migration("20160919145858_fika")]
-    partial class fika
+    [Migration("20160924154520_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "1.0.0-rtm-21431");
+                .HasAnnotation("ProductVersion", "1.0.1");
 
             modelBuilder.Entity("AKCore.DataModel.AkUser", b =>
                 {
@@ -176,6 +176,31 @@ namespace AKCore.Migrations
                     b.ToTable("Pages");
                 });
 
+            modelBuilder.Entity("AKCore.DataModel.SignUp", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("Car");
+
+                    b.Property<string>("Comment");
+
+                    b.Property<int?>("EventId");
+
+                    b.Property<bool>("Instrument");
+
+                    b.Property<string>("Person")
+                        .IsRequired();
+
+                    b.Property<string>("Where");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EventId");
+
+                    b.ToTable("SignUps");
+                });
+
             modelBuilder.Entity("AKCore.DataModel.SubMenu", b =>
                 {
                     b.Property<int>("Id")
@@ -312,6 +337,13 @@ namespace AKCore.Migrations
                     b.HasOne("AKCore.DataModel.Page", "Link")
                         .WithMany()
                         .HasForeignKey("LinkId");
+                });
+
+            modelBuilder.Entity("AKCore.DataModel.SignUp", b =>
+                {
+                    b.HasOne("AKCore.DataModel.Event")
+                        .WithMany("SignUps")
+                        .HasForeignKey("EventId");
                 });
 
             modelBuilder.Entity("AKCore.DataModel.SubMenu", b =>

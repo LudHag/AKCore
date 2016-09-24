@@ -50,8 +50,11 @@ namespace AKCore.Migrations
                         .Annotation("Autoincrement", true),
                     Day = table.Column<DateTime>(nullable: false),
                     Description = table.Column<string>(nullable: true),
+                    Fika = table.Column<string>(nullable: true),
                     Halan = table.Column<DateTime>(nullable: false),
+                    InternalDescription = table.Column<string>(nullable: true),
                     Name = table.Column<string>(maxLength: 450, nullable: false),
+                    Place = table.Column<string>(nullable: true),
                     Stand = table.Column<bool>(nullable: false),
                     Starts = table.Column<DateTime>(nullable: false),
                     There = table.Column<DateTime>(nullable: false),
@@ -160,6 +163,30 @@ namespace AKCore.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SignUps",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Autoincrement", true),
+                    Car = table.Column<bool>(nullable: false),
+                    Comment = table.Column<string>(nullable: true),
+                    EventId = table.Column<int>(nullable: true),
+                    Instrument = table.Column<bool>(nullable: false),
+                    Person = table.Column<string>(nullable: false),
+                    Where = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SignUps", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SignUps_Events_EventId",
+                        column: x => x.EventId,
+                        principalTable: "Events",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -273,6 +300,11 @@ namespace AKCore.Migrations
                 column: "LinkId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_SignUps_EventId",
+                table: "SignUps",
+                column: "EventId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_SubMenus_LinkId",
                 table: "SubMenus",
                 column: "LinkId");
@@ -316,10 +348,10 @@ namespace AKCore.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Events");
+                name: "Medias");
 
             migrationBuilder.DropTable(
-                name: "Medias");
+                name: "SignUps");
 
             migrationBuilder.DropTable(
                 name: "SubMenus");
@@ -338,6 +370,9 @@ namespace AKCore.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Events");
 
             migrationBuilder.DropTable(
                 name: "Menus");

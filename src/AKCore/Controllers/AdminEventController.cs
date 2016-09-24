@@ -39,7 +39,7 @@ namespace AKCore.Controllers
         {
             using (var db = new AKContext())
             {
-                if (model.Name != null && model.Type != null)
+                if (model.Type != null)
                 {
                     if (model.Id > 0) //editera
                     {
@@ -65,7 +65,7 @@ namespace AKCore.Controllers
                     {
                         var newEvent = new Event
                         {
-                            Name = model.Name,
+                            Name = model.Type=="Rep" ? "Rep" : model.Name,
                             Place = model.Place,
                             Description = model.Description,
                             InternalDescription =  model.InternalDescription,

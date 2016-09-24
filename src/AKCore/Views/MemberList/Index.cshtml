@@ -33,7 +33,14 @@
                     {
                         <div class="kamerer">
                             <div class="name-email">
-                                @u.FirstName @u.LastName<br>
+                                @if (string.IsNullOrWhiteSpace(u.FirstName) && string.IsNullOrWhiteSpace(u.LastName))
+                                {
+                                    @u.UserName
+                                }
+                                else { 
+                                    @u.FirstName @u.LastName
+                                }
+                                <br>
                                 <a href="mailto:@u.Email">@u.Email</a>
                             </div>
                             <div class="address">

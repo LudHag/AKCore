@@ -13,7 +13,7 @@ namespace AKCore.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "1.0.0-rtm-21431");
+                .HasAnnotation("ProductVersion", "1.0.1");
 
             modelBuilder.Entity("AKCore.DataModel.AkUser", b =>
                 {
@@ -188,7 +188,9 @@ namespace AKCore.Migrations
 
                     b.Property<bool>("Instrument");
 
-                    b.Property<string>("PersonId")
+                    b.Property<string>("InstrumentName");
+
+                    b.Property<string>("Person")
                         .IsRequired();
 
                     b.Property<string>("Where");
@@ -197,9 +199,7 @@ namespace AKCore.Migrations
 
                     b.HasIndex("EventId");
 
-                    b.HasIndex("PersonId");
-
-                    b.ToTable("SignUp");
+                    b.ToTable("SignUps");
                 });
 
             modelBuilder.Entity("AKCore.DataModel.SubMenu", b =>
@@ -345,11 +345,6 @@ namespace AKCore.Migrations
                     b.HasOne("AKCore.DataModel.Event")
                         .WithMany("SignUps")
                         .HasForeignKey("EventId");
-
-                    b.HasOne("AKCore.DataModel.AkUser", "Person")
-                        .WithMany()
-                        .HasForeignKey("PersonId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("AKCore.DataModel.SubMenu", b =>

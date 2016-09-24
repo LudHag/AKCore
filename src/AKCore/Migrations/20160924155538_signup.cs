@@ -4,21 +4,21 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AKCore.Migrations
 {
-    public partial class fika : Migration
+    public partial class signup : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "Fika",
-                table: "Events",
+                name: "InstrumentName",
+                table: "SignUps",
                 nullable: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Fika",
-                table: "Events");
+                name: "InstrumentName",
+                table: "SignUps");
         }
     }
 }

@@ -66,7 +66,7 @@ namespace AKCore.Controllers
         }
 
         [Route("InitNintendo")]
-        public async System.Threading.Tasks.Task<ActionResult> InitNintendo()
+        public async Task<ActionResult> InitNintendo()
         {
 
             var roleresult = await _roleManager.FindByNameAsync(AkRoles.SuperNintendo);

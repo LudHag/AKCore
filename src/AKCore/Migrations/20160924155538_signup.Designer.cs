@@ -8,13 +8,13 @@ using AKCore.DataModel;
 namespace AKCore.Migrations
 {
     [DbContext(typeof(AKContext))]
-    [Migration("20160911095502_extra event values")]
-    partial class extraeventvalues
+    [Migration("20160924155538_signup")]
+    partial class signup
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "1.0.0-rtm-21431");
+                .HasAnnotation("ProductVersion", "1.0.1");
 
             modelBuilder.Entity("AKCore.DataModel.AkUser", b =>
                 {
@@ -91,6 +91,8 @@ namespace AKCore.Migrations
                     b.Property<DateTime>("Day");
 
                     b.Property<string>("Description");
+
+                    b.Property<string>("Fika");
 
                     b.Property<DateTime>("Halan");
 
@@ -172,6 +174,33 @@ namespace AKCore.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Pages");
+                });
+
+            modelBuilder.Entity("AKCore.DataModel.SignUp", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("Car");
+
+                    b.Property<string>("Comment");
+
+                    b.Property<int?>("EventId");
+
+                    b.Property<bool>("Instrument");
+
+                    b.Property<string>("InstrumentName");
+
+                    b.Property<string>("Person")
+                        .IsRequired();
+
+                    b.Property<string>("Where");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EventId");
+
+                    b.ToTable("SignUps");
                 });
 
             modelBuilder.Entity("AKCore.DataModel.SubMenu", b =>
@@ -310,6 +339,13 @@ namespace AKCore.Migrations
                     b.HasOne("AKCore.DataModel.Page", "Link")
                         .WithMany()
                         .HasForeignKey("LinkId");
+                });
+
+            modelBuilder.Entity("AKCore.DataModel.SignUp", b =>
+                {
+                    b.HasOne("AKCore.DataModel.Event")
+                        .WithMany("SignUps")
+                        .HasForeignKey("EventId");
                 });
 
             modelBuilder.Entity("AKCore.DataModel.SubMenu", b =>

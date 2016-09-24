@@ -25,6 +25,7 @@ namespace AKCore.DataModel
         public DbSet<SubMenu> SubMenus { get; set; }
         public DbSet<Media> Medias { get; set; }
         public DbSet<Event> Events { get; set; }
+        public DbSet<SignUp> SignUps { get; set; }
     }
 
     public class Page
@@ -99,10 +100,11 @@ namespace AKCore.DataModel
         [Key]
         public int Id { get; set; }
         [Required]
-        public AkUser Person { get; set; }
+        public string Person { get; set; }
         public string Where { get; set; }
         public bool Car { get; set; }
         public bool Instrument { get; set; }
+        public string InstrumentName { get; set; }
         public string Comment { get; set; }
     }
 

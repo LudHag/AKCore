@@ -44,6 +44,7 @@ namespace AKCore.Controllers
         [Authorize]
         public ActionResult Event(SignUpModel model, string id)
         {
+            ViewBag.Title = "Anmälan";
             var eId = 0;
             if (!int.TryParse(id, out eId))
                 return Redirect("/Upcomming");
@@ -70,12 +71,12 @@ namespace AKCore.Controllers
                 var spelning = db.Events.Include(x => x.SignUps).FirstOrDefault(x => x.Id == eId);
                 if (spelning == null) return Json(new {success = false, message = "Felaktigt id"});
                 var user = await _userManager.FindByNameAsync(User.Identity.Name);
-                var signup = spelning.SignUps.FirstOrDefault(x => x.Person == user) ?? new SignUp();
+                var signup = spelning.SignUps.FirstOrDefault(x => x.Person == user.UserName) ?? new SignUp();
                 signup.Where = model.Where;
                 signup.Car = model.Car;
                 signup.Instrument = model.Instrument;
                 signup.Comment = model.Comment;
-                signup.Person = user;
+                signup.Person = user.UserName;
                 spelning.SignUps.Add(signup);
                 db.SaveChanges();
                 return Json(new {success = true});
