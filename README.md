@@ -14,7 +14,7 @@ EFCore gillar att man använder .Include() då EF core ej har [lazyloading](http
 SQLite saknar också förmågan att ta bort kolumner ur Databasen vilket gör att många migrationer misslyckas. Lös genom att ta bort db och migrationer och gör sedan en Add-Migration och Uppdate-Database. Eller så kan man byta till en annan db. <br />
 ![xkcdbild](http://imgs.xkcd.com/comics/git.png)
 
-Migrationer hanteras med Add-Migration och Uppdate-Database i package manager console.
+Migrationer hanteras med Add-Migration och Update-Database i package manager console.
 
 Använd gärna annan databas via EF men mysql har än så länge inget stöd i CORE.
 
