@@ -1,4 +1,5 @@
-﻿@model AKCore.Models.PageEditModel
+﻿@using AKCore.DataModel
+@model AKCore.Models.PageEditModel
 @{
     Layout = "~/Views/Shared/_MasterLayout.cshtml";
 }
@@ -46,19 +47,19 @@
             </button>
             <ul class="dropdown-menu widget-choose" aria-labelledby="add-widgets-btn">
                 <li>
-                    <a href="#" data-type="textimage">
+                    <a href="#" data-type="TextImage">
                         <span class="glyphicon glyphicon-align-left"></span>
                         <span class="glyphicon glyphicon-picture"></span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" data-type="text">
+                    <a href="#" data-type="Text">
                         <span class="glyphicon glyphicon-align-justify nomargin"></span>
                         <span class="glyphicon glyphicon-align-left"></span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" data-type="image" style="text-align: center;">
+                    <a href="#" data-type="Image" style="text-align: center;">
                         <span class="glyphicon glyphicon-picture"></span>
                     </a>
                 </li>
@@ -75,83 +76,27 @@
                 <h4>@w.GetHeader()</h4> <span class="btn pull-right remove-widget glyphicon glyphicon-remove"></span><span class="btn pull-right min-widget glyphicon glyphicon-minus"></span>
             </div>
             <div class="widget-body">
-                @if (w.Type == "textimage")
-                {
-                    <div class="col-sm-6">
-                        <textarea class="mce-content">@w.Text</textarea>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="picture-select">
-                            <img class="selected-image" src="@w.Image"/>
-                            <a class="btn btn-default choose-picture-btn">Välj bild</a>
-                        </div>
-                    </div>
-                }
-                else if (w.Type == "text")
-                {
-                    <div class="col-sm-12">
-                        <textarea class="mce-content">@w.Text</textarea>
-                    </div>
-                }
-                else if (w.Type == "image")
-                {
-                    <div class="col-sm-12">
-                        <div class="picture-select">
-                            <img class="selected-image" src="@w.Image"/>
-                            <a class="btn btn-default choose-picture-btn">Välj bild</a>
-                        </div>
-                    </div>
-                }
+                    @Html.Partial(w.Type, w);
             </div>
         </li>
     }
 </ul>
 <ul id="widget-templates">
-    <li class="row widget textimage" data-type="textimage">
-        <div class="widget-header">
-            <h4>Text-bild-widget</h4>
-            <span class="btn pull-right remove-widget glyphicon glyphicon-remove"></span>
-            <span class="btn pull-right min-widget glyphicon glyphicon-minus"></span>
-        </div>
-        <div class="widget-body">
-            <div class="col-sm-6">
-                <textarea class="mce-content"></textarea>
+    @foreach (string wName in AkWidgets.Widgets)
+    {
+        var w = new Widget()
+        {
+            Type = wName
+        };
+        <li class="row widget @w.Type" data-type="@w.Type">
+            <div class="widget-header">
+                <h4>@w.GetHeader()</h4> <span class="btn pull-right remove-widget glyphicon glyphicon-remove"></span><span class="btn pull-right min-widget glyphicon glyphicon-minus"></span>
             </div>
-            <div class="col-sm-6">
-                <div class="picture-select">
-                    <img class="selected-image" src=""/>
-                    <a class="btn btn-default choose-picture-btn">Välj bild</a>
-                </div>
+            <div class="widget-body">
+                @Html.Partial(w.Type, w);
             </div>
-        </div>
-    </li>
-    <li class="row widget text" data-type="text">
-        <div class="widget-header">
-            <h4>Text-widget</h4>
-            <span class="btn pull-right remove-widget glyphicon glyphicon-remove"></span>
-            <span class="btn pull-right min-widget glyphicon glyphicon-minus"></span>
-        </div>
-        <div class="widget-body">
-            <div class="col-sm-12">
-                <textarea class="mce-content"></textarea>
-            </div>
-        </div>
-    </li>
-    <li class="row widget image" data-type="image">
-        <div class="widget-header">
-            <h4>Bild-widget</h4>
-            <span class="btn pull-right remove-widget glyphicon glyphicon-remove"></span>
-            <span class="btn pull-right min-widget glyphicon glyphicon-minus"></span>
-        </div>
-        <div class="widget-body">
-            <div class="col-sm-12">
-                <div class="picture-select">
-                    <img class="selected-image" src=""/>
-                    <a class="btn btn-default choose-picture-btn">Välj bild</a>
-                </div>
-            </div>
-        </div>
-    </li>
+        </li>
+    }
 </ul>
 
 

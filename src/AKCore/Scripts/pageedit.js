@@ -206,9 +206,9 @@ function updateMediaPickerList(search, page) {
 
 var templates = $("#widget-templates");
 if (templates.length > 0) {
-    var textImageTemplate = templates.find(".textimage");
-    var textTemplate = templates.find(".text");
-    var imageTemplate = templates.find(".image");
+    var textImageTemplate = templates.find(".TextImage");
+    var textTemplate = templates.find(".Text");
+    var imageTemplate = templates.find(".Image");
     tinymce.init(options);
     $(".widget-choose")
         .on("click",
@@ -216,13 +216,13 @@ if (templates.length > 0) {
             function(e) {
                 e.preventDefault();
                 var type = $(this).data("type");
-                if (type === "textimage") {
+                if (type === "TextImage") {
                     $("#widget-area").append(textImageTemplate.clone());
                     tinymce.init(options);
-                } else if (type === "text") {
+                } else if (type === "Text") {
                     $("#widget-area").append(textTemplate.clone());
                     tinymce.init(options);
-                } else if (type === "image") {
+                } else if (type === "Image") {
                     $("#widget-area").append(imageTemplate.clone());
                 }
             });

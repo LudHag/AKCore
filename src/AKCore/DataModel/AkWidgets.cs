@@ -25,11 +25,11 @@ namespace AKCore.DataModel
 
         public string GetHeader()
         {
-            if (Type == "text")
+            if (Type == "Text")
             {
                 return "Text-widget";
             }
-            else if (Type == "image")
+            else if (Type == "Image")
             {
                 return "Bild-widget";
             }

@@ -5,31 +5,5 @@
 
 @foreach (var w in Model.Widgets)
 {
-    @if (w.Type == "textimage")
-     {
-         <div class="row">
-             <div class="col-sm-6">
-                 @Html.Raw(w.Text)
-             </div>
-             <div class="col-sm-6 center-image">
-                 <img class="side-image" src="@w.Image"/>
-             </div>
-         </div>
-    }
-    else if (w.Type == "text")
-    {
-        <div class="row">
-            <div class="col-sm-12">
-                @Html.Raw(w.Text)
-            </div>
-        </div>
-    }
-    else if (w.Type == "image")
-    {
-        <div class="row">
-            <div class="col-sm-12 center-image">
-                <img class="main-image" src="@w.Image" />
-            </div>
-        </div>
-    }
+    @Html.Partial(w.Type, w);
 }
