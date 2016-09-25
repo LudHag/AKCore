@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace AKCore.Controllers
 {
-    public class HomeController : Controller
+    public class PageController : Controller
     {
         public ActionResult Index()
         {

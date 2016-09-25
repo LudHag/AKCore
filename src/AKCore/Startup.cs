@@ -55,7 +55,7 @@ namespace AKCore
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Page/Error");
             }
 
             app.UseStaticFiles();
@@ -66,11 +66,11 @@ namespace AKCore
                 routes.MapRoute(
                     "StartPage",
                     "",
-                    new {controller = "Home", action = "Page"});
+                    new {controller = "Page", action = "Page"});
                 routes.MapRoute(
                     "Page",
                     "{slug}",
-                    new {controller = "Home", action = "Page"});
+                    new {controller = "Page", action = "Page"});
             });
         }
     }
