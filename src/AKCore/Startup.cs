@@ -1,13 +1,10 @@
-﻿using System.IO;
-using AKCore.DataModel;
+﻿using AKCore.DataModel;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.EntityFrameworkCore;
 
 namespace AKCore
 {
@@ -28,26 +25,21 @@ namespace AKCore
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Add framework services.
-            var path = Directory.GetCurrentDirectory();
-            var connection = $"Filename={Path.Combine(path, "akdb.db")}";
-
-            services.AddDbContext<AKContext>(options =>options.UseSqlite(connection));
+            services.AddDbContext<AKContext>();
             services.AddMvc();
             services.AddRouting();
             services.AddMemoryCache();
             services.AddSession();
             services.AddIdentity<AkUser, IdentityRole>(options =>
-            {
-                options.Password.RequireDigit = false;
-                options.Password.RequireLowercase = false;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireUppercase = false;
-                options.Password.RequiredLength = 6;
-            })
+                {
+                    options.Password.RequireDigit = false;
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequiredLength = 6;
+                })
                 .AddEntityFrameworkStores<AKContext>()
                 .AddDefaultTokenProviders();
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -71,7 +63,6 @@ namespace AKCore
             app.UseIdentity();
             app.UseMvc(routes =>
             {
-               
                 routes.MapRoute(
                     "StartPage",
                     "",
@@ -81,7 +72,6 @@ namespace AKCore
                     "{slug}",
                     new {controller = "Home", action = "Page"});
             });
-
         }
     }
 }
