@@ -1,0 +1,12 @@
+﻿@model AKCore.DataModel.Widget
+<div class="row">
+    <div class="col-sm-6">
+        @if (Model.Videos != null)
+        {
+            foreach (var v in Model.Videos)
+            {
+                <p>@v</p>
+            }
+        }
+    </div>
+</div>

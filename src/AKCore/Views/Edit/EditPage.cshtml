@@ -63,6 +63,11 @@
                         <span class="glyphicon glyphicon-picture"></span>
                     </a>
                 </li>
+                <li>
+                    <a href="#" data-type="Video" style="text-align: center;">
+                        <span class="glyphicon glyphicon-facetime-video"></span>
+                    </a>
+                </li>
             </ul>
         </div>
 
@@ -76,7 +81,7 @@
                 <h4>@w.GetHeader()</h4> <span class="btn pull-right remove-widget glyphicon glyphicon-remove"></span><span class="btn pull-right min-widget glyphicon glyphicon-minus"></span>
             </div>
             <div class="widget-body">
-                    @Html.Partial(w.Type, w);
+                    @Html.Partial(w.Type, w)
             </div>
         </li>
     }
@@ -93,7 +98,7 @@
                 <h4>@w.GetHeader()</h4> <span class="btn pull-right remove-widget glyphicon glyphicon-remove"></span><span class="btn pull-right min-widget glyphicon glyphicon-minus"></span>
             </div>
             <div class="widget-body">
-                @Html.Partial(w.Type, w);
+                @Html.Partial(w.Type, w)
             </div>
         </li>
     }

@@ -1,0 +1,15 @@
+﻿@model AKCore.DataModel.Widget
+<div class="col-sm-6">
+    @if (Model.Videos != null)
+    {
+        foreach (var v in Model.Videos)
+        {
+            <div class="form-group video-area">
+                <input class="form-control video-link" value="@v"><a href="#" class="btn remove-video glyphicon glyphicon-remove"></a>
+            </div>
+        }
+    }
+</div>
+<div class="col-sm-6">
+    <a href="#" class="btn btn-default add-video-link">Lägg till video</a>
+</div>

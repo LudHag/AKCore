@@ -154,6 +154,18 @@ $("#imagePickerModal")
         function(e) {
             $("#searchtext").val("");
         });
+$("#widget-area")
+    .on("click",'.add-video-link',function(e) {
+        e.preventDefault();
+        var area = $(this).parent().prev();
+        area.append('<div class="form-group video-area"><input class="form-control video-link"><a href="#" class="btn remove-video glyphicon glyphicon-remove"></a></div>');
+    });
+$("#widget-area")
+    .on("click", '.remove-video', function (e) {
+        e.preventDefault();
+        var link = $(this).parent();
+        link.remove();
+    });
 
 $("#widget-area")
     .on("click",
@@ -209,6 +221,7 @@ if (templates.length > 0) {
     var textImageTemplate = templates.find(".TextImage");
     var textTemplate = templates.find(".Text");
     var imageTemplate = templates.find(".Image");
+    var videoTemplate = templates.find(".Video");
     tinymce.init(options);
     $(".widget-choose")
         .on("click",
@@ -224,6 +237,9 @@ if (templates.length > 0) {
                     tinymce.init(options);
                 } else if (type === "Image") {
                     $("#widget-area").append(imageTemplate.clone());
+                }
+                else if (type === "Video") {
+                    $("#widget-area").append(videoTemplate.clone());
                 }
             });
     $("#widget-area")
@@ -257,11 +273,17 @@ function jsonifyWidgets() {
             var type = $(o).data("type");
             wig.Type = type;
             var tId;
-            if (type === "text") {
+            if (type === "Text") {
                 tId = $(o).find(".mce-content").attr("id");
                 wig.Text = tinymce.get(tId).getContent();
-            } else if (type === "image") {
+            } else if (type === "Image") {
                 wig.Image = $(o).find(".selected-image").attr("src");
+            }
+            else if (type === "Video") {
+                wig.Videos = [];
+                $(o).find(".video-link").each(function() {
+                    wig.Videos.push($(this).val());
+                });
             } else {
                 tId = $(o).find(".mce-content").attr("id");
                 wig.Text = tinymce.get(tId).getContent();
