@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace AKCore.DataModel
@@ -140,6 +141,23 @@ namespace AKCore.DataModel
             Direct,
             CantCome
         };
+    }
+    public class AkVariable
+    {
+        private static long _uniqueId { get; set; }
+
+        public static long UniqueId
+        {
+            get
+            {
+                if (_uniqueId == 0)
+                {
+                    _uniqueId = DateTime.UtcNow.Ticks;
+                }
+
+                return _uniqueId;
+            }
+        }
     }
 }
 

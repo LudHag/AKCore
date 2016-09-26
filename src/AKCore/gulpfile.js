@@ -26,7 +26,8 @@ gulp.task('scripts', function () {
         "Scripts/users.js",
         "Scripts/media.js",
         "Scripts/events.js",
-        "Scripts/upcomming.js"
+        "Scripts/upcomming.js",
+        "Scripts/youtubegallerywall.js"
     ])
 	.pipe(sourcemaps.init())
 	.pipe(concat('main.js'))

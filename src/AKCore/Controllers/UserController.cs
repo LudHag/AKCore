@@ -138,7 +138,7 @@ namespace AKCore.Controllers
         }
 
         [Route("AddPost")]
-        public async Task<ActionResult> AddPost(string userName, IList post)
+        public async Task<ActionResult> AddPost(string userName, IList<string> post)
         {
             var user = await _userManager.FindByNameAsync(userName);
             if (user == null)

@@ -1,12 +1,14 @@
 ﻿@model AKCore.DataModel.Widget
 <div class="row">
-    <div class="col-sm-6">
-        @if (Model.Videos != null)
-        {
-            foreach (var v in Model.Videos)
+    <div class="col-sm-12">
+        <ul id="youtubelist">
+            @if (Model.Videos != null)
             {
-                <p>@v</p>
+                foreach (var v in Model.Videos)
+                {
+                    <li><a href="https://www.youtube.com/watch?v=@v" data-name="hej"></a></li>
+                }
             }
-        }
+        </ul>
     </div>
 </div>
