@@ -101,7 +101,7 @@ function onYouTubeIframeAPIReady(){
 
 	jQuery.fn.youtubegallery = function(options) {
         var s = $.extend({}, defaults, options)
-        return this.each(function() { //return jQuery obj
+        return this.each(function() {
             var $ul = $(this);
             $ul.addClass('youtubewall');
             var $lis = $ul.find('li');
