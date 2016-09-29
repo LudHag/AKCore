@@ -158,12 +158,12 @@ $("#widget-area")
     .on("click",'.add-video-link',function(e) {
         e.preventDefault();
         var area = $(this).parent().prev();
-        area.append('<div class="form-group video-area"><input class="form-control video-link"><a href="#" class="btn remove-video glyphicon glyphicon-remove"></a></div>');
+        area.append('<div class="form-group video-area row"><div class="col-sm-6"><input class="form-control video-link" value=""></div><div class="col-sm-6"><input class="form-control video-title" value=""><a href="#" class="btn remove-video glyphicon glyphicon-remove"></a></div></div>');
     });
 $("#widget-area")
     .on("click", '.remove-video', function (e) {
         e.preventDefault();
-        var link = $(this).parent();
+        var link = $(this).parent().parent();
         link.remove();
     });
 
@@ -281,8 +281,11 @@ function jsonifyWidgets() {
             }
             else if (type === "Video") {
                 wig.Videos = [];
-                $(o).find(".video-link").each(function() {
-                    wig.Videos.push($(this).val());
+                $(o).find(".video-area").each(function () {
+                    var Video=new Object();
+                    Video.Link = $(this).find('.video-link').val();
+                    Video.Title = $(this).find('.video-title').val();
+                    wig.Videos.push(Video);
                 });
             } else {
                 tId = $(o).find(".mce-content").attr("id");

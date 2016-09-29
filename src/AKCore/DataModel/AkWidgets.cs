@@ -19,12 +19,17 @@ namespace AKCore.DataModel
         };
     }
 
+    public class Video
+    {
+        public string Link { get; set; }
+        public string Title { get; set; }
+    }
     public class Widget
     {
         public string Type { get; set; }
         public string Text { get; set; }
         public string Image { get; set; }
-        public List<string> Videos { get; set; }
+        public List<Video> Videos { get; set; }
 
         public string GetHeader()
         {

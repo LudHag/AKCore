@@ -131,6 +131,6 @@
                 }
             });
 
-    $('#youtubelist').youtubegallery();
+    $('.youtubelist').youtubegallery();
 
 });

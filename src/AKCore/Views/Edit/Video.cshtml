@@ -1,11 +1,24 @@
 ﻿@model AKCore.DataModel.Widget
-<div class="col-sm-6">
+<div class="col-sm-12">
     @if (Model.Videos != null)
     {
+        <div class="row">
+            <div class="col-sm-6">
+                <label>Video</label>
+            </div>
+            <div class="col-sm-6">
+                <label>Namn</label>
+            </div>
+        </div>
         foreach (var v in Model.Videos)
         {
-            <div class="form-group video-area">
-                <input class="form-control video-link" value="@v"><a href="#" class="btn remove-video glyphicon glyphicon-remove"></a>
+            <div class="form-group video-area row">
+                <div class="col-sm-6">
+                    <input class="form-control video-link" value="@v.Link">
+                </div>
+                <div class="col-sm-6">
+                    <input class="form-control video-title" value="@v.Title"><a href="#" class="btn remove-video glyphicon glyphicon-remove"></a>
+                </div>
             </div>
         }
     }
