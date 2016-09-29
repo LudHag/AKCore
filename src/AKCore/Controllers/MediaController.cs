@@ -16,6 +16,7 @@ namespace AKCore.Controllers
     public class MediaController : Controller
     {
         private static readonly string[] ImageExtensions = { "jpg", "bmp", "gif", "png","svg" };
+        private static readonly string[] VideoExtensions = { "mp4", "avi"};
         private readonly IHostingEnvironment _hostingEnv;
 
         public MediaController(IHostingEnvironment env)
@@ -84,7 +85,9 @@ namespace AKCore.Controllers
         {
             var file = model.UploadFile;
             var ext=Path.GetExtension(file.FileName).ToLower();
-            if (ImageExtensions.FirstOrDefault(x => ext.EndsWith(x))==null)
+            var isImage = ImageExtensions.FirstOrDefault(x => ext.EndsWith(x)) == null;
+            var isVideo = VideoExtensions.FirstOrDefault(x => ext.EndsWith(x)) == null;
+            if (!(isImage || isVideo))
             {
                 return Json(new { success = false, message = "Filen har fel format" });
             }
@@ -110,8 +113,9 @@ namespace AKCore.Controllers
                 var mediaFile = new Media
                 {
                     Name = filename,
-                    Created = DateTime.Now
+                    Created = DateTime.Now,
                 };
+                mediaFile.Type = isImage ? "Image" : "Video";
                 db.Medias.Add(mediaFile);
                 db.SaveChanges();
             }

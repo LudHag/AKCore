@@ -3,7 +3,14 @@
 @foreach (var m in Model.MediaFiles)
 {
     <div class="col-sm-3 image-box">
-        <img src="/media/@m.Name"/>
+        @if (m.Type == "Video")
+        {
+
+        }
+        else
+        {
+            <img src="/media/@m.Name" />
+        }
         <a href="#" class="remove-media glyphicon glyphicon-remove" data-name="@m.Name"></a>
         <p class="name">@m.Name</p>
     </div>
