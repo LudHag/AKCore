@@ -85,8 +85,8 @@ namespace AKCore.Controllers
         {
             var file = model.UploadFile;
             var ext=Path.GetExtension(file.FileName).ToLower();
-            var isImage = ImageExtensions.FirstOrDefault(x => ext.EndsWith(x)) == null;
-            var isVideo = VideoExtensions.FirstOrDefault(x => ext.EndsWith(x)) == null;
+            var isImage = ImageExtensions.FirstOrDefault(x => ext.EndsWith(x)) != null;
+            var isVideo = VideoExtensions.FirstOrDefault(x => ext.EndsWith(x)) != null;
             if (!(isImage || isVideo))
             {
                 return Json(new { success = false, message = "Filen har fel format" });
