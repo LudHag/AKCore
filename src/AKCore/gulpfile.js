@@ -4,15 +4,18 @@ var less = require('gulp-less');
 var sourcemaps = require('gulp-sourcemaps');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
+var autoprefixer = require('gulp-autoprefixer');
 var path = require('path');
 var plumber = require('gulp-plumber');
+
 gulp.task('less', function () {
     return gulp.src('./Styles/akstyle.less')
     .pipe(plumber())
-      .pipe(less({
-          paths: [path.join(__dirname, 'less', 'includes')]
-      }))
-      .pipe(gulp.dest('./wwwroot/css/'));
+    .pipe(less({
+        paths: [path.join(__dirname, 'less', 'includes')]
+    }))
+    .pipe(autoprefixer())
+    .pipe(gulp.dest('./wwwroot/css/'));
 });
 gulp.task('scripts', function () {
     return gulp.src([
