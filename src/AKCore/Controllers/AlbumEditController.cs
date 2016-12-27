@@ -24,7 +24,8 @@ namespace AKCore.Controllers
         {
             ViewBag.Title = "Album";
 
-            using (var db = new AKContext()) { 
+            using (var db = new AKContext())
+            {
                 var model = new AlbumEditModel
                 {
                     Albums = db.Albums.ToList()
@@ -37,13 +38,13 @@ namespace AKCore.Controllers
         [HttpPost]
         public ActionResult AddAlbum(string name)
         {
-            if(string.IsNullOrWhiteSpace(name))
-                return Json(new { success = false, message = "Fyll i ett namn" });
+            if (string.IsNullOrWhiteSpace(name))
+                return Json(new {success = false, message = "Fyll i ett namn"});
 
             using (var db = new AKContext())
             {
-                if(db.Albums.Any(x=>x.Name==name))
-                    return Json(new { success = false, message = "Ett album med det namnet finns redan" });
+                if (db.Albums.Any(x => x.Name == name))
+                    return Json(new {success = false, message = "Ett album med det namnet finns redan"});
                 var album = new Album
                 {
                     Name = name,
@@ -52,7 +53,7 @@ namespace AKCore.Controllers
                 db.Albums.Add(album);
                 db.SaveChanges();
 
-                return Json(new { success = true, id=album.Id});
+                return Json(new {success = true, id = album.Id});
             }
         }
 
@@ -62,14 +63,34 @@ namespace AKCore.Controllers
         {
             var aId = 0;
             if (!int.TryParse(id, out aId))
-                return Json(new { success = false, message = "Misslyckades med att ta bort album" });
+                return Json(new {success = false, message = "Misslyckades med att ta bort album"});
             using (var db = new AKContext())
             {
                 var a = db.Albums.FirstOrDefault(x => x.Id == aId);
-                if (a == null) return Json(new { success = false, message = "Misslyckades med att ta bort album" });
+                if (a == null) return Json(new {success = false, message = "Misslyckades med att ta bort album"});
                 db.Albums.Remove(a);
                 db.SaveChanges();
-                return Json(new { success = true });
+                return Json(new {success = true});
+            }
+
+        }
+
+        [HttpPost]
+        [Route("UpdateImage")]
+        public ActionResult UpdateImage(string id, string src)
+        {
+            var aId = 0;
+            if (!int.TryParse(id, out aId) || string.IsNullOrWhiteSpace(src))
+                return Json(new {success = false, message = "Misslyckades med att ändra albumbild"});
+            using (var db = new AKContext())
+            {
+                var album = db.Albums.FirstOrDefault(x => x.Id == aId);
+                if (album == null)
+                    return Json(new {success = false, message = "Misslyckades med att ändra albumbild"});
+                album.Image = src;
+                db.SaveChanges();
+
+                return Json(new {success = true});
             }
         }
     }

@@ -1,4 +1,4 @@
-﻿var albumTemplate = $('<div class="row"><div class="col-md-2 image"><img class="album-img" /></div><div class="col-md-4 name"></div><div class="col-md-2 actions"><a href="#" class="del-album">x</a></div><div class="col-md-4 tracks"></div></div>');
+﻿var albumTemplate = $('<div class="row"><div class="col-md-2 image"><img class="album-img" /></div><div class="col-md-4 name"></div><div class="col-md-2 actions"><a href="#" class="del-album btn glyphicon glyphicon-remove"></a></div><div class="col-md-4 tracks"></div></div>');
 
 function renderAlbums() {
     $('#album-list').empty();
@@ -6,10 +6,27 @@ function renderAlbums() {
         var a = albumTemplate.clone();
         a.find('.name').html(albums[key].name);
         a.find('.del-album').data('id', albums[key].id);
+        a.find('.album-img').data('id', albums[key].id);
         a.find('.album-img').prop('src', albums[key].image);
         $('#album-list').append(a);
     });
+}
 
+function updateAlbumImage(target) {
+    var id = target.data('id');
+    $.ajax({
+        url: "/AlbumEdit/UpdateImage",
+        type: "POST",
+        data: {id: id, src: target.prop('src')},
+        success: function (res) {
+            if (!res.success) {
+                target.prop('src', '');
+            }
+        },
+        error: function() {
+            target.prop('src', '');
+        }
+    });
 }
 
 $(function () {
@@ -35,6 +52,22 @@ $(function () {
             });
 
         });
+        $("#album-list").on("click", ".album-img", function (e) {
+            e.preventDefault();
+            var target = $(this);
+            $("#imagePickerModal").modal("show");
+            $("#picker-images").off("click", ".image-box");
+            $("#picker-images")
+                .on("click",
+                    ".image-box",
+                    function (e) {
+                        $("#imagePickerModal").modal("hide");
+                        target.attr("src", $(this).data("path"));
+                        updateAlbumImage(target);
+                    });
+        });
+
+
         $('#add-album-form').on('submit', function (e) {
             e.preventDefault();
             var form = $(this);
