@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using AKCore.DataModel;
 using AKCore.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Net.Http.Headers;
+using Newtonsoft.Json;
 
 namespace AKCore.Controllers
 {
@@ -30,6 +28,37 @@ namespace AKCore.Controllers
             {
             };
             return View(model);
+        }
+
+        [Route("AddAlbum")]
+        [HttpPost]
+        public ActionResult AddAlbum(string name)
+        {
+            if(string.IsNullOrWhiteSpace(name))
+                return Json(new { success = false, message = "Fyll i ett namn" });
+
+            using (var db = new AKContext())
+            {
+                if(db.Albums.Any(x=>x.Name==name))
+                    return Json(new { success = false, message = "Ett album med det namnet finns redan" });
+                var album = new Album
+                {
+                    Name = name,
+                    Created = DateTime.UtcNow
+                };
+                db.Albums.Add(album);
+                db.SaveChanges();
+                return Json(new { success = true});
+            }
+        }
+        [Route("GetAlbums")]
+        public ActionResult GetAlbums()
+        {
+            using (var db = new AKContext())
+            {
+                var album=JsonConvert.SerializeObject(db.Albums.ToList());
+                return Json(new { album = album });
+            }
         }
     }
 }

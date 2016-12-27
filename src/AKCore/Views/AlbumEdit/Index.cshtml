@@ -3,33 +3,56 @@
 @{
     Layout = "~/Views/Shared/_MasterLayout.cshtml";
 }
+<div class="album-upload">
+    <div class="row">
+        <div class="col-md-12">
+            <button type="button" id="add-album" class="btn btn-primary">
+                Skapa album
+            </button>
+        </div>
+    </div>
+    <div class="row edit-form" id="add-album-container" style="display: none;">
+        <div class="col-md-6">
+            <form action="/AlbumEdit/AddAlbum" id="add-album-form" method="post">
+                <div class="alert alert-danger" style="display: none;">
+                </div>
+                <div class="form-group">
+                    <label for="name">Albumnamn: </label>
+                    <input type="text" class="form-control" id="name" name="name" required placeholder="Menytext">
+                </div>
 
+                <button type="submit" class="btn btn-default">Skapa</button>
+            </form>
+        </div>
+    </div>
+    
 
-<div class="row">
-    <div class="col-md-12">
-        <div class="alert alert-danger" style="display: none;"></div>
-        <div class="alert alert-success" style="display: none;">Fil uppladdad</div>
-        <form id="upload-form" class="box" method="post" action="/AlbumEdit/UploadFile" enctype="multipart/form-data">
-            <div class="box__input text-center">
-                <div class="cloud-arrow">
-                    <span class="glyphicon glyphicon-cloud-upload"></span>
+    <div class="row hide">
+        <div class="col-md-12">
+            <div class="alert alert-danger" style="display: none;"></div>
+            <div class="alert alert-success" style="display: none;">Fil uppladdad</div>
+            <form id="upload-form" class="box" method="post" action="/AlbumEdit/UploadFile" enctype="multipart/form-data">
+                <div class="box__input text-center">
+                    <div class="cloud-arrow">
+                        <span class="glyphicon glyphicon-cloud-upload"></span>
+                    </div>
+                    <div>
+                        <label class="choose-file" for="file">
+                            <span class="box__dragndrop">Dra hit filen</span>
+                        </label>
+                        <label class="file-name" for="file" style="display: none;"></label>
+                    </div>
+                    <div class="attach-or">Eller</div>
+                    <div>
+                        <label class="btn btn-default btn-file">
+                            Välj en fil <input class="box__file" style="display: none;" type="file" name="UploadFile" id="file" />
+                        </label>
+                    </div>
                 </div>
-                <div>
-                    <label class="choose-file" for="file">
-                        <span class="box__dragndrop">Dra hit filen</span>
-                    </label>
-                    <label class="file-name" for="file" style="display: none;"></label>
-                </div>
-                <div class="attach-or">Eller</div>
-                <div>
-                    <label class="btn btn-default btn-file">
-                        Välj en fil <input class="box__file" style="display: none;" type="file" name="UploadFile" id="file"/>
-                    </label>
-                </div>
+            </form>
+            <div class="text-center">
+                <a class="btn btn-default upload-btn" id="upload-file-btn">Ladda upp</a>
             </div>
-        </form>
-        <div class="text-center">
-            <a class="btn btn-default upload-btn" id="upload-file-btn">Ladda upp</a>
         </div>
     </div>
 </div>

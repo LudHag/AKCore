@@ -26,6 +26,8 @@ namespace AKCore.DataModel
         public DbSet<Media> Medias { get; set; }
         public DbSet<Event> Events { get; set; }
         public DbSet<SignUp> SignUps { get; set; }
+        public DbSet<Album> Albums { get; set; }
+        public DbSet<Track> Tracks { get; set; }
     }
 
     public class Page
