@@ -24,10 +24,13 @@ namespace AKCore.Controllers
         {
             ViewBag.Title = "Album";
 
-            var model = new AlbumEditModel
-            {
-            };
-            return View(model);
+            using (var db = new AKContext()) { 
+                var model = new AlbumEditModel
+                {
+                    Albums = db.Albums.ToList()
+                };
+                return View(model);
+            }
         }
 
         [Route("AddAlbum")]
