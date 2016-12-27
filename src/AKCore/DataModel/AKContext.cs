@@ -74,6 +74,26 @@ namespace AKCore.DataModel
         public DateTime Created { get; set; }
     }
 
+    public class Album
+    {
+        [Key]
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Image { get; set; }
+        public DateTime Created { get; set; }
+        public DateTime Released { get; set; }
+        public List<Track> Tracks { get; set; }
+    }
+
+    public class Track
+    {
+        [Key]
+        public int Id { get; set; }
+        public int Number { get; set; }
+        public string FileName { get; set; }
+        public DateTime Created { get; set; }
+    }
+
     public class Event
     {
         [Key]

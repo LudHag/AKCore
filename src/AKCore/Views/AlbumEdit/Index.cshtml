@@ -1,0 +1,35 @@
+﻿@using Microsoft.EntityFrameworkCore.Metadata.Internal
+@model AKCore.Models.AlbumEditModel
+@{
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+}
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="alert alert-danger" style="display: none;"></div>
+        <div class="alert alert-success" style="display: none;">Fil uppladdad</div>
+        <form id="upload-form" class="box" method="post" action="/AlbumEdit/UploadFile" enctype="multipart/form-data">
+            <div class="box__input text-center">
+                <div class="cloud-arrow">
+                    <span class="glyphicon glyphicon-cloud-upload"></span>
+                </div>
+                <div>
+                    <label class="choose-file" for="file">
+                        <span class="box__dragndrop">Dra hit filen</span>
+                    </label>
+                    <label class="file-name" for="file" style="display: none;"></label>
+                </div>
+                <div class="attach-or">Eller</div>
+                <div>
+                    <label class="btn btn-default btn-file">
+                        Välj en fil <input class="box__file" style="display: none;" type="file" name="UploadFile" id="file"/>
+                    </label>
+                </div>
+            </div>
+        </form>
+        <div class="text-center">
+            <a class="btn btn-default upload-btn" id="upload-file-btn">Ladda upp</a>
+        </div>
+    </div>
+</div>

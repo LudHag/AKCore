@@ -54,6 +54,7 @@ namespace AKCore.Controllers
                             adminMenu.Children.Add(new ModelMenu("Ändra event", "/AdminEvent", true));
                             adminMenu.Children.Add(new ModelMenu("Användare", "/User", true));
                         }
+                        adminMenu.Children.Add(new ModelMenu("Ändra Skivor", "/AlbumEdit", true));
                         adminMenu.Children.Add(new ModelMenu("Ladda upp filer", "/Media", true));
                     }
                 }
