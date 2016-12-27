@@ -25,7 +25,6 @@
             </form>
         </div>
     </div>
-    
 </div>
 
 <div id="album-list">
@@ -36,9 +35,10 @@
     var albums = {};
     @foreach (var a in Model.Albums)
     {
-        @: albums['@a.Name'] ={};
-        @: albums['@a.Name'].name = '@a.Name';
-        @: albums['@a.Name'].image = '@a.Image';
-        @: albums['@a.Name'].date = '@a.Released';    
+        @: albums['@a.Id'] = {};
+        @: albums['@a.Id'].name = '@a.Name';
+        @: albums['@a.Id'].id = '@a.Id';
+        @: albums['@a.Id'].image = '@a.Image';
+        @: albums['@a.Id'].date = '@a.Released';
     }
 </script>

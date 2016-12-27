@@ -51,16 +51,25 @@ namespace AKCore.Controllers
                 };
                 db.Albums.Add(album);
                 db.SaveChanges();
-                return Json(new { success = true});
+
+                return Json(new { success = true, id=album.Id});
             }
         }
-        [Route("GetAlbums")]
-        public ActionResult GetAlbums()
+
+        [HttpPost]
+        [Route("DeleteAlbum/{id:int}")]
+        public ActionResult DeleteAlbum(string id)
         {
+            var aId = 0;
+            if (!int.TryParse(id, out aId))
+                return Json(new { success = false, message = "Misslyckades med att ta bort album" });
             using (var db = new AKContext())
             {
-                var album=JsonConvert.SerializeObject(db.Albums.ToList());
-                return Json(new { album = album });
+                var a = db.Albums.FirstOrDefault(x => x.Id == aId);
+                if (a == null) return Json(new { success = false, message = "Misslyckades med att ta bort album" });
+                db.Albums.Remove(a);
+                db.SaveChanges();
+                return Json(new { success = true });
             }
         }
     }
