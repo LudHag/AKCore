@@ -17,7 +17,7 @@ function updateAlbumImage(target) {
     $.ajax({
         url: "/AlbumEdit/UpdateImage",
         type: "POST",
-        data: {id: id, src: target.prop('src')},
+        data: {id: id, src: target.attr('src')},
         success: function (res) {
             if (!res.success) {
                 target.prop('src', '');
