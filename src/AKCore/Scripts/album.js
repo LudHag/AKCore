@@ -1,12 +1,18 @@
-﻿var albumTemplate = $('<div class="row"><div class="col-md-2 image"><img class="album-img" /></div><div class="col-md-4 name"></div><div class="col-md-2 actions"><a href="#" class="del-album btn glyphicon glyphicon-remove"></a></div><div class="col-md-4 tracks"></div></div>');
+﻿var albumTemplate = $('<div class="row"><div class="col-md-2 image">' +
+    '<img class="album-img" /></div><div class="col-md-4 name">' +
+    '<input type="text" class="name-input"></div><div class="col-md-2 actions">' +
+    '<a href="#" class="del-album btn glyphicon glyphicon-remove"></a></div>' +
+    '<div class="col-md-4 tracks"><span class="tracks-info"></span></div></div>');
 
 function renderAlbums() {
     $('#album-list').empty();
     Object.keys(albums).forEach(function (key) {
         var a = albumTemplate.clone();
-        a.find('.name').html(albums[key].name);
+        a.find('.name-input').val($("<div>").html(albums[key].name).text());
+        a.find('.tracks-info').html(albums[key].tracksCount + " spår uppladdade.");
         a.find('.del-album').data('id', albums[key].id);
         a.find('.album-img').data('id', albums[key].id);
+        a.find('.name-input').data('id', albums[key].id);
         a.find('.album-img').prop('src', albums[key].image);
         $('#album-list').append(a);
     });
@@ -52,6 +58,29 @@ $(function () {
             });
 
         });
+        function changeName(input) {
+            var id = input.data('id');
+            var name = input.val();
+            $.ajax({
+                url: "/AlbumEdit/ChangeName",
+                type: "POST",
+                data: { id: id, name: name },
+                success: function (res) {
+                    if (res.success) {
+                        albums[id].name = name;
+                    }
+                }
+            });
+        }
+        $("#album-list").on('focusout', '.name-input', function (e) {
+            changeName($(this));
+        });
+        $("#album-list").on('keypress', '.name-input', function (e) {
+            if (e.which === 13) {
+                $(this).blur();
+            }
+        });
+
         $("#album-list").on("click", ".album-img", function (e) {
             e.preventDefault();
             var target = $(this);

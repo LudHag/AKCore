@@ -1,11 +1,28 @@
 ﻿#album-list{
-    .image, .name, .actions{
+    .row:hover{
+        background-color: #1a0000;
+    }
+    .image, .name, .actions, .tracks{
         height: 100px;
-        line-height:100px;
         vertical-align:middle;
+    }
+    .actions,.image, .tracks{
+        display: flex;
+        align-items: center;
     }
     .name{
         font-size: 20px;
+        display: flex;
+        align-items: center;
+        .name-input{
+            background-color: transparent;
+            border:0;
+            outline:0;
+            &:focus{
+                background: #fff;
+                color:#000;
+            }
+        }
     }
     .del-album{
         font-size: 20px;

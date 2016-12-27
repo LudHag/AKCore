@@ -5,6 +5,7 @@ using AKCore.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
 namespace AKCore.Controllers
@@ -28,7 +29,7 @@ namespace AKCore.Controllers
             {
                 var model = new AlbumEditModel
                 {
-                    Albums = db.Albums.ToList()
+                    Albums = db.Albums.Include(x=>x.Tracks).ToList()
                 };
                 return View(model);
             }
@@ -93,5 +94,25 @@ namespace AKCore.Controllers
                 return Json(new {success = true});
             }
         }
+
+        [HttpPost]
+        [Route("ChangeName")]
+        public ActionResult ChangeName(string id, string name)
+        {
+            var aId = 0;
+            if (!int.TryParse(id, out aId) || string.IsNullOrWhiteSpace(name))
+                return Json(new { success = false, message = "Misslyckades med att ändra albumnamn" });
+            using (var db = new AKContext())
+            {
+                var album = db.Albums.FirstOrDefault(x => x.Id == aId);
+                if (album == null)
+                    return Json(new { success = false, message = "Misslyckades med att ändra albumnamn" });
+                album.Name = name;
+                db.SaveChanges();
+
+                return Json(new { success = true });
+            }
+        }
+
     }
 }
