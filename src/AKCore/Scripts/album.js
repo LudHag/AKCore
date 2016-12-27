@@ -9,7 +9,7 @@ function renderAlbums() {
     Object.keys(albums).forEach(function (key) {
         var a = albumTemplate.clone();
         a.find('.name-input').val($("<div>").html(albums[key].name).text());
-        a.find('.tracks-info').html(albums[key].tracksCount + " spår uppladdade.");
+        a.find('.tracks-info').html(albums[key].tracksCount + " spår uppladdade.<br>Klicka här för att hantera.");
         a.find('.del-album').data('id', albums[key].id);
         a.find('.album-img').data('id', albums[key].id);
         a.find('.name-input').data('id', albums[key].id);
@@ -81,6 +81,10 @@ $(function () {
             }
         });
 
+        $("#album-list").on('click', '.tracks', function () {
+            console.log("Ladda upp spår");
+        });
+
         $("#album-list").on("click", ".album-img", function (e) {
             e.preventDefault();
             var target = $(this);
@@ -110,6 +114,7 @@ $(function () {
                         $('#add-album-container').slideUp();
                         albums[res.id] = {};
                         albums[res.id].id = res.id;
+                        albums[res.id].tracksCount = 0;
                         albums[res.id].name = form.find('#name').val();
                         renderAlbums();
                         form.trigger("reset");

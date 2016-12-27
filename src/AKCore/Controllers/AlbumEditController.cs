@@ -46,6 +46,7 @@ namespace AKCore.Controllers
             {
                 if (db.Albums.Any(x => x.Name == name))
                     return Json(new {success = false, message = "Ett album med det namnet finns redan"});
+                
                 var album = new Album
                 {
                     Name = name,
@@ -53,6 +54,9 @@ namespace AKCore.Controllers
                 };
                 db.Albums.Add(album);
                 db.SaveChanges();
+
+                var filepath = _hostingEnv.WebRootPath + $@"\albums\" + album.Id + @"\";
+                System.IO.Directory.CreateDirectory(filepath);
 
                 return Json(new {success = true, id = album.Id});
             }
@@ -71,6 +75,10 @@ namespace AKCore.Controllers
                 if (a == null) return Json(new {success = false, message = "Misslyckades med att ta bort album"});
                 db.Albums.Remove(a);
                 db.SaveChanges();
+
+                var filepath = _hostingEnv.WebRootPath + $@"\albums\" + id + @"\";
+                System.IO.Directory.Delete(filepath);
+
                 return Json(new {success = true});
             }
 
