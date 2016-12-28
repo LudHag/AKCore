@@ -1,5 +1,4 @@
-﻿@using Microsoft.EntityFrameworkCore.Metadata.Internal
-@model AKCore.Models.AlbumEditModel
+﻿@model AKCore.Models.AlbumEditModel
 @{
     Layout = "~/Views/Shared/_MasterLayout.cshtml";
 }
@@ -53,6 +52,34 @@
     </div>
 </div>
 
+<div id="trackmanagmentmodal" class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Spår</h4>
+            </div>
+            <div class="modal-body">
+                <form id="trackform" class="box" method="post" action="/Media/UploadFile" enctype="multipart/form-data">
+                    <div class="box__input text-center">
+                        <div id="tracklist">
+                            Inga spår uppladdade hittills
+                        </div>
+
+                        <div>
+                            <label class="btn btn-default btn-file">
+                                <span>Ladda upp fler spår</span>
+                                <input class="box__file" style="display: none;" multiple type="file" name="TrackFiles" id="trackFiles"/>
+                            </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <script>
 
     var albums = {};
@@ -64,5 +91,13 @@
         @: albums['@a.Id'].image = '@a.Image';
         @: albums['@a.Id'].date = '@a.Released';
         @: albums['@a.Id'].tracksCount = '@a.Tracks.Count';
+        @: albums['@a.Id'].tracks = {};
+        foreach (var track in a.Tracks)
+        {
+            @: albums['@a.Id'].tracks['@track.Id'] = {};
+            @: albums['@a.Id'].tracks['@track.Id'].name = '@track.FileName';
+            @: albums['@a.Id'].tracks['@track.Id'].number = '@track.Number';
+        }
+
     }
 </script>

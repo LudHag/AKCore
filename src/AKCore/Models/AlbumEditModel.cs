@@ -8,9 +8,8 @@ namespace AKCore.Models
 {
     public class AlbumEditModel
     {
-        public IFormFile UploadFile { get; set; }
+        public IList<IFormFile> TrackFiles { get; set; }
+        public int AlbumId { get; set; }
         public IList<Album> Albums { get; set; }
-
-        public string AlbumJson => JsonConvert.SerializeObject(Albums);
     }
 }

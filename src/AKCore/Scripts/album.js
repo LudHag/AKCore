@@ -13,6 +13,7 @@ function renderAlbums() {
         a.find('.del-album').data('id', albums[key].id);
         a.find('.album-img').data('id', albums[key].id);
         a.find('.name-input').data('id', albums[key].id);
+        a.find('.tracks').data('id', albums[key].id);
         a.find('.album-img').prop('src', albums[key].image);
         $('#album-list').append(a);
     });
@@ -37,7 +38,7 @@ function updateAlbumImage(target) {
 
 $(function () {
     if ($('#album-list').length > 0) {
-
+        var currentAlbum = -1;
         $('#add-album').on('click',function (e) {
             e.preventDefault();
             $('#add-album-container').toggle();
@@ -81,8 +82,20 @@ $(function () {
             }
         });
 
+        function renderTracks(id) {
+            var album = albums[id];
+            var tracks = album.tracks;
+            if (Object.keys(tracks).length > 0) {
+                Object.keys(tracks).forEach(function(el) {
+                    console.log(tracks[el]);
+                });
+            }
+        }
+
         $("#album-list").on('click', '.tracks', function () {
-            console.log("Ladda upp spår");
+            currentAlbum = $(this).data('id');
+            renderTracks(currentAlbum);
+            $('#trackmanagmentmodal').modal('show');
         });
 
         $("#album-list").on("click", ".album-img", function (e) {
@@ -130,9 +143,64 @@ $(function () {
             });
         });
 
-       
-
         renderAlbums();
 
+        function uploadTracks(files) {
+            console.log(currentAlbum);
+            var mediaData = new FormData();
+            for(var i=0; i< files.length; i++){
+                mediaData.append("TrackFiles", files[0]);
+            }
+            mediaData.append("AlbumId", currentAlbum);
+            $.ajax({
+                type: "POST",
+                url: "/AlbumEdit/UploadTracks",
+                contentType: false,
+                processData: false,
+                data: mediaData,
+                success: function (res) {
+                    console.log(res);
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+
+        }
+
+        var trackform = $("#trackform");
+        if (trackform.length > 0) {
+            var input = trackform.find('input[type="file"]'),
+                showFiles = function(files) {
+                    uploadTracks(files);
+                };
+
+            trackform.on("drop",function (e) {
+                 showFiles(e.originalEvent.dataTransfer.files);
+             });
+
+            trackform.on("change",function (e) {
+                    showFiles(e.target.files);
+            });
+
+            trackform.on("drag dragstart dragend dragover dragenter dragleave drop",
+                function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                })
+            .on("dragover dragenter",
+                function () {
+                    trackform.addClass("is-dragover");
+                })
+            .on("dragleave dragend drop",
+                function () {
+                    trackform.removeClass("is-dragover");
+                })
+            .on("drop",
+                function (e) {
+                    trackform = e.originalEvent.dataTransfer.files;
+                });
+
+        }
     }
 });
