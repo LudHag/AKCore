@@ -177,5 +177,32 @@ namespace AKCore.Controllers
 
             return Json(new {success = true});
         }
+        [HttpPost]
+        [Route("DeleteTrack")]
+        public ActionResult DeleteTrack(string id, string album)
+        {
+            var tId = 0;
+            var aId = 0;
+            if (!int.TryParse(id, out tId))
+                return Json(new { success = false, message = "Misslyckades med att ta bort spår" });
+            if (!int.TryParse(album, out aId))
+                return Json(new { success = false, message = "Misslyckades med att ta bort spår" });
+            using (var db = new AKContext())
+            {
+                var albumRef = db.Albums.Include(x=>x.Tracks).FirstOrDefault(x => x.Id == aId);
+                if (albumRef == null) return Json(new { success = false, message = "Misslyckades med att ta bort spår" });
+
+                var track = albumRef.Tracks.FirstOrDefault(x=>x.Id==tId);
+                if (track == null) return Json(new { success = false, message = "Misslyckades med att ta bort spår" });
+                var trackName = track.FileName;
+                db.Tracks.Remove(track);
+                db.SaveChanges();
+
+                var filepath = _hostingEnv.WebRootPath + $@"\albums\{album}\{trackName}";
+                System.IO.File.Delete(filepath);
+
+                return Json(new { success = true });
+            }
+        }
     }
 }
