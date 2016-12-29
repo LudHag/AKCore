@@ -92,6 +92,7 @@
 
             function renderTracks(id) {
                 var album = albums[id];
+                $('#trackmanagmentmodal').find('.modal-title').html(album.name);
                 var tracks = album.tracks;
                 $('#tracklist').empty();
                 var list = tListTemplate.clone();
