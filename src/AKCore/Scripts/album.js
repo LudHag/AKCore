@@ -102,6 +102,8 @@
                 } else {
                     $('#tracklist').html('Inga spår uppladdade hittills');
                 }
+                album.tracksCount = Object.keys(tracks).length;
+                renderAlbums();
             }
 
             $("#album-list").on('click', '.tracks', function () {
@@ -133,7 +135,16 @@
                     type: "POST",
                     data: {id:id, album: currentAlbum},
                     success: function (res) {
-                        console.log(res);
+                        if(res.success){
+                            var tracksres = JSON.parse(res.tracks);
+                            albums[currentAlbum].tracks = {};
+                            Object.keys(tracksres).forEach(function (el) {
+                                albums[currentAlbum].tracks[el] = {};
+                                albums[currentAlbum].tracks[el].name = tracksres[el].FileName;
+                                albums[currentAlbum].tracks[el].number = tracksres[el].Number;
+                            });
+                            renderTracks(currentAlbum);
+                        }
                     }
                 });
             });
@@ -170,10 +181,9 @@
             renderAlbums();
 
             function uploadTracks(files) {
-                console.log(currentAlbum);
                 var mediaData = new FormData();
                 for(var i=0; i< files.length; i++){
-                    mediaData.append("TrackFiles", files[0]);
+                    mediaData.append("TrackFiles", files[i]);
                 }
                 mediaData.append("AlbumId", currentAlbum);
                 $.ajax({
@@ -183,7 +193,16 @@
                     processData: false,
                     data: mediaData,
                     success: function (res) {
-                        console.log(res);
+                        if(res.success){
+                            var tracksres=JSON.parse(res.tracks);
+                            albums[currentAlbum].tracks = {};
+                            Object.keys(tracksres).forEach(function (el) {
+                                albums[currentAlbum].tracks[el] = {};
+                                albums[currentAlbum].tracks[el].name = tracksres[el].FileName;
+                                albums[currentAlbum].tracks[el].number = tracksres[el].Number;
+                            });
+                            renderTracks(currentAlbum);
+                        }
                     },
                     error: function (err) {
                         console.log(err);
