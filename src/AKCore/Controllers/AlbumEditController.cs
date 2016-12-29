@@ -56,10 +56,10 @@ namespace AKCore.Controllers
                     Created = DateTime.UtcNow
                 };
                 db.Albums.Add(album);
+                db.SaveChanges();
 
                 var filepath = _hostingEnv.WebRootPath + $@"\albums\" + album.Id + @"\";
                 Directory.CreateDirectory(filepath);
-                db.SaveChanges();
 
                 return Json(new {success = true, id = album.Id});
             }
@@ -74,12 +74,17 @@ namespace AKCore.Controllers
                 return Json(new {success = false, message = "Misslyckades med att ta bort album"});
             using (var db = new AKContext())
             {
-                var a = db.Albums.FirstOrDefault(x => x.Id == aId);
+                var a = db.Albums.Include(x=>x.Tracks).FirstOrDefault(x => x.Id == aId);
                 if (a == null) return Json(new {success = false, message = "Misslyckades med att ta bort album"});
+                foreach (var track in a.Tracks)
+                {
+                    db.Tracks.Remove(track);
+                }
+
                 db.Albums.Remove(a);
 
                 var filepath = _hostingEnv.WebRootPath + $@"\albums\" + id + @"\";
-                Directory.Delete(filepath);
+                Directory.Delete(filepath,true);
                 db.SaveChanges();
 
                 return Json(new {success = true});

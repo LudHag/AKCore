@@ -34,6 +34,8 @@
             success: function (res) {
                 if (!res.success) {
                     target.prop('src', '');
+                } else {
+                    albums[id].image = target.attr('src');
                 }
             },
             error: function() {
@@ -163,6 +165,7 @@
                             albums[res.id] = {};
                             albums[res.id].id = res.id;
                             albums[res.id].tracksCount = 0;
+                            albums[res.id].tracks = {};
                             albums[res.id].name = form.find('#name').val();
                             renderAlbums();
                             form.trigger("reset");
