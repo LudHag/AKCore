@@ -222,6 +222,7 @@ if (templates.length > 0) {
     var textTemplate = templates.find(".Text");
     var imageTemplate = templates.find(".Image");
     var videoTemplate = templates.find(".Video");
+    var musicTemplate = templates.find(".Music");
     tinymce.init(options);
     $(".widget-choose")
         .on("click",
@@ -240,6 +241,8 @@ if (templates.length > 0) {
                 }
                 else if (type === "Video") {
                     $("#widget-area").append(videoTemplate.clone());
+                }else if (type === "Music") {
+                    $("#widget-area").append(musicTemplate.clone());
                 }
             });
     $("#widget-area")
@@ -281,12 +284,17 @@ function jsonifyWidgets() {
             }
             else if (type === "Video") {
                 wig.Videos = [];
-                $(o).find(".video-area").each(function () {
-                    var Video=new Object();
-                    Video.Link = $(this).find('.video-link').val();
-                    Video.Title = $(this).find('.video-title').val();
-                    wig.Videos.push(Video);
-                });
+                $(o)
+                    .find(".video-area")
+                    .each(function() {
+                        var Video = new Object();
+                        Video.Link = $(this).find('.video-link').val();
+                        Video.Title = $(this).find('.video-title').val();
+                        wig.Videos.push(Video);
+                    });
+            } else if (type === "Music") {
+
+
             } else {
                 tId = $(o).find(".mce-content").attr("id");
                 wig.Text = tinymce.get(tId).getContent();

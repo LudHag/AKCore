@@ -9,13 +9,15 @@ namespace AKCore.DataModel
         public const string Text = "Text";
         public const string Image = "Image";
         public const string Video = "Video";
+        public const string Music = "Music";
 
         public static readonly IList Widgets = new List<string>()
         {
             TextImage,
             Text,
             Image,
-            Video
+            Video,
+            Music
         };
     }
 
@@ -41,6 +43,8 @@ namespace AKCore.DataModel
                     return "Bild-widget";
                 case "Video":
                     return "Video-widget";
+                case "Music":
+                    return "Musik-widget";
             }
             return "Text-bild-widget";
         }
