@@ -61,7 +61,8 @@ $("#page-edit")
             });
         });
 
-$('.multi-select').multiSelect(
+
+$('#widget-area .multi-select').multiSelect(
 {
     selectableHeader: "Uppladdade album",
     selectionHeader: "Valda album"
@@ -249,6 +250,11 @@ if (templates.length > 0) {
                     $("#widget-area").append(videoTemplate.clone());
                 }else if (type === "Music") {
                     $("#widget-area").append(musicTemplate.clone());
+                    $('#widget-area .multi-select').multiSelect(
+                    {
+                        selectableHeader: "Uppladdade album",
+                        selectionHeader: "Valda album"
+                    });
                 }
             });
     $("#widget-area")

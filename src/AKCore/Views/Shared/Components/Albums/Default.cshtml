@@ -1,7 +1,22 @@
-﻿@using AKCore.DataModel
-@model IList<Album>
+﻿@model IList<AKCore.DataModel.Album>
 <script>
-    @foreach(var a in Model) {
-        @: console.log('@a.Name');
+    var mplayers = document.getElementsByClassName("music-player");
+    var id = mplayers.length - 1;
+    var player = mplayers[id];
+
+    player.dataset.id = id;
+    widgetAlbums[id] = {};
+    @foreach (var a in Model)
+    {
+        @: widgetAlbums[id]['@a.Id'] = {};
+        @: widgetAlbums[id]['@a.Id'].name = '@a.Name';
+        @: widgetAlbums[id]['@a.Id'].image = '@a.Image';
+        @: widgetAlbums[id]['@a.Id'].tracks = {};
+        foreach (var track in a.Tracks.OrderBy(x => x.Number))
+        {
+            @: widgetAlbums[id]['@a.Id'].tracks['@track.Number'] = {};
+            @: widgetAlbums[id]['@a.Id'].tracks['@track.Number'].name = '@track.FileName';
+        }
     }
+
 </script>
