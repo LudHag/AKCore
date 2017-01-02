@@ -1,0 +1,7 @@
+﻿@using AKCore.DataModel
+@model IList<Album>
+<script>
+    @foreach(var a in Model) {
+        @: console.log('@a.Name');
+    }
+</script>

@@ -83,6 +83,7 @@ namespace AKCore.Controllers
                     Name = page.Name,
                     Slug = page.Slug,
                     WidgetsJson = page.WidgetsJson,
+                    Albums = db.Albums.ToList(),
                     LoggedIn = page.LoggedIn,
                     Widgets = page.WidgetsJson != null ? JsonConvert.DeserializeObject<List<Widget>>(page.WidgetsJson) : new List<Widget>()
                 };

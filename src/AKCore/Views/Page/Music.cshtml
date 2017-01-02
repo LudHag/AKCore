@@ -1,6 +1,14 @@
 ﻿@model AKCore.DataModel.Widget
-<div class="row">
-    <div class="col-sm-12">
-        <p>Musikgalleri!</p>
+
+@if (Model.Albums != null)
+{
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="music-player">
+
+            </div>
+        </div>
     </div>
-</div>
+
+    @await Component.InvokeAsync("Albums", Model.Albums)
+}

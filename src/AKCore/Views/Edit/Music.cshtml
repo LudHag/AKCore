@@ -1,4 +1,15 @@
-﻿@model AKCore.DataModel.Widget
+﻿@using AKCore.DataModel
+@model AKCore.DataModel.Widget
+@{
+    IList<Album> albums = (IList<Album>) ViewData["Album"];
+}
 <div class="col-sm-12">
-    <p>Musikgalleri!!!</p>
+    
+    <select multiple="multiple" class="multi-select album" asp-for="Albums">
+        @foreach (var a in albums)
+        {
+            <option value="@a.Id">@a.Name</option>
+        }
+    </select>
+
 </div>

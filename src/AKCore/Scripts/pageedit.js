@@ -61,6 +61,12 @@ $("#page-edit")
             });
         });
 
+$('.multi-select').multiSelect(
+{
+    selectableHeader: "Uppladdade album",
+    selectionHeader: "Valda album"
+});
+
 $("#start-page")
     .on("click",
         function() {
@@ -293,13 +299,13 @@ function jsonifyWidgets() {
                         wig.Videos.push(Video);
                     });
             } else if (type === "Music") {
-
-
+                wig.Albums = $(o).find(".album").val();
             } else {
                 tId = $(o).find(".mce-content").attr("id");
                 wig.Text = tinymce.get(tId).getContent();
                 wig.Image = $(o).find(".selected-image").attr("src");
             }
+            console.log(wig);
             widgets.push(wig);
         });
     var res = JSON.stringify(widgets);

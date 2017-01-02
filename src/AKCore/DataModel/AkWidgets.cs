@@ -32,6 +32,7 @@ namespace AKCore.DataModel
         public string Text { get; set; }
         public string Image { get; set; }
         public List<Video> Videos { get; set; }
+        public List<int> Albums { get; set; }
 
         public string GetHeader()
         {

@@ -22,6 +22,7 @@ gulp.task('scripts', function () {
         "Scripts/jquery-2.2.3.min.js",
         "Scripts/bootstrap.min.js",
         "Scripts/jquery-ui.js",
+        "Scripts/jquery.multi-select.js",
         "Scripts/general.js",
         "Scripts/menuedit.js",
         "Scripts/pageedit.js",
