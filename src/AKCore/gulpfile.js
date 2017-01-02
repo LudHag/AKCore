@@ -32,6 +32,7 @@ gulp.task('scripts', function () {
         "Scripts/events.js",
         "Scripts/upcomming.js",
         "Scripts/album.js",
+        "Scripts/musicplayer.js",
         "Scripts/youtubegallerywall.js"
     ])
 	.pipe(sourcemaps.init())
