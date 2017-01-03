@@ -94,10 +94,9 @@
         @: albums['@a.Id'].tracks = {};
         foreach (var track in a.Tracks)
         {
-            @: albums['@a.Id'].tracks['@track.Id'] = {};
-            @: albums['@a.Id'].tracks['@track.Id'].name = '@track.FileName';
-            @: albums['@a.Id'].tracks['@track.Id'].number = '@track.Number';
+            @: albums['@a.Id'].tracks['@track.Number'] = {};
+            @: albums['@a.Id'].tracks['@track.Number'].name = '@track.FileName';
+            @: albums['@a.Id'].tracks['@track.Number'].id = '@track.Id';
         }
-
     }
 </script>

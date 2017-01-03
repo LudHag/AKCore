@@ -172,15 +172,20 @@ namespace AKCore.Controllers
                     var track = new Track
                     {
                         FileName = filename,
-                        Number = (album.Tracks?.Count ?? 0) + 1,
                         Created = DateTime.UtcNow
                     };
                     album.Tracks?.Add(track);
                 }
+                var n = 1;
+                foreach (var t in album.Tracks.OrderBy(x => x.FileName))
+                {
+                    t.Number = n;
+                    n++;
+                }
                 db.SaveChanges();
                 return
                     Json(
-                        new {success = true, tracks = JsonConvert.SerializeObject(album.Tracks.ToDictionary(x => x.Id))});
+                        new {success = true, tracks = JsonConvert.SerializeObject(album.Tracks.OrderBy(x=>x.FileName).ToDictionary(x => x.Number))});
             }
         }
 
@@ -204,9 +209,13 @@ namespace AKCore.Controllers
                 var trackName = track.FileName;
                 db.Tracks.Remove(track);
                 albumRef.Tracks.Remove(track);
-                for (var i = 0; i < albumRef.Tracks.Count; i++)
-                    albumRef.Tracks[i].Number = i + 1;
-
+                var n = 1;
+                foreach (var t in albumRef.Tracks.OrderBy(x=>x.FileName))
+                {
+                    t.Number = n;
+                    n++;
+                }
+                
                 var filepath = _hostingEnv.WebRootPath + $@"\albums\{album}\{trackName}";
                 System.IO.File.Delete(filepath);
 
@@ -217,7 +226,7 @@ namespace AKCore.Controllers
                         new
                         {
                             success = true,
-                            tracks = JsonConvert.SerializeObject(albumRef.Tracks.ToDictionary(x => x.Id))
+                            tracks = JsonConvert.SerializeObject(albumRef.Tracks.ToDictionary(x => x.Number))
                         });
             }
         }

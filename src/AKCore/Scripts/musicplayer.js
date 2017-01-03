@@ -29,13 +29,47 @@ MusicPlayer.prototype.initBinds = function () {
     });
     this.container.on('click', '.playlist-element', function (e) {
         e.preventDefault();
-        var player = self.container.find('.player');
-        var link = $(this).attr('href');
-        player.attr('src', link);
-        player.trigger('play');
+        self.playTrack($(this));
     });
+    this.container.on('click', '.play-all', function (e) {
+        e.preventDefault();
+        var els = self.container.find('.playlist-element');
+        if(els.length>0){
+            els.addClass('queued');
+            self.playTrack($(self.container.find('.playlist-element')[0]));
 
+            var player = self.container.find('.player');
+            player.off('ended');
+            player.on('ended', function() {
+                self.playNext(self.container.find('.playlist-element.active'));
+            });
+        }
+    });
 };
+
+MusicPlayer.prototype.playNext = function(linkElement) {
+    linkElement.removeClass('queued');
+    linkElement.removeClass('active');
+    var next = linkElement.next();
+    if (next.length > 0) {
+        if (!next.hasClass('queued')){
+            this.playNext(next);
+        }else{
+            this.playTrack(next);
+        }
+    }
+}
+
+MusicPlayer.prototype.playTrack = function (linkElement) {
+    var player = this.container.find('.player');
+    var link = linkElement.attr('href');
+    player.attr('src', link);
+    player.trigger('load');
+    player.trigger('play');
+    this.container.find('.playlist-element.active').removeClass('active');
+    linkElement.addClass('active');
+};
+
 MusicPlayer.prototype.resetPlayer = function () {
     var player = this.container.find('.player');
     player.attr('src', '');
@@ -58,7 +92,7 @@ MusicPlayer.prototype.createPlayer = function () {
     this.playListModule = $('<div class="playlist"></div>');
     playerModule.append(this.playListModule);
     var playerContainer = $('<div class="player-container"></div>');
-    this.albumDisplay = $('<div class="album-display"><img class="album-display-image" src="" /></div>');
+    this.albumDisplay = $('<div class="album-display"><img class="album-display-image" src="" /><a href="#" class="play-all">Spela alla spår <span class="glyphicon glyphicon-play"></span></a></div>');
     this.albumTitle = $('<h2 class="album-title"></h2>');
     playerContainer.append(this.albumDisplay);
     playerContainer.append(playerModule);
@@ -86,7 +120,8 @@ MusicPlayer.prototype.buildPlayList = function () {
     });
 };
 MusicPlayer.prototype.createListElement = function (number, name) {
-    return $('<a href="/albums/' + this.currentAlbumId + '/' + name + '" class="playlist-element"><span class="number">' + number + '. </span><span class="name">' + name + '</span></a>');
+
+    return $('<a href="/albums/' + this.currentAlbumId + '/' + name + '" class="playlist-element"><span class="name">' + name.replace(/\.[^/.]+$/, "") + '</span></a>');
 };
 
 MusicPlayer.prototype.renderElement = function () {

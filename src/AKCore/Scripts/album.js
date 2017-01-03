@@ -8,7 +8,7 @@
     var tListTemplate = $('<ul class="tracklist"></ul>');
     
     function createListElement(number, name, id) {
-        return $('<li><span class="number">' + number +'. </span><span class="name">' + name + '</span><a class="rem-track" data-id="' + id + '" href="#">x</a></li>');
+        return $('<li><span class="name">' + name + '</span><a class="rem-track" data-id="' + id + '" href="#">x</a></li>');
     }
     function renderAlbums() {
         $('#album-list').empty();
@@ -99,7 +99,7 @@
                 if (Object.keys(tracks).length > 0) {
                     Object.keys(tracks)
                         .forEach(function (el) {
-                            list.append(createListElement(tracks[el].number, tracks[el].name, el));
+                            list.append(createListElement(el, tracks[el].name, tracks[el].id));
                         });
                     $('#tracklist').append(list);
                 } else {
@@ -144,7 +144,7 @@
                             Object.keys(tracksres).forEach(function (el) {
                                 albums[currentAlbum].tracks[el] = {};
                                 albums[currentAlbum].tracks[el].name = tracksres[el].FileName;
-                                albums[currentAlbum].tracks[el].number = tracksres[el].Number;
+                                albums[currentAlbum].tracks[el].id = tracksres[el].Id;
                             });
                             renderTracks(currentAlbum);
                         }
@@ -203,7 +203,7 @@
                             Object.keys(tracksres).forEach(function (el) {
                                 albums[currentAlbum].tracks[el] = {};
                                 albums[currentAlbum].tracks[el].name = tracksres[el].FileName;
-                                albums[currentAlbum].tracks[el].number = tracksres[el].Number;
+                                albums[currentAlbum].tracks[el].id = tracksres[el].Id;
                             });
                             renderTracks(currentAlbum);
                         }

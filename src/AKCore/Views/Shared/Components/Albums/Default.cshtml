@@ -12,7 +12,7 @@
         @: widgetAlbums[id]['@a.Id'].name = '@a.Name';
         @: widgetAlbums[id]['@a.Id'].image = '@a.Image';
         @: widgetAlbums[id]['@a.Id'].tracks = {};
-        foreach (var track in a.Tracks.OrderBy(x => x.Number))
+        foreach (var track in a.Tracks)
         {
             @: widgetAlbums[id]['@a.Id'].tracks['@track.Number'] = {};
             @: widgetAlbums[id]['@a.Id'].tracks['@track.Number'].name = '@track.FileName';

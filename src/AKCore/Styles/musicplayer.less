@@ -3,7 +3,8 @@
         list-style-type: none;
         padding-left: 0;
         display:flex;
-            flex-wrap: wrap;
+        flex-wrap: wrap;
+        margin-top: 15px;
     }
     .album-element{
         padding: 10px 10px;
@@ -34,9 +35,15 @@
             text-align: center;
             max-width: 290px;
         }
+        .play-all{
+            display: block;
+            margin-top: 10px;
+            font-size: 16px;
+            font-weight: 800;
+        }
         .album-display-image{
-            height: 250px;
-            max-width: 250px;
+            height: 220px;
+            max-width: 220px;
         }
         img[src=""] {
            visibility: hidden;
@@ -54,6 +61,12 @@
             color: #a5a2a0;
             padding: 3px 0;
             font-size:16px;
+            &.queued{
+                color:#2c7b12;
+            }
+            &.active{
+                color: #b10000;
+            }
         }
     }
     h2{
@@ -63,12 +76,40 @@
         margin-bottom: 20px;
         text-transform: uppercase;
     }
+    ::-webkit-scrollbar {
+        width: 12px;
+    }
+ 
+    ::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+        border-radius: 10px;
+    }
+ 
+    ::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        -webkit-box-shadow: inset 0 0 6px #a5a2a0; 
+    }
+    ::-moz-scrollbar {
+        width: 12px;
+    }
+ 
+    ::-moz-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+        border-radius: 10px;
+    }
+ 
+    ::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        -webkit-box-shadow: inset 0 0 6px #a5a2a0; 
+    }
 }
 
 @media screen and (max-width: 768px) {
     .music-player .player-container{
         display:block;
         margin-top: 20px;
+        max-height: inherit;
+        max-height: initial;
         .player{
             width: 100%;
         }
@@ -76,31 +117,8 @@
             padding-top:30px;
             padding-left:0;
         }
+        .album-element{
+            width: 125px;
+        }
     }
-}
-::-webkit-scrollbar {
-    width: 12px;
-}
- 
-::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
-    border-radius: 10px;
-}
- 
-::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    -webkit-box-shadow: inset 0 0 6px #a5a2a0; 
-}
-::-moz-scrollbar {
-    width: 12px;
-}
- 
-::-moz-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
-    border-radius: 10px;
-}
- 
-::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    -webkit-box-shadow: inset 0 0 6px #a5a2a0; 
 }
