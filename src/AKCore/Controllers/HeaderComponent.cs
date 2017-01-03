@@ -28,9 +28,14 @@ namespace AKCore.Controllers
                     .Include(x => x.Children)
                     .ThenInclude(x => x.Link)
                     .ToList()
-                    .Where(x=>loggedIn || !x.Link.LoggedIn);
+                    .Where(x => loggedIn || !x.Link.LoggedIn);
                 var modelMenus = menus.Select(m => new ModelMenu(m, loggedIn)).ToList();
-                var upcomming = new ModelMenu(loggedIn ?"På gång": "Spelningar", "/Upcomming", true) { Id = 10003 };
+                if (!loggedIn)
+                {
+                    var join = new ModelMenu("Gå med", "/Signup", false) {Id = 10004};
+                    modelMenus.Add(join);
+                }
+                var upcomming = new ModelMenu(loggedIn ? "På gång" : "Spelningar", "/Upcomming", true) {Id = 10003};
                 modelMenus.Add(upcomming);
                 if (loggedIn)
                 {
@@ -38,15 +43,15 @@ namespace AKCore.Controllers
                     var roles = await _userManager.GetRolesAsync(user);
                     var nintendo = roles.Contains("SuperNintendo");
                     var editor = roles.Contains("Editor");
-                    var memberMenu = new ModelMenu("Adressregister", "/MemberList", true) {Id = 10000 };
+                    var memberMenu = new ModelMenu("Adressregister", "/MemberList", true) {Id = 10000};
                     var postList = new ModelMenu("Kamerersposter", "/MemberList/PostList", true);
                     memberMenu.Children.Add(postList);
                     modelMenus.Add(memberMenu);
-                    
+
                     if (nintendo || editor)
                     {
-                        var adminMenu = new ModelMenu("Admin", "", true) { Id = 10005 };
-                        adminMenu.Children.Add(new ModelMenu("Ändra sidor", "/Edit", true) { Id = 10007 });
+                        var adminMenu = new ModelMenu("Admin", "", true) {Id = 10005};
+                        adminMenu.Children.Add(new ModelMenu("Ändra sidor", "/Edit", true) {Id = 10007});
                         modelMenus.Add(adminMenu);
                         if (nintendo)
                         {

@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using AKCore.DataModel;
 using AKCore.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
