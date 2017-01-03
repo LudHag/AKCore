@@ -59,8 +59,10 @@ MusicPlayer.prototype.createPlayer = function () {
     playerModule.append(this.playListModule);
     var playerContainer = $('<div class="player-container"></div>');
     this.albumDisplay = $('<div class="album-display"><img class="album-display-image" src="" /></div>');
+    this.albumTitle = $('<h2 class="album-title"></h2>');
     playerContainer.append(this.albumDisplay);
     playerContainer.append(playerModule);
+    this.element.append(this.albumTitle);
     this.element.append(playerContainer);
 };
 MusicPlayer.prototype.selectAlbum = function (id) {
@@ -68,6 +70,7 @@ MusicPlayer.prototype.selectAlbum = function (id) {
     this.selectedAlbum = this.albums[id];
     var displayImage = this.albumDisplay.find('.album-display-image');
     displayImage.attr('src', this.selectedAlbum.image);
+    this.albumTitle.html(this.selectedAlbum.name);
     this.playList = this.selectedAlbum.tracks;
     this.buildPlayList();
 };
