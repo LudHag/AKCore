@@ -80,7 +80,7 @@
                         <div class="edit-group">
                             <label>Lägg till post(er): </label>
                             <form class="form-inline add-post" action="/User/AddPost" method="POST">
-                                <select name="post" multiple class="form-control" asp-for="@posts">
+                                <select name="post" multiple class="form-control multi-select" asp-for="@posts">
                                     @foreach (var p in AkPoster.Poster)
                                     {
                                         <option>@p</option>

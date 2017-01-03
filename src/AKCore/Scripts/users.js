@@ -96,6 +96,13 @@ $("#user-table").on("submit", ".add-role", function (e) {
         }
     });
 });
+$('.add-post .multi-select').multiSelect({});
+$("#user-table").on("reset", ".add-post", function (e) {
+    e.preventDefault();
+    var multi = $(this).find('.multi-select');
+    multi.val([]);
+    multi.multiSelect('refresh');
+});
 
 $("#user-table").on("submit", ".add-post", function (e) {
     e.preventDefault();
