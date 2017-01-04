@@ -1,12 +1,38 @@
-﻿@model AKCore.Models.JoinUsModel
+﻿@using AKCore.DataModel
+@model AKCore.Models.JoinUsModel
 @{
     Layout = "~/Views/Shared/_MasterLayout.cshtml";
 }
 
-
 <div class="row">
     <div class="col-md-12">
-        <form id="xxx" method="POST" action="xxx">
+        <div id="halan-map"></div>
+        <h1 id="map-text">Vill du spela eller dansa med oss?</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <p>
+            I vår underbara musikallians finns det alltid plats för fler så gillar du glad och spexig musikalisk underhållning,
+            där spel- och dansglädjen - och inte nödvändigtvis den musikaliska ekvilibristiken - kommer i främsta rummet, så tveka inte!
+        </p>
+        <h2>Vill du gå med i orkestern?</h2>
+        <p>
+            Vi repar varje torsdag kl 19.00 på Sparta. Då bjuds det på gemensam musikglädje,
+            fika och härligt torsdagshäng i Hålan! Kontakta
+            <a href="mailto:sk@altekamereren.org">sk@altekamereren.org</a> eller fyll i formuläret till höger.
+        </p>
+        <h2>Vill du gå med i baletten? </h2>
+        <p>
+            Med Kamrérbaletten får du dansa allt från marscher till disco till Charleston,
+            allting till Alte Kamererens musik. Vi söker dig med någon dansvana -
+            men det du inte kan lär du dig! Vi repar på måndagar kl 19-21 i Studiefrämjandets lokaler
+            på Fabriksgatan. Här kan du se hur det ser ut när vi dansar <a href="http://www.youtube.com/watch?v=MIEee-cNesc">Willie the Weeper</a>. Hör av dig
+            till oss; meddela via <a href="mailto:balett@altekamereren.org">balett@altekamereren.org</a> eller formuläret till höger.
+        </p>
+    </div>
+    <div class="col-md-6">
+        <form id="signup-form" method="POST" action="/SignUp/Signup">
             <div class="alert alert-danger" style="display: none;"></div>
             <div class="alert alert-success" style="display: none;">Profil uppdaterad</div>
             <div class="form-group">
@@ -18,24 +44,138 @@
                 <input class="form-control" placeholder="Epost" asp-for="Email">
             </div>
             <div class="form-group">
-                <label asp-for="Other"></label>
-                <textarea class="form-control" placeholder="Övrigt" asp-for="Other"></textarea>
+                <label asp-for="Instrument"></label>
+                <select class="form-control" asp-for="Instrument" required>
+                    <option value="">Välj instrument</option>
+                    @foreach (var instr in AkInstruments.Instrument)
+                    {
+                        <option>@instr</option>
+                    }
+                </select>
             </div>
-        @*
-    <div class="form-group">
-        <label asp-for="Instrument"></label>
-        <select class="form-control" asp-for="Instrument" required>
-            <option value="">Välj instrument</option>
-            @foreach (var instr in AkInstruments.Instrument)
-            {
-                <option>@instr</option>
-            }
-        </select>
-    </div>
-        *@
             <div class="form-group">
                 <button type="submit" class="btn btn-default">Gå med!</button>
             </div>
         </form>
     </div>
 </div>
+
+
+
+
+<script>
+    
+   
+
+    var bgcolor = "#d4d4d4";
+    var roadcolor = "#b10000";
+    var mapStyle = [
+        {
+            "featureType": "administrative",
+            "elementType": "labels",
+            "stylers": [
+                { "visibility": "off" }
+            ]
+        }, {
+            "featureType": "landscape.natural",
+            "elementType": "geometry.fill",
+            "stylers": [
+                { "color": "#d4d4d4" }
+            ]
+        }, {
+            "featureType": "water",
+            "elementType": "geometry.fill",
+            "stylers": [
+                { "color": "#627488" }
+            ]
+        }, {
+            "featureType": "road",
+            "elementType": "geometry.fill",
+            "stylers": [
+                { "color": roadcolor }
+            ]
+        }, {
+            "featureType": "road",
+            "elementType": "geometry.stroke",
+            "stylers": [
+                { "color": roadcolor }
+            ]
+        },
+        {
+            "elementType": "labels.text.stroke",
+            "stylers": [
+                { "color": "#ffffff" }
+            ]
+        },
+        {
+            "elementType": 'labels.text.fill',
+            "stylers": [{ color: '#000000' }]
+        },
+        {
+            "featureType": "landscape.man_made",
+            "elementType": "geometry.fill",
+            "stylers": [
+                { "color": "#000" }
+            ]
+        }, {
+            "featureType": "poi",
+            "elementType": "geometry.fill",
+            "stylers": [
+                { "color": "#000" }
+            ]
+        }, {
+            "featureType": "road",
+            "elementType": "labels",
+            "stylers": [
+                {
+                    "visibility": "off"
+                }
+            ]
+        }, {
+            "featureType": "road.arterial",
+            "elementType": "labels",
+            "stylers": [
+                {
+                    "visibility": "on"
+                }
+            ]
+        }, {
+            "featureType": "road.local",
+            "elementType": "labels",
+            "stylers": [
+                {
+                    "visibility": "on"
+                }
+            ]
+        }, {
+            "featureType": "road.highway",
+            "elementType": "labels",
+            "stylers": [
+                {
+                    "visibility": "on"
+                }
+            ]
+        }
+    ];
+
+    function initMap() {
+        var place = { lat: 55.7109073, lng: 13.2182541 };
+        var mplace = { lat: 55.7097573, lng: 13.2175518 };
+        var map = new google.maps.Map(document.getElementById('halan-map'), {
+            zoom: 15,
+            center: place,
+            styles: mapStyle
+        });
+        var marker = new google.maps.Marker({
+            position: mplace,
+            map: map,
+            title: "Hålan!"
+        });
+
+    }
+
+</script>
+
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBWuK0EVbjZ3uP2m2p1HoFWU0Of8KtDYuw&callback=initMap">
+</script>

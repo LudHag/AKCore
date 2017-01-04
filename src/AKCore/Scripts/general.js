@@ -133,6 +133,8 @@
 
     $(".youtubelist").youtubegallery();
 
+
+
     var allowedKeys = { 70: "f", 76: "l", 192: "ö", 74: "j", 84: "t" }, code = ["f", "l", "ö", "j", "t"], pos = 0; document.addEventListener("keydown", function (a) { var b = allowedKeys[a.keyCode], c = code[pos]; b == c ? (pos++, pos == code.length && flojt()) : pos = 0 });
 });
 
