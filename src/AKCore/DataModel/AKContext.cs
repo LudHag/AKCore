@@ -24,6 +24,7 @@ namespace AKCore.DataModel
         public DbSet<SignUp> SignUps { get; set; }
         public DbSet<Album> Albums { get; set; }
         public DbSet<Track> Tracks { get; set; }
+        public DbSet<Recruit> Recruits { get; set; }
     }
 
     public class Page
@@ -89,6 +90,18 @@ namespace AKCore.DataModel
         public int Id { get; set; }
         public int Number { get; set; }
         public string FileName { get; set; }
+        public DateTime Created { get; set; }
+    }
+
+    public class Recruit
+    {
+        [Key]
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public string Phone { get; set; }
+        public string Instrument { get; set; }
+        public string Other { get; set; }
         public DateTime Created { get; set; }
     }
 
