@@ -4,6 +4,7 @@ using AKCore.DataModel;
 using AKCore.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
 namespace AKCore.Controllers
@@ -95,8 +96,9 @@ namespace AKCore.Controllers
                 return Json(new {success = false, message = "Misslyckades med att ta bort event"});
             using (var db = new AKContext())
             {
-                var e = db.Events.FirstOrDefault(x => x.Id == eId);
+                var e = db.Events.Include(x=>x.SignUps).FirstOrDefault(x => x.Id == eId);
                 if (e == null) return Json(new {success = false, message = "Misslyckades med att ta bort event"});
+
                 db.Events.Remove(e);
                 db.SaveChanges();
                 return Json(new { success = true});
