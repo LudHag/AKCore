@@ -25,7 +25,7 @@ namespace AKCore.Controllers
             using (var db = new AKContext())
             {
                 if (string.IsNullOrWhiteSpace(model.Email) && string.IsNullOrWhiteSpace(model.Tel))
-                    return Json(new {success = false, message = "Du har ej anget ett sätt att kontakta dig med."});
+                    return Json(new {success = false, message = "Du har ej angett ett sätt att kontakta dig med."});
                 if (string.IsNullOrWhiteSpace(model.Instrument))
                     return
                         Json(
@@ -50,11 +50,11 @@ namespace AKCore.Controllers
 
                 var rec = new Recruit
                 {
-                    Name = model.Name,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
                     Created = DateTime.UtcNow,
                     Email = model.Email,
                     Phone = model.Tel,
-                    Other = model.Other,
                     Instrument = model.Instrument
                 };
                 db.Recruits.Add(rec);

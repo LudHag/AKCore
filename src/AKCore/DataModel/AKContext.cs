@@ -97,12 +97,14 @@ namespace AKCore.DataModel
     {
         [Key]
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string Name { get; set; }//ta bort
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
         public string Instrument { get; set; }
         public string Other { get; set; }
-        public DateTime Created { get; set; }
+        public DateTime Created { get; set; } //ta bort
     }
 
     public class Event

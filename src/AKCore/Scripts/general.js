@@ -90,21 +90,7 @@
         });
 
 
-    function fbGetLoginId(callback) {
-        FB.getLoginStatus(function(response) {
-            if (response.status === "connected") {
-                callback(response.authResponse.userID);
-            } else if (response.status === "not_authorized") {
-                FB.login(function(lresp) {
-                    callback(lresp.authResponse.userID);
-                });
-            } else {
-                FB.login(function(lresp) {
-                    callback(lresp.authResponse.userID);
-                });
-            }
-        });
-    }
+    
 
     $("#open-mobile-menu")
         .on("click",
@@ -166,3 +152,18 @@
 });
 
 function flojt() { var a = document, b = a.getElementById("__cornify_nodes"), c = null, d = ["https://cornify.com/js/cornify.js", "https://cornify.com/js/cornify_run.js"]; if (b) cornify_add(); else { c = a.createElement("div"), c.id = "__cornify_nodes", a.getElementsByTagName("body")[0].appendChild(c); for (var e = 0; e < d.length; e++) b = a.createElement("script"), b.src = d[e], c.appendChild(b) } }
+function fbGetLoginId(callback) {
+    FB.getLoginStatus(function (response) {
+        if (response.status === "connected") {
+            callback(response.authResponse.userID);
+        } else if (response.status === "not_authorized") {
+            FB.login(function (lresp) {
+                callback(lresp.authResponse.userID);
+            });
+        } else {
+            FB.login(function (lresp) {
+                callback(lresp.authResponse.userID);
+            });
+        }
+    });
+}

@@ -49,11 +49,12 @@ namespace AKCore.Controllers
             var userQuery = _userManager.Users.Where(x=>x.Instrument!=null);
             if (model.SearchPhrase != null)
             {
-                userQuery = userQuery.Where(x => x.FirstName.Contains(model.SearchPhrase)
-                                                 || x.LastName.Contains(model.SearchPhrase)
-                                                 || x.Instrument.Contains(model.SearchPhrase)
-                                                 || x.City.Contains(model.SearchPhrase)
-                                                 || x.SlavPoster.Contains(model.SearchPhrase));
+                var lowerSearch = model.SearchPhrase.ToLower();
+                userQuery = userQuery.Where(x => x.FirstName.ToLower().Contains(lowerSearch)
+                                                 || x.LastName.ToLower().Contains(lowerSearch)
+                                                 || x.Instrument.ToLower().Contains(lowerSearch)
+                                                 || x.City.ToLower().Contains(lowerSearch)
+                                                 || x.SlavPoster.ToLower().Contains(lowerSearch));
             }
             if (model.Instrument != null)
             {

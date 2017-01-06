@@ -8,9 +8,13 @@ namespace AKCore.Models
 {
     public class JoinUsModel
     {
-        [Display(Name = "Namn")]
+        [Display(Name = "Förnamn")]
         [Required]
-        public string Name { get; set; }
+        public string FirstName { get; set; }
+
+        [Display(Name = "Efternamn")]
+        [Required]
+        public string LastName { get; set; }
 
         [Display(Name = "Epost")]
         public string Email { get; set; }

@@ -26,6 +26,7 @@ namespace AKCore.DataModel
         public const string Euphonium = "Euphonium";
         public const string Flute = "Flöjt";
         public const string Horn = "Horn";
+        public const string Oboe = "Oboe";
         public const string Slagverk = "Slagverk";
         public const string Tenorsax = "Tenorsax";
         public const string Tuba = "Tuba";
@@ -41,6 +42,7 @@ namespace AKCore.DataModel
             Euphonium,
             Flute,
             Horn,
+            Oboe,
             Slagverk,
             Tenorsax,
             Tuba,
