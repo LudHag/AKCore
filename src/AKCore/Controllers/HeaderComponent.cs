@@ -29,7 +29,8 @@ namespace AKCore.Controllers
                     .ThenInclude(x => x.Link)
                     .ToList()
                     .Where(x => loggedIn || !x.Link.LoggedIn)
-                    .Where(x => !loggedIn || !x.Link.LoggedOut);
+                    .Where(x => !loggedIn || !x.Link.LoggedOut)
+                    .Where(x => !x.Link.BalettOnly || (loggedIn && User.IsInRole(AkRoles.Balett)));
                 var modelMenus = menus.Select(m => new ModelMenu(m, loggedIn)).ToList();
                 if (!loggedIn)
                 {
@@ -44,8 +45,10 @@ namespace AKCore.Controllers
                     var roles = await _userManager.GetRolesAsync(user);
                     var nintendo = roles.Contains("SuperNintendo");
                     var editor = roles.Contains("Editor");
-                    var memberMenu = new ModelMenu("Adressregister", "/MemberList", true) {Id = 10000};
+                    var memberMenu = new ModelMenu("Kamrersinfo", "", true) {Id = 10000};
+                    var adressList = new ModelMenu("Adressregister", "/MemberList", true);
                     var postList = new ModelMenu("Kamerersposter", "/MemberList/PostList", true);
+                    memberMenu.Children.Add(adressList);
                     memberMenu.Children.Add(postList);
                     modelMenus.Add(memberMenu);
 

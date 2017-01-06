@@ -43,6 +43,13 @@ namespace AKCore.Controllers
                 {
                     return Redirect("/");
                 }
+                if (page.BalettOnly)
+                {
+                    if (!(User.IsInRole(AkRoles.Balett) || User.IsInRole(AkRoles.SuperNintendo)))
+                    {
+                        return Redirect("/");
+                    }
+                }
                 ViewData["Title"] = page.Name;
                 var model = new PageRenderModel()
                 {

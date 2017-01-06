@@ -18,14 +18,17 @@ namespace AKCore.Controllers
     {
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<AkUser> _userManager;
+        private readonly SignInManager<AkUser> _signInManager;
 
         public UserController(
             UserManager<AkUser> userManager,
-            RoleManager<IdentityRole> roleManager
+            RoleManager<IdentityRole> roleManager,
+            SignInManager<AkUser> signInManager
             )
         {
             _roleManager = roleManager;
             _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         public async Task<ActionResult> Index(UsersModel model)
@@ -99,6 +102,7 @@ namespace AKCore.Controllers
             var result = await _userManager.AddToRoleAsync(user, Role);
             if (result.Succeeded)
             {
+                await _signInManager.SignInAsync(user, true);
                 return Json(new {success = true});
             }
             return Json(new {success = false, message = "Misslyckades att lägga till roll"});
@@ -117,6 +121,7 @@ namespace AKCore.Controllers
             var result = await _userManager.RemoveFromRoleAsync(user, Role);
             if (result.Succeeded)
             {
+                await _signInManager.SignInAsync(user, true);
                 return Json(new {success = true});
             }
             return Json(new {success = false, message = result.ToString()});
