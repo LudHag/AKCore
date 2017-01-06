@@ -131,9 +131,36 @@
                 }
             });
 
-    $(".youtubelist").youtubegallery();
+    if ($(".youtubelist").length>0)
+        $(".youtubelist").youtubegallery();
 
-
+    $('#recruit-form').on('submit', function (e) {
+        e.preventDefault();
+        var form = $(this);
+        var success = form.find(".alert-success");
+        var error = form.find(".alert-danger");
+        
+        $.ajax({
+            url: form.attr("action"),
+            type: "POST",
+            data: form.serialize(),
+            success: function (res) {
+                if (res.success) {
+                    form.trigger("reset");
+                    success.text(res.message);
+                    success.slideDown().delay(3000).slideUp();
+                } else {
+                    error.text(res.message);
+                    error.slideDown().delay(5000).slideUp();
+                }
+            },
+            error: function (err) {
+                error.text("Ett fel uppstod när ansökan skickades");
+                error.slideDown().delay(5000).slideUp();
+            }
+        });
+    });
+    
 
     var allowedKeys = { 70: "f", 76: "l", 192: "ö", 74: "j", 84: "t" }, code = ["f", "l", "ö", "j", "t"], pos = 0; document.addEventListener("keydown", function (a) { var b = allowedKeys[a.keyCode], c = code[pos]; b == c ? (pos++, pos == code.length && flojt()) : pos = 0 });
 });

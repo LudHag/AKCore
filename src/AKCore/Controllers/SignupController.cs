@@ -1,4 +1,6 @@
-﻿using AKCore.DataModel;
+﻿using System;
+using System.Linq;
+using AKCore.DataModel;
 using AKCore.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -22,7 +24,44 @@ namespace AKCore.Controllers
         {
             using (var db = new AKContext())
             {
-                return Json(new {success = true});
+                if (string.IsNullOrWhiteSpace(model.Email) && string.IsNullOrWhiteSpace(model.Tel))
+                    return Json(new {success = false, message = "Du har ej anget ett sätt att kontakta dig med."});
+                if (string.IsNullOrWhiteSpace(model.Instrument))
+                    return
+                        Json(
+                            new
+                            {
+                                success = false,
+                                message =
+                                "Du måste ange vilke instrument du spelar eller om du vill dansa med baletten."
+                            });
+                if (
+                    db.Recruits.Any(
+                        x =>
+                            (!string.IsNullOrWhiteSpace(model.Email) && (x.Email == model.Email)) ||
+                            (!string.IsNullOrWhiteSpace(model.Tel) && (x.Phone == model.Tel))))
+                    return
+                        Json(
+                            new
+                            {
+                                success = false,
+                                message = "En person med din kontaktinformation har redan anmält sig."
+                            });
+
+                var rec = new Recruit
+                {
+                    Name = model.Name,
+                    Created = DateTime.UtcNow,
+                    Email = model.Email,
+                    Phone = model.Tel,
+                    Other = model.Other,
+                    Instrument = model.Instrument
+                };
+                db.Recruits.Add(rec);
+                db.SaveChanges();
+
+                return
+                    Json(new {success = true, message = "Din ansökan är mottagen och vi kommer kontakta dig inom kort"});
             }
         }
 
