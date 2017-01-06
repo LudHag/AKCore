@@ -39,6 +39,7 @@ namespace AKCore.DataModel
         public string WidgetsJson { get; set; }
         [Required]
         public bool LoggedIn { get; set; }
+        public bool LoggedOut { get; set; }
         public bool BalettOnly { get; set; }
     }
   

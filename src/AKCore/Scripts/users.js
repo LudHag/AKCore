@@ -96,6 +96,28 @@ $("#user-table").on("submit", ".add-role", function (e) {
         }
     });
 });
+$("#user-table").on("submit", ".save-medal", function (e) {
+    e.preventDefault();
+    var form = $(this);
+    var error = $(".alert-danger");
+    $.ajax({
+        url: form.attr("action"),
+        type: form.attr("method"),
+        data: form.serialize(),
+        success: function (res) {
+            if (!res.success) {
+                error.text(res.message);
+                error.slideDown().delay(4000).slideUp();
+            }
+        },
+        error: function (err) {
+            error.text("Misslyckades med att spara sida");
+            error.slideDown().delay(4000).slideUp();
+        }
+    });
+});
+
+
 $('.add-post .multi-select').multiSelect({});
 $("#user-table").on("reset", ".add-post", function (e) {
     e.preventDefault();

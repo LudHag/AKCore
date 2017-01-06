@@ -150,5 +150,19 @@ namespace AKCore.Controllers
             var result = await _userManager.UpdateAsync(user);
             return Json(new {success = result.Succeeded, message = result.ToString()});
         }
+
+        [Route("SaveMedal")]
+        public async Task<ActionResult> SaveMedal(string userName, string medal)
+        {
+            var user = await _userManager.FindByNameAsync(userName);
+            if (user == null)
+            {
+                return Json(new { success = false, message = "Misslyckades att lägga till medalj" });
+            }
+            user.Medal = medal;
+            var result = await _userManager.UpdateAsync(user);
+
+            return Json(new { success = result.Succeeded, message = result.ToString() });
+        }
     }
 }

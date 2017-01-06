@@ -144,6 +144,27 @@ namespace AKCore.DataModel
             CantCome
         };
     }
+
+    public class AkMedals
+    {
+        public const string Pasen = "Påsen";
+        public const string Hornet = "Hornet";
+        public const string Klovern = "Klövern";
+        public const string Keruben = "Keruben";
+        public const string Dollarn = "Dollarn";
+        public const string Gubben = "Gubben";
+
+        public static readonly IList<string> TermMedals = new List<string>()
+        {
+            Pasen,
+            Hornet,
+            Klovern,
+            Keruben,
+            Dollarn,
+            Gubben,
+        };
+    }
+
     public class AkVariable
     {
         private static long _uniqueId { get; set; }

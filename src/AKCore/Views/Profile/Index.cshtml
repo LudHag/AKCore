@@ -29,7 +29,12 @@
                     }
                 </div>
             }
-        </div>
+            @if (!string.IsNullOrWhiteSpace(Model.Medal))
+            {
+                <h3>Senaste terminsmedalj</h3>
+                <p>@Model.Medal</p>
+            }
+            </div>
         <h3>Användarinfo</h3>
         <form id="update-profile-form" method="POST" action="/Profile/EditProfile">
             <div class="alert alert-danger" style="display: none;"></div>

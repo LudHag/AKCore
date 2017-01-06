@@ -49,6 +49,22 @@
                                     <span> @p</span>
                                 }
                             </p>
+                            <form class="form-inline save-medal" method="post" action="/User/SaveMedal">
+                                <input type="hidden" name="userName" value="@u.UserName"/>
+                                <div class="form-group">
+                                    <strong>Slavposter:</strong>
+                                    <select class="form-control input-sm" name="medal" asp-for="@u.Medal">
+                                        <option value="">Ingen</option>
+                                        @foreach (var m in AkMedals.TermMedals)
+                                        {
+                                            <option value="@m">@m</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary input-sm">Spara</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                     <div class="col-sm-6">
@@ -89,7 +105,7 @@
                                 <input type="hidden" name="userName" value="@u.UserName" />
                                 <div class="form-group">
                                     <button type="reset" class="btn btn-primary input-sm">Rensa</button>
-                                    <button type="submit" class="btn btn-primary input-sm">Uppdatera</button>
+                                    <button type="submit" class="btn btn-primary input-sm">Spara</button>
                                 </div>
                             </form>
                         </div>

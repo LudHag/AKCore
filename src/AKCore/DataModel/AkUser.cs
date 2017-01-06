@@ -16,6 +16,7 @@ namespace AKCore.DataModel
         public string Nation { get; set; }
         public string Instrument { get; set; }
         public string SlavPoster { get; set; }
+        public string Medal { get; set; }
 
         public string GetName()
         {
