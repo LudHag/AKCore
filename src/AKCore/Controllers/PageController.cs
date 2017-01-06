@@ -19,6 +19,7 @@ namespace AKCore.Controllers
 
         public ActionResult Page(string slug)
         {
+            var loggedIn = User.Identity.IsAuthenticated;
             using (var db = new AKContext())
             {
                 Page page;
@@ -34,7 +35,11 @@ namespace AKCore.Controllers
                 {
                     return View("Error");
                 }
-                if (page.LoggedIn && !User.Identity.IsAuthenticated)
+                if (page.LoggedIn && !loggedIn)
+                {
+                    return Redirect("/");
+                }
+                if (page.LoggedOut && loggedIn)
                 {
                     return Redirect("/");
                 }

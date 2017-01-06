@@ -28,7 +28,8 @@ namespace AKCore.Controllers
                     .Include(x => x.Children)
                     .ThenInclude(x => x.Link)
                     .ToList()
-                    .Where(x => loggedIn || !x.Link.LoggedIn);
+                    .Where(x => loggedIn || !x.Link.LoggedIn)
+                    .Where(x => !loggedIn || !x.Link.LoggedOut);
                 var modelMenus = menus.Select(m => new ModelMenu(m, loggedIn)).ToList();
                 if (!loggedIn)
                 {

@@ -5,7 +5,6 @@ using System.Linq;
 using AKCore.DataModel;
 using Microsoft.AspNetCore.Authorization;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace AKCore.Controllers
 {
@@ -85,6 +84,8 @@ namespace AKCore.Controllers
                     WidgetsJson = page.WidgetsJson,
                     Albums = db.Albums.ToList(),
                     LoggedIn = page.LoggedIn,
+                    LoggedOut = page.LoggedOut,
+                    BalettOnly = page.BalettOnly,
                     Widgets = page.WidgetsJson != null ? JsonConvert.DeserializeObject<List<Widget>>(page.WidgetsJson) : new List<Widget>()
                 };
                 ViewBag.Title = "Editera " + page.Name;
@@ -119,6 +120,8 @@ namespace AKCore.Controllers
                 page.Slug = model.Slug;
                 page.WidgetsJson = model.WidgetsJson;
                 page.LoggedIn = model.LoggedIn;
+                page.LoggedOut = model.LoggedOut;
+                page.BalettOnly = model.BalettOnly;
                 db.SaveChanges();
 
                 return Json(new { success = true, message = "Uppdaterade sidan framgångsrikt" });

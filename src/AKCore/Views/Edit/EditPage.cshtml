@@ -34,6 +34,16 @@
                         @Html.EditorFor(x => x.LoggedIn) Kräver inloggning
                     </label>
                 </div>
+                <div class="checkbox">
+                    <label>
+                        @Html.EditorFor(x => x.LoggedOut) Enbart utloggade
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        @Html.EditorFor(x => x.BalettOnly) För baletten
+                    </label>
+                </div>
             </div>
             <button type="submit" class="btn btn-default">Spara</button>
         </div>

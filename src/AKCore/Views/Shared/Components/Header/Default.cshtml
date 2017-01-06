@@ -4,14 +4,9 @@
 @{
     var currentUrl = Context.Request.Path.ToString();
 }
-
-
 <header>
-
     <a class="logo" href="/">
-
         <img src="~/images/ak_logo.png"/>
-
     </a>
     <div class="account">
         @if (!Model.LoggedIn)
@@ -22,17 +17,12 @@
         {
             <p>
                 Inloggad som <a href="/Profile">@Model.UserName</a>
-
             </p>
             <a href="/Account/Logout" class="logout">Logga ut</a>
         }
     </div>
-
-
     <nav>
-
         <ul class="navigation">
-
             @foreach (var m in Model.Menus)
             {
                 var active = "";
@@ -63,8 +53,6 @@
                             @m.Name
                         </a>
                     }
-
-
                     @if (m.Children.Count > 0)
                     {
                         <ul class="subnav">

@@ -26,7 +26,7 @@ namespace AKCore.Controllers
 
         [HttpPost]
         [Route("Login")]
-        public async System.Threading.Tasks.Task<ActionResult> Login(LoginModel model)
+        public async Task<ActionResult> Login(LoginModel model)
         {
             if (ModelState.IsValid)
             {
@@ -45,7 +45,7 @@ namespace AKCore.Controllers
             return Json(new { success = false, message = "Inloggning misslyckades" });
         }
         [Route("Logout")]
-        public async System.Threading.Tasks.Task<ActionResult> Logout()
+        public async Task<ActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
             return Redirect("/");
@@ -68,28 +68,12 @@ namespace AKCore.Controllers
         public async Task<ActionResult> InitNintendo()
         {
 
-            var roleresult = await _roleManager.FindByNameAsync(AkRoles.SuperNintendo);
-            var nintendoRole = new IdentityRole(AkRoles.SuperNintendo);
-
-            if (roleresult == null)
+            foreach (var r in AkRoles.Roles)
             {
-                await _roleManager.CreateAsync(nintendoRole);
-            }
-
-            var roleresult2 = await _roleManager.FindByNameAsync(AkRoles.Medlem);
-            var memberRole = new IdentityRole(AkRoles.Medlem);
-
-            if (roleresult2 == null)
-            {
-                await _roleManager.CreateAsync(memberRole);
-            }
-
-            var roleresult3 = await _roleManager.FindByNameAsync(AkRoles.Editor);
-            var editorRole = new IdentityRole(AkRoles.Editor);
-
-            if (roleresult3 == null)
-            {
-                await _roleManager.CreateAsync(editorRole);
+                var roleresult = await _roleManager.FindByNameAsync(r);
+                if (roleresult != null) continue;
+                var role = new IdentityRole(r);
+                await _roleManager.CreateAsync(role);
             }
 
             var newUser = new AkUser() {UserName = "nintendo"};

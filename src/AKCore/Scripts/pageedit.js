@@ -311,7 +311,6 @@ function jsonifyWidgets() {
                 wig.Text = tinymce.get(tId).getContent();
                 wig.Image = $(o).find(".selected-image").attr("src");
             }
-            console.log(wig);
             widgets.push(wig);
         });
     var res = JSON.stringify(widgets);

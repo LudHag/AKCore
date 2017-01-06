@@ -9,11 +9,13 @@ namespace AKCore.DataModel
         public const string SuperNintendo = "SuperNintendo";
         public const string Medlem = "Medlem";
         public const string Editor = "Editor";
+        public const string Balett = "Balett";
         public static readonly IList<string> Roles = new List<string>()
         {
             SuperNintendo,
             Medlem,
-            Editor
+            Editor,
+            Balett
         };
     }
     public class AkInstruments

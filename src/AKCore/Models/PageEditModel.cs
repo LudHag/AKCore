@@ -16,6 +16,10 @@ namespace AKCore.Models
         public string WidgetsJson { get; set; }
         [DisplayName("Kräver inloggning")]
         public bool LoggedIn { get; set; }
+        [DisplayName("Enbart utloggad")]
+        public bool LoggedOut { get; set; }
+        [DisplayName("Enbart balett")]
+        public bool BalettOnly { get; set; }
         public string Template { get; set; }
         public IList<Album> Albums { get; set; }
         public IList<Widget> Widgets { get; set; }
