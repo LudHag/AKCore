@@ -90,7 +90,7 @@
                 <p>@s.PersonName</p>
             </div>
             <div class="col-sm-2 signup-element">
-                <p>@s.InstrumentName</p>
+                <p>@s.InstrumentName@(string.IsNullOrWhiteSpace(s.OtherInstruments) ? "" : ","+s.OtherInstruments)</p>
             </div>
             <div class="col-sm-2 signup-element">
                 <p>@s.GetInfo()</p>
