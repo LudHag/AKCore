@@ -125,8 +125,11 @@ var options = {
                         $("#" + field_name).val($(this).data("path"));
                         $("#imagePickerModal").modal("hide");
                     });
-
         }
+        if (type === "file") {
+        {
+            console.log('not implemented yet!');
+        }}
     }
 };
 
@@ -217,7 +220,7 @@ function updatePickerSearch() {
 }
 
 function updateMediaPickerList(search, page) {
-    $.get("/Media/MediaPickerList?SearchPhrase=" + search + "&Page=" + page,
+    $.get("/Media/MediaPickerList?SearchPhrase=" + search + "&Page=" + page + "&Type=Image",
         function(data) {
             $("#picker-images").empty().append(data);
         });

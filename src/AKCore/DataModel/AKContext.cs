@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
+using System.Linq;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace AKCore.DataModel
@@ -72,6 +73,10 @@ namespace AKCore.DataModel
         public string Name { get; set; }
         public string Type { get; set; }
         public DateTime Created { get; set; }
+        public string GetExtension()
+        {
+            return Name.Split('.').Last();
+        }
     }
 
     public class Album

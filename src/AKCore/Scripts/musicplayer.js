@@ -27,10 +27,21 @@ MusicPlayer.prototype.initBinds = function () {
         self.resetPlayer();
         self.renderElement();
     });
+    function downloadURI(uri, name) {
+        var link = document.createElement("a");
+        link.download = name;
+        link.href = uri;
+        link.click();
+    }
     this.container.on('click', '.playlist-element', function (e) {
         e.preventDefault();
-        self.playTrack($(this));
+        if (!$(e.target).hasClass('glyphicon-download')) {
+            self.playTrack($(this));
+        } else {
+            downloadURI($(this).attr('href'), $(this).find('.name').text());
+        }
     });
+   
     this.container.on('click', '.play-all', function (e) {
         e.preventDefault();
         var els = self.container.find('.playlist-element');
@@ -121,7 +132,7 @@ MusicPlayer.prototype.buildPlayList = function () {
 };
 MusicPlayer.prototype.createListElement = function (number, name) {
 
-    return $('<a href="/albums/' + this.currentAlbumId + '/' + name + '" class="playlist-element"><span class="name">' + name.replace(/\.[^/.]+$/, "") + '</span></a>');
+    return $('<a href="/albums/' + this.currentAlbumId + '/' + name + '" class="playlist-element"><span class="name">' + name.replace(/\.[^/.]+$/, "") + '</span><span class="glyphicon glyphicon-download"></span></a>');
 };
 
 MusicPlayer.prototype.renderElement = function () {

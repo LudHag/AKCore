@@ -16,7 +16,8 @@ namespace AKCore.Controllers
     public class MediaController : Controller
     {
         private static readonly string[] ImageExtensions = { "jpg", "bmp", "gif", "png","svg" };
-        private static readonly string[] VideoExtensions = { "mp4", "avi"};
+        //private static readonly string[] VideoExtensions = { "mp4", "avi"};
+        private static readonly string[] DocumentExtensions = { "pdf", "docx", "doc" };
         private readonly IHostingEnvironment _hostingEnv;
 
         public MediaController(IHostingEnvironment env)
@@ -58,7 +59,7 @@ namespace AKCore.Controllers
         public ActionResult MediaPickerList(SearchModel search)
         {
             int totalPages;
-            var medias = PopulateList(search.Page < 1 ? 1 : search.Page, out totalPages, search.SearchPhrase ?? "");
+            var medias = PopulateList(search.Page < 1 ? 1 : search.Page, out totalPages, search.SearchPhrase ?? "",search.Type);
             if (totalPages < search.Page) search.Page = totalPages;
             var model = new MediaModel
             {
@@ -70,11 +71,14 @@ namespace AKCore.Controllers
         }
 
 
-        private static List<Media> PopulateList(int page, out int totalPages,string searchPhrase)
+        private static List<Media> PopulateList(int page, out int totalPages,string searchPhrase, string type = "")
         {
             using (var db = new AKContext())
             {
-                var searched=db.Medias.Where(x=>x.Name.Contains(searchPhrase)).OrderByDescending(x=>x.Created);
+                var searched=db.Medias
+                    .Where(x=>x.Name.Contains(searchPhrase))
+                    .Where(x => string.IsNullOrWhiteSpace(type)||x.Type==type)
+                    .OrderByDescending(x=>x.Created);
                 totalPages = ((searched.Count()-1) / 8)+1;
                 if (totalPages < page) page = totalPages;
                 return searched.Skip((page - 1)*8).Take(8).ToList();
@@ -86,8 +90,8 @@ namespace AKCore.Controllers
             var file = model.UploadFile;
             var ext=Path.GetExtension(file.FileName).ToLower();
             var isImage = ImageExtensions.FirstOrDefault(x => ext.EndsWith(x)) != null;
-            var isVideo = VideoExtensions.FirstOrDefault(x => ext.EndsWith(x)) != null;
-            if (!(isImage || isVideo))
+            var isDocument = DocumentExtensions.FirstOrDefault(x => ext.EndsWith(x)) != null;
+            if (!(isImage || isDocument))
             {
                 return Json(new { success = false, message = "Filen har fel format" });
             }
@@ -115,7 +119,7 @@ namespace AKCore.Controllers
                     Name = filename,
                     Created = DateTime.Now,
                 };
-                mediaFile.Type = isImage ? "Image" : "Video";
+                mediaFile.Type = isImage ? "Image" : "Document";
                 db.Medias.Add(mediaFile);
                 db.SaveChanges();
             }

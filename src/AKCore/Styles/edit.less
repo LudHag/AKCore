@@ -45,7 +45,7 @@
     background-color:#999999;
     color:white;
     &:focus{
-        background-color:#b10000;
+        background-color:@akred;
         border-color:#6E1601;
         color:white;
     }
@@ -127,6 +127,20 @@
         height:220px;
         overflow:hidden;
         text-align: center;
+        .glyphicon-file{
+            font-size: 140px;
+            color: @akred;
+            margin-right: -10px;
+        }
+        .doc-ext{
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            color: black;
+            top: 40%;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
         .name{
             word-break: break-all;
             width: 85%;
@@ -141,7 +155,7 @@
 }
 
 .remove-media{
-    background-color:red;
+    background-color:@akred;
     color:black;
     border-radius: 2px;
     line-height: 20px;
@@ -260,7 +274,7 @@ table{
     &:hover{
         background-color:#1a0000;
     }
-    border-bottom:1px solid #b10000;
+    border-bottom:1px solid @akred;
 }
 
 #edit-event-modal{

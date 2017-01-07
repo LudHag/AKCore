@@ -6,7 +6,14 @@
                 e.preventDefault();
                 $("#loginModal").modal("show");
             });
-
+    
+    $("#mobile-menu")
+     .on("click",
+         ".login",
+         function (e) {
+             e.preventDefault();
+             $("#loginModal").modal("show");
+         });
     $("#loginForm")
         .on("submit",
             function(e) {

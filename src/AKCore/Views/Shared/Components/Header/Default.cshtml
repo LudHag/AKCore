@@ -1,5 +1,4 @@
-﻿@using Microsoft.EntityFrameworkCore.Metadata.Internal
-@model AKCore.Models.HeaderModel
+﻿@model AKCore.Models.HeaderModel
 
 @{
     var currentUrl = Context.Request.Path.ToString();
@@ -8,7 +7,7 @@
     <a class="logo" href="/">
         <img src="~/images/ak_logo.png"/>
     </a>
-    <div class="account">
+    <div class="account hidden-xs">
         @if (!Model.LoggedIn)
         {
             <a href="#" class="login">Logga in</a>
@@ -32,7 +31,7 @@
                 }
                 else
                 {
-                    if (m.Link != null && (m.Children?.FirstOrDefault(x => x.Link == currentUrl) != null))
+                    if ((m.Link != null) && (m.Children?.FirstOrDefault(x => x.Link == currentUrl) != null))
                     {
                         active = "active";
                     }
@@ -65,7 +64,7 @@
                                 }
                                 else
                                 {
-                                    if (c.Link != null && (c.Children?.FirstOrDefault(x => x.Link == currentUrl) != null))
+                                    if ((c.Link != null) && (c.Children?.FirstOrDefault(x => x.Link == currentUrl) != null))
                                     {
                                         cactive = "active";
                                     }
@@ -144,6 +143,24 @@
                         }
                     </ul>
                 }
+            </li>
+        }
+
+        @if (!Model.LoggedIn)
+        {
+            <li>
+                <a href="#" class="login">
+                    Logga in
+                </a>
+            </li>
+        }
+        else
+        {
+            <li>
+                <a href="/Profile">@Model.UserName</a>
+            </li>
+            <li>
+                <a href="/Account/Logout" class="logout">Logga ut</a>
             </li>
         }
     </ul>
