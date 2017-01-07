@@ -45,6 +45,7 @@ namespace AKCore.Controllers
                     Phone = user.Phone,
                     Nation = user.Nation,
                     Instrument = user.Instrument,
+                    OtherInstrument = string.IsNullOrWhiteSpace(user.OtherInstruments) ? null : user.OtherInstruments.Split(',').ToList(),
                     Facebook = logins.Any(x=>x.LoginProvider=="Facebook"),
                     Poster = user.SlavPoster != null ? JsonConvert.DeserializeObject<List<string>>(user.SlavPoster) : new List<string>(),
                     Roles = await _userManager.GetRolesAsync(user),
@@ -69,6 +70,7 @@ namespace AKCore.Controllers
             user.Phone = model.Phone;
             user.Nation = model.Nation;
             user.Instrument = model.Instrument;
+            user.OtherInstruments = string.Join(",",model.OtherInstrument);
             var result = await _userManager.UpdateAsync(user);
             if (result.Succeeded && updateUName)
             {

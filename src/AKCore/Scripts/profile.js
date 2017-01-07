@@ -83,7 +83,7 @@ $("#fb-connect")
                 });
             });
         });
-
+$('#update-profile-form .multi-select').multiSelect({});
 $("#fb-disconnect")
     .on("click",
         function(e) {

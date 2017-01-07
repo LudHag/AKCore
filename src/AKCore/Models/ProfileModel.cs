@@ -28,6 +28,10 @@ namespace AKCore.Models
         [Display(Name = "Instrument")]
         public string Instrument { get; set; }
 
+        [Display(Name = "Andra instrument")]
+        public IList<string> OtherInstrument { get; set; }
+
+
         public string Medal { get; set; }
 
         public bool Facebook { get; set; }

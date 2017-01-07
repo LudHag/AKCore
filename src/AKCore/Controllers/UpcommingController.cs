@@ -83,7 +83,13 @@ namespace AKCore.Controllers
                 if (spelning == null) return Json(new {success = false, message = "Felaktigt id"});
                 var user = await _userManager.FindByNameAsync(User.Identity.Name);
                 var signup = spelning.SignUps.FirstOrDefault(x => x.Person == user.UserName) ?? new SignUp();
-                signup.SignupTime = signup.Where == null ? DateTime.Now : signup.SignupTime;
+                if (signup.Where == AkSignupType.CantCome || model.Where == AkSignupType.CantCome)
+                {
+                    signup.SignupTime = DateTime.Now;
+                }
+                else { 
+                    signup.SignupTime = signup.Where == null ? DateTime.Now : signup.SignupTime;
+                }
                 signup.Where = model.Where;
                 signup.Car = model.Car;
                 signup.Instrument = model.Instrument;
@@ -91,6 +97,7 @@ namespace AKCore.Controllers
                 signup.Person = user.UserName;
                 signup.PersonName = user.GetName();
                 signup.InstrumentName = user.Instrument;
+                signup.OtherInstruments = user.OtherInstruments;
                 spelning.SignUps.Add(signup);
                 db.SaveChanges();
                 return Json(new {success = true});

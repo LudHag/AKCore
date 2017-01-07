@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using AKCore.DataModel;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace AKCore.DataModel
@@ -17,6 +15,7 @@ namespace AKCore.DataModel
         public string Instrument { get; set; }
         public string SlavPoster { get; set; }
         public string Medal { get; set; }
+        public string OtherInstruments { get; set; }
 
         public string GetName()
         {

@@ -141,6 +141,7 @@ namespace AKCore.DataModel
         public bool Car { get; set; }
         public bool Instrument { get; set; }
         public string InstrumentName { get; set; }
+        public string OtherInstruments { get; set; }
         public string Comment { get; set; }
         public DateTime SignupTime { get; set; }
 
