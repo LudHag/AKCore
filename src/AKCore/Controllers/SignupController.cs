@@ -10,14 +10,6 @@ namespace AKCore.Controllers
     [Route("Signup")]
     public class SignupController : Controller
     {
-        public ActionResult Index()
-        {
-            ViewBag.Title = "Gå med";
-            var model = new JoinUsModel();
-
-            return View(model);
-        }
-
         [Route("Signup")]
         [HttpPost]
         public ActionResult Signup(JoinUsModel model)

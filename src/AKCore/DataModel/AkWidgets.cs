@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using AKCore.Models;
 
 namespace AKCore.DataModel
 {
@@ -10,6 +11,7 @@ namespace AKCore.DataModel
         public const string Image = "Image";
         public const string Video = "Video";
         public const string Music = "Music";
+        public const string Join = "Join";
 
         public static readonly IList Widgets = new List<string>()
         {
@@ -17,7 +19,8 @@ namespace AKCore.DataModel
             Text,
             Image,
             Video,
-            Music
+            Music,
+            Join
         };
     }
 
@@ -34,6 +37,7 @@ namespace AKCore.DataModel
         public List<Video> Videos { get; set; }
         public List<int> Albums { get; set; }
 
+        public JoinUsModel JoinUsModel { get; set; }
         public string GetHeader()
         {
             switch (Type)
@@ -46,6 +50,8 @@ namespace AKCore.DataModel
                     return "Video-widget";
                 case "Music":
                     return "Musik-widget";
+                case "Join":
+                    return "Gå med-widget";
             }
             return "Text-bild-widget";
         }

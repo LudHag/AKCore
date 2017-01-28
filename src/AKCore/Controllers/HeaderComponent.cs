@@ -20,7 +20,6 @@ namespace AKCore.Controllers
         public async Task<IViewComponentResult> InvokeAsync()
         {
             var loggedIn = User.Identity.IsAuthenticated;
-
             using (var db = new AKContext())
             {
                 var menus = db.Menus.OrderBy(x => x.PosIndex)
@@ -32,11 +31,6 @@ namespace AKCore.Controllers
                     .Where(x => !loggedIn || !x.Link.LoggedOut)
                     .Where(x => !x.Link.BalettOnly || (loggedIn && User.IsInRole(AkRoles.Balett)));
                 var modelMenus = menus.Select(m => new ModelMenu(m, loggedIn)).ToList();
-                if (!loggedIn)
-                {
-                    var join = new ModelMenu("Gå med", "/Signup", false) {Id = 10004};
-                    modelMenus.Add(join);
-                }
                 var upcomming = new ModelMenu(loggedIn ? "På gång" : "Spelningar", "/Upcomming", true) {Id = 10003};
                 modelMenus.Add(upcomming);
                 if (loggedIn)

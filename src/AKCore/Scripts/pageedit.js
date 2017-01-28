@@ -233,6 +233,7 @@ if (templates.length > 0) {
     var imageTemplate = templates.find(".Image");
     var videoTemplate = templates.find(".Video");
     var musicTemplate = templates.find(".Music");
+    var joinTemplate = templates.find(".Join");
     tinymce.init(options);
     $(".widget-choose")
         .on("click",
@@ -260,6 +261,18 @@ if (templates.length > 0) {
                     });
                 }
             });
+    $(".widget-choose-special")
+        .on("click",
+            "a",
+            function(e) {
+                e.preventDefault();
+                var type = $(this).data("type");
+                if (type === "Join") {
+                    $("#widget-area").append(joinTemplate.clone());
+                    tinymce.init(options);
+                }
+            });
+
     $("#widget-area")
         .sortable({
             axis: "y",
