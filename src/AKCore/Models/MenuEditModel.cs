@@ -23,7 +23,7 @@ namespace AKCore.Models
             Children = new List<ModelMenu>();
             Id = menu.Id;
             Name = menu.Name;
-            Link = menu.Link.Slug;
+            Link = menu.Link?.Slug ?? "";
             if (menu.Link != null) LoggedIn = menu.Link.LoggedIn;
             PosIndex = menu.PosIndex;
             if (menu.Children == null) return;

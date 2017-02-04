@@ -234,6 +234,7 @@ if (templates.length > 0) {
     var videoTemplate = templates.find(".Video");
     var musicTemplate = templates.find(".Music");
     var joinTemplate = templates.find(".Join");
+    var memberListTemplate = templates.find(".MemberList");
     tinymce.init(options);
     $(".widget-choose")
         .on("click",
@@ -270,6 +271,8 @@ if (templates.length > 0) {
                 if (type === "Join") {
                     $("#widget-area").append(joinTemplate.clone());
                     tinymce.init(options);
+                } else if (type === "MemberList") {
+                    $("#widget-area").append(memberListTemplate.clone());
                 }
             });
 
@@ -322,7 +325,7 @@ function jsonifyWidgets() {
                     });
             } else if (type === "Music") {
                 wig.Albums = $(o).find(".album").val();
-            } else {
+            } else if (type === "TextImage") {
                 tId = $(o).find(".mce-content").attr("id");
                 wig.Text = tinymce.get(tId).getContent();
                 wig.Image = $(o).find(".selected-image").attr("src");

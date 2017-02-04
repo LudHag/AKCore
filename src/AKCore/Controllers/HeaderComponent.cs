@@ -27,9 +27,9 @@ namespace AKCore.Controllers
                     .Include(x => x.Children)
                     .ThenInclude(x => x.Link)
                     .ToList()
-                    .Where(x => loggedIn || !x.Link.LoggedIn)
-                    .Where(x => !loggedIn || !x.Link.LoggedOut)
-                    .Where(x => !x.Link.BalettOnly || (loggedIn && User.IsInRole(AkRoles.Balett)));
+                    .Where(x => x.Link==null || loggedIn || !x.Link.LoggedIn)
+                    .Where(x => x.Link == null || !loggedIn || !x.Link.LoggedOut)
+                    .Where(x => x.Link == null ||  !x.Link.BalettOnly || (loggedIn && User.IsInRole(AkRoles.Balett)));
                 var modelMenus = menus.Select(m => new ModelMenu(m, loggedIn)).ToList();
                 var upcomming = new ModelMenu(loggedIn ? "På gång" : "Spelningar", "/Upcomming", true) {Id = 10003};
                 modelMenus.Add(upcomming);
@@ -39,12 +39,12 @@ namespace AKCore.Controllers
                     var roles = await _userManager.GetRolesAsync(user);
                     var nintendo = roles.Contains("SuperNintendo");
                     var editor = roles.Contains("Editor");
-                    var memberMenu = new ModelMenu("Kamrersinfo", "", true) {Id = 10000};
-                    var adressList = new ModelMenu("Adressregister", "/MemberList", true);
-                    var postList = new ModelMenu("Kamerersposter", "/MemberList/PostList", true);
-                    memberMenu.Children.Add(adressList);
-                    memberMenu.Children.Add(postList);
-                    modelMenus.Add(memberMenu);
+                    //var memberMenu = new ModelMenu("Kamrersinfo", "", true) {Id = 10000};
+                    //var adressList = new ModelMenu("Adressregister", "/MemberList", true);
+                    //var postList = new ModelMenu("Kamerersposter", "/MemberList/PostList", true);
+                    //memberMenu.Children.Add(adressList);
+                    //memberMenu.Children.Add(postList);
+                    //modelMenus.Add(memberMenu);
 
                     if (nintendo || editor)
                     {
