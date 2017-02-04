@@ -31,6 +31,7 @@ gulp.task('scripts', function () {
         "Scripts/media.js",
         "Scripts/events.js",
         "Scripts/upcomming.js",
+        "Scripts/memberlist.js",
         "Scripts/album.js",
         "Scripts/musicplayer.js",
         "Scripts/youtubegallerywall.js"

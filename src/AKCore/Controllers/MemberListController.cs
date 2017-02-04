@@ -22,13 +22,6 @@ namespace AKCore.Controllers
             _userManager = userManager;
         }
 
-        public ActionResult Index(MemberListModel model)
-        {
-            ViewBag.Title = "Adressregister";
-            PopulateModel(model);
-
-            return View(model);
-        }
         [Route("PostList")]
         public ActionResult PostList()
         {
@@ -42,25 +35,6 @@ namespace AKCore.Controllers
                 model.Users[p]=users;
             }
             return View("PostList",model);
-        }
-
-        private void PopulateModel(MemberListModel model)
-        {
-            var userQuery = _userManager.Users.Where(x=>x.Instrument!=null);
-            if (model.SearchPhrase != null)
-            {
-                var lowerSearch = model.SearchPhrase.ToLower();
-                userQuery = userQuery.Where(x => x.FirstName.ToLower().Contains(lowerSearch)
-                                                 || x.LastName.ToLower().Contains(lowerSearch)
-                                                 || x.Instrument.ToLower().Contains(lowerSearch)
-                                                 || x.City.ToLower().Contains(lowerSearch)
-                                                 || x.SlavPoster.ToLower().Contains(lowerSearch));
-            }
-            if (model.Instrument != null)
-            {
-                userQuery = userQuery.Where(x => x.Instrument == model.Instrument);
-            }
-            model.Users = userQuery.OrderBy(x=>x.FirstName).GroupBy(x=>x.Instrument).ToList();
         }
     }
 }

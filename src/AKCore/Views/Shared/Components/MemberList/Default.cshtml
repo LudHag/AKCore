@@ -1,0 +1,47 @@
+﻿@using AKCore.DataModel
+@model AKCore.Models.MemberListModel
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-inline ak-search" id="search-member-form">
+            <div class="form-group">
+                <input type="text" class="form-control" asp-for="SearchPhrase" placeholder="Sök här">
+            </div>
+            <div class="form-group">
+                <select class="form-control" asp-for="Instrument">
+                    <option value="">Sök efter instrument</option>
+                    @foreach (var i in AkInstruments.Instrument)
+                    {
+                        <option>@i</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div id="adress-register">
+            <h1>Adressregister</h1>
+            <div class="adress-list">
+           
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var memberList = {};
+    @foreach (var instr in Model.Users)
+    {
+        @: memberList['@instr.Key'] = [];
+        foreach (var pers in instr)
+        {
+            @: var pers = {};
+            @: pers.name = '@pers.GetName()';
+            @: pers.email = '@pers.Email';
+            @: pers.adress = '@pers.Adress';
+            @: pers.zip = '@pers.ZipCode';
+            @: pers.city = '@pers.City';
+            @: pers.nation = '@pers.Nation';
+            @: pers.phone = '@pers.Phone';
+            @: memberList['@instr.Key'].push(pers);
+        }
+    }
+</script>
