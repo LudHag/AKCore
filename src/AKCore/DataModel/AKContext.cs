@@ -54,6 +54,7 @@ namespace AKCore.DataModel
         public Page Link { get; set; }
         public List<SubMenu> Children { get; set; }
         public int PosIndex { get; set; }
+        public bool LoggedIn { get; set; }
     }
 
     public class SubMenu

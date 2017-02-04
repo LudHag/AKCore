@@ -48,7 +48,7 @@ namespace AKCore.Controllers
 
         [HttpPost]
         [Route("AddTopMenu")]
-        public ActionResult AddTopMenu(string name, string pageId)
+        public ActionResult AddTopMenu(string name, string pageId, string loggedIn)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
@@ -59,7 +59,8 @@ namespace AKCore.Controllers
             {
                 var m = new Menu
                 {
-                    Name = name
+                    Name = name,
+                    LoggedIn = loggedIn!=null
                 };
                 var highIndex=db.Menus.OrderByDescending(z => z.PosIndex).FirstOrDefault();
                 if (highIndex != null)
@@ -86,7 +87,7 @@ namespace AKCore.Controllers
 
         [HttpPost]
         [Route("EditMenu")]
-        public ActionResult EditMenu(string parentId, string menuId, string text, string pageId)
+        public ActionResult EditMenu(string parentId, string menuId, string text, string pageId, string loggedIn)
         {
             if (string.IsNullOrWhiteSpace(text))
             {
@@ -119,6 +120,7 @@ namespace AKCore.Controllers
                     {
                         menu.Link = null;
                     }
+                    menu.LoggedIn = loggedIn != null;
                 }
                 else
                 {
@@ -144,8 +146,6 @@ namespace AKCore.Controllers
                         menu.Link = null;
                     }
                 }
-
-
                 db.SaveChanges();
                 return Json(new {success = true});
             }

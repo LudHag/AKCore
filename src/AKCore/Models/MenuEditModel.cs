@@ -14,16 +14,20 @@ namespace AKCore.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string Link { get; set; }
+        public int LinkId { get; set; }
         public List<ModelMenu> Children { get; set; }
         public int PosIndex { get; set; }
         public bool LoggedIn { get; set; }
+        public bool MenuLoggedIn { get; set; }
 
         public ModelMenu(Menu menu, bool userLoggedIn)
         {
             Children = new List<ModelMenu>();
             Id = menu.Id;
             Name = menu.Name;
+            MenuLoggedIn = menu.LoggedIn;
             Link = menu.Link?.Slug ?? "";
+            LinkId = menu.Link?.Id ?? 0;
             if (menu.Link != null) LoggedIn = menu.Link.LoggedIn;
             PosIndex = menu.PosIndex;
             if (menu.Children == null) return;
@@ -36,6 +40,7 @@ namespace AKCore.Models
         {
             Id = menu.Id;
             if (menu.Link != null) LoggedIn = menu.Link.LoggedIn;
+            LinkId = menu.Link?.Id ?? 0;
             Name = menu.Name;
             if (menu.Link != null) Link = menu.Link.Slug;
             PosIndex = menu.SubPosIndex;

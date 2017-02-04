@@ -145,8 +145,11 @@ $("#menus")
             var name = form.find('.name');
             var link = form.find('.page');
             var parent = form.find('.parentId');
+            var loggedIn = form.find('.logged');
+            loggedIn.prop('checked', self.data('logged') === "True");
             name.val(self.text());
             link.val(self.data('link'));
+            link.removeAttr('required');
             id.val(self.data('id'));
             parent.val('false');
             $('#editMenuModal').modal('show');
@@ -162,7 +165,8 @@ $("#menus")
             var id = form.find('.menuId');
             var parent = form.find('.parentId');
             var name = form.find('.name');
-            var link = form.find('.page'); 
+            var link = form.find('.page');
+            link.attr('required', true);
             name.val(self.text());
             link.val(self.data('link'));
             id.val(self.data('id'));

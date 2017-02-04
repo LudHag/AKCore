@@ -27,6 +27,7 @@ namespace AKCore.Controllers
                     .Include(x => x.Children)
                     .ThenInclude(x => x.Link)
                     .ToList()
+                    .Where(x => loggedIn || !x.LoggedIn)
                     .Where(x => x.Link==null || loggedIn || !x.Link.LoggedIn)
                     .Where(x => x.Link == null || !loggedIn || !x.Link.LoggedOut)
                     .Where(x => x.Link == null ||  !x.Link.BalettOnly || (loggedIn && User.IsInRole(AkRoles.Balett)));
