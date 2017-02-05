@@ -8,7 +8,7 @@
                 <input type="text" id="member-search" class="form-control" asp-for="SearchPhrase" placeholder="Sök här">
             </div>
             <div class="form-group">
-                <select class="form-control" asp-for="Instrument">
+                <select class="form-control" id="select-instrument">
                     <option value="">Sök efter instrument</option>
                     @foreach (var i in AkInstruments.Instrument)
                     {

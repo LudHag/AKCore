@@ -6,7 +6,7 @@
             var instruments = Object.keys(memberList);
             adressList.empty();
             instruments.forEach(function(instr) {
-                var instrCat = $('<div class="instr-cat">');
+                var instrCat = $('<div class="instr-cat" data-instr="' + instr + '">');
                 instrCat.append('<h2>' + instr + '</h2>');
                 var persons = memberList[instr];
                 persons.forEach(function (pers) {
@@ -17,10 +17,6 @@
                 adressList.append(instrCat);
             });
         }
-        function filterList() {
-            
-        }
-
 
         renderList();
         $("#member-search")
@@ -39,6 +35,21 @@
                      }
                  });
              });
+        $('#select-instrument').on('change', function(e) {
+            var val = $(this).val();
+            
+            $('.instr-cat').each(function () {
+                if (val.length < 1) {
+                    $(this).show();
+                }
+                if ($(this).data('instr')===val) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+
+        });
     }
 });
 
