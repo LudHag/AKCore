@@ -20,7 +20,7 @@
 
         renderList();
         $("#member-search")
-         .on("change",
+         .on("keyup",
              function (e) {
                  e.preventDefault();
                  var self = $(this);
