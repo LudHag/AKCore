@@ -13,6 +13,7 @@ namespace AKCore.DataModel
         public const string Music = "Music";
         public const string Join = "Join";
         public const string MemberList = "MemberList";
+        public const string PostList = "PostList";
 
         public static readonly IList Widgets = new List<string>()
         {
@@ -22,7 +23,8 @@ namespace AKCore.DataModel
             Video,
             Music,
             Join,
-            MemberList
+            MemberList,
+            PostList
         };
     }
 
@@ -56,6 +58,8 @@ namespace AKCore.DataModel
                     return "Gå med-widget";
                 case "MemberList":
                     return "Adressregister-widget";
+                case "PostList":
+                    return "Kamererspostlista-widget";
             }
             return "Text-bild-widget";
         }

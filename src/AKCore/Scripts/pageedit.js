@@ -235,6 +235,7 @@ if (templates.length > 0) {
     var musicTemplate = templates.find(".Music");
     var joinTemplate = templates.find(".Join");
     var memberListTemplate = templates.find(".MemberList");
+    var postListTemplate = templates.find(".PostList");
     tinymce.init(options);
     $(".widget-choose")
         .on("click",
@@ -273,6 +274,8 @@ if (templates.length > 0) {
                     tinymce.init(options);
                 } else if (type === "MemberList") {
                     $("#widget-area").append(memberListTemplate.clone());
+                } else if (type === "PostList") {
+                    $("#widget-area").append(postListTemplate.clone());
                 }
             });
 
