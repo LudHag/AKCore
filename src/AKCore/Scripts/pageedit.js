@@ -325,7 +325,7 @@ function jsonifyWidgets() {
                     });
             } else if (type === "Music") {
                 wig.Albums = $(o).find(".album").val();
-            } else if (type === "TextImage") {
+            } else if (type === "TextImage" || type === "Join") {
                 tId = $(o).find(".mce-content").attr("id");
                 wig.Text = tinymce.get(tId).getContent();
                 wig.Image = $(o).find(".selected-image").attr("src");

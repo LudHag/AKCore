@@ -21,53 +21,54 @@ namespace AKCore.DataModel
     public class AkInstruments
     {
         public const string Altsax = "Altsax";
-        public const string Banjo = "Banjo";
         public const string Balett = "Balett";
+        public const string Banjo = "Banjo";
         public const string Barytonsax = "Barytonsax";
-        public const string Klarinett = "Klarinett";
         public const string Euphonium = "Euphonium";
         public const string Flute = "Flöjt";
         public const string Horn = "Horn";
+        public const string Klarinett = "Klarinett";
         public const string Oboe = "Oboe";
         public const string Slagverk = "Slagverk";
         public const string Tenorsax = "Tenorsax";
-        public const string Tuba = "Tuba";
         public const string Trombon = "Trombon";
         public const string Trumpet = "Trumpet";
+        public const string Tuba = "Tuba";
+        
         public static readonly IList<string> Instrument = new List<string>()
         {
             Altsax,
-            Banjo,
             Balett,
+            Banjo,
             Barytonsax,
-            Klarinett,
             Euphonium,
             Flute,
             Horn,
+            Klarinett,
             Oboe,
             Slagverk,
             Tenorsax,
-            Tuba,
             Trombon,
-            Trumpet
+            Trumpet,
+            Tuba
         };
     }
     public class AkFika
     {
         public const string Sax = "Sax";
-        public const string Komp = "Komp";
         public const string Balett = "Balett";
+        public const string Komp = "Komp";
         public const string Klarinett = "Klarinett";
         public const string Flute = "Flöjt";
         public const string Trombon = "Trombon";
         public const string Trumpet = "Trumpet";
         public static readonly IList<string> Sektioner = new List<string>()
         {
-            Sax,
-            Komp,
             Balett,
-            Klarinett,
             Flute,
+            Klarinett,
+            Komp,
+            Sax,
             Trombon,
             Trumpet
         };
