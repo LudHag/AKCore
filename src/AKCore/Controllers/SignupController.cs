@@ -57,16 +57,5 @@ namespace AKCore.Controllers
             }
         }
 
-        [Route("Signups")]
-        [Authorize(Roles = "SuperNintendo")]
-        public ActionResult Signups()
-        {
-            ViewBag.Title = "Anmälningar";
-
-            using (var db = new AKContext())
-            {
-                return View();
-            }
-        }
     }
 }

@@ -36,23 +36,23 @@
             <div class="alert alert-success" style="display: none;"></div>
             <div class="form-group">
                 <label asp-for="JoinUsModel.FirstName"></label>
-                <input type="text" class="form-control" placeholder="Förnamn" asp-for="JoinUsModel.FirstName">
+                <input type="text" class="form-control" placeholder="Förnamn" name="FirstName">
             </div>
             <div class="form-group">
                 <label asp-for="JoinUsModel.LastName"></label>
-                <input type="text" class="form-control" placeholder="Efternamn" asp-for="JoinUsModel.LastName">
+                <input type="text" class="form-control" placeholder="Efternamn" name="LastName">
             </div>
             <div class="form-group">
                 <label asp-for="JoinUsModel.Email"></label>
-                <input class="form-control" type="email" placeholder="Epost" asp-for="JoinUsModel.Email">
+                <input class="form-control" type="email" placeholder="Epost" name="Email">
             </div>
             <div class="form-group">
                 <label asp-for="JoinUsModel.Tel"></label>
-                <input class="form-control" type="tel" placeholder="Telefonnummer" asp-for="JoinUsModel.Tel">
+                <input class="form-control" type="tel" placeholder="Telefonnummer" name="Tel">
             </div>
             <div class="form-group">
                 <label asp-for="JoinUsModel.Instrument"></label>
-                <select class="form-control" asp-for="JoinUsModel.Instrument" required>
+                <select class="form-control" name="Instrument" required>
                     <option value="">Välj instrument</option>
                     @foreach (var instr in AkInstruments.Instrument)
                     {
