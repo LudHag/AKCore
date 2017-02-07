@@ -57,5 +57,17 @@ namespace AKCore.Controllers
             }
         }
 
+        [Route("Recruits")]
+        [Authorize(Roles = "SuperNintendo,Editor")]
+        public ActionResult Recruits()
+        {
+            ViewBag.Title = "Anmälningar";
+            using (var db = new AKContext())
+            {
+                var model = new RecruitsModel {Recruits = db.Recruits.ToList()};
+
+                return View(model);
+            }
+        }
     }
 }

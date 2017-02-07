@@ -111,7 +111,8 @@ namespace AKCore.DataModel
         public string Phone { get; set; }
         public string Instrument { get; set; }
         public string Other { get; set; }
-        public DateTime Created { get; set; } //ta bort
+        public DateTime Created { get; set; }
+        public bool Archived { get; set; }
     }
 
     public class Event
