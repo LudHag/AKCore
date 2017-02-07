@@ -37,12 +37,10 @@
              });
         $('#select-instrument').on('change', function(e) {
             var val = $(this).val();
-            
             $('.instr-cat').each(function () {
                 if (val.length < 1) {
                     $(this).show();
-                }
-                if ($(this).data('instr')===val) {
+                }else if($(this).data('instr')===val) {
                     $(this).show();
                 } else {
                     $(this).hide();
