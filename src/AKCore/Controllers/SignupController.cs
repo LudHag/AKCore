@@ -64,7 +64,10 @@ namespace AKCore.Controllers
             ViewBag.Title = "Anmälningar";
             using (var db = new AKContext())
             {
-                var model = new RecruitsModel {Recruits = db.Recruits.ToList()};
+                var model = new RecruitsModel
+                {
+                    Recruits = db.Recruits.OrderBy(x => x.Created).ToList()
+                };
 
                 return View(model);
             }

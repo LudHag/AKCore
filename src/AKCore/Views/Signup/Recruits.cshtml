@@ -4,7 +4,24 @@
     Layout = "~/Views/Shared/_MasterLayout.cshtml";
 }
 
-
-<div>
-    hej
+<div id="recruitList">
+    
 </div>
+
+<script>
+    var recruitList = {};
+    @foreach (var recruit in Model.Recruits)
+    {
+        @: recruitList['@recruit.Id'] = {};
+        @: var recruit = recruitList['@recruit.Id'];
+        @: recruit.fname = '@recruit.FirstName';
+        @: recruit.lname = '@recruit.LastName';
+        @: recruit.archived = @recruit.Archived.ToString().ToLower();
+        @: recruit.created = new Date('@recruit.Created.ToString("yyyy-MM-dd")');
+        @: recruit.email = '@recruit.Email';
+        @: recruit.phone = '@recruit.Phone';
+        @: recruit.instrument = '@recruit.Instrument';
+        @: recruit.other = '@recruit.Other';
+    }
+    console.log(recruitList);
+</script>
