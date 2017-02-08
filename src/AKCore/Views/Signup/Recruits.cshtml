@@ -9,11 +9,11 @@
 </div>
 
 <script>
-    var recruitList = {};
+    var recruitListData = {};
     @foreach (var recruit in Model.Recruits)
     {
-        @: recruitList['@recruit.Id'] = {};
-        @: var recruit = recruitList['@recruit.Id'];
+        @: recruitListData['@recruit.Id'] = {};
+        @: var recruit = recruitListData['@recruit.Id'];
         @: recruit.fname = '@recruit.FirstName';
         @: recruit.lname = '@recruit.LastName';
         @: recruit.archived = @recruit.Archived.ToString().ToLower();
@@ -22,6 +22,6 @@
         @: recruit.phone = '@recruit.Phone';
         @: recruit.instrument = '@recruit.Instrument';
         @: recruit.other = '@recruit.Other';
+        @: recruit.id = '@recruit.Id';
     }
-    console.log(recruitList);
 </script>

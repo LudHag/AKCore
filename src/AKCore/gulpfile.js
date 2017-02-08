@@ -32,6 +32,7 @@ gulp.task('scripts', function () {
         "Scripts/events.js",
         "Scripts/upcomming.js",
         "Scripts/memberlist.js",
+        "Scripts/recruits.js",
         "Scripts/album.js",
         "Scripts/musicplayer.js",
         "Scripts/youtubegallerywall.js"
