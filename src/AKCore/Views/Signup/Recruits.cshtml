@@ -1,11 +1,29 @@
-﻿@model AKCore.Models.RecruitsModel
+﻿@using System.Threading.Tasks
+@using AKCore.DataModel
+@model AKCore.Models.RecruitsModel
 @{
     Layout = "~/Views/Shared/_MasterLayout.cshtml";
 }
 
 <div class="row filters">
-    <div class="col-md-12">
+    <div class="col-md-6">
         <h1>Intresseanmälningar</h1>
+    </div>
+    <div class="col-md-6">
+        <div class="form-inline interest-filters">
+            <div class="form-group">
+                <input type="text" id="interest-search" class="form-control" placeholder="Sök här">
+            </div>
+            <div class="form-group">
+                <select class="form-control" id="select-instrument">
+                    <option value="">Sök efter instrument</option>
+                    @foreach (var i in AkInstruments.Instrument)
+                    {
+                        <option>@i</option>
+                    }
+                </select>
+            </div>
+        </div>
     </div>
 </div>
 <div id="recruitList">
