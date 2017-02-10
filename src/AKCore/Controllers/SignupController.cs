@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using AKCore.DataModel;
+using AKCore.Migrations;
 using AKCore.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -70,6 +71,25 @@ namespace AKCore.Controllers
                 };
 
                 return View(model);
+            }
+        }
+
+        [Route("Archive")]
+        [Authorize(Roles = "SuperNintendo,Editor")]
+        [HttpPost]
+        public ActionResult Archive(int id, bool arch)
+        {
+            if (id < 0)
+            {
+                return Json(new { success = false });
+            }
+            using (var db = new AKContext())
+            {
+                var recruit = db.Recruits.FirstOrDefault(x => x.Id == id);
+                if(recruit == null) return Json(new { success = false });
+                recruit.Archived = arch;
+                db.SaveChanges();
+                return Json(new {success = true});
             }
         }
     }

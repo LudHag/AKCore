@@ -14,8 +14,21 @@
         $('#recruitList').on('click', '.archive', function (e) {
             e.preventDefault();
             var id = $(this).data('id');
-            var arch = $(this).hasClass('green');
-            list.archive(id, !arch);
+            var arch = !($(this).hasClass('green'));
+            $.ajax({
+                url: "/Signup/Archive",
+                type: "POST",
+                data: {id:id, arch:arch},
+                success: function (res) {
+                    if (res.success) {
+                        list.archive(id, arch);
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+
         });
     }
 });
@@ -62,7 +75,10 @@ function Recruit(data) {
     this.dom.append($('<div class="col-md-2">' + data.instrument + '</div>'));
     this.dom.append($('<div class="col-md-2 contact">' + data.email + (data.email.length > 1 ? '<br>' : '') + data.phone + '</div>'));
     this.dom.append($('<div class="col-md-3 other">' + data.other + '</div>'));
-    this.dom.append($('<div class="col-md-1 actions"><a href="#" title="Arkivera" data-id="'+ data.id+'" class="archive glyphicon glyphicon-folder-open"></a></div>'));
+    this.dom.append($('<div class="col-md-1 actions"><a href="#" title="Arkivera" data-id="' + data.id + '" class="archive glyphicon glyphicon-folder-open"></a></div>'));
+    if (data.archived) {
+        this.archive(true);
+    }
 };
 
 Recruit.prototype.archive = function (arch) {
