@@ -8,6 +8,9 @@
         $('#interest-search').on('keyup', function (e) {
             list.filter();
         });
+        $('#archived-flip').on('change', function (e) {
+            list.filter();
+        });
     }
 });
 
@@ -58,6 +61,10 @@ Recruit.prototype.render = function() {
 
 Recruit.prototype.filter = function () {
     var instr = $('#select-instrument').val();
+    if (!!($('#archived-flip').is(':checked') ^ this.data.archived)) {
+        this.hide();
+        return;
+    }
     if (instr.length > 0) {
         if (instr !== this.data.instrument) {
             this.hide();
