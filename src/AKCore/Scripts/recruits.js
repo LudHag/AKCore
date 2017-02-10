@@ -11,6 +11,12 @@
         $('#archived-flip').on('change', function (e) {
             list.filter();
         });
+        $('#recruitList').on('click', '.archive', function (e) {
+            e.preventDefault();
+            var id = $(this).data('id');
+            var arch = $(this).hasClass('green');
+            list.archive(id, !arch);
+        });
     }
 });
 
@@ -25,6 +31,10 @@ function RecruitList(data, dom) {
     });
     this.dom.append($('<div class="row recruit-head"><div class="col-md-2">Skapad</div><div class="col-md-2">Namn</div><div class="col-md-2">Instrument</div><div class="col-md-2 contact">Kontaktinformation</div><div class="col-md-3 other">Övrigt</div><div class="col-md-1 actions"></div>'));
     this.render();
+};
+
+RecruitList.prototype.archive = function (id, arch) {
+    this.recruits[id].archive(arch);
 };
 
 RecruitList.prototype.filter = function() {
@@ -52,7 +62,17 @@ function Recruit(data) {
     this.dom.append($('<div class="col-md-2">' + data.instrument + '</div>'));
     this.dom.append($('<div class="col-md-2 contact">' + data.email + (data.email.length > 1 ? '<br>' : '') + data.phone + '</div>'));
     this.dom.append($('<div class="col-md-3 other">' + data.other + '</div>'));
-    this.dom.append($('<div class="col-md-1 actions"><input type="checkbox" /></div>'));
+    this.dom.append($('<div class="col-md-1 actions"><a href="#" title="Arkivera" data-id="'+ data.id+'" class="archive glyphicon glyphicon-folder-open"></a></div>'));
+};
+
+Recruit.prototype.archive = function (arch) {
+    this.data.archived = arch;
+    if (arch) {
+        this.dom.find('.archive').addClass('green');
+    } else {
+        this.dom.find('.archive').removeClass('green');
+    }
+    this.filter();
 };
 
 Recruit.prototype.render = function() {
