@@ -30,6 +30,28 @@
             });
 
         });
+        $('#recruitList').on('click', '.remove',function(e) {
+            e.preventDefault();
+            var id = $(this).data('id');
+            if (window.confirm("Är du säker att du vill ta bort den här intresseanmälan?")) {
+                $.ajax({
+                    url: "/Signup/Remove",
+                    type: "POST",
+                    data: { id: id},
+                    success: function (res) {
+                        if (res.success) {
+                            list.remove(id);
+                        }
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                });
+
+
+
+            }
+        });
     }
 });
 
@@ -48,6 +70,11 @@ function RecruitList(data, dom) {
 
 RecruitList.prototype.archive = function (id, arch) {
     this.recruits[id].archive(arch);
+};
+
+RecruitList.prototype.remove = function (id) {
+    this.recruits[id].hide();
+    delete this.recruits[id];
 };
 
 RecruitList.prototype.filter = function() {
@@ -75,7 +102,14 @@ function Recruit(data) {
     this.dom.append($('<div class="col-md-2">' + data.instrument + '</div>'));
     this.dom.append($('<div class="col-md-2 contact">' + data.email + (data.email.length > 1 ? '<br>' : '') + data.phone + '</div>'));
     this.dom.append($('<div class="col-md-3 other">' + data.other + '</div>'));
-    this.dom.append($('<div class="col-md-1 actions"><a href="#" title="Arkivera" data-id="' + data.id + '" class="archive glyphicon glyphicon-folder-open"></a></div>'));
+    this.actions = $('<div class="col-md-1 actions"></div>');
+    this.actions.append($('<a href="#" title="Arkivera" data-id="' +
+        data.id +
+        '" class="archive glyphicon glyphicon-folder-open"></a>'));
+    this.actions.append($('<a href="#" title="Ta bort" data-id="' +
+        data.id +
+        '" class="remove glyphicon glyphicon-remove"></a>'));
+    this.dom.append(this.actions);
     if (data.archived) {
         this.archive(true);
     }
@@ -107,9 +141,9 @@ Recruit.prototype.filter = function () {
             return;
         }
     }
-    var search = $('#interest-search').val();
+    var search = $('#interest-search').val().toLowerCase();
     if (search.length > 0) {
-        if ((this.data.fname + ' ' + this.data.lname).indexOf(search)<0) {
+        if ((this.data.fname.toLowerCase() + ' ' + this.data.lname.toLowerCase()).indexOf(search) < 0) {
             this.hide();
             return;
         }

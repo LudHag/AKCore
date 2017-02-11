@@ -92,5 +92,23 @@ namespace AKCore.Controllers
                 return Json(new {success = true});
             }
         }
+        [Route("Remove")]
+        [Authorize(Roles = "SuperNintendo,Editor")]
+        [HttpPost]
+        public ActionResult Remove(int id)
+        {
+            if (id < 0)
+            {
+                return Json(new { success = false });
+            }
+            using (var db = new AKContext())
+            {
+                var recruit = db.Recruits.FirstOrDefault(x => x.Id == id);
+                if (recruit == null) return Json(new { success = false });
+                db.Recruits.Remove(recruit);
+                db.SaveChanges();
+                return Json(new { success = true });
+            }
+        }
     }
 }
