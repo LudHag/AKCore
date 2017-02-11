@@ -67,7 +67,9 @@ namespace AKCore.Controllers
             {
                 var model = new RecruitsModel
                 {
-                    Recruits = db.Recruits.OrderBy(x => x.Created).ToList()
+                    Recruits = db.Recruits
+                        .Where(x=>x.Created>DateTime.Now.AddMonths(-6))
+                        .OrderBy(x => x.Created).ToList()
                 };
 
                 return View(model);
