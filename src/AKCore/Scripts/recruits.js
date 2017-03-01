@@ -47,10 +47,12 @@
                         console.log(err);
                     }
                 });
-
-
-
             }
+        });
+        $('#export-interested').on('click', function (e) {
+            e.preventDefault();
+            $('#export-modal').modal('show');
+            list.export();
         });
     }
 });
@@ -64,12 +66,25 @@ function RecruitList(data, dom) {
     recruitKeys.forEach(function (id) {
         self.recruits[id]=new Recruit(data[id]);
     });
-    this.dom.append($('<div class="row recruit-head"><div class="col-md-2">Skapad</div><div class="col-md-2">Namn</div><div class="col-md-2">Instrument</div><div class="col-md-2 contact">Kontaktinformation</div><div class="col-md-3 other">Övrigt</div><div class="col-md-1 actions"></div>'));
+    this.dom.append($('<div class="row recruit-head"><div class="col-md-2">Skapad</div><div class="col-md-2">Namn</div><div class="col-md-2">Instrument</div><div class="col-md-3 col-lg-2 contact">Kontaktinformation</div><div class="col-md-2 col-lg-3 other">Övrigt</div><div class="col-md-1 actions"></div>'));
     this.render();
 };
 
 RecruitList.prototype.archive = function (id, arch) {
     this.recruits[id].archive(arch);
+};
+
+RecruitList.prototype.export = function () {
+    var self = this;
+    var field = $('#export-field');
+    field.empty();
+    var keys = Object.keys(this.recruits);
+    keys.forEach(function (key) {
+        var rec = self.recruits[key];
+        if (rec.isVisible) {
+            field.append(rec.export()+'\n');
+        }
+    });
 };
 
 RecruitList.prototype.remove = function (id) {
@@ -100,8 +115,8 @@ function Recruit(data) {
     this.dom.append($('<div class="col-md-2">' + data.created.getFullYear() + '-' + ('0' + (data.created.getMonth() + 1)).slice(-2) + '-' + ('0' + data.created.getDate()).slice(-2) + '</div>'));
     this.dom.append($('<div class="col-md-2">' + data.fname + ' ' + data.lname + '</div>'));
     this.dom.append($('<div class="col-md-2">' + data.instrument + '</div>'));
-    this.dom.append($('<div class="col-md-2 contact">' + data.email + (data.email.length > 1 ? '<br>' : '') + data.phone + '</div>'));
-    this.dom.append($('<div class="col-md-3 other">' + data.other + '</div>'));
+    this.dom.append($('<div class="col-md-3 col-lg-2 contact">' + data.email + (data.email.length > 1 ? '<br>' : '') + data.phone + '</div>'));
+    this.dom.append($('<div class="col-md-2 col-lg-3 other">' + data.other + '</div>'));
     this.actions = $('<div class="col-md-1 actions"></div>');
     this.actions.append($('<a href="#" title="Arkivera" data-id="' +
         data.id +
@@ -123,6 +138,11 @@ Recruit.prototype.archive = function (arch) {
         this.dom.find('.archive').removeClass('green');
     }
     this.filter();
+};
+
+Recruit.prototype.export = function () {
+    var data = this.data;
+    return data.fname + '\t' + data.lname + '\t' + data.instrument + '\t' + data.email + '\t' + data.phone;
 };
 
 Recruit.prototype.render = function() {
