@@ -60,7 +60,8 @@
             {
                 <div class="col-sm-4">
                     <a href="/Upcomming/Event/@e.Id">Anmäl</a>
-                </div>
+                    <p>@e.CanCome() Kommer @e.CantCome() Kommer inte</p>
+               </div>
             }
             <div class="col-sm-12 description">
                 <p>@e.Description</p>

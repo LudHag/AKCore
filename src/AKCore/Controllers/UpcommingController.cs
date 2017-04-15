@@ -31,6 +31,7 @@ namespace AKCore.Controllers
                 var model = new UpcommingModel
                 {
                     Events = db.Events.OrderBy(x => x.Day)
+                        .Include(x=>x.SignUps)
                         .Where(x => loggedIn || (x.Type == "Spelning"))
                         .Where(x => x.Day >= DateTime.UtcNow.Date)
                         .GroupBy(x => x.Day.Year).ToList()

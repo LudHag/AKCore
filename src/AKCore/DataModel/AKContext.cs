@@ -135,6 +135,15 @@ namespace AKCore.DataModel
         public DateTime Starts { get; set; }
         public bool Stand { get; set; }
         public List<SignUp> SignUps { get; set; }
+
+        public int CanCome()
+        {
+            return SignUps?.Count(x => x.Where != AkSignupType.CantCome) ?? 0;
+        }
+        public int CantCome()
+        {
+            return SignUps?.Count(x => x.Where == AkSignupType.CantCome) ?? 0;
+        }
     }
 
     public class SignUp
