@@ -12,7 +12,8 @@ $("#update-profile-form")
                 data: form.serialize(),
                 success: function(res) {
                     if (res.success) {
-                        success.text(res.message);
+                        form.parent().get(0).scrollIntoView();
+                        success.text("Din profil uppdaterades");
                         success.slideDown().delay(3000).slideUp();
                     } else {
                         error.text(res.message);

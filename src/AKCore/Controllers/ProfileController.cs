@@ -70,7 +70,7 @@ namespace AKCore.Controllers
             user.Phone = model.Phone;
             user.Nation = model.Nation;
             user.Instrument = model.Instrument;
-            user.OtherInstruments = string.Join(",",model.OtherInstrument);
+            user.OtherInstruments = model.OtherInstrument == null ? "" : string.Join(",",model.OtherInstrument);
             var result = await _userManager.UpdateAsync(user);
             if (result.Succeeded && updateUName)
             {
