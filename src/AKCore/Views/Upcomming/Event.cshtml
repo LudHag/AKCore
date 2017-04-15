@@ -75,7 +75,7 @@
                 }
                 if (start != "00:00")
                 {
-                    <p>Samling på plats: @start</p>
+                    <p>Spelning startar: @start</p>
                 }
             }
         </div>
@@ -90,7 +90,7 @@
                 <p>@s.PersonName</p>
             </div>
             <div class="col-sm-2 signup-element">
-                <p>@s.InstrumentName@(string.IsNullOrWhiteSpace(s.OtherInstruments) ? "" : ","+s.OtherInstruments)</p>
+                <p>@s.InstrumentName@(string.IsNullOrWhiteSpace(s.OtherInstruments) ? "" : ", "+s.OtherInstruments.Replace(",",", "))</p>
             </div>
             <div class="col-sm-2 signup-element">
                 <p>@s.GetInfo()</p>

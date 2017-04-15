@@ -55,7 +55,7 @@ namespace AKCore.Controllers
                 var user = await _userManager.FindByNameAsync(User.Identity.Name);
                 var roles = await _userManager.GetRolesAsync(user);
                 var nintendo = roles.Contains("SuperNintendo");
-                var signup = db.SignUps.FirstOrDefault(x => x.Person == user.UserName);
+                var signup = spelning.SignUps.FirstOrDefault(x => x.Person == user.UserName);
                 if (signup!=null)
                 {
                     model.Where = signup.Where;
