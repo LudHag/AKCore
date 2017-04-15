@@ -3,7 +3,7 @@
 
 <thead>
 <tr>
-    <th>Användarnamn</th>
+    <th>Namn</th>
     <th>Email</th>
     <th>Roller</th>
     <th></th>
@@ -22,7 +22,7 @@
         <td class="roles" id="roles-@u.UserName">
             @foreach (var r in roles)
             {
-                <span class="role">@r <a class="remove-role glyphicon glyphicon-remove" data-user="@u.UserName" data-role="@r"></a></span>
+                <span class="role">@r <a class="remove-role glyphicon glyphicon-remove" data-user="@fullName" data-role="@r"></a></span>
             }
         </td>
         <td>
@@ -52,7 +52,7 @@
                             <form class="form-inline save-medal" method="post" action="/User/SaveMedal">
                                 <input type="hidden" name="userName" value="@u.UserName"/>
                                 <div class="form-group">
-                                    <strong>Slavposter:</strong>
+                                    <strong>Senast förtjänade medalj: @u.Medal</strong>
                                     <select class="form-control input-sm" name="medal" asp-for="@u.Medal">
                                         <option value="">Ingen</option>
                                         @foreach (var m in AkMedals.TermMedals)

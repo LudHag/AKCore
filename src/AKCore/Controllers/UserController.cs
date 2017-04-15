@@ -50,7 +50,7 @@ namespace AKCore.Controllers
             var users = _userManager.Users.ToList();
             if (model.SearchPhrase != null)
             {
-                users = users.Where(x => x.UserName.Contains(model.SearchPhrase)).ToList();
+                users = users.Where(x => x.UserName.Contains(model.SearchPhrase) || (x.FirstName + ' ' + x.LastName).Contains(model.SearchPhrase) ).ToList();
             }
             foreach (var user in users)
             {
@@ -64,7 +64,10 @@ namespace AKCore.Controllers
         [Route("CreateUser")]
         public async Task<ActionResult> CreateUser(string userName, string password)
         {
-            var newUser = new AkUser {UserName = userName};
+            var newUser = new AkUser
+            {
+                UserName = userName
+            };
 
             var createRes = await _userManager.CreateAsync(newUser, password);
             if (!createRes.Succeeded)
