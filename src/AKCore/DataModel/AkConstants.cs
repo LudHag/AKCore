@@ -80,7 +80,6 @@ namespace AKCore.DataModel
         public const string KK = "Kamrerskamerer";
         public const string Balettkamerer = "Balettkamerer";
         public const string Busskamerer = "Busskamerer";
-        public const string Klimatkamerer = "Klimatkamerer";
         public const string Kamerakamerer = "Kamerakamerer";
         public const string Myskamerer = "Myskamerer";
         public const string Musikkamerer = "Musikkamerer";
@@ -93,8 +92,6 @@ namespace AKCore.DataModel
         public const string Sexkamerer = "Sexkamerer";
         public const string Skrubbkamerer = "Skrubbkamerer";
         public const string Sponsringskamerer = "Sponsringskamerer";
-        public const string Bardkamerer = "Bardkamerer";
-        public const string Moveskamerer = "Moveskamerer";
         public static readonly IList<string> Poster = new List<string>()
         {
             OK,
@@ -102,7 +99,6 @@ namespace AKCore.DataModel
             KK,
             Balettkamerer,
             Busskamerer,
-            Klimatkamerer,
             Kamerakamerer,
             Myskamerer,
             Musikkamerer,
@@ -115,8 +111,6 @@ namespace AKCore.DataModel
             Sexkamerer,
             Skrubbkamerer,
             Sponsringskamerer,
-            Bardkamerer,
-            Moveskamerer
         };
     }
 
