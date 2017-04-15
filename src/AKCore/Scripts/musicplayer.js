@@ -24,8 +24,6 @@ MusicPlayer.prototype.initBinds = function () {
         e.preventDefault();
         var id = $(this).data('id');
         self.selectAlbum(id);
-        self.resetPlayer();
-        self.renderElement();
     });
     function downloadURI(uri, name) {
         var link = document.createElement("a");
@@ -63,9 +61,9 @@ MusicPlayer.prototype.playNext = function(linkElement) {
     linkElement.removeClass('active');
     var next = linkElement.next();
     if (next.length > 0) {
-        if (!next.hasClass('queued')){
+        if (!next.hasClass('queued')) {
             this.playNext(next);
-        }else{
+        } else {
             this.playTrack(next);
         }
     }
@@ -73,7 +71,9 @@ MusicPlayer.prototype.playNext = function(linkElement) {
 
 MusicPlayer.prototype.playTrack = function (linkElement) {
     var player = this.container.find('.player');
+    var playingnow = this.container.find('.playingnow');
     var link = linkElement.attr('href');
+    playingnow.text('Spelar nu: ' + linkElement.find('span').text());
     player.attr('src', link);
     player.trigger('load');
     player.trigger('play');
@@ -97,7 +97,7 @@ MusicPlayer.prototype.createAlbums = function() {
     this.element.append(albumsContainer);
 };
 MusicPlayer.prototype.createPlayer = function () {
-    this.player = $('<audio controls class="player" src=""><p>Your browser does not support the <code>audio</code> element.</p></audio>');
+    this.player = $('<p class="playingnow"></p><audio controls class="player" src=""><p>Your browser does not support the <code>audio</code> element.</p></audio>');
     var playerModule = $('<div class="player-module"></div>');
     playerModule.append(this.player);
     this.playListModule = $('<div class="playlist"></div>');
