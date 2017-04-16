@@ -11,5 +11,10 @@ namespace AKCore.Models
         public IList<IFormFile> TrackFiles { get; set; }
         public int AlbumId { get; set; }
         public IList<Album> Albums { get; set; }
+
+        public AlbumEditModel()
+        {
+            Albums = new List<Album>();
+        }
     }
 }
