@@ -73,15 +73,16 @@ namespace AKCore.Controllers
 
         private static List<Media> PopulateList(int page, out int totalPages,string searchPhrase, string type = "")
         {
+            var pagesize = 12;
             using (var db = new AKContext())
             {
                 var searched=db.Medias
                     .Where(x=>x.Name.Contains(searchPhrase))
                     .Where(x => string.IsNullOrWhiteSpace(type)||x.Type==type)
                     .OrderByDescending(x=>x.Created);
-                totalPages = ((searched.Count()-1) / 8)+1;
+                totalPages = ((searched.Count()-1) / pagesize) +1;
                 if (totalPages < page) page = totalPages;
-                return searched.Skip((page - 1)*8).Take(8).ToList();
+                return searched.Skip((page - 1)* pagesize).Take(pagesize).ToList();
             }
         }
         [Route("UploadFile")]
