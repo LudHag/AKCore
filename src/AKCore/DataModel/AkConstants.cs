@@ -118,12 +118,16 @@ namespace AKCore.DataModel
     {
         public const string Spelning = "Spelning";
         public const string Rep = "Rep";
+        public const string KarRep = "Kårhusrep";
+        public const string FikaRep = "Fikarep";
         public const string Fest = "Fest";
 
         public static readonly IList<string> Types = new List<string>()
         {
             Spelning,
             Rep,
+            KarRep,
+            FikaRep,
             Fest
         };
     }

@@ -19,17 +19,13 @@ namespace AKCore.Controllers
             using (var db = new AKContext())
             {
                 IQueryable<Event> eventsQuery;
-                if (!string.IsNullOrWhiteSpace(Future) && Future == "Gamla")
-                {
+                if (!string.IsNullOrWhiteSpace(Future) && (Future == "Gamla"))
                     eventsQuery = db.Events.OrderBy(x => x.Day).Where(x => x.Day < DateTime.UtcNow.Date);
-                }
                 else
-                {
                     eventsQuery = db.Events.OrderBy(x => x.Day).Where(x => x.Day >= DateTime.UtcNow.Date);
-                }
 
 
-                var model = new AdminEventModel {Events = eventsQuery.ToList() };
+                var model = new AdminEventModel {Events = eventsQuery.ToList()};
                 return View(model);
             }
         }
@@ -41,16 +37,13 @@ namespace AKCore.Controllers
             using (var db = new AKContext())
             {
                 if (model.Type != null)
-                {
                     if (model.Id > 0) //editera
                     {
-                        var changeEvent=db.Events.FirstOrDefault(x => x.Id == model.Id);
+                        var changeEvent = db.Events.FirstOrDefault(x => x.Id == model.Id);
                         if (changeEvent == null)
-                        {
-                            return Json(new { success = false, message = "Misslyckades med att spara ändringen" });
-                        }
+                            return Json(new {success = false, message = "Misslyckades med att spara ändringen"});
                         changeEvent.Name = model.Name;
-                        changeEvent.Place = model.Place;
+                        changeEvent.Place = model.Place ?? "";
                         changeEvent.Day = model.Day;
                         changeEvent.Halan = model.Halan;
                         changeEvent.There = model.There;
@@ -60,19 +53,23 @@ namespace AKCore.Controllers
                         changeEvent.InternalDescription = model.InternalDescription;
                         changeEvent.Type = model.Type;
                         db.SaveChanges();
-                        return Json(new { success = true });
+                        return Json(new {success = true});
                     }
                     else //skapa
                     {
+                        if ((model.Type == AkEventTypes.FikaRep) || (model.Type == AkEventTypes.KarRep) ||
+                            (model.Type == AkEventTypes.Rep))
+                            model.Name = model.Type;
+
                         var newEvent = new Event
                         {
-                            Name = model.Type=="Rep" ? "Rep" : model.Name,
-                            Place = model.Place,
+                            Name = model.Name,
+                            Place = model.Place ?? "",
                             Description = model.Description,
-                            InternalDescription =  model.InternalDescription,
+                            InternalDescription = model.InternalDescription,
                             Day = model.Day,
                             Type = model.Type,
-                            Fika=model.Fika,
+                            Fika = model.Fika,
                             Halan = model.Halan,
                             Stand = model.Stand,
                             Starts = model.Starts,
@@ -82,7 +79,6 @@ namespace AKCore.Controllers
                         db.SaveChanges();
                         return Json(new {success = true});
                     }
-                }
                 return Json(new {success = false, message = "Misslyckades med att spara ändringen"});
             }
         }
@@ -96,26 +92,27 @@ namespace AKCore.Controllers
                 return Json(new {success = false, message = "Misslyckades med att ta bort event"});
             using (var db = new AKContext())
             {
-                var e = db.Events.Include(x=>x.SignUps).FirstOrDefault(x => x.Id == eId);
+                var e = db.Events.Include(x => x.SignUps).FirstOrDefault(x => x.Id == eId);
                 if (e == null) return Json(new {success = false, message = "Misslyckades med att ta bort event"});
 
                 db.Events.Remove(e);
                 db.SaveChanges();
-                return Json(new { success = true});
+                return Json(new {success = true});
             }
         }
+
         [Route("GetEvent/{id:int}")]
         public ActionResult GetEvent(string id)
         {
             var eId = 0;
             if (!int.TryParse(id, out eId))
-                return Json(new { success = false, message = "Misslyckades med att hämta event" });
+                return Json(new {success = false, message = "Misslyckades med att hämta event"});
             using (var db = new AKContext())
             {
                 var e = db.Events.FirstOrDefault(x => x.Id == eId);
-                if (e == null) return Json(new { success = false, message = "Misslyckades med att hämta event" });
-                
-                return Json(new { success = true , e = JsonConvert.SerializeObject(e)});
+                if (e == null) return Json(new {success = false, message = "Misslyckades med att hämta event"});
+
+                return Json(new {success = true, e = JsonConvert.SerializeObject(e)});
             }
         }
     }

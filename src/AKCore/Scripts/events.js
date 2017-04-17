@@ -131,6 +131,8 @@ function reloadEvents(searchString,sort) {
 }
 
 function replaceEventType(type) {
+    $('#edit-event-modal').removeClass('Kårhusrep');
+    $('#edit-event-modal').removeClass('Fikarep');
     $('#edit-event-modal').removeClass('Rep');
     $('#edit-event-modal').removeClass('Fika');
     $('#edit-event-modal').removeClass('Spelning');
