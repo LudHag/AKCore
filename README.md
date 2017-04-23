@@ -1,7 +1,6 @@
 # Instruktioner för installation
 
-Utvecklat med VS 2015 Update 3 + .NET Core 1.0.1 - VS 2015 Tooling Preview 2
-[Ladda ner!](https://www.microsoft.com/net/core#windows)
+Utvecklat med VS 2017
 
 Rekomenderas inte att installera med äldre verktyg.
 
