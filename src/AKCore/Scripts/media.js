@@ -54,6 +54,7 @@ uploadForm.on("submit",
         var form = $(this);
         var mediaData = new FormData();
         mediaData.append("UploadFile", droppedFiles[0]);
+        mediaData.append("Tag", $('#upload-mediatags').val());
         var success = $(".alert-success");
         var error = $(".alert-danger");
         $.ajax({
@@ -65,10 +66,11 @@ uploadForm.on("submit",
             success: function(res) {
                 if (res.success) {
                     success.slideDown().delay(3000).slideUp();
-                    updateMediaList("", "1");
+                    updateMediaList("", "Image", "1");
                     form.find('.box__file').val('');
                     droppedFiles = false;
                     form.find('.file-name').text('Dra hit filen');
+                    $('#upload-mediatags').val("Allmän")
                 } else {
                     error.text(res.message);
                     error.slideDown().delay(3000).slideUp();
@@ -89,7 +91,11 @@ $("#search-media-form")
             $($(".pagination li")[0]).addClass("active");
             updateSearch();
         });
-
+$("#search-media-form").on("change", "#search-mediatags", function (e) {
+    $(".pagination li").removeClass("active");
+    $($(".pagination li")[0]).addClass("active");
+    updateSearch();
+});
 $("#uploaded-files")
     .on("click",
         ".remove-media",
@@ -132,12 +138,13 @@ $("#uploaded-files")
 
 function updateSearch() {
     var st = $("#searchtext").val();
+    var tag = $("#search-mediatags").val();
     var page = $(".pagination li.active a").data('page');
-    updateMediaList(st, page);
+    updateMediaList(st, tag, page);
 }
 
-function updateMediaList(search, page) {
-    $.get("/Media/MediaList?SearchPhrase=" + search + "&Page=" + page,
+function updateMediaList(search, tag, page) {
+    $.get("/Media/MediaList?SearchPhrase=" + search + "&Page=" + page + "&Tag=" + tag,
         function(data) {
             $("#uploaded-files").empty().append(data);
         });

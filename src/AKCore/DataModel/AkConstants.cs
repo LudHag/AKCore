@@ -166,6 +166,20 @@ namespace AKCore.DataModel
         };
     }
 
+    public class AkMediaTags
+    {
+        public const string Allmän = "Allmän";
+        public const string Ikoner = "Ikoner";
+        public const string Startsidebilder = "Startsidebilder";
+
+        public static readonly IList<string> MediaTags = new List<string>()
+        {
+            Allmän,
+            Ikoner,
+            Startsidebilder
+        };
+    }
+
     public class AkVariable
     {
         private static long _uniqueId { get; set; }

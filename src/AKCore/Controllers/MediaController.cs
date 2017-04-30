@@ -30,7 +30,7 @@ namespace AKCore.Controllers
             ViewBag.Title = "Filuppladdning";
 
             int totalPages;
-            var medias = PopulateList(1, out totalPages,"");
+            var medias = PopulateList(1, out totalPages, "", "Image");
             var model = new MediaModel
             {
                 MediaFiles = medias,
@@ -44,7 +44,12 @@ namespace AKCore.Controllers
         public ActionResult MediaList(SearchModel search)
         {
             int totalPages;
-            var medias = PopulateList(search.Page<1 ? 1 : search.Page, out totalPages, search.SearchPhrase ?? "");
+            var type = "";
+            if(search.Tag=="Document" || search.Tag == "Image") {
+                type = search.Tag;
+                search.Tag = "";
+            }
+            var medias = PopulateList(search.Page<1 ? 1 : search.Page, out totalPages, search.SearchPhrase ?? "", type, search.Tag);
             if (totalPages < search.Page) search.Page = totalPages;
             var model = new MediaModel
             {
@@ -59,7 +64,7 @@ namespace AKCore.Controllers
         public ActionResult MediaPickerList(SearchModel search)
         {
             int totalPages;
-            var medias = PopulateList(search.Page < 1 ? 1 : search.Page, out totalPages, search.SearchPhrase ?? "",search.Type);
+            var medias = PopulateList(search.Page < 1 ? 1 : search.Page, out totalPages, search.SearchPhrase ?? "",search.Type, search.Tag);
             if (totalPages < search.Page) search.Page = totalPages;
             var model = new MediaModel
             {
@@ -71,14 +76,15 @@ namespace AKCore.Controllers
         }
 
 
-        private static List<Media> PopulateList(int page, out int totalPages,string searchPhrase, string type = "")
+        private static List<Media> PopulateList(int page, out int totalPages,string searchPhrase, string type = "", string tag = "")
         {
             var pagesize = 12;
             using (var db = new AKContext())
             {
                 var searched=db.Medias
                     .Where(x=>x.Name.Contains(searchPhrase))
-                    .Where(x => string.IsNullOrWhiteSpace(type)||x.Type==type)
+                    .Where(x => string.IsNullOrWhiteSpace(type) || x.Type == type)
+                    .Where(x => string.IsNullOrWhiteSpace(tag) || x.Tag == tag)
                     .OrderByDescending(x=>x.Created);
                 totalPages = ((searched.Count()-1) / pagesize) +1;
                 if (totalPages < page) page = totalPages;
@@ -92,7 +98,7 @@ namespace AKCore.Controllers
             var ext=Path.GetExtension(file.FileName).ToLower();
             var isImage = ImageExtensions.FirstOrDefault(x => ext.EndsWith(x)) != null;
             var isDocument = DocumentExtensions.FirstOrDefault(x => ext.EndsWith(x)) != null;
-            if (!(isImage || isDocument))
+            if (!(isImage || isDocument) || string.IsNullOrWhiteSpace(model.Tag))
             {
                 return Json(new { success = false, message = "Filen har fel format" });
             }
@@ -119,6 +125,7 @@ namespace AKCore.Controllers
                 {
                     Name = filename,
                     Created = DateTime.Now,
+                    Tag = model.Tag
                 };
                 mediaFile.Type = isImage ? "Image" : "Document";
                 db.Medias.Add(mediaFile);

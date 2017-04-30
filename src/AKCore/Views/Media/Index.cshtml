@@ -1,4 +1,5 @@
 ﻿@using Microsoft.EntityFrameworkCore.Metadata.Internal
+@using AKCore.DataModel
 @model AKCore.Models.MediaModel
 @{
     Layout = "~/Views/Shared/_MasterLayout.cshtml";
@@ -26,6 +27,15 @@
                         Välj en fil <input class="box__file" style="display: none;" type="file" name="UploadFile" id="file"/>
                     </label>
                 </div>
+                <div class="form-group">
+                    <select name="Tag" id="upload-mediatags" class="form-control mediatags" required>
+                        @foreach (var p in AkMediaTags.MediaTags)
+                        {
+                            <option value="@p">@p</option>
+                        }
+                    </select>
+                </div>
+
             </div>
         </form>
         <div class="text-center">
@@ -41,6 +51,17 @@
             <div class="form-group">
                 <input type="text" class="form-control" name="SearchPhrase" id="searchtext">
             </div>
+            <div class="form-group">
+                <select name="Tag" id="search-mediatags" class="form-control">
+                    <option value="Image">Alla bilder</option>
+                    <option value="Document">Alla dokument</option>
+                    @foreach (var p in AkMediaTags.MediaTags)
+                    {
+                        <option value="@p">@p</option>
+                    }
+                </select>
+            </div>
+
             <button type="submit" class="btn btn-default">Sök</button>
         </form>
     </div>

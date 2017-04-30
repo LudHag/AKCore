@@ -153,7 +153,14 @@ $("#search-pickermedia-form")
             $(".pagination li").removeClass("active");
             $($(".pagination li")[0]).addClass("active");
             updatePickerSearch();
-        });
+    });
+
+$("#search-pickermedia-form").on("change", "#search-mediatags", function (e) {
+    $(".pagination li").removeClass("active");
+    $($(".pagination li")[0]).addClass("active");
+    updatePickerSearch();
+});
+
 $("#imagePickerModal")
     .on("shown.bs.modal",
         function(e) {
@@ -215,12 +222,13 @@ $("#widget-area")
 
 function updatePickerSearch() {
     var st = $("#searchtext").val();
+    var tag = $("#search-mediatags").val();
     var page = $(".pagination li.active a").data("page");
-    updateMediaPickerList(st, page);
+    updateMediaPickerList(st, tag, page);
 }
 
-function updateMediaPickerList(search, page) {
-    $.get("/Media/MediaPickerList?SearchPhrase=" + search + "&Page=" + page + "&Type=Image",
+function updateMediaPickerList(search, tag, page) {
+    $.get("/Media/MediaPickerList?SearchPhrase=" + search + "&Page=" + page + "&Type=Image" + "&Tag=" + tag,
         function(data) {
             $("#picker-images").empty().append(data);
         });
