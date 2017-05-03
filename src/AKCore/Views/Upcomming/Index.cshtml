@@ -53,13 +53,13 @@
                     {
                         <p>Samling på plats: @there</p>
                     }
-                    if (start != "00:00")
+                    if (start != "00:00" && e.Type == "Spelning")
                     {
                         <p>Spelning startar: @start</p>
                     }
                 }
             </div>
-            @if (e.Type == "Rep")
+            @if (e.Type == "Rep" || e.Type == "Kårhusrep")
             {
                 <div class="col-sm-4">
                     <p>Fika och städning: @e.Fika</p>
