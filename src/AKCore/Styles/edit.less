@@ -289,34 +289,47 @@ table{
     border-bottom:1px solid @akred;
 }
 
-#edit-event-modal{
+#edit-event-modal {
     .description,
     .rep-fika,
-    .spelning-tid{
-        display:none;
+    .spelning-tid,
+    .spelning-tid-there {
+        display: none;
     }
-    &.Spelning{
+
+    &.Spelning {
         .spelning-tid,
-        .description{
-            display:block;
+        .spelning-tid-there,
+        .description {
+            display: block;
         }
     }
-    &.Rep,&.Kårhusrep,&.Fikarep{
-        .rep-fika{
-            display:block;
+
+    &.Rep, &.Kårhusrep, &.Fikarep {
+        .rep-fika {
+            display: block;
         }
-        .spelning-fest{
-            display:none;
-        }
-    }
-    &.Kårhusrep,&.Fikarep{
-        .place{
-            display:none;
+
+        .spelning-fest {
+            display: none;
         }
     }
-    &.Fikarep{
-        .rep-fika{
-            display:none;
+
+    &.Kårhusrep, &.Fikarep {
+        .place {
+            display: none;
+        }
+    }
+
+    &.Kårhusrep {
+        .spelning-tid-there {
+            display: block;
+        }
+    }
+
+    &.Fikarep {
+        .rep-fika {
+            display: none;
         }
     }
 }
