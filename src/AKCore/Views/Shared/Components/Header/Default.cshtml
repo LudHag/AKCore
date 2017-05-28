@@ -4,21 +4,24 @@
     var currentUrl = Context.Request.Path.ToString();
 }
 <header>
-    <a class="logo" href="/">
-        <img src="~/images/ak_logo.png"/>
-    </a>
-    <div class="account hidden-xs">
-        @if (!Model.LoggedIn)
-        {
-            <a href="#" class="login">Logga in</a>
-        }
-        else
-        {
-            <p>
-                Inloggad som <a href="/Profile">@Model.UserName</a>
-            </p>
-            <a href="/Account/Logout" class="logout">Logga ut</a>
-        }
+    <div class="container">
+        <a class="logo" href="/">
+            <img src="~/images/logo.png" />
+        </a>
+        <div class="account hidden-xs">
+            @if (!Model.LoggedIn)
+            {
+                <a href="#" class="login">Logga in</a>
+            }
+            else
+            {
+                <p>
+                    Inloggad som <a href="/Profile">@Model.UserName</a>
+                </p>
+                <a href="/Account/Logout" class="logout">Logga ut</a>
+            }
+        </div>
+        
     </div>
     <nav>
         <ul class="navigation">

@@ -1,36 +1,55 @@
-﻿nav{
-    display: block;
-    position: absolute;
-    bottom: -15px;
-    right: 0px;
-    margin: 0px;
-}
-.navigation{
+﻿nav {
     display: block;
     position: relative;
-    margin-bottom: 20px;
-    right: 10px;
-    li{
+    width: 100%;
+    margin-top:15px;
+    height: 35px;
+    background-color: @akred;
+}
+.login {
+    font-size: 16px;
+    font-weight: 500;
+}
+.navigation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: row wrap;
+    li {
         position: relative;
-        background-color: black;
         a {
-            font-weight: bold;
+            cursor:default;
+            &:link{
+                cursor:pointer;
+            }
+            font-weight: 500;
             display: block;
-            border-bottom: 4px solid white;
-            color: #999999;
-            font-size: 12px;
-            padding-bottom: 3px;
-            margin-left: 4px;
+            color: #fff;
+            line-height:34px;
+            font-size: 16px;
+            padding: 0 20px;
             &.active,
-            &:hover{
+            &:hover {
                 display: block;
-                color: #cccccc;
-                border-color: @akred;
+                color: #999;
                 text-decoration: none;
             }
         }
     }
 }
+.subnav {
+    display: none;
+    position: absolute;
+    list-style: none;
+    padding: 5px 0;
+    z-index: 2;
+    background-color: @akred;
+    li {
+        padding-right: 5px;
+        padding-bottom: 5px;
+    }
+}
+
 .navigation > * {
     display: inline-block;
 }
@@ -56,7 +75,7 @@
     }
     a,span{
         color: #999999;
-        font-weight: bold;
+        font-weight: 500;
         text-align: center;
     }
     .submenu-item{

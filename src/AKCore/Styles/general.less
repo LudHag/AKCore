@@ -32,21 +32,28 @@ h3{
     color: @akred;
 }
 
-header{
+header {
     display: block;
     position: relative;
     border-bottom: 2px solid #1a1a1a;
-    margin: 0 -15px;
-    padding: 20px;
-    height: 115px;
-    .logo{
+    padding: 15px 0 0;
+    background-color: #6e1601;
+    .container {
+        position: relative;
+        padding:0 45px;
+    }
+    a, a:visited{
+        color: #000;
+        font-weight:500;
+    }
+    .logo {
         display: block;
     }
 }
-body{
-    background: url('/images/background.png') repeat scroll;
+body {
+    background: #000;
     height: 100%;
-    font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+    font-family: 'Roboto', sans-serif;
     color: #dddddd;
     font-size: 15px;
 }
@@ -73,15 +80,15 @@ p.big{
 .modal{
     z-index: 70000;
 }
-
-
-::-moz-selection { background: #aa0000; color: #fff; text-shadow: none; }
+.modal-open {
+    padding-right: 0 !important;
+}
 ::selection { background: @akred; color: #fff; text-shadow: none; }
 
 .account{
     text-align: right;
     padding: 5px;
-    color: #444444;
+    color: #fff;
     z-index: 10;
     top: 5px;
     position: absolute;
@@ -121,17 +128,7 @@ a:visited,
 .side-image{
     max-width: 100%;
 }
-.subnav{
-    display: none;
-    position: absolute;
-    list-style: none;
-    padding: 5px 0;
-    z-index: 2;
-    li{
-        padding-right: 5px;
-        padding-bottom: 5px;
-    }
-}
+
 
 .description{
     margin-top:20px;
