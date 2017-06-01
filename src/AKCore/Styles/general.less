@@ -42,15 +42,17 @@ header {
     position: relative;
     border-bottom: 2px solid #1a1a1a;
     padding: 15px 0 0;
-    background-color: #6e1601;
+    background: @akred;
     .container {
         position: relative;
-        padding:0 45px;
+        padding: 0 45px;
     }
-    a, a:visited{
+
+    a, a:visited {
         color: #000;
-        font-weight:500;
+        font-weight: 500;
     }
+
     .logo {
         display: block;
     }
@@ -242,4 +244,25 @@ p.infobox {
 }
 .signup-element{
     overflow: hidden;
+}
+
+@media screen and (max-width: 768px) {
+    header {
+        .container {
+            padding: 0 15px;
+        }
+        .logo {
+            img {
+                max-height: 90px;
+                width:auto;
+            }
+        }
+        nav{
+            height:0;
+        }
+         #open-mobile-menu {
+            top: -85px;
+        }
+    }
+   
 }

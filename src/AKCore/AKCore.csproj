@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <Content Include="wwwroot\images\logo.png" />
+    <Content Include="wwwroot\images\mobillogo.png" />
   </ItemGroup>
 
   <ItemGroup>

@@ -2,9 +2,9 @@
     display: block;
     position: relative;
     width: 100%;
-    margin-top:15px;
+    margin-top: 15px;
     height: 35px;
-    background-color: @akred;
+    background: @akgrey;
 }
 .login {
     font-size: 16px;
@@ -43,7 +43,9 @@
     list-style: none;
     padding: 5px 0;
     z-index: 2;
-    background-color: @akred;
+    background-color: @akgrey;
+    white-space: nowrap;
+
     li {
         padding-right: 5px;
         padding-bottom: 5px;
@@ -99,8 +101,9 @@
 #mobile-menu{
     display:none;
 }
-#open-mobile-menu{
-    display:none;
+#open-mobile-menu {
+    display: none;
+    position: absolute;
     font-size: 55px;
     right: 21px;
     top: -42px;
@@ -122,5 +125,8 @@
     }
     #open-mobile-menu{
         display:block;
+    }
+    nav{
+        background: @akred;
     }
 }
