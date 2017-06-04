@@ -15,7 +15,7 @@ namespace AKCore.Controllers
         [Authorize(Roles = "SuperNintendo,Editor")]
         public ActionResult Index()
         {
-            ViewBag.Title = "Editera sidor";
+            ViewBag.Title = "Redigera sidor";
             using (var db = new AKContext())
             {
                 var pages = db.Pages.ToList();
@@ -88,7 +88,7 @@ namespace AKCore.Controllers
                     BalettOnly = page.BalettOnly,
                     Widgets = page.WidgetsJson != null ? JsonConvert.DeserializeObject<List<Widget>>(page.WidgetsJson) : new List<Widget>()
                 };
-                ViewBag.Title = "Editera " + page.Name;
+                ViewBag.Title = "Redigera " + page.Name;
                 return View("EditPage", model);
             }
         }

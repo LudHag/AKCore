@@ -13,7 +13,7 @@ namespace AKCore.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Title = "Editera Menyer";
+            ViewBag.Title = "Redigera Menyer";
             using (var db = new AKContext())
             {
                 var pages = db.Pages.ToList();

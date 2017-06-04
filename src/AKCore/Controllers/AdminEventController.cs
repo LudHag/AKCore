@@ -37,7 +37,7 @@ namespace AKCore.Controllers
             using (var db = new AKContext())
             {
                 if (model.Type != null)
-                    if (model.Id > 0) //editera
+                    if (model.Id > 0) //redigera
                     {
                         var changeEvent = db.Events.FirstOrDefault(x => x.Id == model.Id);
                         if (changeEvent == null)

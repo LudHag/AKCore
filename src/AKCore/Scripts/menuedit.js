@@ -189,7 +189,7 @@ $("#edit-menu-form")
                      if (res.success) {
                          updateMenuList();
                          $('#editMenuModal').modal('hide');
-                         success.text("Meny editerad");
+                         success.text("Meny redigerad");
                          success.slideDown().delay(3000).slideUp();
                      } else {
                          error.text(res.message);
@@ -197,7 +197,7 @@ $("#edit-menu-form")
                      }
                  },
                  error: function (err) {
-                     error.text("Misslyckades med att editera sida");
+                     error.text("Misslyckades med att redigera sida");
                      error.slideDown().delay(4000).slideUp();
                  }
              });

@@ -53,7 +53,7 @@
                                 window.location.reload();
                             } else {
                                 var error = $("#loginForm").find(".alert-danger");
-                                error.text("Kontot är ej kopplat med facebook");
+                                error.text("Kontot är ej kopplat med Facebook");
                                 error.slideDown().delay(4000).slideUp();
                             }
                         },
