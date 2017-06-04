@@ -73,7 +73,13 @@
             </div>
             <div class="form-group">
                 <label asp-for="Nation"></label>
-                <input class="form-control" placeholder="Nation" asp-for="Nation">
+                <select class="form-control" asp-for="Nation" required>
+                    <option value="">Välj nation</option>
+                    @foreach (var nat in AkNationer.Nationer)
+                    {
+                        <option>@nat</option>
+                    }
+                </select>
             </div>
             <div class="form-group">
                 <label asp-for="Instrument"></label>

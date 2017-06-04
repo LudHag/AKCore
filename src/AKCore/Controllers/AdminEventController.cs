@@ -20,7 +20,7 @@ namespace AKCore.Controllers
             {
                 IQueryable<Event> eventsQuery;
                 if (!string.IsNullOrWhiteSpace(Future) && (Future == "Gamla"))
-                    eventsQuery = db.Events.OrderBy(x => x.Day).Where(x => x.Day < DateTime.UtcNow.Date);
+                    eventsQuery = db.Events.OrderByDescending(x => x.Day).Where(x => x.Day < DateTime.UtcNow.Date);
                 else
                     eventsQuery = db.Events.OrderBy(x => x.Day).Where(x => x.Day >= DateTime.UtcNow.Date);
 
