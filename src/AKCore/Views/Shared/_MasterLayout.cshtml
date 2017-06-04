@@ -8,7 +8,7 @@
     <title>Alte Kamereren - @ViewData["Title"]</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet">
-    <link rel="stylesheet" href="~/css/akstyle.css?v=@AkVariable.UniqueId">
+    <link rel="stylesheet" href="~/css/akstyle.css" asp-append-version="true">
 </head>
 <body>
     @await Component.InvokeAsync("Header")
@@ -18,6 +18,6 @@
         </div>
     </div>
     @Html.Partial("_LoginModal")
-    <script src="~/js/main.js?v=@AkVariable.UniqueId"></script>
+    <script src="~/js/main.js" asp-append-version="true"></script>
 </body>
 </html>

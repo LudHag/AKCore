@@ -211,23 +211,5 @@ namespace AKCore.DataModel
             Wermland
         };
     }
-
-    public class AkVariable
-    {
-        private static long _uniqueId { get; set; }
-
-        public static long UniqueId
-        {
-            get
-            {
-                if (_uniqueId == 0)
-                {
-                    _uniqueId = DateTime.UtcNow.Ticks;
-                }
-
-                return _uniqueId;
-            }
-        }
-    }
 }
 
