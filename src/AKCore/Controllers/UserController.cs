@@ -49,7 +49,7 @@ namespace AKCore.Controllers
                     users.Where(
                         x =>
                             x.UserName.Contains(model.SearchPhrase) ||
-                            (x.FirstName + ' ' + x.LastName).Contains(model.SearchPhrase)).ToList();
+                            (x.FirstName + ' ' + x.LastName).Contains(model.SearchPhrase)).OrderBy(x=>x.FirstName).ToList();
             foreach (var user in users)
             {
                 model.Roles[user.UserName] = await _userManager.GetRolesAsync(user);
