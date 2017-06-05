@@ -15,7 +15,7 @@ body {
 }
 
 h1{
-    color: @akred;
+    color: $akred;
 }
 
 h2{
@@ -24,7 +24,7 @@ h2{
     font-weight: 500;
     margin-top: 0;
     margin-bottom: 0;
-    color: @akred;
+    color: $akred;
 }
 h3 {
     font-size: 18px;
@@ -32,7 +32,7 @@ h3 {
     font-weight: 500;
     margin-top: 0;
     margin-bottom: 0;
-    color: @akred;
+    color: $akred;
 }
 th{
     font-weight:500;
@@ -45,7 +45,7 @@ header {
     position: relative;
     border-bottom: 2px solid #1a1a1a;
     padding: 15px 0 0;
-    background: @akred;
+    background: $akred;
     .container {
         position: relative;
         padding: 0 45px;
@@ -69,7 +69,7 @@ body {
 }
 a:visited,
 a {
-    color: @akred;
+    color: $akred;
 }
 a:hover, a:visited, a:link, a:active
 {
@@ -92,7 +92,7 @@ p.big{
 .modal-open {
     padding-right: 0 !important;
 }
-::selection { background: @akred; color: #fff; text-shadow: none; }
+::selection { background: $akred; color: #fff; text-shadow: none; }
 
 .account{
     text-align: right;
@@ -112,11 +112,11 @@ p.big{
 
 .btn.btn-default,
 .btn.btn-primary{
-    background-color:@akred;
+    background-color:$akred;
     border-color:#6E1601;
     color:white;
     &:focus{
-        background-color:@akred;
+        background-color:$akred;
         border-color:#6E1601;
         color:white;
     }
@@ -148,7 +148,7 @@ a:visited,
 }
 .roles{
     .role{
-        background-color: @akred;
+        background-color: $akred;
         border-radius: 5px;
         margin-right: 10px;
         padding: 2px;

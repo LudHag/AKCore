@@ -4,7 +4,7 @@
     width: 100%;
     margin-top: 15px;
     height: 35px;
-    background: @akgrey;
+    background: $akgrey;
 }
 .login {
     font-size: 16px;
@@ -43,7 +43,7 @@
     list-style: none;
     padding: 5px 0;
     z-index: 2;
-    background-color: @akgrey;
+    background-color: $akgrey;
     white-space: nowrap;
 
     li {
@@ -127,6 +127,6 @@
         display:block;
     }
     nav{
-        background: @akred;
+        background: $akred;
     }
 }

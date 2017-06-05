@@ -45,7 +45,7 @@
     background-color:#999999;
     color:white;
     &:focus{
-        background-color:@akred;
+        background-color:$akred;
         border-color:#6E1601;
         color:white;
     }
@@ -136,7 +136,7 @@
         font-size: 12px;
         .glyphicon-file{
             font-size: 140px;
-            color: @akred;
+            color: $akred;
             margin-right: -10px;
         }
         .doc-ext{
@@ -162,7 +162,7 @@
 }
 
 .remove-media{
-    background-color:@akred;
+    background-color:$akred;
     color:black;
     border-radius: 2px;
     line-height: 20px;
@@ -286,7 +286,7 @@ table{
     &:hover{
         background-color:#1a0000;
     }
-    border-bottom:1px solid @akred;
+    border-bottom:1px solid $akred;
 }
 
 #edit-event-modal {

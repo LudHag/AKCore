@@ -55,7 +55,7 @@
     }
     &:after{
         content: attr(data-tg-on);
-        background: @akred;
+        background: $akred;
         transform: rotateY(180deg);
     }
 }
