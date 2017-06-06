@@ -1,4 +1,4 @@
-/// <binding BeforeBuild='less, scripts' />
+/// <binding BeforeBuild='sass, scripts' />
 var gulp = require('gulp');
 var less = require('gulp-less');
 var sass = require('gulp-sass');
@@ -18,8 +18,6 @@ gulp.task('sass', function () {
 });
 gulp.task('scripts', function () {
     return gulp.src([
-        "Scripts/jquery-2.2.3.min.js",
-        "Scripts/bootstrap.min.js",
         "Scripts/jquery-ui.js",
         "Scripts/jquery.multi-select.js",
         "Scripts/general.js",

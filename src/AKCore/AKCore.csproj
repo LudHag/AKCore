@@ -11,6 +11,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="wwwroot\fonts\bootstrap\glyphicons-halflings-regular.eot" />
+    <Content Include="wwwroot\fonts\bootstrap\glyphicons-halflings-regular.svg" />
+    <Content Include="wwwroot\fonts\bootstrap\glyphicons-halflings-regular.ttf" />
+    <Content Include="wwwroot\fonts\bootstrap\glyphicons-halflings-regular.woff" />
+    <Content Include="wwwroot\fonts\bootstrap\glyphicons-halflings-regular.woff2" />
     <Content Include="wwwroot\images\logo.png" />
     <Content Include="wwwroot\images\mobillogo.png" />
   </ItemGroup>
@@ -42,6 +47,10 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.2" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="1.1.2" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="1.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\js\" />
   </ItemGroup>
 
   <Target Name="PrepublishScript" BeforeTargets="PrepareForPublish">
