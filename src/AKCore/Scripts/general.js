@@ -4,8 +4,12 @@
             ".login",
             function(e) {
                 e.preventDefault();
-                $("#loginModal").modal("show");
+                $("#loginModal").modal("show"); 
             });
+
+    $('#loginModal').on('shown.bs.modal', function () {
+        $('#username').focus();
+    })
     
     $("#mobile-menu")
      .on("click",
