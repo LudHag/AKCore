@@ -10,7 +10,7 @@ Om du rensar databasen som kommer med i versionshanteringen så behöver du skap
 [Entityframeworkcore](https://docs.efproject.net/en/latest/) med [SQLite](http://ef.readthedocs.io/en/latest/providers/sqlite/). <br />
 EFCore gillar att man använder .Include() då EF core ej har [lazyloading](https://docs.efproject.net/en/latest/querying/related-data.html) av referenser.
 
-SQLite saknar också förmågan att ta bort kolumner ur Databasen vilket gör att många migrationer misslyckas. Lös genom att ta bort db och migrationer och gör sedan en Add-Migration och Uppdate-Database. Eller så kan man byta till en annan db. <br />
+SQLite saknar också förmågan att ta bort kolumner ur Databasen vilket gör att många migrationer misslyckas. Lös genom att ta bort db och migrationer och gör sedan en Add-Migration och Update-Database. Eller så kan man byta till en annan db. <br />
 ![xkcdbild](http://imgs.xkcd.com/comics/git.png)
 
 Migrationer hanteras med Add-Migration och Update-Database i package manager console.
