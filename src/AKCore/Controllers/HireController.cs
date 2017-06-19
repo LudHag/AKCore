@@ -8,71 +8,59 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AKCore.Controllers
 {
-    [Route("Signup")]
-    public class SignupController : Controller
+    [Route("Hire")]
+    public class HireController : Controller
     {
-        [Route("Signup")]
+        [Route("Hire")]
         [HttpPost]
-        public ActionResult Signup(JoinUsModel model)
+        public ActionResult Hire(HireModel model)
         {
             using (var db = new AKContext())
             {
                 if (string.IsNullOrWhiteSpace(model.Email) && string.IsNullOrWhiteSpace(model.Tel))
                     return Json(new { success = false, message = "Du har ej angett ett sätt att kontakta dig med." });
-                if (string.IsNullOrWhiteSpace(model.Instrument))
+                if (string.IsNullOrWhiteSpace(model.Name))
                     return
                         Json(
                             new
                             {
                                 success = false,
                                 message =
-                                "Du måste ange vilke instrument du spelar eller om du vill dansa med baletten."
-                            });
-                if (
-                    db.Recruits.Any(
-                        x =>
-                            (!string.IsNullOrWhiteSpace(model.Email) && (x.Email == model.Email)) ||
-                            (!string.IsNullOrWhiteSpace(model.Tel) && (x.Phone == model.Tel))))
-                    return
-                        Json(
-                            new
-                            {
-                                success = false,
-                                message = "En person med din kontaktinformation har redan anmält sig."
+                                "Du måste anget ditt namn."
                             });
 
-                var rec = new Recruit
+                var hir = new Hire
                 {
-                    FirstName = model.FirstName,
-                    LastName = model.LastName,
-                    Created = DateTime.UtcNow,
+                    Name = model.Name,
                     Email = model.Email,
-                    Phone = model.Tel,
-                    Instrument = model.Instrument
+                    Created = DateTime.UtcNow,
+                    Tel = model.Tel
                 };
-                db.Recruits.Add(rec);
+                db.Hires.Add(hir);
                 db.SaveChanges();
 
                 return
-                    Json(new { success = true, message = "Din ansökan är mottagen och vi kommer kontakta dig inom kort" });
+                    Json(new { success = true, message = "Din förfrågan är mottagen och vi kommer kontakta dig inom kort" });
             }
         }
+        /**
 
-        [Route("Recruits")]
+        [Route("Hires")]
         [Authorize(Roles = "SuperNintendo,Editor")]
-        public ActionResult Recruits()
+        public ActionResult Hires()
         {
-            ViewBag.Title = "Anmälningar";
+            ViewBag.Title = "Spelningsförfrågningar";
             using (var db = new AKContext())
             {
                 var model = new RecruitsModel
                 {
                     Recruits = db.Recruits
-                        .Where(x => x.Created > DateTime.Now.AddMonths(-6))
+                        .Where(x=>x.Created>DateTime.Now.AddMonths(-6))
                         .OrderBy(x => x.Created).ToList()
                 };
 
                 return View(model);
+
             }
         }
 
@@ -112,5 +100,7 @@ namespace AKCore.Controllers
                 return Json(new { success = true });
             }
         }
+*/
+
     }
 }
