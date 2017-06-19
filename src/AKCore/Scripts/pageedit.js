@@ -242,6 +242,7 @@ if (templates.length > 0) {
     var videoTemplate = templates.find(".Video");
     var musicTemplate = templates.find(".Music");
     var joinTemplate = templates.find(".Join");
+    var hireTemplate = templates.find(".Hire");
     var memberListTemplate = templates.find(".MemberList");
     var postListTemplate = templates.find(".PostList");
     tinymce.init(options);
@@ -279,6 +280,9 @@ if (templates.length > 0) {
                 var type = $(this).data("type");
                 if (type === "Join") {
                     $("#widget-area").append(joinTemplate.clone());
+                    tinymce.init(options);
+                }else if (type === "Hire") {
+                    $("#widget-area").append(hireTemplate.clone());
                     tinymce.init(options);
                 } else if (type === "MemberList") {
                     $("#widget-area").append(memberListTemplate.clone());
@@ -336,7 +340,7 @@ function jsonifyWidgets() {
                     });
             } else if (type === "Music") {
                 wig.Albums = $(o).find(".album").val();
-            } else if (type === "TextImage" || type === "Join") {
+            } else if (type === "TextImage" || type === "Join" || type === "Hire") {
                 tId = $(o).find(".mce-content").attr("id");
                 wig.Text = tinymce.get(tId).getContent();
                 wig.Image = $(o).find(".selected-image").attr("src");

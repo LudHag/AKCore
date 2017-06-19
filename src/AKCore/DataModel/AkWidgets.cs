@@ -12,6 +12,7 @@ namespace AKCore.DataModel
         public const string Video = "Video";
         public const string Music = "Music";
         public const string Join = "Join";
+        public const string Hire = "Hire";
         public const string MemberList = "MemberList";
         public const string PostList = "PostList";
 
@@ -24,7 +25,8 @@ namespace AKCore.DataModel
             Music,
             Join,
             MemberList,
-            PostList
+            PostList,
+            Hire
         };
     }
 
@@ -40,8 +42,8 @@ namespace AKCore.DataModel
         public string Image { get; set; }
         public List<Video> Videos { get; set; }
         public List<int> Albums { get; set; }
-
         public JoinUsModel JoinUsModel { get; set; }
+        public HireModel HireModel { get; set; }
         public string GetHeader()
         {
             switch (Type)
@@ -56,6 +58,8 @@ namespace AKCore.DataModel
                     return "Musik-widget";
                 case "Join":
                     return "Gå med-widget";
+                case "Hire":
+                    return "Anlita oss-widget";
                 case "MemberList":
                     return "Adressregister-widget";
                 case "PostList":

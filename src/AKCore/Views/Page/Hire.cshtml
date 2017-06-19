@@ -1,0 +1,38 @@
+﻿@using AKCore.DataModel
+@model AKCore.DataModel.Widget
+
+<div class="row">
+    <div class="col-md-12">
+        <h1>Vill du anlita oss?</h1>
+    </div>
+    <div class="col-md-12">
+        @Html.Raw(Model.Text)
+    </div>
+    <form id="hire-form" method="POST" action="/SignUp/Hire">
+        <div class="col-md-6">
+            <div class="alert alert-danger" style="display: none;"></div>
+            <div class="alert alert-success" style="display: none;"></div>
+            <div class="form-group">
+                <label asp-for="HireModel.Name"></label>
+                <input type="text" class="form-control" placeholder="Namn" name="Name" required>
+            </div>
+            <div class="form-group">
+                <label asp-for="HireModel.Email"></label>
+                <input type="text" class="form-control" placeholder="Epost" name="Email" required>
+            </div>
+            <div class="form-group">
+                <label asp-for="HireModel.Tel"></label>
+                <input class="form-control" placeholder="Telefonnummer" name="Tel">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="HireModel.Other"></label>
+                <textarea class="form-control" name="Other" rows="8"></textarea>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-default">Skicka!</button>
+            </div>
+        </div>
+    </form>
+</div>
