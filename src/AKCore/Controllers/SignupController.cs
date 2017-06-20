@@ -54,7 +54,8 @@ namespace AKCore.Controllers
                     Created = DateTime.UtcNow,
                     Email = model.Email,
                     Phone = model.Tel,
-                    Instrument = model.Instrument
+                    Instrument = model.Instrument,
+                    Other = model.Other
                 };
                 db.Recruits.Add(rec);
                 db.SaveChanges();

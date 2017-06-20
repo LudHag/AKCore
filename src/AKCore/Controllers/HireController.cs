@@ -40,7 +40,8 @@ namespace AKCore.Controllers
                     Name = model.Name,
                     Email = model.Email,
                     Created = DateTime.UtcNow,
-                    Tel = model.Tel
+                    Tel = model.Tel,
+                    Other = model.Other
                 };
                 db.Hires.Add(hir);
                 db.SaveChanges();
@@ -58,10 +59,12 @@ namespace AKCore.Controllers
             using (var db = new AKContext(_hostingEnv))
             {
 
-                var model = new HiresModel();
-                model.Hires = db.Hires
+                var model = new HiresModel()
+                {
+                    Hires = db.Hires
                         .Where(x => x.Created > DateTime.Now.AddMonths(-6))
-                        .OrderBy(x => x.Created).ToList();
+                        .OrderBy(x => x.Created).ToList()
+                };
                 return View(model);
             }
         }

@@ -52,6 +52,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\js\" />
+    <Folder Include="wwwroot\js\" />
   </ItemGroup>
 
   <Target Name="PrepublishScript" BeforeTargets="PrepareForPublish">

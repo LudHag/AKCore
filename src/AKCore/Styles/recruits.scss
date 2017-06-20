@@ -1,19 +1,22 @@
-﻿#recruitList{
-    .recruit{
-        margin-bottom:0;
+﻿#recruitList, #hireList{
+    .recruit {
+        margin-bottom: 0;
         padding: 15px 0;
     }
-    .recruit-head{
+
+    .recruit-head {
         font-weight: 500;
     }
-    .actions{
-        .archive{
-            &.green{
-                color:#02C66F;
+
+    .actions {
+        .archive {
+            &.green {
+                color: #02C66F;
             }
         }
-        .remove{
-            margin-left:15px;
+
+        .remove {
+            margin-left: 15px;
         }
     }
 }
