@@ -31,7 +31,7 @@ namespace AKCore.Models
         public DateTime There { get; set; }
         [Display(Name = "Spelning")]
         public DateTime Starts { get; set; }
-        [Display(Name = "Ståspelning")]
-        public bool Stand { get; set; }
+        [Display(Name = "Stå- eller gåspelning")]
+        public string Stand { get; set; }
     }
 }

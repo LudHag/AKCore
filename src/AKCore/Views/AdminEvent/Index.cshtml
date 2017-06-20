@@ -68,8 +68,22 @@
                         <input class="form-control" asp-for="Name">
                     </div>
                     <div class="form-group place">
-                        <label asp-for="Place"></label>
-                        <input class="form-control" asp-for="Place">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label asp-for="Place"></label>
+                                <input class="form-control" asp-for="Place">
+                            </div>
+                            <div class="col-sm-6 sta-ga">
+                                <label asp-for="Stand"></label>
+                                <select class="form-control" asp-for="Stand">
+                                    <option value="">Stå eller gå.</option>
+                                    @foreach (var sp in AkSpeltyp.Speltyper)
+                                    {
+                                        <option>@sp</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group">
                         <div class="row">

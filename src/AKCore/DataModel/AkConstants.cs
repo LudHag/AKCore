@@ -73,6 +73,16 @@ namespace AKCore.DataModel
             Trumpet
         };
     }
+    public class AkSpeltyp
+    {
+        public const string Stand = "Stå";
+        public const string Walk = "Gå";
+        public static readonly IList<string> Speltyper = new List<string>()
+        {
+            Stand,
+            Walk
+        };
+    }
     public class AkPoster
     {
         public const string OK = "Överkamerer";

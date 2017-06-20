@@ -290,17 +290,15 @@ table{
 }
 
 #edit-event-modal {
-    .description,
-    .rep-fika,
-    .spelning-tid,
-    .spelning-tid-there {
+    .description, .rep-fika, .spelning-tid, .sta-ga, .spelning-tid-there {
         display: none;
     }
 
     &.Spelning {
         .spelning-tid,
         .spelning-tid-there,
-        .description {
+        .description,
+        .sta-ga {
             display: block;
         }
     }

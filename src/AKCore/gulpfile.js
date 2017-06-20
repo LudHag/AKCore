@@ -55,6 +55,6 @@ gulp.task('adminscripts', function () {
 });
 
 gulp.task('watch', function () {
-    gulp.watch('./Scripts/*.js', ['scripts']);
+    gulp.watch('./Scripts/**/*.js', ['scripts']);
     gulp.watch('./Styles/*.scss', ['sass']);
 });

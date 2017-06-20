@@ -43,13 +43,12 @@ namespace AKCore.Controllers
         [Route("MediaList")]
         public ActionResult MediaList(SearchModel search)
         {
-            int totalPages;
             var type = "";
-            if(search.Tag=="Document" || search.Tag == "Image") {
+            if (search.Tag=="Document" || search.Tag == "Image") {
                 type = search.Tag;
                 search.Tag = "";
             }
-            var medias = PopulateList(search.Page<1 ? 1 : search.Page, out totalPages, search.SearchPhrase ?? "", type, search.Tag);
+            var medias = PopulateList(search.Page<1 ? 1 : search.Page, out int totalPages, search.SearchPhrase ?? "", type, search.Tag);
             if (totalPages < search.Page) search.Page = totalPages;
             var model = new MediaModel
             {
@@ -63,8 +62,7 @@ namespace AKCore.Controllers
         [Route("MediaPickerList")]
         public ActionResult MediaPickerList(SearchModel search)
         {
-            int totalPages;
-            var medias = PopulateList(search.Page < 1 ? 1 : search.Page, out totalPages, search.SearchPhrase ?? "",search.Type, search.Tag);
+            var medias = PopulateList(search.Page < 1 ? 1 : search.Page, out int totalPages, search.SearchPhrase ?? "", search.Type, search.Tag);
             if (totalPages < search.Page) search.Page = totalPages;
             var model = new MediaModel
             {

@@ -1,4 +1,6 @@
 ﻿@using System.Globalization
+@using AKCore.DataModel
+
 @model AKCore.Models.UpcommingModel
 @{
     Layout = "~/Views/Shared/_MasterLayout.cshtml";
@@ -77,9 +79,28 @@
             </div>
             @if (ViewBag.loggedIn)
             {
-                <div class="col-sm-12">
-                    <p>@e.InternalDescription</p>
-                </div>
+                if (e.Type == "Spelning")
+                {
+                    <div class="col-sm-8">
+                        <p>@e.InternalDescription</p>
+                    </div>
+                    <div class="col-sm-4">
+                        @if (e.Stand)
+                        {
+                            <p>@AkSpeltyp.Stand</p>
+                        }
+                        else
+                        {
+                            <p>@AkSpeltyp.Walk</p>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="col-sm-12">
+                        <p>@e.InternalDescription</p>
+                    </div>
+                }
             }
         </div>
     }

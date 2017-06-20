@@ -40,6 +40,12 @@ namespace AKCore.Controllers
         [Route("Edit")]
         public ActionResult Edit(AdminEventModel model)
         {
+            if(model.Type == AkEventTypes.Spelning)
+            {
+                if (!AkSpeltyp.Speltyper.Contains(model.Stand)){
+                    return Json(new { success = false, message = "Du måste välja stå eller gå." });
+                }
+            }
             using (var db = new AKContext(_hostingEnvironment))
             {
                 if (model.Type != null)
@@ -53,6 +59,7 @@ namespace AKCore.Controllers
                         changeEvent.Day = model.Day;
                         changeEvent.Halan = model.Halan;
                         changeEvent.There = model.There;
+                        changeEvent.Stand = model.Stand == AkSpeltyp.Stand;
                         changeEvent.Starts = model.Starts;
                         changeEvent.Fika = model.Fika;
                         changeEvent.Description = model.Description;
@@ -77,7 +84,7 @@ namespace AKCore.Controllers
                             Type = model.Type,
                             Fika = model.Fika,
                             Halan = model.Halan,
-                            Stand = model.Stand,
+                            Stand = model.Stand == AkSpeltyp.Stand,
                             Starts = model.Starts,
                             There = model.There
                         };
