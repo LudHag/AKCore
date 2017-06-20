@@ -124,7 +124,7 @@
                 <h4>@w.GetHeader()</h4> <span class="btn pull-right remove-widget glyphicon glyphicon-remove"></span><span class="btn pull-right min-widget glyphicon glyphicon-minus"></span>
             </div>
             <div class="widget-body">
-                    @Html.Partial(w.Type, w)
+                    @Html.Partial("Widgets/" + w.Type, w)
             </div>
         </li>
     }
@@ -141,7 +141,7 @@
                 <h4>@w.GetHeader()</h4> <span class="btn pull-right remove-widget glyphicon glyphicon-remove"></span><span class="btn pull-right min-widget glyphicon glyphicon-minus"></span>
             </div>
             <div class="widget-body">
-                @Html.Partial(w.Type, w)
+                @Html.Partial("Widgets/" + w.Type, w)
             </div>
         </li>
     }
@@ -181,4 +181,7 @@
 </div>
 
 
-<script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+@section scripts {
+    <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+    <script src="~/js/admin.js" asp-append-version="true"></script>
+}
