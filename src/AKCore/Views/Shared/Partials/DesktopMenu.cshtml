@@ -1,0 +1,68 @@
+﻿@model AKCore.Models.HeaderModel
+
+<ul class="navigation">
+    @foreach (var m in Model.Menus)
+            {
+                var active = "";
+                if (m.Link == Model.CurrentUrl)
+                {
+                    active = "active";
+                }
+                else
+                {
+                    if ((m.Link != null) && (m.Children?.FirstOrDefault(x => x.Link == Model.CurrentUrl) != null))
+                    {
+                        active = "active";
+                    }
+                }
+                <li class="@(m.Children.Count > 0 ? "exp" : "")">
+                    @if (string.IsNullOrWhiteSpace(m.Link))
+                    {
+                        <a class="@active">
+                            @m.Name
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="@m.Link" class="@active">
+                            @m.Name
+                        </a>
+                    }
+                    @if (m.Children.Count > 0)
+                    {
+                        <ul class="subnav">
+                            @foreach (var c in m.Children)
+                            {
+                                var cactive = "";
+                                if (c.Link == Model.CurrentUrl)
+                                {
+                                    cactive = "active";
+                                }
+                                else
+                                {
+                                    if ((c.Link != null) && (c.Children?.FirstOrDefault(x => x.Link == Model.CurrentUrl) != null))
+                                    {
+                                        cactive = "active";
+                                    }
+                                }
+                                <li>
+                                    @if (c.Link == null)
+                                    {
+                                        <a class="@cactive">
+                                            @c.Name
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a href="@c.Link" class="@cactive">
+                                            @c.Name
+                                        </a>
+                                    }
+                                </li>
+                            }
+                        </ul>
+                    }
+                </li>
+    }
+</ul>
+<a href="#" id="open-mobile-menu" class="glyphicon glyphicon-menu-hamburger"></a>

@@ -69,7 +69,8 @@ namespace AKCore.Components
                 {
                     Menus = modelMenus,
                     LoggedIn = loggedIn,
-                    UserName = User.Identity.Name
+                    UserName = User.Identity.Name,
+                    CurrentUrl = Request.Path.ToString()
                 };
                 return View(model);
             }

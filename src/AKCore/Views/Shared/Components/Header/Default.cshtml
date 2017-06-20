@@ -1,8 +1,5 @@
 ﻿@model AKCore.Models.HeaderModel
 
-@{
-    var currentUrl = Context.Request.Path.ToString();
-}
 <header>
     <div class="container">
         <a class="logo" href="/">
@@ -22,150 +19,18 @@
                 <a href="/Account/Logout" class="logout">Logga ut</a>
             }
         </div>
-        
+        <div class="social hidden-xs">
+            <a href="https://www.facebook.com/altekamereren/" target="_blank" class="fa fa-facebook-square" aria-hidden="true"></a>
+            <a href="https://twitter.com/Alte_Kamereren" target="_blank" class="fa fa-twitter-square" aria-hidden="true"></a>
+            <a href="https://www.youtube.com/user/AlteKamereren" target="_blank" class="fa fa-youtube-square" aria-hidden="true"></a>
+            <a href="https://www.instagram.com/altekamereren/" target="_blank" class="fa fa-instagram" aria-hidden="true"></a>
+        </div>
     </div>
     <nav>
-        <ul class="navigation">
-            @foreach (var m in Model.Menus)
-            {
-                var active = "";
-                if (m.Link == currentUrl)
-                {
-                    active = "active";
-                }
-                else
-                {
-                    if ((m.Link != null) && (m.Children?.FirstOrDefault(x => x.Link == currentUrl) != null))
-                    {
-                        active = "active";
-                    }
-                }
-                <li class="@(m.Children.Count > 0 ? "exp" : "")">
-
-                    @if (string.IsNullOrWhiteSpace(m.Link))
-                    {
-                        <a class="@active">
-
-                            @m.Name
-                        </a>
-                    }
-                    else
-                    {
-                        <a href="@m.Link" class="@active">
-
-                            @m.Name
-                        </a>
-                    }
-                    @if (m.Children.Count > 0)
-                    {
-                        <ul class="subnav">
-                            @foreach (var c in m.Children)
-                            {
-                                var cactive = "";
-                                if (c.Link == currentUrl)
-                                {
-                                    cactive = "active";
-                                }
-                                else
-                                {
-                                    if ((c.Link != null) && (c.Children?.FirstOrDefault(x => x.Link == currentUrl) != null))
-                                    {
-                                        cactive = "active";
-                                    }
-                                }
-                                <li>
-                                    @if (c.Link == null)
-                                    {
-                                        <a class="@cactive">
-                                            @c.Name
-                                        </a>
-                                    }
-                                    else
-                                    {
-                                        <a href="@c.Link" class="@cactive">
-                                            @c.Name
-                                        </a>
-                                    }
-                                </li>
-                            }
-                        </ul>
-                    }
-                </li>
-            }
-        </ul>
-        <a href="#" id="open-mobile-menu" class="glyphicon glyphicon-menu-hamburger"></a>
+        @Html.Partial("Partials/DesktopMenu", Model)
     </nav>
 </header>
 <div id="mobile-menu">
-    <ul class="mob-navigation">
-        @foreach (var m in Model.Menus)
-        {
-            <li>
-                @if (string.IsNullOrWhiteSpace(m.Link))
-                {
-                    <a>
-                        @m.Name
-                        @if (m.Children.Count > 0)
-                        {
-                            <span class="exp-submenu glyphicon glyphicon-plus" data-id="#subnav-@m.Id">
-
-                            </span>
-                        }
-                    </a>
-                }
-                else
-                {
-                    <a href="@m.Link">
-                        @m.Name
-                        @if (m.Children.Count > 0)
-                        {
-                            <span class="exp-submenu glyphicon glyphicon-plus" data-id="#subnav-@m.Id">
-                                
-                            </span>
-                        }
-                    </a>
-                }
-                @if (m.Children.Count > 0)
-                {
-                    <ul class="mob-subnav" id="subnav-@m.Id">
-                        @foreach (var c in m.Children)
-                        {
-                            <li>
-                                @if (c.Link == null)
-                                {
-                                    <span class="submenu-item">
-                                        @c.Name
-                                    </span>
-                                }
-                                else
-                                {
-                                    <a class="submenu-item" href="@c.Link">
-                                        @c.Name
-                                    </a>
-                                }
-                            </li>
-                        }
-                    </ul>
-                }
-            </li>
-        }
-
-        @if (!Model.LoggedIn)
-        {
-            <li>
-                <a href="#" class="login">
-                    Logga in
-                </a>
-            </li>
-        }
-        else
-        {
-            <li>
-                <a href="/Profile">@Model.UserName</a>
-            </li>
-            <li>
-                <a href="/Account/Logout" class="logout">Logga ut</a>
-            </li>
-        }
-    </ul>
+    @Html.Partial("Partials/MobileMenu", Model)
+    
 </div>

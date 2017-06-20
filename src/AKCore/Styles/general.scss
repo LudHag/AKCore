@@ -103,8 +103,19 @@ p.big{
     position: absolute;
     right: 20px;
 }
+.social {
+    text-align: right;
+    padding: 5px;
+    color: #fff;
+    z-index: 10;
+    bottom: -10px;
+    position: absolute;
+    right: 20px;
+    font-size: 26px;
+}
+
 .content-wrapper{
-    padding: 30px 30px;
+    padding: 40px 30px;
     .row{
         margin-bottom: 20px;
     }

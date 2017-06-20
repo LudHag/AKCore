@@ -1,0 +1,70 @@
+﻿@model AKCore.Models.HeaderModel
+<ul class="mob-navigation">
+    @foreach (var m in Model.Menus)
+    {
+        <li>
+            @if (string.IsNullOrWhiteSpace(m.Link))
+                {
+                <a>
+                    @m.Name
+                    @if (m.Children.Count > 0)
+                    {
+                        <span class="exp-submenu glyphicon glyphicon-plus" data-id="#subnav-@m.Id">
+                        </span>
+                    }
+                </a>
+            }
+            else
+            {
+                <a href="@m.Link">
+                    @m.Name
+                    @if (m.Children.Count > 0)
+                    {
+                        <span class="exp-submenu glyphicon glyphicon-plus" data-id="#subnav-@m.Id">
+
+                        </span>
+                    }
+                </a>
+            }
+            @if (m.Children.Count > 0)
+                {
+                <ul class="mob-subnav" id="subnav-@m.Id">
+                    @foreach (var c in m.Children)
+                    {
+                        <li>
+                            @if (c.Link == null)
+                            {
+                                <span class="submenu-item">
+                                    @c.Name
+                                </span>
+                            }
+                            else
+                            {
+                                <a class="submenu-item" href="@c.Link">
+                                    @c.Name
+                                </a>
+                            }
+                        </li>
+                    }
+                </ul>
+            }
+        </li>
+    }
+    @if (!Model.LoggedIn)
+    {
+        <li>
+            <a href="#" class="login">
+                Logga in
+            </a>
+        </li>
+    }
+    else
+    {
+        <li>
+            <a href="/Profile">@Model.UserName</a>
+        </li>
+            <li>
+                <a href="/Account/Logout" class="logout">Logga ut</a>
+            </li>
+    }
+</ul>
