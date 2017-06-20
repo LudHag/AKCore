@@ -8,5 +8,5 @@
 
 @foreach (var w in Model.Widgets)
 {
-    @Html.Partial(w.Type, w);
+    @Html.Partial("Widgets/" + w.Type, w);
 }
