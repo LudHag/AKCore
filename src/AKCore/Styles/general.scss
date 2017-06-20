@@ -112,6 +112,12 @@ p.big{
     position: absolute;
     right: 20px;
     font-size: 26px;
+    a {
+        transition: all 0.2s linear;
+    }
+    a:hover {
+        color: #fff;
+    }
 }
 
 .content-wrapper{
