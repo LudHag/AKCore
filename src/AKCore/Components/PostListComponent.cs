@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 
-namespace AKCore.Controllers
+namespace AKCore.Components
 {
     public class PostListViewComponent : ViewComponent
     {

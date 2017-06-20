@@ -108,7 +108,6 @@ var options = {
         { title: '3-delskolumn', block: 'p', classes: 'col-sm-4' }
     ],
     toolbar_items_size: "small",
-    width: "500",
     height: "200",
     content_css: "/css/akstyle.css",
     body_class: "body-content",

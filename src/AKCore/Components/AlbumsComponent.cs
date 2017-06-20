@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
 
-namespace AKCore.Controllers
+namespace AKCore.Components
 {
     public class AlbumsViewComponent : ViewComponent
     {

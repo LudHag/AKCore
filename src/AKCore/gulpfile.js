@@ -18,8 +18,8 @@ gulp.task('sass', function () {
 });
 gulp.task('scripts', function () {
     return gulp.src([
-        "Scripts/jquery-ui.js",
-        "Scripts/jquery.multi-select.js",
+        "Scripts/Vendor/jquery-ui.js",
+        "Scripts/Vendor/jquery.multi-select.js",
         "Scripts/general.js",
         "Scripts/menuedit.js",
         "Scripts/pageedit.js",
