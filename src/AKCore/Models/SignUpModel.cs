@@ -8,7 +8,7 @@ namespace AKCore.Models
 {
     public class SignUpModel
     {
-        [Display(Name = "Kommer")]
+        [Display(Name = "Kommer till:")]
         [Required]
         public string Where { get; set; }
         [Display(Name = "Har bil")]
