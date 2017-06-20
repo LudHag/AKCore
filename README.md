@@ -17,17 +17,17 @@ Migrationer hanteras med Add-Migration och Update-Database i package manager con
 
 Använd gärna annan databas via EF men mysql har än så länge inget stöd i CORE.
 
-#Användare:
+# Användare:
 identity: 
 https://docs.asp.net/en/latest/security/authentication/identity.html
 
-#Bootstrap
+# Bootstrap
 Som frontendframework används Bootstrap 3. Läs mer om dess standardanvändning [här](http://getbootstrap.com/css/) och dess komponenter [här](http://getbootstrap.com/components/).
 
-#CSS och JS:
+# CSS och JS:
 
 JS och scssfiler (css) bundlas med gulp. Vill du lägga till en javascriptfil lägg till i gulpfilens lista. Vill du lägga till en scssfil lägg till i /Styles/akstyle.scss.
 
-##Scss
+## Scss
 
 [Scss](http://sass-lang.com/guide) är som css men med mer funktionalitet. Vet man inte vad man ska göra så skriv vanlig css och använd filändelsen scss så funkar det alldeles utmärkt.
