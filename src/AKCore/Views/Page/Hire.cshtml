@@ -9,9 +9,11 @@
         @Html.Raw(Model.Text)
     </div>
     <form id="hire-form" method="POST" action="/Hire/Hire">
-        <div class="col-md-6">
+        <div class="col-md-12">
             <div class="alert alert-danger" style="display: none;"></div>
             <div class="alert alert-success" style="display: none;"></div>
+        </div>
+        <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="HireModel.Name"></label>
                 <input type="text" class="form-control" placeholder="Namn" name="Name" required>
