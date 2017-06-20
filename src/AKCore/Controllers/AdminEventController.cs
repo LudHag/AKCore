@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Hosting;
 
 namespace AKCore.Controllers
 {
@@ -13,10 +14,15 @@ namespace AKCore.Controllers
     [Authorize(Roles = "SuperNintendo")]
     public class AdminEventController : Controller
     {
+        private readonly IHostingEnvironment _hostingEnvironment;
+        public AdminEventController(IHostingEnvironment hostingEnvironment)
+        {
+            _hostingEnvironment = hostingEnvironment;
+        }
         public ActionResult Index(string Future)
         {
             ViewBag.Title = "Profil";
-            using (var db = new AKContext())
+            using (var db = new AKContext(_hostingEnvironment))
             {
                 IQueryable<Event> eventsQuery;
                 if (!string.IsNullOrWhiteSpace(Future) && (Future == "Gamla"))
@@ -34,7 +40,7 @@ namespace AKCore.Controllers
         [Route("Edit")]
         public ActionResult Edit(AdminEventModel model)
         {
-            using (var db = new AKContext())
+            using (var db = new AKContext(_hostingEnvironment))
             {
                 if (model.Type != null)
                     if (model.Id > 0) //redigera
@@ -90,7 +96,7 @@ namespace AKCore.Controllers
             var eId = 0;
             if (!int.TryParse(id, out eId))
                 return Json(new {success = false, message = "Misslyckades med att ta bort event"});
-            using (var db = new AKContext())
+            using (var db = new AKContext(_hostingEnvironment))
             {
                 var e = db.Events.Include(x => x.SignUps).FirstOrDefault(x => x.Id == eId);
                 if (e == null) return Json(new {success = false, message = "Misslyckades med att ta bort event"});
@@ -107,7 +113,7 @@ namespace AKCore.Controllers
             var eId = 0;
             if (!int.TryParse(id, out eId))
                 return Json(new {success = false, message = "Misslyckades med att hämta event"});
-            using (var db = new AKContext())
+            using (var db = new AKContext(_hostingEnvironment))
             {
                 var e = db.Events.FirstOrDefault(x => x.Id == eId);
                 if (e == null) return Json(new {success = false, message = "Misslyckades med att hämta event"});

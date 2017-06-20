@@ -5,15 +5,22 @@ using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Hosting;
 
 namespace AKCore.DataModel
 {
     public class AKContext : IdentityDbContext<AkUser>
     {
+        private readonly IHostingEnvironment _hostingEnvironment;
+
+        public AKContext(IHostingEnvironment hostingEnvironment)
+        {
+            _hostingEnvironment = hostingEnvironment;
+        }
+            
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var path = Directory.GetCurrentDirectory();
-            var connection = $"Filename={Path.Combine(path, "akdb.db")}";
+            var connection = $"Filename={Path.Combine(_hostingEnvironment.ContentRootPath, "akdb.db")}";
             optionsBuilder.UseSqlite(connection);
         }
 
@@ -106,7 +113,6 @@ namespace AKCore.DataModel
     {
         [Key]
         public int Id { get; set; }
-        public string Name { get; set; }//ta bort
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }

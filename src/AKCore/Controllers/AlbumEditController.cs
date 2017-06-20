@@ -28,7 +28,7 @@ namespace AKCore.Controllers
         {
             ViewBag.Title = "Album";
 
-            using (var db = new AKContext())
+            using (var db = new AKContext(_hostingEnv))
             {
                 var model = new AlbumEditModel
                 {
@@ -45,7 +45,7 @@ namespace AKCore.Controllers
             if (string.IsNullOrWhiteSpace(name))
                 return Json(new {success = false, message = "Fyll i ett namn"});
 
-            using (var db = new AKContext())
+            using (var db = new AKContext(_hostingEnv))
             {
                 if (db.Albums.Any(x => x.Name == name))
                     return Json(new {success = false, message = "Ett album med det namnet finns redan"});
@@ -72,7 +72,7 @@ namespace AKCore.Controllers
             var aId = 0;
             if (!int.TryParse(id, out aId))
                 return Json(new {success = false, message = "Misslyckades med att ta bort album"});
-            using (var db = new AKContext())
+            using (var db = new AKContext(_hostingEnv))
             {
                 var a = db.Albums.Include(x=>x.Tracks).FirstOrDefault(x => x.Id == aId);
                 if (a == null) return Json(new {success = false, message = "Misslyckades med att ta bort album"});
@@ -98,7 +98,7 @@ namespace AKCore.Controllers
             var aId = 0;
             if (!int.TryParse(id, out aId) || string.IsNullOrWhiteSpace(src))
                 return Json(new {success = false, message = "Misslyckades med att ändra albumbild"});
-            using (var db = new AKContext())
+            using (var db = new AKContext(_hostingEnv))
             {
                 var album = db.Albums.FirstOrDefault(x => x.Id == aId);
                 if (album == null)
@@ -117,7 +117,7 @@ namespace AKCore.Controllers
             var aId = 0;
             if (!int.TryParse(id, out aId) || string.IsNullOrWhiteSpace(name))
                 return Json(new {success = false, message = "Misslyckades med att ändra albumnamn"});
-            using (var db = new AKContext())
+            using (var db = new AKContext(_hostingEnv))
             {
                 var album = db.Albums.FirstOrDefault(x => x.Id == aId);
                 if (album == null)
@@ -136,7 +136,7 @@ namespace AKCore.Controllers
                 return Json(new {success = false, message = "Album not selected"});
 
             var files = model.TrackFiles;
-            using (var db = new AKContext())
+            using (var db = new AKContext(_hostingEnv))
             {
                 var album = db.Albums.Include(x => x.Tracks).FirstOrDefault(x => x.Id == model.AlbumId);
                 if (album == null)
@@ -199,7 +199,7 @@ namespace AKCore.Controllers
                 return Json(new {success = false, message = "Misslyckades med att ta bort spår"});
             if (!int.TryParse(album, out aId))
                 return Json(new {success = false, message = "Misslyckades med att ta bort spår"});
-            using (var db = new AKContext())
+            using (var db = new AKContext(_hostingEnv))
             {
                 var albumRef = db.Albums.Include(x => x.Tracks).FirstOrDefault(x => x.Id == aId);
                 if (albumRef == null) return Json(new {success = false, message = "Misslyckades med att ta bort spår"});

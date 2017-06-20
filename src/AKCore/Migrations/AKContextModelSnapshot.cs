@@ -245,8 +245,6 @@ namespace AKCore.Migrations
 
                     b.Property<string>("LastName");
 
-                    b.Property<string>("Name");
-
                     b.Property<string>("Other");
 
                     b.Property<string>("Phone");

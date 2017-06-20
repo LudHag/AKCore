@@ -5,22 +5,25 @@ using AKCore.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Hosting;
 
 namespace AKCore.Controllers
 {
     public class HeaderViewComponent : ViewComponent
     {
         private readonly UserManager<AkUser> _userManager;
+        private readonly IHostingEnvironment _hostingEnv;
 
-        public HeaderViewComponent(UserManager<AkUser> userManager)
+        public HeaderViewComponent(UserManager<AkUser> userManager, IHostingEnvironment env)
         {
             _userManager = userManager;
+            _hostingEnv = env;
         }
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
             var loggedIn = User.Identity.IsAuthenticated;
-            using (var db = new AKContext())
+            using (var db = new AKContext(_hostingEnv))
             {
                 var menus = db.Menus.OrderBy(x => x.PosIndex)
                     .Include(b => b.Link)
@@ -45,6 +48,7 @@ namespace AKCore.Controllers
                     {
                         var signUpMenus = new ModelMenu("Anmälningar", "", true) { Id = 10004};
                         signUpMenus.Children.Add(new ModelMenu("Intresseanmälningar", "/Signup/Recruits", true) { Id = 10007 });
+                        signUpMenus.Children.Add(new ModelMenu("Spelförfrågningar", "/Hire/Hires", true) { Id = 10007 });
                         modelMenus.Add(signUpMenus);
 
                         var adminMenu = new ModelMenu("Admin", "", true) {Id = 10015};

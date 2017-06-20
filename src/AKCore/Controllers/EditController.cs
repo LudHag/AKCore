@@ -5,6 +5,7 @@ using System.Linq;
 using AKCore.DataModel;
 using Microsoft.AspNetCore.Authorization;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Hosting;
 
 namespace AKCore.Controllers
 {
@@ -12,11 +13,18 @@ namespace AKCore.Controllers
     [Authorize(Roles= "SuperNintendo,Editor")]
     public class EditController : Controller
     {
+        private readonly IHostingEnvironment _hostingEnv;
+
+        public EditController(IHostingEnvironment env)
+        {
+            _hostingEnv = env;
+        }
+
         [Authorize(Roles = "SuperNintendo,Editor")]
         public ActionResult Index()
         {
             ViewBag.Title = "Redigera sidor";
-            using (var db = new AKContext())
+            using (var db = new AKContext(_hostingEnv))
             {
                 var pages = db.Pages.ToList();
                 var model = new EditPagesModel
@@ -37,7 +45,7 @@ namespace AKCore.Controllers
                 return Json(new {success = false, message = "Alla fällt måste vara ifyllda"});
             }
 
-            using (var db = new AKContext())
+            using (var db = new AKContext(_hostingEnv))
             {
                 if (slug.Length>1 && slug[0] != '/')
                 {
@@ -70,7 +78,7 @@ namespace AKCore.Controllers
             {
                 return Redirect("/Edit");
             }
-            using (var db = new AKContext())
+            using (var db = new AKContext(_hostingEnv))
             {
                 var page = db.Pages.FirstOrDefault(x => x.Id == pId);
                 if (page == null)
@@ -109,7 +117,7 @@ namespace AKCore.Controllers
                 return Json(new { success = false, message = "Felaktigt ifyllda fällt" });
             }
 
-            using (var db = new AKContext())
+            using (var db = new AKContext(_hostingEnv))
             {
                 var page = db.Pages.FirstOrDefault(x => x.Id == pId);
                 if (page == null)
@@ -138,7 +146,7 @@ namespace AKCore.Controllers
             {
                 return Redirect("/Edit");
             }
-            using (var db = new AKContext())
+            using (var db = new AKContext(_hostingEnv))
             {
                 var page = db.Pages.FirstOrDefault(x => x.Id == pId);
                 if (page == null)

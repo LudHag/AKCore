@@ -4,6 +4,7 @@ using System.Linq;
 using AKCore.DataModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Hosting;
 
 namespace AKCore.Controllers
 {
@@ -11,10 +12,17 @@ namespace AKCore.Controllers
     [Authorize(Roles = "SuperNintendo")]
     public class MenuEditController : Controller
     {
+        private readonly IHostingEnvironment _hostingEnv;
+
+        public MenuEditController(IHostingEnvironment env)
+        {
+            _hostingEnv = env;
+        }
+
         public ActionResult Index()
         {
             ViewBag.Title = "Redigera Menyer";
-            using (var db = new AKContext())
+            using (var db = new AKContext(_hostingEnv))
             {
                 var pages = db.Pages.ToList();
                 var menus = db.Menus.Include(x=>x.Children).OrderBy(x=>x.PosIndex).ToList();
@@ -32,7 +40,7 @@ namespace AKCore.Controllers
         [Route("MenuList")]
         public ActionResult MenuList()
         {
-            using (var db = new AKContext())
+            using (var db = new AKContext(_hostingEnv))
             {
                 var pages = db.Pages.ToList();
                 var menus = db.Menus.Include(x=>x.Children).OrderBy(x => x.PosIndex).ToList();
@@ -55,7 +63,7 @@ namespace AKCore.Controllers
                 return Json(new {success = false, message = "Menyn måste ha ett namn"});
             }
 
-            using (var db = new AKContext())
+            using (var db = new AKContext(_hostingEnv))
             {
                 var m = new Menu
                 {
@@ -95,7 +103,7 @@ namespace AKCore.Controllers
             }
 
 
-            using (var db = new AKContext())
+            using (var db = new AKContext(_hostingEnv))
             {
                 if (parentId != "true")
                 {
@@ -160,7 +168,7 @@ namespace AKCore.Controllers
                 return Json(new {success = false, message = "Otillräcklig input"});
             }
 
-            using (var db = new AKContext())
+            using (var db = new AKContext(_hostingEnv))
             {
                 var pid = 0;
                 if (int.TryParse(parentId, out pid))
@@ -206,7 +214,7 @@ namespace AKCore.Controllers
             {
                 return Json(new {success = false, message = "Inget id inskickat"});
             }
-            using (var db = new AKContext())
+            using (var db = new AKContext(_hostingEnv))
             {
                 var i = 0;
                 if (!int.TryParse(id, out i))
@@ -237,7 +245,7 @@ namespace AKCore.Controllers
             {
                 return Json(new {success = false, message = "Inget id inskickat"});
             }
-            using (var db = new AKContext())
+            using (var db = new AKContext(_hostingEnv))
             {
                 var i = 0;
                 if (!int.TryParse(id, out i))
@@ -270,7 +278,7 @@ namespace AKCore.Controllers
             {
                 return Json(new { success = false, message = "Inget id inskickat" });
             }
-            using (var db = new AKContext())
+            using (var db = new AKContext(_hostingEnv))
             {
                 var i = 0;
                 if (!int.TryParse(id, out i))
@@ -303,7 +311,7 @@ namespace AKCore.Controllers
             {
                 return Json(new { success = false, message = "Inget id eller topmeny inskickat" });
             }
-            using (var db = new AKContext())
+            using (var db = new AKContext(_hostingEnv))
             {
                 var i = 0;
                 if (!int.TryParse(id, out i))
@@ -351,7 +359,7 @@ namespace AKCore.Controllers
             {
                 return Json(new { success = false, message = "Inget id eller topmeny inskickat" });
             }
-            using (var db = new AKContext())
+            using (var db = new AKContext(_hostingEnv))
             {
                 var i = 0;
                 if (!int.TryParse(id, out i))
@@ -399,7 +407,7 @@ namespace AKCore.Controllers
             {
                 return Json(new {success = false, message = "Inget id inskickat"});
             }
-            using (var db = new AKContext())
+            using (var db = new AKContext(_hostingEnv))
             {
                 var i = 0;
                 if (!int.TryParse(id, out i))

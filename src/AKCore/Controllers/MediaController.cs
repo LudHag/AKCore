@@ -76,10 +76,10 @@ namespace AKCore.Controllers
         }
 
 
-        private static List<Media> PopulateList(int page, out int totalPages,string searchPhrase, string type = "", string tag = "")
+        private List<Media> PopulateList(int page, out int totalPages,string searchPhrase, string type = "", string tag = "")
         {
             var pagesize = 12;
-            using (var db = new AKContext())
+            using (var db = new AKContext(_hostingEnv))
             {
                 var searched=db.Medias
                     .Where(x=>x.Name.Contains(searchPhrase))
@@ -110,7 +110,7 @@ namespace AKCore.Controllers
             var filepath = _hostingEnv.WebRootPath + $@"\media\{filename}";
 
 
-            using (var db = new AKContext())
+            using (var db = new AKContext(_hostingEnv))
             {
                 if (db.Medias.FirstOrDefault(x => x.Name == filename) != null)
                 {
@@ -139,7 +139,7 @@ namespace AKCore.Controllers
         {
             var filepath = _hostingEnv.WebRootPath + $@"\media\{filename}";
 
-            using (var db = new AKContext())
+            using (var db = new AKContext(_hostingEnv))
             {
                 var file = db.Medias.FirstOrDefault(x => x.Name == filename);
                 if (file == null)

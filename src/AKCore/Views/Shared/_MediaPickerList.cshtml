@@ -8,10 +8,10 @@
     </div>
 }
 
-<nav class="col-xs-12">
+<div class="col-xs-12">
     <ul class="pagination">
         @for(var i = 1; i <= Model.TotalPages; i++) {
             <li class="@(Model.CurrentPage == i ? "active" : "")"><a href="#" data-page="@i">@i</a></li>
         }
     </ul>
-</nav>
+</div>

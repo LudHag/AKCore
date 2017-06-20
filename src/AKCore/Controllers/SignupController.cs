@@ -1,21 +1,27 @@
 ﻿using System;
 using System.Linq;
 using AKCore.DataModel;
-using AKCore.Migrations;
 using AKCore.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Hosting;
 
 namespace AKCore.Controllers
 {
     [Route("Signup")]
     public class SignupController : Controller
     {
+        private readonly IHostingEnvironment _hostingEnvironment;
+        public SignupController(IHostingEnvironment hostingEnvironment)
+        {
+            _hostingEnvironment = hostingEnvironment;
+        }
+
         [Route("Signup")]
         [HttpPost]
         public ActionResult Signup(JoinUsModel model)
         {
-            using (var db = new AKContext())
+            using (var db = new AKContext(_hostingEnvironment))
             {
                 if (string.IsNullOrWhiteSpace(model.Email) && string.IsNullOrWhiteSpace(model.Tel))
                     return Json(new { success = false, message = "Du har ej angett ett sätt att kontakta dig med." });
@@ -63,7 +69,7 @@ namespace AKCore.Controllers
         public ActionResult Recruits()
         {
             ViewBag.Title = "Anmälningar";
-            using (var db = new AKContext())
+            using (var db = new AKContext(_hostingEnvironment))
             {
                 var model = new RecruitsModel
                 {
@@ -85,7 +91,7 @@ namespace AKCore.Controllers
             {
                 return Json(new { success = false });
             }
-            using (var db = new AKContext())
+            using (var db = new AKContext(_hostingEnvironment))
             {
                 var recruit = db.Recruits.FirstOrDefault(x => x.Id == id);
                 if (recruit == null) return Json(new { success = false });
@@ -103,7 +109,7 @@ namespace AKCore.Controllers
             {
                 return Json(new { success = false });
             }
-            using (var db = new AKContext())
+            using (var db = new AKContext(_hostingEnvironment))
             {
                 var recruit = db.Recruits.FirstOrDefault(x => x.Id == id);
                 if (recruit == null) return Json(new { success = false });

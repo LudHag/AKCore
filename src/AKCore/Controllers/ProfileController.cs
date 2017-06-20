@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Hosting;
 
 namespace AKCore.Controllers
 {
@@ -16,20 +17,23 @@ namespace AKCore.Controllers
     {
         private readonly SignInManager<AkUser> _signInManager;
         private readonly UserManager<AkUser> _userManager;
+        private readonly IHostingEnvironment _hostingEnv;
 
         public ProfileController(
             UserManager<AkUser> userManager,
-            SignInManager<AkUser> signInManager)
+            SignInManager<AkUser> signInManager,
+            IHostingEnvironment env)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _hostingEnv = env;
         }
 
         public async Task<ActionResult> Index()
         {
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
             ViewBag.Title = "Profil";
-            using (var db = new AKContext())
+            using (var db = new AKContext(_hostingEnv))
             {
                 var logins=db.UserLogins.Where(x => x.ProviderDisplayName == user.UserName).ToList();
 

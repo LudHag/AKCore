@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Hosting;
 
 namespace AKCore.Controllers
 {
@@ -14,11 +15,13 @@ namespace AKCore.Controllers
     public class UpcommingController : Controller
     {
         private readonly UserManager<AkUser> _userManager;
+        private readonly IHostingEnvironment _hostingEnv;
 
         public UpcommingController(
-            UserManager<AkUser> userManager)
+            UserManager<AkUser> userManager, IHostingEnvironment env)
         {
             _userManager = userManager;
+            _hostingEnv = env;
         }
 
         public ActionResult Index()
@@ -26,7 +29,7 @@ namespace AKCore.Controllers
             ViewBag.Title = "På gång";
             var loggedIn = User.Identity.IsAuthenticated;
             ViewBag.loggedIn = loggedIn;
-            using (var db = new AKContext())
+            using (var db = new AKContext(_hostingEnv))
             {
                 var model = new UpcommingModel
                 {
@@ -49,7 +52,7 @@ namespace AKCore.Controllers
             var eId = 0;
             if (!int.TryParse(id, out eId))
                 return Redirect("/Upcomming");
-            using (var db = new AKContext())
+            using (var db = new AKContext(_hostingEnv))
             {
                 var spelning = db.Events.Include(x => x.SignUps).FirstOrDefault(x => x.Id == eId);
                 if (spelning == null) return Redirect("/Upcomming");
@@ -78,7 +81,7 @@ namespace AKCore.Controllers
             var eId = 0;
             if (!int.TryParse(id, out eId))
                 return Json(new {success = false, message = "Felaktigt id"});
-            using (var db = new AKContext())
+            using (var db = new AKContext(_hostingEnv))
             {
                 var spelning = db.Events.Include(x => x.SignUps).FirstOrDefault(x => x.Id == eId);
                 if (spelning == null) return Json(new {success = false, message = "Felaktigt id"});

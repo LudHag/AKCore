@@ -4,6 +4,7 @@ using AKCore.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace AKCore.Controllers
 {
@@ -78,7 +79,6 @@ namespace AKCore.Controllers
 
             var newUser = new AkUser() {UserName = "nintendo"};
             var newCommonUser = new AkUser() { UserName = "test" };
-
             var user = await _userManager.FindByNameAsync("nintendo");
             if (user == null)
             {

@@ -4,11 +4,19 @@ using AKCore.DataModel;
 using AKCore.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Hosting;
 
 namespace AKCore.Controllers
 {
     public class PageController : Controller
     {
+        private readonly IHostingEnvironment _hostingEnv;
+
+        public PageController(IHostingEnvironment env)
+        {
+            _hostingEnv = env;
+        }
+
         public ActionResult Index()
         {
             ViewData["Title"] = "Home";
@@ -20,7 +28,7 @@ namespace AKCore.Controllers
         public ActionResult Page(string slug)
         {
             var loggedIn = User.Identity.IsAuthenticated;
-            using (var db = new AKContext())
+            using (var db = new AKContext(_hostingEnv))
             {
                 Page page;
                 if (string.IsNullOrWhiteSpace(slug))

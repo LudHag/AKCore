@@ -8,13 +8,13 @@ using AKCore.DataModel;
 namespace AKCore.Migrations
 {
     [DbContext(typeof(AKContext))]
-    [Migration("20170105193726_recruits")]
-    partial class recruits
+    [Migration("20170620091755_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "1.1.0-rtm-22752");
+                .HasAnnotation("ProductVersion", "1.1.2");
 
             modelBuilder.Entity("AKCore.DataModel.AkUser", b =>
                 {
@@ -31,7 +31,7 @@ namespace AKCore.Migrations
                         .IsConcurrencyToken();
 
                     b.Property<string>("Email")
-                        .HasAnnotation("MaxLength", 256);
+                        .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed");
 
@@ -45,13 +45,17 @@ namespace AKCore.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
 
+                    b.Property<string>("Medal");
+
                     b.Property<string>("Nation");
 
                     b.Property<string>("NormalizedEmail")
-                        .HasAnnotation("MaxLength", 256);
+                        .HasMaxLength(256);
 
                     b.Property<string>("NormalizedUserName")
-                        .HasAnnotation("MaxLength", 256);
+                        .HasMaxLength(256);
+
+                    b.Property<string>("OtherInstruments");
 
                     b.Property<string>("PasswordHash");
 
@@ -68,7 +72,7 @@ namespace AKCore.Migrations
                     b.Property<bool>("TwoFactorEnabled");
 
                     b.Property<string>("UserName")
-                        .HasAnnotation("MaxLength", 256);
+                        .HasMaxLength(256);
 
                     b.Property<string>("ZipCode");
 
@@ -119,7 +123,7 @@ namespace AKCore.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasAnnotation("MaxLength", 450);
+                        .HasMaxLength(450);
 
                     b.Property<string>("Place");
 
@@ -131,11 +135,33 @@ namespace AKCore.Migrations
 
                     b.Property<string>("Type")
                         .IsRequired()
-                        .HasAnnotation("MaxLength", 450);
+                        .HasMaxLength(450);
 
                     b.HasKey("Id");
 
                     b.ToTable("Events");
+                });
+
+            modelBuilder.Entity("AKCore.DataModel.Hire", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("Archived");
+
+                    b.Property<DateTime>("Created");
+
+                    b.Property<string>("Email");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("Other");
+
+                    b.Property<string>("Tel");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Hires");
                 });
 
             modelBuilder.Entity("AKCore.DataModel.Media", b =>
@@ -146,6 +172,8 @@ namespace AKCore.Migrations
                     b.Property<DateTime>("Created");
 
                     b.Property<string>("Name");
+
+                    b.Property<string>("Tag");
 
                     b.Property<string>("Type");
 
@@ -161,9 +189,11 @@ namespace AKCore.Migrations
 
                     b.Property<int?>("LinkId");
 
+                    b.Property<bool>("LoggedIn");
+
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasAnnotation("MaxLength", 450);
+                        .HasMaxLength(450);
 
                     b.Property<int>("PosIndex");
 
@@ -183,12 +213,14 @@ namespace AKCore.Migrations
 
                     b.Property<bool>("LoggedIn");
 
+                    b.Property<bool>("LoggedOut");
+
                     b.Property<string>("Name")
                         .IsRequired();
 
                     b.Property<string>("Slug")
                         .IsRequired()
-                        .HasAnnotation("MaxLength", 450);
+                        .HasMaxLength(450);
 
                     b.Property<string>("WidgetsJson");
 
@@ -202,13 +234,17 @@ namespace AKCore.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<bool>("Archived");
+
                     b.Property<DateTime>("Created");
 
                     b.Property<string>("Email");
 
+                    b.Property<string>("FirstName");
+
                     b.Property<string>("Instrument");
 
-                    b.Property<string>("Name");
+                    b.Property<string>("LastName");
 
                     b.Property<string>("Other");
 
@@ -233,6 +269,8 @@ namespace AKCore.Migrations
                     b.Property<bool>("Instrument");
 
                     b.Property<string>("InstrumentName");
+
+                    b.Property<string>("OtherInstruments");
 
                     b.Property<string>("Person")
                         .IsRequired();
@@ -261,7 +299,7 @@ namespace AKCore.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasAnnotation("MaxLength", 450);
+                        .HasMaxLength(450);
 
                     b.Property<int>("SubPosIndex");
 
@@ -303,10 +341,10 @@ namespace AKCore.Migrations
                         .IsConcurrencyToken();
 
                     b.Property<string>("Name")
-                        .HasAnnotation("MaxLength", 256);
+                        .HasMaxLength(256);
 
                     b.Property<string>("NormalizedName")
-                        .HasAnnotation("MaxLength", 256);
+                        .HasMaxLength(256);
 
                     b.HasKey("Id");
 
