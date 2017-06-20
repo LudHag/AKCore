@@ -33,7 +33,7 @@ namespace AKCore.Controllers
             {
                 var model = new UpcommingModel
                 {
-                    Events = db.Events.OrderBy(x => x.Day)
+                    Events = db.Events.OrderBy(x => x.Day).ThenBy(x => x.Starts)
                         .Include(x=>x.SignUps)
                         .Where(x => loggedIn || (x.Type == "Spelning"))
                         .Where(x => x.Day >= DateTime.UtcNow.Date)
