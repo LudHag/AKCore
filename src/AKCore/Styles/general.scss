@@ -265,23 +265,61 @@ p.infobox {
     overflow: hidden;
 }
 
-@media screen and (max-width: 768px) {
-    header {
-        .container {
-            padding: 0 15px;
+.content-wrapper .row.event-row {
+    padding: 15px;
+    border: 3px solid $akred;
+    border-radius: 7px;
+    cursor: pointer;
+    position: relative;
+
+    &:hover {
+        background-color: #1a0000;
+    }
+
+    &:before {
+        content: "+";
+        color: $akred;
+        position: absolute;
+        right: 6px;
+        top: 0px;
+        font-size: 25px;
+        line-height: 25px;
+    }
+
+    &.expanded {
+        .extra {
+            display: block;
         }
-        .logo {
-            img {
-                max-height: 90px;
-                width:auto;
-            }
-        }
-        nav{
-            height:0;
-        }
-         #open-mobile-menu {
-            top: -85px;
+
+        &:before {
+            content: "-";
+            right: 6px;
+            top: 0px;
+            font-size: 50px;
         }
     }
-   
+
+    .extra {
+        display: none;
+    }
 }
+
+    @media screen and (max-width: 768px) {
+        header {
+            .container {
+                padding: 0 15px;
+            }
+            .logo {
+                img {
+                    max-height: 90px;
+                    width: auto;
+                }
+            }
+            nav {
+                height: 0;
+            }
+            #open-mobile-menu {
+                top: -85px;
+            }
+        }
+    }

@@ -25,6 +25,14 @@
         });
     });
 
+    $('.event-row').on('click', function (e) {
+        var self = $(this);
+        var target = $(event.target);
+        if (!target.is("a")) {
+            self.toggleClass("expanded");
+        }
+    });
+
     function reloadSignups() {
         $('#signup-list').load(' #signup-list > *');
     }

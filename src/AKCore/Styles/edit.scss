@@ -280,15 +280,6 @@ table{
     }
 }
 
-.content-wrapper .row.event-row{
-    margin-bottom: 0;
-    padding:15px;
-    &:hover{
-        background-color:#1a0000;
-    }
-    border-bottom:1px solid $akred;
-}
-
 #edit-event-modal {
     .description, .rep-fika, .spelning-tid, .sta-ga, .spelning-tid-there {
         display: none;
