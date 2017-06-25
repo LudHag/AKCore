@@ -17,16 +17,17 @@ Migrationer hanteras med Add-Migration och Update-Database i package manager con
 
 Använd gärna annan databas via EF men mysql har än så länge inget stöd i CORE.
 
-Fil för db sätts i AkContext.OnConfiguring vore snyggare att kontrollera via config.
-
-#Användare:
+# Användare:
 identity: 
 https://docs.asp.net/en/latest/security/authentication/identity.html
 
-#CSS och JS:
+# Bootstrap
+Som frontendframework används Bootstrap 3. Läs mer om dess standardanvändning [här](http://getbootstrap.com/css/) och dess komponenter [här](http://getbootstrap.com/components/).
 
-JS och lessfiler (css) bundlas med gulp. Vill du lägga till en javascriptfil lägg till i gulpfilens lista. Vill du lägga till en lessfil lägg till i /Styles/akstyle.less.
+# CSS och JS:
 
-##Less
+JS och scssfiler (css) bundlas med gulp. Vill du lägga till en javascriptfil lägg till i gulpfilens lista. Vill du lägga till en scssfil lägg till i /Styles/akstyle.scss.
 
-Less är som css men med mer funktionalitet. Vet man inte vad man ska göra så skriv vanlig css och använd filändelsen less så funkar det alldeles utmärkt.
+## Scss
+
+[Scss](http://sass-lang.com/guide) är som css men med mer funktionalitet. Vet man inte vad man ska göra så skriv vanlig css och använd filändelsen scss så funkar det alldeles utmärkt.
