@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
+using System.Text;
 
 namespace AKCore.Controllers
 {
@@ -41,6 +42,51 @@ namespace AKCore.Controllers
                 };
 
                 return View(model);
+            }
+        }
+        [Route("akevents.ics")]
+        [Authorize]
+        public ActionResult Ical()
+        {
+            using (var db = new AKContext(_hostingEnv))
+            {
+                var events = db.Events.OrderBy(x => x.Day).ThenBy(x => x.Starts)
+                         .Include(x => x.SignUps)
+                         .Where(x => x.Day >= DateTime.UtcNow.Date);
+
+                var sb = new StringBuilder();
+                var DateFormat = "yyyyMMddTHHmmssZ";
+                var now = DateTime.Now.ToUniversalTime().ToString(DateFormat);
+                sb.AppendLine("BEGIN:VCALENDAR");
+                sb.AppendLine("PRODID:-//AkCalendar//altekamereren.org");
+                sb.AppendLine("X-WR-CALDESC:Alte Kamererens eventkalender");
+                sb.AppendLine("X-WR-CALNAME:AKnewcal");
+                sb.AppendLine("X-WR-TIMEZONE:Europe/Stockholm");
+                sb.AppendLine("VERSION:2.0");
+                sb.AppendLine("METHOD:PUBLISH");
+                foreach (var res in events)
+                {
+                    var dtStart = res.Day.Date + res.Starts.TimeOfDay;
+                    var dtEnd = dtStart.AddHours(1);
+                    sb.AppendLine("BEGIN:VEVENT");
+                    sb.AppendLine("DTSTART:" + dtStart.ToUniversalTime().ToString(DateFormat));
+                    sb.AppendLine("DTEND:" + dtEnd.ToUniversalTime().ToString(DateFormat));
+                    sb.AppendLine("DTSTAMP:" + now);
+                    sb.AppendLine("UID:" + Guid.NewGuid());
+                    sb.AppendLine("CREATED:" + now);
+                    sb.AppendLine("X-ALT-DESC;FMTTYPE=text/html:" + res.Description+ "<br/>" + res.InternalDescription);
+                    sb.AppendLine("DESCRIPTION:" + res.Description + "\n" + res.InternalDescription);
+                    sb.AppendLine("LAST-MODIFIED:" + now);
+                    sb.AppendLine("LOCATION:" + res.Place);
+                    sb.AppendLine("SEQUENCE:0");
+                    sb.AppendLine("STATUS:CONFIRMED");
+                    sb.AppendLine("SUMMARY:" + res.Name);
+                    sb.AppendLine("TRANSP:OPAQUE");
+                    sb.AppendLine("END:VEVENT");
+                }
+                sb.AppendLine("END:VCALENDAR");
+                var bytes=Encoding.ASCII.GetBytes(sb.ToString());
+                return File(bytes, "application/octet-stream", "akevents.ics");
             }
         }
 
