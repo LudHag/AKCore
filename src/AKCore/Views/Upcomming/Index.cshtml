@@ -72,6 +72,14 @@
                 <div class="col-sm-4">
                     <a href="/Upcomming/Event/@e.Id">Anmäl</a>
                     <p>@e.CanCome() Kommer @e.CantCome() Kommer inte</p>
+                    @if (e.Stand)
+                    {
+                        <p>@AkSpeltyp.Stand</p>
+                    }
+                    else
+                    {
+                        <p>@AkSpeltyp.Walk</p>
+                    }
                </div>
             }
             <div class="col-sm-12 description">
@@ -79,28 +87,9 @@
             </div>
             @if (ViewBag.loggedIn)
             {
-                if (e.Type == "Spelning")
-                {
-                    <div class="col-sm-8">
-                        <p>@e.InternalDescription</p>
-                    </div>
-                    <div class="col-sm-4">
-                        @if (e.Stand)
-                        {
-                            <p>@AkSpeltyp.Stand</p>
-                        }
-                        else
-                        {
-                            <p>@AkSpeltyp.Walk</p>
-                        }
-                    </div>
-                }
-                else
-                {
-                    <div class="col-sm-12">
-                        <p>@e.InternalDescription</p>
-                    </div>
-                }
+                <div class="col-sm-12">
+                    <p>@e.InternalDescription</p>
+                </div>
             }
         </div>
     }
