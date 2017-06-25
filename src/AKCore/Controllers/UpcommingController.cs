@@ -28,7 +28,6 @@ namespace AKCore.Controllers
         {
             ViewBag.Title = "På gång";
             var loggedIn = User.Identity.IsAuthenticated;
-            ViewBag.loggedIn = loggedIn;
             using (var db = new AKContext(_hostingEnv))
             {
                 var model = new UpcommingModel
@@ -37,7 +36,8 @@ namespace AKCore.Controllers
                         .Include(x=>x.SignUps)
                         .Where(x => loggedIn || (x.Type == "Spelning"))
                         .Where(x => x.Day >= DateTime.UtcNow.Date)
-                        .GroupBy(x => x.Day.Year).ToList()
+                        .GroupBy(x => x.Day.Year).ToList(),
+                    LoggedIn = loggedIn
                 };
 
                 return View(model);

@@ -294,6 +294,16 @@ table{
         display: none;
     }
 
+    .editeventbody {
+        display: none;
+    }
+
+    &.Rep, &.Kårhusrep, &.Fikarep, &.Spelning, &.Fest {
+        .editeventbody {
+            display: block;
+        }
+    }
+
     &.Spelning {
         .spelning-tid,
         .spelning-tid-there,

@@ -21,71 +21,13 @@
             lastMonth = newMonth;
         }
         <div class="row event-row">
-            <div class="col-sm-4" style="font-weight: 500;">
-                <p style="text-transform: capitalize;">@e.Day.ToString("dddd dd", culture)/@e.Day.ToString("MM", culture) </p>
-                @if (e.Type == "Rep")
-                {
-                    <p>Rep</p>
-                    <p>@e.Place</p>
-                }
-                else if (e.Type == "Kårhusrep")
-                {
-                    <p>Kårhusrep</p>
-                }
-                else if (e.Type == "Fikarep")
-                {
-                    <p>Fikarep</p>
-                }
-                else
-                {
-                    <p>@e.Name</p>
-                    <p>@e.Place</p>
-                }
-            </div>
-            <div class="col-sm-4">
-                @{
-                    var halan = e.Halan.ToString("HH:mm");
-                    var there = e.There.ToString("HH:mm");
-                    var start = e.Starts.ToString("HH:mm");
-                    if (halan != "00:00")
-                    {
-                        <p>Samling i hålan: @halan</p>
-                    }
-                    if (there != "00:00")
-                    {
-                        <p>Samling på plats: @there</p>
-                    }
-                    if (start != "00:00" && e.Type == "Spelning")
-                    {
-                        <p>Spelning startar: @start</p>
-                    }
-                }
-            </div>
-            @if (e.Type == "Rep" || e.Type == "Kårhusrep")
+            @if (Model.LoggedIn)
             {
-                <div class="col-sm-4">
-                    <p>Fika och städning: @e.Fika</p>
-                </div>
+                @Html.Partial("Partials/LoggedInEvent", e)
             }
-            else if (e.Type == "Spelning" && User.Identity.IsAuthenticated)
+            else
             {
-                <div class="col-sm-4">
-                    <a href="/Upcomming/Event/@e.Id">Anmäl</a>
-                    <p>@e.CanCome() Kommer @e.CantCome() Kommer inte</p>
-                    @if (e.Stand!=null)
-                    {
-                        <p>Speltyp: @e.Stand</p>
-                    }
-               </div>
-            }
-            <div class="col-sm-12 description">
-                <p>@e.Description</p>
-            </div>
-            @if (ViewBag.loggedIn)
-            {
-                <div class="col-sm-12">
-                    <p>@e.InternalDescription</p>
-                </div>
+                @Html.Partial("Partials/LoggedOutEvent", e)
             }
         </div>
     }

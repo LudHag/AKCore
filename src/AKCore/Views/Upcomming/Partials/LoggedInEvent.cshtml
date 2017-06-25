@@ -1,0 +1,69 @@
+﻿@using AKCore.DataModel
+@using System.Globalization
+@model Event
+@{
+    var culture = new CultureInfo("sv");
+}
+<div class="col-sm-4" style="font-weight: 500;">
+    <p style="text-transform: capitalize;">@Model.Day.ToString("dddd dd", culture)/@Model.Day.ToString("MM", culture) </p>
+    @if (Model.Type == "Rep")
+    {
+        <p>Rep</p>
+        <p>@Model.Place</p>
+    }
+    else if (Model.Type == "Kårhusrep")
+    {
+        <p>Kårhusrep</p>
+    }
+    else if (Model.Type == "Fikarep")
+    {
+        <p>Fikarep</p>
+    }
+    else
+    {
+        <p>@Model.Name</p>
+        <p>@Model.Place</p>
+    }
+</div>
+<div class="col-sm-4">
+    @{
+        var halan = Model.Halan.ToString("HH:mm");
+        var there = Model.There.ToString("HH:mm");
+        var start = Model.Starts.ToString("HH:mm");
+        if (halan != "00:00")
+        {
+            <p>Samling i hålan: @halan</p>
+        }
+        if (there != "00:00")
+        {
+            <p>Samling på plats: @there</p>
+        }
+        if (start != "00:00" && Model.Type == "Spelning")
+        {
+            <p>Spelning startar: @start</p>
+        }
+    }
+</div>
+@if (Model.Type == "Rep" || Model.Type == "Kårhusrep")
+{
+    <div class="col-sm-4">
+        <p>Fika och städning: @Model.Fika</p>
+    </div>
+}
+else if (Model.Type == "Spelning")
+{
+    <div class="col-sm-4">
+        <a href="/Upcomming/Event/@Model.Id">Anmäl</a>
+        <p>@Model.CanCome() Kommer @Model.CantCome() Kommer inte</p>
+        @if (Model.Stand != null)
+        {
+            <p>Speltyp: @Model.Stand</p>
+        }
+    </div>
+}
+<div class="col-sm-12 description">
+    <p>@Model.Description</p>
+</div>
+<div class="col-sm-12">
+    <p>@Model.InternalDescription</p>
+</div>
