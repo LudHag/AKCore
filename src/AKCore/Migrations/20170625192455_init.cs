@@ -13,10 +13,10 @@ namespace AKCore.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
+                    AccessFailedCount = table.Column<int>(nullable: false),
                     Adress = table.Column<string>(nullable: true),
                     City = table.Column<string>(nullable: true),
                     ConcurrencyStamp = table.Column<string>(nullable: true),
-                    AccessFailedCount = table.Column<int>(nullable: false),
                     Email = table.Column<string>(maxLength: 256, nullable: true),
                     EmailConfirmed = table.Column<bool>(nullable: false),
                     FirstName = table.Column<string>(nullable: true),
@@ -73,7 +73,7 @@ namespace AKCore.Migrations
                     InternalDescription = table.Column<string>(nullable: true),
                     Name = table.Column<string>(maxLength: 450, nullable: false),
                     Place = table.Column<string>(nullable: true),
-                    Stand = table.Column<bool>(nullable: false),
+                    Stand = table.Column<string>(nullable: true),
                     Starts = table.Column<DateTime>(nullable: false),
                     There = table.Column<DateTime>(nullable: false),
                     Type = table.Column<string>(maxLength: 450, nullable: false)

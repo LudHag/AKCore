@@ -153,7 +153,7 @@ namespace AKCore.DataModel
         public DateTime Halan { get; set; }
         public DateTime There { get; set; }
         public DateTime Starts { get; set; }
-        public bool Stand { get; set; }
+        public string Stand { get; set; }
         public List<SignUp> SignUps { get; set; }
 
         public int CanCome()

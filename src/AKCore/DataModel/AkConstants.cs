@@ -77,10 +77,12 @@ namespace AKCore.DataModel
     {
         public const string Stand = "Stå";
         public const string Walk = "Gå";
+        public const string StandWalk = "Stå och gå";
         public static readonly IList<string> Speltyper = new List<string>()
         {
             Stand,
-            Walk
+            Walk,
+            StandWalk
         };
     }
     public class AkPoster

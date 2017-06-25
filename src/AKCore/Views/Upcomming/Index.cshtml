@@ -72,13 +72,9 @@
                 <div class="col-sm-4">
                     <a href="/Upcomming/Event/@e.Id">Anmäl</a>
                     <p>@e.CanCome() Kommer @e.CantCome() Kommer inte</p>
-                    @if (e.Stand)
+                    @if (e.Stand!=null)
                     {
-                        <p>@AkSpeltyp.Stand</p>
-                    }
-                    else
-                    {
-                        <p>@AkSpeltyp.Walk</p>
+                        <p>Speltyp: @e.Stand</p>
                     }
                </div>
             }

@@ -126,7 +126,7 @@ namespace AKCore.Migrations
 
                     b.Property<string>("Place");
 
-                    b.Property<bool>("Stand");
+                    b.Property<string>("Stand");
 
                     b.Property<DateTime>("Starts");
 

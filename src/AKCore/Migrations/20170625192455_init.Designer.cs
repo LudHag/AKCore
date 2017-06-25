@@ -8,7 +8,7 @@ using AKCore.DataModel;
 namespace AKCore.Migrations
 {
     [DbContext(typeof(AKContext))]
-    [Migration("20170620091755_init")]
+    [Migration("20170625192455_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -127,7 +127,7 @@ namespace AKCore.Migrations
 
                     b.Property<string>("Place");
 
-                    b.Property<bool>("Stand");
+                    b.Property<string>("Stand");
 
                     b.Property<DateTime>("Starts");
 

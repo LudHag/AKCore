@@ -59,7 +59,7 @@ namespace AKCore.Controllers
                         changeEvent.Day = model.Day;
                         changeEvent.Halan = model.Halan;
                         changeEvent.There = model.There;
-                        changeEvent.Stand = model.Stand == AkSpeltyp.Stand;
+                        changeEvent.Stand = model.Stand;
                         changeEvent.Starts = model.Starts;
                         changeEvent.Fika = model.Fika;
                         changeEvent.Description = model.Description;
@@ -84,7 +84,7 @@ namespace AKCore.Controllers
                             Type = model.Type,
                             Fika = model.Fika,
                             Halan = model.Halan,
-                            Stand = model.Stand == AkSpeltyp.Stand,
+                            Stand = model.Stand,
                             Starts = model.Starts,
                             There = model.There
                         };
