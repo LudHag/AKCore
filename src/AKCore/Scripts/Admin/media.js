@@ -136,6 +136,23 @@ $("#uploaded-files")
             }
         });
 
+$("#uploaded-files")
+    .on("click", ".folder-box", function (e) {
+        e.preventDefault();
+        var tag = $(this).data("tag");
+        $("#search-mediatags").val(tag);
+        updateSearch();
+    });
+
+$("#uploaded-files")
+    .on("click", ".back-arrow", function (e) {
+        e.preventDefault();
+        $("#searchtext").val("");
+        $("#search-mediatags").val("");
+        updateMediaList("", "", 1);
+    });
+
+
 function updateSearch() {
     var st = $("#searchtext").val();
     var tag = $("#search-mediatags").val();

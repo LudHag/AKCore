@@ -29,14 +29,15 @@ namespace AKCore.Controllers
         {
             ViewBag.Title = "Filuppladdning";
 
-            int totalPages;
-            var medias = PopulateList(1, out totalPages, "", "Image");
+            //var medias = PopulateList(1, out int totalPages, "", "Image");
             var model = new MediaModel
             {
-                MediaFiles = medias,
-                TotalPages = totalPages,
+                MediaFiles = new List<Media>(),
+                Folders = GetFacets(),
+                TotalPages = 1,
                 CurrentPage = 1
             };
+
             return View(model);
         }
 
@@ -48,15 +49,22 @@ namespace AKCore.Controllers
                 type = search.Tag;
                 search.Tag = "";
             }
-            var medias = PopulateList(search.Page<1 ? 1 : search.Page, out int totalPages, search.SearchPhrase ?? "", type, search.Tag);
-            if (totalPages < search.Page) search.Page = totalPages;
-            var model = new MediaModel
+
+            var model = new MediaModel();
+            if(string.IsNullOrWhiteSpace(search.Tag) && string.IsNullOrWhiteSpace(search.SearchPhrase)) {
+                model.Folders = GetFacets();
+            }
+            else
             {
-                MediaFiles = medias,
-                TotalPages = totalPages,
-                CurrentPage = search.Page < 1 ? 1 : search.Page
-            };
-            return PartialView("_MediaList",model);
+                var medias = PopulateList(search.Page < 1 ? 1 : search.Page, out int totalPages, search.SearchPhrase ?? "", type, search.Tag);
+                if (totalPages < search.Page) search.Page = totalPages;
+                model.MediaFiles = medias;
+                model.TotalPages = totalPages;
+                model.CurrentPage = search.Page < 1 ? 1 : search.Page;
+            }
+            
+
+            return PartialView("Partials/MediaList",model);
         }
 
         [Route("MediaPickerList")]
@@ -73,6 +81,21 @@ namespace AKCore.Controllers
             return PartialView("_MediaPickerList", model);
         }
 
+        private IDictionary<string, int> GetFacets()
+        {
+            using (var db = new AKContext(_hostingEnv))
+            {
+                var facetes = db.Medias
+                    .GroupBy(x => x.Tag)
+                    .Select(x => new
+                    {
+                        Tag = x.Key,
+                        Count = x.Count()
+                    });
+
+                return facetes.ToDictionary(z=>z.Tag,z=>z.Count);
+            }
+        }
 
         private List<Media> PopulateList(int page, out int totalPages,string searchPhrase, string type = "", string tag = "")
         {

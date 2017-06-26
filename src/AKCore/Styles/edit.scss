@@ -124,22 +124,53 @@
     margin-top: 20px;
 }
 
-.gallery{
-    img{
-        max-width:100%;
+.gallery {
+    img {
+        max-width: 100%;
         max-height: 135px;
     }
-    .image-box{
-        height:210px;
-        overflow:hidden;
+    .back-arrow {
+        margin-bottom: 20px;
+        display: block;
+    }
+    .folder-box {
+        background: url('/images/folder.svg') grey no-repeat;
+        background-size: contain;
+        height: 140px;
+        background-position-x: 50%;
+        display: block;
+        border-radius: 7px;
+
+        .name {
+            position: absolute;
+            text-align: center;
+            top: 50%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .fa {
+            font-size: 168px;
+        }
+
+        &:hover {
+            color: $akred;
+        }
+    }
+
+    .image-box {
+        height: 210px;
+        overflow: hidden;
         text-align: center;
         font-size: 12px;
-        .glyphicon-file{
+
+        .glyphicon-file {
             font-size: 140px;
             color: $akred;
             margin-right: -10px;
         }
-        .doc-ext{
+
+        .doc-ext {
             position: absolute;
             left: 50%;
             transform: translateX(-50%);
@@ -148,7 +179,8 @@
             text-transform: uppercase;
             font-weight: 500;
         }
-        .name{
+
+        .name {
             word-break: break-all;
             width: 85%;
             bottom: 20px;
@@ -160,18 +192,19 @@
         }
     }
 }
-
-.remove-media{
-    background-color:$akred;
-    color:black;
-    border-radius: 2px;
-    line-height: 20px;
-    position: absolute;
-    right: 15px;
-    width: 20px;
-    height: 20px;
-    top: 115px;
-}   
+.gallery {
+    .remove-media {
+        background-color: $akred;
+        color: black;
+        border-radius: 2px;
+        line-height: 20px;
+        position: absolute;
+        right: 15px;
+        width: 20px;
+        height: 20px;
+        top: 115px;
+    }
+}
 .dropdown{
     display:inline-block;
 }

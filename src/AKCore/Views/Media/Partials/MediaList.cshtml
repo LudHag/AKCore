@@ -1,0 +1,45 @@
+﻿@model AKCore.Models.MediaModel
+
+@if (Model.Folders != null)
+{
+    foreach (var folder in Model.Folders)
+    {
+        <div  class="col-xs-3 col-sm-2">
+            <a href="#" data-tag="@folder.Key" class="folder-box">
+                <span class="name">@folder.Value<br />@folder.Key</span>
+            </a>
+        </div>
+    }
+}
+else
+{
+    <div class="col-xs-12">
+        <a href="#" class="back-arrow">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i> Tillbaka
+        </a>
+    </div>
+    foreach (var m in Model.MediaFiles)
+    {
+        <div class="col-xs-3 col-sm-2 image-box">
+            @if (m.Type == "Document")
+            {
+                <span class="glyphicon glyphicon-file"></span>
+                <span class="doc-ext">@m.GetExtension()</span>
+            }
+            else
+            {
+                <img src="/media/@m.Name" />
+            }
+            <a href="#" class="remove-media glyphicon glyphicon-remove" data-name="@m.Name"></a>
+            <p class="name">@m.Name</p>
+        </div>
+    }
+
+    <div class="col-xs-12">
+        <ul class="pagination">
+            @for(var i = 1; i <= Model.TotalPages; i++) {
+                <li class="@(Model.CurrentPage == i ? "active" : "")"><a href="#" data-page="@i">@i</a></li>
+            }
+        </ul>
+    </div>
+}

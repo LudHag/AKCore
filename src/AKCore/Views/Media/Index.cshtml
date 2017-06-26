@@ -53,8 +53,7 @@
             </div>
             <div class="form-group">
                 <select name="Tag" id="search-mediatags" class="form-control">
-                    <option value="Image">Alla bilder</option>
-                    <option value="Document">Alla dokument</option>
+                    <option value="">Välj kategori</option>
                     @foreach (var p in AkMediaTags.MediaTags)
                     {
                         <option value="@p">@p</option>
@@ -66,7 +65,7 @@
         </form>
     </div>
     <div id="uploaded-files">
-        @Html.Partial("_MediaList", Model)
+        @Html.Partial("Partials/MediaList", Model)
     </div>
 </div>
 
