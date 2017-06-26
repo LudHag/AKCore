@@ -129,10 +129,12 @@
         max-width: 100%;
         max-height: 135px;
     }
+
     .back-arrow {
         margin-bottom: 20px;
         display: block;
     }
+
     .folder-box {
         background: url('/images/folder.svg') grey no-repeat;
         background-size: contain;
@@ -147,6 +149,7 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+            font-size: 14px;
         }
 
         .fa {

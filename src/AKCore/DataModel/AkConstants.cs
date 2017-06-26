@@ -182,6 +182,7 @@ namespace AKCore.DataModel
     {
         public const string Allmän = "Allmän";
         public const string Balett = "Balett";
+        public const string Dokument = "Dokument";
         public const string Ikoner = "Ikoner";
         public const string Startsidebilder = "Startsidebilder";
 
@@ -190,7 +191,8 @@ namespace AKCore.DataModel
             Allmän,
             Balett,
             Ikoner,
-            Startsidebilder
+            Startsidebilder,
+            Dokument
         };
     }
 
