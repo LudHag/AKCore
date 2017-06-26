@@ -112,6 +112,26 @@ namespace AKCore.Controllers
                 return searched.Skip((page - 1)* pagesize).Take(pagesize).ToList();
             }
         }
+        [Route("EditFile")]
+        public ActionResult EditFile(string Tag, string Id)
+        {
+            if (int.TryParse(Id, out int iId) && !string.IsNullOrWhiteSpace(Tag))
+            {
+                using (var db = new AKContext(_hostingEnv))
+                {
+                    var file = db.Medias.FirstOrDefault(x => x.Id == iId);
+                    if (file != null)
+                    {
+                        file.Tag = Tag;
+                        db.SaveChanges();
+                        return Json(new { success = true });
+                    }
+
+                }
+            }
+
+            return Json(new { success = false });
+        }
         [Route("UploadFile")]
         public ActionResult UploadFile(MediaModel model)
         {
@@ -129,8 +149,7 @@ namespace AKCore.Controllers
                 .FileName
                 .Trim('"');
             var filepath = _hostingEnv.WebRootPath + $@"\media\{filename}";
-
-
+            
             using (var db = new AKContext(_hostingEnv))
             {
                 if (db.Medias.FirstOrDefault(x => x.Name == filename) != null)

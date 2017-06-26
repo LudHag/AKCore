@@ -145,6 +145,44 @@ $("#uploaded-files")
     });
 
 $("#uploaded-files")
+    .on("click", ".image-box", function (e) {
+        e.preventDefault();
+        var self = $(this);
+        if (!$(e.target).is("a")) {
+            $("#fileeditmodal").modal("show");
+            $("#fileedit-tag").val(self.data("tag"));
+            $("#fileedit-name").text(self.data("name"));
+            $("#fileedit-id").val(self.data("id"));
+            if (self.data("type") !== "Document") {
+                $("#fileedit-img").attr("src", self.data("src"));
+            } else {
+                $("#fileedit-img").attr("src", "");
+            }
+        }
+    });
+
+$("#fileeditform").on("submit", function (e) {
+    e.preventDefault();
+    var form = $(this);
+    $.ajax({
+        url: form.attr("action"),
+        type: "POST",
+        data: form.serialize(),
+        success: function (res) {
+            if (res.success) {
+                $("#fileeditmodal").modal("hide");
+                updateSearch();
+            } else {
+              
+            }
+        },
+        error: function (err) {
+            
+        }
+    });
+});
+
+$("#uploaded-files")
     .on("click", ".back-arrow", function (e) {
         e.preventDefault();
         $("#searchtext").val("");

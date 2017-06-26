@@ -146,7 +146,7 @@
             text-align: center;
             top: 50%;
             left: 50%;
-            transform: translateX(-50%);
+            transform: translate(-50%, -50%);
         }
 
         .fa {
@@ -163,6 +163,7 @@
         overflow: hidden;
         text-align: center;
         font-size: 12px;
+        cursor: pointer;
 
         .glyphicon-file {
             font-size: 140px;
@@ -192,6 +193,15 @@
         }
     }
 }
+#fileeditform {
+    text-align: center;
+
+    #fileedit-img {
+        max-height: 200px;
+        margin: 20px;
+    }
+}
+
 .gallery {
     .remove-media {
         background-color: $akred;

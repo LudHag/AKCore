@@ -69,6 +69,33 @@
     </div>
 </div>
 
+<div id="fileeditmodal" class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Redigera fil</h4>
+            </div>
+            <div class="modal-body">
+                <form id="fileeditform" method="post" action="/Media/EditFile">
+                    <h2 id="fileedit-name"></h2>
+                    <img id="fileedit-img" />
+                    <div class="form-group">
+                        <select name="Tag" id="fileedit-tag" class="form-control">
+                            @foreach (var p in AkMediaTags.MediaTags)
+                            {
+                                <option value="@p">@p</option>
+                            }
+                        </select>
+                    </div>
+                    <input type="hidden" name="Id" id="fileedit-id"/>
+                    <button type="submit" class="btn btn-default">Uppdatera</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section scripts {
     <script src="~/js/admin.js" asp-append-version="true"></script>
 }

@@ -20,7 +20,7 @@ else
     </div>
     foreach (var m in Model.MediaFiles)
     {
-        <div class="col-xs-3 col-sm-2 image-box">
+        <div class="col-xs-3 col-sm-2 image-box" data-id="@m.Id" data-name="@m.Name" data-type="@m.Type" data-src="/media/@m.Name" data-tag="@m.Tag">
             @if (m.Type == "Document")
             {
                 <span class="glyphicon glyphicon-file"></span>
