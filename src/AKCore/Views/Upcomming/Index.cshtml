@@ -6,7 +6,12 @@
     Layout = "~/Views/Shared/_MasterLayout.cshtml";
     var culture = new CultureInfo("sv");
 }
-
+@if (Model.LoggedIn)
+{
+    <div class="ical-link">
+        <a href="/upcomming/akevents.ics" class="fa fa-calendar" aria-hidden="true"> Ical-länk</a>
+    </div>
+}
 @foreach (var g in Model.Events)
 {
     <h2>@g.Key</h2>
