@@ -1,110 +1,129 @@
-﻿.music-player{
-    .album-list{
+﻿.music-player {
+    font-weight: 400;
+    .album-list {
         list-style-type: none;
         padding-left: 0;
-        display:flex;
+        display: flex;
         flex-wrap: wrap;
         margin-top: 15px;
     }
-    .album-element{
+
+    .album-element {
         padding: 10px 10px;
         width: 130px;
         position: relative;
-        a{
+
+        a {
             width: 100%;
             display: block;
-            text-align:center;
+            text-align: center;
         }
     }
-    .album-name{
-        text-align:center;
+
+    .album-name {
+        text-align: center;
         font-size: 14px;
     }
-    .player-container{
-        display:flex;
+
+    .player-container {
+        display: flex;
         background-color: #111111;
         border-radius: 5px;
         padding: 20px;
         max-height: 320px;
-        .player-module{
-            flex-grow:1;
+
+        .player-module {
+            flex-grow: 1;
             padding-left: 30px;
         }
-        .album-display{
-            flex-grow:1;
+
+        .album-display {
+            flex-grow: 1;
             text-align: center;
             max-width: 290px;
         }
-        .play-all{
+
+        .play-all {
             display: block;
             margin-top: 10px;
             font-size: 16px;
             font-weight: 800;
         }
-        .album-display-image{
+
+        .album-display-image {
             height: 220px;
             max-width: 220px;
         }
+
         img[src=""] {
-           visibility: hidden;
+            visibility: hidden;
         }
-        .player{
+
+        .player {
             min-width: 100%;
             height: 35px;
         }
-        .playlist{
+
+        .playlist {
             height: 210px;
             overflow: auto;
         }
-        .playlist-element{
-            display:block;
+
+        .playlist-element {
+            display: block;
             color: #a5a2a0;
             padding: 3px 0;
-            font-size:16px;
-            &.queued{
-                color:#2c7b12;
+            font-size: 16px;
+
+            &.queued {
+                color: #2c7b12;
             }
-            &.active{
+
+            &.active {
                 color: $akred;
             }
-            .glyphicon-download{
-                float:right;
+
+            .glyphicon-download {
+                float: right;
                 margin-right: 30px;
             }
         }
     }
-    h2{
+
+    h2 {
         background-color: #111111;
         border-radius: 5px;
         padding: 10px 20px;
         margin-bottom: 20px;
         text-transform: uppercase;
     }
+
     ::-webkit-scrollbar {
         width: 12px;
     }
- 
+
     ::-webkit-scrollbar-track {
-        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
         border-radius: 10px;
     }
- 
+
     ::-webkit-scrollbar-thumb {
         border-radius: 10px;
-        -webkit-box-shadow: inset 0 0 6px #a5a2a0; 
+        -webkit-box-shadow: inset 0 0 6px #a5a2a0;
     }
+
     ::-moz-scrollbar {
         width: 12px;
     }
- 
+
     ::-moz-scrollbar-track {
-        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
         border-radius: 10px;
     }
- 
+
     ::-webkit-scrollbar-thumb {
         border-radius: 10px;
-        -webkit-box-shadow: inset 0 0 6px #a5a2a0; 
+        -webkit-box-shadow: inset 0 0 6px #a5a2a0;
     }
 }
 
