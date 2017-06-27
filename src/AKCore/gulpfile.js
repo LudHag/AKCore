@@ -25,7 +25,7 @@ gulp.task('generalscripts', function () {
         "Scripts/Vendor/youtubegallerywall.js",
         "Scripts/general.js",
         "Scripts/profile.js",
-        "Scripts/upcomming.js",
+        "Scripts/upcoming.js",
         "Scripts/memberlist.js",
         "Scripts/musicplayer.js"
     ])

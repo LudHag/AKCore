@@ -4,7 +4,7 @@ using AKCore.DataModel;
 
 namespace AKCore.Models
 {
-    public class UpcommingModel
+    public class UpcomingModel
     {
         public IEnumerable<IGrouping<int,Event>> Events { get; set; }
         public bool LoggedIn { get; set; }

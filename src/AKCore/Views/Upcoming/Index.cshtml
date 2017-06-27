@@ -1,7 +1,7 @@
 ﻿@using System.Globalization
 @using AKCore.DataModel
 
-@model AKCore.Models.UpcommingModel
+@model AKCore.Models.UpcomingModel
 @{
     Layout = "~/Views/Shared/_MasterLayout.cshtml";
     var culture = new CultureInfo("sv");
@@ -9,7 +9,7 @@
 @if (Model.LoggedIn)
 {
     <div class="ical-link">
-        <a href="/upcomming/akevents.ics" class="fa fa-calendar" aria-hidden="true"> Ical-länk</a>
+        <a href="/upcoming/akevents.ics" class="fa fa-calendar" aria-hidden="true"> Ical-länk</a>
     </div>
 }
 @foreach (var g in Model.Events)

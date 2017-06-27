@@ -12,13 +12,13 @@ using System.Text;
 
 namespace AKCore.Controllers
 {
-    [Route("Upcomming")]
-    public class UpcommingController : Controller
+    [Route("Upcoming")]
+    public class UpcomingController : Controller
     {
         private readonly UserManager<AkUser> _userManager;
         private readonly IHostingEnvironment _hostingEnv;
 
-        public UpcommingController(
+        public UpcomingController(
             UserManager<AkUser> userManager, IHostingEnvironment env)
         {
             _userManager = userManager;
@@ -31,7 +31,7 @@ namespace AKCore.Controllers
             var loggedIn = User.Identity.IsAuthenticated;
             using (var db = new AKContext(_hostingEnv))
             {
-                var model = new UpcommingModel
+                var model = new UpcomingModel
                 {
                     Events = db.Events.OrderBy(x => x.Day).ThenBy(x => x.Starts)
                         .Include(x=>x.SignUps)
@@ -96,11 +96,11 @@ namespace AKCore.Controllers
         {
             ViewBag.Title = "Anmälan";
             if (!int.TryParse(id, out int eId))
-                return Redirect("/Upcomming");
+                return Redirect("/Upcoming");
             using (var db = new AKContext(_hostingEnv))
             {
                 var spelning = db.Events.Include(x => x.SignUps).FirstOrDefault(x => x.Id == eId);
-                if (spelning == null) return Redirect("/Upcomming");
+                if (spelning == null) return Redirect("/Upcoming");
                 var user = await _userManager.FindByNameAsync(User.Identity.Name);
                 var roles = await _userManager.GetRolesAsync(user);
                 var nintendo = roles.Contains("SuperNintendo");

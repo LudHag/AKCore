@@ -35,8 +35,8 @@ namespace AKCore.Components
                     .Where(x => x.Link == null || !loggedIn || !x.Link.LoggedOut)
                     .Where(x => x.Link == null ||  !x.Link.BalettOnly || (loggedIn && User.IsInRole(AkRoles.Balett)));
                 var modelMenus = menus.Select(m => new ModelMenu(m, loggedIn)).ToList();
-                var upcomming = new ModelMenu(loggedIn ? "På gång" : "Spelningar", "/Upcomming", true) {Id = 10003};
-                modelMenus.Add(upcomming);
+                var upcoming = new ModelMenu(loggedIn ? "På gång" : "Spelningar", "/Upcoming", true) {Id = 10003};
+                modelMenus.Add(upcoming);
                 if (loggedIn)
                 {
                     var user = await _userManager.FindByNameAsync(User.Identity.Name);

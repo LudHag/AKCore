@@ -58,11 +58,11 @@ else if (Model.Type == "Spelning")
         }
         @if (signup!=null)
         {
-            <a class="green" href="/Upcomming/Event/@Model.Id">Anmäld (@signup.Where)</a>
+            <a class="green" href="/Upcoming/Event/@Model.Id">Anmäld (@signup.Where)</a>
         }
         else
         {
-            <a href="/Upcomming/Event/@Model.Id">Anmäl</a>
+            <a href="/Upcoming/Event/@Model.Id">Anmäl</a>
         }
         <p>@Model.CanCome() Kommer - @Model.CantCome() Kommer inte</p>
         @if (Model.Stand != null)
