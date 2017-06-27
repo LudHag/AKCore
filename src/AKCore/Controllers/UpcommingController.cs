@@ -95,8 +95,7 @@ namespace AKCore.Controllers
         public async Task<ActionResult> Event(SignUpModel model, string id)
         {
             ViewBag.Title = "Anmälan";
-            var eId = 0;
-            if (!int.TryParse(id, out eId))
+            if (!int.TryParse(id, out int eId))
                 return Redirect("/Upcomming");
             using (var db = new AKContext(_hostingEnv))
             {
