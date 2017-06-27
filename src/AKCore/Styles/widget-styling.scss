@@ -5,6 +5,10 @@
     overflow: hidden;
     margin-bottom: 20px;
 
+    &.mobile {
+        height: 100px;
+    }
+
     .video-bg-content {
         position: absolute;
         width: 100%;

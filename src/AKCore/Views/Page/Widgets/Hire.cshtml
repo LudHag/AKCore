@@ -47,40 +47,43 @@
     </form>
 </div>
 
-
 <script>
-    var tag = document.createElement('script');
-    tag.src = "https://www.youtube.com/player_api";
-    var firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-    var player;
-    function onYouTubePlayerAPIReady() {
-        player = new YT.Player('ytplayer', {
-            height: '720',
-            width: '1080',
-            videoId: 'phetsuZQWjU',
-            playerVars: {
-                'autoplay': 1,
-                'controls': 0,
-                'disablekb': 0,
-                'loop': 1,
-                'modestbranding': 1,
-                'showinfo': 0,
-                'fs': 0,
-                'start': 25
-            },
-            events: {
-                onReady: function (e) {
-                    e.target.mute();
-                    
+    if (window.innerWidth>768){
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/player_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        var player;
+        function onYouTubePlayerAPIReady() {
+            player = new YT.Player('ytplayer', {
+                height: '720',
+                width: '1080',
+                videoId: 'phetsuZQWjU',
+                playerVars: {
+                    'autoplay': 1,
+                    'controls': 0,
+                    'disablekb': 0,
+                    'loop': 1,
+                    'modestbranding': 1,
+                    'showinfo': 0,
+                    'fs': 0,
+                    'start': 25
                 },
-                'onStateChange': onPlayerStateChange
-            }
-        });
-    }
-    function onPlayerStateChange(event) {
-        if (event.data == YT.PlayerState.PLAYING) {
-            $('.video-bg-content').removeClass('loading');
+                events: {
+                    onReady: function (e) {
+                        e.target.mute();
+                    
+                    },
+                    'onStateChange': onPlayerStateChange
+                }
+            });
         }
+        function onPlayerStateChange(event) {
+            if (event.data == YT.PlayerState.PLAYING) {
+                $('.video-bg-content').removeClass('loading');
+            }
+        }
+    } else {
+        document.querySelector('.video-bg').classList.add('mobile');
     }
 </script>
