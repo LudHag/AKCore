@@ -310,6 +310,14 @@ p.infobox {
                 font-size: 50px;
             }
         }
+        a {
+            margin: 0 0 11px;
+            display: block;
+        }
+
+        a.green {
+            color: #02C66F;
+        }
     }
 
     .extra {

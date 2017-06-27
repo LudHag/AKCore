@@ -11,6 +11,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Properties\PublishProfiles\ak-web - Web Deploy.pubxml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="wwwroot\fonts\bootstrap\glyphicons-halflings-regular.eot" />
     <Content Include="wwwroot\fonts\bootstrap\glyphicons-halflings-regular.svg" />
     <Content Include="wwwroot\fonts\bootstrap\glyphicons-halflings-regular.ttf" />
