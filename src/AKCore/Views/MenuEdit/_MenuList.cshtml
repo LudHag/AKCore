@@ -15,7 +15,7 @@
         {
             foreach (var submenu in menu.Children.OrderBy(x=>x.PosIndex).ToList())
             {
-                <div class="menu-row">
+                <div class="menu-row sub-row">
                     <a class="btn submenu" data-id="@submenu.Id" data-link="@submenu.LinkId">@submenu.Name</a>
                     <a class="btn remove-sub-menu glyphicon glyphicon-remove" data-id="@submenu.Id" data-name="@submenu.Name"></a>
                     <a class="btn move-down glyphicon glyphicon-chevron-down" data-id="@submenu.Id" data-top="@menu.Id"></a>

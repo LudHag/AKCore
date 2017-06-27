@@ -35,13 +35,15 @@
 .menu-row{
     display: inline-block;
     width: 100%;
+    &.sub-row{
+        margin-top: 10px;
+    }
 }
 #menualerts{
     margin-top: 20px;
 }
 
 .submenu{
-    margin-top: 10px;
     background-color:#999999;
     color:white;
     &:focus{
