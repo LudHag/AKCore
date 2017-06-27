@@ -60,7 +60,7 @@
                 <a href="@p.Slug">@p.Slug</a>
             </div>
             <div class="col-xs-3">
-                @p.LoggedIn
+                @(p.LoggedIn||p.BalettOnly)
             </div>
             <div class="col-xs-3">
                 <a class="btn btn-default" href="/Edit/Page/@p.Id">Ändra</a>

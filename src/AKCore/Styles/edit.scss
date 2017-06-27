@@ -125,7 +125,8 @@
 }
 
 .gallery {
-    font-weight:400;
+    font-weight: 400;
+
     img {
         max-width: 100%;
         max-height: 135px;
@@ -143,6 +144,8 @@
         background-position-x: 50%;
         display: block;
         border-radius: 7px;
+        position: relative;
+        font-weight: 500;
 
         .name {
             position: absolute;
@@ -151,6 +154,12 @@
             left: 50%;
             transform: translate(-50%, -50%);
             font-size: 14px;
+        }
+
+        .number {
+            position: absolute;
+            top: 2px;
+            left: 2px;
         }
 
         .fa {
