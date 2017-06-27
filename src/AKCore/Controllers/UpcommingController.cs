@@ -124,9 +124,10 @@ namespace AKCore.Controllers
         [Authorize]
         public async Task<ActionResult> SignUp(SignUpModel model, string id)
         {
-            var eId = 0;
-            if (!int.TryParse(id, out eId))
-                return Json(new {success = false, message = "Felaktigt id"});
+            if (!int.TryParse(id, out int eId))
+                return Json(new { success = false, message = "Felaktigt id" });
+            if (string.IsNullOrWhiteSpace(model.Where))
+                return Json(new { success = false, message = "Du måste välja om du kommer via hålan, direkt eller inte alls" });
             using (var db = new AKContext(_hostingEnv))
             {
                 var spelning = db.Events.Include(x => x.SignUps).FirstOrDefault(x => x.Id == eId);
