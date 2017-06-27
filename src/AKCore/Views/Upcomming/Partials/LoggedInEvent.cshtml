@@ -54,7 +54,7 @@ else if (Model.Type == "Spelning")
 {
     <div class="col-sm-4">
         <a href="/Upcomming/Event/@Model.Id">Anmäl</a>
-        <p>@Model.CanCome() Kommer @Model.CantCome() Kommer inte</p>
+        <p>@Model.CanCome() Kommer - @Model.CantCome() Kommer inte</p>
         @if (Model.Stand != null)
         {
             <p>Speltyp: @Model.Stand</p>

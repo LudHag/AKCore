@@ -281,26 +281,28 @@ p.infobox {
         background-color: #1a0000;
     }
 
-    &:before {
-        content: "+";
-        color: $akred;
-        position: absolute;
-        right: 6px;
-        top: 3px;
-        font-size: 25px;
-        line-height: 25px;
-    }
-
-    &.expanded {
-        .extra {
-            display: block;
+    &.expandable {
+        &:before {
+            content: "+";
+            color: $akred;
+            position: absolute;
+            right: 6px;
+            top: 3px;
+            font-size: 25px;
+            line-height: 25px;
         }
 
-        &:before {
-            content: "-";
-            right: 6px;
-            top: 0px;
-            font-size: 50px;
+        &.expanded {
+            .extra {
+                display: block;
+            }
+
+            &:before {
+                content: "-";
+                right: 6px;
+                top: 0px;
+                font-size: 50px;
+            }
         }
     }
 

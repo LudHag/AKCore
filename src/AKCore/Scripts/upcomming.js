@@ -25,7 +25,7 @@
         });
     });
 
-    $('.event-row').on('click', function (e) {
+    $('.expandable').on('click', function (e) {
         var self = $(this);
         var target = $(event.target);
         if (!target.is("a")) {

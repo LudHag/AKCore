@@ -25,7 +25,7 @@
             <h3 class="new-month">@newMonth</h3>
             lastMonth = newMonth;
         }
-        <div class="row event-row">
+        <div class="row event-row expandable">
             @if (Model.LoggedIn)
             {
                 @Html.Partial("Partials/LoggedInEvent", e)

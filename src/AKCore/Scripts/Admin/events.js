@@ -118,10 +118,15 @@
         .on('change',
             function() {
                 reloadEvents('', $(this).val());
-            });
+        });
+
     $('#edit-event-modal').on('change','#Type',function() {
         replaceEventType($(this).val());
     });
+    $('#edit-event-modal').on('hidden.bs.modal', function () {
+        replaceEventType("");
+    });
+
 });
 function clearEventModal() {
     $('#edit-event-form')[0].reset();
