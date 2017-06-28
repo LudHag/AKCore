@@ -275,6 +275,11 @@ p.infobox {
 
 .ical-link {
     float: right;
+    text-align: right;
+    max-width: 360px;
+
+    .ical-copy {
+    }
 }
 
 .content-wrapper .row.event-row {

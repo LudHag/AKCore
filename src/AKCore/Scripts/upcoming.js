@@ -36,4 +36,9 @@
     function reloadSignups() {
         $('#signup-list').load(' #signup-list > *');
     }
+    $('#ical-link-anchor').on('click', function (e) {
+        e.preventDefault();
+        $('.ical-copy').toggleClass('hide');
+    });
+    
 });

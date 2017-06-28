@@ -189,3 +189,5 @@ function fbGetLoginId(callback) {
         }
     });
 }
+
+new Clipboard('.copy-btn');

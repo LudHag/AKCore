@@ -9,8 +9,15 @@
 @if (Model.LoggedIn)
 {
     <div class="ical-link">
-        <a href="/upcoming/akevents.ics" class="fa fa-calendar" aria-hidden="true"> Ical-länk</a>
+        <a href="/upcoming/akevents.ics" id="ical-link-anchor" class="fa fa-calendar" aria-hidden="true"> Ical-länk</a>
+        <div class="input-group ical-copy hide">
+            <input class="form-control" id="ical-link" type="text" readonly value="@Model.ICalLink" />
+            <span class="input-group-btn">
+                <button class="btn btn-default fa fa-files-o copy-btn" data-clipboard-target="#ical-link" type="button"></button>
+            </span>
+        </div>
     </div>
+
 }
 @foreach (var g in Model.Events)
 {

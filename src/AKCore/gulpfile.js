@@ -23,6 +23,7 @@ gulp.task('generalscripts', function () {
         "Scripts/Vendor/jquery-ui.js",
         "Scripts/Vendor/jquery.multi-select.js",
         "Scripts/Vendor/youtubegallerywall.js",
+        "Scripts/Vendor/clipboard.min.js",
         "Scripts/general.js",
         "Scripts/profile.js",
         "Scripts/upcoming.js",

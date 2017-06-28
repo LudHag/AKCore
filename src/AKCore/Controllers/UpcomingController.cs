@@ -38,7 +38,8 @@ namespace AKCore.Controllers
                         .Where(x => loggedIn || (x.Type == "Spelning"))
                         .Where(x => x.Day >= DateTime.UtcNow.Date)
                         .GroupBy(x => x.Day.Year).ToList(),
-                    LoggedIn = loggedIn
+                    LoggedIn = loggedIn,
+                    ICalLink = $"{Request.Scheme}://{Request.Host}/upcoming/akevents.ics"
                 };
 
                 return View(model);

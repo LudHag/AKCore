@@ -8,5 +8,6 @@ namespace AKCore.Models
     {
         public IEnumerable<IGrouping<int,Event>> Events { get; set; }
         public bool LoggedIn { get; set; }
+        public string ICalLink { get; set; }
     }
 }
