@@ -39,6 +39,7 @@
             text-transform: uppercase;
             color: #fff;
             font-size: 37px;
+            z-index: 1;
             text-transform: uppercase;
             font-weight: 500;
             text-shadow: 2px 4px 3px rgba(0, 0, 0, 0.3);
@@ -62,20 +63,24 @@
     justify-content: center;
     align-items: center;
     position: relative;
+
     h1 {
         color: #fff;
-        font-size: 40px;
+        font-size: 50px;
+        text-transform: capitalize;
+        font-variant: small-caps;
         text-shadow: 2px 4px 3px rgba(0, 0, 0, 0.3);
+        z-index: 1;
     }
 
-    &:before {
+    &:after {
         width: 100%;
         height: 100%;
         position: absolute;
         top: 0;
         left: 0;
         background-color: #333;
-        opacity: 0.2;
+        opacity: 0.3;
         content: "";
         display: block;
     }
@@ -87,16 +92,17 @@
     display: block;
     border: 4px solid #430800;
     padding: 10px;
-    min-height: 280px;
+    min-height: 300px;
     font-size: 16px;
     font-weight: 400;
+    margin-bottom: 20px;
 
     a, p {
         color: #fff;
     }
 
     .puff-bild-container {
-        height: 190px;
+        height: 220px;
         position: relative;
         margin-bottom: 10px;
         overflow: hidden;
