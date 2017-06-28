@@ -3,19 +3,25 @@
 <div class="row three-puffs">
     <div class="col-sm-4">
         <a class="puff" href="/upcoming">
-            <div class="puff-bild" style="background-image:url('@Model.Image')"></div>
+            <div class="puff-bild-container">
+                <div class="puff-bild" style="background-image:url('@Model.Image')"></div>
+            </div>
             @Html.Raw(Model.Text)
         </a>
     </div>
     <div class="col-sm-4">
         <a class="puff" href="/hire">
-            <div class="puff-bild" style="background-image:url('/images/skivomslag.JPG')"></div>
+            <div class="puff-bild-container">
+                <div class="puff-bild" style="background-image:url('/images/skivomslag.JPG')"></div>
+            </div>
             <p>Anlita oss</p>
         </a>
     </div>
     <div class="col-sm-4">
         <a class="puff" href="/join">
-            <div class="puff-bild" style="background-image:url('/images/akwantsyou.png')"></div>
+            <div class="puff-bild-container">
+                <div class="puff-bild" style="background-image:url('/images/akwantsyou.png')"></div>
+            </div>
             <p>Gå med</p>
         </a>
     </div>

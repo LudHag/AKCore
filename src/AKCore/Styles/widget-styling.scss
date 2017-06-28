@@ -95,19 +95,25 @@
         color: #fff;
     }
 
-    .puff-bild {
+    .puff-bild-container {
         height: 190px;
+        position: relative;
+        margin-bottom: 10px;
+        overflow: hidden;
+    }
+
+    .puff-bild {
+        height: 100%;
         background-image: url(/media/SOF2011.jpg);
         background-size: cover;
         background-repeat: no-repeat;
         background-position: center center;
-        margin-bottom: 10px;
         transition: all 0.2s linear;
     }
 
     &:hover {
         .puff-bild {
-            background-position-y: top;
+            transform: scale(1.2);
         }
     }
 
