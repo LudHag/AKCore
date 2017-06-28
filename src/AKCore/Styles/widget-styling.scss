@@ -88,9 +88,11 @@
     border: 4px solid #430800;
     padding: 10px;
     min-height: 280px;
-     a, p {
+
+    a, p {
         color: #fff;
     }
+
     .puff-bild {
         height: 190px;
         background-image: url(/media/SOF2011.jpg);
@@ -98,6 +100,13 @@
         background-repeat: no-repeat;
         background-position: center center;
         margin-bottom: 10px;
+        transition: all 0.2s linear;
+    }
+
+    &:hover {
+        .puff-bild {
+            background-position-y: top;
+        }
     }
 
     p {
