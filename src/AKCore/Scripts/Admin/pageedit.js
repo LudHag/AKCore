@@ -122,12 +122,19 @@ var options = {
                     function(e) {
                         $("#imagePickerModal").modal("hide");
                         $("#" + field_name).val($(this).data("path"));
-                        $("#imagePickerModal").modal("hide");
                     });
         }
         if (type === "file") {
         {
-            console.log('not implemented yet!');
+            $("#filePickerModal").modal("show");
+            $("#picker-files").off("click", ".image-box");
+            $("#picker-files")
+                .on("click",
+                ".image-box",
+                function (e) {
+                    $("#filePickerModal").modal("hide");
+                    $("#" + field_name).val($(this).data("path"));
+                });
         }}
     }
 };
@@ -139,7 +146,7 @@ $("#picker-images")
             e.preventDefault();
             var self = $(this);
             if (!self.hasClass("active")) {
-                $(".pagination li").removeClass("active");
+                $("#imagePickerModal .pagination li").removeClass("active");
                 self.addClass("active");
                 updatePickerSearch();
             }
@@ -149,14 +156,23 @@ $("#search-pickermedia-form")
     .on("submit",
         function(e) {
             e.preventDefault();
-            $(".pagination li").removeClass("active");
-            $($(".pagination li")[0]).addClass("active");
+            $("#imagePickerModal .pagination li").removeClass("active");
+            $($("#imagePickerModal .pagination li")[0]).addClass("active");
             updatePickerSearch();
     });
 
+$("#filesearch-pickermedia-form")
+    .on("submit",
+    function (e) {
+        e.preventDefault();
+        $("#filePickerModal .pagination li").removeClass("active");
+        $($("#filePickerModal .pagination li")[0]).addClass("active");
+        updateFilePickerSearch();
+    });
+
 $("#search-pickermedia-form").on("change", "#search-mediatags", function (e) {
-    $(".pagination li").removeClass("active");
-    $($(".pagination li")[0]).addClass("active");
+    $("#imagePickerModal .pagination li").removeClass("active");
+    $($("#imagePickerModal .pagination li")[0]).addClass("active");
     updatePickerSearch();
 });
 
@@ -164,12 +180,25 @@ $("#imagePickerModal")
     .on("shown.bs.modal",
         function(e) {
             updateMediaPickerList("", "");
-        });
+    });
+$("#filePickerModal")
+    .on("shown.bs.modal",
+    function (e) {
+        updateFilePickerList("", "");
+    });
+
+
 $("#imagePickerModal")
     .on("hidden.bs.modal",
         function(e) {
             $("#searchtext").val("");
-        });
+    });
+$("#filePickerModal")
+    .on("hidden.bs.modal",
+    function (e) {
+        $("#filesearchtext").val("");
+    });
+
 $("#widget-area")
     .on("click",'.add-video-link',function(e) {
         e.preventDefault();
@@ -222,7 +251,7 @@ $("#widget-area")
 function updatePickerSearch() {
     var st = $("#searchtext").val();
     var tag = $("#search-mediatags").val();
-    var page = $(".pagination li.active a").data("page");
+    var page = $("#imagePickerModal .pagination li.active a").data("page");
     updateMediaPickerList(st, tag, page);
 }
 
@@ -232,6 +261,20 @@ function updateMediaPickerList(search, tag, page) {
             $("#picker-images").empty().append(data);
         });
 }
+
+function updateFilePickerSearch() {
+    var st = $("#filesearchtext").val();
+    var page = $("#filePickerModal .pagination li.active a").data("page");
+    updateFilePickerList(st, page);
+}
+
+function updateFilePickerList(search, page) {
+    $.get("/Media/MediaPickerList?SearchPhrase=" + search + "&Page=" + page + "&Type=Document",
+        function (data) {
+            $("#picker-files").empty().append(data);
+        });
+}
+
 
 var templates = $("#widget-templates");
 if (templates.length > 0) {

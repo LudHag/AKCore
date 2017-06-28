@@ -3,8 +3,17 @@
 @foreach (var m in Model.MediaFiles)
 {
     <div class="col-sm-2 image-box" data-path="/media/@m.Name">
-        <img src="/media/@m.Name"/>
-        <p class="name">@m.Name</p>
+        @if (m.Type == "Document")
+        {
+            <span class="glyphicon glyphicon-file"></span>
+            <span class="doc-ext">@m.GetExtension()</span>
+            <p class="name">@m.Name</p>
+        }
+        else
+        {
+            <img src="/media/@m.Name" />
+            <p class="name">@m.Name</p>
+        }
     </div>
 }
 
