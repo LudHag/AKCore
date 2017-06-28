@@ -15,6 +15,8 @@ namespace AKCore.DataModel
         public const string Hire = "Hire";
         public const string MemberList = "MemberList";
         public const string PostList = "PostList";
+        public const string HeaderText = "HeaderText";
+        public const string ThreePuffs = "ThreePuffs";
 
         public static readonly IList Widgets = new List<string>()
         {
@@ -26,7 +28,9 @@ namespace AKCore.DataModel
             Join,
             MemberList,
             PostList,
-            Hire
+            Hire,
+            HeaderText,
+            ThreePuffs
         };
     }
 
@@ -64,6 +68,10 @@ namespace AKCore.DataModel
                     return "Adressregister-widget";
                 case "PostList":
                     return "Kamererspostlista-widget";
+                case "HeaderText":
+                    return "Headertext-widget";
+                case "ThreePuffs":
+                    return "Tre puffar-widget";
             }
             return "Text-bild-widget";
         }

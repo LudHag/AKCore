@@ -236,6 +236,8 @@ function updateMediaPickerList(search, tag, page) {
 var templates = $("#widget-templates");
 if (templates.length > 0) {
     var textImageTemplate = templates.find(".TextImage");
+    var headerTextTemplate = templates.find(".HeaderText");
+    var threePuffsTemplate = templates.find(".ThreePuffs");
     var textTemplate = templates.find(".Text");
     var imageTemplate = templates.find(".Image");
     var videoTemplate = templates.find(".Video");
@@ -257,12 +259,14 @@ if (templates.length > 0) {
                 } else if (type === "Text") {
                     $("#widget-area").append(textTemplate.clone());
                     tinymce.init(options);
+                } else if (type === "HeaderText") {
+                    $("#widget-area").append(headerTextTemplate.clone());
+                    tinymce.init(options);
                 } else if (type === "Image") {
                     $("#widget-area").append(imageTemplate.clone());
-                }
-                else if (type === "Video") {
+                } else if (type === "Video") {
                     $("#widget-area").append(videoTemplate.clone());
-                }else if (type === "Music") {
+                } else if (type === "Music") {
                     $("#widget-area").append(musicTemplate.clone());
                     $('#widget-area .multi-select').multiSelect(
                     {
@@ -287,6 +291,9 @@ if (templates.length > 0) {
                     $("#widget-area").append(memberListTemplate.clone());
                 } else if (type === "PostList") {
                     $("#widget-area").append(postListTemplate.clone());
+                } else if (type === "ThreePuffs") {
+                    $("#widget-area").append(threePuffsTemplate.clone());
+                    tinymce.init(options);
                 }
             });
 
@@ -331,7 +338,7 @@ function jsonifyWidgets() {
                 wig.Videos = [];
                 $(o)
                     .find(".video-area")
-                    .each(function() {
+                    .each(function () {
                         var Video = new Object();
                         Video.Link = $(this).find('.video-link').val();
                         Video.Title = $(this).find('.video-title').val();
@@ -339,11 +346,11 @@ function jsonifyWidgets() {
                     });
             } else if (type === "Music") {
                 wig.Albums = $(o).find(".album").val();
-            } else if (type === "TextImage" || type === "Join" || type === "Hire") {
+            } else if (type === "TextImage" || type === "Join" || type === "Hire" || type === "HeaderText" || type === "ThreePuffs") {
                 tId = $(o).find(".mce-content").attr("id");
                 wig.Text = tinymce.get(tId).getContent();
                 wig.Image = $(o).find(".selected-image").attr("src");
-            }
+            } 
             widgets.push(wig);
         });
     var res = JSON.stringify(widgets);

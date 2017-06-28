@@ -26,7 +26,7 @@ namespace AKCore.Controllers
             ViewBag.Title = "Redigera sidor";
             using (var db = new AKContext(_hostingEnv))
             {
-                var pages = db.Pages.ToList();
+                var pages = db.Pages.OrderBy(x=>x.Name).ToList();
                 var model = new EditPagesModel
                 {
                     Pages = pages
