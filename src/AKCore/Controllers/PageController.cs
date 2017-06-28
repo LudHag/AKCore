@@ -28,11 +28,18 @@ namespace AKCore.Controllers
         public ActionResult Page(string slug)
         {
             var loggedIn = User.Identity.IsAuthenticated;
+            var redirectLink = "/";
+            if (loggedIn) redirectLink = "/Upcoming";
+
             using (var db = new AKContext(_hostingEnv))
             {
                 Page page;
                 if (string.IsNullOrWhiteSpace(slug))
                 {
+                    if (loggedIn)
+                    {
+                        return Redirect(redirectLink);
+                    }
                     page = db.Pages.FirstOrDefault(x => x.Slug == "/");
                 }
                 else
@@ -45,17 +52,17 @@ namespace AKCore.Controllers
                 }
                 if (page.LoggedIn && !loggedIn)
                 {
-                    return Redirect("/");
+                    return Redirect(redirectLink);
                 }
                 if (page.LoggedOut && loggedIn)
                 {
-                    return Redirect("/");
+                    return Redirect(redirectLink);
                 }
                 if (page.BalettOnly)
                 {
                     if (!(User.IsInRole(AkRoles.Balett) || User.IsInRole(AkRoles.SuperNintendo)))
                     {
-                        return Redirect("/");
+                        return Redirect(redirectLink);
                     }
                 }
                 ViewData["Title"] = page.Name;
