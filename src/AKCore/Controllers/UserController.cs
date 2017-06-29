@@ -62,14 +62,49 @@ namespace AKCore.Controllers
         }
 
         [Route("CreateUser")]
-        public async Task<ActionResult> CreateUser(string userName, string password)
+        public async Task<ActionResult> CreateUser(ProfileModel model)
         {
+            if(string.IsNullOrWhiteSpace(model.UserName) || string.IsNullOrWhiteSpace(model.Password))
+            {
+                return Json(new { success = false, message = "Användarnamn och lösenord krävs" });
+            }
+            var oldUser=await _userManager.FindByNameAsync(model.UserName);
+            if (oldUser!=null)
+            {
+                return Json(new { success = false, message = "Användarnamn finns redan" });
+            }
+
             var newUser = new AkUser
             {
-                UserName = userName
+                UserName = model.UserName,
+                Email = model.Email,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                Adress = model.Adress,
+                ZipCode = model.ZipCode,
+                City = model.City,
+                Phone = model.Phone,
+                Nation = model.Nation,
+                Instrument = model.Instrument,
+                SlavPoster = model.Poster ==null ? "" : JsonConvert.SerializeObject(model.Poster),
+                Medal = model.Medal
             };
+            
+            var createRes = await _userManager.CreateAsync(newUser, model.Password);
 
-            var createRes = await _userManager.CreateAsync(newUser, password);
+            if (!createRes.Succeeded)
+            {
+                return Json(new { success = false, message = string.Join(" ", createRes.ToString()) });
+            }
+
+            if (model.Roles != null)
+            {
+                foreach(var role in model.Roles)
+                {
+                    await _userManager.AddToRoleAsync(newUser, role);
+                }
+            }
+
             if (!createRes.Succeeded)
                 return Json(new {success = false, message = createRes.ToString()});
 

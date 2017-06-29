@@ -8,6 +8,7 @@ namespace AKCore.Models
     {
         [Display(Name = "Användarnamn")]
         public string UserName { get; set; }
+        public string Password { get; set; }
         [EmailAddress]
         [Display(Name = "Epost")]
         public string Email { get; set; }
