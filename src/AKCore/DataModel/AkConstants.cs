@@ -181,6 +181,7 @@ namespace AKCore.DataModel
     public class AkMediaTags
     {
         public const string Allmän = "Allmän";
+        public const string Albumomslag = "Albumomslag";
         public const string Balett = "Balett";
         public const string Dokument = "Dokument";
         public const string Ikoner = "Ikoner";
@@ -189,6 +190,7 @@ namespace AKCore.DataModel
         public static readonly IList<string> MediaTags = new List<string>()
         {
             Allmän,
+            Albumomslag,
             Balett,
             Ikoner,
             Startsidebilder,
