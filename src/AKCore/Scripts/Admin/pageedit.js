@@ -105,7 +105,8 @@ var options = {
         { title: 'Rubrik 1', block: 'h1'},
         { title: 'Rubrik 2', block: 'h2' },
         { title: 'Infobox', selector: 'p', classes: 'infobox' },
-        { title: '3-delskolumn', block: 'p', classes: 'col-sm-4' }
+        { title: '3-delskolumn', block: 'p', classes: 'col-sm-4' },
+        { title: 'Block med marginal', block: 'p', classes: 'col-xs-12' }
     ],
     toolbar_items_size: "small",
     height: "200",

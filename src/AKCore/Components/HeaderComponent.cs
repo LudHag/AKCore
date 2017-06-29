@@ -52,16 +52,17 @@ namespace AKCore.Components
                         modelMenus.Add(signUpMenus);
 
                         var adminMenu = new ModelMenu("Admin", "", true) {Id = 10015};
-                        adminMenu.Children.Add(new ModelMenu("Ändra sidor", "/Edit", true) {Id = 10017});
-                        modelMenus.Add(adminMenu);
+                        if (nintendo) adminMenu.Children.Add(new ModelMenu("Ändra användare", "/User", true));
+                        adminMenu.Children.Add(new ModelMenu("Ändra filer", "/Media", true));
                         if (nintendo)
                         {
-                            adminMenu.Children.Add(new ModelMenu("Ändra menyer", "/MenuEdit", true));
                             adminMenu.Children.Add(new ModelMenu("Ändra händelser", "/AdminEvent", true));
-                            adminMenu.Children.Add(new ModelMenu("Användare", "/User", true));
+                            adminMenu.Children.Add(new ModelMenu("Ändra menyer", "/MenuEdit", true));
                         }
+                        adminMenu.Children.Add(new ModelMenu("Ändra sidor", "/Edit", true) {Id = 10017});
                         adminMenu.Children.Add(new ModelMenu("Ändra skivor", "/AlbumEdit", true));
-                        adminMenu.Children.Add(new ModelMenu("Ladda upp filer", "/Media", true));
+
+                        modelMenus.Add(adminMenu);
                     }
                 }
 
