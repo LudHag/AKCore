@@ -212,6 +212,7 @@ namespace AKCore.DataModel
         public const string Halland = "Hallands nation";
         public const string Kalmar = "Kalmar nation";
         public const string Wermland = "Wermlands nation";
+        public const string NoNation = "Ingen nation";
 
         public static readonly IList<string> Nationer = new List<string>()
         {
@@ -226,7 +227,8 @@ namespace AKCore.DataModel
             Goteborg,
             Halland,
             Kalmar,
-            Wermland
+            Wermland,
+            NoNation
         };
     }
 }
