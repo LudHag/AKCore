@@ -64,7 +64,7 @@ namespace AKCore.Controllers
 
             return Json(new { success = res.Succeeded, message = res.ToString() });
         }
-
+#if DEBUG
         [Route("InitNintendo")]
         public async Task<ActionResult> InitNintendo()
         {
@@ -100,5 +100,6 @@ namespace AKCore.Controllers
 
             return Json(new {success = true});
         }
+#endif
     }
 }
