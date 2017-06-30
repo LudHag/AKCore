@@ -104,6 +104,7 @@ namespace AKCore.DataModel
         public const string Sexkamerer = "Sexkamerer";
         public const string Skrubbkamerer = "Skrubbkamerer";
         public const string Sponsringskamerer = "Sponsringskamerer";
+        public const string Stämmledare = "Stämmledare";
         public static readonly IList<string> Poster = new List<string>()
         {
             OK,
@@ -123,6 +124,7 @@ namespace AKCore.DataModel
             Sexkamerer,
             Skrubbkamerer,
             Sponsringskamerer,
+            Stämmledare
         };
     }
 
