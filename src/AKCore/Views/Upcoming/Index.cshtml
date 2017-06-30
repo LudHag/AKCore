@@ -5,6 +5,7 @@
 @{
     Layout = "~/Views/Shared/_MasterLayout.cshtml";
     var culture = new CultureInfo("sv");
+    ViewBag.Member = Model.Medlem;
 }
 @if (Model.LoggedIn)
 {

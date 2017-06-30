@@ -14,7 +14,14 @@
             else
             {
                 <p>
-                    Inloggad som <a href="/Profile">@Model.UserName</a>
+                    Inloggad som 
+                    @if (Model.Member) { 
+                        <a href="/Profile">@Model.UserName</a>
+                    }
+                    else
+                    {
+                        @Model.UserName
+                    }
                 </p>
                 <a href="/Account/Logout" class="logout">Logga ut</a>
             }

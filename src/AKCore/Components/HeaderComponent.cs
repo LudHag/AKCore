@@ -37,13 +37,14 @@ namespace AKCore.Components
                 var modelMenus = menus.Select(m => new ModelMenu(m, loggedIn)).ToList();
                 var upcoming = new ModelMenu(loggedIn ? "På gång" : "Spelningar", "/Upcoming", true) {Id = 10003};
                 modelMenus.Add(upcoming);
+                var member = false;
                 if (loggedIn)
                 {
                     var user = await _userManager.FindByNameAsync(User.Identity.Name);
                     var roles = await _userManager.GetRolesAsync(user);
                     var nintendo = roles.Contains("SuperNintendo");
                     var editor = roles.Contains("Editor");
-          
+                    member = roles.Contains("Medlem");
                     if (nintendo || editor)
                     {
                         var signUpMenus = new ModelMenu("Anmälningar", "", true) { Id = 10004};
@@ -71,7 +72,8 @@ namespace AKCore.Components
                     Menus = modelMenus,
                     LoggedIn = loggedIn,
                     UserName = User.Identity.Name,
-                    CurrentUrl = Request.Path.ToString()
+                    CurrentUrl = Request.Path.ToString(),
+                    Member = member
                 };
                 return View(model);
             }

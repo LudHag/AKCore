@@ -53,16 +53,20 @@
 else if (Model.Type == "Spelning")
 {
     <div class="col-sm-4">
+
+
         @{ 
-            var signup = Model.SignUps.FirstOrDefault(x => x.Person == User.Identity.Name);
-        }
-        @if (signup!=null)
-        {
-            <a class="green" href="/Upcoming/Event/@Model.Id">Anmäld (@signup.Where)</a>
-        }
-        else
-        {
-            <a href="/Upcoming/Event/@Model.Id">Anmäl</a>
+            if (ViewBag.Member) { 
+                var signup = Model.SignUps.FirstOrDefault(x => x.Person == User.Identity.Name);
+                if (signup!=null)
+                {
+                    <a class="green" href="/Upcoming/Event/@Model.Id">Anmäld (@signup.Where)</a>
+                }
+                else
+                {
+                    <a href="/Upcoming/Event/@Model.Id">Anmäl</a>
+                }
+            }
         }
         <p>@Model.CanCome() Kommer - @Model.CantCome() Kommer inte</p>
         @if (Model.Stand != null)

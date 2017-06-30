@@ -25,20 +25,29 @@ namespace AKCore.Controllers
             _hostingEnv = env;
         }
 
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
             ViewBag.Title = "På gång";
             var loggedIn = User.Identity.IsAuthenticated;
+            var member = false;
+
+            if (loggedIn)
+            {
+                var user = await _userManager.FindByNameAsync(User.Identity.Name);
+                var roles = await _userManager.GetRolesAsync(user);
+                member = roles.Contains("Medlem");
+            }
             using (var db = new AKContext(_hostingEnv))
             {
                 var model = new UpcomingModel
                 {
                     Events = db.Events.OrderBy(x => x.Day).ThenBy(x => x.Starts)
-                        .Include(x=>x.SignUps)
+                        .Include(x => x.SignUps)
                         .Where(x => loggedIn || (x.Type == "Spelning"))
                         .Where(x => x.Day >= DateTime.UtcNow.Date)
                         .GroupBy(x => x.Day.Year).ToList(),
                     LoggedIn = loggedIn,
+                    Medlem = member,
                     ICalLink = $"{Request.Scheme}://{Request.Host}/upcoming/akevents.ics"
                 };
 
@@ -93,6 +102,7 @@ namespace AKCore.Controllers
 
         [Route("Event/{id:int}")]
         [Authorize]
+        [Authorize(Roles = "Medlem")]
         public async Task<ActionResult> Event(SignUpModel model, string id)
         {
             ViewBag.Title = "Anmälan";
@@ -122,6 +132,7 @@ namespace AKCore.Controllers
 
         [Route("Signup/{id:int}")]
         [Authorize]
+        [Authorize(Roles = "Medlem")]
         public async Task<ActionResult> SignUp(SignUpModel model, string id)
         {
             if (!int.TryParse(id, out int eId))

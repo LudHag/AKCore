@@ -20,6 +20,7 @@
     <Content Include="wwwroot\fonts\bootstrap\glyphicons-halflings-regular.ttf" />
     <Content Include="wwwroot\fonts\bootstrap\glyphicons-halflings-regular.woff" />
     <Content Include="wwwroot\fonts\bootstrap\glyphicons-halflings-regular.woff2" />
+    <Content Include="wwwroot\images\afny.png" />
     <Content Include="wwwroot\images\akwantsyou.png" />
     <Content Include="wwwroot\images\logo.png" />
     <Content Include="wwwroot\images\mobillogo.png" />

@@ -10,5 +10,6 @@ namespace AKCore.Models
         public bool LoggedIn { get; set; }
         public string UserName { get; set; }
         public string CurrentUrl { get; set; }
+        public bool Member { get; set; }
     }
 }
