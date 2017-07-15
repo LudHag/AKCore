@@ -80,11 +80,11 @@
                                     $('#Day').val('');
                                 }
                                 var halan = new Date(event.Halan);
-                                $('#Halan').val(fTime(halan.getUTCHours()) + ":" + fTime(halan.getMinutes()));
+                                $('#Halan').val(fTime(halan.getHours()) + ":" + fTime(halan.getMinutes()));
                                 var there = new Date(event.There);
-                                $('#There').val(fTime(there.getUTCHours()) + ":" + fTime(there.getMinutes()));
+                                $('#There').val(fTime(there.getHours()) + ":" + fTime(there.getMinutes()));
                                 var starts = new Date(event.Starts);
-                                $('#Starts').val(fTime(starts.getUTCHours()) + ":" + fTime(starts.getMinutes()));
+                                $('#Starts').val(fTime(starts.getHours()) + ":" + fTime(starts.getMinutes()));
                                 $('#Type').val(event.Type);
                                 $('#Fika').val(event.Fika);
                                 if (event.Stand) {
