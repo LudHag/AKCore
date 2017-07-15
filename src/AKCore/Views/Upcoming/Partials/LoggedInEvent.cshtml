@@ -34,7 +34,7 @@
         {
             <p>Samling i hålan: @halan</p>
         }
-        if (there != "00:00")
+        if (there != "00:00" && (Model.Type == "Spelning" || Model.Type == "Kårhusrep"))
         {
             <p>Samling på plats: @there</p>
         }
