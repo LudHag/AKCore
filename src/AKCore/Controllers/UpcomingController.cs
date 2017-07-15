@@ -94,7 +94,7 @@ namespace AKCore.Controllers
                     sb.AppendLine("END:VEVENT");
                 }
                 sb.AppendLine("END:VCALENDAR");
-                var bytes=Encoding.ASCII.GetBytes(sb.ToString());
+                var bytes=Encoding.UTF8.GetBytes(sb.ToString());
                 return File(bytes, "application/octet-stream", "akevents.ics");
             }
         }
