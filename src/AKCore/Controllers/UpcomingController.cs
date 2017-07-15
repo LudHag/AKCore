@@ -55,7 +55,6 @@ namespace AKCore.Controllers
             }
         }
         [Route("akevents.ics")]
-        [Authorize]
         public ActionResult Ical()
         {
             using (var db = new AKContext(_hostingEnv))
