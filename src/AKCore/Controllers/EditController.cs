@@ -140,15 +140,23 @@ namespace AKCore.Controllers
         [Authorize(Roles = "SuperNintendo")]
         public ActionResult RemovePage(string id)
         {
-            var pId = 0;
-            int.TryParse(id, out pId);
-            if (pId == 0)
+            if (!int.TryParse(id, out int pId))
             {
                 return Redirect("/Edit");
             }
             using (var db = new AKContext(_hostingEnv))
             {
                 var page = db.Pages.FirstOrDefault(x => x.Id == pId);
+                var topmenus = db.Menus.Where(x => x.Link == page).ToList();
+                foreach(var m in topmenus) {
+                    m.Link = null;
+                }
+                var subMenus = db.SubMenus.Where(x => x.Link == page).ToList();
+                foreach (var m in subMenus)
+                {
+                    db.SubMenus.Remove(m);
+                }
+
                 if (page == null)
                 {
                     return Redirect("/Edit");
