@@ -22,6 +22,7 @@ $("#create-user-form")
                         $("#createUserModal").modal("hide");
                         success.text(res.message);
                         success.slideDown().delay(3000).slideUp();
+                        $('#create-user-form').trigger("reset");
                     } else {
                         error.text(res.message);
                         error.slideDown().delay(3500).slideUp();

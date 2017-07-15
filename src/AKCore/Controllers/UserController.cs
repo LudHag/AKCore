@@ -101,7 +101,9 @@ namespace AKCore.Controllers
             {
                 foreach(var role in model.Roles)
                 {
-                    await _userManager.AddToRoleAsync(newUser, role);
+                    if (!string.IsNullOrWhiteSpace(role)) { 
+                        await _userManager.AddToRoleAsync(newUser, role);
+                    }
                 }
             }
 
