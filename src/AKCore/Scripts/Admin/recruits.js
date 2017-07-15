@@ -133,9 +133,13 @@ function Recruit(data) {
 Recruit.prototype.archive = function (arch) {
     this.data.archived = arch;
     if (arch) {
-        this.dom.find('.archive').addClass('green');
+        var el = this.dom.find('.archive')
+        el.addClass('green');
+        el.attr('title', 'Aktivera');
     } else {
-        this.dom.find('.archive').removeClass('green');
+        var el = this.dom.find('.archive');
+        el.removeClass('green');
+        el.attr('title', 'Arkivera');
     }
     this.filter();
 };
