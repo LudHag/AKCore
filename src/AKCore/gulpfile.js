@@ -39,6 +39,7 @@ gulp.task('generalscripts', function () {
 
 gulp.task('adminscripts', function () {
     return gulp.src([
+        "Scripts/Vendor/chosen.jquery.min.js",
         "Scripts/Admin/menuedit.js",
         "Scripts/Admin/pageedit.js",
         "Scripts/Admin/users.js",

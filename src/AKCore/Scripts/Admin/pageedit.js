@@ -6,6 +6,8 @@
 
         });
 
+$(".chosen-select").chosen({ width: '100%'});
+
 $("#new-page-form")
     .on("submit",
         "form",

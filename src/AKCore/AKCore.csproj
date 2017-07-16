@@ -15,6 +15,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="wwwroot\css\images\chosen-sprite.png" />
+    <Content Include="wwwroot\css\images\chosen-sprite@2x.png" />
     <Content Include="wwwroot\fonts\bootstrap\glyphicons-halflings-regular.eot" />
     <Content Include="wwwroot\fonts\bootstrap\glyphicons-halflings-regular.svg" />
     <Content Include="wwwroot\fonts\bootstrap\glyphicons-halflings-regular.ttf" />
@@ -22,6 +24,8 @@
     <Content Include="wwwroot\fonts\bootstrap\glyphicons-halflings-regular.woff2" />
     <Content Include="wwwroot\images\afny.png" />
     <Content Include="wwwroot\images\akwantsyou.png" />
+    <Content Include="wwwroot\images\chosen-sprite.png" />
+    <Content Include="wwwroot\images\chosen-sprite@2x.png" />
     <Content Include="wwwroot\images\logo.png" />
     <Content Include="wwwroot\images\mobillogo.png" />
     <Content Include="wwwroot\images\skivomslag.JPG" />

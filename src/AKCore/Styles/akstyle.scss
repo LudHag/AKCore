@@ -3,6 +3,7 @@ $akgrey: #2d2727;
 
 $link-color: $akred;
 $link-hover-color: #900909;
+@import "chosen.scss";
 @import "../node_modules/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
 @import "jquery-ui.scss";
 @import "modals.scss";

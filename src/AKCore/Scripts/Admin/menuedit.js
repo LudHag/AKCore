@@ -150,6 +150,7 @@ $("#menus")
             name.val(self.text());
             link.val(self.data('link'));
             link.removeAttr('required');
+            link.trigger("chosen:updated");
             id.val(self.data('id'));
             parent.val('false');
             $('#editMenuModal').modal('show');
@@ -169,6 +170,7 @@ $("#menus")
             link.attr('required', true);
             name.val(self.text());
             link.val(self.data('link'));
+            link.trigger("chosen:updated");
             id.val(self.data('id'));
             parent.val('true');
             $('#editMenuModal').modal('show');

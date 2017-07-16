@@ -24,7 +24,7 @@ namespace AKCore.Controllers
             ViewBag.Title = "Redigera Menyer";
             using (var db = new AKContext(_hostingEnv))
             {
-                var pages = db.Pages.ToList();
+                var pages = db.Pages.OrderBy(x=>x.Name).ToList();
                 var menus = db.Menus.Include(x=>x.Children).OrderBy(x=>x.PosIndex).ToList();
                 var modelMenus = menus.Select(m => new ModelMenu(m,true)).ToList();
 
@@ -42,7 +42,7 @@ namespace AKCore.Controllers
         {
             using (var db = new AKContext(_hostingEnv))
             {
-                var pages = db.Pages.ToList();
+                var pages = db.Pages.OrderBy(x => x.Name).ToList();
                 var menus = db.Menus.Include(x=>x.Children).OrderBy(x => x.PosIndex).ToList();
                 var modelMenus = menus.Select(m => new ModelMenu(m,true)).ToList();
                 var model = new MenuEditModel
@@ -107,10 +107,9 @@ namespace AKCore.Controllers
             {
                 if (parentId != "true")
                 {
-                    int id;
-                    if (!int.TryParse(menuId, out id))
+                    if (!int.TryParse(menuId, out int id))
                     {
-                        return Json(new {success = false, message = "Felaktigt menyid"});
+                        return Json(new { success = false, message = "Felaktigt menyid" });
                     }
                     var menu = db.Menus.FirstOrDefault(x => x.Id == id);
                     if (menu == null)
@@ -118,8 +117,7 @@ namespace AKCore.Controllers
                         return Json(new {success = false, message = "Meny finns ej"});
                     }
                     menu.Name = text;
-                    int pId;
-                    if (int.TryParse(pageId, out pId))
+                    if (int.TryParse(pageId, out int pId))
                     {
                         var page = db.Pages.FirstOrDefault(x => x.Id == pId);
                         menu.Link = page;
@@ -132,10 +130,9 @@ namespace AKCore.Controllers
                 }
                 else
                 {
-                    int id;
-                    if (!int.TryParse(menuId, out id))
+                    if (!int.TryParse(menuId, out int id))
                     {
-                        return Json(new {success = false, message = "Felaktigt menyid"});
+                        return Json(new { success = false, message = "Felaktigt menyid" });
                     }
                     var menu = db.SubMenus.FirstOrDefault(x => x.Id == id);
                     if (menu == null)
@@ -143,8 +140,7 @@ namespace AKCore.Controllers
                         return Json(new {success = false, message = "Submeny finns ej"});
                     }
                     menu.Name = text;
-                    int pId;
-                    if (int.TryParse(pageId, out pId))
+                    if (int.TryParse(pageId, out int pId))
                     {
                         var page = db.Pages.FirstOrDefault(x => x.Id == pId);
                         menu.Link = page;
@@ -170,13 +166,12 @@ namespace AKCore.Controllers
 
             using (var db = new AKContext(_hostingEnv))
             {
-                var pid = 0;
-                if (int.TryParse(parentId, out pid))
+                if (int.TryParse(parentId, out int pid))
                 {
-                    var parent = db.Menus.Include(z=>z.Children).FirstOrDefault(x => x.Id == pid);
+                    var parent = db.Menus.Include(z => z.Children).FirstOrDefault(x => x.Id == pid);
                     if (parent == null)
                     {
-                        return Json(new {success = false, message = "Föräldrameny finns ej"});
+                        return Json(new { success = false, message = "Föräldrameny finns ej" });
                     }
                     var m = new SubMenu
                     {
@@ -188,8 +183,7 @@ namespace AKCore.Controllers
                         m.SubPosIndex = highIndex.SubPosIndex + 1;
                     }
 
-                    var id = 0;
-                    if (int.TryParse(pageId, out id))
+                    if (int.TryParse(pageId, out int id))
                     {
                         var page = db.Pages.FirstOrDefault(x => x.Id == id);
                         if (page != null)
@@ -200,7 +194,7 @@ namespace AKCore.Controllers
                     parent.Children.Add(m);
 
                     db.SaveChanges();
-                    return Json(new {success = true});
+                    return Json(new { success = true });
                 }
                 return Json(new {success = false, message = "Felaktigt format på föräldrameny"});
             }
@@ -216,10 +210,9 @@ namespace AKCore.Controllers
             }
             using (var db = new AKContext(_hostingEnv))
             {
-                var i = 0;
-                if (!int.TryParse(id, out i))
+                if (!int.TryParse(id, out int i))
                 {
-                    return Json(new {success = false, message = "Ej numeriskt id"});
+                    return Json(new { success = false, message = "Ej numeriskt id" });
                 }
                 var menu = db.Menus.Include(x=>x.Children).FirstOrDefault(x => x.Id == i);
                 if (menu == null)
@@ -247,8 +240,7 @@ namespace AKCore.Controllers
             }
             using (var db = new AKContext(_hostingEnv))
             {
-                var i = 0;
-                if (!int.TryParse(id, out i))
+                if (!int.TryParse(id, out int i))
                 {
                     return Json(new { success = false, message = "Ej numeriskt id" });
                 }
@@ -280,8 +272,7 @@ namespace AKCore.Controllers
             }
             using (var db = new AKContext(_hostingEnv))
             {
-                var i = 0;
-                if (!int.TryParse(id, out i))
+                if (!int.TryParse(id, out int i))
                 {
                     return Json(new { success = false, message = "Ej numeriskt id" });
                 }
@@ -313,8 +304,7 @@ namespace AKCore.Controllers
             }
             using (var db = new AKContext(_hostingEnv))
             {
-                var i = 0;
-                if (!int.TryParse(id, out i))
+                if (!int.TryParse(id, out int i))
                 {
                     return Json(new { success = false, message = "Ej numeriskt id" });
                 }
@@ -361,8 +351,7 @@ namespace AKCore.Controllers
             }
             using (var db = new AKContext(_hostingEnv))
             {
-                var i = 0;
-                if (!int.TryParse(id, out i))
+                if (!int.TryParse(id, out int i))
                 {
                     return Json(new { success = false, message = "Ej numeriskt id" });
                 }
@@ -371,8 +360,7 @@ namespace AKCore.Controllers
                 {
                     return Json(new { success = false, message = "Meny finns ej" });
                 }
-                var tId = 0;
-                if (!int.TryParse(parent, out tId))
+                if (!int.TryParse(parent, out int tId))
                 {
                     return Json(new { success = false, message = "Ej numeriskt id" });
                 }
@@ -409,10 +397,9 @@ namespace AKCore.Controllers
             }
             using (var db = new AKContext(_hostingEnv))
             {
-                var i = 0;
-                if (!int.TryParse(id, out i))
+                if (!int.TryParse(id, out int i))
                 {
-                    return Json(new {success = false, message = "Ej numeriskt id"});
+                    return Json(new { success = false, message = "Ej numeriskt id" });
                 }
                 var menu = db.SubMenus.FirstOrDefault(x => x.Id == i);
                 if (menu == null)
