@@ -53,7 +53,8 @@ namespace AKCore.Controllers
                     Facebook = logins.Any(x=>x.LoginProvider=="Facebook"),
                     Poster = user.SlavPoster != null ? JsonConvert.DeserializeObject<List<string>>(user.SlavPoster) : new List<string>(),
                     Roles = await _userManager.GetRolesAsync(user),
-                    Medal = user.Medal
+                    Medal = user.Medal,
+                    GivenMedal = user.GivenMedal
                 };
                 return View(model);
             }

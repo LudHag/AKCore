@@ -95,8 +95,18 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label>Senaste Medalj</label>
+                                <label>Senaste medalj</label>
                                 <select class="form-control" name="Medal">
+                                    <option value="">Ingen medalj</option>
+                                    @foreach (var rol in AkMedals.TermMedals)
+                                    {
+                                        <option>@rol</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Senast utdelade medalj</label>
+                                <select class="form-control" name="GivenMedal">
                                     <option value="">Ingen medalj</option>
                                     @foreach (var rol in AkMedals.TermMedals)
                                     {

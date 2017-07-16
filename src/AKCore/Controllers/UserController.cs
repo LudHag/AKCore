@@ -87,7 +87,8 @@ namespace AKCore.Controllers
                 Nation = model.Nation,
                 Instrument = model.Instrument,
                 SlavPoster = model.Poster ==null ? "" : JsonConvert.SerializeObject(model.Poster),
-                Medal = model.Medal
+                Medal = model.Medal,
+                GivenMedal = model.GivenMedal
             };
             
             var createRes = await _userManager.CreateAsync(newUser, model.Password);
@@ -189,5 +190,17 @@ namespace AKCore.Controllers
 
             return Json(new {success = result.Succeeded, message = result.ToString()});
         }
+        [Route("SaveGivenMedal")]
+        public async Task<ActionResult> SaveGivenMedal(string userName, string medal)
+        {
+            var user = await _userManager.FindByNameAsync(userName);
+            if (user == null)
+                return Json(new { success = false, message = "Misslyckades att lägga till medalj" });
+            user.GivenMedal = medal;
+            var result = await _userManager.UpdateAsync(user);
+
+            return Json(new { success = result.Succeeded, message = result.ToString() });
+        }
+
     }
 }

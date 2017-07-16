@@ -34,6 +34,7 @@ namespace AKCore.Models
 
 
         public string Medal { get; set; }
+        public string GivenMedal { get; set; }
 
         public bool Facebook { get; set; }
         public bool Google { get; set; }

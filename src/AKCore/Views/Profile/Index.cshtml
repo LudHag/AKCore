@@ -7,35 +7,7 @@
 
 <div class="row">
     <div class="col-md-6">
-        <div>
-            <h3>Roller</h3>
-            <div class="roles">
-                @foreach (var r in Model.Roles)
-                {
-                    <span class="role">
-                        @r.ToString()
-                    </span>
-                }
-            </div>
-            @if (Model.Poster.Any())
-            {
-                <h3>Slavposter</h3>
-                <div class="roles">
-                    @foreach (var p in Model.Poster)
-                    {
-                        <span class="role">
-                        @p.ToString()
-                    </span>
-                    }
-                </div>
-            }
-            @if (!string.IsNullOrWhiteSpace(Model.Medal))
-            {
-                <h3>Senaste terminsmedalj</h3>
-                <p>@Model.Medal</p>
-            }
-            </div>
-        <h3>Användarinfo</h3>
+      <h3>Användarinfo</h3>
         <form id="update-profile-form" method="POST" action="/Profile/EditProfile">
             <div class="alert alert-danger" style="display: none;"></div>
             <div class="alert alert-success" style="display: none;">Profil uppdaterad</div>
@@ -128,5 +100,39 @@
                 <button type="submit" class="btn btn-default">Uppdatera lösenord</button>
             </div>
         </form>
+
+        <div>
+            <h3>Roller</h3>
+            <div class="roles">
+                @foreach (var r in Model.Roles)
+                {
+                    <span class="role">
+                        @r.ToString()
+                    </span>
+                }
+            </div>
+            @if (Model.Poster.Any())
+            {
+                <h3>Slavposter</h3>
+                <div class="roles">
+                    @foreach (var p in Model.Poster)
+                    {
+                        <span class="role">
+                            @p.ToString()
+                        </span>
+                    }
+                </div>
+            }
+            @if (!string.IsNullOrWhiteSpace(Model.Medal))
+            {
+                <h3>Senaste terminsmedalj</h3>
+                <p>@Model.Medal</p>
+            }
+            @if (!string.IsNullOrWhiteSpace(Model.GivenMedal))
+            {
+                <h3>Senaste utdelade terminsmedalj</h3>
+                <p>@Model.GivenMedal</p>
+            }
+        </div>
     </div>
 </div>
