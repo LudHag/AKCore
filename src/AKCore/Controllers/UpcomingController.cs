@@ -44,6 +44,7 @@ namespace AKCore.Controllers
                     Events = db.Events.OrderBy(x => x.Day).ThenBy(x => x.Starts)
                         .Include(x => x.SignUps)
                         .Where(x => loggedIn || (x.Type == "Spelning"))
+                        .Where(x => loggedIn || (!x.Secret))
                         .Where(x => x.Day >= DateTime.UtcNow.Date)
                         .GroupBy(x => x.Day.Year).ToList(),
                     LoggedIn = loggedIn,

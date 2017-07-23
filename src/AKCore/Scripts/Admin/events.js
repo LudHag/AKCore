@@ -72,6 +72,7 @@
                                 var event = JSON.parse(res.e);
                                 $('#Id').val(event.Id);
                                 $('#Name').val(event.Name);
+                                $('#Secret').prop('checked', event.Secret);
                                 $('#Place').val(event.Place);
                                 var date = new Date(event.Day);
                                 if (date.getFullYear() > 2000) {
@@ -130,6 +131,7 @@
 });
 function clearEventModal() {
     $('#edit-event-form')[0].reset();
+    $('#Id').val(0);
     $('#Day').val('');
 }
 

@@ -348,7 +348,7 @@ table{
 }
 
 #edit-event-modal {
-    .description, .rep-fika, .spelning-tid, .sta-ga, .spelning-tid-there {
+    .description, .rep-fika, .spelning-tid, .sta-ga, .spelning-tid-there, .only-spelning {
         display: none;
     }
 
@@ -366,7 +366,8 @@ table{
         .spelning-tid,
         .spelning-tid-there,
         .description,
-        .sta-ga {
+        .sta-ga,
+        .only-spelning {
             display: block;
         }
     }

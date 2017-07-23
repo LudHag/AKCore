@@ -65,6 +65,7 @@ namespace AKCore.Controllers
                         changeEvent.Description = model.Description;
                         changeEvent.InternalDescription = model.InternalDescription;
                         changeEvent.Type = model.Type;
+                        changeEvent.Secret = model.Secret;
                         db.SaveChanges();
                         return Json(new {success = true});
                     }
@@ -86,8 +87,9 @@ namespace AKCore.Controllers
                             Halan = model.Halan,
                             Stand = model.Stand,
                             Starts = model.Starts,
-                            There = model.There
-                        };
+                            There = model.There,
+                            Secret = model.Secret
+                    };
                         db.Events.Add(newEvent);
                         db.SaveChanges();
                         return Json(new {success = true});

@@ -11,6 +11,7 @@ namespace AKCore.Models
     {
         public IList<Event> Events { get; set; }
         public int Id { get; set; }
+        public bool Secret { get; set; }
         [Display(Name = "Namn")]
         public string Name { get; set; }
         [Display(Name = "Plats")]
