@@ -61,6 +61,37 @@ namespace AKCore.Controllers
             model.Users = users;
         }
 
+        [Route("EditUserInfo")]
+        public async Task<ActionResult> EditUserInfo(string userName)
+        {
+            if (string.IsNullOrWhiteSpace(userName))
+            {
+                return Json(new { success = false, message = "Användarnamn saknas" });
+            }
+            var user = await _userManager.FindByNameAsync(userName);
+            if (user==null)
+            {
+                return Json(new { success = false, message = "Användare saknas" });
+            }
+            var model = new ProfileModel
+            {
+                UserName = user.UserName,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Adress = user.Adress,
+                ZipCode = user.ZipCode,
+                City = user.City,
+                Phone = user.Phone,
+                Nation = user.Nation,
+                Instrument = user.Instrument,
+                OtherInstrument = string.IsNullOrWhiteSpace(user.OtherInstruments) ? null : user.OtherInstruments.Split(',').ToList(),
+                Poster = user.SlavPoster != null ? JsonConvert.DeserializeObject<List<string>>(user.SlavPoster) : new List<string>(),
+                Roles = await _userManager.GetRolesAsync(user)
+            };
+            return PartialView("_EditUserModal", model);
+        }
+
         [Route("CreateUser")]
         public async Task<ActionResult> CreateUser(ProfileModel model)
         {

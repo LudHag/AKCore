@@ -1,0 +1,100 @@
+﻿@using AKCore.Models
+@using AKCore.DataModel
+@model ProfileModel
+
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">Redigera användare</h4>
+        </div>
+        <form action="/User/EditUser" id="edit-user-form" autocomplete="off" method="post">
+            <div class="modal-body">
+                <div class="alert alert-success" style="display: none;">
+                </div>
+                <div class="alert alert-danger" style="display: none;">
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Förnamn</label>
+                            <input type="text" autocomplete="off" class="form-control" name="FirstName" placeholder="Förnamn" value="@Model.FirstName" >
+                        </div>
+                        <div class="form-group">
+                            <label>Efternamn</label>
+                            <input type="text" autocomplete="off" class="form-control" name="LastName" placeholder="Efternamn" value="@Model.LastName" >
+                        </div>
+                        <div class="form-group">
+                            <label>Adress</label>
+                            <input type="text" autocomplete="off" class="form-control" name="Adress" placeholder="Adress" value="@Model.Adress" >
+                        </div>
+                        <div class="form-group">
+                            <label>Postnummer</label>
+                            <input type="text" autocomplete="off" class="form-control" name="ZipCode" placeholder="Postnummer" value="@Model.ZipCode" >
+                        </div>
+                        <div class="form-group">
+                            <label>Stad</label>
+                            <input type="text" autocomplete="off" class="form-control" name="Stad" placeholder="Stad" value="@Model.City" >
+                        </div>
+                        <div class="form-group">
+                            <label>Telefonnummer</label>
+                            <input type="text" autocomplete="off" class="form-control" name="Phone" placeholder="Telefonnummer" value="@Model.Phone" >
+                        </div>
+                        <div class="form-group">
+                            <label>Epost</label>
+                            <input type="email" autocomplete="off" class="form-control" name="Email" placeholder="Epost" value="@Model.Email">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                            <input type="hidden" name="UserName" value="@Model.UserName">
+                        <div class="form-group">
+                            <label>Roller</label>
+                            <select class="form-control" name="Roles" value="@Model.Roles">
+                                <option value="">Välj roll</option>
+                                @foreach (var rol in AkRoles.Roles)
+                                {
+                                    <option>@rol</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Poster</label>
+                            <select class="form-control" name="Poster" value="@Model.Poster">
+                                <option value="">Välj post</option>
+                                @foreach (var rol in AkPoster.Poster)
+                                {
+                                    <option>@rol</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Nation</label>
+                            <select class="form-control" name="Nation" value="@Model.Nation">
+                                <option value="">Välj nation</option>
+                                @foreach (var nat in AkNationer.Nationer)
+                                {
+                                    <option>@nat</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Instrument</label>
+                            <select class="form-control" name="Instrument" value="@Model.Instrument">
+                                <option value="">Välj instrument</option>
+                                @foreach (var instr in AkInstruments.Instrument)
+                                {
+                                    <option>@instr</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Lägg till</button>
+            </div>
+        </form>
+
+    </div>
+</div>

@@ -36,6 +36,17 @@ $("#create-user-form")
 
         });
 
+$("#user-table").on("click", ".edit-user-info", function (e) {
+    e.preventDefault();
+    var userName = $(this).data("user");
+
+    $.get("/User/EditUserInfo?userName=" + userName,
+        function (data) {
+            $("#editUserModal").empty().append(data);
+            $("#editUserModal").modal("show");
+        });
+});
+
 $("#user-table")
     .on("click",
         ".remove-user",
