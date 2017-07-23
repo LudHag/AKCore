@@ -87,8 +87,7 @@ namespace AKCore.Controllers
                 Nation = user.Nation,
                 Instrument = user.Instrument,
                 OtherInstrument = string.IsNullOrWhiteSpace(user.OtherInstruments) ? null : user.OtherInstruments.Split(',').ToList(),
-                Poster = user.SlavPoster != null ? JsonConvert.DeserializeObject<List<string>>(user.SlavPoster) : new List<string>(),
-                Roles = await _userManager.GetRolesAsync(user)
+                Poster = user.SlavPoster != null ? JsonConvert.DeserializeObject<List<string>>(user.SlavPoster) : new List<string>()
             };
             return PartialView("_EditUserModal", model);
         }
@@ -112,6 +111,7 @@ namespace AKCore.Controllers
             user.Nation = model.Nation;
             user.Instrument = model.Instrument;
             user.SlavPoster = model.Poster == null ? "" : JsonConvert.SerializeObject(model.Poster);
+            user.OtherInstruments = model.OtherInstrument == null ? "" : string.Join(",", model.OtherInstrument);
             user.Medal = model.Medal;
             user.GivenMedal = model.GivenMedal;
 

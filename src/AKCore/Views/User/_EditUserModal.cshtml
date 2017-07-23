@@ -65,22 +65,11 @@
                             </select>
                         </div>
                     </div>
-
                     <div class="col-sm-6">
                         <input type="hidden" name="Id" value="@Model.Id">
                         <div class="form-group">
                             <label>Användarnamn</label>
                             <input type="text" autocomplete="off" class="form-control" name="UserName" placeholder="Användarnamn" value="@Model.UserName">
-                        </div>
-                        <div class="form-group">
-                            <label>Roller</label>
-                            <select class="form-control multi-select" name="Roles" multiple asp-for="Roles">
-                                <option value="">Välj roll</option>
-                                @foreach (var rol in AkRoles.Roles)
-                                {
-                                    <option>@rol</option>
-                                }
-                            </select>
                         </div>
                         <div class="form-group">
                             <label>Poster</label>
@@ -92,11 +81,20 @@
                                 }
                             </select>
                         </div>
+                        <div class="form-group">
+                            <label asp-for="OtherInstrument"></label>
+                            <select class="form-control multi-select" asp-for="OtherInstrument">
+                                @foreach (var instr in AkInstruments.Instrument)
+                                {
+                                    <option>@instr</option>
+                                }
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Lägg till</button>
+                <button type="submit" class="btn btn-primary">Spara</button>
             </div>
         </form>
 
