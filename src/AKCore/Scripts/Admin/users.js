@@ -44,7 +44,33 @@ $("#user-table").on("click", ".edit-user-info", function (e) {
         function (data) {
             $("#editUserModal").empty().append(data);
             $("#editUserModal").modal("show");
+            $("#editUserModal .multi-select").multiSelect({});
         });
+});
+
+$("#editUserModal").on("submit", "#edit-user-form", function (e) {
+    e.preventDefault();
+    e.preventDefault();
+    var form = $(this);
+    var error = $(".alert-danger");
+    var success = $(".alert-success");
+    $.ajax({
+        url: form.attr("action"),
+        type: form.attr("method"),
+        data: form.serialize(),
+        success: function (res) {
+            if (res.success) {
+                $("#editUserModal").modal("hide");
+            } else {
+                error.text(res.message);
+                error.slideDown().delay(4000).slideUp();
+            }
+        },
+        error: function (err) {
+            error.text("Misslyckades med att spara sida");
+            error.slideDown().delay(4000).slideUp();
+        }
+    });
 });
 
 $("#user-table")

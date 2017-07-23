@@ -44,33 +44,9 @@
                             <label>Epost</label>
                             <input type="email" autocomplete="off" class="form-control" name="Email" placeholder="Epost" value="@Model.Email">
                         </div>
-                    </div>
-
-                    <div class="col-sm-6">
-                            <input type="hidden" name="UserName" value="@Model.UserName">
-                        <div class="form-group">
-                            <label>Roller</label>
-                            <select class="form-control" name="Roles" value="@Model.Roles">
-                                <option value="">Välj roll</option>
-                                @foreach (var rol in AkRoles.Roles)
-                                {
-                                    <option>@rol</option>
-                                }
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Poster</label>
-                            <select class="form-control" name="Poster" value="@Model.Poster">
-                                <option value="">Välj post</option>
-                                @foreach (var rol in AkPoster.Poster)
-                                {
-                                    <option>@rol</option>
-                                }
-                            </select>
-                        </div>
                         <div class="form-group">
                             <label>Nation</label>
-                            <select class="form-control" name="Nation" value="@Model.Nation">
+                            <select class="form-control" name="Nation" asp-for="Nation">
                                 <option value="">Välj nation</option>
                                 @foreach (var nat in AkNationer.Nationer)
                                 {
@@ -80,11 +56,39 @@
                         </div>
                         <div class="form-group">
                             <label>Instrument</label>
-                            <select class="form-control" name="Instrument" value="@Model.Instrument">
+                            <select class="form-control" name="Instrument" asp-for="Instrument">
                                 <option value="">Välj instrument</option>
                                 @foreach (var instr in AkInstruments.Instrument)
                                 {
                                     <option>@instr</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <input type="hidden" name="Id" value="@Model.Id">
+                        <div class="form-group">
+                            <label>Användarnamn</label>
+                            <input type="text" autocomplete="off" class="form-control" name="UserName" placeholder="Användarnamn" value="@Model.UserName">
+                        </div>
+                        <div class="form-group">
+                            <label>Roller</label>
+                            <select class="form-control multi-select" name="Roles" multiple asp-for="Roles">
+                                <option value="">Välj roll</option>
+                                @foreach (var rol in AkRoles.Roles)
+                                {
+                                    <option>@rol</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Poster</label>
+                            <select class="form-control multi-select" name="Poster" multiple asp-for="Poster">
+                                <option value="">Välj post</option>
+                                @foreach (var rol in AkPoster.Poster)
+                                {
+                                    <option>@rol</option>
                                 }
                             </select>
                         </div>

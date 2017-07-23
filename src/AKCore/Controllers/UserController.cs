@@ -75,6 +75,7 @@ namespace AKCore.Controllers
             }
             var model = new ProfileModel
             {
+                Id = user.Id,
                 UserName = user.UserName,
                 Email = user.Email,
                 FirstName = user.FirstName,
@@ -90,6 +91,32 @@ namespace AKCore.Controllers
                 Roles = await _userManager.GetRolesAsync(user)
             };
             return PartialView("_EditUserModal", model);
+        }
+
+        [Route("EditUser")]
+        public async Task<ActionResult> EditUser(ProfileModel model)
+        {
+            var user = await _userManager.FindByIdAsync(model.Id);
+            if (user==null)
+            {
+                return Json(new { success = false, message = "Användare finns ej" });
+            }
+            user.UserName = model.UserName;
+            user.Email = model.Email;
+            user.FirstName = model.FirstName;
+            user.LastName = model.LastName;
+            user.Adress = model.Adress;
+            user.ZipCode = model.ZipCode;
+            user.City = model.City;
+            user.Phone = model.Phone;
+            user.Nation = model.Nation;
+            user.Instrument = model.Instrument;
+            user.SlavPoster = model.Poster == null ? "" : JsonConvert.SerializeObject(model.Poster);
+            user.Medal = model.Medal;
+            user.GivenMedal = model.GivenMedal;
+
+            var result = await _userManager.UpdateAsync(user);
+            return Json(new { success = result.Succeeded, message = result.ToString() });
         }
 
         [Route("CreateUser")]
