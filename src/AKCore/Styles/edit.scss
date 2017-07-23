@@ -91,8 +91,23 @@
         }
     }
 }
-#user-table{
+#user-table {
     table-layout: auto;
+    .role{
+        cursor: pointer;
+    }
+    .tooltip {
+        opacity: 1;
+
+        .tooltip-inner {
+            background-color: #fff;
+            color: #555555;
+        }
+
+        .tooltip-arrow {
+            border-top-color: #fff;
+        }
+    }
 }
 
 .remove-role{

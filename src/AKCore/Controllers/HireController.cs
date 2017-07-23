@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Hosting;
 namespace AKCore.Controllers
 {
     [Route("Hire")]
+    [Authorize(Roles = "SuperNintendo")]
     public class HireController : Controller
     {
         private readonly IHostingEnvironment _hostingEnv;

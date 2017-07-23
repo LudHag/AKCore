@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Hosting;
 namespace AKCore.Controllers
 {
     [Route("Signup")]
+    [Authorize(Roles = "SuperNintendo,Editor")]
     public class SignupController : Controller
     {
         private readonly IHostingEnvironment _hostingEnvironment;

@@ -22,7 +22,7 @@
         <td class="roles" id="roles-@u.UserName">
             @foreach (var r in roles)
             {
-                <span class="role">@r <a class="remove-role glyphicon glyphicon-remove" data-user="@u.UserName" data-role="@r"></a></span>
+                <span class="role" data-toggle="tooltip" data-placement="top" title="Tooltip on top">@r <a class="remove-role glyphicon glyphicon-remove" data-user="@u.UserName" data-role="@r"></a></span>
             }
         </td>
         <td>

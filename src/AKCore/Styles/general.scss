@@ -61,6 +61,9 @@ header {
         display: block;
     }
 }
+table td {
+    padding: 10px;
+}
 body {
     background: #000;
     height: 100%;
@@ -225,16 +228,18 @@ p.infobox {
     white-space: nowrap;
 }
 
-#kamerersposter{
-    .kategori{
-        border-bottom:1px solid red;
+#kamerersposter {
+    .kategori + .kategori {
+        border-top: 1px solid red;
+        padding-top: 20px;
     }
-    .row{
+    .row {
         padding: 10px;
-        &:hover{
-            background-color:#1a0000;
+        margin-bottom: 15px;
+        &:hover {
+            background-color: #1a0000;
         }
-    }   
+    }
 }
 
 #signup-list{
