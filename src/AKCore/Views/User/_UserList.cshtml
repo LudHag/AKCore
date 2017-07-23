@@ -22,7 +22,7 @@
         <td class="roles" id="roles-@u.UserName">
             @foreach (var r in roles)
             {
-                <span class="role" data-toggle="tooltip" data-placement="top" title="Tooltip on top">@r <a class="remove-role glyphicon glyphicon-remove" data-user="@u.UserName" data-role="@r"></a></span>
+                <span class="role" data-toggle="tooltip" data-placement="top" title="@Model.GetRoleInfo(r)">@r <a class="remove-role glyphicon glyphicon-remove" data-user="@u.UserName" data-role="@r"></a></span>
             }
         </td>
         <td>
@@ -85,7 +85,7 @@
                         </div>
                     </div>
                     <div class="col-sm-6">
-                        <p>Ändra användarinställningar:</p>
+                        <p>Ändra användarinställningar: <i class="fa fa-question-circle roles-info" data-html="true" data-toggle="tooltip" data-placement="top" title="Supernintendo: Full access <br>Editor: Kan redigera sidor, filer, album samt se intresseanmlningar<br>Medlem: Kan anmäla sig till spelningar samt redigera sin info<br>Balett: Kan se balettsidor" aria-hidden="true"></i></p>
                         <div class="edit-group">
                             <form class="form-inline add-role" action="/User/AddRole" method="POST">
                                 <div class="form-group">

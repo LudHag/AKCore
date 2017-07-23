@@ -79,14 +79,20 @@
 .ak-search{
     margin-bottom:25px;
 }
-.content-wrapper{
-    .user-edit{
-        font-size: 12px;
-        .user-edit-area{
+.content-wrapper {
+    .user-edit {
+        font-size: 13px;
+        .roles-info {
+            font-size: 20px;
+            margin-left: 5px;
+        }
+
+        .user-edit-area {
             margin-bottom: 0;
-            padding:20px;
-            .edit-group{
-                margin-top:10px;
+            padding: 20px;
+
+            .edit-group {
+                margin-top: 10px;
             }
         }
     }
