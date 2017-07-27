@@ -103,7 +103,8 @@
         foreach (var track in a.Tracks)
         {
             @: albums['@a.Id'].tracks['@track.Number'] = {};
-            @: albums['@a.Id'].tracks['@track.Number'].name = '@track.FileName';
+            @: albums['@a.Id'].tracks['@track.Number'].filename = '@track.FileName';
+            @: albums['@a.Id'].tracks['@track.Number'].name = '@track.GetDisplayName()';
             @: albums['@a.Id'].tracks['@track.Number'].id = '@track.Id';
         }
     }

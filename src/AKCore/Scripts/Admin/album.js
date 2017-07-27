@@ -143,7 +143,12 @@
                             albums[currentAlbum].tracks = {};
                             Object.keys(tracksres).forEach(function (el) {
                                 albums[currentAlbum].tracks[el] = {};
-                                albums[currentAlbum].tracks[el].name = tracksres[el].FileName;
+                                albums[currentAlbum].tracks[el].filename = tracksres[el].FileName;
+                                var clearName = tracksres[el].Name
+                                if (!clearName) {
+                                    clearName = tracksres[el].FileName
+                                }
+                                albums[currentAlbum].tracks[el].name = clearName;
                                 albums[currentAlbum].tracks[el].id = tracksres[el].Id;
                             });
                             renderTracks(currentAlbum);
@@ -202,7 +207,12 @@
                             albums[currentAlbum].tracks = {};
                             Object.keys(tracksres).forEach(function (el) {
                                 albums[currentAlbum].tracks[el] = {};
-                                albums[currentAlbum].tracks[el].name = tracksres[el].FileName;
+                                var clearName = tracksres[el].Name
+                                if (!clearName) {
+                                    clearName = tracksres[el].FileName
+                                }
+                                albums[currentAlbum].tracks[el].name = clearName;
+                                albums[currentAlbum].tracks[el].filename = tracksres[el].FileName;
                                 albums[currentAlbum].tracks[el].id = tracksres[el].Id;
                             });
                             renderTracks(currentAlbum);
