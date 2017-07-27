@@ -8,7 +8,7 @@
     var tListTemplate = $('<ul class="tracklist"></ul>');
     
     function createListElement(number, name, id) {
-        return $('<li><span class="name">' + name + '</span><a class="rem-track" data-id="' + id + '" href="#">x</a></li>');
+        return $('<li><span data-id="' + id + '" class="name">' + name + '</span><a class="rem-track" data-id="' + id + '" href="#">x</a></li>');
     }
     function renderAlbums() {
         $('#album-list').empty();
@@ -236,8 +236,8 @@
                      showFiles(e.originalEvent.dataTransfer.files);
                  });
 
-                trackform.on("change",function (e) {
-                        showFiles(e.target.files);
+                trackform.on("change", 'input[type="file"]' ,function (e) {
+                    showFiles(e.target.files);
                 });
 
                 trackform.on("drag dragstart dragend dragover dragenter dragleave drop",
@@ -257,6 +257,35 @@
                     function (e) {
                         trackform = e.originalEvent.dataTransfer.files;
                     });
+
+
+                trackform.on("click", ".name", function (e) {
+                    e.preventDefault();
+                    var self = $(this);
+                    self.replaceWith('<input type="text" class="name-input" data-id="' + self.data("id") + '" value="' + self.text() + '"\>');
+                    $(".name-input").focus();
+                });
+
+                function submitTrackName(element) {
+                    element.replaceWith('<span class="name" data-id="' + element.data("id") + '">' + element.val() +'</span>');
+                }
+
+                trackform.on("keypress", ".name-input", function (e) {
+                    if (e.which == 13) {
+                        trackform.off("blur", ".name-input");
+                        submitTrackName($(this));
+                        trackform.on("blur", ".name-input", function (e) {
+                            submitTrackName($(this));
+                        });
+                    }
+                });
+                trackform.on("blur", ".name-input", function (e) {
+                    submitTrackName($(this));
+                });
+
+                trackform.on("submit", function (e) {
+                    e.preventDefault();
+                });
 
             }
     });

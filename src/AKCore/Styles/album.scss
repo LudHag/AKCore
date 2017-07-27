@@ -53,26 +53,34 @@
     }
 }
 
-.tracklist{
+.tracklist {
     list-style-type: none;
     text-align: left;
     max-width: 370px;
     margin: auto;
     padding-left: 0;
-    li{
+
+    li {
         margin-bottom: 6px;
     }
-    .number{
+
+    .number {
         font-weight: 500;
         margin-right: 14px;
         display: inline-block;
         vertical-align: top;
     }
-    .name{
+
+    .name {
         max-width: 310px;
         display: inline-block;
     }
-    .rem-track{
+
+    .name-input {
+        width: 80%;
+    }
+
+    .rem-track {
         float: right;
     }
 }
