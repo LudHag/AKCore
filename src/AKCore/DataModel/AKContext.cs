@@ -108,6 +108,11 @@ namespace AKCore.DataModel
         public string FileName { get; set; }
         public string Name { get; set; }
         public DateTime Created { get; set; }
+
+        public string GetDisplayName()
+        {
+            return string.IsNullOrWhiteSpace(Name) ? FileName.Split('.')[0].Replace('_',' ') : Name;
+        }
     }
 
     public class Recruit

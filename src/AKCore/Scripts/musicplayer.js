@@ -127,12 +127,12 @@ MusicPlayer.prototype.buildPlayList = function () {
     var keys = Object.keys(this.playList);
     keys.forEach(function (el) {
         var track = self.playList[el];
-        self.playListModule.append(self.createListElement(el, track.name));
+        self.playListModule.append(self.createListElement(el, track.filename, track.name));
     });
 };
-MusicPlayer.prototype.createListElement = function (number, name) {
+MusicPlayer.prototype.createListElement = function (number, filename, name) {
 
-    return $('<a href="/albums/' + this.currentAlbumId + '/' + name + '" class="playlist-element"><span class="name">' + name.replace(/\.[^/.]+$/, "") + '</span><span class="glyphicon glyphicon-download"></span></a>');
+    return $('<a href="/albums/' + this.currentAlbumId + '/' + filename + '" class="playlist-element"><span class="name">' + name + '</span><span class="glyphicon glyphicon-download"></span></a>');
 };
 
 MusicPlayer.prototype.renderElement = function () {
