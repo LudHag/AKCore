@@ -267,7 +267,16 @@
                 });
 
                 function submitTrackName(element) {
-                    element.replaceWith('<span class="name" data-id="' + element.data("id") + '">' + element.val() +'</span>');
+
+                    $.ajax({
+                        url: "/AlbumEdit/ChangeTrackName",
+                        type: "POST",
+                        data: { id: element.data("id"), name: element.val() },
+                        success: function (res) {
+                        }
+                    });
+                    element.replaceWith('<span class="name" data-id="' + element.data("id") + '">' + element.val() + '</span>');
+
                 }
 
                 trackform.on("keypress", ".name-input", function (e) {

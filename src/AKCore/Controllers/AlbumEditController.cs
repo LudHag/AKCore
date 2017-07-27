@@ -190,14 +190,35 @@ namespace AKCore.Controllers
         }
 
         [HttpPost]
+        [Route("ChangeTrackName")]
+        public ActionResult ChangeTrackNameAsync(string id, string name)
+        {
+            if (!int.TryParse(id, out int tId))
+                return Json(new { success = false, message = "Misslyckades med att ändra namn på spår" });
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                return Json(new { success = false, message = "Misslyckades med att ändra namn på spår" });
+            }
+
+            using (var db = new AKContext(_hostingEnv))
+            {
+                var track = db.Tracks.FirstOrDefault(x => x.Id == tId);
+                if (track == null) return Json(new { success = false, message = "Misslyckades med att ändra namn på spår" });
+                track.Name = name;
+                var res = db.SaveChanges();
+
+                return Json(new { success = res > 0 });
+            }
+        }
+
+
+        [HttpPost]
         [Route("DeleteTrack")]
         public ActionResult DeleteTrack(string id, string album)
         {
-            var tId = 0;
-            var aId = 0;
-            if (!int.TryParse(id, out tId))
-                return Json(new {success = false, message = "Misslyckades med att ta bort spår"});
-            if (!int.TryParse(album, out aId))
+            if (!int.TryParse(id, out int tId))
+                return Json(new { success = false, message = "Misslyckades med att ta bort spår" });
+            if (!int.TryParse(album, out int aId))
                 return Json(new {success = false, message = "Misslyckades med att ta bort spår"});
             using (var db = new AKContext(_hostingEnv))
             {
