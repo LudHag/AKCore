@@ -106,6 +106,7 @@ namespace AKCore.DataModel
         public int Id { get; set; }
         public int Number { get; set; }
         public string FileName { get; set; }
+        public string Name { get; set; }
         public DateTime Created { get; set; }
     }
 
