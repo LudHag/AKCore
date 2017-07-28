@@ -27,6 +27,7 @@ namespace AKCore.Controllers
 
         [HttpPost]
         [Route("Login")]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginModel model)
         {
             if (ModelState.IsValid)

@@ -5,7 +5,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title">Logga in</h4>
             </div>
-            <form action="/Account/Login" id="loginForm" method="post">
+            <form action="/Account/Login" id="loginForm" method="post" asp-antiforgery="true">
                 <div class="modal-body">
                     <div class="alert alert-success" style="display: none;">
                     </div>
