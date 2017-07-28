@@ -78,24 +78,31 @@ a:hover, a:visited, a:link, a:active
 }
 p.big{
     font-size: 18px;
-}   
-
-
-
-.body-content{
-    background:#000;
-    color:#fff;
 }
 
-.modal{
+a {
+    font-weight: 400;
+}
+.body-content {
+    background: #000;
+    color: #fff;
+}
+
+.modal {
     z-index: 70000;
 }
+
 .modal-open {
     padding-right: 0 !important;
 }
-::selection { background: $akred; color: #fff; text-shadow: none; }
 
-.account{
+::selection {
+    background: $akred;
+    color: #fff;
+    text-shadow: none;
+}
+
+.account {
     text-align: right;
     padding: 5px;
     color: #fff;
@@ -104,6 +111,7 @@ p.big{
     position: absolute;
     right: 20px;
 }
+
 .social {
     text-align: right;
     padding: 5px;
@@ -113,32 +121,37 @@ p.big{
     position: absolute;
     right: 20px;
     font-size: 26px;
+
     a {
         transition: all 0.2s linear;
     }
+
     a:hover {
         color: #fff;
     }
 }
 
-.content-wrapper{
+.content-wrapper {
     padding: 40px 30px;
-    .row{
+
+    .row {
         margin-bottom: 20px;
     }
 }
 
 .btn.btn-default,
-.btn.btn-primary{
-    background-color:$akred;
-    border-color:#6E1601;
-    color:white;
-    &:focus{
-        background-color:$akred;
-        border-color:#6E1601;
-        color:white;
+.btn.btn-primary {
+    background-color: $akred;
+    border-color: #6E1601;
+    color: white;
+
+    &:focus {
+        background-color: $akred;
+        border-color: #6E1601;
+        color: white;
     }
-    &:hover{
+
+    &:hover {
         color: #333;
         background-color: #fff;
         border-color: #ccc;
@@ -146,37 +159,40 @@ p.big{
 }
 
 a:visited,
-    a {
-    &.btn{
+a {
+    &.btn {
         color: white;
     }
 }
 
-.side-image{
+.side-image {
     width: 100%;
 }
 
 
-.description{
-    margin-top:20px;
+.description {
+    margin-top: 20px;
 }
 
-.exp:hover .subnav{
-    display:block;
+.exp:hover .subnav {
+    display: block;
 }
-.roles{
-    .role{
+
+.roles {
+    .role {
         background-color: $akred;
         border-radius: 5px;
         margin-right: 10px;
         padding: 2px;
     }
 }
-.center-image{
-    text-align:center;
+
+.center-image {
+    text-align: center;
 }
-.main-image{
-    width:100%;
+
+.main-image {
+    width: 100%;
 }
 
 p.infobox {
@@ -188,14 +204,14 @@ p.infobox {
     margin: 40px 0;
 }
 
-.btn-facebook{
+.btn-facebook {
     color: #fff;
     background-color: #3b5998;
     border-color: transparent;
 }
 
-#fb-login{
-    float:left;
+#fb-login {
+    float: left;
 }
 
 #adress-register .kamerer {
@@ -233,45 +249,50 @@ p.infobox {
         border-top: 1px solid red;
         padding-top: 20px;
     }
+
     .row {
         padding: 10px;
         margin-bottom: 15px;
+
         &:hover {
             background-color: #1a0000;
         }
     }
 }
 
-#signup-list{
-    .can-come{
+#signup-list {
+    .can-come {
         float: right;
     }
 }
 
-.indent{
+.indent {
     margin-left: 20px;
 }
 
-.new-month{
+.new-month {
     margin-top: 20px;
     text-transform: uppercase;
 }
 
-.content-wrapper .signup-row{
-    background-color:#430800;
+.content-wrapper .signup-row {
+    background-color: #430800;
     margin-bottom: 10px;
     padding: 5px;
     padding-top: 15px;
     margin-left: 0px;
     margin-right: 0px;
-    &:nth-of-type(n+2){
-        background-color:#1e0500;
+
+    &:nth-of-type(n+2) {
+        background-color: #1e0500;
     }
 }
-.youtubelist{
+
+.youtubelist {
     list-style-type: none;
 }
-.signup-element{
+
+.signup-element {
     overflow: hidden;
 }
 
@@ -318,6 +339,7 @@ p.infobox {
                 font-size: 50px;
             }
         }
+
         a {
             margin: 0 0 10px;
             display: block;
@@ -333,22 +355,25 @@ p.infobox {
     }
 }
 
-    @media screen and (max-width: 768px) {
-        header {
-            .container {
-                padding: 0 15px;
-            }
-            .logo {
-                img {
-                    max-height: 90px;
-                    width: auto;
-                }
-            }
-            nav {
-                height: 0;
-            }
-            #open-mobile-menu {
-                top: -85px;
+@media screen and (max-width: 768px) {
+    header {
+        .container {
+            padding: 0 15px;
+        }
+
+        .logo {
+            img {
+                max-height: 90px;
+                width: auto;
             }
         }
+
+        nav {
+            height: 0;
+        }
+
+        #open-mobile-menu {
+            top: -85px;
+        }
     }
+}
