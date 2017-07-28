@@ -357,6 +357,8 @@ p.infobox {
 
 @media screen and (max-width: 768px) {
     header {
+        height: 85px;
+
         .container {
             padding: 0 15px;
         }
@@ -370,10 +372,12 @@ p.infobox {
 
         nav {
             height: 0;
+            position: absolute;
+            top: 85px;
         }
 
         #open-mobile-menu {
-            top: -85px;
+            top: -82px;
         }
     }
 }
