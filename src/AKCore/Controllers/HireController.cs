@@ -5,7 +5,7 @@ using AKCore.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Hosting;
-
+/**
 namespace AKCore.Controllers
 {
     [Route("Hire")]
@@ -109,3 +109,4 @@ namespace AKCore.Controllers
 
     }
 }
+    */

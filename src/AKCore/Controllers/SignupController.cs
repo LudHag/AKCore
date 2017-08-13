@@ -20,6 +20,7 @@ namespace AKCore.Controllers
 
         [Route("Signup")]
         [HttpPost]
+        [AllowAnonymous]
         public ActionResult Signup(JoinUsModel model)
         {
             using (var db = new AKContext(_hostingEnvironment))

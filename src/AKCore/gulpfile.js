@@ -46,7 +46,7 @@ gulp.task('adminscripts', function () {
         "Scripts/Admin/media.js",
         "Scripts/Admin/events.js",
         "Scripts/Admin/recruits.js",
-        "Scripts/Admin/hires.js",
+        //"Scripts/Admin/hires.js",
         "Scripts/Admin/album.js"
     ])
         .pipe(sourcemaps.init())

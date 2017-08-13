@@ -47,11 +47,7 @@ namespace AKCore.Components
                     member = roles.Contains("Medlem");
                     if (nintendo || editor)
                     {
-                        var signUpMenus = new ModelMenu("Anmälningar", "", true) { Id = 10004};
-                        signUpMenus.Children.Add(new ModelMenu("Intresseanmälningar", "/Signup/Recruits", true) { Id = 10007 });
-                        if (!editor) { 
-                            signUpMenus.Children.Add(new ModelMenu("Spelningsförfrågningar", "/Hire/Hires", true) { Id = 10007 });
-                        }
+                        var signUpMenus = new ModelMenu("Intresseanmälningar", "/Signup/Recruits", true) { Id = 10007 };
                         modelMenus.Add(signUpMenus);
 
                         var adminMenu = new ModelMenu("Admin", "", true) {Id = 10015};
