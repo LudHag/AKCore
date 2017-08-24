@@ -12,10 +12,10 @@ namespace AKCore.Controllers
     [Authorize(Roles = "SuperNintendo,Editor")]
     public class SignupController : Controller
     {
-        private readonly IHostingEnvironment _hostingEnvironment;
-        public SignupController(IHostingEnvironment hostingEnvironment)
+        private readonly AKContext _db;
+        public SignupController(AKContext db)
         {
-            _hostingEnvironment = hostingEnvironment;
+            _db = db;
         }
 
         [Route("Signup")]
@@ -23,48 +23,45 @@ namespace AKCore.Controllers
         [AllowAnonymous]
         public ActionResult Signup(JoinUsModel model)
         {
-            using (var db = new AKContext(_hostingEnvironment))
-            {
-                if (string.IsNullOrWhiteSpace(model.Email) && string.IsNullOrWhiteSpace(model.Tel))
-                    return Json(new { success = false, message = "Du har ej angett ett sätt att kontakta dig med." });
-                if (string.IsNullOrWhiteSpace(model.Instrument))
-                    return
-                        Json(
-                            new
-                            {
-                                success = false,
-                                message =
-                                "Du måste ange vilke instrument du spelar eller om du vill dansa med baletten."
-                            });
-                if (
-                    db.Recruits.Any(
-                        x =>
-                            (!string.IsNullOrWhiteSpace(model.Email) && (x.Email == model.Email)) ||
-                            (!string.IsNullOrWhiteSpace(model.Tel) && (x.Phone == model.Tel))))
-                    return
-                        Json(
-                            new
-                            {
-                                success = false,
-                                message = "En person med din kontaktinformation har redan anmält sig."
-                            });
-
-                var rec = new Recruit
-                {
-                    FirstName = model.FirstName,
-                    LastName = model.LastName,
-                    Created = DateTime.UtcNow,
-                    Email = model.Email,
-                    Phone = model.Tel,
-                    Instrument = model.Instrument,
-                    Other = model.Other
-                };
-                db.Recruits.Add(rec);
-                db.SaveChanges();
-
+            if (string.IsNullOrWhiteSpace(model.Email) && string.IsNullOrWhiteSpace(model.Tel))
+                return Json(new { success = false, message = "Du har ej angett ett sätt att kontakta dig med." });
+            if (string.IsNullOrWhiteSpace(model.Instrument))
                 return
-                    Json(new { success = true, message = "Din ansökan är mottagen och vi kommer kontakta dig inom kort" });
-            }
+                    Json(
+                        new
+                        {
+                            success = false,
+                            message =
+                            "Du måste ange vilke instrument du spelar eller om du vill dansa med baletten."
+                        });
+            if (
+                _db.Recruits.Any(
+                    x =>
+                        (!string.IsNullOrWhiteSpace(model.Email) && (x.Email == model.Email)) ||
+                        (!string.IsNullOrWhiteSpace(model.Tel) && (x.Phone == model.Tel))))
+                return
+                    Json(
+                        new
+                        {
+                            success = false,
+                            message = "En person med din kontaktinformation har redan anmält sig."
+                        });
+
+            var rec = new Recruit
+            {
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                Created = DateTime.UtcNow,
+                Email = model.Email,
+                Phone = model.Tel,
+                Instrument = model.Instrument,
+                Other = model.Other
+            };
+            _db.Recruits.Add(rec);
+            _db.SaveChanges();
+
+            return
+                Json(new { success = true, message = "Din ansökan är mottagen och vi kommer kontakta dig inom kort" });
         }
 
         [Route("Recruits")]
@@ -72,17 +69,14 @@ namespace AKCore.Controllers
         public ActionResult Recruits()
         {
             ViewBag.Title = "Anmälningar";
-            using (var db = new AKContext(_hostingEnvironment))
+            var model = new RecruitsModel
             {
-                var model = new RecruitsModel
-                {
-                    Recruits = db.Recruits
-                        .Where(x => x.Created > DateTime.Now.AddMonths(-6))
-                        .OrderBy(x => x.Created).ToList()
-                };
+                Recruits = _db.Recruits
+                    .Where(x => x.Created > DateTime.Now.AddMonths(-6))
+                    .OrderBy(x => x.Created).ToList()
+            };
 
-                return View(model);
-            }
+            return View(model);
         }
 
         [Route("Archive")]
@@ -94,14 +88,11 @@ namespace AKCore.Controllers
             {
                 return Json(new { success = false });
             }
-            using (var db = new AKContext(_hostingEnvironment))
-            {
-                var recruit = db.Recruits.FirstOrDefault(x => x.Id == id);
-                if (recruit == null) return Json(new { success = false });
-                recruit.Archived = arch;
-                db.SaveChanges();
-                return Json(new { success = true });
-            }
+            var recruit = _db.Recruits.FirstOrDefault(x => x.Id == id);
+            if (recruit == null) return Json(new { success = false });
+            recruit.Archived = arch;
+            _db.SaveChanges();
+            return Json(new { success = true });
         }
         [Route("Remove")]
         [Authorize(Roles = "SuperNintendo,Editor")]
@@ -112,14 +103,11 @@ namespace AKCore.Controllers
             {
                 return Json(new { success = false });
             }
-            using (var db = new AKContext(_hostingEnvironment))
-            {
-                var recruit = db.Recruits.FirstOrDefault(x => x.Id == id);
-                if (recruit == null) return Json(new { success = false });
-                db.Recruits.Remove(recruit);
-                db.SaveChanges();
-                return Json(new { success = true });
-            }
+            var recruit = _db.Recruits.FirstOrDefault(x => x.Id == id);
+            if (recruit == null) return Json(new { success = false });
+            _db.Recruits.Remove(recruit);
+            _db.SaveChanges();
+            return Json(new { success = true });
         }
     }
 }

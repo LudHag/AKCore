@@ -10,20 +10,17 @@ namespace AKCore.Components
 {
     public class AlbumsViewComponent : ViewComponent
     {
-        private readonly IHostingEnvironment _hostingEnv;
+        private readonly AKContext _db;
 
-        public AlbumsViewComponent(IHostingEnvironment env)
+        public AlbumsViewComponent(AKContext db)
         {
-            _hostingEnv = env;
+            _db = db;
         }
 
         public IViewComponentResult Invoke(Widget widget)
         {
-            using (var db = new AKContext(_hostingEnv))
-            {
-                var model = widget.Albums.Select(a => db.Albums.Include(x=>x.Tracks).FirstOrDefault(x => x.Id == a)).Where(album => album != null).ToList();
-                return View(model);
-            }
+            var model = widget.Albums.Select(a => _db.Albums.Include(x=>x.Tracks).FirstOrDefault(x => x.Id == a)).Where(album => album != null).ToList();
+            return View(model);
         }
     }
 }

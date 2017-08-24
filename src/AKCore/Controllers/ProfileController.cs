@@ -17,47 +17,44 @@ namespace AKCore.Controllers
     {
         private readonly SignInManager<AkUser> _signInManager;
         private readonly UserManager<AkUser> _userManager;
-        private readonly IHostingEnvironment _hostingEnv;
+        private readonly AKContext _db;
 
         public ProfileController(
             UserManager<AkUser> userManager,
             SignInManager<AkUser> signInManager,
-            IHostingEnvironment env)
+            AKContext db)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _hostingEnv = env;
+            _db = db;
         }
 
         public async Task<ActionResult> Index()
         {
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
             ViewBag.Title = "Profil";
-            using (var db = new AKContext(_hostingEnv))
-            {
-                var logins=db.UserLogins.Where(x => x.ProviderDisplayName == user.UserName).ToList();
+            var logins=_db.UserLogins.Where(x => x.ProviderDisplayName == user.UserName).ToList();
 
-                var model = new ProfileModel
-                {
-                    UserName = user.UserName,
-                    Email = user.Email,
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    Adress = user.Adress,
-                    ZipCode = user.ZipCode,
-                    City = user.City,
-                    Phone = user.Phone,
-                    Nation = user.Nation,
-                    Instrument = user.Instrument,
-                    OtherInstrument = string.IsNullOrWhiteSpace(user.OtherInstruments) ? null : user.OtherInstruments.Split(',').ToList(),
-                    Facebook = logins.Any(x=>x.LoginProvider=="Facebook"),
-                    Poster = user.SlavPoster != null ? JsonConvert.DeserializeObject<List<string>>(user.SlavPoster) : new List<string>(),
-                    Roles = await _userManager.GetRolesAsync(user),
-                    Medal = user.Medal,
-                    GivenMedal = user.GivenMedal
-                };
-                return View(model);
-            }
+            var model = new ProfileModel
+            {
+                UserName = user.UserName,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Adress = user.Adress,
+                ZipCode = user.ZipCode,
+                City = user.City,
+                Phone = user.Phone,
+                Nation = user.Nation,
+                Instrument = user.Instrument,
+                OtherInstrument = string.IsNullOrWhiteSpace(user.OtherInstruments) ? null : user.OtherInstruments.Split(',').ToList(),
+                Facebook = logins.Any(x=>x.LoginProvider=="Facebook"),
+                Poster = user.SlavPoster != null ? JsonConvert.DeserializeObject<List<string>>(user.SlavPoster) : new List<string>(),
+                Roles = await _userManager.GetRolesAsync(user),
+                Medal = user.Medal,
+                GivenMedal = user.GivenMedal
+            };
+            return View(model);
         }
 
         [Route("EditProfile")]

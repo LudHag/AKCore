@@ -10,11 +10,11 @@ namespace AKCore.Controllers
 {
     public class PageController : Controller
     {
-        private readonly IHostingEnvironment _hostingEnv;
+        private readonly AKContext _db;
 
-        public PageController(IHostingEnvironment env)
+        public PageController(AKContext db)
         {
-            _hostingEnv = env;
+            _db = db;
         }
 
         public ActionResult Index()
@@ -31,47 +31,44 @@ namespace AKCore.Controllers
             var redirectLink = "/";
             if (loggedIn) redirectLink = "/Upcoming";
 
-            using (var db = new AKContext(_hostingEnv))
+            Page page;
+            if (string.IsNullOrWhiteSpace(slug))
             {
-                Page page;
-                if (string.IsNullOrWhiteSpace(slug))
-                {
-                    if (loggedIn)
-                    {
-                        return Redirect(redirectLink);
-                    }
-                    page = db.Pages.FirstOrDefault(x => x.Slug == "/");
-                }
-                else
-                {
-                    page = db.Pages.FirstOrDefault(x => x.Slug == ("/" + slug));
-                }
-                if (page == null)
-                {
-                    return View("Error");
-                }
-                if (page.LoggedIn && !loggedIn)
+                if (loggedIn)
                 {
                     return Redirect(redirectLink);
                 }
-                if (page.LoggedOut && loggedIn)
-                {
-                    return Redirect(redirectLink);
-                }
-                if (page.BalettOnly)
-                {
-                    if (!(User.IsInRole(AkRoles.Balett) || User.IsInRole(AkRoles.SuperNintendo)))
-                    {
-                        return Redirect(redirectLink);
-                    }
-                }
-                ViewData["Title"] = page.Name;
-                var model = new PageRenderModel()
-                {
-                    Widgets = page.WidgetsJson != null ? JsonConvert.DeserializeObject<List<Widget>>(page.WidgetsJson) : new List<Widget>()
-                };
-                return View("Index", model);
+                page = _db.Pages.FirstOrDefault(x => x.Slug == "/");
             }
+            else
+            {
+                page = _db.Pages.FirstOrDefault(x => x.Slug == ("/" + slug));
+            }
+            if (page == null)
+            {
+                return View("Error");
+            }
+            if (page.LoggedIn && !loggedIn)
+            {
+                return Redirect(redirectLink);
+            }
+            if (page.LoggedOut && loggedIn)
+            {
+                return Redirect(redirectLink);
+            }
+            if (page.BalettOnly)
+            {
+                if (!(User.IsInRole(AkRoles.Balett) || User.IsInRole(AkRoles.SuperNintendo)))
+                {
+                    return Redirect(redirectLink);
+                }
+            }
+            ViewData["Title"] = page.Name;
+            var model = new PageRenderModel()
+            {
+                Widgets = page.WidgetsJson != null ? JsonConvert.DeserializeObject<List<Widget>>(page.WidgetsJson) : new List<Widget>()
+            };
+            return View("Index", model);
         }
     }
 }

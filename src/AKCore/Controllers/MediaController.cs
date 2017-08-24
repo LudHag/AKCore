@@ -18,11 +18,13 @@ namespace AKCore.Controllers
         private static readonly string[] ImageExtensions = { "jpg", "bmp", "gif", "png","svg" };
         //private static readonly string[] VideoExtensions = { "mp4", "avi"};
         private static readonly string[] DocumentExtensions = { "pdf", "docx", "doc" };
+        private readonly AKContext _db;
         private readonly IHostingEnvironment _hostingEnv;
 
-        public MediaController(IHostingEnvironment env)
+        public MediaController(AKContext db, IHostingEnvironment hostingEnv)
         {
-            _hostingEnv = env;
+            _db = db;
+            _hostingEnv = hostingEnv;
         }
 
         public ActionResult Index()
@@ -62,7 +64,6 @@ namespace AKCore.Controllers
                 model.TotalPages = totalPages;
                 model.CurrentPage = search.Page < 1 ? 1 : search.Page;
             }
-            
 
             return PartialView("Partials/MediaList",model);
         }
@@ -83,50 +84,40 @@ namespace AKCore.Controllers
 
         private IDictionary<string, int> GetFacets()
         {
-            using (var db = new AKContext(_hostingEnv))
-            {
-                var facetes = db.Medias
-                    .GroupBy(x => x.Tag)
-                    .Select(x => new
-                    {
-                        Tag = x.Key,
-                        Count = x.Count()
-                    });
+            var facetes = _db.Medias
+                .GroupBy(x => x.Tag)
+                .Select(x => new
+                {
+                    Tag = x.Key,
+                    Count = x.Count()
+                });
 
-                return facetes.ToDictionary(z=>z.Tag,z=>z.Count);
-            }
+            return facetes.ToDictionary(z=>z.Tag,z=>z.Count);
         }
 
         private List<Media> PopulateList(int page, out int totalPages,string searchPhrase, string type = "", string tag = "")
         {
             var pagesize = 12;
-            using (var db = new AKContext(_hostingEnv))
-            {
-                var searched=db.Medias
-                    .Where(x=>x.Name.Contains(searchPhrase))
-                    .Where(x => string.IsNullOrWhiteSpace(type) || x.Type == type)
-                    .Where(x => string.IsNullOrWhiteSpace(tag) || x.Tag == tag)
-                    .OrderByDescending(x=>x.Created);
-                totalPages = ((searched.Count()-1) / pagesize) +1;
-                if (totalPages < page) page = totalPages;
-                return searched.Skip((page - 1)* pagesize).Take(pagesize).ToList();
-            }
+            var searched=_db.Medias
+                .Where(x=>x.Name.Contains(searchPhrase))
+                .Where(x => string.IsNullOrWhiteSpace(type) || x.Type == type)
+                .Where(x => string.IsNullOrWhiteSpace(tag) || x.Tag == tag)
+                .OrderByDescending(x=>x.Created);
+            totalPages = ((searched.Count()-1) / pagesize) +1;
+            if (totalPages < page) page = totalPages;
+            return searched.Skip((page - 1)* pagesize).Take(pagesize).ToList();
         }
         [Route("EditFile")]
         public ActionResult EditFile(string Tag, string Id)
         {
             if (int.TryParse(Id, out int iId) && !string.IsNullOrWhiteSpace(Tag))
             {
-                using (var db = new AKContext(_hostingEnv))
+                var file = _db.Medias.FirstOrDefault(x => x.Id == iId);
+                if (file != null)
                 {
-                    var file = db.Medias.FirstOrDefault(x => x.Id == iId);
-                    if (file != null)
-                    {
-                        file.Tag = Tag;
-                        db.SaveChanges();
-                        return Json(new { success = true });
-                    }
-
+                    file.Tag = Tag;
+                    _db.SaveChanges();
+                    return Json(new { success = true });
                 }
             }
 
@@ -150,27 +141,24 @@ namespace AKCore.Controllers
                 .Trim('"');
             var filepath = _hostingEnv.WebRootPath + $@"\media\{filename}";
             
-            using (var db = new AKContext(_hostingEnv))
+            if (_db.Medias.FirstOrDefault(x => x.Name == filename) != null)
             {
-                if (db.Medias.FirstOrDefault(x => x.Name == filename) != null)
-                {
-                    return Json(new {success = false, message = "Filen finns redan uppladdad"});
-                }
-                using (var fs = System.IO.File.Create(filepath))
-                {
-                    file.CopyTo(fs);
-                    fs.Flush();
-                }
-                var mediaFile = new Media
-                {
-                    Name = filename,
-                    Created = DateTime.Now,
-                    Tag = model.Tag
-                };
-                mediaFile.Type = isImage ? "Image" : "Document";
-                db.Medias.Add(mediaFile);
-                db.SaveChanges();
+                return Json(new {success = false, message = "Filen finns redan uppladdad"});
             }
+            using (var fs = System.IO.File.Create(filepath))
+            {
+                file.CopyTo(fs);
+                fs.Flush();
+            }
+            var mediaFile = new Media
+            {
+                Name = filename,
+                Created = DateTime.Now,
+                Tag = model.Tag
+            };
+            mediaFile.Type = isImage ? "Image" : "Document";
+            _db.Medias.Add(mediaFile);
+            _db.SaveChanges();
 
             return Json(new {success = true});
         }
@@ -179,24 +167,21 @@ namespace AKCore.Controllers
         {
             var filepath = _hostingEnv.WebRootPath + $@"\media\{filename}";
 
-            using (var db = new AKContext(_hostingEnv))
+            var file = _db.Medias.FirstOrDefault(x => x.Name == filename);
+            if (file == null)
             {
-                var file = db.Medias.FirstOrDefault(x => x.Name == filename);
-                if (file == null)
-                {
-                    return Json(new { success = false, message = "Filen finns ej" });
-                }
-                try
-                {
-                    System.IO.File.Delete(filepath);
-                }
-                catch
-                {
-                    return Json(new { success = false, message = "Misslyckades ta bort filen" });
-                }
-                db.Medias.Remove(file);
-                db.SaveChanges();
+                return Json(new { success = false, message = "Filen finns ej" });
             }
+            try
+            {
+                System.IO.File.Delete(filepath);
+            }
+            catch
+            {
+                return Json(new { success = false, message = "Misslyckades ta bort filen" });
+            }
+            _db.Medias.Remove(file);
+            _db.SaveChanges();
 
             return Json(new { success = true });
         }

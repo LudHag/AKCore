@@ -11,18 +11,9 @@ namespace AKCore.DataModel
 {
     public class AKContext : IdentityDbContext<AkUser>
     {
-        private readonly IHostingEnvironment _hostingEnvironment;
-
-        public AKContext(IHostingEnvironment hostingEnvironment)
-        {
-            _hostingEnvironment = hostingEnvironment;
-        }
-            
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            var connection = $"Filename={Path.Combine(_hostingEnvironment.ContentRootPath, "akdb.db")}";
-            optionsBuilder.UseSqlite(connection);
-        }
+        public AKContext(DbContextOptions<AKContext> options)
+          :base(options)
+        {}
 
         public DbSet<Page> Pages { get; set; }
         public DbSet<Menu> Menus { get; set; }
