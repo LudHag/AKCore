@@ -58,12 +58,14 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.2" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="1.1.2" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="1.1.2" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="1.1.2" />
     <PackageReference Include="System.Data.SQLite" Version="1.0.105.2" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="wwwroot\js\" />
     <Folder Include="wwwroot\js\" />
+    <Folder Include="wwwroot\media\" />
   </ItemGroup>
 
   <Target Name="PrepublishScript" BeforeTargets="PrepareForPublish">

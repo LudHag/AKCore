@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AKCore.DataModel
 {
@@ -30,6 +31,7 @@ namespace AKCore.DataModel
     public class Page
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }
@@ -46,6 +48,7 @@ namespace AKCore.DataModel
     public class Menu
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [Required]
         [StringLength(450)]
@@ -59,6 +62,7 @@ namespace AKCore.DataModel
     public class SubMenu
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [Required]
         [StringLength(450)]
@@ -69,6 +73,7 @@ namespace AKCore.DataModel
     public class Media
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string Name { get; set; }
         public string Type { get; set; }
@@ -83,6 +88,7 @@ namespace AKCore.DataModel
     public class Album
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string Name { get; set; }
         public string Image { get; set; }
@@ -94,6 +100,7 @@ namespace AKCore.DataModel
     public class Track
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public int Number { get; set; }
         public string FileName { get; set; }
@@ -109,6 +116,7 @@ namespace AKCore.DataModel
     public class Recruit
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -123,6 +131,7 @@ namespace AKCore.DataModel
     public class Hire
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
@@ -135,6 +144,7 @@ namespace AKCore.DataModel
     public class Event
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [Required]
         [StringLength(450)]
@@ -167,6 +177,7 @@ namespace AKCore.DataModel
     public class SignUp
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [Required]
         public string Person { get; set; }

@@ -12,7 +12,8 @@ namespace AKCore.Migrations
                 name: "AspNetUsers",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
+                    Id = table.Column<string>(nullable: false)
+                        .Annotation("MySql:ValueGeneratedOnAdd", true),
                     AccessFailedCount = table.Column<int>(nullable: false),
                     Adress = table.Column<string>(nullable: true),
                     City = table.Column<string>(nullable: true),
@@ -20,6 +21,7 @@ namespace AKCore.Migrations
                     Email = table.Column<string>(maxLength: 256, nullable: true),
                     EmailConfirmed = table.Column<bool>(nullable: false),
                     FirstName = table.Column<string>(nullable: true),
+                    GivenMedal = table.Column<string>(nullable: true),
                     Instrument = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
@@ -49,7 +51,7 @@ namespace AKCore.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("MySql:ValueGeneratedOnAdd", true),
                     Created = table.Column<DateTime>(nullable: false),
                     Image = table.Column<string>(nullable: true),
                     Name = table.Column<string>(nullable: true),
@@ -65,7 +67,7 @@ namespace AKCore.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("MySql:ValueGeneratedOnAdd", true),
                     Day = table.Column<DateTime>(nullable: false),
                     Description = table.Column<string>(nullable: true),
                     Fika = table.Column<string>(nullable: true),
@@ -73,6 +75,7 @@ namespace AKCore.Migrations
                     InternalDescription = table.Column<string>(nullable: true),
                     Name = table.Column<string>(maxLength: 450, nullable: false),
                     Place = table.Column<string>(nullable: true),
+                    Secret = table.Column<bool>(nullable: false),
                     Stand = table.Column<string>(nullable: true),
                     Starts = table.Column<DateTime>(nullable: false),
                     There = table.Column<DateTime>(nullable: false),
@@ -88,7 +91,7 @@ namespace AKCore.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("MySql:ValueGeneratedOnAdd", true),
                     Archived = table.Column<bool>(nullable: false),
                     Created = table.Column<DateTime>(nullable: false),
                     Email = table.Column<string>(nullable: true),
@@ -106,7 +109,7 @@ namespace AKCore.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("MySql:ValueGeneratedOnAdd", true),
                     Created = table.Column<DateTime>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     Tag = table.Column<string>(nullable: true),
@@ -122,7 +125,7 @@ namespace AKCore.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("MySql:ValueGeneratedOnAdd", true),
                     BalettOnly = table.Column<bool>(nullable: false),
                     LoggedIn = table.Column<bool>(nullable: false),
                     LoggedOut = table.Column<bool>(nullable: false),
@@ -140,7 +143,7 @@ namespace AKCore.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("MySql:ValueGeneratedOnAdd", true),
                     Archived = table.Column<bool>(nullable: false),
                     Created = table.Column<DateTime>(nullable: false),
                     Email = table.Column<string>(nullable: true),
@@ -159,7 +162,8 @@ namespace AKCore.Migrations
                 name: "AspNetRoles",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
+                    Id = table.Column<string>(nullable: false)
+                        .Annotation("MySql:ValueGeneratedOnAdd", true),
                     ConcurrencyStamp = table.Column<string>(nullable: true),
                     Name = table.Column<string>(maxLength: 256, nullable: true),
                     NormalizedName = table.Column<string>(maxLength: 256, nullable: true)
@@ -188,7 +192,7 @@ namespace AKCore.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("MySql:ValueGeneratedOnAdd", true),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true),
                     UserId = table.Column<string>(nullable: false)
@@ -229,10 +233,11 @@ namespace AKCore.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("MySql:ValueGeneratedOnAdd", true),
                     AlbumId = table.Column<int>(nullable: true),
                     Created = table.Column<DateTime>(nullable: false),
                     FileName = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: true),
                     Number = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -251,7 +256,7 @@ namespace AKCore.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("MySql:ValueGeneratedOnAdd", true),
                     Car = table.Column<bool>(nullable: false),
                     Comment = table.Column<string>(nullable: true),
                     EventId = table.Column<int>(nullable: true),
@@ -279,7 +284,7 @@ namespace AKCore.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("MySql:ValueGeneratedOnAdd", true),
                     LinkId = table.Column<int>(nullable: true),
                     LoggedIn = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(maxLength: 450, nullable: false),
@@ -301,7 +306,7 @@ namespace AKCore.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("MySql:ValueGeneratedOnAdd", true),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true),
                     RoleId = table.Column<string>(nullable: false)
@@ -346,7 +351,7 @@ namespace AKCore.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("MySql:ValueGeneratedOnAdd", true),
                     LinkId = table.Column<int>(nullable: true),
                     MenuId = table.Column<int>(nullable: true),
                     Name = table.Column<string>(maxLength: 450, nullable: false),

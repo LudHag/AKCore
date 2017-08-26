@@ -247,3 +247,4 @@ ModelManifest.xml
 .fake/
 /src/AKCore/wwwroot/js/
 /src/AKCore/wwwroot/css/
+appsettings.json

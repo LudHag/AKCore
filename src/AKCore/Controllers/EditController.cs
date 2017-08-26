@@ -66,8 +66,8 @@ namespace AKCore.Controllers
         [Authorize(Roles = "SuperNintendo,Editor")]
         public ActionResult Page(string id)
         {
-            int.TryParse(id, out int pId);
-            if (pId == 0)
+            
+            if (!int.TryParse(id, out int pId))
             {
                 return Redirect("/Edit");
             }

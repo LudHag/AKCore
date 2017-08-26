@@ -8,8 +8,8 @@ using AKCore.DataModel;
 namespace AKCore.Migrations
 {
     [DbContext(typeof(AKContext))]
-    [Migration("20170727162441_track-name")]
-    partial class trackname
+    [Migration("20170826135641_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

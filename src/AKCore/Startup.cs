@@ -28,9 +28,7 @@ namespace AKCore
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var connection = $"Filename={Path.Combine(CurrentEnvironment.ContentRootPath, "akdb.db")}";
-
-            services.AddDbContext<AKContext>(options => options.UseSqlite(connection)); 
+            services.AddDbContext<AKContext>(options => options.UseMySql(Configuration["DbConnectionString"]));
             services.AddMvc();
             services.AddRouting();
             services.AddMemoryCache();
