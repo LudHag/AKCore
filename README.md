@@ -7,11 +7,11 @@ Rekomenderas inte att installera med äldre verktyg.
 Om du rensar databasen som kommer med i versionshanteringen så behöver du skapa initiala användare med /account/initnintendo Då skapas bla användaren nintendo med lösen 123456.
 
 # Databas orm:
-[Entityframeworkcore](https://docs.efproject.net/en/latest/) med [SQLite](http://ef.readthedocs.io/en/latest/providers/sqlite/). <br />
+[Entityframeworkcore](https://docs.efproject.net/en/latest/) med [Mysql](https://www.mysql.com/). <br />
 EFCore gillar att man använder .Include() då EF core ej har [lazyloading](https://docs.efproject.net/en/latest/querying/related-data.html) av referenser.
 
-SQLite saknar också förmågan att ta bort kolumner ur Databasen vilket gör att många migrationer misslyckas. Lös genom att ta bort db och migrationer och gör sedan en Add-Migration och Update-Database. Eller så kan man byta till en annan db. <br />
-![xkcdbild](http://imgs.xkcd.com/comics/git.png)
+Produktionsdatabas ligger i Amazons RDS. För lokal utveckling kan man skapa en lokal mysqldb. För att sätta upp den så kopierar man 
+appsettings.json.example och tar bort .example samt ersätter connectionsträngen med den som ska användas. EWfter det kör man Update-Database i package manager console.
 
 Migrationer hanteras med Add-Migration och Update-Database i package manager console.
 

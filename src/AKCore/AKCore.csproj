@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="appsettings.json.example" />
     <Content Include="wwwroot\css\images\chosen-sprite.png" />
     <Content Include="wwwroot\css\images\chosen-sprite@2x.png" />
     <Content Include="wwwroot\fonts\bootstrap\glyphicons-halflings-regular.eot" />

@@ -1,0 +1,3 @@
+{
+  "DbConnectionString": "Server=endpoint;database=dbname;uid=user;pwd=password;"
+}
