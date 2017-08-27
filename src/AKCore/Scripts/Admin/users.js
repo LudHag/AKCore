@@ -110,7 +110,7 @@ if (usertable.length > 0) {
 
     $("#search-user-form").on("submit", function (e) {
         e.preventDefault();
-        updateUserList($("#searchtext").val());
+        updateUserList($("#searchtext").val(), $("#inactive-members").val());
     });
 
 
@@ -267,8 +267,8 @@ if (usertable.length > 0) {
 
 }
 
-function updateUserList(search) {
-    $.get("/User/UserList?SearchPhrase=" + search,
+function updateUserList(search, inactive) {
+    $.get("/User/UserList?SearchPhrase=" + search + "&Inactive=" + inactive,
         function(data) {
             $("#user-table").empty().append(data);
             $('[data-toggle="tooltip"]').tooltip();

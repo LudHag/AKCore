@@ -14,6 +14,15 @@
 {
     var roles = Model.Roles[u.UserName] as IList<string>;
     var posts = Model.Posts[u.UserName] as IList<string>;
+    if (roles == null)
+    {
+        roles = new List<string>();
+    }
+
+    if (posts == null)
+    {
+        posts = new List<string>();
+    }
     var fullName = u.FirstName != null && u.LastName != null ? u.FirstName + " " + u.LastName : u.UserName;
 
     <tr data-toggle="collapse" data-target="#accordion-@u.UserName" class="clickable collapsed hover-grey">

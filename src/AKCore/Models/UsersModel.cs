@@ -8,6 +8,7 @@ namespace AKCore.Models
     {
         public IList<AkUser> Users { get; set; }
         public string SearchPhrase { get; set; }
+        public bool Inactive { get; set; }
         public Hashtable Roles { get; set; }
         public Hashtable Posts { get; set; }
 

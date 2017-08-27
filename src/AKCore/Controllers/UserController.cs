@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Microsoft.EntityFrameworkCore;
 
 namespace AKCore.Controllers
 {
@@ -43,13 +44,22 @@ namespace AKCore.Controllers
 
         private async Task PopulateModel(UsersModel model)
         {
-            var users = _userManager.Users.ToList();
+            IList<AkUser> users;
+            if (model.Inactive)
+            {
+                users = _userManager.Users.Include(u => u.Roles).ToList();
+
+            }
+            else {
+                users = await _userManager.GetUsersInRoleAsync(AkRoles.Medlem);
+            }
             if (model.SearchPhrase != null)
                 users =
-                    users.Where(
-                        x =>
-                            x.UserName.Contains(model.SearchPhrase) ||
-                            (x.FirstName + ' ' + x.LastName).Contains(model.SearchPhrase)).OrderBy(x=>x.FirstName).ToList();
+                    users
+                        .Where(
+                            x =>
+                                x.UserName.Contains(model.SearchPhrase) ||
+                                (x.FirstName + ' ' + x.LastName).Contains(model.SearchPhrase)).ToList();
             foreach (var user in users)
             {
                 model.Roles[user.UserName] = await _userManager.GetRolesAsync(user);
@@ -58,7 +68,7 @@ namespace AKCore.Controllers
                     : new List<string>();
             }
 
-            model.Users = users;
+            model.Users = users.OrderBy(x => x.FirstName).ToList();
         }
 
         [Route("EditUserInfo")]
