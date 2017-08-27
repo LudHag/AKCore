@@ -25,7 +25,7 @@
     }
     var fullName = u.FirstName != null && u.LastName != null ? u.FirstName + " " + u.LastName : u.UserName;
 
-    <tr data-toggle="collapse" data-target="#accordion-@u.UserName" class="clickable collapsed hover-grey">
+    <tr data-toggle="collapse" data-target="#accordion-@u.Id" class="clickable collapsed hover-grey">
         <td>@fullName</td>
         <td>@u.Email</td>
         <td class="roles" id="roles-@u.UserName">
@@ -40,7 +40,7 @@
     </tr>
     <tr>
         <td colspan="4">
-            <div id="accordion-@u.UserName" class="collapse user-edit">
+            <div id="accordion-@u.Id" class="collapse user-edit">
                 <div class="user-edit-area row">
                     <div class="col-sm-6">
                         <p>Användarinfo:</p>
