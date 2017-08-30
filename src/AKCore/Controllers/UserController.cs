@@ -28,30 +28,33 @@ namespace AKCore.Controllers
             _userManager = userManager;
         }
 
-        public async Task<ActionResult> Index(UsersModel model)
+        public ActionResult Index(UsersModel model)
         {
             ViewBag.Title = "Användare";
-            await PopulateModel(model);
+            PopulateModel(model);
             return View(model);
         }
 
         [Route("UserList")]
-        public async Task<ActionResult> UserList(UsersModel model)
+        public ActionResult UserList(UsersModel model)
         {
-            await PopulateModel(model);
+            PopulateModel(model);
             return PartialView("_UserList", model);
         }
 
-        private async Task PopulateModel(UsersModel model)
+        private void PopulateModel(UsersModel model)
         {
             IList<AkUser> users;
+            var roles = _roleManager.Roles.ToList();
+
             if (model.Inactive)
             {
                 users = _userManager.Users.Include(u => u.Roles).ToList();
 
             }
-            else {
-                users = await _userManager.GetUsersInRoleAsync(AkRoles.Medlem);
+            else
+            {
+                users = _userManager.Users.Include(u => u.Roles).Where(x => x.Roles.Count > 0).ToList();
             }
             if (model.SearchPhrase != null)
                 users =
@@ -62,7 +65,9 @@ namespace AKCore.Controllers
                                 (x.FirstName + ' ' + x.LastName).Contains(model.SearchPhrase)).ToList();
             foreach (var user in users)
             {
-                model.Roles[user.UserName] = await _userManager.GetRolesAsync(user);
+                var uRoles = (from role in user.Roles select roles.FirstOrDefault(x => x.Id == role.RoleId) into t where t != null select t.Name).ToList();
+
+                model.Roles[user.UserName] = uRoles;
                 model.Posts[user.UserName] = user.SlavPoster != null
                     ? JsonConvert.DeserializeObject<List<string>>(user.SlavPoster)
                     : new List<string>();

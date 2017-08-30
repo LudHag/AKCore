@@ -110,7 +110,7 @@ if (usertable.length > 0) {
 
     $("#search-user-form").on("submit", function (e) {
         e.preventDefault();
-        updateUserList($("#searchtext").val(), $("#inactive-members").val());
+        updateUserList($("#searchtext").val(), $('#inactive-members').is(':checked'));
     });
 
 
