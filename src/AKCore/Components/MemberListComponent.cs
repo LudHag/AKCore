@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace AKCore.Components
 {
@@ -22,17 +23,13 @@ namespace AKCore.Components
             _roleManager = roleManager;
         }
 
-        public async System.Threading.Tasks.Task<IViewComponentResult> InvokeAsync()
+        public async Task<IViewComponentResult> InvokeAsync()
         {
-            var role = await _roleManager.FindByNameAsync("Medlem");
-
-            var userQuery = _userManager.Users.Include(u => u.Roles)
-                .Where(x => x.Instrument != null)
-                .Where(x => x.Roles.Select(z=>z.RoleId).Contains(role.Id));
-
+            var users = (await _userManager.GetUsersInRoleAsync("Medlem")).Where(x => x.Instrument != null);
+               
             var model = new MemberListModel
             {
-                Users = userQuery.OrderBy(x => x.FirstName).GroupBy(x => x.Instrument).ToList()
+                Users = users.OrderBy(x => x.FirstName).GroupBy(x => x.Instrument).ToList()
             };
 
             return View(model);
