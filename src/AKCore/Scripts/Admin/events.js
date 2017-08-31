@@ -107,6 +107,20 @@
                 }
             });
 
+    $("#admin-event-list")
+        .on("click",
+            ".pagination li",
+            function (e) {
+                e.preventDefault();
+                var self = $(this);
+                if (!self.hasClass("active")) {
+                    $("#admin-event-list .active").removeClass("active");
+                    self.addClass("active");
+                    reloadEventPage(self.data("page"));
+                }
+            });
+
+
     $('.datepicker').datepicker();
     $('#Day').val('');
 
@@ -138,6 +152,13 @@ function clearEventModal() {
 function reloadEvents(searchString,sort) {
     $.get('?SearchString=' + searchString + '&Future='+sort,
         function(data) {
+            $('#admin-event-list').empty().append($(data).find('#admin-event-list').children());
+        });
+}
+
+function reloadEventPage(page) {
+    $.get('?Future=' + $('#sort-future-select').val() + '&page=' + page,
+        function (data) {
             $('#admin-event-list').empty().append($(data).find('#admin-event-list').children());
         });
 }

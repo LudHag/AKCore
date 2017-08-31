@@ -34,5 +34,8 @@ namespace AKCore.Models
         public DateTime Starts { get; set; }
         [Display(Name = "Stå- eller gåspelning")]
         public string Stand { get; set; }
+
+        public int TotalPages { get; set; }
+        public int CurrentPage { get; set; }
     }
 }

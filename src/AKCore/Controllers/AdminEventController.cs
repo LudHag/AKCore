@@ -34,11 +34,16 @@ namespace AKCore.Controllers
                 pId = tpId;
             }
 
-            eventsQuery = eventsQuery.Skip(20 * (pId - 1)).Take(20);
+            var totalPages = ((eventsQuery.Count() - 1) / 20) + 1;
 
+            var events = eventsQuery.Skip(20 * (pId - 1)).Take(20).ToList();
 
-
-            var model = new AdminEventModel {Events = eventsQuery.ToList()};
+            var model = new AdminEventModel
+            {
+                Events = events,
+                TotalPages = totalPages,
+                CurrentPage = pId
+            };
             return View(model);
         }
 

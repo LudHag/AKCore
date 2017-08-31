@@ -38,6 +38,13 @@
             </div>
         </div>
     }
+    <div class="col-xs-12">
+        <ul class="pagination">
+            @for(var i = 1; i <= Model.TotalPages; i++) {
+                <li class="@(Model.CurrentPage == i ? "active" : "")" data-page="@i"><a href="#">@i</a></li>
+            }
+        </ul>
+    </div>
 </div>
 <div id="edit-event-modal" class="modal fade">
     <div class="modal-dialog">
