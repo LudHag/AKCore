@@ -19,7 +19,7 @@ namespace AKCore.Controllers
         {
             _db = db;
         }
-        public ActionResult Index(string Future)
+        public ActionResult Index(string Future, string page)
         {
             ViewBag.Title = "Profil";
             IQueryable<Event> eventsQuery;
@@ -27,6 +27,15 @@ namespace AKCore.Controllers
                 eventsQuery = _db.Events.OrderByDescending(x => x.Day).Where(x => x.Day < DateTime.UtcNow.Date);
             else
                 eventsQuery = _db.Events.OrderBy(x => x.Day).Where(x => x.Day >= DateTime.UtcNow.Date);
+
+            var pId = 1;
+            if (int.TryParse(page, out var tpId))
+            {
+                pId = tpId;
+            }
+
+            eventsQuery = eventsQuery.Skip(20 * (pId - 1)).Take(20);
+
 
 
             var model = new AdminEventModel {Events = eventsQuery.ToList()};
