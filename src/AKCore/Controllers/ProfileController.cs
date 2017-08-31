@@ -49,7 +49,7 @@ namespace AKCore.Controllers
                 Instrument = user.Instrument,
                 OtherInstrument = string.IsNullOrWhiteSpace(user.OtherInstruments) ? null : user.OtherInstruments.Split(',').ToList(),
                 Facebook = logins.Any(x=>x.LoginProvider=="Facebook"),
-                Poster = user.SlavPoster != null ? JsonConvert.DeserializeObject<List<string>>(user.SlavPoster) : new List<string>(),
+                Poster = !string.IsNullOrWhiteSpace(user.SlavPoster) ? JsonConvert.DeserializeObject<List<string>>(user.SlavPoster) : new List<string>(),
                 Roles = await _userManager.GetRolesAsync(user),
                 Medal = user.Medal,
                 GivenMedal = user.GivenMedal
