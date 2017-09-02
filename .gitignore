@@ -247,4 +247,6 @@ ModelManifest.xml
 .fake/
 /src/AKCore/wwwroot/js/
 /src/AKCore/wwwroot/css/
+/src/AKCore/wwwroot/album/
+/src/AKCore/wwwroot/media/
 appsettings.json
