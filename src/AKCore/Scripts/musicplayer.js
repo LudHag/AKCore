@@ -90,10 +90,16 @@ MusicPlayer.prototype.createAlbums = function() {
     var self = this;
     var albumsContainer = $('<div class="album-list"></div>');
     var albumKeys = Object.keys(this.albums);
+    var nameKeyMap = {};
     albumKeys.forEach(function(key) {
-        var album = self.albums[key];
-        albumsContainer.append('<div class="album-element"><a class="album-link" data-id="' + key +'" href="#"><img class="album-img" src="' + album.image + '" /><p class="album-name">' + album.name + '</p></a></div>');
+        nameKeyMap[self.albums[key].name] = key;
     });
+    Object.keys(nameKeyMap).sort().forEach(function(name) {
+        var key = nameKeyMap[name];
+        var album = self.albums[key];
+        albumsContainer.append('<div class="album-element"><a class="album-link" data-id="' + key + '" href="#"><img class="album-img" src="' + album.image + '" /><p class="album-name">' + album.name + '</p></a></div>');
+    });
+
     this.element.append(albumsContainer);
 };
 MusicPlayer.prototype.createPlayer = function () {
