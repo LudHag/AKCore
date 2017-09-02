@@ -109,7 +109,9 @@ namespace AKCore.DataModel
 
         public string GetDisplayName()
         {
-            return string.IsNullOrWhiteSpace(Name) ? FileName.Split('.')[0].Replace('_',' ') : Name;
+            if (!string.IsNullOrWhiteSpace(Name)) return Name;
+            var parts = FileName.Split('.');
+            return parts[parts.Length - 2].Replace('_', ' ');
         }
     }
 

@@ -32,7 +32,7 @@ namespace AKCore.Controllers
 
             var model = new AlbumEditModel
             {
-                Albums = _db.Albums.Include(x => x.Tracks).ToList()
+                Albums = _db.Albums.Include(x => x.Tracks).OrderBy(x=>x.Name).ToList()
             };
             return View(model);
         }
