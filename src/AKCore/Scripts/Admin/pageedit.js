@@ -155,6 +155,19 @@ $("#picker-images")
             }
         });
 
+$("#picker-files")
+    .on("click",
+        ".pagination li",
+        function (e) {
+            e.preventDefault();
+            var self = $(this);
+            if (!self.hasClass("active")) {
+                $("#filePickerModal .pagination li").removeClass("active");
+                self.addClass("active");
+                updateFilePickerSearch();
+            }
+        });
+
 $("#search-pickermedia-form")
     .on("submit",
         function(e) {
