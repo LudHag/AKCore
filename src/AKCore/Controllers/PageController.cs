@@ -44,7 +44,12 @@ namespace AKCore.Controllers
             {
                 page = _db.Pages.FirstOrDefault(x => x.Slug == ("/" + slug));
             }
-            if (page == null)
+            if (slug == "teapot")
+            {
+                Response.StatusCode = 418;
+                return View("Teapot");
+            }
+            else if (page == null)
             {
                 Response.StatusCode = 404;
                 return View("Error");
