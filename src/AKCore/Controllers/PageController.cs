@@ -46,6 +46,7 @@ namespace AKCore.Controllers
             }
             if (page == null)
             {
+                Response.StatusCode = 404;
                 return View("Error");
             }
             if (page.LoggedIn && !loggedIn)
