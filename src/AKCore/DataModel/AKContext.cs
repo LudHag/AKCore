@@ -43,6 +43,7 @@ namespace AKCore.DataModel
         public bool LoggedIn { get; set; }
         public bool LoggedOut { get; set; }
         public bool BalettOnly { get; set; }
+        public DateTime LastModified { get; set; }
     }
   
     public class Menu

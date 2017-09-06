@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -21,6 +22,7 @@ namespace AKCore.Models
         [DisplayName("Enbart balett")]
         public bool BalettOnly { get; set; }
         public string Template { get; set; }
+        public DateTime LastModified { get; set; }
         public IList<Album> Albums { get; set; }
         public IList<Widget> Widgets { get; set; }
     }

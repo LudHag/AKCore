@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using AKCore.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
@@ -54,7 +55,8 @@ namespace AKCore.Controllers
             {
                 Name = name,
                 Slug = slug,
-                LoggedIn = loggedIn=="on"
+                LoggedIn = loggedIn=="on",
+                LastModified = DateTime.Now
             };
             _db.Pages.Add(page);
             _db.SaveChanges();
@@ -80,6 +82,7 @@ namespace AKCore.Controllers
             {
                 Name = page.Name,
                 Slug = page.Slug,
+                LastModified = page.LastModified,
                 WidgetsJson = page.WidgetsJson,
                 Albums = _db.Albums.ToList(),
                 LoggedIn = page.LoggedIn,
@@ -117,6 +120,7 @@ namespace AKCore.Controllers
             page.LoggedIn = model.LoggedIn;
             page.LoggedOut = model.LoggedOut;
             page.BalettOnly = model.BalettOnly;
+            page.LastModified = DateTime.Now;
             _db.SaveChanges();
 
             return Json(new { success = true, message = "Uppdaterade sidan framgångsrikt" });
