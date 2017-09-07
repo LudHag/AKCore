@@ -6,6 +6,7 @@
     Layout = "~/Views/Shared/_MasterLayout.cshtml";
     var culture = new CultureInfo("sv");
     ViewBag.Member = Model.Medlem;
+    ViewData["Description"] = @"Alte kamererens kommande spelnigar. Se oss på plats!";
 }
 @if (Model.LoggedIn)
 {

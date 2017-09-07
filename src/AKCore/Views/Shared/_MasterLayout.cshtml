@@ -6,9 +6,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alte Kamereren - @ViewData["Title"]</title>
-    <meta name="description" content="Musikalliansen Alte Kamereren består av studenter från Lunds Universitet och Lunds Tekniska Högskola. I alliansen ingår den förträffliga studentorkestern Alte Kamereren och den underbara Kamrérbaletten.">
     <meta property="og:title" content="Alte Kamereren - @ViewData["Title"]" />
-    <meta property="og:description" content="Musikalliansen Alte Kamereren består av studenter från Lunds Universitet och Lunds Tekniska Högskola. I alliansen ingår den förträffliga studentorkestern Alte Kamereren och den underbara Kamrérbaletten." />
+    @if (ViewData["Description"] != null) { 
+        <meta property="og:description" content="@ViewData["Description"]" />
+        <meta name="description" content="@ViewData["Description"]">
+    }
     <meta property="og:image" content="/images/OG.png" />
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
