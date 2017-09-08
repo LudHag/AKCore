@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Hosting;
 namespace AKCore.Controllers
 {
     [Route("Profile")]
-    [Authorize(Roles = "Medlem")]
+    [Authorize]
     public class ProfileController : Controller
     {
         private readonly SignInManager<AkUser> _signInManager;
