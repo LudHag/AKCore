@@ -20,6 +20,8 @@ namespace AKCore.Models
 
         public bool IsNintendo { get; set; }
 
+        public IList<AkUser> Members { get; set; }
+
         public Event Event { get; set; }
 
         public IList<SignUp> Comming()

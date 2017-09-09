@@ -29,7 +29,7 @@ namespace AKCore.Components
                
             var model = new MemberListModel
             {
-                Users = users.OrderBy(x => x.FirstName).GroupBy(x => x.Instrument).ToList()
+                Users = users.OrderBy(x => x.FirstName).GroupBy(x => x.Instrument).OrderBy(x=>x.Key).ToList()
             };
 
             return View(model);

@@ -1,4 +1,5 @@
 ﻿@using System.Globalization
+@using AKCore.DataModel
 @model AKCore.Models.SignUpModel
 @{
     Layout = "~/Views/Shared/_MasterLayout.cshtml";
@@ -79,6 +80,12 @@
                 }
             }
         </div>
+        @if (Model.IsNintendo)
+        {
+            <div class="col-sm-12">
+                <a href="#" id="admin-add-signups" class="btn btn-default">Lägg till anmälningar</a>
+            </div>
+        }
     </div>
 </div>
 <div id="signup-list">
@@ -141,3 +148,53 @@
         </div>
     }
 </div>
+@if (Model.IsNintendo)
+{
+    <div id="edit-signup-modal" class="modal fade">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Lägg till anmälan</h4>
+                </div>
+                <form id="edit-signup-form" action="/Upcoming/EditSignup" method="POST">
+                    <div class="modal-body">
+                        <div class="alert alert-success" style="display: none;">
+                        </div>
+                        <div class="alert alert-danger" style="display: none;">
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <input type="hidden" name="eventId" value="@e.Id">
+                                <div class="form-group">
+                                    <label>Medlem</label>
+                                    <select name="memberId" class="form-control" required>
+                                        <option value="">Välj en medlem</option>
+                                        @foreach (var m in Model.Members)
+                                        {
+                                            <option value="@m.Id">@m.FirstName @m.LastName</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Status</label>
+                                    <select class="form-control" name="type" required>
+                                        <option value="">Välj anmälningstyp</option>
+                                        @foreach (var type in AkSignupType.Types)
+                                        {
+                                            <option>@type</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" type="reset">Återställ</button>
+                        <button type="submit" class="btn btn-primary">Spara</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+}

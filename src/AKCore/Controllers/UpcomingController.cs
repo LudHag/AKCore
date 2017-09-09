@@ -94,8 +94,35 @@ namespace AKCore.Controllers
             return File(bytes, "application/octet-stream", "akevents.ics");
         }
 
+        [Route("EditSignup")]
+        [Authorize(Roles = AkRoles.SuperNintendo)]
+        [HttpPost]
+        public ActionResult EditSignup(string eventId, string memberId, string type)
+        {
+            if(!int.TryParse(eventId, out var eIdInt) || string.IsNullOrWhiteSpace(type) || string.IsNullOrWhiteSpace(memberId)) return Json(new { success = false, message="Felaktig data" });
+            var e = _db.Events.Include(x=>x.SignUps).FirstOrDefault(x => x.Id == eIdInt);
+            var member = _db.Users.FirstOrDefault(x => x.Id == memberId);
+            var signUp = e.SignUps.FirstOrDefault(x => x.Person == member.UserName);
+            if (signUp != null)
+            {
+                signUp.Where = type;
+                signUp.InstrumentName = member.Instrument;
+            }
+            else
+            {
+                e.SignUps.Add(new SignUp()
+                {
+                    Person = member.UserName,
+                    PersonName = member.GetName(),
+                    Where = type,
+                    InstrumentName = member.Instrument
+                });
+            }
+            _db.SaveChanges();
+            return Json(new {success = true});
+        }
+
         [Route("Event/{id:int}")]
-        [Authorize]
         [Authorize(Roles = "Medlem")]
         public async Task<ActionResult> Event(SignUpModel model, string id)
         {
@@ -118,11 +145,16 @@ namespace AKCore.Controllers
             model.IsNintendo = nintendo;
             model.Event = spelning;
 
+            if (nintendo)
+            {
+                model.Members = await _userManager.GetUsersInRoleAsync(AkRoles.Medlem);
+            }
+
+
             return View(model);
         }
 
         [Route("Signup/{id:int}")]
-        [Authorize]
         [Authorize(Roles = "Medlem")]
         public async Task<ActionResult> SignUp(SignUpModel model, string id)
         {
