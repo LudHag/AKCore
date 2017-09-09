@@ -272,6 +272,7 @@ function updateUserList(search, inactive) {
         function(data) {
             $("#user-table").empty().append(data);
             $('[data-toggle="tooltip"]').tooltip();
+            $('.add-post .multi-select').multiSelect({});
         });
 }
 
