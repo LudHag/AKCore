@@ -133,6 +133,7 @@ namespace AKCore.Controllers
                 {
                     Person = member.UserName,
                     PersonName = member.GetName(),
+                    SignupTime = DateTime.Now,
                     Where = type,
                     InstrumentName = member.Instrument
                 });
@@ -166,7 +167,7 @@ namespace AKCore.Controllers
 
             if (nintendo)
             {
-                model.Members = (await _userManager.GetUsersInRoleAsync(AkRoles.Medlem)).OrderBy(x=>x.FirstName).ToList();
+                model.Members = (await _userManager.GetUsersInRoleAsync(AkRoles.Medlem)).OrderBy(x=>x.FirstName).ThenBy(x=>x.LastName).ToList();
             }
 
             return View(model);
