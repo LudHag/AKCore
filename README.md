@@ -11,11 +11,9 @@ Om du rensar databasen som kommer med i versionshanteringen så behöver du skap
 EFCore gillar att man använder .Include() då EF core ej har [lazyloading](https://docs.efproject.net/en/latest/querying/related-data.html) av referenser.
 
 Produktionsdatabas ligger i Amazons RDS. För lokal utveckling kan man skapa en lokal mysqldb. För att sätta upp den så kopierar man 
-appsettings.json.example och tar bort .example samt ersätter connectionsträngen med den som ska användas. EWfter det kör man Update-Database i package manager console.
+appsettings.json.example och tar bort .example samt ersätter connectionsträngen med den som ska användas. Efter det kör man Update-Database i package manager console.
 
 Migrationer hanteras med Add-Migration och Update-Database i package manager console.
-
-Använd gärna annan databas via EF men mysql har än så länge inget stöd i CORE.
 
 # Användare:
 identity: 
