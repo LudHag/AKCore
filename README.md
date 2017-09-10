@@ -4,7 +4,7 @@ Utvecklat med VS 2017
 
 Rekomenderas inte att installera med äldre verktyg.
 
-Om du rensar databasen som kommer med i versionshanteringen så behöver du skapa initiala användare med /account/initnintendo Då skapas bla användaren nintendo med lösen 123456.
+När du sätter upp en lokal utvecklingsmiljö så behöver du lägga till en initial användare med /account/initnintendo . Då skapas bla användaren nintendo med lösen 123456.
 
 # Databas orm:
 [Entityframeworkcore](https://docs.efproject.net/en/latest/) med [Mysql](https://www.mysql.com/). <br />
