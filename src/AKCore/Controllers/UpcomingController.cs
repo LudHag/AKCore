@@ -84,8 +84,8 @@ namespace AKCore.Controllers
                 
                 var dtEnd = dtStart.AddHours(1);
                 sb.AppendLine("BEGIN:VEVENT");
-                sb.AppendLine("DTSTART:" + dtStart.ToString(DateFormat));
-                sb.AppendLine("DTEND:" + dtEnd.ToString(DateFormat));
+                sb.AppendLine("DTSTART:" + dtStart.ToUniversalTime().ToString(DateFormat));
+                sb.AppendLine("DTEND:" + dtEnd.ToUniversalTime().ToString(DateFormat));
                 sb.AppendLine("DTSTAMP:" + now);
                 sb.AppendLine("UID:" + Guid.NewGuid());
                 sb.AppendLine("CREATED:" + now);
