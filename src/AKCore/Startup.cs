@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -32,6 +34,14 @@ namespace AKCore
             services.AddMvc();
             services.AddRouting();
             services.AddMemoryCache();
+
+#if DEBUG
+#else
+            services.Configure<MvcOptions>(options =>
+            {
+                options.Filters.Add(new RequireHttpsAttribute());
+            });
+#endif
             services.AddSession();
             services.AddIdentity<AkUser, IdentityRole>(options =>
                 {
@@ -60,6 +70,12 @@ namespace AKCore
             {
                 app.UseExceptionHandler("/Page/Error");
             }
+
+#if DEBUG
+#else
+            var options = new RewriteOptions().AddRedirectToHttps();
+            app.UseRewriter(options);
+#endif
 
             app.UseStaticFiles();
             app.UseSession();

@@ -147,9 +147,8 @@ namespace AKCore.Controllers
 
             if (nintendo)
             {
-                model.Members = await _userManager.GetUsersInRoleAsync(AkRoles.Medlem);
+                model.Members = (await _userManager.GetUsersInRoleAsync(AkRoles.Medlem)).OrderBy(x=>x.FirstName).ToList();
             }
-
 
             return View(model);
         }
