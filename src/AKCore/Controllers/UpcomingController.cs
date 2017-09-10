@@ -59,6 +59,7 @@ namespace AKCore.Controllers
                         .Include(x => x.SignUps)
                         .Where(x => x.Day >= DateTime.UtcNow.Date);
 
+
             var sb = new StringBuilder();
             var DateFormat = "yyyyMMddTHHmmssZ";
             var now = DateTime.Now.ToUniversalTime().ToString(DateFormat);
@@ -71,7 +72,16 @@ namespace AKCore.Controllers
             sb.AppendLine("METHOD:PUBLISH");
             foreach (var res in events)
             {
-                var dtStart = res.Day.Date + res.Starts.TimeOfDay;
+                var dtStart = res.Day.Date;
+                if (res.Type == AkEventTypes.Spelning)
+                {
+                    dtStart += res.Starts.TimeOfDay;
+                }
+                else
+                {
+                    dtStart += res.Halan.TimeOfDay;
+                }
+                
                 var dtEnd = dtStart.AddHours(1);
                 sb.AppendLine("BEGIN:VEVENT");
                 sb.AppendLine("DTSTART:" + dtStart.ToUniversalTime().ToString(DateFormat));
@@ -85,13 +95,22 @@ namespace AKCore.Controllers
                 sb.AppendLine("LOCATION:" + res.Place);
                 sb.AppendLine("SEQUENCE:0");
                 sb.AppendLine("STATUS:CONFIRMED");
-                sb.AppendLine("SUMMARY:" + res.Name);
+                sb.AppendLine("SUMMARY:" + GetName(res));
                 sb.AppendLine("TRANSP:OPAQUE");
                 sb.AppendLine("END:VEVENT");
             }
             sb.AppendLine("END:VCALENDAR");
             var bytes=Encoding.UTF8.GetBytes(sb.ToString());
             return File(bytes, "application/octet-stream", "akevents.ics");
+        }
+
+        private string GetName(Event e)
+        {
+            if (e.Type == AkEventTypes.Spelning || e.Type == AkEventTypes.Fest)
+            {
+                return e.Name;
+            }
+            return e.Type;
         }
 
         [Route("EditSignup")]
