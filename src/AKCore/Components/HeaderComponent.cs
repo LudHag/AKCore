@@ -36,6 +36,7 @@ namespace AKCore.Components
             var upcoming = new ModelMenu(loggedIn ? "På gång" : "Spelningar", "/Upcoming", true) {Id = 10003};
             modelMenus.Add(upcoming);
             var member = false;
+            var numberUnreadRecruits = 0;
             if (loggedIn)
             {
                 var user = await _userManager.FindByNameAsync(User.Identity.Name);
@@ -60,6 +61,7 @@ namespace AKCore.Components
                     adminMenu.Children.Add(new ModelMenu("Ändra skivor", "/AlbumEdit", true));
 
                     modelMenus.Add(adminMenu);
+                    numberUnreadRecruits = _db.Recruits.Count(x => x.Archived == false);
                 }
             }
 
@@ -69,7 +71,8 @@ namespace AKCore.Components
                 LoggedIn = loggedIn,
                 UserName = User.Identity.Name,
                 CurrentUrl = Request.Path.ToString(),
-                Member = member
+                Member = member,
+                Recruits = numberUnreadRecruits
             };
             return View(model);
         }

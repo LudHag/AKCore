@@ -14,8 +14,13 @@
             else
             {
                 <p>
-                
-                    Inloggad som 
+                    @if (Model.Recruits > 0) { 
+                        <a class="interested-notice" title="@Model.Recruits olästa intresseanmälningar" href="/Signup/Recruits">
+                            <span class="fa fa-exclamation-circle" aria-hidden="true"></span>
+                            <span class="text">@Model.Recruits</span>
+                        </a>
+                    }
+                    Inloggad som
                     @if (Model.UserName == "nintendo")
                     {
                         @: nintendo

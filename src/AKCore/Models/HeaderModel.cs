@@ -11,5 +11,6 @@ namespace AKCore.Models
         public string UserName { get; set; }
         public string CurrentUrl { get; set; }
         public bool Member { get; set; }
+        public int Recruits { get; set; }
     }
 }

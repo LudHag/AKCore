@@ -305,6 +305,19 @@ p.infobox {
     .ical-copy {
     }
 }
+.interested-notice {
+    margin-right: 30px;
+
+    .text {
+        color: #fff;
+    }
+
+    .fa {
+        font-size: 20px;
+        position: absolute;
+        left: -17px;
+    }
+}
 
 .content-wrapper .row.event-row {
     padding: 15px;
