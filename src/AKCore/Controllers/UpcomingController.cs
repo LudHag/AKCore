@@ -90,7 +90,7 @@ namespace AKCore.Controllers
                 sb.AppendLine("UID:" + Guid.NewGuid());
                 sb.AppendLine("CREATED:" + now);
                 sb.AppendLine("X-ALT-DESC;FMTTYPE=text/html:" + res.Description+ "<br/>" + res.InternalDescription);
-                sb.AppendLine("DESCRIPTION:" + res.Description + "\n" + res.InternalDescription);
+                sb.AppendLine("DESCRIPTION:" + res.Description + (!string.IsNullOrWhiteSpace(res.Description) ? "\\n" : "") + res.InternalDescription);
                 sb.AppendLine("LAST-MODIFIED:" + now);
                 sb.AppendLine("LOCATION:" + res.Place);
                 sb.AppendLine("SEQUENCE:0");
