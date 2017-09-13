@@ -370,6 +370,21 @@ p.infobox {
 }
 
 @media screen and (max-width: 767px) {
+    #adress-register .kamerer > div {
+        &.name-email {
+            width: 60%;
+            overflow: hidden;
+        }
+
+        &.phone-nation {
+            width: 40%;
+            text-align: right;
+            overflow: hidden;
+        }
+    }
+    .content-wrapper {
+        padding: 40px 7px;
+    }
     header {
         height: 85px;
 

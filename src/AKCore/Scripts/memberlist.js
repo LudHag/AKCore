@@ -91,12 +91,15 @@ Kamerer.prototype.renderPerson = function () {
     var kamrer = $('<div class="kamerer">');
     var group1 = $('<div class="name-email">');
     group1.append(this.pers.name + '<br><a href="mailto:' + this.pers.email + '">' + this.pers.email + '</a>');
-    var group2 = $('<div class="address">');
+    var group2 = $('<div class="address hidden-xs">');
     group2.append(this.pers.adress + '<br>' + this.pers.zip + ' ' + this.pers.city);
     var group3 = $('<div class="phone-nation">');
     group3.append(this.pers.nation + '<br><a href="tel:' + this.pers.phone + '">' + this.pers.phone + '</a>');
+    var group4 = $('<div class="address visible-xs">');
+    group4.append(this.pers.adress + '<span class="pull-right">' + this.pers.zip + ' ' + this.pers.city + '</span>');
     kamrer.append(group1);
     kamrer.append(group2);
     kamrer.append(group3);
+    kamrer.append(group4);
     return kamrer;
 };
