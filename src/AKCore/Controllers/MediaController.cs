@@ -138,6 +138,7 @@ namespace AKCore.Controllers
             var filename = ContentDispositionHeaderValue
                 .Parse(file.ContentDisposition)
                 .FileName
+                .ToString()
                 .Trim('"');
             var filepath = _hostingEnv.WebRootPath + $@"\media\{filename}";
             

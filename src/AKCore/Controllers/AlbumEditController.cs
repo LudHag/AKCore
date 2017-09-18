@@ -129,6 +129,7 @@ namespace AKCore.Controllers
                 var filename = ContentDispositionHeaderValue
                     .Parse(file.ContentDisposition)
                     .FileName
+                    .ToString()
                     .Trim('"');
                 var ext = Path.GetExtension(file.FileName).ToLower();
                 if (MusicExtensions.FirstOrDefault(x => ext.EndsWith(x)) == null)
@@ -143,6 +144,7 @@ namespace AKCore.Controllers
                 var filename = ContentDispositionHeaderValue
                     .Parse(file.ContentDisposition)
                     .FileName
+                    .ToString()
                     .Trim('"');
                 var filepath = _hostingEnv.WebRootPath + $@"\albums\{model.AlbumId}\{filename}";
 
