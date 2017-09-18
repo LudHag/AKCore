@@ -39,8 +39,7 @@ namespace AKCore.Controllers
             }
             var model = new UpcomingModel
             {
-                Events = _db.Events.OrderBy(x => x.Day).ThenBy(x => x.Starts.TimeOfDay)
-                    .Include(x => x.SignUps)
+                Events = _db.Events.Include(x => x.SignUps).OrderBy(x => x.Day).ThenBy(x => x.Starts.TimeOfDay)
                     .Where(x => loggedIn || (x.Type == "Spelning"))
                     .Where(x => loggedIn || (!x.Secret))
                     .Where(x => x.Day >= DateTime.UtcNow.Date)
