@@ -20,6 +20,8 @@ namespace AKCore.DataModel
         public string OtherInstruments { get; set; }
         public bool HasKey { get; set; }
 
+        public virtual ICollection<IdentityUserRole<string>> Roles { get; } = new List<IdentityUserRole<string>>();
+
         public string GetName()
         {
             if (string.IsNullOrWhiteSpace(FirstName) && string.IsNullOrWhiteSpace(LastName))
