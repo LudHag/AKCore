@@ -88,11 +88,7 @@
                                 $('#Starts').val(fTime(starts.getHours()) + ":" + fTime(starts.getMinutes()));
                                 $('#Type').val(event.Type);
                                 $('#Fika').val(event.Fika);
-                                if (event.Stand) {
-                                    $('#Stand').val('Stå');
-                                } else {
-                                    $('#Stand').val('Gå');
-                                }
+                                $('#Stand').val(event.Stand);
                                 $('#Description').val(event.Description);
                                 $('#InternalDescription').val(event.InternalDescription);
                                 replaceEventType(event.Type);
