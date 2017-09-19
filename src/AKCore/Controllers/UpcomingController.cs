@@ -73,14 +73,7 @@ namespace AKCore.Controllers
             foreach (var res in events)
             {
                 var dtStart = res.Day.Date;
-                if (res.Type == AkEventTypes.Spelning)
-                {
-                    dtStart += res.Starts.TimeOfDay;
-                }
-                else
-                {
-                    dtStart += res.Halan.TimeOfDay;
-                }
+                dtStart += res.Halan.TimeOfDay;
                 
                 var dtEnd = dtStart.AddHours(1);
                 sb.AppendLine("BEGIN:VEVENT");
