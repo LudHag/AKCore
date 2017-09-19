@@ -161,8 +161,11 @@ namespace AKCore.DataModel
         public string Fika { get; set; }
         public DateTime Day { get; set; }
         public DateTime Halan { get; set; }
+        public TimeSpan HalanTime { get; set; }
         public DateTime There { get; set; }
+        public TimeSpan ThereTime { get; set; }
         public DateTime Starts { get; set; }
+        public TimeSpan StartsTime { get; set; }
         public string Stand { get; set; }
         public List<SignUp> SignUps { get; set; }
         public bool Secret { get; set; }
