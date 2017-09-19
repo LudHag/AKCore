@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Hosting;
 using System.Text;
 
 namespace AKCore.Controllers
@@ -39,7 +38,7 @@ namespace AKCore.Controllers
             }
             var model = new UpcomingModel
             {
-                Events = _db.Events.OrderBy(x => x.Day).ThenBy(x => x.Starts.TimeOfDay)
+                Events = _db.Events.OrderBy(x => x.Day).ThenBy(x => x.StartsTime)
                     .Include(x => x.SignUps)
                     .Where(x => loggedIn || (x.Type == "Spelning"))
                     .Where(x => loggedIn || (!x.Secret))
@@ -52,10 +51,11 @@ namespace AKCore.Controllers
 
             return View(model);
         }
+
         [Route("akevents.ics")]
         public ActionResult Ical()
         {
-            var events = _db.Events.OrderBy(x => x.Day).ThenBy(x => x.Starts)
+            var events = _db.Events.OrderBy(x => x.Day).ThenBy(x => x.StartsTime)
                         .Include(x => x.SignUps)
                         .Where(x => x.Day >= DateTime.UtcNow.Date);
 
@@ -73,7 +73,7 @@ namespace AKCore.Controllers
             foreach (var res in events)
             {
                 var dtStart = res.Day.Date;
-                dtStart += res.Halan.TimeOfDay;
+                dtStart += res.HalanTime;
                 
                 var dtEnd = dtStart.AddHours(1);
                 sb.AppendLine("BEGIN:VEVENT");

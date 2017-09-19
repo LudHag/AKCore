@@ -63,9 +63,9 @@
         </div>
         <div class="col-sm-12">
             @{
-                var halan = e.Halan.ToString("HH:mm");
-                var there = e.There.ToString("HH:mm");
-                var start = e.Starts.ToString("HH:mm");
+                var halan = e.HalanTime.ToString(@"hh\:mm");
+                var there = e.ThereTime.ToString(@"hh\:mm");
+                var start = e.StartsTime.ToString(@"hh\:mm");
                 if (halan != "00:00")
                 {
                     <p>Samling i hålan: @halan</p>
