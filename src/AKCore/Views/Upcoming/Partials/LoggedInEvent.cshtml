@@ -27,9 +27,9 @@
 </div>
 <div class="col-sm-4">
     @{
-        var halan = Model.Halan.ToString("HH:mm");
-        var there = Model.There.ToString("HH:mm");
-        var start = Model.Starts.ToString("HH:mm");
+        var halan = Model.HalanTime.ToString(@"hh\:mm");
+        var there = Model.ThereTime.ToString(@"hh\:mm");
+        var start = Model.StartsTime.ToString(@"hh\:mm");
         if (halan != "00:00")
         {
             <p>Samling i hålan: @halan</p>

@@ -66,10 +66,10 @@ namespace AKCore.Controllers
                     changeEvent.Name = model.Name;
                     changeEvent.Place = model.Place ?? "";
                     changeEvent.Day = model.Day;
-                    changeEvent.Halan = model.Halan;
-                    changeEvent.There = model.There;
+                    changeEvent.HalanTime = model.Halan;
+                    changeEvent.ThereTime = model.There;
                     changeEvent.Stand = model.Stand;
-                    changeEvent.Starts = model.Starts;
+                    changeEvent.StartsTime = model.Starts;
                     changeEvent.Fika = model.Fika;
                     changeEvent.Description = model.Description;
                     changeEvent.InternalDescription = model.InternalDescription;
@@ -93,10 +93,10 @@ namespace AKCore.Controllers
                         Day = model.Day,
                         Type = model.Type,
                         Fika = model.Fika,
-                        Halan = model.Halan,
+                        HalanTime = model.Halan,
                         Stand = model.Stand,
-                        Starts = model.Starts,
-                        There = model.There,
+                        StartsTime = model.Starts,
+                        ThereTime = model.There,
                         Secret = model.Secret
                 };
                     _db.Events.Add(newEvent);

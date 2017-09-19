@@ -8,9 +8,10 @@ using AKCore.DataModel;
 namespace AKCore.Migrations
 {
     [DbContext(typeof(AKContext))]
-    partial class AKContextModelSnapshot : ModelSnapshot
+    [Migration("20170919181539_timespans")]
+    partial class timespans
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2");
@@ -120,6 +121,8 @@ namespace AKCore.Migrations
 
                     b.Property<string>("Fika");
 
+                    b.Property<DateTime>("Halan");
+
                     b.Property<TimeSpan>("HalanTime");
 
                     b.Property<string>("InternalDescription");
@@ -134,7 +137,11 @@ namespace AKCore.Migrations
 
                     b.Property<string>("Stand");
 
+                    b.Property<DateTime>("Starts");
+
                     b.Property<TimeSpan>("StartsTime");
+
+                    b.Property<DateTime>("There");
 
                     b.Property<TimeSpan>("ThereTime");
 

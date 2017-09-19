@@ -80,12 +80,9 @@
                                 } else {
                                     $('#Day').val('');
                                 }
-                                var halan = new Date(event.Halan);
-                                $('#Halan').val(fTime(halan.getHours()) + ":" + fTime(halan.getMinutes()));
-                                var there = new Date(event.There);
-                                $('#There').val(fTime(there.getHours()) + ":" + fTime(there.getMinutes()));
-                                var starts = new Date(event.Starts);
-                                $('#Starts').val(fTime(starts.getHours()) + ":" + fTime(starts.getMinutes()));
+                                $('#Halan').val(event.HalanTime);
+                                $('#There').val(event.ThereTime);
+                                $('#Starts').val(event.StartsTime);
                                 $('#Type').val(event.Type);
                                 $('#Fika').val(event.Fika);
                                 $('#Stand').val(event.Stand);

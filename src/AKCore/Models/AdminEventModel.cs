@@ -27,11 +27,11 @@ namespace AKCore.Models
         [Display(Name = "Dag")]
         public DateTime Day { get; set; }
         [Display(Name = "Vid hålan")]
-        public DateTime Halan { get; set; }
+        public TimeSpan Halan { get; set; }
         [Display(Name = "På plats")]
-        public DateTime There { get; set; }
+        public TimeSpan There { get; set; }
         [Display(Name = "Spelning")]
-        public DateTime Starts { get; set; }
+        public TimeSpan Starts { get; set; }
         [Display(Name = "Stå- eller gåspelning")]
         public string Stand { get; set; }
 
