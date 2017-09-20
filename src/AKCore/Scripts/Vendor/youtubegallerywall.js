@@ -15,7 +15,7 @@ function onYouTubeIframeAPIReady(){
     if ($(".youtubelist").length > 0) { 
         var KEYCODE_ESC = 27;
 
-        var thumbnailformat = 'http://img.youtube.com/vi/VIDEOID/0.jpg';
+        var thumbnailformat = 'https://img.youtube.com/vi/VIDEOID/0.jpg';
 
 	    var ytubelightbox = 
 		    '<div class="videobox">'
