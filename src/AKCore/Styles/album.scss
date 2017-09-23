@@ -1,37 +1,45 @@
-﻿#album-list{
-    .row:hover{
+﻿#album-list {
+    .row:hover {
         background-color: #1a0000;
     }
-    .image, .name, .actions, .tracks{
+
+    .image, .name, .actions, .tracks {
         height: 100px;
-        vertical-align:middle;
+        vertical-align: middle;
     }
-    .actions,.image, .tracks{
+
+    .actions, .image, .tracks {
         display: flex;
         align-items: center;
     }
-    .tracks{
-        cursor:pointer;
+
+    .tracks {
+        cursor: pointer;
     }
-    .name{
+
+    .name {
         font-size: 20px;
         display: flex;
         align-items: center;
-        .name-input{
+
+        .name-input {
             background-color: transparent;
-            border:0;
-            outline:0;
-            &:focus{
-                background: #fff;
-                color:#000;
+            border: 0;
+            outline: 0;
+
+            &:focus {
+                background: $akwhite;
+                color: #000;
             }
         }
     }
-    .del-album{
+
+    .del-album {
         font-size: 20px;
-        color:red;
+        color: red;
     }
-    .album-img{
+
+    .album-img {
         height: 100px;
         width: 100px;
     }

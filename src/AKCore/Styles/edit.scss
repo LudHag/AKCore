@@ -47,17 +47,19 @@
     margin-top: 20px;
 }
 
-.submenu{
-    background-color:#999999;
-    color:white;
-    &:focus{
-        background-color:$akred;
-        border-color:#6E1601;
-        color:white;
+.submenu {
+    background-color: #999999;
+    color: white;
+
+    &:focus {
+        background-color: $akred;
+        border-color: #6E1601;
+        color: white;
     }
-    &:hover{
+
+    &:hover {
         color: #333;
-        background-color: #fff;
+        background-color: $akwhite;
         border-color: #ccc;
     }
 }
@@ -99,25 +101,27 @@
 }
 #user-table {
     table-layout: auto;
-    .role{
+
+    .role {
         cursor: pointer;
     }
+
     .tooltip {
         opacity: 1;
 
         .tooltip-inner {
-            background-color: #fff;
+            background-color: $akwhite;
             color: #555555;
         }
 
         .tooltip-arrow {
-            border-top-color: #fff;
+            border-top-color: $akwhite;
         }
     }
 }
 
-.remove-role{
-    color:#fff;
+.remove-role {
+    color: $akwhite;
     font-size: 12px;
 }
 .collapsed{

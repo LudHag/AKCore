@@ -15,19 +15,24 @@
     justify-content: center;
     align-items: center;
     flex-flow: row wrap;
+
     li {
         position: relative;
+
         a {
-            cursor:default;
-            &:link{
-                cursor:pointer;
+            cursor: default;
+
+            &:link {
+                cursor: pointer;
             }
+
             font-weight: 500;
             display: block;
-            color: #fff;
-            line-height:34px;
+            color: $akwhite;
+            line-height: 34px;
             font-size: 16px;
             padding: 0 20px;
+
             &.active,
             &:hover {
                 display: block;

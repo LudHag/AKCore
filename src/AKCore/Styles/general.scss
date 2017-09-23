@@ -85,7 +85,7 @@ a {
 }
 .body-content {
     background: #000;
-    color: #fff;
+    color: $akwhite;
 }
 
 .modal {
@@ -98,14 +98,14 @@ a {
 
 ::selection {
     background: $akred;
-    color: #fff;
+    color: $akwhite;
     text-shadow: none;
 }
 
 .account {
     text-align: right;
     padding: 5px;
-    color: #fff;
+    color: $akwhite;
     z-index: 10;
     top: 5px;
     position: absolute;
@@ -115,7 +115,7 @@ a {
 .social {
     text-align: right;
     padding: 5px;
-    color: #fff;
+    color: $akwhite;
     z-index: 10;
     bottom: -10px;
     position: absolute;
@@ -127,7 +127,7 @@ a {
     }
 
     a:hover {
-        color: #fff;
+        color: $akwhite;
     }
 }
 
@@ -153,7 +153,7 @@ a {
 
     &:hover {
         color: #333;
-        background-color: #fff;
+        background-color: $akwhite;
         border-color: #ccc;
     }
 }
@@ -205,7 +205,7 @@ p.infobox {
 }
 
 .btn-facebook {
-    color: #fff;
+    color: $akwhite;
     background-color: #3b5998;
     border-color: transparent;
 }
@@ -309,7 +309,7 @@ p.infobox {
     margin-right: 30px;
 
     .text {
-        color: #fff;
+        color: $akwhite;
     }
 
     .fa {

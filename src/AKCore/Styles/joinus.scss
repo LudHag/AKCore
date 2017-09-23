@@ -19,13 +19,13 @@
 }
 
 @media screen and (min-width: 768px) {
-    .map-text{
+    .map-text {
         position: absolute;
-        pointer-events:none;
+        pointer-events: none;
         top: 0;
         left: 50%;
         transform: translateX(-50%);
-        color: #fff;
+        color: $akwhite;
         font-size: 37px;
         text-transform: uppercase;
         font-weight: 500;
