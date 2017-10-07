@@ -28,12 +28,12 @@ gulp.task('generalscripts', function () {
         "Scripts/profile.js",
         "Scripts/upcoming.js",
         "Scripts/memberlist.js",
-        "Scripts/musicplayer.js"
+        "Scripts/musicplayer.js",
+        "Scripts/calendar.js"
     ])
         .pipe(sourcemaps.init())
         .pipe(concat('main.js'))
         .pipe(uglify())
-        .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest('./wwwroot/js/'));
 });
 
@@ -52,7 +52,6 @@ gulp.task('adminscripts', function () {
         .pipe(sourcemaps.init())
         .pipe(concat('admin.js'))
         .pipe(uglify())
-        .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest('./wwwroot/js/'));
 });
 

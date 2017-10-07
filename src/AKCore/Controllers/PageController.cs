@@ -27,6 +27,7 @@ namespace AKCore.Controllers
 
         public ActionResult Page(string slug)
         {
+            return View("Calendar");
             var loggedIn = User.Identity.IsAuthenticated;
             var redirectLink = "/";
             if (loggedIn) redirectLink = "/Upcoming";
