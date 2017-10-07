@@ -18,3 +18,31 @@
         border: 3px solid $akred;
     }
 }
+.calendar-actions {
+    float: right;
+    text-align: right;
+    max-width: 360px;
+
+    .calendar-control {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        .calendar-toggle {
+            padding: 4px 10px;
+            color: #000;
+            display: inline-block;
+            background-color: #808080;
+
+            &.event {
+                border-radius: 7px 0 0 7px;
+            }
+
+            &.month {
+                border-radius: 0 7px 7px 0;
+            }
+
+            &.active {
+                background-color: #5f5f5f;
+            }
+        }
+    }
+}

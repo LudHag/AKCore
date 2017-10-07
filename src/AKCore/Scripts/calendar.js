@@ -8,7 +8,7 @@ var monthNames = [
 
 $(function () {
     var calendarElement = $("#calendar");
-
+    var calendarList = $('#calendar-list');
     if (calendarElement.length > 0) {
         var cal = new Calendar(calendarElement);
         $('#calendar').on('click', '.prev-month', function(e) {
@@ -18,6 +18,18 @@ $(function () {
         $('#calendar').on('click', '.next-month', function (e) {
             e.preventDefault();
             cal.nextMonth();
+        });
+        $('.calendar-toggle').on('click', function(e) {
+            e.preventDefault();
+            $('.calendar-toggle').removeClass('active');
+            $(this).addClass('active');
+            if ($(this).hasClass('event')) {
+                calendarElement.addClass('hide');
+                calendarList.removeClass('hide');
+            } else {
+                calendarElement.removeClass('hide');
+                calendarList.addClass('hide');
+            }
         });
     }
 });

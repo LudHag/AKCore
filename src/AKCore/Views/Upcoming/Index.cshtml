@@ -10,7 +10,7 @@
 }
 @if (Model.LoggedIn)
 {
-    <div class="ical-link">
+    <div class="calendar-actions">
         <a href="/upcoming/akevents.ics" id="ical-link-anchor" class="fa fa-calendar" aria-hidden="true"> Ical-länk</a>
         <div class="input-group ical-copy hide">
             <input class="form-control" id="ical-link" type="text" readonly value="@Model.ICalLink" />
@@ -18,33 +18,41 @@
                 <button class="btn btn-default fa fa-files-o copy-btn" data-clipboard-target="#ical-link" type="button"></button>
             </span>
         </div>
-    </div>
-
-}
-@foreach (var g in Model.Events)
-{
-    <h2>@g.Key</h2>
-    var lastMonth = "";
-
-    foreach (var e in g)
-    {
-        var newMonth = e.Day.ToString("MMMM", culture);
-        if (lastMonth != newMonth)
-        {
-            <h3 class="new-month">@newMonth</h3>
-            lastMonth = newMonth;
-        }
-        <div class="row event-row expandable">
-            @if (Model.LoggedIn)
-            {
-                @Html.Partial("Partials/LoggedInEvent", e)
-            }
-            else
-            {
-                @Html.Partial("Partials/LoggedOutEvent", e)
-            }
+        <div class="calendar-control hidden-xs">
+            <a href="#" class="event calendar-toggle active">Event</a><a href="#" class="month calendar-toggle">Månad</a>
         </div>
+    </div>
+}
+
+<div id="calendar-list">
+    @foreach (var g in Model.Events)
+    {
+        <h2>@g.Key</h2>
+        var lastMonth = "";
+
+        foreach (var e in g)
+        {
+            var newMonth = e.Day.ToString("MMMM", culture);
+            if (lastMonth != newMonth)
+            {
+                <h3 class="new-month">@newMonth</h3>
+                lastMonth = newMonth;
+            }
+            <div class="row event-row expandable">
+                @if (Model.LoggedIn)
+                {
+                    @Html.Partial("Partials/LoggedInEvent", e)
+                }
+                else
+                {
+                    @Html.Partial("Partials/LoggedOutEvent", e)
+                }
+            </div>
+        }
     }
+</div>
+@if (Model.LoggedIn) { 
+    <div id="calendar" class="hide"></div>
 }
 @if (!Model.Events.Any())
 {
