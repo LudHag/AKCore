@@ -14,31 +14,38 @@ function Calendar(container) {
     this.month = today.getMonth();
     this.year = today.getFullYear();
     this.day = today.getDay();
-    this.weeks = [];
-    this.create();
+    this.shownMonth = new Month(this.year, this.month);
     this.render();
 };
 
-Calendar.prototype.create = function() {
-    var firstDayOfMonth = new Date(this.year, this.month, 1);
-    var lastDayOfMonth = new Date(this.year, this.month + 1, 0);
+
+Calendar.prototype.render = function () {
+    this.shownMonth.render();
+};
+
+function Month(year, month) {
+    this.weeks = [];
+    var firstDayOfMonth = new Date(year, month, 1);
+    var lastDayOfMonth = new Date(year, month + 1, 0);
     var firstDayWeekDay = firstDayOfMonth.getDay() - 1;
     if (firstDayWeekDay < 0) firstDayWeekDay = 7 + firstDayWeekDay;
     var firstDayOfCalendar = new Date();
     firstDayOfCalendar.setDate(firstDayOfMonth.getDate() - firstDayWeekDay);
     var monday = new Date(firstDayOfCalendar.getTime());
     while (monday < lastDayOfMonth) {
-        var week=new Week(monday);
+        var week = new Week(monday);
         this.weeks.push(week);
         monday = new Date(monday.getTime() + timeWeek);
     }
 };
 
-Calendar.prototype.render = function () {
+Month.prototype.render = function () {
     this.weeks.forEach(function (week) {
         console.log(week.render());
     });
 };
+
+
 
 function Week(firstDay) {
     this.firstDay = firstDay;
