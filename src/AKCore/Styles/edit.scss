@@ -20,9 +20,6 @@
     padding: 6px 12px;
 }
 
-.menu-display {
-    padding-top: 35px;
-}
 .btn.move-up,
 .btn.move-down,
 .btn.move-left,
@@ -34,13 +31,23 @@
 }
 
 .menu-item{
-    margin-bottom: 20px;
+    margin-bottom: 5px;
 }
-.menu-row{
+.menu-row {
     display: inline-block;
     width: 100%;
-    &.sub-row{
-        margin-top: 10px;
+
+    &.sub-row {
+        margin-top: 5px;
+        padding-left: 50px;
+    }
+
+    .btn {
+        padding: 3px 23px;
+    }
+
+    &:hover {
+        background-color: #1a0000;
     }
 }
 #menualerts{
@@ -435,4 +442,9 @@ table{
     color:black;
     position: absolute;
     right: 10px;
+}
+@media screen and (max-width: 767px) {
+    .menu-row.sub-row {
+        padding-left: 0;
+    }
 }
