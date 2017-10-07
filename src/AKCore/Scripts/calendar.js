@@ -1,10 +1,24 @@
 ﻿var timeDay = 24 * 60 * 60 * 1000;
 var timeWeek = 7 * timeDay;
+var monthNames = [
+    "Januari", "Februari", "Mars", "April", "Maj", "Juni", "Juli", "Augusti", "September", "Oktober", "November",
+    "December"
+];
+
+
 $(function () {
     var calendarElement = $("#calendar");
 
     if (calendarElement.length > 0) {
         var cal = new Calendar(calendarElement);
+        $('#calendar').on('click', '.prev-month', function(e) {
+            e.preventDefault();
+            cal.prevMonth();
+        });
+        $('#calendar').on('click', '.next-month', function (e) {
+            e.preventDefault();
+            cal.nextMonth();
+        });
     }
 });
 
@@ -14,13 +28,35 @@ function Calendar(container) {
     this.month = today.getMonth();
     this.year = today.getFullYear();
     this.day = today.getDay();
-    this.shownMonth = new Month(this.year, this.month);
     this.render();
 };
 
+Calendar.prototype.nextMonth = function () {
+    this.month++;
+    if (this.month > 11) {
+        this.month = 0;
+        this.year++;
+    }
+    this.render();
+};
+
+Calendar.prototype.prevMonth = function () {
+    this.month--;
+    if (this.month < 0) {
+        this.month = 11;
+        this.year--;
+    }
+    this.render();
+};
 
 Calendar.prototype.render = function () {
-    this.container.append(this.shownMonth.render());
+    var shownMonth = new Month(this.year, this.month);
+    var controls = $('<div class="controls"><a href="" class="prev-month glyphicon glyphicon-chevron-left"></a><span class="date">' +
+        monthNames[this.month] + ' ' + this.year +
+        '</span><a href="" class="next-month glyphicon glyphicon-chevron-right"></a></div>');
+    this.container.empty();
+    this.container.append(controls);
+    this.container.append(shownMonth.render());
 };
 
 function Month(year, month) {
@@ -29,8 +65,9 @@ function Month(year, month) {
     var lastDayOfMonth = new Date(year, month + 1, 0);
     var firstDayWeekDay = firstDayOfMonth.getDay() - 1;
     if (firstDayWeekDay < 0) firstDayWeekDay = 7 + firstDayWeekDay;
-    var firstDayOfCalendar = new Date();
-    firstDayOfCalendar.setDate(firstDayOfMonth.getDate() - firstDayWeekDay);
+    var firstDayOfCalendar = new Date(firstDayOfMonth.getTime() - (firstDayWeekDay * timeDay));
+    this.tableHeading =
+        $('<thead> <tr><th>Måndag</th> <th>Tisdag</th> <th>Onsdag</th> <th>Torsdag</th> <th>Fredag</th> <th>Lördag</th> <th>Söndag</th> </tr> </thead>');
     var monday = new Date(firstDayOfCalendar.getTime());
     while (monday < lastDayOfMonth) {
         var week = new Week(monday, firstDayOfMonth, lastDayOfMonth);
@@ -42,9 +79,8 @@ function Month(year, month) {
 
 Month.prototype.render = function () {
     var self = this;
-    var tableHeading =
-        $('<thead> <tr><th>Måndag</th> <th>Tisdag</th> <th>Onsdag</th> <th>Torsdag</th> <th>Fredag</th> <th>Lördag</th> <th>Söndag</th> </tr> </thead>');
-    self.dom.append(tableHeading);
+    self.dom.empty();
+    self.dom.append(this.tableHeading);
     var tableBody = $('<tbody></tbody>');
     this.weeks.forEach(function (week) {
         tableBody.append(week.render());
@@ -78,7 +114,7 @@ Week.prototype.render = function () {
 function Day(day, inMonth) {
     this.day = day;
     this.inMonth = inMonth;
-    this.dom = $('<td class="day">' + this.day.getDate() + '</div>');
+    this.dom = $('<td class="day"><span class="date">' + this.day.getDate() + '</span></div>');
     if (!inMonth) this.dom.addClass('outside');
 };
 
