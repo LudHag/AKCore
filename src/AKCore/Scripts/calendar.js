@@ -32,6 +32,7 @@ $(function () {
             }
         });
     }
+    console.log(calendarEvents);
 });
 
 function Calendar(container) {

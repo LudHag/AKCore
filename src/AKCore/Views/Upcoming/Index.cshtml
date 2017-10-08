@@ -24,11 +24,22 @@
     </div>
 }
 
+<script>
+    var calendarEvents = {};
+    var calendarYear = {};
+    var calendarMonth = {};
+    var calendarDay = {};
+</script>
+
 <div id="calendar-list">
     @foreach (var g in Model.Events)
     {
         <h2>@g.Key</h2>
         var lastMonth = "";
+
+        <script>
+            calendarYear = {};
+        </script>
 
         foreach (var e in g)
         {
@@ -36,6 +47,9 @@
             if (lastMonth != newMonth)
             {
                 <h3 class="new-month">@newMonth</h3>
+                <script>
+                    calendarMonth = {};
+                </script>
                 lastMonth = newMonth;
             }
             <div class="row event-row expandable">
@@ -48,10 +62,21 @@
                     @Html.Partial("Partials/LoggedOutEvent", e)
                 }
             </div>
+            @if (newMonth != null) { 
+                 <script>
+                    calendarDay = {};
+                    calendarDay.name = '@e.Name';
+                    calendarMonth['@e.Day.ToString("yyyy MM dd")'] = calendarDay;
+                    calendarYear['@newMonth'] = calendarMonth;
+                 </script>
+             }
         }
+        <script>
+            calendarEvents['@g.Key'] = calendarYear;
+        </script>
     }
 </div>
-@if (Model.LoggedIn) { 
+@if (Model.LoggedIn) {
     <div id="calendar" class="hide"></div>
 }
 @if (!Model.Events.Any())
