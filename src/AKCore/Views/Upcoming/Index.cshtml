@@ -28,7 +28,7 @@
     var calendarEvents = {};
     var calendarYear = {};
     var calendarMonth = {};
-    var calendarDay = {};
+    var calendarDayEvent = {};
 </script>
 
 <div id="calendar-list">
@@ -64,10 +64,13 @@
             </div>
             @if (newMonth != null) { 
                  <script>
-                    calendarDay = {};
-                    calendarDay.name = '@e.Name';
-                    calendarMonth['@e.Day.ToString("yyyy MM dd")'] = calendarDay;
-                    calendarYear['@newMonth'] = calendarMonth;
+                     if (calendarMonth['@e.Day.ToString("dd")'] == null) {
+                         calendarMonth['@e.Day.ToString("dd")'] = [];
+                     }
+                     calendarDayEvent = {};
+                     calendarDayEvent.name = '@(string.IsNullOrWhiteSpace(e.Name) ? e.Type : e.Name)';
+                     calendarMonth['@e.Day.ToString("dd")'].push(calendarDayEvent);
+                     calendarYear['@newMonth'] = calendarMonth;
                  </script>
              }
         }
