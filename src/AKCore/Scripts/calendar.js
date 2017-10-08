@@ -1,5 +1,4 @@
 ﻿var timeDay = 24 * 60 * 60 * 1000;
-var timeWeek = 7 * timeDay;
 var today = new Date();
 var calendarModal = $('#event-info-modal');
 
@@ -8,6 +7,11 @@ var monthNames = [
     "December"
 ];
 
+Date.prototype.addDays = function (days) {
+    var dat = new Date(this.valueOf());
+    dat.setDate(dat.getDate() + days);
+    return dat;
+}
 
 $(function () {
     var calendarElement = $("#calendar");
@@ -83,7 +87,7 @@ $(function () {
             while (monday < lastDayOfMonth) {
                 var week = new Week(monday, firstDayOfMonth, lastDayOfMonth, events);
                 this.weeks.push(week);
-                monday = new Date(monday.getTime() + timeWeek);
+                monday = monday.addDays(7);
             }
             this.dom = $('<table class="month table table-bordered"></div>');
         };
@@ -106,7 +110,7 @@ $(function () {
             this.firstDay = firstDay;
             this.days = [];
             for (var i = 0; i < 7; i++) {
-                var date = new Date(this.firstDay.getTime() + timeDay * i);
+                var date = this.firstDay.addDays(i);
                 var shown = date >= firstDayOfMonth && date <= lastDayOfMonth && (today <= date || today.getDate() <= date.getDate());
                 if (events) {
                     this.days.push(new Day(date, shown, events[date.getDate()]));
