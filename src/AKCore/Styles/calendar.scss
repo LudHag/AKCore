@@ -1,8 +1,14 @@
 ﻿#calendar {
     .day {
         height: 90px;
+
         &.outside {
             color: #5f5f5f;
+        }
+
+        .dayEvent {
+            display: block;
+            font-size: 12px;
         }
     }
 

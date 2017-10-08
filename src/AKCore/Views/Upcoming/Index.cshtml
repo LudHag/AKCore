@@ -64,12 +64,15 @@
             </div>
             @if (newMonth != null) { 
                  <script>
-                     if (calendarMonth['@e.Day.ToString("dd")'] == null) {
-                         calendarMonth['@e.Day.ToString("dd")'] = [];
+                     if (calendarMonth['@e.Day.Day'] == null) {
+                         calendarMonth['@e.Day.Day'] = [];
                      }
                      calendarDayEvent = {};
                      calendarDayEvent.name = '@(string.IsNullOrWhiteSpace(e.Name) ? e.Type : e.Name)';
-                     calendarMonth['@e.Day.ToString("dd")'].push(calendarDayEvent);
+                     calendarDayEvent.halan = '@(e.HalanTime.ToString(@"hh\:mm"))';
+                     calendarDayEvent.there = '@(e.ThereTime.ToString(@"hh\:mm"))';
+                     calendarDayEvent.start = '@(e.StartsTime.ToString(@"hh\:mm"))';
+                     calendarMonth['@e.Day.Day'].push(calendarDayEvent);
                      calendarYear['@newMonth'] = calendarMonth;
                  </script>
              }

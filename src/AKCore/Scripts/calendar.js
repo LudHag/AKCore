@@ -54,12 +54,14 @@ Calendar.prototype.nextMonth = function () {
 };
 
 Calendar.prototype.prevMonth = function () {
-    this.month--;
-    if (this.month < 0) {
-        this.month = 11;
-        this.year--;
+    if(this.year>today.getFullYear() || this.month -1 >= today.getMonth()){
+        this.month--;
+        if (this.month < 0) {
+            this.month = 11;
+            this.year--;
+        }
+        this.render();
     }
-    this.render();
 };
 
 Calendar.prototype.render = function () {
@@ -113,11 +115,11 @@ function Week(firstDay, firstDayOfMonth, lastDayOfMonth, events) {
     this.days = [];
     for (var i = 0; i < 7; i++) {
         var date = new Date(this.firstDay.getTime() + timeDay * i);
-        var inMonth = date >= firstDayOfMonth && date <= lastDayOfMonth && (today <= date || today.getDate() <= date.getDate());
+        var shown = date >= firstDayOfMonth && date <= lastDayOfMonth && (today <= date || today.getDate() <= date.getDate());
         if (events) {
-            this.days.push(new Day(date, inMonth, events[date.getDate()]));
+            this.days.push(new Day(date, shown, events[date.getDate()]));
         } else {
-            this.days.push(new Day(date, inMonth, null));
+            this.days.push(new Day(date, shown, null));
         }
     }
     this.dom = $('<tr class="week"></div>');
@@ -131,15 +133,15 @@ Week.prototype.render = function () {
     return this.dom;
 };
 
-function Day(date, inMonth, events) {
+function Day(date, shown, events) {
     this.date = date;
-    this.inMonth = inMonth;
+    this.shown = shown;
     this.dom = $('<td class="day"><span class="date">' + this.date.getDate() + '</span></div>');
-    if (!inMonth) this.dom.addClass('outside');
-    if (inMonth && events && events.length > 0) {
+    if (!shown) this.dom.addClass('outside');
+    if (shown && events && events.length > 0) {
         for (var i = 0; i < events.length; i++) {
             var event = events[i];
-            this.dom.append($('<a href="#" class="dayEvent">' + event.name + '</a>'));
+            this.dom.append($('<a href="#" class="dayEvent">' + event.halan + ' ' + event.name + '</a>'));
         }
     }
 };
