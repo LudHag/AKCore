@@ -100,7 +100,7 @@ namespace AKCore.Controllers
                 {
                     return Json(new { success = false, message = "Felaktigt menyid" });
                 }
-                var menu = _db.Menus.FirstOrDefault(x => x.Id == id);
+                var menu = _db.Menus.Include(x=>x.Link).FirstOrDefault(x => x.Id == id);
                 if (menu == null)
                 {
                     return Json(new {success = false, message = "Meny finns ej"});
@@ -140,7 +140,7 @@ namespace AKCore.Controllers
                     menu.Link = null;
                 }
             }
-           
+            var linesaffected = _db.ChangeTracker.Entries().Count(tracking => tracking.State != EntityState.Unchanged);
             var res = _db.SaveChanges();
             return Json(new {success = res>0 });
         }
