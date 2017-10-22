@@ -403,3 +403,12 @@ p.infobox {
         }
     }
 }
+
+@media print{
+    a[href]:after{
+        content: "";
+    }
+    .signup-row{
+        border-bottom: 1px solid #000;
+    }
+}
