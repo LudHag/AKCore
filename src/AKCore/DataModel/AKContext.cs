@@ -69,6 +69,7 @@ namespace AKCore.DataModel
         public List<SubMenu> Children { get; set; }
         public int PosIndex { get; set; }
         public bool LoggedIn { get; set; }
+        public bool Balett { get; set; }
     }
 
     public class SubMenu
