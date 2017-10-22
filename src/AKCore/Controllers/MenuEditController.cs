@@ -140,9 +140,9 @@ namespace AKCore.Controllers
                     menu.Link = null;
                 }
             }
-            var linesaffected = _db.ChangeTracker.Entries().Count(tracking => tracking.State != EntityState.Unchanged);
             var res = _db.SaveChanges();
-            return Json(new {success = res>0 });
+            return res > 0 ? Json(new {success = true}) : Json(new { success = false, message="Inga ändringar gjorda" });
+            
         }
 
         [HttpPost]
