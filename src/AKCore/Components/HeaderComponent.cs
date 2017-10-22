@@ -23,15 +23,17 @@ namespace AKCore.Components
         public async Task<IViewComponentResult> InvokeAsync()
         {
             var loggedIn = User.Identity.IsAuthenticated;
+            var balett = loggedIn && User.IsInRole(AkRoles.Balett);
             var menus = _db.Menus.OrderBy(x => x.PosIndex)
                 .Include(b => b.Link)
                 .Include(x => x.Children)
                 .ThenInclude(x => x.Link)
                 .ToList()
                 .Where(x => loggedIn || !x.LoggedIn)
+                .Where(x => balett || !x.Balett)
                 .Where(x => x.Link==null || loggedIn || !x.Link.LoggedIn)
                 .Where(x => x.Link == null || !loggedIn || !x.Link.LoggedOut)
-                .Where(x => x.Link == null ||  !x.Link.BalettOnly || (loggedIn && User.IsInRole(AkRoles.Balett)));
+                .Where(x => x.Link == null ||  !x.Link.BalettOnly || (loggedIn && balett));
             var modelMenus = menus.Select(m => new ModelMenu(m, loggedIn)).ToList();
             var upcoming = new ModelMenu(loggedIn ? "På gång" : "Spelningar", "/Upcoming", true) {Id = 10003};
             modelMenus.Add(upcoming);

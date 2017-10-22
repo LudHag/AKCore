@@ -1,4 +1,5 @@
-﻿using AKCore.Models;
+﻿using System;
+using AKCore.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using AKCore.DataModel;
@@ -50,7 +51,7 @@ namespace AKCore.Controllers
 
         [HttpPost]
         [Route("AddTopMenu")]
-        public ActionResult AddTopMenu(string name, string pageId, string loggedIn)
+        public ActionResult AddTopMenu(string name, string pageId, string loggedIn, string balett)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
@@ -60,7 +61,8 @@ namespace AKCore.Controllers
             var m = new Menu
             {
                 Name = name,
-                LoggedIn = loggedIn!=null
+                LoggedIn = loggedIn!=null,
+                Balett = balett!=null
             };
             var highIndex=_db.Menus.OrderByDescending(z => z.PosIndex).FirstOrDefault();
             if (highIndex != null)
@@ -85,7 +87,7 @@ namespace AKCore.Controllers
 
         [HttpPost]
         [Route("EditMenu")]
-        public ActionResult EditMenu(string parentId, string menuId, string text, string pageId, string loggedIn)
+        public ActionResult EditMenu(string parentId, string menuId, string text, string pageId, string loggedIn, string balett)
         {
             if (string.IsNullOrWhiteSpace(text))
             {
@@ -114,10 +116,11 @@ namespace AKCore.Controllers
                     menu.Link = null;
                 }
                 menu.LoggedIn = loggedIn != null;
+                menu.Balett = balett != null;
             }
             else
             {
-                if (!int.TryParse(menuId, out int id))
+                if (!int.TryParse(menuId, out var id))
                 {
                     return Json(new { success = false, message = "Felaktigt menyid" });
                 }
@@ -137,8 +140,9 @@ namespace AKCore.Controllers
                     menu.Link = null;
                 }
             }
-            _db.SaveChanges();
-            return Json(new {success = true});
+           
+            var res = _db.SaveChanges();
+            return Json(new {success = res>0 });
         }
 
         [HttpPost]

@@ -146,7 +146,9 @@ $("#menus")
             var link = form.find('.page');
             var parent = form.find('.parentId');
             var loggedIn = form.find('.logged');
+            var balett = form.find('.balett');
             loggedIn.prop('checked', self.data('logged') === "True");
+            balett.prop('checked', self.data('balett') === "True");
             name.val(self.text());
             link.val(self.data('link'));
             link.removeAttr('required');

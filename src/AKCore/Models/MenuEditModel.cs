@@ -19,6 +19,7 @@ namespace AKCore.Models
         public int PosIndex { get; set; }
         public bool LoggedIn { get; set; }
         public bool MenuLoggedIn { get; set; }
+        public bool MenuBalett { get; set; }
 
         public ModelMenu(Menu menu, bool userLoggedIn)
         {
@@ -26,6 +27,7 @@ namespace AKCore.Models
             Id = menu.Id;
             Name = menu.Name;
             MenuLoggedIn = menu.LoggedIn;
+            MenuBalett = menu.Balett;
             Link = menu.Link?.Slug ?? "";
             LinkId = menu.Link?.Id ?? 0;
             if (menu.Link != null) LoggedIn = menu.Link.LoggedIn;
