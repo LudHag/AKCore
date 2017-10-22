@@ -96,7 +96,7 @@ namespace AKCore.Controllers
 
             if (parentId != "true")
             {
-                if (!int.TryParse(menuId, out int id))
+                if (!int.TryParse(menuId, out var id))
                 {
                     return Json(new { success = false, message = "Felaktigt menyid" });
                 }
@@ -106,7 +106,7 @@ namespace AKCore.Controllers
                     return Json(new {success = false, message = "Meny finns ej"});
                 }
                 menu.Name = text;
-                if (int.TryParse(pageId, out int pId))
+                if (int.TryParse(pageId, out var pId))
                 {
                     var page = _db.Pages.FirstOrDefault(x => x.Id == pId);
                     menu.Link = page;
@@ -130,7 +130,7 @@ namespace AKCore.Controllers
                     return Json(new {success = false, message = "Submeny finns ej"});
                 }
                 menu.Name = text;
-                if (int.TryParse(pageId, out int pId))
+                if (int.TryParse(pageId, out var pId))
                 {
                     var page = _db.Pages.FirstOrDefault(x => x.Id == pId);
                     menu.Link = page;
@@ -195,7 +195,7 @@ namespace AKCore.Controllers
             {
                 return Json(new {success = false, message = "Inget id inskickat"});
             }
-            if (!int.TryParse(id, out int i))
+            if (!int.TryParse(id, out var i))
             {
                 return Json(new { success = false, message = "Ej numeriskt id" });
             }
@@ -222,7 +222,7 @@ namespace AKCore.Controllers
             {
                 return Json(new {success = false, message = "Inget id inskickat"});
             }
-            if (!int.TryParse(id, out int i))
+            if (!int.TryParse(id, out var i))
             {
                 return Json(new { success = false, message = "Ej numeriskt id" });
             }
@@ -289,8 +289,7 @@ namespace AKCore.Controllers
             {
                 return Json(new { success = false, message = "Meny finns ej" });
             }
-            var tId = 0;
-            if (!int.TryParse(parent, out tId))
+            if (!int.TryParse(parent, out var tId))
             {
                 return Json(new { success = false, message = "Ej numeriskt id" });
             }
@@ -332,7 +331,7 @@ namespace AKCore.Controllers
             {
                 return Json(new { success = false, message = "Meny finns ej" });
             }
-            if (!int.TryParse(parent, out int tId))
+            if (!int.TryParse(parent, out var tId))
             {
                 return Json(new { success = false, message = "Ej numeriskt id" });
             }
@@ -365,7 +364,7 @@ namespace AKCore.Controllers
             {
                 return Json(new {success = false, message = "Inget id inskickat"});
             }
-            if (!int.TryParse(id, out int i))
+            if (!int.TryParse(id, out var i))
             {
                 return Json(new { success = false, message = "Ej numeriskt id" });
             }
