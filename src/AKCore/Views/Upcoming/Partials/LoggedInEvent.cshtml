@@ -44,13 +44,8 @@
         }
     }
 </div>
-@if (Model.Type == "Rep" || Model.Type == "Kårhusrep")
-{
-    <div class="col-sm-4">
-        <p>Fika och städning: @Model.Fika</p>
-    </div>
-}
-else if (Model.Type == "Spelning")
+
+@if (Model.Type == "Spelning" || Model.Type == "Kårhusrep")
 {
     <div class="col-sm-4">
         @{ 
@@ -67,10 +62,20 @@ else if (Model.Type == "Spelning")
             }
         }
         <p>@Model.CanCome() Kommer - @Model.CantCome() Kommer inte</p>
-        @if (Model.Stand != null)
+        @if (Model.Type == "Spelning" && Model.Stand != null)
         {
             <p>Speltyp: @Model.Stand</p>
         }
+        else if (Model.Type == "Kårhusrep")
+        {
+            <p>Fika och städning: @Model.Fika</p>    
+        }
+    </div>
+}
+@if (Model.Type == "Rep")
+{
+    <div class="col-sm-4">
+        <p>Fika och städning: @Model.Fika</p>
     </div>
 }
 <div class="extra">
