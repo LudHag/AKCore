@@ -1,2 +1,4 @@
-﻿Sitemap: https://www.altekamereren.org/sitemap.xml
-User-agent: *
+﻿User-Agent: *
+Disallow: 
+
+Sitemap: https://www.altekamereren.org/sitemap.xml
