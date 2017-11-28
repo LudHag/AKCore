@@ -12,6 +12,7 @@ using System.Text;
 namespace AKCore.Controllers
 {
     [Route("Upcoming")]
+    [Route("Gigs")]
     public class UpcomingController : Controller
     {
         private readonly UserManager<AkUser> _userManager;
