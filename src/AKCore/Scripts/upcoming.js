@@ -27,7 +27,7 @@
 
     $('.expandable').on('click', function (e) {
         var self = $(this);
-        var target = $(event.target);
+        var target = $(e.target);
         if (!target.is("a")) {
             self.toggleClass("expanded");
         }
