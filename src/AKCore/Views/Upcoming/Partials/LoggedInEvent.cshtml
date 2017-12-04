@@ -4,7 +4,7 @@
 @{
     var culture = new CultureInfo("sv");
 }
-<div class="col-sm-4" style="font-weight: 500;">
+<div class="col-sm-4 col-xs-6" style="font-weight: 500;">
     <p style="text-transform: capitalize;">@Model.Day.ToString("dddd dd", culture)/@Model.Day.ToString("MM", culture) </p>
     @if (Model.Type == "Rep")
     {
@@ -25,7 +25,7 @@
         <p>@Model.Place</p>
     }
 </div>
-<div class="col-sm-4">
+<div class="col-sm-4 col-xs-6">
     @{
         var halan = Model.HalanTime.ToString(@"hh\:mm");
         var there = Model.ThereTime.ToString(@"hh\:mm");
@@ -47,7 +47,7 @@
 
 @if (Model.Type == "Spelning" || Model.Type == "Kårhusrep")
 {
-    <div class="col-sm-4">
+    <div class="col-sm-4 col-xs-12 mobile-event-signup">
         @{ 
             if (ViewBag.Member) { 
                 var signup = Model.SignUps.FirstOrDefault(x => x.Person == User.Identity.Name);
@@ -61,7 +61,7 @@
                 }
             }
         }
-        <p>@Model.CanCome() Kommer - @Model.CantCome() Kommer inte</p>
+        <p class="hidden-xs">@Model.CanCome() Kommer - @Model.CantCome() Kommer inte</p>
         @if (Model.Type == "Spelning" && Model.Stand != null)
         {
             <p>Speltyp: @Model.Stand</p>
@@ -74,7 +74,7 @@
 }
 @if (Model.Type == "Rep")
 {
-    <div class="col-sm-4">
+    <div class="col-sm-4 col-xs-6">
         <p>Fika och städning: @Model.Fika</p>
     </div>
 }
