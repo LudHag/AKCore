@@ -89,7 +89,8 @@
 
     $("#open-mobile-menu")
         .on("click",
-            function(e) {
+        function (e) {
+            e.preventDefault();
                 $("#mobile-menu").slideToggle();
             });
 

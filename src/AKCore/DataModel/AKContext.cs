@@ -179,6 +179,11 @@ namespace AKCore.DataModel
         public List<SignUp> SignUps { get; set; }
         public bool Secret { get; set; }
 
+        public bool HasNoDescription()
+        {
+            return string.IsNullOrWhiteSpace(Description) && string.IsNullOrWhiteSpace(InternalDescription);
+        }
+
         public int CanCome()
         {
             return SignUps?.Count(x => x.Where != AkSignupType.CantCome) ?? 0;

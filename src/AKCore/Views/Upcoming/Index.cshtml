@@ -52,7 +52,7 @@
                 </script>
                 lastMonth = newMonth;
             }
-            <div class="row event-row expandable">
+            <div class="row event-row@(e.HasNoDescription() ? "" : " expandable")">
                 @if (Model.LoggedIn)
                 {
                     @Html.Partial("Partials/LoggedInEvent", e)
