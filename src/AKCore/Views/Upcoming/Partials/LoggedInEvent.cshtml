@@ -47,7 +47,7 @@
 
 @if (Model.Type == "Spelning" || Model.Type == "Kårhusrep")
 {
-    <div class="col-sm-4 col-xs-12 mobile-event-signup">
+    <div class="col-sm-4 col-xs-12">
         @{ 
             if (ViewBag.Member) { 
                 var signup = Model.SignUps.FirstOrDefault(x => x.Person == User.Identity.Name);
