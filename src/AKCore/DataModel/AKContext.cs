@@ -201,6 +201,8 @@ namespace AKCore.DataModel
         public int Id { get; set; }
         [Required]
         public string Person { get; set; }
+        [Required]
+        public string PersonId { get; set; }
         public string PersonName { get; set; }
         public string Where { get; set; }
         public bool Car { get; set; }

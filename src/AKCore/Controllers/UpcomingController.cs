@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AKCore.DataModel;
@@ -30,12 +31,13 @@ namespace AKCore.Controllers
             ViewBag.Title = "På gång";
             var loggedIn = User.Identity.IsAuthenticated;
             var member = false;
-
+            var userId = "";
             if (loggedIn)
             {
                 var user = await _userManager.FindByNameAsync(User.Identity.Name);
                 var roles = await _userManager.GetRolesAsync(user);
                 member = roles.Contains("Medlem");
+                userId = user.Id;
             }
             var model = new UpcomingModel
             {
@@ -47,6 +49,7 @@ namespace AKCore.Controllers
                     .GroupBy(x => x.Day.Year).ToList(),
                 LoggedIn = loggedIn,
                 Medlem = member,
+                UserId = userId,
                 ICalLink = $"{Request.Scheme}://{Request.Host}/upcoming/akevents.ics"
             };
 
@@ -115,7 +118,7 @@ namespace AKCore.Controllers
             if(!int.TryParse(eventId, out var eIdInt) || string.IsNullOrWhiteSpace(type) || string.IsNullOrWhiteSpace(memberId)) return Json(new { success = false, message="Felaktig data" });
             var e = _db.Events.Include(x=>x.SignUps).FirstOrDefault(x => x.Id == eIdInt);
             var member = _db.Users.FirstOrDefault(x => x.Id == memberId);
-            var signUp = e.SignUps.FirstOrDefault(x => x.Person == member.UserName);
+            var signUp = e.SignUps.FirstOrDefault(x => x.PersonId == member.Id);
             if (signUp != null)
             {
                 signUp.Where = type;
@@ -127,6 +130,7 @@ namespace AKCore.Controllers
                 {
                     Person = member.UserName,
                     PersonName = member.GetName(),
+                    PersonId = member.Id,
                     SignupTime = DateTime.Now,
                     Where = type,
                     InstrumentName = member.Instrument
@@ -148,7 +152,7 @@ namespace AKCore.Controllers
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
             var roles = await _userManager.GetRolesAsync(user);
             var nintendo = roles.Contains("SuperNintendo");
-            var signup = spelning.SignUps.FirstOrDefault(x => x.Person == user.UserName);
+            var signup = spelning.SignUps.FirstOrDefault(x => x.PersonId == user.Id);
             if (signup!=null)
             {
                 model.Where = signup.Where;
@@ -178,7 +182,7 @@ namespace AKCore.Controllers
             var spelning = _db.Events.Include(x => x.SignUps).FirstOrDefault(x => x.Id == eId);
             if (spelning == null) return Json(new {success = false, message = "Felaktigt id"});
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
-            var signup = spelning.SignUps.FirstOrDefault(x => x.Person == user.UserName) ?? new SignUp();
+            var signup = spelning.SignUps.FirstOrDefault(x => x.PersonId == user.Id) ?? new SignUp();
             if (signup.Where == AkSignupType.CantCome || model.Where == AkSignupType.CantCome)
             {
                 signup.SignupTime = DateTime.Now;
@@ -191,6 +195,7 @@ namespace AKCore.Controllers
             signup.Instrument = model.Instrument;
             signup.Comment = model.Comment;
             signup.Person = user.UserName;
+            signup.PersonId = user.Id;
             signup.PersonName = user.GetName();
             signup.InstrumentName = user.Instrument;
             signup.OtherInstruments = user.OtherInstruments;
@@ -198,5 +203,25 @@ namespace AKCore.Controllers
             _db.SaveChanges();
             return Json(new {success = true});
         }
+
+        [Route("MigrateIds")]
+        [Authorize(Roles = AkRoles.SuperNintendo)]
+        [HttpGet]
+        public async Task<ActionResult> MigrateIds()
+        {
+            var dick = new Dictionary<string, string>();
+            foreach (var user in _userManager.Users)
+            {
+                dick[user.UserName] = user.Id;
+            }
+            var a = _db.SignUps.FirstOrDefault();
+            foreach (var signup in _db.SignUps.Where(x => x.PersonId == ""))
+            {
+                signup.PersonId = dick.ContainsKey(signup.Person) ? dick[signup.Person] : string.Empty;
+            }
+            var res = await _db.SaveChangesAsync();
+            return Ok(res);
+        }
     }
 }
+
