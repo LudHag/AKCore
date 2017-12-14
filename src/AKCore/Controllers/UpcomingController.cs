@@ -203,25 +203,7 @@ namespace AKCore.Controllers
             _db.SaveChanges();
             return Json(new {success = true});
         }
-
-        [Route("MigrateIds")]
-        [Authorize(Roles = AkRoles.SuperNintendo)]
-        [HttpGet]
-        public async Task<ActionResult> MigrateIds()
-        {
-            var dick = new Dictionary<string, string>();
-            foreach (var user in _userManager.Users)
-            {
-                dick[user.UserName] = user.Id;
-            }
-            var a = _db.SignUps.FirstOrDefault();
-            foreach (var signup in _db.SignUps.Where(x => x.PersonId == ""))
-            {
-                signup.PersonId = dick.ContainsKey(signup.Person) ? dick[signup.Person] : string.Empty;
-            }
-            var res = await _db.SaveChangesAsync();
-            return Ok(res);
-        }
+       
     }
 }
 
