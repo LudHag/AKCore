@@ -62,7 +62,7 @@
                                 <input type="hidden" name="userName" value="@u.UserName"/>
                                 <div class="form-group">
                                     <strong>Senast förtjänade medalj: @u.Medal</strong>
-                                    <select class="form-control input-sm" name="medal" asp-for="@u.Medal">
+                                    <select class="form-control input-sm" name="medal" id="deservedmedal--@u.UserName" asp-for="@u.Medal">
                                         <option value="">Ingen</option>
                                         @foreach (var m in AkMedals.TermMedals)
                                         {
@@ -78,7 +78,7 @@
                                 <input type="hidden" name="userName" value="@u.UserName" />
                                 <div class="form-group">
                                     <strong>Senast utdelad medalj: @u.GivenMedal</strong>
-                                    <select class="form-control input-sm" name="medal" asp-for="@u.GivenMedal">
+                                    <select class="form-control input-sm" name="medal" id="gottenmedal--@u.UserName" asp-for="@u.GivenMedal">
                                         <option value="">Ingen</option>
                                         @foreach (var m in AkMedals.TermMedals)
                                         {
@@ -99,7 +99,7 @@
                             <form class="form-inline add-role" action="/User/AddRole" method="POST">
                                 <div class="form-group">
                                     <label>Lägg till roll: </label>
-                                    <select class="form-control input-sm" name="Role">
+                                    <select class="form-control input-sm" id="roles--@u.UserName" name="Role">
                                         <option value="">Välj roll</option>
                                         @foreach (var r in AkRoles.Roles)
                                         {
@@ -122,7 +122,7 @@
                         <div class="edit-group">
                             <label>Lägg till post(er): </label>
                             <form class="form-inline add-post" action="/User/AddPost" method="POST">
-                                <select name="post" multiple class="form-control multi-select" asp-for="@posts">
+                                <select name="post" multiple class="form-control multi-select"id="posts--@u.UserName" asp-for="@posts">
                                     @foreach (var p in AkPoster.Poster)
                                     {
                                         <option>@p</option>
