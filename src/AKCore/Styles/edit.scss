@@ -443,7 +443,7 @@ table{
     position: absolute;
     right: 10px;
 }
-@media screen and (max-width: 767px) {
+@media screen and (max-width: $screen-xs-max) {
     .menu-row.sub-row {
         padding-left: 0;
     }

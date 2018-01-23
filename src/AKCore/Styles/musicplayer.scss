@@ -129,34 +129,39 @@
     }
 }
 
-@media screen and (max-width: 767px) {
-    .music-player .player-container{
-        display:block;
+@media screen and (max-width: $screen-xs-max) {
+    .music-player .player-container {
+        display: block;
         margin-top: 20px;
         max-height: inherit;
         max-height: initial;
-        .player{
+
+        .player {
             width: 100%;
         }
-        .player-module{
-            padding-top:30px;
-            padding-left:0;
+
+        .player-module {
+            padding-top: 30px;
+            padding-left: 0;
         }
-        .album-element{
+
+        .album-element {
             width: 125px;
         }
+
         .playlist-element {
             position: relative;
-            .name{
+
+            .name {
                 width: 82%;
                 display: inline-block;
             }
-            .glyphicon-download{
-                position:absolute;
-                top:50%;
+
+            .glyphicon-download {
+                position: absolute;
+                top: 50%;
                 transform: translateY(-50%);
             }
         }
-        
     }
 }

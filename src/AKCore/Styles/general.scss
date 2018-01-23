@@ -366,7 +366,7 @@ p.infobox {
     }
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: $screen-xs-max) {
     #adress-register .kamerer > div {
         &.name-email {
             width: 60%;
@@ -379,9 +379,11 @@ p.infobox {
             overflow: hidden;
         }
     }
+
     .content-wrapper {
         padding: 40px 7px;
     }
+
     header {
         height: 85px;
 

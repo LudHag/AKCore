@@ -113,25 +113,30 @@
     right: 17px;
     top: -42px;
 }
-@media screen and (max-width: 767px) {
-    .logo img{
+@media screen and (max-width: $screen-xs-max) {
+    .logo img {
         width: 388px;
-        max-width:80%;
+        max-width: 80%;
     }
-    .account{
+
+    .account {
         right: inherit;
-        top:82px;
-        p{
+        top: 82px;
+
+        p {
             display: inline-block;
         }
     }
-    .navigation{
-        display:none;
+
+    .navigation {
+        display: none;
     }
-    #open-mobile-menu{
-        display:block;
+
+    #open-mobile-menu {
+        display: block;
     }
-    nav{
+
+    nav {
         background: $akred;
     }
 }
