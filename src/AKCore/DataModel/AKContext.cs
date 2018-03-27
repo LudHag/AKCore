@@ -2,10 +2,8 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
-using System.IO;
 using System.Linq;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.AspNetCore.Hosting;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AKCore.DataModel
@@ -38,6 +36,7 @@ namespace AKCore.DataModel
         public DbSet<Track> Tracks { get; set; }
         public DbSet<Recruit> Recruits { get; set; }
         public DbSet<Hire> Hires { get; set; }
+        public DbSet<LogItem> Log { get; set; }
     }
 
     public class Page
