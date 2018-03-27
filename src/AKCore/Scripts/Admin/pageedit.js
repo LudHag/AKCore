@@ -8,6 +8,13 @@
 
 $(".chosen-select").chosen({ width: '100%'});
 
+$(".remove-page").on("click", function(e) {
+    e.preventDefault();
+    if (window.confirm("Är du säker på att du vill ta bort denna sida?")) {
+        window.location.href = $(this).attr("href");
+    }
+});
+
 $("#new-page-form")
     .on("submit",
         "form",
