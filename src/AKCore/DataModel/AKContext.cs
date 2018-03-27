@@ -28,6 +28,7 @@ namespace AKCore.DataModel
         }
 
         public DbSet<Page> Pages { get; set; }
+        public DbSet<Revision> Revisions { get; set; }
         public DbSet<Menu> Menus { get; set; }
         public DbSet<SubMenu> SubMenus { get; set; }
         public DbSet<Media> Medias { get; set; }
@@ -55,8 +56,27 @@ namespace AKCore.DataModel
         public bool LoggedOut { get; set; }
         public bool BalettOnly { get; set; }
         public DateTime LastModified { get; set; }
+        public List<Revision> Revisions { get; set; }
     }
-  
+
+    public class Revision
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+        [Required]
+        public string Name { get; set; }
+        [Required]
+        [StringLength(450)]
+        public string Slug { get; set; }
+        public string WidgetsJson { get; set; }
+        public bool LoggedIn { get; set; }
+        public bool LoggedOut { get; set; }
+        public bool BalettOnly { get; set; }
+        public DateTime Modified { get; set; }
+        public AkUser ModifiedBy { get; set; }
+    }
+
     public class Menu
     {
         [Key]
