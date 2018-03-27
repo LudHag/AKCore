@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace AKCore.Controllers
 {
@@ -113,12 +114,22 @@ namespace AKCore.Controllers
                 return Json(new { success = false, message = "Felaktigt ifyllda fällt" });
             }
 
-            var page = _db.Pages.FirstOrDefault(x => x.Id == pId);
+            var page = _db.Pages.Include(x=>x.Revisions).FirstOrDefault(x => x.Id == pId);
             if (page == null)
             {
                 return Json(new { success = false, message = "Could not find page with id id" });
             }
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
+
+            if (page.Revisions == null)
+            {
+                page.Revisions = new List<Revision>();
+            }
+            else if(page.Revisions.Count > 5)
+            {
+                var oldestRevision = page.Revisions.OrderBy(x => x.Modified).FirstOrDefault();
+                if (oldestRevision != null) _db.Revisions.Remove(oldestRevision);
+            }
 
             page.Revisions.Add(new Revision()
             {
@@ -139,7 +150,7 @@ namespace AKCore.Controllers
             page.LoggedOut = model.LoggedOut;
             page.BalettOnly = model.BalettOnly;
             page.LastModified = DateTime.Now;
-            _db.SaveChanges();
+            var a = _db.SaveChanges();
 
             return Json(new { success = true, message = "Uppdaterade sidan framgångsrikt" });
         }
@@ -148,11 +159,19 @@ namespace AKCore.Controllers
         [Authorize(Roles = "SuperNintendo")]
         public ActionResult RemovePage(string id)
         {
-            if (!int.TryParse(id, out int pId))
+            if (!int.TryParse(id, out var pId))
             {
                 return Redirect("/Edit");
             }
-            var page = _db.Pages.FirstOrDefault(x => x.Id == pId);
+            var page = _db.Pages.Include(x=>x.Revisions).FirstOrDefault(x => x.Id == pId);
+
+            if (page?.Revisions != null) { 
+                foreach (var rev in page.Revisions)
+                {
+                    _db.Revisions.Remove(rev);
+                }
+            }
+
             var topmenus = _db.Menus.Where(x => x.Link == page).ToList();
             foreach(var m in topmenus) {
                 m.Link = null;
