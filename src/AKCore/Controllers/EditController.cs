@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using AKCore.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using System.Threading.Tasks;
 using AKCore.DataModel;
 using Microsoft.AspNetCore.Authorization;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 
 namespace AKCore.Controllers
 {
@@ -15,10 +17,12 @@ namespace AKCore.Controllers
     public class EditController : Controller
     {
         private readonly AKContext _db;
+        private readonly UserManager<AkUser> _userManager;
 
-        public EditController(AKContext db)
+        public EditController(AKContext db, UserManager<AkUser> userManager)
         {
             _db = db;
+            _userManager = userManager;
         }
 
         [Authorize(Roles = "SuperNintendo,Editor")]
@@ -69,7 +73,7 @@ namespace AKCore.Controllers
         public ActionResult Page(string id)
         {
             
-            if (!int.TryParse(id, out int pId))
+            if (!int.TryParse(id, out var pId))
             {
                 return Redirect("/Edit");
             }
@@ -96,9 +100,9 @@ namespace AKCore.Controllers
         [HttpPost]
         [Route("Page/{id:int}")]
         [Authorize(Roles = "SuperNintendo,Editor")]
-        public ActionResult Page(PageEditModel model,string id)
+        public async Task<ActionResult> Page(PageEditModel model,string id)
         {
-            int.TryParse(id, out int pId);
+            int.TryParse(id, out var pId);
             if (pId == 0)
             {
                 return Json(new { success = false, message="Could not parse id" });
@@ -114,6 +118,20 @@ namespace AKCore.Controllers
             {
                 return Json(new { success = false, message = "Could not find page with id id" });
             }
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+
+            page.Revisions.Add(new Revision()
+            {
+                BalettOnly = page.BalettOnly,
+                LoggedIn = page.LoggedIn,
+                LoggedOut = page.LoggedOut,
+                Modified = DateTime.Now,
+                ModifiedBy = user,
+                Name = page.Name,
+                Slug = page.Slug,
+                WidgetsJson = page.WidgetsJson
+            });
+
             page.Name = model.Name;
             page.Slug = model.Slug;
             page.WidgetsJson = model.WidgetsJson;
