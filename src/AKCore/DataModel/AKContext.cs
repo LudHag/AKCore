@@ -246,5 +246,14 @@ namespace AKCore.DataModel
             return info;
         }
     }
-
+    public class LogItem
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+        public string Type { get; set; }
+        public string Comment { get; set; }
+        public DateTime Modified { get; set; }
+        public AkUser ModifiedBy { get; set; }
+    }
 }
