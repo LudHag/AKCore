@@ -1,0 +1,85 @@
+﻿@using AKCore.DataModel
+@using AKCore.Models
+@model LogModel
+@{
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+    var query = (string.IsNullOrEmpty(Model.Type) ? string.Empty: "&type=" + Model.Type) +
+                (string.IsNullOrEmpty(Model.UserName) ? string.Empty : "&user=" + Model.UserName);
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <form class="form-inline ak-search">
+            <div class="form-group">
+                <input type="text" name="user" class="form-control" asp-for="UserName" placeholder="Användarnamn">
+            </div>
+            <div class="form-group">
+                <select asp-for="Type" class="form-control">
+                    <option value="">Välj typ</option>
+                    @foreach (var i in AkLogTypes.LogTypes)
+                    {
+                        <option>@i</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-default">Sök</button>
+            </div>
+        </form>
+        <div id="adress-register">
+            <h1>Adressregister</h1>
+            <div class="adress-list">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="log-item-menu">
+        <div class="col-sm-2">
+            Tid
+        </div>
+        <div class="col-sm-2">
+            Typ
+        </div>
+        <div class="col-sm-2">
+            Användare
+        </div>
+        <div class="col-sm-6">
+            Händelse
+        </div>
+    </div>
+    @foreach (var logItem in Model.Log)
+    {
+        <div class="log-item">
+            <div class="col-sm-2">
+                @logItem.Modified.ToString("yy-MM-dd HH:mm")
+            </div>
+            <div class="col-sm-2">
+                @logItem.Type
+            </div>
+            <div class="col-sm-2">
+                @logItem.ModifiedBy.UserName
+            </div>
+            <div class="col-sm-6">
+                @logItem.Comment
+            </div>
+        </div>
+    }
+    @if (Model.TotalPages > 1)
+    {
+        <div class="col-xs-12">
+            <ul class="pagination">
+                @for (var i = 1; i <= Model.TotalPages; i++)
+                {
+                    <li class="@(Model.Page == i - 1 ? "active" : "")"><a href="?p=@(i - 1)@query">@i</a></li>
+                }
+            </ul>
+        </div>
+    }
+</div>
+
+@section scripts {
+    <script src="~/js/admin.js" asp-append-version="true"></script>
+}

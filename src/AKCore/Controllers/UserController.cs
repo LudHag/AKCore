@@ -252,7 +252,7 @@ namespace AKCore.Controllers
                 Type = AkLogTypes.User,
                 Modified = DateTime.Now,
                 ModifiedBy = editingUser,
-                Comment = "Användare med namn " + UserName + " får roll tillagd"
+                Comment = "Användare med namn " + UserName + " får roll " + Role + " tillagd"
             });
             _db.SaveChanges();
             return Json(new {success = true});
@@ -274,7 +274,7 @@ namespace AKCore.Controllers
                 Type = AkLogTypes.User,
                 Modified = DateTime.Now,
                 ModifiedBy = editingUser,
-                Comment = "Användare med namn " + UserName + " får roll borttagen"
+                Comment = "Användare med namn " + UserName + " får roll " + Role + " borttagen"
             });
             _db.SaveChanges();
             return Json(new {success = true});

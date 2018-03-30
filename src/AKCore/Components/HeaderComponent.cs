@@ -62,6 +62,11 @@ namespace AKCore.Components
                     adminMenu.Children.Add(new ModelMenu("Ändra sidor", "/Edit", true) {Id = 10017});
                     adminMenu.Children.Add(new ModelMenu("Ändra skivor", "/AlbumEdit", true));
 
+                    if (nintendo)
+                    {
+                        adminMenu.Children.Add(new ModelMenu("Adminlogg", "/Log", true));
+                    }
+
                     modelMenus.Add(adminMenu);
                     numberUnreadRecruits = _db.Recruits.Count(x => x.Archived == false);
                 }
