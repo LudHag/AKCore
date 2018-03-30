@@ -2,10 +2,12 @@
 using AKCore.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using System.Threading.Tasks;
 using AKCore.DataModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 
 namespace AKCore.Controllers
 {
@@ -14,10 +16,12 @@ namespace AKCore.Controllers
     public class MenuEditController : Controller
     {
         private readonly AKContext _db;
+        private readonly UserManager<AkUser> _userManager;
 
-        public MenuEditController(AKContext db)
+        public MenuEditController(AKContext db, UserManager<AkUser> userManager)
         {
             _db = db;
+            _userManager = userManager;
         }
 
         public ActionResult Index()
@@ -51,7 +55,7 @@ namespace AKCore.Controllers
 
         [HttpPost]
         [Route("AddTopMenu")]
-        public ActionResult AddTopMenu(string name, string pageId, string loggedIn, string balett)
+        public async Task<ActionResult> AddTopMenu(string name, string pageId, string loggedIn, string balett)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
@@ -71,7 +75,7 @@ namespace AKCore.Controllers
             }
             if (!string.IsNullOrWhiteSpace(pageId))
             {
-                if (int.TryParse(pageId, out int id))
+                if (int.TryParse(pageId, out var id))
                 {
                     var page = _db.Pages.FirstOrDefault(x => x.Id == id);
                     if (page != null)
@@ -80,6 +84,16 @@ namespace AKCore.Controllers
                     }
                 }
             }
+
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            _db.Log.Add(new LogItem()
+            {
+                Type = AkLogTypes.Menus,
+                Modified = DateTime.Now,
+                ModifiedBy = user,
+                Comment = "Toppmeny med namn " + m.Name + " skapas"
+            });
+
             _db.Menus.Add(m);
             _db.SaveChanges();
             return Json(new {success = true});
@@ -87,7 +101,7 @@ namespace AKCore.Controllers
 
         [HttpPost]
         [Route("EditMenu")]
-        public ActionResult EditMenu(string parentId, string menuId, string text, string pageId, string loggedIn, string balett)
+        public async Task<ActionResult> EditMenu(string parentId, string menuId, string text, string pageId, string loggedIn, string balett)
         {
             if (string.IsNullOrWhiteSpace(text))
             {
@@ -140,6 +154,16 @@ namespace AKCore.Controllers
                     menu.Link = null;
                 }
             }
+
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            _db.Log.Add(new LogItem()
+            {
+                Type = AkLogTypes.Menus,
+                Modified = DateTime.Now,
+                ModifiedBy = user,
+                Comment = "Meny med id " + menuId + " redigeras"
+            });
+
             var res = _db.SaveChanges();
             return res > 0 ? Json(new {success = true}) : Json(new { success = false, message="Inga ändringar gjorda" });
             
@@ -147,7 +171,7 @@ namespace AKCore.Controllers
 
         [HttpPost]
         [Route("AddSubMenu")]
-        public ActionResult AddSubMenu(string parentId, string pageId, string text)
+        public async Task<ActionResult> AddSubMenu(string parentId, string pageId, string text)
         {
             if (string.IsNullOrWhiteSpace(parentId) || string.IsNullOrWhiteSpace(pageId) || string.IsNullOrWhiteSpace(text))
             {
@@ -181,6 +205,15 @@ namespace AKCore.Controllers
                 }
                 parent.Children.Add(m);
 
+                var user = await _userManager.FindByNameAsync(User.Identity.Name);
+                _db.Log.Add(new LogItem()
+                {
+                    Type = AkLogTypes.Menus,
+                    Modified = DateTime.Now,
+                    ModifiedBy = user,
+                    Comment = "Submeny med namn " + text + " läggs till"
+                });
+
                 _db.SaveChanges();
                 return Json(new { success = true });
             }
@@ -189,7 +222,7 @@ namespace AKCore.Controllers
 
         [HttpPost]
         [Route("RemoveTopMenu")]
-        public ActionResult RemoveTopMenu(string id)
+        public async Task<ActionResult> RemoveTopMenu(string id)
         {
             if (string.IsNullOrWhiteSpace(id))
             {
@@ -209,14 +242,24 @@ namespace AKCore.Controllers
                 _db.SubMenus.Remove(menu.Children.First());
             }
 
+            var menuName = menu.Name;
             _db.Menus.Remove(menu);
+
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            _db.Log.Add(new LogItem()
+            {
+                Type = AkLogTypes.Menus,
+                Modified = DateTime.Now,
+                ModifiedBy = user,
+                Comment = "Submeny med namn " + menuName + " tas bort"
+            });
             _db.SaveChanges();
             return Json(new {success = true});
         }
 
         [HttpPost]
         [Route("MoveLeft")]
-        public ActionResult MoveLeft(string id)
+        public async Task<ActionResult> MoveLeft(string id)
         {
             if (string.IsNullOrWhiteSpace(id))
             {
@@ -239,13 +282,22 @@ namespace AKCore.Controllers
                 menu2.PosIndex = tempPos;
             }
 
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            _db.Log.Add(new LogItem()
+            {
+                Type = AkLogTypes.Menus,
+                Modified = DateTime.Now,
+                ModifiedBy = user,
+                Comment = "Meny med id " + id + " flyttas"
+            });
+
             _db.SaveChanges();
             return Json(new {success = true});
         }
 
         [HttpPost]
         [Route("MoveRight")]
-        public ActionResult MoveRight(string id)
+        public async Task<ActionResult> MoveRight(string id)
         {
             if (string.IsNullOrWhiteSpace(id))
             {
@@ -268,13 +320,22 @@ namespace AKCore.Controllers
                 menu2.PosIndex = tempPos;
             }
 
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            _db.Log.Add(new LogItem()
+            {
+                Type = AkLogTypes.Menus,
+                Modified = DateTime.Now,
+                ModifiedBy = user,
+                Comment = "Meny med id " + id + " flyttas"
+            });
+
             _db.SaveChanges();
             return Json(new { success = true });
         }
 
         [HttpPost]
         [Route("MoveUp")]
-        public ActionResult MoveUp(string id,string parent)
+        public async Task<ActionResult> MoveUp(string id,string parent)
         {
             if (string.IsNullOrWhiteSpace(id)||string.IsNullOrWhiteSpace(parent))
             {
@@ -294,7 +355,7 @@ namespace AKCore.Controllers
                 return Json(new { success = false, message = "Ej numeriskt id" });
             }
             var topmenu = _db.Menus.Include(x=>x.Children).FirstOrDefault(x => x.Id == tId);
-            if (topmenu != null)
+            if (topmenu == null) return Json(new {success = false, message = "Topmeny finns ej"});
             {
                 var menu2 = topmenu.Children.Where(x => x.SubPosIndex < menu.SubPosIndex).OrderByDescending(x => x.SubPosIndex).FirstOrDefault();
 
@@ -304,19 +365,25 @@ namespace AKCore.Controllers
                     menu.SubPosIndex = menu2.SubPosIndex;
                     menu2.SubPosIndex = tempPos;
                 }
-                    
+
+                var user = await _userManager.FindByNameAsync(User.Identity.Name);
+                _db.Log.Add(new LogItem()
+                {
+                    Type = AkLogTypes.Menus,
+                    Modified = DateTime.Now,
+                    ModifiedBy = user,
+                    Comment = "Meny med id " + id + " flyttas"
+                });
+
                 _db.SaveChanges();
                 return Json(new { success = true });
             }
-            else
-            {
-                return Json(new { success = false, message = "Topmeny finns ej" });
-            }
+
         }
 
         [HttpPost]
         [Route("MoveDown")]
-        public ActionResult MoveDown(string id, string parent)
+        public async Task<ActionResult> MoveDown(string id, string parent)
         {
             if (string.IsNullOrWhiteSpace(id) || string.IsNullOrWhiteSpace(parent))
             {
@@ -346,19 +413,24 @@ namespace AKCore.Controllers
                     menu.SubPosIndex = menu2.SubPosIndex;
                     menu2.SubPosIndex = tempPos;
                 }
-
+                var user = await _userManager.FindByNameAsync(User.Identity.Name);
+                _db.Log.Add(new LogItem()
+                {
+                    Type = AkLogTypes.Menus,
+                    Modified = DateTime.Now,
+                    ModifiedBy = user,
+                    Comment = "Meny med id " + id + " flyttas"
+                });
                 _db.SaveChanges();
                 return Json(new { success = true });
             }
-            else
-            {
-                return Json(new { success = false, message = "Topmeny finns ej" });
-            }
+
+            return Json(new { success = false, message = "Topmeny finns ej" });
         }
 
         [HttpPost]
         [Route("RemoveSubMenu")]
-        public ActionResult RemoveSubMenu(string id)
+        public async Task<ActionResult> RemoveSubMenu(string id)
         {
             if (string.IsNullOrWhiteSpace(id))
             {
@@ -374,7 +446,18 @@ namespace AKCore.Controllers
                 return Json(new {success = false, message = "Meny finns ej"});
             }
 
+            var menuName = menu.Name;
             _db.SubMenus.Remove(menu);
+
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            _db.Log.Add(new LogItem()
+            {
+                Type = AkLogTypes.Menus,
+                Modified = DateTime.Now,
+                ModifiedBy = user,
+                Comment = "Submeny med namn " + menuName + " flyttas"
+            });
+
             _db.SaveChanges();
             return Json(new {success = true});
         }

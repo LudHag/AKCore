@@ -233,5 +233,23 @@ namespace AKCore.DataModel
             NoNation
         };
     }
+    public class AkLogTypes
+    {
+        public const string Page = "Page";
+        public const string User = "User";
+        public const string Album = "Album";
+        public const string Files = "Files";
+        public const string Events = "Events";
+        public const string Menus = "Menus";
+        public static readonly IList<string> LogTypes = new List<string>()
+        {
+            Page,
+            User,
+            Album,
+            Files,
+            Events,
+            Menus
+        };
+    }
 }
 

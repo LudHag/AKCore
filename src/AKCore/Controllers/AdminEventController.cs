@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using AKCore.DataModel;
 using AKCore.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 
 namespace AKCore.Controllers
 {
@@ -15,9 +17,11 @@ namespace AKCore.Controllers
     public class AdminEventController : Controller
     {
         private readonly AKContext _db;
-        public AdminEventController(AKContext db)
+        private readonly UserManager<AkUser> _userManager;
+        public AdminEventController(AKContext db, UserManager<AkUser> userManager)
         {
             _db = db;
+            _userManager = userManager;
         }
         public ActionResult Index(string Future, string page)
         {
@@ -49,7 +53,7 @@ namespace AKCore.Controllers
 
         [HttpPost]
         [Route("Edit")]
-        public ActionResult Edit(AdminEventModel model)
+        public async Task<ActionResult> Edit(AdminEventModel model)
         {
             if(model.Type == AkEventTypes.Spelning)
             {
@@ -75,6 +79,16 @@ namespace AKCore.Controllers
                     changeEvent.InternalDescription = model.InternalDescription;
                     changeEvent.Type = model.Type;
                     changeEvent.Secret = model.Secret;
+
+                    var user = await _userManager.FindByNameAsync(User.Identity.Name);
+                    _db.Log.Add(new LogItem()
+                    {
+                        Type = AkLogTypes.Events,
+                        Modified = DateTime.Now,
+                        ModifiedBy = user,
+                        Comment = "Händelse med id " + model.Id + " redigeras"
+                    });
+
                     _db.SaveChanges();
                     return Json(new {success = true});
                 }
@@ -98,7 +112,16 @@ namespace AKCore.Controllers
                         StartsTime = model.Starts,
                         ThereTime = model.There,
                         Secret = model.Secret
-                };
+                    };
+                    var user = await _userManager.FindByNameAsync(User.Identity.Name);
+                    _db.Log.Add(new LogItem()
+                    {
+                        Type = AkLogTypes.Events,
+                        Modified = DateTime.Now,
+                        ModifiedBy = user,
+                        Comment = "Händelse med namn " + model.Name + " skapas"
+                    });
+
                     _db.Events.Add(newEvent);
                     _db.SaveChanges();
                     return Json(new {success = true});
@@ -108,12 +131,21 @@ namespace AKCore.Controllers
 
         [HttpPost]
         [Route("Remove/{id:int}")]
-        public ActionResult Remove(string id)
+        public async Task<ActionResult> Remove(string id)
         {
             if (!int.TryParse(id, out int eId))
                 return Json(new { success = false, message = "Misslyckades med att ta bort event" });
             var e = _db.Events.Include(x => x.SignUps).FirstOrDefault(x => x.Id == eId);
             if (e == null) return Json(new {success = false, message = "Misslyckades med att ta bort event"});
+
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            _db.Log.Add(new LogItem()
+            {
+                Type = AkLogTypes.Events,
+                Modified = DateTime.Now,
+                ModifiedBy = user,
+                Comment = "Händelse med id " + id + " tas bort"
+            });
 
             _db.Events.Remove(e);
             _db.SaveChanges();

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AKCore.DataModel;
@@ -17,14 +18,17 @@ namespace AKCore.Controllers
     {
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<AkUser> _userManager;
+        private readonly AKContext _db;
 
         public UserController(
             UserManager<AkUser> userManager,
-            RoleManager<IdentityRole> roleManager
+            RoleManager<IdentityRole> roleManager,
+            AKContext db
         )
         {
             _roleManager = roleManager;
             _userManager = userManager;
+            _db = db;
         }
 
         public ActionResult Index(UsersModel model)
@@ -130,6 +134,17 @@ namespace AKCore.Controllers
             user.GivenMedal = model.GivenMedal;
 
             var result = await _userManager.UpdateAsync(user);
+
+            var editingUser = await _userManager.FindByNameAsync(User.Identity.Name);
+            _db.Log.Add(new LogItem()
+            {
+                Type = AkLogTypes.User,
+                Modified = DateTime.Now,
+                ModifiedBy = editingUser,
+                Comment = "Användare med namn " + user.GetName() + " redigeras"
+            });
+            _db.SaveChanges();
+
             return Json(new { success = result.Succeeded, message = result.ToString() });
         }
 
@@ -185,6 +200,16 @@ namespace AKCore.Controllers
 
             await _userManager.AddToRoleAsync(newUser, AkRoles.Medlem);
 
+            var editingUser = await _userManager.FindByNameAsync(User.Identity.Name);
+            _db.Log.Add(new LogItem()
+            {
+                Type = AkLogTypes.User,
+                Modified = DateTime.Now,
+                ModifiedBy = editingUser,
+                Comment = "Användare med namn " + newUser.GetName() + " skapad"
+            });
+            _db.SaveChanges();
+
             return Json(new {success = true, message = "Användare skapades"});
         }
 
@@ -193,8 +218,21 @@ namespace AKCore.Controllers
         {
             var res = await _userManager.FindByNameAsync(userName);
             var delRes = await _userManager.DeleteAsync(res);
+
             if (delRes.Succeeded)
+            {
+                var editingUser = await _userManager.FindByNameAsync(User.Identity.Name);
+                _db.Log.Add(new LogItem()
+                {
+                    Type = AkLogTypes.User,
+                    Modified = DateTime.Now,
+                    ModifiedBy = editingUser,
+                    Comment = "Användare med namn " + userName + " borttagen"
+                });
+                _db.SaveChanges();
+
                 return Json(new {success = true, message = "Användare borttagen"});
+            }
             return Json(new {success = false, message = delRes.ToString()});
         }
 
@@ -207,9 +245,17 @@ namespace AKCore.Controllers
                 return Json(new {success = false, message = "Misslyckades att lägga till roll"});
 
             var result = await _userManager.AddToRoleAsync(user, Role);
-            if (result.Succeeded)
-                return Json(new {success = true});
-            return Json(new {success = false, message = "Misslyckades att lägga till roll"});
+            if (!result.Succeeded) return Json(new {success = false, message = "Misslyckades att lägga till roll"});
+            var editingUser = await _userManager.FindByNameAsync(User.Identity.Name);
+            _db.Log.Add(new LogItem()
+            {
+                Type = AkLogTypes.User,
+                Modified = DateTime.Now,
+                ModifiedBy = editingUser,
+                Comment = "Användare med namn " + UserName + " får roll tillagd"
+            });
+            _db.SaveChanges();
+            return Json(new {success = true});
         }
 
         [Route("RemoveRole")]
@@ -221,9 +267,17 @@ namespace AKCore.Controllers
                 return Json(new {success = false, message = "Misslyckades att ta bort roll"});
 
             var result = await _userManager.RemoveFromRoleAsync(user, Role);
-            if (result.Succeeded)
-                return Json(new {success = true});
-            return Json(new {success = false, message = result.ToString()});
+            if (!result.Succeeded) return Json(new {success = false, message = result.ToString()});
+            var editingUser = await _userManager.FindByNameAsync(User.Identity.Name);
+            _db.Log.Add(new LogItem()
+            {
+                Type = AkLogTypes.User,
+                Modified = DateTime.Now,
+                ModifiedBy = editingUser,
+                Comment = "Användare med namn " + UserName + " får roll borttagen"
+            });
+            _db.SaveChanges();
+            return Json(new {success = true});
         }
 
         [Route("ChangePassword")]
@@ -235,6 +289,16 @@ namespace AKCore.Controllers
             var result = await _userManager.ResetPasswordAsync(user, token, password);
             if (!result.Succeeded)
                 return Json(new {success = result.Succeeded, message = result.ToString()});
+
+            var editingUser = await _userManager.FindByNameAsync(User.Identity.Name);
+            _db.Log.Add(new LogItem()
+            {
+                Type = AkLogTypes.User,
+                Modified = DateTime.Now,
+                ModifiedBy = editingUser,
+                Comment = "Användare med namn " + userName + " får lösenord ändrat"
+            });
+            _db.SaveChanges();
 
             return Json(new {success = result.Succeeded, message = "Lösenord ändrat"});
         }

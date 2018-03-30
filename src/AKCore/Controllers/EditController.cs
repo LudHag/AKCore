@@ -41,7 +41,7 @@ namespace AKCore.Controllers
         [HttpPost]
         [Route("CreatePage")]
         [Authorize(Roles = "SuperNintendo")]
-        public ActionResult CreatePage(string name, string slug, string loggedIn)
+        public async Task<ActionResult> CreatePage(string name, string slug, string loggedIn)
         {
             if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(slug))
             {
@@ -64,6 +64,16 @@ namespace AKCore.Controllers
                 LastModified = DateTime.Now
             };
             _db.Pages.Add(page);
+
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            _db.Log.Add(new LogItem()
+            {
+                Type = AkLogTypes.Page,
+                Modified = DateTime.Now,
+                ModifiedBy = user,
+                Comment = "Sida skapad med namn " + name
+            });
+
             _db.SaveChanges();
             var id = _db.Pages.First(x => x.Slug == slug).Id;
             return Json(new {success = true, redirect = "/Edit/Page/" + id});
@@ -182,6 +192,15 @@ namespace AKCore.Controllers
             page.LoggedOut = model.LoggedOut;
             page.BalettOnly = model.BalettOnly;
             page.LastModified = DateTime.Now;
+
+            _db.Log.Add(new LogItem()
+            {
+                Type = AkLogTypes.Page,
+                Modified = DateTime.Now,
+                ModifiedBy = user,
+                Comment = "Sida med namn " + model.Name + " uppdaterad"
+            });
+
             _db.SaveChanges();
             return Json(new { success = true, message = "Uppdaterade sidan framgångsrikt", revlink = latestRevisionLink });
         }
@@ -195,7 +214,7 @@ namespace AKCore.Controllers
 
         [Route("RemovePage/{id:int}")]
         [Authorize(Roles = "SuperNintendo")]
-        public ActionResult RemovePage(string id)
+        public async Task<ActionResult> RemovePage(string id)
         {
             if (!int.TryParse(id, out var pId))
             {
@@ -224,7 +243,19 @@ namespace AKCore.Controllers
             {
                 return Redirect("/Edit");
             }
+            var pageName = page.Name;
+
             _db.Pages.Remove(page);
+
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            _db.Log.Add(new LogItem()
+            {
+                Type = AkLogTypes.Page,
+                Modified = DateTime.Now,
+                ModifiedBy = user,
+                Comment = "Sida med namn " + pageName + " borttagen"
+            });
+
             _db.SaveChanges();
 
             return Redirect("/Edit");
