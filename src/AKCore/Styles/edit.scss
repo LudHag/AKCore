@@ -127,6 +127,25 @@
     }
 }
 
+.revisions {
+    h2 {
+        font-weight: 500;
+        margin-top: 0;
+        color: $akwhite;
+        font-size: 15px;
+        line-height: 15px;
+        margin-bottom: 15px;
+    }
+
+    .revision {
+        font-size: 12px;
+        display: block;
+        &.selected{
+            text-decoration: underline;
+        }
+    }
+}
+
 .remove-role {
     color: $akwhite;
     font-size: 12px;

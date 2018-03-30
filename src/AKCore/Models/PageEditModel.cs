@@ -22,8 +22,11 @@ namespace AKCore.Models
         [DisplayName("Enbart balett")]
         public bool BalettOnly { get; set; }
         public string Template { get; set; }
+        public int PageId { get; set; }
+        public Revision SelectedRevision { get; set; }
         public DateTime LastModified { get; set; }
         public IList<Album> Albums { get; set; }
         public IList<Widget> Widgets { get; set; }
+        public IEnumerable<Revision> Revisions { get; set; }
     }
 }

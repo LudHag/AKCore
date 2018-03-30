@@ -71,14 +71,9 @@ namespace AKCore.Controllers
 
         [Route("Page/{id:int}")]
         [Authorize(Roles = "SuperNintendo,Editor")]
-        public ActionResult Page(string id)
+        public ActionResult Page(int id)
         {
-            
-            if (!int.TryParse(id, out var pId))
-            {
-                return Redirect("/Edit");
-            }
-            var page = _db.Pages.FirstOrDefault(x => x.Id == pId);
+            var page = _db.Pages.Include(x=>x.Revisions).ThenInclude(x=>x.ModifiedBy).FirstOrDefault(x => x.Id == id);
             if (page == null)
             {
                 return Redirect("/Edit");
@@ -87,17 +82,53 @@ namespace AKCore.Controllers
             {
                 Name = page.Name,
                 Slug = page.Slug,
+                PageId = page.Id,
                 LastModified = page.LastModified,
                 WidgetsJson = page.WidgetsJson,
                 Albums = _db.Albums.ToList(),
                 LoggedIn = page.LoggedIn,
                 LoggedOut = page.LoggedOut,
                 BalettOnly = page.BalettOnly,
-                Widgets = page.WidgetsJson != null ? JsonConvert.DeserializeObject<List<Widget>>(page.WidgetsJson) : new List<Widget>()
+                Widgets = page.WidgetsJson != null ? JsonConvert.DeserializeObject<List<Widget>>(page.WidgetsJson) : new List<Widget>(),
+                Revisions = page.Revisions?.SkipLast(1)
             };
             ViewBag.Title = "Redigera " + page.Name;
             return View("EditPage", model);
         }
+
+        [Route("Page/{id:int}/{revisionId:int}")]
+        [Authorize(Roles = "SuperNintendo,Editor")]
+        public ActionResult PageRevision(int id, int revisionId)
+        {
+            var page = _db.Pages.Include(x => x.Revisions).ThenInclude(x => x.ModifiedBy).FirstOrDefault(x => x.Id == id);
+            if (page == null)
+            {
+                return Redirect("/Edit");
+            }
+            var revision = page.Revisions.FirstOrDefault(x => x.Id == revisionId);
+            if (revision == null)
+            {
+                return Redirect("/Edit");
+            }
+            var model = new PageEditModel
+            {
+                Name = revision.Name,
+                Slug = revision.Slug,
+                PageId = page.Id,
+                LastModified = page.LastModified,
+                WidgetsJson = revision.WidgetsJson,
+                Albums = _db.Albums.ToList(),
+                LoggedIn = revision.LoggedIn,
+                LoggedOut = revision.LoggedOut,
+                BalettOnly = revision.BalettOnly,
+                SelectedRevision = revision,
+                Widgets = revision.WidgetsJson != null ? JsonConvert.DeserializeObject<List<Widget>>(revision.WidgetsJson) : new List<Widget>(),
+                Revisions = page.Revisions?.SkipLast(1)
+            };
+            ViewBag.Title = "Redigera " + page.Name;
+            return View("EditPage", model);
+        }
+
         [HttpPost]
         [Route("Page/{id:int}")]
         [Authorize(Roles = "SuperNintendo,Editor")]
@@ -133,14 +164,14 @@ namespace AKCore.Controllers
 
             page.Revisions.Add(new Revision()
             {
-                BalettOnly = page.BalettOnly,
-                LoggedIn = page.LoggedIn,
-                LoggedOut = page.LoggedOut,
+                BalettOnly = model.BalettOnly,
+                LoggedIn = model.LoggedIn,
+                LoggedOut = model.LoggedOut,
                 Modified = DateTime.Now,
                 ModifiedBy = user,
-                Name = page.Name,
-                Slug = page.Slug,
-                WidgetsJson = page.WidgetsJson
+                Name = model.Name,
+                Slug = model.Slug,
+                WidgetsJson = model.WidgetsJson
             });
 
             page.Name = model.Name;
