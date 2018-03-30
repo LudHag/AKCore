@@ -132,10 +132,9 @@ namespace AKCore.Controllers
         [HttpPost]
         [Route("Page/{id:int}")]
         [Authorize(Roles = "SuperNintendo,Editor")]
-        public async Task<ActionResult> Page(PageEditModel model,string id)
+        public async Task<ActionResult> Page(PageEditModel model,int id)
         {
-            int.TryParse(id, out var pId);
-            if (pId == 0)
+            if (id == 0)
             {
                 return Json(new { success = false, message="Could not parse id" });
             }
@@ -145,7 +144,7 @@ namespace AKCore.Controllers
                 return Json(new { success = false, message = "Felaktigt ifyllda fällt" });
             }
 
-            var page = _db.Pages.Include(x=>x.Revisions).FirstOrDefault(x => x.Id == pId);
+            var page = _db.Pages.Include(x=>x.Revisions).ThenInclude(x=>x.ModifiedBy).FirstOrDefault(x => x.Id == id);
             if (page == null)
             {
                 return Json(new { success = false, message = "Could not find page with id id" });
@@ -161,6 +160,8 @@ namespace AKCore.Controllers
                 var oldestRevision = page.Revisions.OrderBy(x => x.Modified).FirstOrDefault();
                 if (oldestRevision != null) _db.Revisions.Remove(oldestRevision);
             }
+            var latestRevision = page.Revisions.LastOrDefault();
+            var latestRevisionLink = CreateRevisionLink(latestRevision, id);
 
             page.Revisions.Add(new Revision()
             {
@@ -181,9 +182,15 @@ namespace AKCore.Controllers
             page.LoggedOut = model.LoggedOut;
             page.BalettOnly = model.BalettOnly;
             page.LastModified = DateTime.Now;
-            var a = _db.SaveChanges();
+            _db.SaveChanges();
+            return Json(new { success = true, message = "Uppdaterade sidan framgångsrikt", revlink = latestRevisionLink });
+        }
 
-            return Json(new { success = true, message = "Uppdaterade sidan framgångsrikt" });
+        private string CreateRevisionLink(Revision rev, int pageId)
+        {
+            if (rev==null) return null;
+            var text = rev.Modified.ToString("yy-MM-dd HH:mm") + " - " + rev.ModifiedBy.GetName();
+            return $@"<a href=""/Edit/Page/{pageId}/{rev.Id}"" class=""revision"">{text}</a>";
         }
 
         [Route("RemovePage/{id:int}")]

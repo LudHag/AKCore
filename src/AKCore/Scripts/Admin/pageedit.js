@@ -43,31 +43,50 @@ $("#new-page-form")
 
         });
 
+function updateRevisions(revlink) {
+    var revisions = $(".revisions");
+    if (revisions) {
+        var revisionList = revisions.find(".revision");
+        if (revisionList.length > 4) {
+            revisionList.first().remove();
+        }
+        revisions.append(revlink);
+    }
+}
+
 $("#page-edit")
     .on("submit",
         function(e) {
             e.preventDefault();
             var form = $(this);
+            var isRev = form.data("isrev");
             var error = form.find(".alert-danger");
             var success = form.find(".alert-success");
-            $.ajax({
-                url: form.attr("action"),
-                type: "POST",
-                data: form.serialize() + "&WidgetsJson=" + jsonifyWidgets(),
-                success: function(res) {
-                    if (res.success) {
-                        success.text(res.message);
-                        success.slideDown().delay(4000).slideUp();
-                    } else {
-                        error.text(res.message);
+            if (!isRev || window.confirm("Är du säker på att du vill ersätta sidan med denna version?")) {
+                $.ajax({
+                    url: form.attr("action"),
+                    type: "POST",
+                    data: form.serialize() + "&WidgetsJson=" + jsonifyWidgets(),
+                    success: function(res) {
+                        if (res.success) {
+                            if (isRev) {
+                                window.location.href = form.attr("action");
+                            } else {
+                                success.text(res.message);
+                                success.slideDown().delay(4000).slideUp();
+                                updateRevisions(res.revlink);
+                            }
+                        } else {
+                            error.text(res.message);
+                            error.slideDown().delay(4000).slideUp();
+                        }
+                    },
+                    error: function(err) {
+                        error.text("Misslyckades med att spara sida");
                         error.slideDown().delay(4000).slideUp();
                     }
-                },
-                error: function(err) {
-                    error.text("Misslyckades med att spara sida");
-                    error.slideDown().delay(4000).slideUp();
-                }
-            });
+                });
+            }
         });
 
 
