@@ -44,49 +44,6 @@
                 });
             });
 
-    $("#fb-login")
-        .on("click",
-            function(e) {
-                e.preventDefault();
-                fbGetLoginId(function(fbId) {
-                    $.ajax({
-                        url: "/Account/FbLogin?fbId=" + fbId,
-                        type: "POST",
-                        success: function(res) {
-                            if (res.success) {
-                                window.location.reload();
-                            } else {
-                                var error = $("#loginForm").find(".alert-danger");
-                                error.text("Kontot är ej kopplat med Facebook");
-                                error.slideDown().delay(4000).slideUp();
-                            }
-                        },
-                        error: function(err) {
-                            console.log(err);
-                        }
-                    });
-                });
-
-            });
-
-
-
-
-    $(document)
-        .ready(function() {
-            $.ajaxSetup({ cache: true });
-            $.getScript("//connect.facebook.net/en_US/sdk.js",
-                function() {
-                    FB.init({
-                        appId: "283356482023145",
-                        version: "v2.7"
-                    });
-                });
-        });
-
-
-    
-
     $("#open-mobile-menu")
         .on("click",
         function (e) {
@@ -175,20 +132,5 @@
 });
 
 function flojt() { var a = document, b = a.getElementById("__cornify_nodes"), c = null, d = ["https://cornify.com/js/cornify.js", "https://cornify.com/js/cornify_run.js"]; if (b) cornify_add(); else { c = a.createElement("div"), c.id = "__cornify_nodes", a.getElementsByTagName("body")[0].appendChild(c); for (var e = 0; e < d.length; e++) b = a.createElement("script"), b.src = d[e], c.appendChild(b) } }
-function fbGetLoginId(callback) {
-    FB.getLoginStatus(function (response) {
-        if (response.status === "connected") {
-            callback(response.authResponse.userID);
-        } else if (response.status === "not_authorized") {
-            FB.login(function (lresp) {
-                callback(lresp.authResponse.userID);
-            });
-        } else {
-            FB.login(function (lresp) {
-                callback(lresp.authResponse.userID);
-            });
-        }
-    });
-}
 
 new Clipboard('.copy-btn');

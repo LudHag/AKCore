@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace AKCore.Models
@@ -36,9 +35,6 @@ namespace AKCore.Models
 
         public string Medal { get; set; }
         public string GivenMedal { get; set; }
-
-        public bool Facebook { get; set; }
-        public bool Google { get; set; }
 
         public IList<string> Roles { get; set; }
         public IList<string> Poster { get; set; }

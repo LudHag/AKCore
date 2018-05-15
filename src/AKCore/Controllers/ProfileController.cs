@@ -48,7 +48,6 @@ namespace AKCore.Controllers
                 Nation = user.Nation,
                 Instrument = user.Instrument,
                 OtherInstrument = string.IsNullOrWhiteSpace(user.OtherInstruments) ? null : user.OtherInstruments.Split(',').ToList(),
-                Facebook = logins.Any(x=>x.LoginProvider=="Facebook"),
                 Poster = !string.IsNullOrWhiteSpace(user.SlavPoster) ? JsonConvert.DeserializeObject<List<string>>(user.SlavPoster) : new List<string>(),
                 Roles = await _userManager.GetRolesAsync(user),
                 Medal = user.Medal,
@@ -94,34 +93,6 @@ namespace AKCore.Controllers
             }
 
             return Json(new {success = result.Succeeded, message = "Lösenord ändrat"});
-        }
-
-        [Route("FbConnect")]
-        public async Task<ActionResult> FbConnect(string fbId)
-        {
-            if (fbId == null)
-            {
-                return Json(new {success = false, message = "Inget login kopplat"});
-            }
-            var user = await _userManager.FindByNameAsync(User.Identity.Name);
-            var loginInfo = new UserLoginInfo("Facebook", fbId, user.UserName);
-            var addLoginAsync = await _userManager.AddLoginAsync(user, loginInfo);
-
-            return Json(new {success = addLoginAsync.Succeeded, message = addLoginAsync.ToString()});
-        }
-
-        [Route("RemoveFbConnect")]
-        public async Task<ActionResult> RemoveFbConnect(string fbId)
-        {
-            var user = await _userManager.FindByNameAsync(User.Identity.Name);
-            var res = await _userManager.RemoveLoginAsync(user, "Facebook", fbId);
-
-            if (res.Succeeded)
-            {
-                await _signInManager.SignInAsync(user, true);
-            }
-
-            return Json(new {success = res.Succeeded, message = res.ToString()});
         }
     }
 }

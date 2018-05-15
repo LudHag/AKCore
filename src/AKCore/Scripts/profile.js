@@ -63,47 +63,4 @@ $("#change-profile-password")
             });
         });
 
-$("#fb-connect")
-    .on("click",
-        function(e) {
-            e.preventDefault();
-            fbGetLoginId(function(fbId) {
-                $.ajax({
-                    url: "/Profile/FbConnect?fbId=" + fbId,
-                    type: "POST",
-                    success: function(res) {
-                        if (res.success) {
-                            $("#fb-connect").hide();
-                            $("#fb-disconnect").show();
-                        } else {
-                        }
-                    },
-                    error: function(err) {
-                        console.log(err);
-                    }
-                });
-            });
-        });
 $('#update-profile-form .multi-select').multiSelect({});
-$("#fb-disconnect")
-    .on("click",
-        function(e) {
-            e.preventDefault();
-            fbGetLoginId(function(fbId) {
-                $.ajax({
-                    url: "/Profile/RemoveFbConnect?fbId=" + fbId,
-                    type: "POST",
-                    success: function(res) {
-                        if (res.success) {
-                            $("#fb-disconnect").hide();
-                            $("#fb-connect").show();
-                        } else {
-                        }
-                    },
-                    error: function(err) {
-                        console.log(err);
-                    }
-                });
-            });
-
-        });

@@ -78,12 +78,6 @@
             </form>
         </div>
         <div class="col-md-6">
-            <h3>Koppla till sociala konton:</h3>
-            <div>
-                <a href="#" class="btn btn-facebook" style="@(Model.Facebook ? "display:none;" : "")" id="fb-connect">Koppla till Facebook</a>
-                <a href="#" class="btn btn-facebook" style="@(Model.Facebook ? "" : "display:none;")" id="fb-disconnect">Ta bort koppling till Facebook</a>
-            </div>
-
             <h3>Byt lösenord:</h3>
             <form id="change-profile-password" method="POST" action="/Profile/ChangePassword">
                 <div class="alert alert-danger" style="display: none;"></div>
