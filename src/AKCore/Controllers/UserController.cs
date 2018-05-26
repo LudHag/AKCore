@@ -98,11 +98,7 @@ namespace AKCore.Controllers
                 Email = user.Email,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                Adress = user.Adress,
-                ZipCode = user.ZipCode,
-                City = user.City,
                 Phone = user.Phone,
-                Nation = user.Nation,
                 Instrument = user.Instrument,
                 OtherInstrument = string.IsNullOrWhiteSpace(user.OtherInstruments) ? null : user.OtherInstruments.Split(',').ToList(),
                 Poster = user.SlavPoster != null ? JsonConvert.DeserializeObject<List<string>>(user.SlavPoster) : new List<string>()
@@ -122,11 +118,7 @@ namespace AKCore.Controllers
             user.Email = model.Email;
             user.FirstName = model.FirstName;
             user.LastName = model.LastName;
-            user.Adress = model.Adress;
-            user.ZipCode = model.ZipCode;
-            user.City = model.City;
             user.Phone = model.Phone;
-            user.Nation = model.Nation;
             user.Instrument = model.Instrument;
             user.SlavPoster = model.Poster == null ? "" : JsonConvert.SerializeObject(model.Poster);
             user.OtherInstruments = model.OtherInstrument == null ? "" : string.Join(",", model.OtherInstrument);
@@ -167,11 +159,7 @@ namespace AKCore.Controllers
                 Email = model.Email,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
-                Adress = model.Adress,
-                ZipCode = model.ZipCode,
-                City = model.City,
                 Phone = model.Phone,
-                Nation = model.Nation,
                 Instrument = model.Instrument,
                 SlavPoster = model.Poster ==null ? "" : JsonConvert.SerializeObject(model.Poster),
                 Medal = model.Medal,

@@ -41,11 +41,7 @@ namespace AKCore.Controllers
                 Email = user.Email,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                Adress = user.Adress,
-                ZipCode = user.ZipCode,
-                City = user.City,
                 Phone = user.Phone,
-                Nation = user.Nation,
                 Instrument = user.Instrument,
                 OtherInstrument = string.IsNullOrWhiteSpace(user.OtherInstruments) ? null : user.OtherInstruments.Split(',').ToList(),
                 Poster = !string.IsNullOrWhiteSpace(user.SlavPoster) ? JsonConvert.DeserializeObject<List<string>>(user.SlavPoster) : new List<string>(),
@@ -65,11 +61,7 @@ namespace AKCore.Controllers
             user.Email = model.Email;
             user.FirstName = model.FirstName;
             user.LastName = model.LastName;
-            user.Adress = model.Adress;
-            user.ZipCode = model.ZipCode;
-            user.City = model.City;
             user.Phone = model.Phone;
-            user.Nation = model.Nation;
             user.Instrument = model.Instrument;
             user.OtherInstruments = model.OtherInstrument == null ? "" : string.Join(",",model.OtherInstrument);
             var result = await _userManager.UpdateAsync(user);

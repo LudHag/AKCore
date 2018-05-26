@@ -25,34 +25,12 @@
                             <input type="text" autocomplete="off" class="form-control" name="LastName" placeholder="Efternamn" value="@Model.LastName" >
                         </div>
                         <div class="form-group">
-                            <label>Adress</label>
-                            <input type="text" autocomplete="off" class="form-control" name="Adress" placeholder="Adress" value="@Model.Adress" >
-                        </div>
-                        <div class="form-group">
-                            <label>Postnummer</label>
-                            <input type="text" autocomplete="off" class="form-control" name="ZipCode" placeholder="Postnummer" value="@Model.ZipCode" >
-                        </div>
-                        <div class="form-group">
-                            <label>Stad</label>
-                            <input type="text" autocomplete="off" class="form-control" name="Stad" placeholder="Stad" value="@Model.City" >
-                        </div>
-                        <div class="form-group">
                             <label>Telefonnummer</label>
                             <input type="text" autocomplete="off" class="form-control" name="Phone" placeholder="Telefonnummer" value="@Model.Phone" >
                         </div>
                         <div class="form-group">
                             <label>Epost</label>
                             <input type="email" autocomplete="off" class="form-control" name="Email" placeholder="Epost" value="@Model.Email">
-                        </div>
-                        <div class="form-group">
-                            <label>Nation</label>
-                            <select class="form-control" name="Nation" asp-for="Nation">
-                                <option value="">Välj nation</option>
-                                @foreach (var nat in AkNationer.Nationer)
-                                {
-                                    <option>@nat</option>
-                                }
-                            </select>
                         </div>
                         <div class="form-group">
                             <label>Instrument</label>

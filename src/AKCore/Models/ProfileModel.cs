@@ -16,16 +16,8 @@ namespace AKCore.Models
         public string FirstName { get; set; }
         [Display(Name = "Efternamn")]
         public string LastName { get; set; }
-        [Display(Name = "Adress")]
-        public string Adress { get; set; }
-        [Display(Name = "Postnummer")]
-        public string ZipCode { get; set; }
-        [Display(Name = "Stad")]
-        public string City { get; set; }
         [Display(Name = "Telefonnummer")]
         public string Phone { get; set; }
-        [Display(Name = "Nation")]
-        public string Nation { get; set; }
         [Display(Name = "Instrument")]
         public string Instrument { get; set; }
 
