@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -32,7 +33,15 @@ namespace AKCore
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<AKContext>(options => options.UseMySql(Configuration["DbConnectionString"]));
-            services.AddMvc();
+
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+                options.CheckConsentNeeded = context => false;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddRouting();
             services.AddMemoryCache();
 
@@ -68,13 +77,15 @@ namespace AKCore
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseBrowserLink();
             }
             else
             {
                 app.UseExceptionHandler("/Page/Error");
+                app.UseHsts();
             }
 
+            app.UseHttpsRedirection();
+            app.UseCookiePolicy();
 #if DEBUG
 #else
             var options = new RewriteOptions().AddRedirectToHttps();
