@@ -8,6 +8,7 @@
 
 function MusicPlayer(container, albums) {
     this.container = container;
+    this.duration = 0;
     this.albums = albums;
     this.playList = {};
     this.element = $('<div></div>');
@@ -49,11 +50,57 @@ MusicPlayer.prototype.initBinds = function () {
 
             var player = self.container.find('.player');
             player.off('ended');
-            player.on('ended', function() {
+            player.on('ended', function (e) {
+                e.stopPropagation();
                 self.playNext(self.container.find('.playlist-element.active'));
             });
         }
     });
+    this.loadPlayer();
+};
+
+MusicPlayer.prototype.loadPlayer = function() {
+    var player = this.container.find('.player');
+    var self = this;
+    player.on("timeupdate", function (event) {
+        var progress = (event.target.currentTime / this.duration) * 100;
+        self.updateProgress(progress);
+    });
+    var playpause = this.container.find('.pauseplay');
+
+    playpause.on('click', function(e) {
+        e.preventDefault();
+        if (playpause.hasClass('glyphicon-play')) {
+            playpause.removeClass('glyphicon-play');
+            playpause.addClass('glyphicon-pause');
+            player.trigger('play');
+        } else {
+            playpause.addClass('glyphicon-play');
+            playpause.removeClass('glyphicon-pause');
+            player.trigger('pause');
+        }
+    });
+
+    player.on('ended', function () {
+        playpause.removeClass('glyphicon-pause');
+        playpause.addClass('glyphicon-play');
+        self.updateProgress(0);
+    });
+
+    var durationBar = this.container.find('.music-progress');
+    var progressContainer = this.container.find('.progress-container');
+
+    progressContainer.on('click', function (event) {
+        event.preventDefault();
+        var decimalProgress = event.offsetX / progressContainer.width();
+        self.updateProgress(decimalProgress * 100);
+        player[0].currentTime = decimalProgress * player[0].duration;
+    });
+};
+
+MusicPlayer.prototype.updateProgress = function (progress) {
+    var durationBar = this.container.find('.music-progress-bar');
+    durationBar.css({ 'width': progress + '%' });
 };
 
 MusicPlayer.prototype.playNext = function(linkElement) {
@@ -77,8 +124,14 @@ MusicPlayer.prototype.playTrack = function (linkElement) {
     player.attr('src', link);
     player.trigger('load');
     player.trigger('play');
+    var controls = this.container.find('.controls');
+    controls.removeClass('hide');
+    var playpause = this.container.find('.pauseplay');
+    playpause.removeClass('glyphicon-play');
+    playpause.addClass('glyphicon-pause');
     this.container.find('.playlist-element.active').removeClass('active');
     linkElement.addClass('active');
+    this.duration = player;
 };
 
 MusicPlayer.prototype.resetPlayer = function () {
@@ -103,7 +156,7 @@ MusicPlayer.prototype.createAlbums = function() {
     this.element.append(albumsContainer);
 };
 MusicPlayer.prototype.createPlayer = function () {
-    this.player = $('<p class="playingnow"></p><audio controls class="player" src=""><p>Your browser does not support the <code>audio</code> element.</p></audio>');
+    this.player = $('<div class="playingnow"></div><div class="controls hide"><a href="#" class="pauseplay glyphicon glyphicon-play"></a><div class="progress-container"><div class="music-progress"><span class="music-progress-bar" style="width: 0%;"></span></div></div></div><audio class="player" src=""><p>Your browser does not support the <code>audio</code> element.</p></audio>');
     var playerModule = $('<div class="player-module"></div>');
     playerModule.append(this.player);
     this.playListModule = $('<div class="playlist"></div>');

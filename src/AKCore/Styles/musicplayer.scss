@@ -1,5 +1,6 @@
 ﻿.music-player {
     font-weight: 400;
+
     .album-list {
         list-style-type: none;
         padding-left: 0;
@@ -36,6 +37,40 @@
         .player-module {
             flex-grow: 1;
             padding-left: 30px;
+
+            .controls {
+                border: 1px solid red;
+                border-radius: 7px;
+                padding: 7px;
+                margin-bottom: 12px;
+                display: flex;
+                align-items: center;
+            }
+        }
+
+        .pauseplay {
+            margin-right: 7px;
+        }
+
+        .progress-container {
+            flex-grow: 1;
+            height: 15px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .music-progress {
+            height: 3px;
+            background-color: #c1bfbd;
+            width: 100%;
+
+            .music-progress-bar {
+                background-color: #6f6f6f;
+                display: block;
+                height: 100%;
+                transition: width ease 0.1s;
+            }
         }
 
         .album-display {
