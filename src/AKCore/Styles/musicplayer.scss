@@ -39,9 +39,10 @@
             padding-left: 30px;
 
             .controls {
-                border: 1px solid red;
+                border: 1px solid $akred;
                 border-radius: 7px;
                 padding: 7px;
+                margin-top: 3px;
                 margin-bottom: 12px;
                 display: flex;
                 align-items: center;
