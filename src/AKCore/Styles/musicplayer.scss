@@ -60,6 +60,13 @@
             cursor: pointer;
         }
 
+        .progresstime {
+            min-width: 50px;
+            font-size: 12px;
+            text-align: right;
+            margin-left: 10px;
+        }
+
         .music-progress {
             height: 3px;
             background-color: #c1bfbd;

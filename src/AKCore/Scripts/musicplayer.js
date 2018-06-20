@@ -5,10 +5,15 @@
         new MusicPlayer(self, albums);
     });
 });
-
+function fmtMSS(s) {
+    if (isNaN(s)) {
+        return '0:00';
+    }
+    s = Math.floor(s);
+    return (s - (s %= 60)) / 60 + (9 < s ? ':' : ':0') + s;
+}
 function MusicPlayer(container, albums) {
     this.container = container;
-    this.duration = 0;
     this.albums = albums;
     this.playList = {};
     this.element = $('<div></div>');
@@ -63,8 +68,7 @@ MusicPlayer.prototype.loadPlayer = function() {
     var player = this.container.find('.player');
     var self = this;
     player.on("timeupdate", function (event) {
-        var progress = (event.target.currentTime / this.duration) * 100;
-        self.updateProgress(progress);
+        self.updateProgress(event.target.currentTime, this.duration);
     });
     var playpause = this.container.find('.pauseplay');
 
@@ -87,20 +91,23 @@ MusicPlayer.prototype.loadPlayer = function() {
         self.updateProgress(0);
     });
 
-    var durationBar = this.container.find('.music-progress');
     var progressContainer = this.container.find('.progress-container');
 
     progressContainer.on('click', function (event) {
         event.preventDefault();
         var decimalProgress = event.offsetX / progressContainer.width();
-        self.updateProgress(decimalProgress * 100);
-        player[0].currentTime = decimalProgress * player[0].duration;
+        var time = decimalProgress * player[0].duration;
+        self.updateProgress(time, player[0].duration);
+        player[0].currentTime = time;
     });
 };
 
-MusicPlayer.prototype.updateProgress = function (progress) {
+MusicPlayer.prototype.updateProgress = function (time, duration) {
+    var progressTime = this.container.find('.progresstime');
     var durationBar = this.container.find('.music-progress-bar');
+    var progress = (time / duration) * 100;
     durationBar.css({ 'width': progress + '%' });
+    progressTime.text(fmtMSS(time) + '/' + fmtMSS(duration));
 };
 
 MusicPlayer.prototype.playNext = function(linkElement) {
@@ -131,7 +138,6 @@ MusicPlayer.prototype.playTrack = function (linkElement) {
     playpause.addClass('glyphicon-pause');
     this.container.find('.playlist-element.active').removeClass('active');
     linkElement.addClass('active');
-    this.duration = player;
 };
 
 MusicPlayer.prototype.resetPlayer = function () {
@@ -156,9 +162,11 @@ MusicPlayer.prototype.createAlbums = function() {
     this.element.append(albumsContainer);
 };
 MusicPlayer.prototype.createPlayer = function () {
-    this.player = $('<div class="playingnow"></div><div class="controls hide"><a href="#" class="pauseplay glyphicon glyphicon-play"></a><div class="progress-container"><div class="music-progress"><span class="music-progress-bar" style="width: 0%;"></span></div></div></div><audio class="player" src=""><p>Your browser does not support the <code>audio</code> element.</p></audio>');
     var playerModule = $('<div class="player-module"></div>');
-    playerModule.append(this.player);
+    playerModule.append($('<div class="playingnow"></div>'));
+    playerModule.append($(
+        '<div class="controls hide"><a href="#" class="pauseplay glyphicon glyphicon-play"></a><div class="progress-container"><div class="music-progress"><span class="music-progress-bar" style="width: 0%;"></span></div></div><div class="progresstime"></div></div>'));
+    playerModule.append($('<audio class="player" src=""><p>Your browser does not support the <code>audio</code> element.</p></audio>'));
     this.playListModule = $('<div class="playlist"></div>');
     playerModule.append(this.playListModule);
     var playerContainer = $('<div class="player-container"></div>');
