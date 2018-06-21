@@ -18,7 +18,9 @@
 </script>
 
 <div class="videos-app" id="videos-app-@Model.Id" data-id="@Model.Id">
-    <div class="videos-container" ref="container">
+    <div class="videos-container" 
+         v-bind:class="{ showleft: showLeft, showright: showRight }"
+         ref="container">
         <div class="videos" v-bind:style="{ transform: 'translateX(-' + offset + 'px)' }">
             <div class="video" v-for="video in videos">
                 <img :src="'https://img.youtube.com/vi/' + video.link +'/0.jpg'" />
@@ -26,5 +28,10 @@
             </div>
         </div>
     </div>
-    <a href="#" v-on:click.prevent="rightClick" class="glyphicon glyphicon-menu-right"></a>
+    <a href="#" v-if="showLeft" v-on:click.prevent="leftClick" class="arrow-container-left">
+        <span class="glyphicon glyphicon-menu-left"></span>
+    </a>
+    <a href="#" v-if="showRight" v-on:click.prevent="rightClick" class="arrow-container-right">
+        <span class="glyphicon glyphicon-menu-right"></span>
+    </a>
 </div>

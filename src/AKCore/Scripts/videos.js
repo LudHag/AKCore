@@ -13,8 +13,27 @@ $(function() {
             methods: {
                 rightClick: function() {
                     if (this.offset + this.visibleWidth < this.totalWidth) {
-                        this.offset += this.visibleWidth;
+                        if (this.offset + this.visibleWidth * 2 > this.totalWidth) {
+                            this.offset = this.totalWidth - this.visibleWidth;
+                        } else {
+                            this.offset += this.visibleWidth;
+                        }
                     }
+                },
+                leftClick: function () {
+                    if (this.offset - this.visibleWidth > 0) {
+                        this.offset -= this.visibleWidth;
+                    } else {
+                        this.offset = 0;
+                    }
+                }
+            },
+            computed: {
+                showRight: function () {
+                    return this.offset < this.totalWidth - this.visibleWidth;
+                },
+                showLeft: function () {
+                    return this.offset > 0;
                 }
             },
             mounted: function() {

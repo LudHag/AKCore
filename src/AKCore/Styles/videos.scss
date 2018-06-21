@@ -2,7 +2,6 @@
     position: relative;
 
     .videos-container {
-        margin-right: 30px;
         overflow: hidden;
     }
 
@@ -25,11 +24,50 @@
         }
     }
 
-    .glyphicon-menu-right {
-        color: $akred;
+    .arrow-container-right, .arrow-container-left {
         position: absolute;
-        right: -45px;
-        font-size: 114px;
-        transform: scaleX(0.4);
+        color: $akred;
+        background-color: #000;
+        top: 0;
+        width: 40px;
+        height: 150px;
+
+
+        .glyphicon {
+            font-size: 114px;
+            transform: scaleX(0.4);
+            margin-left: -38px;
+        }
+    }
+
+    .arrow-container-right {
+        right: 0;
+    }
+
+    .arrow-container-left {
+        left: 0;
+    }
+}
+
+@media screen and (max-width: $screen-xs-max) {
+    .videos-app {
+        .videos {
+            .video {
+                width: 77px;
+            }
+        }
+
+        .title {
+            font-size: 12px;
+        }
+
+        .arrow-container-right, .arrow-container-left {
+
+            .glyphicon {
+                font-size: 78px;
+                transform: scaleX(0.4);
+                margin-left: -15px;
+            }
+        }
     }
 }
