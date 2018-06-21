@@ -1,0 +1,35 @@
+.videos-app {
+    position: relative;
+
+    .videos-container {
+        margin-right: 30px;
+        overflow: hidden;
+    }
+
+    .videos {
+        width: 3000px;
+        width: max-content;
+        transition: transform ease-in-out .3s;
+
+        .video {
+            display: inline-block;
+            width: 170px;
+            margin-right: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+
+            img {
+                width: 100%;
+                height: auto;
+            }
+        }
+    }
+
+    .glyphicon-menu-right {
+        color: $akred;
+        position: absolute;
+        right: -45px;
+        font-size: 114px;
+        transform: scaleX(0.4);
+    }
+}

@@ -1,15 +1,30 @@
 ﻿@model AKCore.DataModel.Widget
-<div class="row">
-    <div class="col-sm-12">
-        <ul class="youtubelist">
-            @if (Model.Videos != null)
-            {
-                foreach (var v in Model.Videos)
-                {
-                    <li><a href="https://www.youtube.com/watch?v=@v.Link" data-name="@v.Title"></a></li>
-                }
-            }
-        </ul>
-    </div>
-</div>
+<script>
+    var widgetVideos = [];
+    @if (Model.Videos != null)
+    {
+        foreach (var v in Model.Videos)
+        {
+            @: var widgetVideo = {};
+            @: widgetVideo.link = '@v.Link';
+            @: widgetVideo.title = '@v.Title';
+            @: widgetVideos.push(widgetVideo);
+        }
+    }
+    if (!videos) {
+        var videos = {};
+    }
+    videos[@Model.Id] = widgetVideos;
+</script>
 
+<div class="videos-app" id="videos-app-@Model.Id" data-id="@Model.Id">
+    <div class="videos-container" ref="container">
+        <div class="videos" v-bind:style="{ transform: 'translateX(-' + offset + 'px)' }">
+            <div class="video" v-for="video in videos">
+                <img :src="'https://img.youtube.com/vi/' + video.link +'/0.jpg'" />
+                <span class="title" v-html="video.title"></span>
+            </div>
+        </div>
+    </div>
+    <a href="#" v-on:click.prevent="rightClick" class="glyphicon glyphicon-menu-right"></a>
+</div>
