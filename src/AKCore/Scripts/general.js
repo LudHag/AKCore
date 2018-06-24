@@ -104,8 +104,8 @@
     $('#hire-form').on('submit', function (e) {
         e.preventDefault();
         const form = $(this);
-        var success = form.find(".alert-success");
-        var error = form.find(".alert-danger");
+        const success = form.find(".alert-success");
+        const error = form.find(".alert-danger");
 
         $.ajax({
             url: form.attr("action"),
