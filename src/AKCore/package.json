@@ -31,6 +31,7 @@
     "webpack-hot-middleware": "^2.21.0"
   },
   "dependencies": {
-    "bootstrap-sass": "^3.3.7"
+    "bootstrap-sass": "^3.3.7",
+    "aspnet-prerendering": "^3.0.1"
   }
 }

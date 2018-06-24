@@ -8,28 +8,28 @@ var monthNames = [
 ];
 
 Date.prototype.addDays = function (days) {
-    var dat = new Date(this.valueOf());
+    const dat = new Date(this.valueOf());
     dat.setDate(dat.getDate() + days);
     return dat;
 }
 
 $(function () {
-    var calendarElement = $("#calendar");
-    var calendarList = $('#calendar-list');
+    const calendarElement = $("#calendar");
+    const calendarList = $('#calendar-list');
     if (calendarElement.length > 0) {
 
-        var modalTitle = calendarModal.find('.modal-title');
-        var modalDay = calendarModal.find('.modal-day');
-        var modalPlace = calendarModal.find('.modal-place');
-        var modalHalan = calendarModal.find('.modal-halan');
-        var modalThere = calendarModal.find('.modal-there');
-        var modalStart = calendarModal.find('.modal-start');
-        var modalSignup = calendarModal.find('.modal-signup');
-        var modalComming = calendarModal.find('.modal-comming');
-        var modalStand = calendarModal.find('.modal-stand');
-        var modalFika = calendarModal.find('.modal-fika'); 
-        var modalDesc = calendarModal.find('.modal-description');
-        var modalIntDesc = calendarModal.find('.modal-intdescription');
+        const modalTitle = calendarModal.find('.modal-title');
+        const modalDay = calendarModal.find('.modal-day');
+        const modalPlace = calendarModal.find('.modal-place');
+        const modalHalan = calendarModal.find('.modal-halan');
+        const modalThere = calendarModal.find('.modal-there');
+        const modalStart = calendarModal.find('.modal-start');
+        const modalSignup = calendarModal.find('.modal-signup');
+        const modalComming = calendarModal.find('.modal-comming');
+        const modalStand = calendarModal.find('.modal-stand');
+        const modalFika = calendarModal.find('.modal-fika'); 
+        const modalDesc = calendarModal.find('.modal-description');
+        const modalIntDesc = calendarModal.find('.modal-intdescription');
         
         function Calendar(container, events) {
             this.events = events;

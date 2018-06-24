@@ -12,11 +12,12 @@ var plugins = [];
 var extractSASS = new ExtractTextPlugin("style.css");
 
 var sassbuild = extractSASS.extract({
-    use: ['css-loader?sourceMap', 'postcss-loader?sourceMap', 'sass-loader?sourceMap'],
+    use: ['css-loader', 'postcss-loader', 'sass-loader'],
     fallback: ['style-loader']
 });
 
 plugins.push(extractSASS);
+console.log(process.env.NODE_ENV);
 
 if (process.env.NODE_ENV === 'production') {
     plugins.push(new webpack.DefinePlugin({

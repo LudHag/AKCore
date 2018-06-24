@@ -69,7 +69,6 @@ namespace AKCore
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseBrowserLink();
                 app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
                 {
                     HotModuleReplacement = true
@@ -86,7 +85,6 @@ namespace AKCore
             app.UseRewriter(options);
 #endif
 
-            app.UseStaticFiles();
             app.UseSession();
             app.UseAuthentication();
             app.UseMvc(routes =>
@@ -100,6 +98,7 @@ namespace AKCore
                     "{slug}",
                     new {controller = "Page", action = "Page"});
             });
+            app.UseStaticFiles();
         }
     }
 }
