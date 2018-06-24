@@ -156,7 +156,7 @@ $(function () {
                             modalStart.empty();
                         }
                         if (event.type==='Spelning') {
-                            modalSignup.attr("href", '/Upcoming/Event/' + event.id);
+                            modalSignup.attr("href", '/upcoming/Event/' + event.id);
                             modalSignup.html('Anmäl');
                             modalStand.html('Speltyp: ' + event.stand);
                             modalComming.html(event.cancome + ' Kommer - ' + event.cantcome + ' Kommer inte');
