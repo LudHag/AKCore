@@ -88,8 +88,7 @@ module.exports = {
         extensions: ['*', '.js', '.vue']
     },
     externals: {
-        "jquery": "jQuery",
-        "clipboard": "Clipboard"
+        "jquery": "jQuery"
     },
     plugins
 };

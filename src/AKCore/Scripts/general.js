@@ -7,9 +7,10 @@
                 $("#loginModal").modal("show"); 
             });
 
-    $('#loginModal').on('shown.bs.modal', function () {
-        $('#username').focus();
-    })
+    $('#loginModal').on('shown.bs.modal',
+        function() {
+            $('#username').focus();
+        });
     
     $("#mobile-menu")
      .on("click",

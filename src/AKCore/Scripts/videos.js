@@ -1,4 +1,6 @@
-﻿$(".videos-app").each(function() {
+﻿import Vue from "vue";
+
+$(".videos-app").each(function () {
     var widgetId = $(this).data("id");
     new Vue({
         el: '#videos-app-' + widgetId,
