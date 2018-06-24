@@ -6,6 +6,14 @@
     "dev": "cross-env NODE_ENV=dev webpack --progress --colors --watch",
     "build": "webpack -p"
   },
+  "browserslist": {
+    "development": [
+      "> 1%"
+    ],
+    "production": [
+      "> 1%"
+    ]
+  },
   "devDependencies": {
     "aspnet-webpack": "^2.0.3",
     "autoprefixer": "^7.2.5",
