@@ -2,24 +2,33 @@ const webpack = require('webpack');
 const LoaderOptionsPlugin = require("webpack/lib/LoaderOptionsPlugin");
 const path = require('path');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const BabiliPlugin = require('babili-webpack-plugin');
 
-var appName = 'app';
+var appName = 'main';
 var entryPoint = './Scripts/main.js';
 var exportPath = path.resolve(__dirname, './wwwroot/dist/');
 
 var plugins = [];
 var extractSASS = new ExtractTextPlugin("style.css");
 
-if (process.env.NODE_ENV === 'production') {
-    var UglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
+var sassbuild = extractSASS.extract({
+    use: ['css-loader?sourceMap', 'postcss-loader?sourceMap', 'sass-loader?sourceMap'],
+    fallback: ['style-loader']
+});
 
-    plugins.push(new UglifyJsPlugin({ minimize: true }));
+plugins.push(extractSASS);
+
+if (process.env.NODE_ENV === 'production') {
     plugins.push(new webpack.DefinePlugin({
             'process.env': {
                 NODE_ENV: '"production"'
             }
         }
     ));
+    plugins.push(new BabiliPlugin());
+    plugins.push(new webpack.LoaderOptionsPlugin({
+        minimize: true
+    }));
 } else {
     plugins.push(new LoaderOptionsPlugin({
         options: {
@@ -31,7 +40,6 @@ if (process.env.NODE_ENV === 'production') {
     }));
 }
 
-plugins.push(extractSASS);
 appName = appName + '.js';
 
 module.exports = {
@@ -62,7 +70,7 @@ module.exports = {
             },
             {
                 test: /\.(scss|sass)$/,
-                loader: 'style-loader!css-loader!postcss-loader!sass-loader'
+                use: sassbuild
             },
             {
                 test: /\.(png|jpg|gif|svg|woff|woff2|eot|ttf)$/,
@@ -80,7 +88,8 @@ module.exports = {
         extensions: ['*', '.js', '.vue']
     },
     externals: {
-        "jquery": "jQuery"
+        "jquery": "jQuery",
+        "clipboard": "Clipboard"
     },
     plugins
 };
