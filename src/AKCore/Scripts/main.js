@@ -2,7 +2,7 @@ import "../Styles/akstyle.scss";
 import "./Vendor/jquery-ui.js";
 import "./Vendor/jquery.multi-select.js";
 import "./general.js";
-import "./videos.js";
+import "./vueapps.js";
 import "./profile.js";
 import "./upcoming.js";
 import "./memberlist.js";

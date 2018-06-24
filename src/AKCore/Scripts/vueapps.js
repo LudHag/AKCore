@@ -1,5 +1,6 @@
 ﻿import Vue from "vue";
 import VideoBar from "./VueComponents/VideoBar";
+import MembersList from "./VueComponents/MembersList";
 
 $(".videos-app").each(function () {
     const widgetId = $(this).data("id");
@@ -12,3 +13,15 @@ $(".videos-app").each(function () {
         components: { VideoBar }
     });
 });
+
+if ($("#search-widget").length > 0) {
+    const searchApp = new Vue({
+        el: `#search-widget`,
+        data: {
+            members: memberList,
+            instruments: instruments
+        },
+        template: "<members-list :members='members' :instruments='instruments' />",
+        components: { MembersList }
+    });
+}
