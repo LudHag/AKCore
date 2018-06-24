@@ -17,7 +17,6 @@ var sassbuild = extractSASS.extract({
 });
 
 plugins.push(extractSASS);
-console.log(process.env.NODE_ENV);
 
 if (process.env.NODE_ENV === 'production') {
     plugins.push(new webpack.DefinePlugin({

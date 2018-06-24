@@ -103,7 +103,7 @@
 
     $('#hire-form').on('submit', function (e) {
         e.preventDefault();
-        var form = $(this);
+        const form = $(this);
         var success = form.find(".alert-success");
         var error = form.find(".alert-danger");
 

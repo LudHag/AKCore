@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "cross-env NODE_ENV=dev webpack --progress --colors --watch",
-    "build": "webpack -p"
+    "clear": "rm -rf ./wwwroot/dist/hot && rm ./wwwroot/dist/*",
+    "build": "cross-env NODE_ENV=production webpack -p --colors",
+    "dev": "cross-env NODE_ENV=dev webpack --progress --colors --watch"
   },
   "browserslist": {
     "development": [
