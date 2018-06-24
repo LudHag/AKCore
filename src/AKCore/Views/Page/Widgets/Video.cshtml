@@ -36,16 +36,14 @@
         <span class="glyphicon glyphicon-menu-right"></span>
     </a>
     <div v-if="showVideo" class="video-mask" v-on:click="closeVideo">
-        <div class="centered-element">
-            <div class="youtube-container">
-                <iframe id="videoplayer"
-                        frameborder="0"
-                        allowfullscreen="1"
-                        allow="autoplay; encrypted-media"
-                        width="640" height="360"
-                        :src="videoSrc">
-                </iframe>
-            </div>
+        <div class="youtube-container">
+            <iframe id="videoplayer"
+                    frameborder="0"
+                    allowfullscreen="1"
+                    allow="autoplay; encrypted-media"
+                    width="640" height="360"
+                    :src="videoSrc">
+            </iframe>
         </div>
     </div>
 </div>
