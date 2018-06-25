@@ -16,8 +16,8 @@
                 <h1>Adressregister</h1>
                 <div class="adress-list">
                     <div v-for="instr in instruments">
-                        <h2 v-html="instr"></h2>
-                        <div class="kamerer" v-for="member in instrumentMembers(instr)">
+                        <h2 v-html="instr" v-if="filteredMembers[instr] && filteredMembers[instr].length > 0"></h2>
+                        <div class="kamerer" v-for="member in filteredMembers[instr]">
                             <div class="name-email">
                                 {{member.name}}<br />
                                                <a :href="'mailto:' + member.email">{{member.email}}</a>
@@ -45,6 +45,35 @@
         methods: {
             instrumentMembers: function (instr) {
                 return this.members[instr];
+            }
+        },
+        computed: {
+            filteredMembers: function () {
+                if (this.selectedInstrument === "" && this.searchPhrase === "") {
+                    return this.members;
+                }
+                const filteredList = {};
+                const lsearch = this.searchPhrase.toLowerCase();
+                this.instruments.forEach((instr) => {
+                    if (!this.members[instr] ||
+                        (this.selectedInstrument !== "" &&
+                        this.selectedInstrument !== instr)) {
+                        filteredList[instr] = [];
+                    }
+                    else if (lsearch === "") {
+                        filteredList[instr] = this.members[instr];
+                    }
+                    else {
+                        filteredList[instr] = this.members[instr].filter((el) => {
+                            return el.name.toLowerCase().indexOf(lsearch) >= 0 ||
+                                el.email.toLowerCase().indexOf(lsearch) >= 0 ||
+                                el.phone.indexOf(lsearch) >= 0 ||
+                                el.instrument.toLowerCase().indexOf(lsearch) >= 0;
+                        });
+                    }
+                    
+                });
+                return filteredList;
             }
         }
     }
