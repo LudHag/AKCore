@@ -65,6 +65,7 @@ namespace AKCore
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+            app.UseStaticFiles();
 
             if (env.IsDevelopment())
             {
@@ -98,7 +99,6 @@ namespace AKCore
                     "{slug}",
                     new {controller = "Page", action = "Page"});
             });
-            app.UseStaticFiles();
         }
     }
 }
