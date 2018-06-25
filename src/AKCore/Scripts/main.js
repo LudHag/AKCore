@@ -1,5 +1,5 @@
 import "../Styles/akstyle.scss";
-//import "./Vendor/jquery-ui.js";
+import "./Vendor/jquery-ui.js";
 import "./Vendor/jquery.multi-select.js";
 import "./general.js";
 import "./vueapps.js";

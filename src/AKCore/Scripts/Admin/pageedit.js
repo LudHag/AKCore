@@ -138,7 +138,7 @@ var options = {
     ],
     toolbar_items_size: "small",
     height: "200",
-    content_css: "/css/akstyle.css",
+    content_css: "/dist/style.css",
     body_class: "body-content",
     browser_spellcheck: true,
     file_browser_callback: function(field_name, url, type, win) {
