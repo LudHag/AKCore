@@ -3,9 +3,9 @@ $("#update-profile-form")
     .on("submit",
         function(e) {
             e.preventDefault();
-            var form = $(this);
-            var success = form.find(".alert-success");
-            var error = form.find(".alert-danger");
+            const form = $(this);
+            const success = form.find(".alert-success");
+            const error = form.find(".alert-danger");
             $.ajax({
                 url: form.attr("action"),
                 type: form.attr("method"),
@@ -31,11 +31,11 @@ $("#change-profile-password")
     .on("submit",
         function(e) {
             e.preventDefault();
-            var form = $(this);
-            var success = form.find(".alert-success");
-            var error = form.find(".alert-danger");
-            var newpass = form.find("#newpass");
-            var confirmPass = form.find("#confirmpass");
+            const form = $(this);
+            const success = form.find(".alert-success");
+            const error = form.find(".alert-danger");
+            const newpass = form.find("#newpass");
+            const confirmPass = form.find("#confirmpass");
             if (newpass.val() !== confirmPass.val()) {
                 error.text("Lösenord matchar ej");
                 error.slideDown().delay(3500).slideUp();
