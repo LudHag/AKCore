@@ -9,6 +9,8 @@
         .dayEvent {
             display: block;
             font-size: 12px;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
     }
 
