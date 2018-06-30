@@ -1,12 +1,13 @@
-﻿$akred: #b10000;
+﻿$icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
+$akred: #b10000;
 $akgrey: #2d2727;
 $akwhite: #fff;
 $link-color: $akred;
 $link-hover-color: #900909;
 $table-border-color: $akred;
 @import "chosen.scss";
-@import "../node_modules/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
-@import "jquery-ui.scss";
+@import "~bootstrap-sass/assets/stylesheets/_bootstrap.scss";
+@import "~tiny-date-picker/tiny-date-picker.css";
 @import "modals.scss";
 @import "edit.scss";
 @import "general.scss";

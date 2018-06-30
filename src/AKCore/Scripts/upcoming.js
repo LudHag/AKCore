@@ -1,9 +1,9 @@
 ﻿$(function() {
     $('#signup-form').on('submit',function(e) {
         e.preventDefault();
-        var form = $(this);
-        var error = form.find(".alert-danger");
-        var success = form.find(".alert-success");
+        const form = $(this);
+        const error = form.find(".alert-danger");
+        const success = form.find(".alert-success");
         $.ajax({
             url: form.attr("action"),
             type: "POST",
@@ -26,8 +26,8 @@
     });
 
     $('.expandable').on('click', function (e) {
-        var self = $(this);
-        var target = $(e.target);
+        const self = $(this);
+        const target = $(e.target);
         if (!target.is("a")) {
             self.toggleClass("expanded");
         }
@@ -48,9 +48,9 @@
 
     $("#edit-signup-form").on('submit', function (e) {
         e.preventDefault();
-        var form = $(this);
-        var error = form.find(".alert-danger");
-        var success = form.find(".alert-success");
+        const form = $(this);
+        const error = form.find(".alert-danger");
+        const success = form.find(".alert-success");
         $.ajax({
             url: form.attr("action"),
             type: "POST",
@@ -71,5 +71,11 @@
             }
         });
     });
-    
+
+    $(".copy-btn").on('click', function (e) {
+        e.preventDefault();
+        const copyText = document.querySelector("#ical-link");
+        copyText.select();
+        document.execCommand("copy");
+    });
 });

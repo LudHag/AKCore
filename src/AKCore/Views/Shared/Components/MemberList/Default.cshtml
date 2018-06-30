@@ -1,44 +1,26 @@
 ﻿@using AKCore.DataModel
 @model AKCore.Models.MemberListModel
 
-<div class="row">
-    <div class="col-md-12">
-        <div class="form-inline ak-search">
-            <div class="form-group">
-                <input type="text" id="member-search" class="form-control" asp-for="SearchPhrase" placeholder="Sök här">
-            </div>
-            <div class="form-group">
-                <select class="form-control" id="select-instrument">
-                    <option value="">Sök efter instrument</option>
-                    @foreach (var i in AkInstruments.Instrument)
-                    {
-                        <option>@i</option>
-                    }
-                </select>
-            </div>
-        </div>
-        <div id="adress-register">
-            <h1>Adressregister</h1>
-            <div class="adress-list">
-           
-            </div>
-        </div>
-    </div>
-</div>
+<div class="row" id="search-widget"></div>
 
 <script>
     var memberList = {};
     @foreach (var instr in Model.Users)
     {
-        @: memberList['@instr.Key'] = [];
+        @: memberList['@Html.Raw(instr.Key)'] = [];
         foreach (var pers in instr)
         {
             @: var pers = {};
-            @: pers.name = '@pers.GetName()';
-            @: pers.email = '@pers.Email';
-            @: pers.phone = '@pers.Phone';
-            @: pers.instrument = '@pers.Instrument';
-            @: memberList['@instr.Key'].push(pers);
+            @: pers.name = '@Html.Raw(pers.GetName())';
+            @: pers.email = '@Html.Raw(pers.Email)';
+            @: pers.phone = '@Html.Raw(pers.Phone)';
+            @: pers.instrument = '@Html.Raw(pers.Instrument)';
+            @: memberList['@Html.Raw(instr.Key)'].push(pers);
         }
+    }
+    var instruments = [];
+    @foreach (var i in AkInstruments.Instrument)
+    {
+        @: instruments.push('@Html.Raw(i)');
     }
 </script>
