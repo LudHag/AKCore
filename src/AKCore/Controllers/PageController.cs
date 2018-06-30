@@ -29,7 +29,7 @@ namespace AKCore.Controllers
         {
             var loggedIn = User.Identity.IsAuthenticated;
             var redirectLink = "/";
-            if (loggedIn) redirectLink = "/Upcoming";
+            if (loggedIn) redirectLink = "/upcoming";
 
             Page page;
             if (string.IsNullOrWhiteSpace(slug))
@@ -74,6 +74,11 @@ namespace AKCore.Controllers
             {
                 Widgets = page.WidgetsJson != null ? JsonConvert.DeserializeObject<List<Widget>>(page.WidgetsJson) : new List<Widget>()
             };
+            for (var i = 0; i < model.Widgets.Count; i++)
+            {
+                model.Widgets[i].Id = i;
+            }
+
             return View("Index", model);
         }
     }

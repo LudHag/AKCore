@@ -1,7 +1,6 @@
 ﻿@using AKCore.DataModel
 @model AKCore.Models.PageEditModel
 @{
-    Layout = "~/Views/Shared/_MasterLayout.cshtml";
     ViewData["Album"] = Model.Albums;
 }
 
@@ -226,5 +225,4 @@
 
 @section scripts {
     <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
-    <script src="~/js/admin.js" asp-append-version="true"></script>
 }

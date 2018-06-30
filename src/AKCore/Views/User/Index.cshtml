@@ -1,9 +1,5 @@
 ﻿@using AKCore.Models
 @model UsersModel
-@{
-    Layout = "~/Views/Shared/_MasterLayout.cshtml";
-}
-
 
 <div class="row">
     <div class="col-md-9">
@@ -37,6 +33,4 @@
     @Html.Partial("_EditUserModal", new ProfileModel())
 </div>
 @Html.Partial("_ChangePasswordModal")
-@section scripts {
-    <script src="~/js/admin.js" asp-append-version="true"></script>
-}
+

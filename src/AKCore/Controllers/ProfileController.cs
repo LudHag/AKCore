@@ -55,6 +55,11 @@ namespace AKCore.Controllers
         [Route("EditProfile")]
         public async Task<ActionResult> EditProfile(ProfileModel model)
         {
+            if (model.OtherInstrument?.Contains(model.Instrument) ?? false)
+            {
+                return Json(new { success = false, message = "Du kan inte välja samma instrument som både huvudinstrument och andrainstrument." });
+            }
+
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
             var updateUName = user.UserName != model.UserName;
             user.UserName = model.UserName;

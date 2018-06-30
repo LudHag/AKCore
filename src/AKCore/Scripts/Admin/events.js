@@ -1,4 +1,9 @@
-﻿$(function() {
+﻿import TinyDatePicker from 'tiny-date-picker';
+$(function() {
+    if($(".datepicker").length>0){
+       TinyDatePicker('.datepicker');
+    }
+
     $('#create-new-event')
         .on('click',
             function(e) {
@@ -113,8 +118,6 @@
                 }
             });
 
-
-    $('.datepicker').datepicker();
     $('#Day').val('');
 
     $('#edit-event-modal')

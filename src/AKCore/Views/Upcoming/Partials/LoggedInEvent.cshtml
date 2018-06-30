@@ -53,11 +53,11 @@
                 var signup = Model.SignUps.FirstOrDefault(x => x.PersonId == ViewBag.UserId);
                 if (signup!=null)
                 {
-                    <a class="green" href="/Upcoming/Event/@Model.Id">Anmäld (@signup.Where)</a>
+                    <a class="green" href="/upcoming/Event/@Model.Id">Anmäld (@signup.Where)</a>
                 }
                 else
                 {
-                    <a href="/Upcoming/Event/@Model.Id">Anmäl</a>
+                    <a href="/upcoming/Event/@Model.Id">Anmäl</a>
                 }
             }
         }

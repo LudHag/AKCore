@@ -2,7 +2,6 @@
 @using AKCore.DataModel
 @model AKCore.Models.SignUpModel
 @{
-    Layout = "~/Views/Shared/_MasterLayout.cshtml";
     var culture = new CultureInfo("sv");
     var e = Model.Event;
 }
@@ -10,7 +9,7 @@
 <h1>@Model.Event.Name</h1>
 <div class="row hidden-print">
     <div class="col-sm-6">
-        <form id="signup-form" action="/Upcoming/Signup/@e.Id" method="POST">
+        <form id="signup-form" action="/upcoming/Signup/@e.Id" method="POST">
             <div class="alert alert-danger" style="display: none;">
             </div>
             <div class="alert alert-success" style="display: none;">
@@ -157,7 +156,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h4 class="modal-title">Lägg till anmälan</h4>
                 </div>
-                <form id="edit-signup-form" action="/Upcoming/EditSignup" method="POST">
+                <form id="edit-signup-form" action="/upcoming/EditSignup" method="POST">
                     <div class="modal-body">
                         <div class="alert alert-success" style="display: none;">
                         </div>

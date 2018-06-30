@@ -246,7 +246,9 @@ ModelManifest.xml
 # FAKE - F# Make
 .fake/
 /src/AKCore/wwwroot/js/
+/src/AKCore/wwwroot/dist/
+/src/AKCore/wwwroot/dist/hot
 /src/AKCore/wwwroot/css/
-/src/AKCore/wwwroot/album/
+/src/AKCore/wwwroot/albums/
 /src/AKCore/wwwroot/media/
 appsettings.json

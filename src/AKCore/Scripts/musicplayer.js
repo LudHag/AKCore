@@ -5,7 +5,13 @@
         new MusicPlayer(self, albums);
     });
 });
-
+function fmtMSS(s) {
+    if (isNaN(s)) {
+        return '0:00';
+    }
+    s = Math.floor(s);
+    return (s - (s %= 60)) / 60 + (9 < s ? ':' : ':0') + s;
+}
 function MusicPlayer(container, albums) {
     this.container = container;
     this.albums = albums;
@@ -49,11 +55,59 @@ MusicPlayer.prototype.initBinds = function () {
 
             var player = self.container.find('.player');
             player.off('ended');
-            player.on('ended', function() {
+            player.on('ended', function (e) {
+                e.stopPropagation();
                 self.playNext(self.container.find('.playlist-element.active'));
             });
         }
     });
+    this.loadPlayer();
+};
+
+MusicPlayer.prototype.loadPlayer = function() {
+    var player = this.container.find('.player');
+    var self = this;
+    player.on("timeupdate", function (event) {
+        self.updateProgress(event.target.currentTime, this.duration);
+    });
+    var playpause = this.container.find('.pauseplay');
+
+    playpause.on('click', function(e) {
+        e.preventDefault();
+        if (playpause.hasClass('glyphicon-play')) {
+            playpause.removeClass('glyphicon-play');
+            playpause.addClass('glyphicon-pause');
+            player.trigger('play');
+        } else {
+            playpause.addClass('glyphicon-play');
+            playpause.removeClass('glyphicon-pause');
+            player.trigger('pause');
+        }
+    });
+
+    player.on('ended', function () {
+        playpause.removeClass('glyphicon-pause');
+        playpause.addClass('glyphicon-play');
+        self.updateProgress(0);
+    });
+
+    var progressContainer = this.container.find('.progress-container');
+
+    progressContainer.on('click', function (event) {
+        event.preventDefault();
+        var decimalProgress = event.offsetX / progressContainer.width();
+        var time = decimalProgress * player[0].duration;
+        self.updateProgress(time, player[0].duration);
+        player[0].currentTime = time;
+    });
+};
+
+MusicPlayer.prototype.updateProgress = function (time, duration) {
+    var progressTime = this.container.find('.progresstime');
+    var durationBar = this.container.find('.music-progress-bar');
+    var progress = (time / duration) * 100;
+    durationBar.css({ 'width': progress + '%' });
+    progressTime.text(fmtMSS(time) + '/' + fmtMSS(duration));
 };
 
 MusicPlayer.prototype.playNext = function(linkElement) {
@@ -77,6 +131,11 @@ MusicPlayer.prototype.playTrack = function (linkElement) {
     player.attr('src', link);
     player.trigger('load');
     player.trigger('play');
+    var controls = this.container.find('.controls');
+    controls.removeClass('hide');
+    var playpause = this.container.find('.pauseplay');
+    playpause.removeClass('glyphicon-play');
+    playpause.addClass('glyphicon-pause');
     this.container.find('.playlist-element.active').removeClass('active');
     linkElement.addClass('active');
 };
@@ -103,9 +162,11 @@ MusicPlayer.prototype.createAlbums = function() {
     this.element.append(albumsContainer);
 };
 MusicPlayer.prototype.createPlayer = function () {
-    this.player = $('<p class="playingnow"></p><audio controls class="player" src=""><p>Your browser does not support the <code>audio</code> element.</p></audio>');
     var playerModule = $('<div class="player-module"></div>');
-    playerModule.append(this.player);
+    playerModule.append($('<div class="playingnow"></div>'));
+    playerModule.append($(
+        '<div class="controls hide"><a href="#" class="pauseplay glyphicon glyphicon-play"></a><div class="progress-container"><div class="music-progress"><span class="music-progress-bar" style="width: 0%;"></span></div></div><div class="progresstime"></div></div>'));
+    playerModule.append($('<audio class="player" src=""><p>Your browser does not support the <code>audio</code> element.</p></audio>'));
     this.playListModule = $('<div class="playlist"></div>');
     playerModule.append(this.playListModule);
     var playerContainer = $('<div class="player-container"></div>');

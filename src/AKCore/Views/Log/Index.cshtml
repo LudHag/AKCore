@@ -2,7 +2,6 @@
 @using AKCore.Models
 @model LogModel
 @{
-    Layout = "~/Views/Shared/_MasterLayout.cshtml";
     var query = (string.IsNullOrEmpty(Model.Type) ? string.Empty: "&type=" + Model.Type) +
                 (string.IsNullOrEmpty(Model.UserName) ? string.Empty : "&user=" + Model.UserName);
 }
@@ -74,7 +73,3 @@
         </div>
     }
 </div>
-
-@section scripts {
-    <script src="~/js/admin.js" asp-append-version="true"></script>
-}

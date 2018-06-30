@@ -8,28 +8,28 @@ var monthNames = [
 ];
 
 Date.prototype.addDays = function (days) {
-    var dat = new Date(this.valueOf());
+    const dat = new Date(this.valueOf());
     dat.setDate(dat.getDate() + days);
     return dat;
 }
 
 $(function () {
-    var calendarElement = $("#calendar");
-    var calendarList = $('#calendar-list');
+    const calendarElement = $("#calendar");
+    const calendarList = $('#calendar-list');
     if (calendarElement.length > 0) {
 
-        var modalTitle = calendarModal.find('.modal-title');
-        var modalDay = calendarModal.find('.modal-day');
-        var modalPlace = calendarModal.find('.modal-place');
-        var modalHalan = calendarModal.find('.modal-halan');
-        var modalThere = calendarModal.find('.modal-there');
-        var modalStart = calendarModal.find('.modal-start');
-        var modalSignup = calendarModal.find('.modal-signup');
-        var modalComming = calendarModal.find('.modal-comming');
-        var modalStand = calendarModal.find('.modal-stand');
-        var modalFika = calendarModal.find('.modal-fika'); 
-        var modalDesc = calendarModal.find('.modal-description');
-        var modalIntDesc = calendarModal.find('.modal-intdescription');
+        const modalTitle = calendarModal.find('.modal-title');
+        const modalDay = calendarModal.find('.modal-day');
+        const modalPlace = calendarModal.find('.modal-place');
+        const modalHalan = calendarModal.find('.modal-halan');
+        const modalThere = calendarModal.find('.modal-there');
+        const modalStart = calendarModal.find('.modal-start');
+        const modalSignup = calendarModal.find('.modal-signup');
+        const modalComming = calendarModal.find('.modal-comming');
+        const modalStand = calendarModal.find('.modal-stand');
+        const modalFika = calendarModal.find('.modal-fika'); 
+        const modalDesc = calendarModal.find('.modal-description');
+        const modalIntDesc = calendarModal.find('.modal-intdescription');
         
         function Calendar(container, events) {
             this.events = events;
@@ -61,12 +61,12 @@ $(function () {
         };
 
         Calendar.prototype.render = function () {
-            var monthEvents;
+            let monthEvents;
             if (this.events[this.year] != null) {
                 monthEvents = this.events[this.year][monthNames[this.month].toLowerCase()];
             }
-            var shownMonth = new Month(this.year, this.month, monthEvents);
-            var controls = $('<div class="controls"><a href="" class="prev-month glyphicon glyphicon-chevron-left"></a><span class="date">' +
+            const shownMonth = new Month(this.year, this.month, monthEvents);
+            const controls = $('<div class="controls"><a href="" class="prev-month glyphicon glyphicon-chevron-left"></a><span class="date">' +
                 monthNames[this.month] + ' ' + this.year +
                 '</span><a href="" class="next-month glyphicon glyphicon-chevron-right"></a></div>');
             this.container.empty();
@@ -76,16 +76,16 @@ $(function () {
 
         function Month(year, month, events) {
             this.weeks = [];
-            var firstDayOfMonth = new Date(year, month, 1);
-            var lastDayOfMonth = new Date(year, month + 1, 0);
+            const firstDayOfMonth = new Date(year, month, 1);
+            const lastDayOfMonth = new Date(year, month + 1, 0);
             var firstDayWeekDay = firstDayOfMonth.getDay() - 1;
             if (firstDayWeekDay < 0) firstDayWeekDay = 7 + firstDayWeekDay;
-            var firstDayOfCalendar = new Date(firstDayOfMonth.getTime() - (firstDayWeekDay * timeDay));
+            const firstDayOfCalendar = new Date(firstDayOfMonth.getTime() - (firstDayWeekDay * timeDay));
             this.tableHeading =
                 $('<thead> <tr><th>Måndag</th> <th>Tisdag</th> <th>Onsdag</th> <th>Torsdag</th> <th>Fredag</th> <th>Lördag</th> <th>Söndag</th> </tr> </thead>');
             var monday = new Date(firstDayOfCalendar.getTime());
             while (monday < lastDayOfMonth) {
-                var week = new Week(monday, firstDayOfMonth, lastDayOfMonth, events);
+                const week = new Week(monday, firstDayOfMonth, lastDayOfMonth, events);
                 this.weeks.push(week);
                 monday = monday.addDays(7);
             }
@@ -93,7 +93,7 @@ $(function () {
         };
 
         Month.prototype.render = function () {
-            var self = this;
+            const self = this;
             self.dom.empty();
             self.dom.append(this.tableHeading);
             var tableBody = $('<tbody></tbody>');
@@ -109,9 +109,9 @@ $(function () {
         function Week(firstDay, firstDayOfMonth, lastDayOfMonth, events) {
             this.firstDay = firstDay;
             this.days = [];
-            for (var i = 0; i < 7; i++) {
-                var date = this.firstDay.addDays(i);
-                var shown = date >= firstDayOfMonth && date <= lastDayOfMonth && (today <= date || today.getDate() <= date.getDate());
+            for (let i = 0; i < 7; i++) {
+                const date = this.firstDay.addDays(i);
+                const shown = date >= firstDayOfMonth && date <= lastDayOfMonth && (today <= date || today.getDate() <= date.getDate());
                 if (events) {
                     this.days.push(new Day(date, shown, events[date.getDate()]));
                 } else {
@@ -135,7 +135,7 @@ $(function () {
             this.dom = $('<td class="day"><span class="date">' + this.date.getDate() + '</span></div>');
             if (!shown) this.dom.addClass('outside');
             if (shown && events && events.length > 0) {
-                for (var i = 0; i < events.length; i++) {
+                for (let i = 0; i < events.length; i++) {
                     var event = events[i];
                     var eventDom = $('<a href="#" class="dayEvent">' + event.halan + ' ' + event.name + '</a>');
                     this.dom.append(eventDom);
@@ -156,7 +156,7 @@ $(function () {
                             modalStart.empty();
                         }
                         if (event.type==='Spelning') {
-                            modalSignup.attr("href", '/Upcoming/Event/' + event.id);
+                            modalSignup.attr("href", '/upcoming/Event/' + event.id);
                             modalSignup.html('Anmäl');
                             modalStand.html('Speltyp: ' + event.stand);
                             modalComming.html(event.cancome + ' Kommer - ' + event.cantcome + ' Kommer inte');

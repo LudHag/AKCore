@@ -12,7 +12,7 @@ using System.Text;
 
 namespace AKCore.Controllers
 {
-    [Route("Upcoming")]
+    [Route("upcoming")]
     [Route("Gigs")]
     public class UpcomingController : Controller
     {
@@ -146,9 +146,9 @@ namespace AKCore.Controllers
         {
             ViewBag.Title = "Anmälan";
             if (!int.TryParse(id, out int eId))
-                return Redirect("/Upcoming");
+                return Redirect("/upcoming");
             var spelning = _db.Events.Include(x => x.SignUps).FirstOrDefault(x => x.Id == eId);
-            if (spelning == null) return Redirect("/Upcoming");
+            if (spelning == null) return Redirect("/upcoming");
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
             var roles = await _userManager.GetRolesAsync(user);
             var nintendo = roles.Contains("SuperNintendo");
