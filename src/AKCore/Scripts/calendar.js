@@ -1,8 +1,8 @@
-﻿var timeDay = 24 * 60 * 60 * 1000;
-var today = new Date();
-var calendarModal = $('#event-info-modal');
+﻿const timeDay = 24 * 60 * 60 * 1000;
+const today = new Date();
+const calendarModal = $('#event-info-modal');
 
-var monthNames = [
+const monthNames = [
     "Januari", "Februari", "Mars", "April", "Maj", "Juni", "Juli", "Augusti", "September", "Oktober", "November",
     "December"
 ];
