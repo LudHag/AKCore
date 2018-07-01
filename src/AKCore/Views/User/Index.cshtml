@@ -19,9 +19,13 @@
 
         <div class="alert alert-danger" style="display: none;"></div>
         <div class="alert alert-success" style="display: none;">Användare skapad</div>
-        <table class="table" id="user-table">
+
+        <div id="user-app">
+        </div>
+        
+        @*<table class="table" id="user-table">
             @Html.Partial("_UserList", Model)
-        </table>
+        </table>*@
     </div>
     <div class="col-md-3">
         <a class="btn btn-default" id="create-user" href="#" role="button">Lägg till ny användare</a>

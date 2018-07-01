@@ -45,6 +45,41 @@ namespace AKCore.Controllers
             return PartialView("_UserList", model);
         }
 
+        [Route("UserListData")]
+        public ActionResult UserListData(UsersModel model)
+        {
+            PopulateModel(model);
+            return Json(MapToView(model));
+        }
+
+        private static UsersViewModel MapToView(UsersModel model)
+        {
+            var viewModel = new UsersViewModel
+            {
+                Users = new List<AkUserViewModel>()
+            };
+            foreach (var user in model.Users)
+            {
+                viewModel.Users.Add(new AkUserViewModel()
+                {
+                    UserName = user.UserName,
+                    FirstName = user.FirstName,
+                    GivenMedal = user.GivenMedal,
+                    HasKey = user.HasKey,
+                    Instrument = user.Instrument,
+                    LastName = user.LastName,
+                    Medal = user.Medal,
+                    OtherInstruments = user.OtherInstruments,
+                    Phone = user.Phone,
+                    SlavPoster = user.SlavPoster,
+                    Roles = model.Roles[user.UserName],
+                    Posts = model.Posts[user.UserName]
+                });
+            }
+
+            return viewModel;
+        }
+
         private void PopulateModel(UsersModel model)
         {
             IList<AkUser> users;

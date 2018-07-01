@@ -1,6 +1,7 @@
 ﻿import Vue from "vue";
 import VideoBar from "./VueComponents/VideoBar";
 import MembersList from "./VueComponents/MembersList";
+import UserPage from "./VueComponents/UserPage";
 
 $(".videos-app").each(function () {
     const widgetId = $(this).data("id");
@@ -23,5 +24,13 @@ if ($("#search-widget").length > 0) {
         },
         template: "<members-list :members='members' :instruments='instruments' />",
         components: { MembersList }
+    });
+}
+
+if ($("#user-app").length > 0) {
+    const usersApp = new Vue({
+        el: `#user-app`,
+        template: "<user-page />",
+        components: { UserPage }
     });
 }

@@ -9,8 +9,8 @@ namespace AKCore.Models
         public IList<AkUser> Users { get; set; }
         public string SearchPhrase { get; set; }
         public bool Inactive { get; set; }
-        public Hashtable Roles { get; set; }
-        public Hashtable Posts { get; set; }
+        public IDictionary<string, IEnumerable<string>> Roles { get; set; }
+        public IDictionary<string, IEnumerable<string>> Posts { get; set; }
 
         public string GetRoleInfo(string role)
         {
@@ -25,13 +25,14 @@ namespace AKCore.Models
                 case AkRoles.Balett:
                     return "Kan se balettsidor";
             }
+
             return "";
         }
 
         public UsersModel()
         {
-            Roles=new Hashtable();
-            Posts=new Hashtable();
+            Roles = new Dictionary<string, IEnumerable<string>>();
+            Posts = new Dictionary<string, IEnumerable<string>>();
         }
     }
 }
