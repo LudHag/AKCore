@@ -20,8 +20,8 @@ $("#new-page-form")
         "form",
         function(e) {
             e.preventDefault();
-            var form = $(this);
-            var error = form.find(".alert-danger");
+            const form = $(this);
+            const error = form.find(".alert-danger");
             $.ajax({
                 url: form.attr("action"),
                 type: "POST",
@@ -44,9 +44,9 @@ $("#new-page-form")
         });
 
 function updateRevisions(revlink) {
-    var revisions = $(".revisions");
+    const revisions = $(".revisions");
     if (revisions) {
-        var revisionList = revisions.find(".revision");
+        const revisionList = revisions.find(".revision");
         if (revisionList.length > 4) {
             revisionList.first().remove();
         }
@@ -58,10 +58,10 @@ $("#page-edit")
     .on("submit",
         function(e) {
             e.preventDefault();
-            var form = $(this);
-            var isRev = form.data("isrev");
-            var error = form.find(".alert-danger");
-            var success = form.find(".alert-success");
+            const form = $(this);
+            const isRev = form.data("isrev");
+            const error = form.find(".alert-danger");
+            const success = form.find(".alert-success");
             if (!isRev || window.confirm("Är du säker på att du vill ersätta sidan med denna version?")) {
                 $.ajax({
                     url: form.attr("action"),
@@ -99,7 +99,7 @@ $('#widget-area .multi-select').multiSelect(
 $("#start-page")
     .on("click",
         function() {
-            var slug = $("#slug");
+            const slug = $("#slug");
             if (slug.prop("readonly")) {
                 slug.prop("readonly", false);
                 slug.val(slug.data("oldslug"));
@@ -173,7 +173,7 @@ $("#picker-images")
         ".pagination li",
         function(e) {
             e.preventDefault();
-            var self = $(this);
+            const self = $(this);
             if (!self.hasClass("active")) {
                 $("#imagePickerModal .pagination li").removeClass("active");
                 self.addClass("active");
@@ -186,7 +186,7 @@ $("#picker-files")
         ".pagination li",
         function (e) {
             e.preventDefault();
-            var self = $(this);
+            const self = $(this);
             if (!self.hasClass("active")) {
                 $("#filePickerModal .pagination li").removeClass("active");
                 self.addClass("active");
@@ -244,13 +244,13 @@ $("#filePickerModal")
 $("#widget-area")
     .on("click",'.add-video-link',function(e) {
         e.preventDefault();
-        var area = $(this).parent().prev();
+        const area = $(this).parent().prev();
         area.append('<div class="form-group video-area row"><div class="col-sm-6"><input class="form-control video-link" value=""></div><div class="col-sm-6"><input class="form-control video-title" value=""><a href="#" class="btn remove-video glyphicon glyphicon-remove"></a></div></div>');
     });
 $("#widget-area")
     .on("click", '.remove-video', function (e) {
         e.preventDefault();
-        var link = $(this).parent().parent();
+        const link = $(this).parent().parent();
         link.remove();
     });
 
@@ -259,8 +259,8 @@ $("#widget-area")
         ".choose-picture-btn",
         function(e) {
             e.preventDefault();
-            var self = $(this);
-            var target = self.parent().find(".selected-image");
+            const self = $(this);
+            const target = self.parent().find(".selected-image");
             $("#imagePickerModal").modal("show");
             $("#picker-images").off("click", ".image-box");
             $("#picker-images")
@@ -286,14 +286,14 @@ $("#widget-area")
         ".min-widget",
         function(e) {
             e.preventDefault();
-            var widget = $(this).parent().parent();
+            const widget = $(this).parent().parent();
             widget.toggleClass("minimized");
         });
 
 function updatePickerSearch() {
-    var st = $("#searchtext").val();
-    var tag = $("#search-mediatags").val();
-    var page = $("#imagePickerModal .pagination li.active a").data("page");
+    const st = $("#searchtext").val();
+    const tag = $("#search-mediatags").val();
+    const page = $("#imagePickerModal .pagination li.active a").data("page");
     updateMediaPickerList(st, tag, page);
 }
 
@@ -305,8 +305,8 @@ function updateMediaPickerList(search, tag, page) {
 }
 
 function updateFilePickerSearch() {
-    var st = $("#filesearchtext").val();
-    var page = $("#filePickerModal .pagination li.active a").data("page");
+    const st = $("#filesearchtext").val();
+    const page = $("#filePickerModal .pagination li.active a").data("page");
     updateFilePickerList(st, page);
 }
 
@@ -320,24 +320,24 @@ function updateFilePickerList(search, page) {
 
 var templates = $("#widget-templates");
 if (templates.length > 0) {
-    var textImageTemplate = templates.find(".TextImage");
-    var headerTextTemplate = templates.find(".HeaderText");
-    var threePuffsTemplate = templates.find(".ThreePuffs");
-    var textTemplate = templates.find(".Text");
-    var imageTemplate = templates.find(".Image");
-    var videoTemplate = templates.find(".Video");
-    var musicTemplate = templates.find(".Music");
-    var joinTemplate = templates.find(".Join");
-    var hireTemplate = templates.find(".Hire");
-    var memberListTemplate = templates.find(".MemberList");
-    var postListTemplate = templates.find(".PostList");
+    const textImageTemplate = templates.find(".TextImage");
+    const headerTextTemplate = templates.find(".HeaderText");
+    const threePuffsTemplate = templates.find(".ThreePuffs");
+    const textTemplate = templates.find(".Text");
+    const imageTemplate = templates.find(".Image");
+    const videoTemplate = templates.find(".Video");
+    const musicTemplate = templates.find(".Music");
+    const joinTemplate = templates.find(".Join");
+    const hireTemplate = templates.find(".Hire");
+    const memberListTemplate = templates.find(".MemberList");
+    const postListTemplate = templates.find(".PostList");
     tinymce.init(options);
     $(".widget-choose")
         .on("click",
             "a",
             function(e) {
                 e.preventDefault();
-                var type = $(this).data("type");
+                const type = $(this).data("type");
                 if (type === "TextImage") {
                     $("#widget-area").append(textImageTemplate.clone());
                     tinymce.init(options);
@@ -365,7 +365,7 @@ if (templates.length > 0) {
             "a",
             function(e) {
                 e.preventDefault();
-                var type = $(this).data("type");
+                const type = $(this).data("type");
                 if (type === "Join") {
                     $("#widget-area").append(joinTemplate.clone());
                     tinymce.init(options);
@@ -405,14 +405,14 @@ if (templates.length > 0) {
 }
 
 function jsonifyWidgets() {
-    var widgets = [];
+    const widgets = [];
     $("#widget-area")
         .find(".widget")
         .each(function(i, o) {
-            var wig = new Object();
-            var type = $(o).data("type");
+            const wig = new Object();
+            const type = $(o).data("type");
             wig.Type = type;
-            var tId;
+            let tId;
             if (type === "Text") {
                 tId = $(o).find(".mce-content").attr("id");
                 wig.Text = tinymce.get(tId).getContent();
@@ -424,7 +424,7 @@ function jsonifyWidgets() {
                 $(o)
                     .find(".video-area")
                     .each(function () {
-                        var Video = new Object();
+                        const Video = new Object();
                         Video.Link = $(this).find('.video-link').val();
                         Video.Title = $(this).find('.video-title').val();
                         wig.Videos.push(Video);
@@ -438,6 +438,6 @@ function jsonifyWidgets() {
             } 
             widgets.push(wig);
         });
-    var res = JSON.stringify(widgets);
+    const res = JSON.stringify(widgets);
     return encodeURIComponent(res);
 }

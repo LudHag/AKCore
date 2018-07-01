@@ -1,4 +1,4 @@
-﻿var usertable = $("#user-table");
+﻿const usertable = $("#user-table");
 if (usertable.length > 0) {
     $('[data-toggle="tooltip"]').tooltip({});
 
@@ -13,7 +13,7 @@ if (usertable.length > 0) {
         .on("submit",
         function (e) {
             e.preventDefault();
-            var form = $(this);
+            const form = $(this);
             var success = $(".alert-success");
             var error = form.find(".alert-danger");
             $.ajax({
@@ -42,7 +42,7 @@ if (usertable.length > 0) {
 
     $("#user-table").on("click", ".edit-user-info", function (e) {
         e.preventDefault();
-        var userName = $(this).data("user");
+        const userName = $(this).data("user");
 
         $.get("/User/EditUserInfo?userName=" + userName,
             function (data) {
@@ -55,9 +55,9 @@ if (usertable.length > 0) {
     $("#editUserModal").on("submit", "#edit-user-form", function (e) {
         e.preventDefault();
         e.preventDefault();
-        var form = $(this);
-        var error = $(".alert-danger");
-        var success = $(".alert-success");
+        const form = $(this);
+        const error = $(".alert-danger");
+        const success = $(".alert-success");
         $.ajax({
             url: form.attr("action"),
             type: form.attr("method"),
@@ -83,10 +83,10 @@ if (usertable.length > 0) {
         function (e) {
             e.preventDefault();
             e.stopPropagation();
-            var self = $(this);
+            const self = $(this);
             if (confirm("Vill du verkligen ta bort " + self.data("user") + "?")) {
-                var success = $(".alert-success");
-                var error = $(".alert-danger");
+                const success = $(".alert-success");
+                const error = $(".alert-danger");
                 $.ajax({
                     url: "/User/RemoveUser?userName=" + self.data("user"),
                     type: "POST",
@@ -116,9 +116,9 @@ if (usertable.length > 0) {
 
     $("#user-table").on("submit", ".add-role", function (e) {
         e.preventDefault();
-        var form = $(this);
-        var error = $(".alert-danger");
-        var success = $(".alert-success");
+        const form = $(this);
+        const error = $(".alert-danger");
+        const success = $(".alert-success");
         $.ajax({
             url: form.attr("action"),
             type: form.attr("method"),
@@ -140,8 +140,8 @@ if (usertable.length > 0) {
     });
     $("#user-table").on("submit", ".save-medal", function (e) {
         e.preventDefault();
-        var form = $(this);
-        var error = $(".alert-danger");
+        const form = $(this);
+        const error = $(".alert-danger");
         $.ajax({
             url: form.attr("action"),
             type: form.attr("method"),
@@ -163,16 +163,16 @@ if (usertable.length > 0) {
     $('.add-post .multi-select').multiSelect({});
     $("#user-table").on("reset", ".add-post", function (e) {
         e.preventDefault();
-        var multi = $(this).find('.multi-select');
+        const multi = $(this).find('.multi-select');
         multi.val([]);
         multi.multiSelect('refresh');
     });
 
     $("#user-table").on("submit", ".add-post", function (e) {
         e.preventDefault();
-        var form = $(this);
-        var success = $(".alert-success");
-        var error = $(".alert-danger");
+        const form = $(this);
+        const success = $(".alert-success");
+        const error = $(".alert-danger");
         $.ajax({
             url: form.attr("action"),
             type: form.attr("method"),
@@ -197,7 +197,7 @@ if (usertable.length > 0) {
         ".add-post",
         function (e) {
             e.preventDefault();
-            var form = $(this);
+            const form = $(this);
             form.find('select').val('');
         });
 
@@ -213,9 +213,9 @@ if (usertable.length > 0) {
         .on('submit',
         function (e) {
             e.preventDefault();
-            var form = $(this);
-            var error = form.find(".alert-danger");
-            var success = $(".alert-success");
+            const form = $(this);
+            const error = form.find(".alert-danger");
+            const success = $(".alert-success");
             $.ajax({
                 url: form.attr("action"),
                 type: form.attr("method"),
@@ -244,7 +244,7 @@ if (usertable.length > 0) {
         function (e) {
             e.preventDefault();
             e.stopPropagation();
-            var self = $(this);
+            const self = $(this);
 
             var error = $(".alert-danger");
             $.ajax({

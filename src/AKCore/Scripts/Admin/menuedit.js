@@ -8,9 +8,9 @@ $("#add-top-menu")
     .on("submit",
         function(e) {
             e.preventDefault();
-            var form = $(this);
-            var error = form.find(".alert-danger");
-            var success = form.find(".alert-success");
+            const form = $(this);
+            const error = form.find(".alert-danger");
+            const success = form.find(".alert-success");
             $.ajax({
                 url: form.attr("action"),
                 type: "POST",
@@ -42,9 +42,9 @@ $("#menus")
         ".remove-menu",
         function(e) {
             e.preventDefault();
-            var success = $("#menualerts").find(".alert-success");
-            var error = $("#menualerts").find(".alert-danger");
-            var self = $(this);
+            const success = $("#menualerts").find(".alert-success");
+            const error = $("#menualerts").find(".alert-danger");
+            const self = $(this);
             if (window.confirm("Vill du verkligen ta bort menyn: " + self.data("name"))) {
                 $.ajax({
                     url: "/MenuEdit/RemoveTopMenu?id=" + self.data("id"),
@@ -79,9 +79,9 @@ $("#add-submenu-form")
     .on("submit",
         function(e) {
             e.preventDefault();
-            var form = $(this);
-            var success = $("#menualerts").find(".alert-success");
-            var error = $("#menualerts").find(".alert-danger");
+            const form = $(this);
+            const success = $("#menualerts").find(".alert-success");
+            const error = $("#menualerts").find(".alert-danger");
             $.ajax({
                 url: form.attr("action"),
                 type: "POST",
@@ -109,9 +109,9 @@ $("#menus")
         ".remove-sub-menu",
         function (e) {
             e.preventDefault();
-            var success = $("#menualerts").find(".alert-success");
-            var error = $("#menualerts").find(".alert-danger");
-            var self = $(this);
+            const success = $("#menualerts").find(".alert-success");
+            const error = $("#menualerts").find(".alert-danger");
+            const self = $(this);
             if (window.confirm("Vill du verkligen ta bort menyn: " + self.data("name"))) {
                 $.ajax({
                     url: "/MenuEdit/RemoveSubMenu?id=" + self.data("id"),
@@ -139,14 +139,14 @@ $("#menus")
         ".menu",
         function(e) {
             e.preventDefault();
-            var self = $(this);
-            var form = $('#edit-menu-form');
-            var id = form.find('.menuId');
-            var name = form.find('.name');
-            var link = form.find('.page');
-            var parent = form.find('.parentId');
-            var loggedIn = form.find('.logged');
-            var balett = form.find('.balett');
+            const self = $(this);
+            const form = $('#edit-menu-form');
+            const id = form.find('.menuId');
+            const name = form.find('.name');
+            const link = form.find('.page');
+            const parent = form.find('.parentId');
+            const loggedIn = form.find('.logged');
+            const balett = form.find('.balett');
             loggedIn.prop('checked', self.data('logged') === "True");
             balett.prop('checked', self.data('balett') === "True");
             name.val(self.text());
@@ -163,12 +163,12 @@ $("#menus")
         ".submenu",
         function (e) {
             e.preventDefault();
-            var self = $(this);
-            var form = $('#edit-menu-form');
-            var id = form.find('.menuId');
-            var parent = form.find('.parentId');
-            var name = form.find('.name');
-            var link = form.find('.page');
+            const self = $(this);
+            const form = $('#edit-menu-form');
+            const id = form.find('.menuId');
+            const parent = form.find('.parentId');
+            const name = form.find('.name');
+            const link = form.find('.page');
             link.attr('required', true);
             name.val(self.text());
             link.val(self.data('link'));
@@ -182,9 +182,9 @@ $("#edit-menu-form")
     .on("submit",
          function (e) {
              e.preventDefault();
-             var form = $(this);
-             var success = $("#menualerts").find(".alert-success");
-             var error = form.find(".alert-danger");
+             const form = $(this);
+             const success = $("#menualerts").find(".alert-success");
+             const error = form.find(".alert-danger");
              $.ajax({
                  url: form.attr("action"),
                  type: "POST",
@@ -212,8 +212,7 @@ $("#menus")
         ".move-left",
         function(e) {
             e.preventDefault();
-            var self = $(this);
-
+            const self = $(this);
             $.ajax({
                 url: "/MenuEdit/MoveLeft?id=" + self.data("id"),
                 type: "POST",
@@ -234,7 +233,7 @@ $("#menus")
         ".move-right",
         function (e) {
             e.preventDefault();
-            var self = $(this);
+            const self = $(this);
 
             $.ajax({
                 url: "/MenuEdit/MoveRight?id=" + self.data("id"),
@@ -256,7 +255,7 @@ $("#menus")
         ".move-up",
         function (e) {
             e.preventDefault();
-            var self = $(this);
+            const self = $(this);
 
             $.ajax({
                 url: "/MenuEdit/MoveUp?id=" + self.data("id")+"&parent="+ self.data("top"),
@@ -278,7 +277,7 @@ $("#menus")
         ".move-down",
         function (e) {
             e.preventDefault();
-            var self = $(this);
+            const self = $(this);
 
             $.ajax({
                 url: "/MenuEdit/MoveDown?id=" + self.data("id") + "&parent=" + self.data("top"),

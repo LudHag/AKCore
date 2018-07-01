@@ -2,7 +2,7 @@
 var droppedFiles = false;
 
 if (uploadForm.length > 0) {
-    var $input = uploadForm.find('input[type="file"]'),
+    const $input = uploadForm.find('input[type="file"]'),
         $choose = uploadForm.find(".choose-file"),
         $label = uploadForm.find(".file-name"),
         showFiles = function(files) {
@@ -51,12 +51,12 @@ $("#upload-file-btn")
 uploadForm.on("submit",
     function(e) {
         e.preventDefault();
-        var form = $(this);
-        var mediaData = new FormData();
+        const form = $(this);
+        const mediaData = new FormData();
         mediaData.append("UploadFile", droppedFiles[0]);
         mediaData.append("Tag", $('#upload-mediatags').val());
-        var success = $(".alert-success");
-        var error = $(".alert-danger");
+        const success = $(".alert-success");
+        const error = $(".alert-danger");
         $.ajax({
             type: "POST",
             url: "/Media/UploadFile",
@@ -101,9 +101,9 @@ $("#uploaded-files")
         ".remove-media",
         function(e) {
             e.preventDefault();
-            var self = $(this);
+            const self = $(this);
             if (window.confirm("Är du säker på att du vill ta bort filen: " + self.data("name"))) {
-                var error = $(".alert-danger");
+                const error = $(".alert-danger");
                 $.ajax({
                     url: "/Media/RemoveFile?filename=" + self.data("name"),
                     type: "POST",
@@ -128,7 +128,7 @@ $("#uploaded-files")
         ".pagination li",
         function(e) {
             e.preventDefault();
-            var self = $(this);
+            const self = $(this);
             if (!self.hasClass("active")) {
                 $(".pagination li").removeClass("active");
                 self.addClass("active");
@@ -139,7 +139,7 @@ $("#uploaded-files")
 $("#uploaded-files")
     .on("click", ".folder-box", function (e) {
         e.preventDefault();
-        var tag = $(this).data("tag");
+        const tag = $(this).data("tag");
         $("#search-mediatags").val(tag);
         updateSearch();
     });
@@ -147,7 +147,7 @@ $("#uploaded-files")
 $("#uploaded-files")
     .on("click", ".image-box", function (e) {
         e.preventDefault();
-        var self = $(this);
+        const self = $(this);
         if (!$(e.target).is("a")) {
             $("#fileeditmodal").modal("show");
             $("#fileedit-tag").val(self.data("tag"));
@@ -163,7 +163,7 @@ $("#uploaded-files")
 
 $("#fileeditform").on("submit", function (e) {
     e.preventDefault();
-    var form = $(this);
+    const form = $(this);
     $.ajax({
         url: form.attr("action"),
         type: "POST",
@@ -192,9 +192,9 @@ $("#uploaded-files")
 
 
 function updateSearch() {
-    var st = $("#searchtext").val();
-    var tag = $("#search-mediatags").val();
-    var page = $(".pagination li.active a").data('page');
+    const st = $("#searchtext").val();
+    const tag = $("#search-mediatags").val();
+    const page = $(".pagination li.active a").data('page');
     updateMediaList(st, tag, page);
 }
 

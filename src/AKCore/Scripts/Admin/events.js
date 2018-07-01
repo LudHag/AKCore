@@ -15,8 +15,8 @@ $(function() {
         .on('submit',
             function(e) {
                 e.preventDefault();
-                var form = $(this);
-                var error = form.find(".alert-danger");
+                const form = $(this);
+                const error = form.find(".alert-danger");
                 $.ajax({
                     url: form.attr("action"),
                     type: "POST",
@@ -43,7 +43,7 @@ $(function() {
             function(e) {
                 e.preventDefault();
                 if (window.confirm("Är du säker på att du vill ta bort detta event?")) {
-                    var self = $(this);
+                    const self = $(this);
                     $.ajax({
                         url: self.attr("href"),
                         type: "POST",
@@ -60,9 +60,6 @@ $(function() {
                     });
                 }
             });
-    function fTime(n) {
-        return n < 10 ? '0' + n : n;
-    }
     $('#admin-event-list')
         .on('click',
             '.event-row',
@@ -79,7 +76,7 @@ $(function() {
                                 $('#Name').val(event.Name);
                                 $('#Secret').prop('checked', event.Secret);
                                 $('#Place').val(event.Place);
-                                var date = new Date(event.Day);
+                                const date = new Date(event.Day);
                                 if (date.getFullYear() > 2000) {
                                     $('#Day').val((date.getMonth()+1) + "/" + date.getDate() + "/" + date.getFullYear());
                                 } else {
@@ -110,7 +107,7 @@ $(function() {
             ".pagination li",
             function (e) {
                 e.preventDefault();
-                var self = $(this);
+                const self = $(this);
                 if (!self.hasClass("active")) {
                     $("#admin-event-list .active").removeClass("active");
                     self.addClass("active");
