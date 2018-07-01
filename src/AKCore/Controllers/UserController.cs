@@ -60,20 +60,23 @@ namespace AKCore.Controllers
             };
             foreach (var user in model.Users)
             {
+                var roles = model.Roles[user.UserName].ToArray();
                 viewModel.Users.Add(new AkUserViewModel()
                 {
                     UserName = user.UserName,
                     FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    FullName = user.FirstName + " " + user.LastName,
                     GivenMedal = user.GivenMedal,
                     HasKey = user.HasKey,
                     Instrument = user.Instrument,
-                    LastName = user.LastName,
                     Medal = user.Medal,
                     OtherInstruments = user.OtherInstruments,
                     Phone = user.Phone,
                     SlavPoster = user.SlavPoster,
-                    Roles = model.Roles[user.UserName],
-                    Posts = model.Posts[user.UserName]
+                    Roles = roles,
+                    Posts = model.Posts[user.UserName],
+                    Active = roles.Any()
                 });
             }
 
@@ -88,7 +91,6 @@ namespace AKCore.Controllers
             if (model.Inactive)
             {
                 users = _userManager.Users.Include(u => u.Roles).ToList();
-
             }
             else
             {

@@ -1,7 +1,10 @@
 ﻿@using AKCore.Models
 @model UsersModel
 
-<div class="row">
+<div id="user-app">
+</div>
+
+@*<div class="row">
     <div class="col-md-9">
         <form class="form-inline ak-search" id="search-user-form" action="" method="GET">
             <div class="form-group">
@@ -20,17 +23,16 @@
         <div class="alert alert-danger" style="display: none;"></div>
         <div class="alert alert-success" style="display: none;">Användare skapad</div>
 
-        <div id="user-app">
-        </div>
+       
         
-        @*<table class="table" id="user-table">
+        <table class="table" id="user-table">
             @Html.Partial("_UserList", Model)
-        </table>*@
+        </table>
     </div>
     <div class="col-md-3">
         <a class="btn btn-default" id="create-user" href="#" role="button">Lägg till ny användare</a>
     </div>
-</div>
+</div>*@
 
 @Html.Partial("_CreateUserModal")
 <div id="editUserModal" class="modal fade">

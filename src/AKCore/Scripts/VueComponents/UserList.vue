@@ -1,5 +1,6 @@
 ﻿<template>
     <div id="user-list">
+        {{users.length}}
         <div v-for="user in users">
             {{user.firstName}} {{user.lastName}}
         </div>
