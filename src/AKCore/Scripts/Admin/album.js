@@ -285,11 +285,7 @@
                 function(e) {
                     e.preventDefault();
                     const self = $(this);
-                    self.replaceWith('<input type="text" class="name-input" data-id="' +
-                        self.data("id") +
-                        '" value="' +
-                        self.text() +
-                        '"\>');
+                    self.replaceWith(`<input type="text" class="name-input" data-id="${self.data("id")}" value="${self.text()}"\>`);
                     $(".name-input").focus();
                 });
 
