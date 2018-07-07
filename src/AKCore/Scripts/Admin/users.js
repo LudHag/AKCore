@@ -40,17 +40,7 @@ if (usertable.length > 0) {
 
         });
 
-    $("#user-table").on("click", ".edit-user-info", function (e) {
-        e.preventDefault();
-        const userName = $(this).data("user");
-
-        $.get("/User/EditUserInfo?userName=" + userName,
-            function (data) {
-                $("#editUserModal").empty().append(data);
-                $("#editUserModal").modal("show");
-                $("#editUserModal .multi-select").multiSelect({});
-            });
-    });
+ 
 
     $("#editUserModal").on("submit", "#edit-user-form", function (e) {
         e.preventDefault();

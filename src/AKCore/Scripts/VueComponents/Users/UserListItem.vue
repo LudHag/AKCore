@@ -31,7 +31,7 @@
                                     <strong>Slavposter:</strong>
                                     <span class="listed-items" v-for="post in user.posts">{{post}}</span>
                                 </p>
-                                <form class="form-inline save-medal" method="post" action="/User/SaveMedal">
+                                <form class="form-inline save-medal" method="post" action="/User/SaveMedal" @submit.prevent="saveLastEarned">
                                     <div class="form-group">
                                         <strong>Senast förtjänade medalj: {{user.medal}}</strong>
                                         <select class="form-control input-sm" :value="user.medal">
@@ -41,6 +41,36 @@
                                     </div>
                                     <div class="form-group">
                                         <button type="submit" class="btn btn-primary input-sm">Spara</button>
+                                    </div>
+                                </form>
+                                <form class="form-inline save-medal" method="post" action="/User/SaveGivenMedal" @submit.prevent="saveLastGiven">
+                                    <div class="form-group">
+                                        <strong>Senast utdelad medalj: {{user.givenMedal}}</strong>
+                                        <select class="form-control input-sm" :value="user.givenMedal">
+                                            <option value="">Ingen</option>
+                                            <option v-for="medal in medals" :value="medal">{{medal}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-primary input-sm">Spara</button>
+                                    </div>
+                                </form>
+                                <a href="#" :data-user="user.userName" class="btn btn-default edit-user-info">Redigera användarinfo</a>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <p>Ändra användarinställningar: <i class="fa fa-question-circle roles-info" data-html="true" data-toggle="tooltip" data-placement="top" title="Supernintendo: Full access <br>Editor: Kan redigera sidor, filer, album samt se intresseanmlningar<br>Medlem: Kan anmäla sig till spelningar samt redigera sin info<br>Balett: Kan se balettsidor" aria-hidden="true"></i></p>
+                            <div class="edit-group">
+                                <form class="form-inline add-role" action="/User/AddRole" method="POST" @submit.prevent="addRole">
+                                    <div class="form-group">
+                                        <label>Lägg till roll: </label>
+                                        <select class="form-control input-sm">
+                                            <option value="">Välj roll</option>
+                                            <option v-for="role in roles" :value="role">{{role}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-primary input-sm">Lägg till</button>
                                     </div>
                                 </form>
                             </div>
@@ -80,11 +110,25 @@
             },
             removeRole(role) {
                 console.log("ta bort roll " + role);
+            },
+            saveLastEarned() {
+                console.log("spara medalj");
+            },
+            saveLastGiven() {
+                console.log("spara given medalj");
+            },
+            addRole() {
+                console.log("lägg till roll");
             }
         },
         computed: {
             medals: function () {
                 return Constants.MEDALS;
+            },
+            roles: function () {
+                return Constants.ROLES.filter((role) => {
+                    return this.user.roles.indexOf(role) == -1;
+                });
             }
         }
     }
