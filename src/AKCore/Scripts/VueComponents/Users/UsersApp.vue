@@ -12,6 +12,9 @@
                         </label>
                     </div>
                 </div>
+                <div class="spinner-container" v-if="loading">
+                    <spinner :size="'medium'"></spinner>
+                </div>
             </div>
             <div class="alert alert-danger" style="display: none;"></div>
             <div class="alert alert-success" style="display: none;">Användare skapad</div>
@@ -22,17 +25,20 @@
 </template>
 <script>
     import UserList from "./UserList";
+    import Spinner from "../Spinner";
 
     export default {
         components: {
-            UserList
+            UserList,
+            Spinner
         },
         data: function () {
             return {
                 searchPhrase: "",
                 inactive: false,
                 users: [],
-                allUsersCollected: false
+                allUsersCollected: false,
+                loading: false
             }
         },
         computed: {
@@ -59,15 +65,18 @@
         methods: {
             getUsers: function (inactive) {
                 const self = this;
+                this.loading = true;
                 $.ajax({
                     url: "/User/UserListData",
                     type: "POST",
                     data: { inactive },
                     success: function (res) {
                         self.users = res.users;
+                        self.loading = false;
                     },
                     error: function () {
                         console.log("fel");
+                        self.loading = false;
                     }
                 });
             }
@@ -78,5 +87,7 @@
     }
 </script>
 <style lang="scss">
-
+    .spinner-container{
+        float: right;
+    }
 </style>
