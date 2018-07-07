@@ -74,6 +74,21 @@
                                     </div>
                                 </form>
                             </div>
+                            <div class="edit-group">
+                                <a href="#" class="btn btn-primary reset-pass-btn" @click.prevent="resetPassword">Nytt lösenord</a>
+                            </div>
+                            <div class="edit-group">
+                                <label>Lägg till post(er): </label>
+                                <form class="form-inline add-post" action="/User/AddPost" method="POST" @submit.prevent="addPost">
+                                    <select name="post" multiple class="form-control multi-select" >
+                                        <option v-for="post in posts">{{post}}</option>
+                                    </select>
+                                    <div class="form-group">
+                                        <button type="reset" class="btn btn-primary input-sm">Rensa</button>
+                                        <button type="submit" class="btn btn-primary input-sm">Spara</button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -119,6 +134,12 @@
             },
             addRole() {
                 console.log("lägg till roll");
+            },
+            resetPassword() {
+                console.log("Återställ lösenord");
+            },
+            addPost() {
+                console.log("Lägg till post");
             }
         },
         computed: {
@@ -129,6 +150,9 @@
                 return Constants.ROLES.filter((role) => {
                     return this.user.roles.indexOf(role) == -1;
                 });
+            },
+            posts: function () {
+                return Constants.POSTS;
             }
         }
     }
