@@ -80,9 +80,7 @@
                             <div class="edit-group">
                                 <label>Lägg till post(er): </label>
                                 <form class="form-inline add-post" action="/User/AddPost" method="POST" @submit.prevent="addPost">
-                                    <select name="post" multiple class="form-control multi-select" >
-                                        <option v-for="post in posts">{{post}}</option>
-                                    </select>
+                                    <v-select multiple :searchable="false" :value="user.posts" :options="posts"></v-select>
                                     <div class="form-group">
                                         <button type="reset" class="btn btn-primary input-sm">Rensa</button>
                                         <button type="submit" class="btn btn-primary input-sm">Spara</button>
@@ -98,9 +96,13 @@
 </template>
 <script>
     import Constants from '../../constants'
+    import vSelect from 'vue-select'
 
     export default {
         props: ['user'],
+        components: {
+            vSelect
+        },
         data: function () {
             return {
                 expanded: false
@@ -171,5 +173,17 @@
     .listed-items{
         margin-left: 5px;
     }
-
+    .v-select {
+        background-color: #fff;
+        border-radius: 3px;
+        width: 100%;
+        margin-bottom: 10px;
+   
+    }
+    .v-select input {
+        display: none;
+    }
+    .v-select .selected-tag {
+        margin: 4px;
+    }
 </style>

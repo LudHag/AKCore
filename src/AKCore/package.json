@@ -43,6 +43,7 @@
   "dependencies": {
     "aspnet-prerendering": "^3.0.1",
     "bootstrap-sass": "^3.3.7",
-    "tiny-date-picker": "^3.2.5"
+    "tiny-date-picker": "^3.2.5",
+    "vue-select": "^2.4.0"
   }
 }
