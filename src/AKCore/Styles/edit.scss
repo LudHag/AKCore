@@ -110,26 +110,6 @@
         }
     }
 }
-#user-table {
-    table-layout: auto;
-
-    .role {
-        cursor: pointer;
-    }
-
-    .tooltip {
-        opacity: 1;
-
-        .tooltip-inner {
-            background-color: $akwhite;
-            color: #555555;
-        }
-
-        .tooltip-arrow {
-            border-top-color: $akwhite;
-        }
-    }
-}
 
 .revisions {
     h2 {
@@ -150,15 +130,8 @@
     }
 }
 
-.remove-role {
-    color: $akwhite;
-    font-size: 12px;
-}
-.collapsed{
-    .remove-role{
-        display:none;
-    }
-}
+
+
 .box {
     border: 2px dashed #a5a2a0;
     border-offset: -10px;

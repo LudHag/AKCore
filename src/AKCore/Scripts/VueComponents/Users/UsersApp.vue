@@ -15,7 +15,6 @@
             </div>
             <div class="alert alert-danger" style="display: none;"></div>
             <div class="alert alert-success" style="display: none;">Användare skapad</div>
-
             <user-list :users="filteredUsers" />
         </div>
     </div>

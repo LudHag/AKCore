@@ -241,6 +241,7 @@ namespace AKCore.Controllers
         [Route("RemoveUser")]
         public async Task<ActionResult> RemoveUser(string userName)
         {
+            throw new Exception();
             var res = await _userManager.FindByNameAsync(userName);
             var delRes = await _userManager.DeleteAsync(res);
 
@@ -286,6 +287,7 @@ namespace AKCore.Controllers
         [Route("RemoveRole")]
         public async Task<ActionResult> RemoveRole(string UserName, string Role)
         {
+            throw new Exception();
             var user = await _userManager.FindByNameAsync(UserName);
             var role = await _roleManager.FindByNameAsync(Role);
             if ((user == null) || (role == null))

@@ -1,7 +1,7 @@
 ﻿import Vue from "vue";
 import VideoBar from "./VueComponents/VideoBar";
 import MembersList from "./VueComponents/MembersList";
-import UsersApp from "./VueComponents/UsersApp";
+import UsersApp from "./VueComponents/Users/UsersApp";
 
 $(".videos-app").each(function () {
     const widgetId = $(this).data("id");
