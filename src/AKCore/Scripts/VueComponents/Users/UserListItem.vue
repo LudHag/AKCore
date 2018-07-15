@@ -106,13 +106,13 @@
         components: {
             vSelect
         },
-        data: function () {
+        data() {
             return {
                 expanded: false
             }
         },
         methods: {
-            roleInfo: function (role) {
+            roleInfo(role) {
                 switch (role) {
                     case "SuperNintendo":
                         return "Har rättigheter att redigera all information på webben";
@@ -135,13 +135,25 @@
                 const error = $(".alert-danger");
                 const success = $(".alert-success");
                 const form = $(event.target);
-                ApiService.defaultFormSend(form, error, success);
+                ApiService.defaultFormSend(form, error, success, () => {
+                    this.$emit('updateuserprop', {
+                        userName: this.user.userName,
+                        prop: "medal",
+                        value: event.target.elements.medal.value
+                    })
+                });
             },
             saveLastGiven(event) {
                 const error = $(".alert-danger");
                 const success = $(".alert-success");
                 const form = $(event.target);
-                ApiService.defaultFormSend(form, error, success);
+                ApiService.defaultFormSend(form, error, success, () => {
+                    this.$emit('updateuserprop', {
+                        userName: this.user.userName,
+                        prop: "givenMedal",
+                        value: event.target.elements.medal.value
+                    })
+                });
             },
             addRole() {
                 console.log("lägg till roll");
@@ -154,15 +166,15 @@
             }
         },
         computed: {
-            medals: function () {
+            medals() {
                 return Constants.MEDALS;
             },
-            roles: function () {
+            roles() {
                 return Constants.ROLES.filter((role) => {
                     return this.user.roles.indexOf(role) == -1;
                 });
             },
-            posts: function () {
+            posts() {
                 return Constants.POSTS;
             }
         }

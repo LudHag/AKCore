@@ -10,7 +10,10 @@
                     <th></th>
                 </tr>
             </thead>
-            <user-list-item v-for="user in users" :user="user" :key="user.userName">
+            <user-list-item v-for="user in users" 
+                            :user="user" 
+                            :key="user.userName"
+                            @updateuserprop="updateUserProp">
             </user-list-item>
         </table>
     </div>
@@ -21,6 +24,11 @@
         props: ['users'],
         components: {
             UserListItem
+        },
+        methods: {
+            updateUserProp(updateInfo) {
+                this.$emit('updateuserprop', updateInfo);
+            }
         }
     }
 </script>

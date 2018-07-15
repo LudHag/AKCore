@@ -18,7 +18,8 @@
             </div>
             <div class="alert alert-danger" style="display: none;"></div>
             <div class="alert alert-success" style="display: none;">Användare skapad</div>
-            <user-list :users="filteredUsers" />
+            <user-list :users="filteredUsers"
+                       @updateuserprop="updateUserProp"/>
         </div>
     </div>
             
@@ -32,7 +33,7 @@
             UserList,
             Spinner
         },
-        data: function () {
+        data() {
             return {
                 searchPhrase: "",
                 inactive: false,
@@ -42,7 +43,7 @@
             }
         },
         computed: {
-            filteredUsers: function () {
+            filteredUsers() {
                 var filtered = this.inactive ? this.users : this.users.filter((user) => {
                     return user.active != this.inactive;
                 });
@@ -56,14 +57,14 @@
             }
         },
         watch: {
-            inactive: function () {
+            inactive() {
                 if (this.inactive && !this.allUsersCollected) {
                     this.getUsers(true);
                 }
             }
         },
         methods: {
-            getUsers: function (inactive) {
+            getUsers(inactive) {
                 const self = this;
                 this.loading = true;
                 $.ajax({
@@ -79,9 +80,15 @@
                         self.loading = false;
                     }
                 });
+            },
+            updateUserProp(updateInfo) {
+                const user = this.users.find((user) => {
+                    return user.userName === updateInfo.userName;
+                });
+                user[updateInfo.prop] = updateInfo.value;
             }
         },
-        created: function () {
+        created() {
             this.getUsers(false);
         }
     }
