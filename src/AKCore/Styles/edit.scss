@@ -42,7 +42,7 @@
 }
 
 .v-select.unsearchable input[type=search] {
-    display: none;
+    width: 0!important;
 }
 
 .v-select .dropdown-toggle .selected-tag {
