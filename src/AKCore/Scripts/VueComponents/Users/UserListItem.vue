@@ -61,7 +61,7 @@
                             </div>
                         </div>
                         <div class="col-sm-6">
-                            <p>Ändra användarinställningar: <i class="fa fa-question-circle roles-info" data-html="true" data-toggle="tooltip" data-placement="top" title="Supernintendo: Full access <br>Editor: Kan redigera sidor, filer, album samt se intresseanmlningar<br>Medlem: Kan anmäla sig till spelningar samt redigera sin info<br>Balett: Kan se balettsidor" aria-hidden="true"></i></p>
+                            <p>Ändra användarinställningar: <i class="fa fa-question-circle roles-info" data-html="true" v-tooltip:top="'Supernintendo: Full access <br>Editor: Kan redigera sidor, filer, album samt se intresseanmlningar<br>Medlem: Kan anmäla sig till spelningar samt redigera sin info<br>Balett: Kan se balettsidor'" aria-hidden="true"></i></p>
                             <div class="edit-group">
                                 <form class="form-inline add-role" action="/User/AddRole" method="POST" @submit.prevent="addRole">
                                     <div class="form-group">

@@ -41,16 +41,4 @@
     table .role {
         cursor: pointer;
     }
-
-    table .tooltip {
-        opacity: 1;
-    }
-    table .tooltip-inner {
-        background-color: $akwhite;
-        color: #555555;
-    }
-
-    table .tooltip-arrow {
-        border-top-color: $akwhite;
-    }
 </style>

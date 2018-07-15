@@ -49,6 +49,20 @@
     margin: 4px;
 }
 
+#user-app {
+    table .tooltip {
+        opacity: 1;
+    }
+
+    table .tooltip-inner {
+        background-color: $akwhite;
+        color: #555555;
+    }
+
+    table .tooltip-arrow {
+        border-top-color: $akwhite;
+    }
+}
 .menu-item{
     margin-bottom: 5px;
 }
