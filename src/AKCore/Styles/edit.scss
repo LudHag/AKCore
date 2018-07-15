@@ -34,6 +34,21 @@
     float:right;
 }
 
+.v-select {
+    background-color: #fff;
+    border-radius: 3px;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.v-select.unsearchable input[type=search] {
+    display: none;
+}
+
+.v-select .dropdown-toggle .selected-tag {
+    margin: 4px;
+}
+
 .menu-item{
     margin-bottom: 5px;
 }

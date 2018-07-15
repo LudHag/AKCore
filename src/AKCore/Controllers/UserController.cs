@@ -351,7 +351,7 @@ namespace AKCore.Controllers
             user.Medal = medal;
             var result = await _userManager.UpdateAsync(user);
 
-            return Json(new {success = result.Succeeded, message = result.ToString()});
+            return Json(new {success = result.Succeeded, message = result.Succeeded ? "Uppdaterade medaljinfo" : result.ToString()});
         }
         [Route("SaveGivenMedal")]
         public async Task<ActionResult> SaveGivenMedal(string userName, string medal)
@@ -362,7 +362,7 @@ namespace AKCore.Controllers
             user.GivenMedal = medal;
             var result = await _userManager.UpdateAsync(user);
 
-            return Json(new { success = result.Succeeded, message = result.ToString() });
+            return Json(new { success = result.Succeeded, message = result.Succeeded ? "Uppdaterade medaljinfo" : result.ToString() });
         }
 
     }

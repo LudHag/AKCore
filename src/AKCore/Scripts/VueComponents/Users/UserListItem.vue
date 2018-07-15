@@ -7,7 +7,7 @@
                 <span v-for="role in user.roles" class="role" :title="roleInfo(role)">
                 {{role}} <a v-if="expanded" class="remove-role glyphicon glyphicon-remove" @click.prevent.stop="removeRole(role)"></a></span>
             </td>
-            <td>
+            <td class="item-actions">
                 <a class="btn remove-user glyphicon glyphicon-remove" @click.prevent.stop="removeUser"></a>
             </td>
         </tr>
@@ -34,7 +34,8 @@
                                 <form class="form-inline save-medal" method="post" action="/User/SaveMedal" @submit.prevent="saveLastEarned">
                                     <div class="form-group">
                                         <strong>Senast förtjänade medalj: {{user.medal}}</strong>
-                                        <select class="form-control input-sm" :value="user.medal">
+                                        <input type="hidden" name="userName" :value="user.userName"/>
+                                        <select class="form-control input-sm" name="medal" :value="user.medal">
                                             <option value="">Ingen</option>
                                             <option v-for="medal in medals" :value="medal">{{medal}}</option>
                                         </select>
@@ -46,7 +47,8 @@
                                 <form class="form-inline save-medal" method="post" action="/User/SaveGivenMedal" @submit.prevent="saveLastGiven">
                                     <div class="form-group">
                                         <strong>Senast utdelad medalj: {{user.givenMedal}}</strong>
-                                        <select class="form-control input-sm" :value="user.givenMedal">
+                                        <input type="hidden" name="userName" :value="user.userName" />
+                                        <select class="form-control input-sm" name="medal" :value="user.givenMedal">
                                             <option value="">Ingen</option>
                                             <option v-for="medal in medals" :value="medal">{{medal}}</option>
                                         </select>
@@ -95,8 +97,9 @@
     </tbody>
 </template>
 <script>
-    import Constants from '../../constants'
-    import vSelect from 'vue-select'
+    import Constants from '../../constants';
+    import vSelect from 'vue-select';
+    import ApiService from '../../services/apiservice';
 
     export default {
         props: ['user'],
@@ -128,11 +131,17 @@
             removeRole(role) {
                 console.log("ta bort roll " + role);
             },
-            saveLastEarned() {
-                console.log("spara medalj");
+            saveLastEarned(event) {
+                const error = $(".alert-danger");
+                const success = $(".alert-success");
+                const form = $(event.target);
+                ApiService.defaultFormSend(form, error, success);
             },
-            saveLastGiven() {
-                console.log("spara given medalj");
+            saveLastGiven(event) {
+                const error = $(".alert-danger");
+                const success = $(".alert-success");
+                const form = $(event.target);
+                ApiService.defaultFormSend(form, error, success);
             },
             addRole() {
                 console.log("lägg till roll");
@@ -173,17 +182,7 @@
     .listed-items{
         margin-left: 5px;
     }
-    .v-select {
-        background-color: #fff;
-        border-radius: 3px;
-        width: 100%;
-        margin-bottom: 10px;
-   
-    }
-    .v-select input {
-        display: none;
-    }
-    .v-select .selected-tag {
-        margin: 4px;
+       .item-actions{
+        text-align: right;
     }
 </style>
