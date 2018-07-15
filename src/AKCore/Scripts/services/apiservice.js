@@ -1,5 +1,5 @@
 ﻿export default {
-    defaultFormSend(form, error, success) {
+    defaultFormSend(form, error, success, callback) {
         $.ajax({
             url: form.attr("action"),
             type: form.attr("method"),
@@ -9,6 +9,9 @@
                     if (success) {
                         success.text(res.message);
                         success.slideDown().delay(4000).slideUp();
+                    }
+                    if (callback) {
+                        callback();
                     }
                 }
                 else {
