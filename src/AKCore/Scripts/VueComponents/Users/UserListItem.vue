@@ -65,8 +65,9 @@
                             <div class="edit-group">
                                 <form class="form-inline add-role" action="/User/AddRole" method="POST" @submit.prevent="addRole">
                                     <div class="form-group">
+                                        <input type="hidden" name="UserName" :value="user.userName" />
                                         <label>Lägg till roll: </label>
-                                        <select class="form-control input-sm">
+                                        <select class="form-control input-sm" name="Role">
                                             <option value="">Välj roll</option>
                                             <option v-for="role in roles" :value="role">{{role}}</option>
                                         </select>
@@ -128,9 +129,6 @@
             removeUser() {
                 console.log("ta bort anv");
             },
-            removeRole(role) {
-                console.log("ta bort roll " + role);
-            },
             saveLastEarned(event) {
                 const error = $(".alert-danger");
                 const success = $(".alert-success");
@@ -155,8 +153,44 @@
                     })
                 });
             },
-            addRole() {
-                console.log("lägg till roll");
+            removeRole(role) {
+                const error = $(".alert-danger");
+                const success = $(".alert-success");
+                const roleIndex = this.user.roles.indexOf(role);
+                if (roleIndex === -1) {
+                    return;
+                }
+                const newRoles = this.user.roles.slice();
+                newRoles.splice(roleIndex, 1);
+
+                ApiService.postByUrl(
+                    "/User/RemoveRole?UserName=" + this.user.userName + "&Role=" + role,
+                    error, success, () => {
+                        this.$emit('updateuserprop', {
+                            userName: this.user.userName,
+                            prop: "roles",
+                            value: newRoles
+                        })
+                    });
+            },
+            addRole(event) {
+                const error = $(".alert-danger");
+                const success = $(".alert-success");
+                const form = $(event.target);
+                const role = event.target.elements.Role.value;
+                const roleIndex = this.user.roles.indexOf(role);
+                if (roleIndex !== -1) {
+                    return;
+                }
+                const newRoles = this.user.roles.slice();
+                newRoles.push(role);
+                ApiService.defaultFormSend(form, error, success, () => {
+                    this.$emit('updateuserprop', {
+                        userName: this.user.userName,
+                        prop: "roles",
+                        value: newRoles
+                    })
+                });
             },
             resetPassword() {
                 console.log("Återställ lösenord");

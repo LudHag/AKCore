@@ -273,21 +273,20 @@ namespace AKCore.Controllers
             var result = await _userManager.AddToRoleAsync(user, Role);
             if (!result.Succeeded) return Json(new {success = false, message = "Misslyckades att lägga till roll"});
             var editingUser = await _userManager.FindByNameAsync(User.Identity.Name);
-            _db.Log.Add(new LogItem()
-            {
-                Type = AkLogTypes.User,
-                Modified = DateTime.Now,
-                ModifiedBy = editingUser,
-                Comment = "Användare med namn " + UserName + " får roll " + Role + " tillagd"
-            });
+            //_db.Log.Add(new LogItem()
+            //{
+            //    Type = AkLogTypes.User,
+            //    Modified = DateTime.Now,
+            //    ModifiedBy = editingUser,
+            //    Comment = "Användare med namn " + UserName + " får roll " + Role + " tillagd"
+            //});
             _db.SaveChanges();
-            return Json(new {success = true});
+            return Json(new { success = true, message = "Lyckades lägga till roll" });
         }
 
         [Route("RemoveRole")]
         public async Task<ActionResult> RemoveRole(string UserName, string Role)
         {
-            throw new Exception();
             var user = await _userManager.FindByNameAsync(UserName);
             var role = await _roleManager.FindByNameAsync(Role);
             if ((user == null) || (role == null))
@@ -296,15 +295,15 @@ namespace AKCore.Controllers
             var result = await _userManager.RemoveFromRoleAsync(user, Role);
             if (!result.Succeeded) return Json(new {success = false, message = result.ToString()});
             var editingUser = await _userManager.FindByNameAsync(User.Identity.Name);
-            _db.Log.Add(new LogItem()
-            {
-                Type = AkLogTypes.User,
-                Modified = DateTime.Now,
-                ModifiedBy = editingUser,
-                Comment = "Användare med namn " + UserName + " får roll " + Role + " borttagen"
-            });
+            //_db.Log.Add(new LogItem()
+            //{
+            //    Type = AkLogTypes.User,
+            //    Modified = DateTime.Now,
+            //    ModifiedBy = editingUser,
+            //    Comment = "Användare med namn " + UserName + " får roll " + Role + " borttagen"
+            //});
             _db.SaveChanges();
-            return Json(new {success = true});
+            return Json(new {success = true, message = "Lyckades ta bort roll" });
         }
 
         [Route("ChangePassword")]
