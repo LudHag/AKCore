@@ -136,7 +136,13 @@
                 return "";
             },
             removeUser() {
-                console.log("ta bort anv");
+                if (confirm("Vill du verkligen ta bort " + this.user.fullName + "?")) {
+                    const error = $(".alert-danger");
+                    const success = $(".alert-success");
+                    ApiService.postByUrl(
+                        "/User/RemoveUser?userName=" + this.user.userName,
+                        error, success);
+                }
             },
             saveLastEarned(event) {
                 const error = $(".alert-danger");

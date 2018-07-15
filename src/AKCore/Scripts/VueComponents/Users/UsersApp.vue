@@ -19,7 +19,10 @@
             <div class="alert alert-danger" style="display: none;"></div>
             <div class="alert alert-success" style="display: none;">Användare skapad</div>
             <user-list :users="filteredUsers"
-                       @updateuserprop="updateUserProp"/>
+                       @updateuserprop="updateUserProp" />
+        </div>
+        <div class="col-md-3">
+            <a class="btn btn-default" id="create-user" href="#" role="button">Lägg till ny användare</a>
         </div>
     </div>
             

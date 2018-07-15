@@ -255,8 +255,8 @@ namespace AKCore.Controllers
         [Route("RemoveUser")]
         public async Task<ActionResult> RemoveUser(string userName)
         {
-            throw new Exception();
             var res = await _userManager.FindByNameAsync(userName);
+            var fullName = res.GetName();
             var delRes = await _userManager.DeleteAsync(res);
 
             if (delRes.Succeeded)
@@ -267,7 +267,7 @@ namespace AKCore.Controllers
                     Type = AkLogTypes.User,
                     Modified = DateTime.Now,
                     ModifiedBy = editingUser,
-                    Comment = "Användare med namn " + userName + " borttagen"
+                    Comment = "Användare med namn " + fullName + " borttagen"
                 });
                 _db.SaveChanges();
 

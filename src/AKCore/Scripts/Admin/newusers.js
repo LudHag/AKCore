@@ -40,5 +40,41 @@ if (userapp.length > 0) {
                     }
                 });
             });
+    $("#user-app")
+        .on("click", "#create-user",
+            function (e) {
+                e.preventDefault();
+                $("#createUserModal").modal("show");
+            });
 
+    $("#create-user-form")
+        .on("submit",
+            function (e) {
+                e.preventDefault();
+                const form = $(this);
+                var success = $(".alert-success");
+                var error = form.find(".alert-danger");
+                $.ajax({
+                    url: form.attr("action"),
+                    type: form.attr("method"),
+                    data: form.serialize(),
+                    success: function (res) {
+                        if (res.success) {
+                            updateUserList("");
+                            $("#createUserModal").modal("hide");
+                            success.text(res.message);
+                            success.slideDown().delay(3000).slideUp();
+                            $('#create-user-form').trigger("reset");
+                        } else {
+                            error.text(res.message);
+                            error.slideDown().delay(3500).slideUp();
+                        }
+                    },
+                    error: function (err) {
+                        error.text("Lyckades ej lägga till användare");
+                        error.slideDown().delay(3500).slideUp();
+                    }
+                });
+
+            });
 }
