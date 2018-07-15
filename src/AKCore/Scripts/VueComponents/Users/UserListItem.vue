@@ -4,8 +4,9 @@
             <td>{{user.fullName}}</td>
             <td>{{user.userName}}</td>
             <td class="roles">
-                <span v-for="role in user.roles" class="role" :title="roleInfo(role)">
-                {{role}} <a v-if="expanded" class="remove-role glyphicon glyphicon-remove" @click.prevent.stop="removeRole(role)"></a></span>
+                <span v-for="role in user.roles" class="role" v-tooltip:top="roleInfo(role)">
+                    {{role}} <a v-if="expanded" class="remove-role glyphicon glyphicon-remove" @click.prevent.stop="removeRole(role)"></a>
+                </span>
             </td>
             <td class="item-actions">
                 <a class="btn remove-user glyphicon glyphicon-remove" @click.prevent.stop="removeUser"></a>
@@ -193,7 +194,8 @@
                 });
             },
             resetPassword() {
-                console.log("Återställ lösenord");
+                $('#change-user-name').val(this.user.userName);
+                $('#changePasswordModal').modal('show');
             },
             addPost() {
                 console.log("Lägg till post");

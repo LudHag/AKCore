@@ -106,17 +106,16 @@ namespace AKCore.Controllers
                                 (x.FirstName + ' ' + x.LastName).Contains(model.SearchPhrase)).ToList();
             foreach (var user in users)
             {
-              
-                    var uRoles = (from role in user.Roles
-                        select roles.FirstOrDefault(x => x.Id == role.RoleId)
-                        into t
-                        where t != null
-                        select t.Name).ToList();
+                var uRoles = (from role in user.Roles
+                    select roles.FirstOrDefault(x => x.Id == role.RoleId)
+                    into t
+                    where t != null
+                    select t.Name).ToList();
 
-                    model.Roles[user.UserName] = uRoles;
-                    model.Posts[user.UserName] = user.SlavPoster != null && user.SlavPoster != "[null]"
-                        ? JsonConvert.DeserializeObject<List<string>>(user.SlavPoster)
-                        : new List<string>();
+                model.Roles[user.UserName] = uRoles;
+                model.Posts[user.UserName] = user.SlavPoster != null && user.SlavPoster != "[null]"
+                    ? JsonConvert.DeserializeObject<List<string>>(user.SlavPoster)
+                    : new List<string>();
             }
 
             model.Users = users.OrderBy(x => x.FirstName).ToList();
@@ -289,13 +288,13 @@ namespace AKCore.Controllers
             var result = await _userManager.AddToRoleAsync(user, Role);
             if (!result.Succeeded) return Json(new {success = false, message = "Misslyckades att lägga till roll"});
             var editingUser = await _userManager.FindByNameAsync(User.Identity.Name);
-            //_db.Log.Add(new LogItem()
-            //{
-            //    Type = AkLogTypes.User,
-            //    Modified = DateTime.Now,
-            //    ModifiedBy = editingUser,
-            //    Comment = "Användare med namn " + UserName + " får roll " + Role + " tillagd"
-            //});
+            _db.Log.Add(new LogItem()
+            {
+                Type = AkLogTypes.User,
+                Modified = DateTime.Now,
+                ModifiedBy = editingUser,
+                Comment = "Användare med namn " + UserName + " får roll " + Role + " tillagd"
+            });
             _db.SaveChanges();
             return Json(new {success = true, message = "Lyckades lägga till roll"});
         }
@@ -311,13 +310,13 @@ namespace AKCore.Controllers
             var result = await _userManager.RemoveFromRoleAsync(user, Role);
             if (!result.Succeeded) return Json(new {success = false, message = result.ToString()});
             var editingUser = await _userManager.FindByNameAsync(User.Identity.Name);
-            //_db.Log.Add(new LogItem()
-            //{
-            //    Type = AkLogTypes.User,
-            //    Modified = DateTime.Now,
-            //    ModifiedBy = editingUser,
-            //    Comment = "Användare med namn " + UserName + " får roll " + Role + " borttagen"
-            //});
+            _db.Log.Add(new LogItem()
+            {
+                Type = AkLogTypes.User,
+                Modified = DateTime.Now,
+                ModifiedBy = editingUser,
+                Comment = "Användare med namn " + UserName + " får roll " + Role + " borttagen"
+            });
             _db.SaveChanges();
             return Json(new {success = true, message = "Lyckades ta bort roll"});
         }
