@@ -1,7 +1,6 @@
 ﻿import Vue from "vue";
 import VideoBar from "./VueComponents/VideoBar";
 import MembersList from "./VueComponents/MembersList";
-import UsersApp from "./VueComponents/Users/UsersApp";
 
 $(".videos-app").each(function () {
     const widgetId = $(this).data("id");
@@ -24,20 +23,5 @@ if ($("#search-widget").length > 0) {
         },
         template: "<members-list :members='members' :instruments='instruments' />",
         components: { MembersList }
-    });
-}
-
-if ($("#user-app").length > 0) {
-    const usersApp = new Vue({
-        el: `#user-app`,
-        template: "<users-app />",
-        components: { UsersApp }
-    });
-    Vue.directive('tooltip', function (el, binding) {
-        $(el).tooltip({
-            title: binding.value,
-            placement: binding.arg,
-            trigger: 'hover'
-        });
     });
 }

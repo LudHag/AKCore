@@ -1,6 +1,5 @@
 ﻿<template>
     <div id="user-list">
-        {{users.length}}
         <table class="table">
             <thead>
                 <tr>
@@ -13,7 +12,8 @@
             <user-list-item v-for="user in users" 
                             :user="user" 
                             :key="user.userName"
-                            @updateuserprop="updateUserProp">
+                            @updateuserprop="updateUserProp"
+                            @removeuser="removeUser">
             </user-list-item>
         </table>
     </div>
@@ -28,6 +28,9 @@
         methods: {
             updateUserProp(updateInfo) {
                 this.$emit('updateuserprop', updateInfo);
+            },
+            removeUser(userName) {
+                this.$emit('removeuser', userName);
             }
         }
     }

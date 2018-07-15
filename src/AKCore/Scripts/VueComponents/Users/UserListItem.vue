@@ -141,7 +141,9 @@
                     const success = $(".alert-success");
                     ApiService.postByUrl(
                         "/User/RemoveUser?userName=" + this.user.userName,
-                        error, success);
+                        error, success, () => {
+                            this.$emit('removeuser', this.user.userName);
+                        });
                 }
             },
             saveLastEarned(event) {

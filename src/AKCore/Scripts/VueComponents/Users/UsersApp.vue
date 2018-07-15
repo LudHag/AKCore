@@ -19,7 +19,8 @@
             <div class="alert alert-danger" style="display: none;"></div>
             <div class="alert alert-success" style="display: none;">Användare skapad</div>
             <user-list :users="filteredUsers"
-                       @updateuserprop="updateUserProp" />
+                       @updateuserprop="updateUserProp" 
+                       @removeuser="removeUser"/>
         </div>
         <div class="col-md-3">
             <a class="btn btn-default" id="create-user" href="#" role="button">Lägg till ny användare</a>
@@ -89,6 +90,12 @@
                     return user.userName === updateInfo.userName;
                 });
                 user[updateInfo.prop] = updateInfo.value;
+            },
+            removeUser(userName) {
+                const userIndex = this.users.findIndex((user) => {
+                    return user.userName === userName;
+                });
+                this.users.splice(userIndex, 1);
             }
         },
         created() {

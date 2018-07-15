@@ -12,7 +12,6 @@ import "./Vendor/chosen.jquery.min.js";
 import "./Admin/menuedit.js";
 import "./Admin/pageedit.js";
 import "./Admin/users.js";
-import "./Admin/newusers.js";
 import "./Admin/media.js";
 import "./Admin/events.js";
 import "./Admin/recruits.js";
