@@ -84,9 +84,9 @@
                             <div class="edit-group">
                                 <label>Lägg till post(er): </label>
                                 <form class="form-inline add-post" action="/User/AddPost" method="POST" @submit.prevent="addPost">
-                                    <v-select multiple :searchable="false" :value="user.posts" :options="posts"></v-select>
+                                    <v-select multiple :searchable="false" v-model="selectedPosts" :options="posts"></v-select>
                                     <div class="form-group">
-                                        <button type="reset" class="btn btn-primary input-sm">Rensa</button>
+                                        <button type="reset" @click.prevent="clearPosts" class="btn btn-primary input-sm">Rensa</button>
                                         <button type="submit" class="btn btn-primary input-sm">Spara</button>
                                     </div>
                                 </form>
@@ -110,7 +110,15 @@
         },
         data() {
             return {
-                expanded: false
+                expanded: false,
+                selectedPosts: []
+            }
+        },
+        watch: {
+            expanded(val) {
+                if (val && this.user && this.user.posts) {
+                    this.selectedPosts = this.user.posts.slice();
+                }
             }
         },
         methods: {
@@ -198,7 +206,19 @@
                 $('#changePasswordModal').modal('show');
             },
             addPost() {
-                console.log("Lägg till post");
+                const error = $(".alert-danger");
+                const success = $(".alert-success");
+                const postObj = { post: this.selectedPosts, userName: this.user.userName };
+                ApiService.postByObject("/User/AddPost", postObj, error, success, () => {
+                    this.$emit('updateuserprop', {
+                        userName: this.user.userName,
+                        prop: "posts",
+                        value: this.selectedPosts.slice()
+                    })
+                });
+            },
+            clearPosts() {
+                this.selectedPosts = [];
             }
         },
         computed: {

@@ -353,7 +353,11 @@ namespace AKCore.Controllers
             var poster = JsonConvert.SerializeObject(post);
             user.SlavPoster = poster;
             var result = await _userManager.UpdateAsync(user);
-            return Json(new {success = result.Succeeded, message = result.ToString()});
+            return Json(new
+            {
+                success = result.Succeeded,
+                message = result.Succeeded ? "Uppdaterat poster" : result.ToString()
+            });
         }
 
         [Route("SaveMedal")]

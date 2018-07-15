@@ -57,5 +57,36 @@
                 }
             }
         });
+    },
+    postByObject(url, obj, error, success, callback) {
+        $.ajax({
+            url: url,
+            dataType: 'json',
+            data: obj,
+            type: "POST",
+            success: function (res) {
+                if (res.success) {
+                    if (success) {
+                        success.text(res.message);
+                        success.slideDown().delay(4000).slideUp();
+                    }
+                    if (callback) {
+                        callback();
+                    }
+                }
+                else {
+                    if (error) {
+                        error.text(res.message);
+                        error.slideDown().delay(4000).slideUp();
+                    }
+                }
+            },
+            error: function () {
+                if (error) {
+                    error.text("Server error");
+                    error.slideDown().delay(4000).slideUp();
+                }
+            }
+        });
     }
 }
