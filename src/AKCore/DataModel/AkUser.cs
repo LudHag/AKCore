@@ -11,8 +11,8 @@ namespace AKCore.DataModel
         public string Adress { get; set; }
         public string ZipCode { get; set; }
         public string City { get; set; }
-        public string Phone { get; set; }
         public string Nation { get; set; }
+        public string Phone { get; set; }
         public string Instrument { get; set; }
         public string SlavPoster { get; set; }
         public string Medal { get; set; }
