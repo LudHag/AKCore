@@ -6,36 +6,6 @@
     </div>
 </div>
 
-@*<div class="row">
-    <div class="col-md-9">
-        <form class="form-inline ak-search" id="search-user-form" action="" method="GET">
-            <div class="form-group">
-                <input type="text" class="form-control" name="SearchPhrase" id="searchtext">
-            </div>
-            <div class="form-group">
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" name="Inactive" id="inactive-members"> Visa inaktiva medlemmar
-                    </label>
-                </div>
-            </div>
-            <button type="submit" class="btn btn-default">Sök</button>
-        </form>
-
-        <div class="alert alert-danger" style="display: none;"></div>
-        <div class="alert alert-success" style="display: none;">Användare skapad</div>
-
-       
-        
-        <table class="table" id="user-table">
-            @Html.Partial("_UserList", Model)
-        </table>
-    </div>
-    <div class="col-md-3">
-        <a class="btn btn-default" id="create-user" href="#" role="button">Lägg till ny användare</a>
-    </div>
-</div>*@
-
 @Html.Partial("_CreateUserModal")
 <div id="editUserModal" class="modal fade">
     @Html.Partial("_EditUserModal", new ProfileModel())
