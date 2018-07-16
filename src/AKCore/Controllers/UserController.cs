@@ -186,7 +186,11 @@ namespace AKCore.Controllers
             });
             _db.SaveChanges();
 
-            return Json(new {success = result.Succeeded, message = result.ToString()});
+            return Json(new
+            {
+                success = result.Succeeded,
+                message = result.Succeeded ? "Uppdaterade användarinfo" : result.ToString()
+            });
         }
 
         [Route("CreateUser")]

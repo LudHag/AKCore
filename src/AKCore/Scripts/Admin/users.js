@@ -99,5 +99,32 @@ if (usercontainer.length > 0) {
                     }
                 });
 
-            });
+        });
+
+    $("#editUserModal").on("submit", "#edit-user-form", function (e) {
+        e.preventDefault();
+        e.preventDefault();
+        const form = $(this);
+        const error = $(".alert-danger");
+        const success = $(".alert-success");
+        $.ajax({
+            url: form.attr("action"),
+            type: form.attr("method"),
+            data: form.serialize(),
+            success: function (res) {
+                if (res.success) {
+                    $("#editUserModal").modal("hide");
+                    success.text(res.message);
+                    success.slideDown().delay(4000).slideUp();
+                } else {
+                    error.text(res.message);
+                    error.slideDown().delay(4000).slideUp();
+                }
+            },
+            error: function (err) {
+                error.text("Misslyckades med att spara sida");
+                error.slideDown().delay(4000).slideUp();
+            }
+        });
+    });
 }
