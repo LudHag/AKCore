@@ -29,10 +29,7 @@ if ($("#search-widget").length > 0) {
 if ($("#upcoming-app").length > 0) {
     const upcomingApp = new Vue({
         el: `#upcoming-app`,
-        data: {
-            loggedIn
-        },
-        template: "<upcoming-app :loggedin='loggedIn' />",
+        template: "<upcoming-app />",
         components: { UpcomingApp }
     });
 }
