@@ -1,6 +1,7 @@
 ﻿import Vue from "vue";
 import VideoBar from "./VueComponents/VideoBar";
 import MembersList from "./VueComponents/MembersList";
+import UpcomingApp from "./VueComponents/Upcoming/UpcomingApp";
 
 $(".videos-app").each(function () {
     const widgetId = $(this).data("id");
@@ -23,5 +24,15 @@ if ($("#search-widget").length > 0) {
         },
         template: "<members-list :members='members' :instruments='instruments' />",
         components: { MembersList }
+    });
+}
+if ($("#upcoming-app").length > 0) {
+    const upcomingApp = new Vue({
+        el: `#upcoming-app`,
+        data: {
+            loggedIn
+        },
+        template: "<upcoming-app :loggedin='loggedIn' />",
+        components: { UpcomingApp }
     });
 }

@@ -39,6 +39,7 @@ namespace AKCore.Controllers
                 member = roles.Contains("Medlem");
                 userId = user.Id;
             }
+
             var model = new UpcomingModel
             {
                 Events = _db.Events.OrderBy(x => x.Day).ThenBy(x => x.StartsTime)
@@ -56,12 +57,74 @@ namespace AKCore.Controllers
             return View(model);
         }
 
+        [Route("UserListData")]
+        public async Task<ActionResult> UpcomingData()
+        {
+            var loggedIn = User.Identity.IsAuthenticated;
+            var member = false;
+            var userId = "";
+            if (loggedIn)
+            {
+                var user = await _userManager.FindByNameAsync(User.Identity.Name);
+                var roles = await _userManager.GetRolesAsync(user);
+                member = roles.Contains("Medlem");
+                userId = user.Id;
+            }
+
+            var model = new UpcomingViewModel
+            {
+                Events = _db.Events
+                    .Include(x => x.SignUps)
+                    .Where(x => loggedIn || (x.Type == "Spelning"))
+                    .Where(x => loggedIn || (!x.Secret))
+                    .Where(x => x.Day >= DateTime.UtcNow.Date)
+                    .OrderBy(x => x.Day).ThenBy(x => x.StartsTime)
+                    .Select(x=> MapEventModel(x, loggedIn, userId))
+                    .ToList(),
+                LoggedIn = loggedIn,
+                Medlem = member,
+                IcalLink = $"{Request.Scheme}://{Request.Host}/upcoming/akevents.ics"
+            };
+
+            return Json(model);
+        }
+
+        private static EventViewModel MapEventModel(Event e, bool loggedIn, string userId)
+        {
+            var model = loggedIn ? new EventViewModel()
+            {
+                Id = e.Id,
+                Type = e.Type,
+                Name = e.Name,
+                Place = e.Place,
+                Description = e.Description,
+                InternalDescription = e.InternalDescription,
+                Fika = e.Fika,
+                Day = e.Day,
+                HalanTime = e.HalanTime,
+                ThereTime = e.ThereTime,
+                StartsTime = e.StartsTime,
+                Stand = e.Stand,
+                Coming = e.CanCome(),
+                NotComing = e.CantCome(),
+                SignupState = e.SignUps?.FirstOrDefault(x => x.PersonId == userId)?.Where
+            } : new EventViewModel()
+            {
+                Name = e.Name,
+                Place = e.Place,
+                Description = e.Description,
+                Day = e.Day,
+                StartsTime = e.StartsTime,
+            };
+            return model;
+        }
+
         [Route("akevents.ics")]
         public ActionResult Ical()
         {
             var events = _db.Events.OrderBy(x => x.Day).ThenBy(x => x.StartsTime)
-                        .Include(x => x.SignUps)
-                        .Where(x => x.Day >= DateTime.UtcNow.Date);
+                .Include(x => x.SignUps)
+                .Where(x => x.Day >= DateTime.UtcNow.Date);
 
 
             var sb = new StringBuilder();
@@ -78,7 +141,7 @@ namespace AKCore.Controllers
             {
                 var dtStart = res.Day.Date;
                 dtStart += res.HalanTime;
-                
+
                 var dtEnd = dtStart.AddHours(1);
                 sb.AppendLine("BEGIN:VEVENT");
                 sb.AppendLine("DTSTART:" + dtStart.ToUniversalTime().ToString(DateFormat));
@@ -86,8 +149,10 @@ namespace AKCore.Controllers
                 sb.AppendLine("DTSTAMP:" + now);
                 sb.AppendLine("UID:" + Guid.NewGuid());
                 sb.AppendLine("CREATED:" + now);
-                sb.AppendLine("X-ALT-DESC;FMTTYPE=text/html:" + res.Description+ "<br/>" + res.InternalDescription);
-                sb.AppendLine("DESCRIPTION:" + res.Description + (!string.IsNullOrWhiteSpace(res.Description) ? "\\n" : "") + res.InternalDescription);
+                sb.AppendLine("X-ALT-DESC;FMTTYPE=text/html:" + res.Description + "<br/>" +
+                              res.InternalDescription);
+                sb.AppendLine("DESCRIPTION:" + res.Description +
+                              (!string.IsNullOrWhiteSpace(res.Description) ? "\\n" : "") + res.InternalDescription);
                 sb.AppendLine("LAST-MODIFIED:" + now);
                 sb.AppendLine("LOCATION:" + res.Place);
                 sb.AppendLine("SEQUENCE:0");
@@ -96,27 +161,31 @@ namespace AKCore.Controllers
                 sb.AppendLine("TRANSP:OPAQUE");
                 sb.AppendLine("END:VEVENT");
             }
+
             sb.AppendLine("END:VCALENDAR");
-            var bytes=Encoding.UTF8.GetBytes(sb.ToString());
+            var bytes = Encoding.UTF8.GetBytes(sb.ToString());
             return File(bytes, "application/octet-stream", "akevents.ics");
         }
 
-        private string GetName(Event e)
+        private static string GetName(Event e)
         {
             if (e.Type == AkEventTypes.Spelning || e.Type == AkEventTypes.Fest)
             {
                 return e.Name;
             }
+
             return e.Type;
         }
 
-        [Route("EditSignup")]
+        [
+            Route("EditSignup")]
         [Authorize(Roles = AkRoles.SuperNintendo)]
         [HttpPost]
         public ActionResult EditSignup(string eventId, string memberId, string type)
         {
-            if(!int.TryParse(eventId, out var eIdInt) || string.IsNullOrWhiteSpace(type) || string.IsNullOrWhiteSpace(memberId)) return Json(new { success = false, message="Felaktig data" });
-            var e = _db.Events.Include(x=>x.SignUps).FirstOrDefault(x => x.Id == eIdInt);
+            if (!int.TryParse(eventId, out var eIdInt) || string.IsNullOrWhiteSpace(type) ||
+                string.IsNullOrWhiteSpace(memberId)) return Json(new {success = false, message = "Felaktig data"});
+            var e = _db.Events.Include(x => x.SignUps).FirstOrDefault(x => x.Id == eIdInt);
             var member = _db.Users.FirstOrDefault(x => x.Id == memberId);
             var signUp = e.SignUps.FirstOrDefault(x => x.PersonId == member.Id);
             if (signUp != null)
@@ -136,11 +205,13 @@ namespace AKCore.Controllers
                     InstrumentName = member.Instrument
                 });
             }
+
             _db.SaveChanges();
             return Json(new {success = true});
         }
 
-        [Route("Event/{id:int}")]
+        [
+            Route("Event/{id:int}")]
         [Authorize(Roles = "Medlem")]
         public async Task<ActionResult> Event(SignUpModel model, string id)
         {
@@ -153,32 +224,39 @@ namespace AKCore.Controllers
             var roles = await _userManager.GetRolesAsync(user);
             var nintendo = roles.Contains("SuperNintendo");
             var signup = spelning.SignUps.FirstOrDefault(x => x.PersonId == user.Id);
-            if (signup!=null)
+            if (signup != null)
             {
                 model.Where = signup.Where;
                 model.Car = signup.Car;
                 model.Instrument = signup.Instrument;
                 model.Comment = signup.Comment;
             }
+
             model.IsNintendo = nintendo;
             model.Event = spelning;
 
             if (nintendo)
             {
-                model.Members = (await _userManager.GetUsersInRoleAsync(AkRoles.Medlem)).OrderBy(x=>x.FirstName).ThenBy(x=>x.LastName).ToList();
+                model.Members = (await _userManager.GetUsersInRoleAsync(AkRoles.Medlem)).OrderBy(x => x.FirstName)
+                    .ThenBy(x => x.LastName).ToList();
             }
 
             return View(model);
         }
 
-        [Route("Signup/{id:int}")]
+        [
+            Route("Signup/{id:int}")]
         [Authorize(Roles = "Medlem")]
         public async Task<ActionResult> SignUp(SignUpModel model, string id)
         {
             if (!int.TryParse(id, out int eId))
-                return Json(new { success = false, message = "Felaktigt id" });
+                return Json(new {success = false, message = "Felaktigt id"});
             if (string.IsNullOrWhiteSpace(model.Where))
-                return Json(new { success = false, message = "Du måste välja om du kommer via hålan, direkt eller inte alls" });
+                return Json(new
+                {
+                    success = false,
+                    message = "Du måste välja om du kommer via hålan, direkt eller inte alls"
+                });
             var spelning = _db.Events.Include(x => x.SignUps).FirstOrDefault(x => x.Id == eId);
             if (spelning == null) return Json(new {success = false, message = "Felaktigt id"});
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
@@ -187,9 +265,11 @@ namespace AKCore.Controllers
             {
                 signup.SignupTime = DateTime.Now;
             }
-            else { 
+            else
+            {
                 signup.SignupTime = signup.Where == null ? DateTime.Now : signup.SignupTime;
             }
+
             signup.Where = model.Where;
             signup.Car = model.Car;
             signup.Instrument = model.Instrument;
@@ -203,7 +283,5 @@ namespace AKCore.Controllers
             _db.SaveChanges();
             return Json(new {success = true});
         }
-       
     }
 }
-
