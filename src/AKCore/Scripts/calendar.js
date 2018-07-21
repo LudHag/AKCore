@@ -1,8 +1,8 @@
-﻿var timeDay = 24 * 60 * 60 * 1000;
-var today = new Date();
-var calendarModal = $('#event-info-modal');
+﻿const timeDay = 24 * 60 * 60 * 1000;
+const today = new Date();
+const calendarModal = $('#event-info-modal');
 
-var monthNames = [
+const monthNames = [
     "Januari", "Februari", "Mars", "April", "Maj", "Juni", "Juli", "Augusti", "September", "Oktober", "November",
     "December"
 ];
@@ -78,12 +78,12 @@ $(function () {
             this.weeks = [];
             const firstDayOfMonth = new Date(year, month, 1);
             const lastDayOfMonth = new Date(year, month + 1, 0);
-            var firstDayWeekDay = firstDayOfMonth.getDay() - 1;
+            let firstDayWeekDay = firstDayOfMonth.getDay() - 1;
             if (firstDayWeekDay < 0) firstDayWeekDay = 7 + firstDayWeekDay;
             const firstDayOfCalendar = new Date(firstDayOfMonth.getTime() - (firstDayWeekDay * timeDay));
             this.tableHeading =
                 $('<thead> <tr><th>Måndag</th> <th>Tisdag</th> <th>Onsdag</th> <th>Torsdag</th> <th>Fredag</th> <th>Lördag</th> <th>Söndag</th> </tr> </thead>');
-            var monday = new Date(firstDayOfCalendar.getTime());
+            let monday = new Date(firstDayOfCalendar.getTime());
             while (monday < lastDayOfMonth) {
                 const week = new Week(monday, firstDayOfMonth, lastDayOfMonth, events);
                 this.weeks.push(week);
@@ -96,7 +96,7 @@ $(function () {
             const self = this;
             self.dom.empty();
             self.dom.append(this.tableHeading);
-            var tableBody = $('<tbody></tbody>');
+            const tableBody = $('<tbody></tbody>');
             this.weeks.forEach(function (week) {
                 tableBody.append(week.render());
             });
@@ -122,7 +122,7 @@ $(function () {
         };
 
         Week.prototype.render = function () {
-            var self = this;
+            const self = this;
             this.days.forEach(function (day) {
                 self.dom.append(day.render());
             });
@@ -136,8 +136,8 @@ $(function () {
             if (!shown) this.dom.addClass('outside');
             if (shown && events && events.length > 0) {
                 for (let i = 0; i < events.length; i++) {
-                    var event = events[i];
-                    var eventDom = $('<a href="#" class="dayEvent">' + event.halan + ' ' + event.name + '</a>');
+                    const event = events[i];
+                    const eventDom = $('<a href="#" class="dayEvent">' + event.halan + ' ' + event.name + '</a>');
                     this.dom.append(eventDom);
                     eventDom.on('click', function (e) {
                         e.preventDefault();
@@ -187,7 +187,7 @@ $(function () {
             return this.dom;
         };
 
-        var cal = new Calendar(calendarElement, calendarEvents);
+        const cal = new Calendar(calendarElement, calendarEvents);
         $('#calendar').on('click', '.prev-month', function(e) {
             e.preventDefault();
             cal.prevMonth();

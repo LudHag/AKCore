@@ -1,7 +1,7 @@
 ﻿$(function () {
-    var recruitDom = $('#recruitList');
+    const recruitDom = $('#recruitList');
     if (recruitDom.length > 0) {
-        var list = new RecruitList(recruitListData, recruitDom);
+        const list = new RecruitList(recruitListData, recruitDom);
         $('#select-instrument').on('change', function(e) {
             list.filter();
         });
@@ -13,8 +13,8 @@
         });
         $('#recruitList').on('click', '.archive', function (e) {
             e.preventDefault();
-            var id = $(this).data('id');
-            var arch = !($(this).hasClass('green'));
+            const id = $(this).data('id');
+            const arch = !($(this).hasClass('green'));
             $.ajax({
                 url: "/Signup/Archive",
                 type: "POST",
@@ -32,7 +32,7 @@
         });
         $('#recruitList').on('click', '.remove',function(e) {
             e.preventDefault();
-            var id = $(this).data('id');
+            const id = $(this).data('id');
             if (window.confirm("Är du säker att du vill ta bort den här intresseanmälan?")) {
                 $.ajax({
                     url: "/Signup/Remove",
@@ -58,15 +58,14 @@
 });
 
 function RecruitList(data, dom) {
-    var self = this;
+    const self = this;
     this.dom = dom;
     this.data = data;
     this.recruits = {};
-    var recruitKeys = Object.keys(data);
+    const recruitKeys = Object.keys(data);
     recruitKeys.forEach(function (id) {
         self.recruits[id]=new Recruit(data[id]);
     });
-    //this.dom.append($('<div class="row recruit-head"><div class="col-md-2">Skapad</div><div class="col-md-2">Namn</div><div class="col-md-2">Instrument</div><div class="col-md-3 col-lg-2 contact">Kontaktinformation</div><div class="col-md-2 col-lg-3 other">Övrigt</div><div class="col-md-1 actions"></div>'));
     this.dom.append($('<div class="row recruit-head"><div class="col-md-2">Skapad</div><div class="col-md-3">Namn</div><div class="col-md-2">Instrument</div><div class="col-md-4 contact">Kontaktinformation</div><div class="col-md-1 actions"></div>'));
     this.render();
 };
@@ -76,12 +75,12 @@ RecruitList.prototype.archive = function (id, arch) {
 };
 
 RecruitList.prototype.export = function () {
-    var self = this;
-    var field = $('#export-field');
+    const self = this;
+    const field = $('#export-field');
     field.empty();
-    var keys = Object.keys(this.recruits);
+    const keys = Object.keys(this.recruits);
     keys.forEach(function (key) {
-        var rec = self.recruits[key];
+        const rec = self.recruits[key];
         if (rec.isVisible) {
             field.append(rec.export()+'\n');
         }
@@ -94,16 +93,16 @@ RecruitList.prototype.remove = function (id) {
 };
 
 RecruitList.prototype.filter = function() {
-    var self = this;
-    var keys = Object.keys(this.recruits);
+    const self = this;
+    const keys = Object.keys(this.recruits);
     keys.forEach(function (rec) {
         self.recruits[rec].filter();
     });
 };
 
 RecruitList.prototype.render = function () {
-    var self = this;
-    var keys = Object.keys(this.recruits);
+    const self = this;
+    const keys = Object.keys(this.recruits);
     keys.forEach(function(rec) {
         self.dom.append(self.recruits[rec].render());
     });
@@ -117,7 +116,6 @@ function Recruit(data) {
     this.dom.append($('<div class="col-md-3">' + data.fname + ' ' + data.lname + '</div>'));
     this.dom.append($('<div class="col-md-2">' + data.instrument + '</div>'));
     this.dom.append($('<div class="col-md-4 contact">' + data.email + (data.email.length > 1 ? '<br>' : '') + data.phone + '</div>'));
-    //this.dom.append($('<div class="col-md-2 col-lg-3 other">' + data.other + '</div>'));
     this.actions = $('<div class="col-md-1 actions"></div>');
     this.actions.append($('<a href="#" title="Arkivera" data-id="' +
         data.id +
@@ -134,11 +132,11 @@ function Recruit(data) {
 Recruit.prototype.archive = function (arch) {
     this.data.archived = arch;
     if (arch) {
-        var el = this.dom.find('.archive')
+        const el = this.dom.find('.archive');
         el.addClass('green');
         el.attr('title', 'Aktivera');
     } else {
-        var el = this.dom.find('.archive');
+        const el = this.dom.find('.archive');
         el.removeClass('green');
         el.attr('title', 'Arkivera');
     }
@@ -146,8 +144,8 @@ Recruit.prototype.archive = function (arch) {
 };
 
 Recruit.prototype.export = function () {
-    var data = this.data;
-    return data.fname + '\t' + data.lname + '\t' + data.instrument + '\t' + data.email + '\t' + data.phone;
+    const data = this.data;
+    return `${data.fname}\t${data.lname}\t${data.instrument}\t${data.email}\t${data.phone}`;
 };
 
 Recruit.prototype.render = function() {
@@ -155,7 +153,7 @@ Recruit.prototype.render = function() {
 };
 
 Recruit.prototype.filter = function () {
-    var instr = $('#select-instrument').val();
+    const instr = $('#select-instrument').val();
     if (!!($('#archived-flip').is(':checked') ^ this.data.archived)) {
         this.hide();
         return;
@@ -166,7 +164,7 @@ Recruit.prototype.filter = function () {
             return;
         }
     }
-    var search = $('#interest-search').val().toLowerCase();
+    const search = $('#interest-search').val().toLowerCase();
     if (search.length > 0) {
         if ((this.data.fname.toLowerCase() + ' ' + this.data.lname.toLowerCase()).indexOf(search) < 0) {
             this.hide();

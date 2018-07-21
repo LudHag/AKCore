@@ -45,6 +45,44 @@ namespace AKCore.Controllers
             return PartialView("_UserList", model);
         }
 
+        [Route("UserListData")]
+        public ActionResult UserListData(UsersModel model)
+        {
+            PopulateModel(model);
+            return Json(MapToView(model));
+        }
+
+        private static UsersViewModel MapToView(UsersModel model)
+        {
+            var viewModel = new UsersViewModel
+            {
+                Users = new List<AkUserViewModel>()
+            };
+            foreach (var user in model.Users)
+            {
+                var roles = model.Roles[user.UserName].ToArray();
+                viewModel.Users.Add(new AkUserViewModel()
+                {
+                    UserName = user.UserName,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    FullName = user.FirstName + " " + user.LastName,
+                    GivenMedal = user.GivenMedal,
+                    HasKey = user.HasKey,
+                    Instrument = user.Instrument,
+                    Medal = user.Medal,
+                    OtherInstruments = user.OtherInstruments,
+                    Phone = user.Phone,
+                    SlavPoster = user.SlavPoster,
+                    Roles = roles,
+                    Posts = model.Posts[user.UserName],
+                    Active = roles.Any()
+                });
+            }
+
+            return viewModel;
+        }
+
         private void PopulateModel(UsersModel model)
         {
             IList<AkUser> users;
@@ -53,12 +91,12 @@ namespace AKCore.Controllers
             if (model.Inactive)
             {
                 users = _userManager.Users.Include(u => u.Roles).ToList();
-
             }
             else
             {
                 users = _userManager.Users.Include(u => u.Roles).Where(x => x.Roles.Count > 0).ToList();
             }
+
             if (model.SearchPhrase != null)
                 users =
                     users
@@ -68,10 +106,14 @@ namespace AKCore.Controllers
                                 (x.FirstName + ' ' + x.LastName).Contains(model.SearchPhrase)).ToList();
             foreach (var user in users)
             {
-                var uRoles = (from role in user.Roles select roles.FirstOrDefault(x => x.Id == role.RoleId) into t where t != null select t.Name).ToList();
+                var uRoles = (from role in user.Roles
+                    select roles.FirstOrDefault(x => x.Id == role.RoleId)
+                    into t
+                    where t != null
+                    select t.Name).ToList();
 
                 model.Roles[user.UserName] = uRoles;
-                model.Posts[user.UserName] = user.SlavPoster != null
+                model.Posts[user.UserName] = user.SlavPoster != null && user.SlavPoster != "[null]"
                     ? JsonConvert.DeserializeObject<List<string>>(user.SlavPoster)
                     : new List<string>();
             }
@@ -84,13 +126,15 @@ namespace AKCore.Controllers
         {
             if (string.IsNullOrWhiteSpace(userName))
             {
-                return Json(new { success = false, message = "Användarnamn saknas" });
+                return Json(new {success = false, message = "Användarnamn saknas"});
             }
+
             var user = await _userManager.FindByNameAsync(userName);
-            if (user==null)
+            if (user == null)
             {
-                return Json(new { success = false, message = "Användare saknas" });
+                return Json(new {success = false, message = "Användare saknas"});
             }
+
             var model = new ProfileModel
             {
                 Id = user.Id,
@@ -100,8 +144,12 @@ namespace AKCore.Controllers
                 LastName = user.LastName,
                 Phone = user.Phone,
                 Instrument = user.Instrument,
-                OtherInstrument = string.IsNullOrWhiteSpace(user.OtherInstruments) ? null : user.OtherInstruments.Split(',').ToList(),
-                Poster = user.SlavPoster != null ? JsonConvert.DeserializeObject<List<string>>(user.SlavPoster) : new List<string>()
+                OtherInstrument = string.IsNullOrWhiteSpace(user.OtherInstruments)
+                    ? null
+                    : user.OtherInstruments.Split(',').ToList(),
+                Poster = user.SlavPoster != null
+                    ? JsonConvert.DeserializeObject<List<string>>(user.SlavPoster)
+                    : new List<string>()
             };
             return PartialView("_EditUserModal", model);
         }
@@ -110,10 +158,11 @@ namespace AKCore.Controllers
         public async Task<ActionResult> EditUser(ProfileModel model)
         {
             var user = await _userManager.FindByIdAsync(model.Id);
-            if (user==null)
+            if (user == null)
             {
-                return Json(new { success = false, message = "Användare finns ej" });
+                return Json(new {success = false, message = "Användare finns ej"});
             }
+
             user.UserName = model.UserName;
             user.Email = model.Email;
             user.FirstName = model.FirstName;
@@ -137,20 +186,25 @@ namespace AKCore.Controllers
             });
             _db.SaveChanges();
 
-            return Json(new { success = result.Succeeded, message = result.ToString() });
+            return Json(new
+            {
+                success = result.Succeeded,
+                message = result.Succeeded ? "Uppdaterade användarinfo" : result.ToString()
+            });
         }
 
         [Route("CreateUser")]
         public async Task<ActionResult> CreateUser(ProfileModel model)
         {
-            if(string.IsNullOrWhiteSpace(model.UserName) || string.IsNullOrWhiteSpace(model.Password))
+            if (string.IsNullOrWhiteSpace(model.UserName) || string.IsNullOrWhiteSpace(model.Password))
             {
-                return Json(new { success = false, message = "Användarnamn och lösenord krävs" });
+                return Json(new {success = false, message = "Användarnamn och lösenord krävs"});
             }
-            var oldUser=await _userManager.FindByNameAsync(model.UserName);
-            if (oldUser!=null)
+
+            var oldUser = await _userManager.FindByNameAsync(model.UserName);
+            if (oldUser != null)
             {
-                return Json(new { success = false, message = "Användarnamn finns redan" });
+                return Json(new {success = false, message = "Användarnamn finns redan"});
             }
 
             var newUser = new AkUser
@@ -161,23 +215,24 @@ namespace AKCore.Controllers
                 LastName = model.LastName,
                 Phone = model.Phone,
                 Instrument = model.Instrument,
-                SlavPoster = model.Poster ==null ? "" : JsonConvert.SerializeObject(model.Poster),
+                SlavPoster = model.Poster == null ? "" : JsonConvert.SerializeObject(model.Poster),
                 Medal = model.Medal,
                 GivenMedal = model.GivenMedal
             };
-            
+
             var createRes = await _userManager.CreateAsync(newUser, model.Password);
 
             if (!createRes.Succeeded)
             {
-                return Json(new { success = false, message = string.Join(" ", createRes.ToString()) });
+                return Json(new {success = false, message = string.Join(" ", createRes.ToString())});
             }
 
             if (model.Roles != null)
             {
-                foreach(var role in model.Roles)
+                foreach (var role in model.Roles)
                 {
-                    if (!string.IsNullOrWhiteSpace(role)) { 
+                    if (!string.IsNullOrWhiteSpace(role))
+                    {
                         await _userManager.AddToRoleAsync(newUser, role);
                     }
                 }
@@ -205,6 +260,7 @@ namespace AKCore.Controllers
         public async Task<ActionResult> RemoveUser(string userName)
         {
             var res = await _userManager.FindByNameAsync(userName);
+            var fullName = res.GetName();
             var delRes = await _userManager.DeleteAsync(res);
 
             if (delRes.Succeeded)
@@ -215,12 +271,13 @@ namespace AKCore.Controllers
                     Type = AkLogTypes.User,
                     Modified = DateTime.Now,
                     ModifiedBy = editingUser,
-                    Comment = "Användare med namn " + userName + " borttagen"
+                    Comment = "Användare med namn " + fullName + " borttagen"
                 });
                 _db.SaveChanges();
 
                 return Json(new {success = true, message = "Användare borttagen"});
             }
+
             return Json(new {success = false, message = delRes.ToString()});
         }
 
@@ -243,7 +300,7 @@ namespace AKCore.Controllers
                 Comment = "Användare med namn " + UserName + " får roll " + Role + " tillagd"
             });
             _db.SaveChanges();
-            return Json(new {success = true});
+            return Json(new {success = true, message = "Lyckades lägga till roll"});
         }
 
         [Route("RemoveRole")]
@@ -265,7 +322,7 @@ namespace AKCore.Controllers
                 Comment = "Användare med namn " + UserName + " får roll " + Role + " borttagen"
             });
             _db.SaveChanges();
-            return Json(new {success = true});
+            return Json(new {success = true, message = "Lyckades ta bort roll"});
         }
 
         [Route("ChangePassword")]
@@ -300,7 +357,11 @@ namespace AKCore.Controllers
             var poster = JsonConvert.SerializeObject(post);
             user.SlavPoster = poster;
             var result = await _userManager.UpdateAsync(user);
-            return Json(new {success = result.Succeeded, message = result.ToString()});
+            return Json(new
+            {
+                success = result.Succeeded,
+                message = result.Succeeded ? "Uppdaterat poster" : result.ToString()
+            });
         }
 
         [Route("SaveMedal")]
@@ -312,19 +373,27 @@ namespace AKCore.Controllers
             user.Medal = medal;
             var result = await _userManager.UpdateAsync(user);
 
-            return Json(new {success = result.Succeeded, message = result.ToString()});
+            return Json(new
+            {
+                success = result.Succeeded,
+                message = result.Succeeded ? "Uppdaterade medaljinfo" : result.ToString()
+            });
         }
+
         [Route("SaveGivenMedal")]
         public async Task<ActionResult> SaveGivenMedal(string userName, string medal)
         {
             var user = await _userManager.FindByNameAsync(userName);
             if (user == null)
-                return Json(new { success = false, message = "Misslyckades att lägga till medalj" });
+                return Json(new {success = false, message = "Misslyckades att lägga till medalj"});
             user.GivenMedal = medal;
             var result = await _userManager.UpdateAsync(user);
 
-            return Json(new { success = result.Succeeded, message = result.ToString() });
+            return Json(new
+            {
+                success = result.Succeeded,
+                message = result.Succeeded ? "Uppdaterade medaljinfo" : result.ToString()
+            });
         }
-
     }
 }

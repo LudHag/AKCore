@@ -18,7 +18,7 @@
      text-align:center;
 }
 
-@media screen and (min-width: 768px) {
+@media screen and (min-width: $screen-sm-min) {
     .map-text {
         position: absolute;
         pointer-events: none;
@@ -33,7 +33,7 @@
     }
 }
 
-@media screen and (max-width: $screen-sm-min) {
+@media screen and (max-width: $screen-xs-max) {
     .halan-map {
         display: none;
     }
