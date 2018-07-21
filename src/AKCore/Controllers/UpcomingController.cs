@@ -57,7 +57,7 @@ namespace AKCore.Controllers
             return View(model);
         }
 
-        [Route("UserListData")]
+        [Route("UpcomingListData")]
         public async Task<ActionResult> UpcomingData()
         {
             var loggedIn = User.Identity.IsAuthenticated;
@@ -73,13 +73,18 @@ namespace AKCore.Controllers
 
             var model = new UpcomingViewModel
             {
-                Events = _db.Events
+                Years = _db.Events
                     .Include(x => x.SignUps)
                     .Where(x => loggedIn || (x.Type == "Spelning"))
                     .Where(x => loggedIn || (!x.Secret))
                     .Where(x => x.Day >= DateTime.UtcNow.Date)
                     .OrderBy(x => x.Day).ThenBy(x => x.StartsTime)
-                    .Select(x=> MapEventModel(x, loggedIn, userId))
+                    .GroupBy(x => x.Day.Year)
+                    .Select(x => new YearList
+                    {
+                        Year = x.Key,
+                        Months = x.Select(y => MapEventModel(y, loggedIn, userId)).GroupBy(z => z.Month)
+                    })
                     .ToList(),
                 LoggedIn = loggedIn,
                 Medlem = member,
@@ -91,31 +96,37 @@ namespace AKCore.Controllers
 
         private static EventViewModel MapEventModel(Event e, bool loggedIn, string userId)
         {
-            var model = loggedIn ? new EventViewModel()
-            {
-                Id = e.Id,
-                Type = e.Type,
-                Name = e.Name,
-                Place = e.Place,
-                Description = e.Description,
-                InternalDescription = e.InternalDescription,
-                Fika = e.Fika,
-                Day = e.Day,
-                HalanTime = e.HalanTime,
-                ThereTime = e.ThereTime,
-                StartsTime = e.StartsTime,
-                Stand = e.Stand,
-                Coming = e.CanCome(),
-                NotComing = e.CantCome(),
-                SignupState = e.SignUps?.FirstOrDefault(x => x.PersonId == userId)?.Where
-            } : new EventViewModel()
-            {
-                Name = e.Name,
-                Place = e.Place,
-                Description = e.Description,
-                Day = e.Day,
-                StartsTime = e.StartsTime,
-            };
+            var model = loggedIn
+                ? new EventViewModel()
+                {
+                    Id = e.Id,
+                    Type = e.Type,
+                    Name = e.Name,
+                    Place = e.Place,
+                    Description = e.Description,
+                    InternalDescription = e.InternalDescription,
+                    Fika = e.Fika,
+                    Day = e.Day,
+                    HalanTime = e.HalanTime,
+                    ThereTime = e.ThereTime,
+                    StartsTime = e.StartsTime,
+                    Stand = e.Stand,
+                    Coming = e.CanCome(),
+                    Year = e.Day.Year,
+                    Month = e.Day.Month,
+                    NotComing = e.CantCome(),
+                    SignupState = e.SignUps?.FirstOrDefault(x => x.PersonId == userId)?.Where
+                }
+                : new EventViewModel()
+                {
+                    Name = e.Name,
+                    Place = e.Place,
+                    Description = e.Description,
+                    Day = e.Day,
+                    StartsTime = e.StartsTime,
+                    Year = e.Day.Year,
+                    Month = e.Day.Month
+                };
             return model;
         }
 

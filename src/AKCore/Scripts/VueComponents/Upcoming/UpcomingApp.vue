@@ -1,24 +1,43 @@
 ﻿<template>
     <div id="upcoming-app">
-        <div v-for="event in events">
-            {{event.name}} -- {{event.day}}
+        <div class="calendar-actions" v-if="loggedIn">
+            <a href="/upcoming/akevents.ics" id="ical-link-anchor" class="fa fa-calendar" aria-hidden="true"> Ical-länk</a>
+            <div class="input-group ical-copy hide">
+                <input class="form-control" id="ical-link" type="text" readonly :value="icalLink" />
+                <span class="input-group-btn">
+                    <button class="btn btn-default fa fa-files-o copy-btn" data-clipboard-target="#ical-link" type="button"></button>
+                </span>
+            </div>
+            <div class="calendar-control hidden-xs">
+                <a href="#" class="event calendar-toggle" @click.prevent="calendarView = false" v-bind:class="{ active: !calendarView }">Lista</a><a href="#" class="month calendar-toggle" @click.prevent="calendarView = true" v-bind:class="{ active: calendarView }">Månad</a>
+            </div>
+        </div>
+        <upcoming-list v-if="!calendarView"
+                       :years="years"
+                       :logged-in="loggedIn"
+                       :member="member"></upcoming-list>
+        <div v-if="calendarView">
+            Månadskalender
         </div>
 
     </div>        
 </template>
 <script>
     import Spinner from "../Spinner";
+    import UpcomingList from "./UpcomingList";
 
     export default {
         components: {
-            Spinner
+            Spinner,
+            UpcomingList
         }, 
         data() {
             return {
-                events: null,
+                years: null,
                 loading: false,
                 loggedIn: false,
                 member: false,
+                calendarView: false,
                 icalLink: ""
             }
         },
@@ -26,10 +45,10 @@
             const self = this;
             this.loading = true;
             $.ajax({
-                url: "/Upcoming/UserListData",
+                url: "/Upcoming/UpcomingListData",
                 type: "GET",
                 success: function (res) {
-                    self.events = res.events;
+                    self.years = res.years;
                     self.loggedIn = res.loggedIn;
                     self.medlem = res.medlem;
                     self.icalLink = res.icalLink;
