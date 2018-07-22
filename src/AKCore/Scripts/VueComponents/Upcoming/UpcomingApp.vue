@@ -57,7 +57,7 @@
                 success: function (res) {
                     self.years = res.years;
                     self.loggedIn = res.loggedIn;
-                    self.medlem = res.medlem;
+                    self.member = res.member;
                     self.icalLink = res.icalLink;
                     self.loading = false;
                 },

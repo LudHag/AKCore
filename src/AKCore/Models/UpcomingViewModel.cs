@@ -8,7 +8,7 @@ namespace AKCore.Models
     {
         public IEnumerable<YearList> Years { get; set; }
         public bool LoggedIn { get; set; }
-        public bool Medlem { get; set; }
+        public bool Member { get; set; }
         public string IcalLink { get; set; }
     }
 

@@ -2,17 +2,42 @@
     <div class="row event-row" @click.prevent="expanded=!expanded" v-bind:class="{ expandable, expanded }">
         <div class="col-sm-4" style="font-weight: 500;">
             <p style="text-transform: capitalize;">{{event.day}} </p>
+            <p v-if="isRep">{{event.type}}</p>
+            <p v-if="event.type === 'Rep'">{{event.place}}</p>
+            <template v-if="!isRep && loggedIn">
+                <p>{{event.name}}</p>
+                <p>{{event.place}}</p>
+            </template>
         </div>
         <div class="col-sm-4">
-            <p>{{event.name}}</p>
-            <p>{{event.place}}</p>
+            <template v-if="loggedIn">
+                <p v-if="event.halanTime">Samling i hålan: {{event.halanTime}}</p>
+                <p v-if="event.thereTime && (event.type === 'Spelning' || event.type === 'Kårhusrep')">Samling på plats: {{event.thereTime}}</p>
+                <p v-if="event.startsTime && event.type === 'Spelning'">Spelning startar: {{event.startsTime}}</p>
+            </template>
+            <template v-if="!loggedIn">
+                <p>{{event.name}}</p>
+                <p>{{event.place}}</p>
+            </template>
         </div>
         <div class="col-sm-4">
-            <p>Spelning startar: {{event.startsTime}}</p>
+            <template v-if="!loggedIn">
+                <p v-if="event.startsTime && !loggedIn">Spelning startar: {{event.startsTime}}</p>
+            </template>
+            <template v-if="loggedIn && (event.type === 'Spelning' || event.type === 'Kårhusrep')">
+                <a class="green" v-if="member && event.signupState" @click.prevent.stop="openSignup" :href="signupUrl">Anmäld ({{event.signupState}})</a>
+                <a v-if="member && !event.signupState" @click.prevent.stop="openSignup" :href="signupUrl">Anmäl</a>
+                <p class="hidden-xs">{{event.coming}} Kommer - {{event.notComing}} Kommer inte</p>
+            </template>
+            <p v-if="loggedIn && event.type === 'Spelning' && event.stand">Speltyp: {{event.stand}}</p>
+            <p v-if="loggedIn && (event.type === 'Rep' || event.type === 'Kårhusrep')">Fika och städning: {{event.fika}}</p>
         </div>
         <div class="extra" v-if="expanded">
-            <div class="col-sm-12 description">
+            <div class="col-sm-12 description" v-if="event.description">
                 <p>{{event.description}}</p>
+            </div>
+            <div class="col-xs-12" v-if="event.internalDescription">
+                <p>{{event.internalDescription}}</p>
             </div>
         </div>
     </div>
@@ -25,9 +50,20 @@
                 expanded: false
             }
         },
+        methods: {
+            openSignup() {
+                console.log(this.event);
+            }
+        },
         computed: {
             expandable() {
                 return this.event.description || this.event.internalDescription;
+            },
+            isRep() {
+                return this.event.type === "Rep" || this.event.type === "Kårhusrep" || this.event.type === "Fikarep";
+            },
+            signupUrl() {
+                return "/upcoming/Event/" + this.event.id;
             }
         }
     }
@@ -69,7 +105,7 @@
         background-color: #1a0000;
     }
 
-    .green {
+    .event-row .green {
         color: #02C66F;
     }
 

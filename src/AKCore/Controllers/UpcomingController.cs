@@ -89,7 +89,7 @@ namespace AKCore.Controllers
                     })
                     .ToList(),
                 LoggedIn = loggedIn,
-                Medlem = member,
+                Member = member,
                 IcalLink = $"{Request.Scheme}://{Request.Host}/upcoming/akevents.ics"
             };
 
@@ -110,9 +110,9 @@ namespace AKCore.Controllers
                     Fika = e.Fika,
                     Day = e.Day.ToString("dddd dd", culture) + "/" + e.Day.ToString("MM", culture),
                     DayInMonth = e.Day.Day,
-                    HalanTime = e.HalanTime.ToString(@"hh\:mm"),
-                    ThereTime = e.ThereTime.ToString(@"hh\:mm"),
-                    StartsTime = e.StartsTime.ToString(@"hh\:mm"),
+                    HalanTime = ParseTime(e.HalanTime),
+                    ThereTime = ParseTime(e.ThereTime),
+                    StartsTime = ParseTime(e.StartsTime),
                     Stand = e.Stand,
                     Coming = e.CanCome(),
                     Year = e.Day.Year,
@@ -125,13 +125,20 @@ namespace AKCore.Controllers
                     Id = e.Id,
                     Name = e.Name,
                     Place = e.Place,
+                    Type = e.Type,
                     Description = e.Description,
                     Day = e.Day.ToString("dddd dd", culture) + "/" + e.Day.ToString("MM", culture),
-                    StartsTime = e.StartsTime.ToString(@"hh\:mm"),
+                    StartsTime = ParseTime(e.StartsTime),
                     Year = e.Day.Year,
                     Month = e.Day.Month
                 };
             return model;
+        }
+
+        private static string ParseTime(TimeSpan date)
+        {
+            var time = date.ToString(@"hh\:mm");
+            return time == "00:00" ? null : time;
         }
 
         [Route("akevents.ics")]
