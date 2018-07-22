@@ -171,7 +171,7 @@
                                         <option value="">Välj en medlem</option>
                                         @foreach (var m in Model.Members)
                                         {
-                                            <option value="@m.Id">@m.FirstName @m.LastName</option>
+                                            <option value="@m.Id">@m.FullName</option>
                                         }
                                     </select>
                                 </div>

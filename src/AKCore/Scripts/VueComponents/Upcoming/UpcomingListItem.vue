@@ -52,7 +52,7 @@
         },
         methods: {
             openSignup() {
-                console.log(this.event);
+                this.$emit('signup', this.event.id);
             }
         },
         computed: {

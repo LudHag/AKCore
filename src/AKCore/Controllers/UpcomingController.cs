@@ -199,8 +199,7 @@ namespace AKCore.Controllers
             return e.Type;
         }
 
-        [
-            Route("EditSignup")]
+        [Route("EditSignup")]
         [Authorize(Roles = AkRoles.SuperNintendo)]
         [HttpPost]
         public ActionResult EditSignup(string eventId, string memberId, string type)
@@ -232,8 +231,7 @@ namespace AKCore.Controllers
             return Json(new {success = true});
         }
 
-        [
-            Route("Event/{id:int}")]
+        [Route("Event/{id:int}")]
         [Authorize(Roles = "Medlem")]
         public async Task<ActionResult> Event(SignUpModel model, string id)
         {
@@ -260,14 +258,55 @@ namespace AKCore.Controllers
             if (nintendo)
             {
                 model.Members = (await _userManager.GetUsersInRoleAsync(AkRoles.Medlem)).OrderBy(x => x.FirstName)
-                    .ThenBy(x => x.LastName).ToList();
+                    .ThenBy(x => x.LastName).Select(x=>new MemberViewModel
+                    {
+                        Id = x.Id,
+                        FullName = x.GetName()
+                    });
             }
 
             return View(model);
         }
 
-        [
-            Route("Signup/{id:int}")]
+        [Route("Event/EventData/{id:int}")]
+        [Authorize(Roles = "Medlem")]
+        public async Task<ActionResult> EventData(string id)
+        {
+            var model = new SignUpModel();
+            if (!int.TryParse(id, out var eId))
+                return Json(false);
+
+            var spelning = _db.Events.Include(x => x.SignUps).FirstOrDefault(x => x.Id == eId);
+            if (spelning == null) return Json(false);
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            var roles = await _userManager.GetRolesAsync(user);
+            var nintendo = roles.Contains("SuperNintendo");
+            var signup = spelning.SignUps.FirstOrDefault(x => x.PersonId == user.Id);
+            if (signup != null)
+            {
+                model.Where = signup.Where;
+                model.Car = signup.Car;
+                model.Instrument = signup.Instrument;
+                model.Comment = signup.Comment;
+            }
+
+            model.IsNintendo = nintendo;
+            model.Event = spelning;
+
+            if (nintendo)
+            {
+                model.Members = (await _userManager.GetUsersInRoleAsync(AkRoles.Medlem)).OrderBy(x => x.FirstName)
+                    .ThenBy(x => x.LastName).Select(x => new MemberViewModel
+                    {
+                        Id = x.Id,
+                        FullName = x.GetName()
+                    });
+            }
+
+            return Json(model);
+        }
+
+        [Route("Signup/{id:int}")]
         [Authorize(Roles = "Medlem")]
         public async Task<ActionResult> SignUp(SignUpModel model, string id)
         {

@@ -8,7 +8,8 @@
                                     :key="event.id"
                                     :event="event"
                                     :logged-in="loggedIn"
-                                    :member="member">
+                                    :member="member"
+                                    @signup="signup">
                 </upcoming-list-item>
             </div>
         </div>
@@ -24,6 +25,9 @@
         methods: {
             getMonthName(month) {
                 return Constants.MONTHS[month[0].month - 1];
+            },
+            signup(id) {
+                this.$emit('signup', id);
             }
         },
         computed: {
