@@ -1,11 +1,11 @@
 ﻿<template>
     <div id="upcoming-app">
         <div class="calendar-actions" v-if="loggedIn">
-            <a href="/upcoming/akevents.ics" id="ical-link-anchor" class="fa fa-calendar" aria-hidden="true"> Ical-länk</a>
-            <div class="input-group ical-copy hide">
+            <a href="/upcoming/akevents.ics" @click.prevent="showIcal=!showIcal" class="fa fa-calendar"> Ical-länk</a>
+            <div class="input-group ical-copy" v-if="showIcal">
                 <input class="form-control" id="ical-link" type="text" readonly :value="icalLink" />
                 <span class="input-group-btn">
-                    <button class="btn btn-default fa fa-files-o copy-btn" data-clipboard-target="#ical-link" type="button"></button>
+                    <button class="btn btn-default fa fa-files-o copy-btn" @click.prevent="copyIcal" type="button"></button>
                 </span>
             </div>
             <div class="calendar-control hidden-xs">
@@ -19,7 +19,6 @@
         <div v-if="calendarView">
             Månadskalender
         </div>
-
     </div>        
 </template>
 <script>
@@ -38,7 +37,15 @@
                 loggedIn: false,
                 member: false,
                 calendarView: false,
-                icalLink: ""
+                icalLink: "",
+                showIcal: false
+            }
+        },
+        methods: {
+            copyIcal() {
+                const copyText = document.querySelector("#ical-link");
+                copyText.select();
+                document.execCommand("copy");
             }
         },
         created() {

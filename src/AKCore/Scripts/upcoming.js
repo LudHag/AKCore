@@ -25,14 +25,6 @@
         });
     });
 
-    $('.expandable').on('click', function (e) {
-        const self = $(this);
-        const target = $(e.target);
-        if (!target.is("a")) {
-            self.toggleClass("expanded");
-        }
-    });
-
     function reloadSignups() {
         $('#signup-list').load(' #signup-list > *');
     }
@@ -70,12 +62,5 @@
                 error.slideDown().delay(4000).slideUp();
             }
         });
-    });
-
-    $(".copy-btn").on('click', function (e) {
-        e.preventDefault();
-        const copyText = document.querySelector("#ical-link");
-        copyText.select();
-        document.execCommand("copy");
     });
 });

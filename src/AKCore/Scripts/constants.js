@@ -30,8 +30,14 @@ const MEDALS = [
     "Dollarn",
     "Gubben"];
 
+const MONTHS = ["Januari", "Februari", "Mars", "April", "Maj", "Juni",
+    "Juli", "Augusti", "September", "Oktober", "November", "December"
+];
+
+
 export default {
-    POSTS: POSTS,
-    ROLES: ROLES,
-    MEDALS: MEDALS
+    POSTS,
+    ROLES,
+    MEDALS,
+    MONTHS
 }

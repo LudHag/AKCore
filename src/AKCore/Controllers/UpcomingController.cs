@@ -119,6 +119,7 @@ namespace AKCore.Controllers
                 }
                 : new EventViewModel()
                 {
+                    Id = e.Id,
                     Name = e.Name,
                     Place = e.Place,
                     Description = e.Description,
