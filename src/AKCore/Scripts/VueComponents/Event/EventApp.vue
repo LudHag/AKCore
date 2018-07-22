@@ -1,12 +1,12 @@
 ﻿<template>
     <div id="event-app">
         <spinner v-if="loading" :size="'medium'"></spinner>
-        <div v-if="event">
+        <div v-if="eventInfo">
             <a href="#" @click.prevent="close" class="close-event pull-right glyphicon glyphicon-remove"></a>
-            <h1>{{event.name}}</h1>
+            <h1>{{eventInfo.event.name}}</h1>
             <div class="row hidden-print">
                 <div class="col-sm-6">
-                    <event-form :event="event"></event-form>
+                    <event-form :event-info="eventInfo"></event-form>
                 </div>
             </div>
         </div>
@@ -29,12 +29,12 @@
             }
         },
         computed: {
-            event() {
+            eventInfo() {
                 if (this.eventId < 0 || !this.events) {
                     return false;
                 }
-                const e = this.events[this.eventId];
-                return e;
+                const eInfo = this.events[this.eventId];
+                return eInfo;
             }
         },
         watch: {
@@ -52,7 +52,7 @@
                     url: "/upcoming/Event/EventData/" + id,
                     type: "GET",
                     success: function (res) {
-                        self.events = Object.assign({}, self.events, { [id]: res.event})
+                        self.events = Object.assign({}, self.events, { [id]: res})
                         self.loading = false;
                     },
                     error: function () {
