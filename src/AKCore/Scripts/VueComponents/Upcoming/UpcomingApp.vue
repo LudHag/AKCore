@@ -12,7 +12,8 @@
                 <a href="#" class="event calendar-toggle" @click.prevent="calendarView = false" v-bind:class="{ active: !calendarView }">Lista</a><a href="#" class="month calendar-toggle" @click.prevent="calendarView = true" v-bind:class="{ active: calendarView }">Månad</a>
             </div>
         </div>
-        <upcoming-list v-if="!calendarView"
+        <spinner :size="'medium'" v-if="!years"></spinner>
+        <upcoming-list v-if="!calendarView && years"
                        :years="years"
                        :logged-in="loggedIn"
                        :member="member"></upcoming-list>
