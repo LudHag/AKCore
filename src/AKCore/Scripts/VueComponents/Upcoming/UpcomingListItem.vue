@@ -1,6 +1,6 @@
 ﻿<template>
     <div class="row event-row" @click.prevent="expanded=!expanded" v-bind:class="{ expandable, expanded }">
-        <div class="col-sm-4" style="font-weight: 500;">
+        <div class="col-sm-4 col-xs-6" style="font-weight: 500;">
             <p style="text-transform: capitalize;">{{event.day}} </p>
             <p v-if="isRep">{{event.type}}</p>
             <p v-if="event.type === 'Rep'">{{event.place}}</p>
@@ -9,7 +9,7 @@
                 <p>{{event.place}}</p>
             </template>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-4 col-xs-6">
             <template v-if="loggedIn">
                 <p v-if="event.halanTime">Samling i hålan: {{event.halanTime}}</p>
                 <p v-if="event.thereTime && (event.type === 'Spelning' || event.type === 'Kårhusrep')">Samling på plats: {{event.thereTime}}</p>
@@ -20,7 +20,7 @@
                 <p>{{event.place}}</p>
             </template>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-4 col-xs-12">
             <template v-if="!loggedIn">
                 <p v-if="event.startsTime && !loggedIn">Spelning startar: {{event.startsTime}}</p>
             </template>
