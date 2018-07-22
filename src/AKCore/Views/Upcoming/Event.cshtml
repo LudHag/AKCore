@@ -6,7 +6,14 @@
     var e = Model.Event;
 }
 
-<h1>@Model.Event.Name</h1>
+<script>
+    var eventId = @e.Id;
+</script>
+
+<div id="upcoming-app">
+</div>
+
+@*<h1>@Model.Event.Name</h1>
 <div class="row hidden-print">
     <div class="col-sm-6">
         <form id="signup-form" action="/upcoming/Signup/@e.Id" method="POST">
@@ -196,4 +203,4 @@
             </div>
         </div>
     </div>
-}
+}*@

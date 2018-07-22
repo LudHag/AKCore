@@ -20,7 +20,7 @@ if ($("#search-widget").length > 0) {
         el: `#search-widget`,
         data: {
             members: memberList,
-            instruments: instruments
+            instruments
         },
         template: "<members-list :members='members' :instruments='instruments' />",
         components: { MembersList }
@@ -29,7 +29,10 @@ if ($("#search-widget").length > 0) {
 if ($("#upcoming-app").length > 0) {
     const upcomingApp = new Vue({
         el: `#upcoming-app`,
-        template: "<upcoming-app />",
+        data: {
+            eventId
+        },
+        template: "<upcoming-app :event-id='eventId' />",
         components: { UpcomingApp }
     });
 }

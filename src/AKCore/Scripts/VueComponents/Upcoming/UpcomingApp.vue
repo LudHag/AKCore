@@ -23,20 +23,25 @@
                 Månadskalender
             </div>
         </div>
-        <event-app v-if="showEvent" :event-id="selectedEventId"></event-app>
+        <keep-alive>
+            <event-app v-if="showEvent"
+                       :event-id="selectedEventId"
+                       @close="closeEvent"></event-app>
+        </keep-alive>
     </div>        
 </template>
 <script>
     import Spinner from "../Spinner";
     import UpcomingList from "./UpcomingList";
-    import EventApp from "./EventApp";
+    import EventApp from "../Event/EventApp";
 
     export default {
         components: {
             Spinner,
             UpcomingList,
             EventApp
-        }, 
+        },
+        props: ['eventId'],
         data() {
             return {
                 years: null,
@@ -59,11 +64,29 @@
             signup(id) {
                 this.selectedEventId = id;
                 this.showEvent = true;
+                history.pushState({ showEvent: true, selectedEventId: id },
+                    "", "/upcoming/Event/" + id);
+            },
+            closeEvent() {
+                this.showEvent = false;
+                history.pushState({ showEvent: false, selectedEventId: -1 },
+                    "", "/upcoming");
             }
         },
         created() {
             const self = this;
+            if (this.eventId > -1) {
+                this.selectedEventId = this.eventId;
+                this.showEvent = true;
+                history.replaceState({ showEvent: true, selectedEventId: this.eventId },
+                    "", "/upcoming/Event/" + this.eventId);
+            } else {
+                history.replaceState({ showEvent: false, selectedEventId: -1 },
+                    "", "/upcoming");
+            }
+
             this.loading = true;
+        
             $.ajax({
                 url: "/Upcoming/UpcomingListData",
                 type: "GET",
@@ -79,6 +102,12 @@
                     self.loading = false;
                 }
             });
+            window.onpopstate = function (event) {
+                if (event.state) {
+                    self.showEvent = event.state.showEvent;
+                    self.selectedEventId = event.state.selectedEventId;
+                }
+            };
         }
     }
 </script>
