@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using AKCore.DataModel;
@@ -18,6 +19,7 @@ namespace AKCore.Controllers
     {
         private readonly UserManager<AkUser> _userManager;
         private readonly AKContext _db;
+        private static readonly CultureInfo culture = new CultureInfo("sv");
 
         public UpcomingController(
             UserManager<AkUser> userManager, AKContext db)
@@ -106,10 +108,10 @@ namespace AKCore.Controllers
                     Description = e.Description,
                     InternalDescription = e.InternalDescription,
                     Fika = e.Fika,
-                    Day = e.Day,
-                    HalanTime = e.HalanTime,
-                    ThereTime = e.ThereTime,
-                    StartsTime = e.StartsTime,
+                    Day = e.Day.ToString("dddd dd", culture) + "/" + e.Day.ToString("MM", culture),
+                    HalanTime = e.HalanTime.ToString(@"hh\:mm"),
+                    ThereTime = e.ThereTime.ToString(@"hh\:mm"),
+                    StartsTime = e.StartsTime.ToString(@"hh\:mm"),
                     Stand = e.Stand,
                     Coming = e.CanCome(),
                     Year = e.Day.Year,
@@ -123,8 +125,8 @@ namespace AKCore.Controllers
                     Name = e.Name,
                     Place = e.Place,
                     Description = e.Description,
-                    Day = e.Day,
-                    StartsTime = e.StartsTime,
+                    Day = e.Day.ToString("dddd dd", culture) + "/" + e.Day.ToString("MM", culture),
+                    StartsTime = e.StartsTime.ToString(@"hh\:mm"),
                     Year = e.Day.Year,
                     Month = e.Day.Month
                 };

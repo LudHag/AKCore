@@ -23,10 +23,10 @@ namespace AKCore.Models
         public string Fika { get; set; }
         public int Year { get; set; }
         public int Month { get; set; }
-        public DateTime Day { get; set; }
-        public TimeSpan HalanTime { get; set; }
-        public TimeSpan ThereTime { get; set; }
-        public TimeSpan StartsTime { get; set; }
+        public string Day { get; set; }
+        public string HalanTime { get; set; }
+        public string ThereTime { get; set; }
+        public string StartsTime { get; set; }
         public string Stand { get; set; }
         public string SignupState { get; set; }
         public int Coming { get; set; }
