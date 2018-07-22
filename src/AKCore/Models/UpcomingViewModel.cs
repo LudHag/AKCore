@@ -24,6 +24,7 @@ namespace AKCore.Models
         public int Year { get; set; }
         public int Month { get; set; }
         public string Day { get; set; }
+        public int DayInMonth { get; set; }
         public string HalanTime { get; set; }
         public string ThereTime { get; set; }
         public string StartsTime { get; set; }

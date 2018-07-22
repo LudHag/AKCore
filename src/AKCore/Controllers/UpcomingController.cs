@@ -109,6 +109,7 @@ namespace AKCore.Controllers
                     InternalDescription = e.InternalDescription,
                     Fika = e.Fika,
                     Day = e.Day.ToString("dddd dd", culture) + "/" + e.Day.ToString("MM", culture),
+                    DayInMonth = e.Day.Day,
                     HalanTime = e.HalanTime.ToString(@"hh\:mm"),
                     ThereTime = e.ThereTime.ToString(@"hh\:mm"),
                     StartsTime = e.StartsTime.ToString(@"hh\:mm"),
