@@ -8,18 +8,36 @@
                 <div class="col-sm-6">
                     <event-form :event-info="eventInfo"></event-form>
                 </div>
+                <div class="col-sm-6">
+                    <div class="col-sm-12" style="font-weight: 500;">
+                        <p style="text-transform: capitalize;">{{eventInfo.event.day}}</p>
+                        <p>{{eventInfo.event.place}}</p>
+                        <br />
+                    </div>
+                    <div class="col-sm-12">
+                        <p v-if="eventInfo.event.halanTime">Samling i hålan: {{eventInfo.event.halanTime}}</p>
+                        <p v-if="eventInfo.event.thereTime">Samling på plats: {{eventInfo.event.thereTime}}</p>
+                        <p v-if="eventInfo.event.startsTime">Spelning startar: {{eventInfo.event.startsTime}}</p>
+                    </div>
+                    <div class="col-sm-12" v-if="eventInfo.isNintendo">
+                        <a href="#" id="admin-add-signups" class="btn btn-default">Lägg till anmälningar</a>
+                    </div>
+                </div>
             </div>
+            <signup-list :signups="eventInfo.signups" :nintendo="eventInfo.isNintendo"></signup-list>
         </div>
     </div>        
 </template>
 <script>
     import Spinner from "../Spinner";
     import EventForm from "./EventForm";
+    import SignupList from "./SignupList";
 
     export default {
         components: {
             Spinner,
-            EventForm
+            EventForm,
+            SignupList
         },
         props: ['eventId'],
         data() {

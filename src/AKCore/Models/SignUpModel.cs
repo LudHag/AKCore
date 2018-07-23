@@ -22,15 +22,16 @@ namespace AKCore.Models
 
         public IEnumerable<MemberViewModel> Members { get; set; }
 
-        public Event Event { get; set; }
-
+        public EventViewModel Event { get; set; }
+        public IEnumerable<SignUp> Signups { get; set; }
+        
         public IList<SignUp> Comming()
         {
-            return Event.SignUps.Where(x => x.Where != "Kan inte komma").OrderBy(x=>x.InstrumentName).ToList();
+            return Signups.Where(x => x.Where != "Kan inte komma").OrderBy(x=>x.InstrumentName).ToList();
         }
         public IList<SignUp> NotComming()
         {
-            return Event.SignUps.Where(x => x.Where == "Kan inte komma").OrderBy(x => x.InstrumentName).ToList();
+            return Signups.Where(x => x.Where == "Kan inte komma").OrderBy(x => x.InstrumentName).ToList();
         }
     }
 

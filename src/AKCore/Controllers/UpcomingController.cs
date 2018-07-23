@@ -253,7 +253,7 @@ namespace AKCore.Controllers
             }
 
             model.IsNintendo = nintendo;
-            model.Event = spelning;
+            model.Event = MapEventModel(spelning,true, user.Id);
 
             if (nintendo)
             {
@@ -291,7 +291,8 @@ namespace AKCore.Controllers
             }
 
             model.IsNintendo = nintendo;
-            model.Event = spelning;
+            model.Event = MapEventModel(spelning, true, user.Id);
+            model.Signups = spelning.SignUps;
 
             if (nintendo)
             {
