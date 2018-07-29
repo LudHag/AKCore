@@ -1,12 +1,12 @@
 ﻿<template>
     <div id="event-app">
-        <spinner v-if="loading" :size="'medium'"></spinner>
+        <spinner v-if="loading && !eventInfo" :size="'medium'"></spinner>
         <div v-if="eventInfo">
             <a href="#" @click.prevent="close" class="close-event pull-right glyphicon glyphicon-remove"></a>
             <h1>{{eventInfo.event.name}}</h1>
             <div class="row hidden-print">
                 <div class="col-sm-6">
-                    <event-form :event-info="eventInfo"></event-form>
+                    <event-form :event-info="eventInfo" @update="loadEvent"></event-form>
                 </div>
                 <div class="col-sm-6">
                     <div class="col-sm-12" style="font-weight: 500;">
@@ -20,7 +20,7 @@
                         <p v-if="eventInfo.event.startsTime">Spelning startar: {{eventInfo.event.startsTime}}</p>
                     </div>
                     <div class="col-sm-12" v-if="eventInfo.isNintendo">
-                        <a href="#" id="admin-add-signups" class="btn btn-default">Lägg till anmälningar</a>
+                        <a href="#" class="btn btn-default" @click.prevent="showAdminEdit">Lägg till anmälningar</a>
                     </div>
                 </div>
             </div>
@@ -58,19 +58,19 @@
         watch: {
             eventId() {
                 if (!this.events[this.eventId]) {
-                    this.loadEvent(this.eventId);
+                    this.loadEvent();
                 }
             }
         },
         methods: {
-            loadEvent(id) {
+            loadEvent() {
                 const self = this;
                 this.loading = true;
                 $.ajax({
-                    url: "/upcoming/Event/EventData/" + id,
+                    url: "/upcoming/Event/EventData/" + self.eventId,
                     type: "GET",
                     success: function (res) {
-                        self.events = Object.assign({}, self.events, { [id]: res})
+                        self.events = Object.assign({}, self.events, { [self.eventId]: res})
                         self.loading = false;
                     },
                     error: function () {
@@ -81,11 +81,14 @@
             },
             close() {
                 this.$emit('close');
+            },
+            showAdminEdit() {
+                $("#edit-signup-modal").modal("show");
             }
         },
         created() {
             if (this.eventId > -1) {
-                this.loadEvent(this.eventId);
+                this.loadEvent();
             }
         }
     }

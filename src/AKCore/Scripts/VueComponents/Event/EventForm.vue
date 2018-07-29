@@ -1,5 +1,5 @@
 ﻿<template>
-    <form @submit.prevent="submitForm" method="POST">
+    <form @submit.prevent="submitForm" :action="'/upcoming/Signup/' + eventInfo.event.id" method="POST">
         <div class="alert alert-danger" style="display: none;">
         </div>
         <div class="alert alert-success" style="display: none;">
@@ -27,13 +27,17 @@
                 </div>
             </div>
         </div>
-        <div class="form-group">
-            <input type="checkbox" name="Car" v-model="car">
-            <label>Har bil</label>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" name="Car" v-model="car">
+                Har bil
+            </label>
         </div>
-        <div class="form-group">
-            <input type="checkbox" name="Instrument" v-model="instrument">
-            <label>Tar med instrument själv</label>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" name="Instrument" v-model="instrument">
+                Tar med instrument själv
+            </label>
         </div>
         <div class="form-group">
             <label>Kommentar</label>
@@ -63,7 +67,29 @@
         props: ['eventInfo'],
         methods: {
             submitForm(event) {
-                console.log(event);
+                const self = this;
+                const form = $(event.target);
+                const error = form.find(".alert-danger");
+                const success = form.find(".alert-success");
+                $.ajax({
+                    url: form.attr("action"),
+                    type: "POST",
+                    data: form.serialize(),
+                    success: function (res) {
+                        if (res.success) {
+                            self.$emit("update");
+                            success.text("Anmälan uppdaterad");
+                            success.slideDown().delay(3000).slideUp();
+                        } else {
+                            error.text(res.message);
+                            error.slideDown().delay(4000).slideUp();
+                        }
+                    },
+                    error: function () {
+                        error.text("Misslyckades med att anmäla dig");
+                        error.slideDown().delay(4000).slideUp();
+                    }
+                });
             },
             loadForm() {
                 this.where = this.eventInfo.where;
