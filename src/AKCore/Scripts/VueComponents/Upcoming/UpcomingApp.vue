@@ -19,9 +19,11 @@
                            :logged-in="loggedIn"
                            :member="member"
                            @signup="signup"></upcoming-list>
-            <div v-if="calendarView">
-                Månadskalender
-            </div>
+            <upcoming-calendar v-if="calendarView && years"
+                           :years="years"
+                           :logged-in="loggedIn"
+                           :member="member"
+                           @signup="signup"></upcoming-calendar>
         </div>
         <keep-alive>
             <event-app v-if="showEvent"
@@ -33,12 +35,14 @@
 <script>
     import Spinner from "../Spinner";
     import UpcomingList from "./UpcomingList";
+    import UpcomingCalendar from "./UpcomingCalendar";
     import EventApp from "../Event/EventApp";
 
     export default {
         components: {
             Spinner,
             UpcomingList,
+            UpcomingCalendar,
             EventApp
         },
         props: ['eventId'],
