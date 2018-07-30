@@ -30,6 +30,11 @@ const MEDALS = [
     "Dollarn",
     "Gubben"];
 
+const SIGNUPTYPES = [
+    "Hålan",
+    "Direkt",
+    "Kan inte komma"];
+
 const MONTHS = ["Januari", "Februari", "Mars", "April", "Maj", "Juni",
     "Juli", "Augusti", "September", "Oktober", "November", "December"
 ];
@@ -39,5 +44,6 @@ export default {
     POSTS,
     ROLES,
     MEDALS,
-    MONTHS
+    MONTHS,
+    SIGNUPTYPES
 }

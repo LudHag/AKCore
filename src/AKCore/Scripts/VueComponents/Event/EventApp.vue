@@ -24,6 +24,7 @@
                     </div>
                 </div>
             </div>
+            <edit-signup-modal v-if="showEditForm" :event-id="eventId" :members="eventInfo.members" @update="loadEvent" @close="closeModal"></edit-signup-modal>
             <signup-list :signups="eventInfo.signups" :nintendo="eventInfo.isNintendo"></signup-list>
         </div>
     </div>        
@@ -32,18 +33,21 @@
     import Spinner from "../Spinner";
     import EventForm from "./EventForm";
     import SignupList from "./SignupList";
+    import EditSignupModal from "./EditSignupModal";
 
     export default {
         components: {
             Spinner,
             EventForm,
-            SignupList
+            SignupList,
+            EditSignupModal
         },
         props: ['eventId'],
         data() {
             return {
                 events: {},
-                loading: false
+                loading: false,
+                showEditForm: false
             }
         },
         computed: {
@@ -83,7 +87,10 @@
                 this.$emit('close');
             },
             showAdminEdit() {
-                $("#edit-signup-modal").modal("show");
+                this.showEditForm = true;
+            },
+            closeModal() {
+                this.showEditForm = false;
             }
         },
         created() {
