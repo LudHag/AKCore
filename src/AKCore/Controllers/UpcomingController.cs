@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
@@ -28,35 +27,10 @@ namespace AKCore.Controllers
             _db = db;
         }
 
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
             ViewBag.Title = "På gång";
-            var loggedIn = User.Identity.IsAuthenticated;
-            var member = false;
-            var userId = "";
-            if (loggedIn)
-            {
-                var user = await _userManager.FindByNameAsync(User.Identity.Name);
-                var roles = await _userManager.GetRolesAsync(user);
-                member = roles.Contains("Medlem");
-                userId = user.Id;
-            }
-
-            var model = new UpcomingModel
-            {
-                Events = _db.Events.OrderBy(x => x.Day).ThenBy(x => x.StartsTime)
-                    .Include(x => x.SignUps)
-                    .Where(x => loggedIn || (x.Type == "Spelning"))
-                    .Where(x => loggedIn || (!x.Secret))
-                    .Where(x => x.Day >= DateTime.UtcNow.Date)
-                    .GroupBy(x => x.Day.Year).ToList(),
-                LoggedIn = loggedIn,
-                Medlem = member,
-                UserId = userId,
-                ICalLink = $"{Request.Scheme}://{Request.Host}/upcoming/akevents.ics"
-            };
-
-            return View(model);
+            return View();
         }
 
         [Route("UpcomingListData")]
@@ -233,39 +207,13 @@ namespace AKCore.Controllers
 
         [Route("Event/{id:int}")]
         [Authorize(Roles = "Medlem")]
-        public async Task<ActionResult> Event(SignUpModel model, string id)
+        public ActionResult Event(SignUpModel model, string id)
         {
             ViewBag.Title = "Anmälan";
-            if (!int.TryParse(id, out int eId))
+            if (!int.TryParse(id, out var eId))
                 return Redirect("/upcoming");
-            var spelning = _db.Events.Include(x => x.SignUps).FirstOrDefault(x => x.Id == eId);
-            if (spelning == null) return Redirect("/upcoming");
-            var user = await _userManager.FindByNameAsync(User.Identity.Name);
-            var roles = await _userManager.GetRolesAsync(user);
-            var nintendo = roles.Contains("SuperNintendo");
-            var signup = spelning.SignUps.FirstOrDefault(x => x.PersonId == user.Id);
-            if (signup != null)
-            {
-                model.Where = signup.Where;
-                model.Car = signup.Car;
-                model.Instrument = signup.Instrument;
-                model.Comment = signup.Comment;
-            }
 
-            model.IsNintendo = nintendo;
-            model.Event = MapEventModel(spelning,true, user.Id);
-
-            if (nintendo)
-            {
-                model.Members = (await _userManager.GetUsersInRoleAsync(AkRoles.Medlem)).OrderBy(x => x.FirstName)
-                    .ThenBy(x => x.LastName).Select(x=>new MemberViewModel
-                    {
-                        Id = x.Id,
-                        FullName = x.GetName()
-                    });
-            }
-
-            return View(model);
+            return View(eId);
         }
 
         [Route("Event/EventData/{id:int}")]
@@ -311,7 +259,7 @@ namespace AKCore.Controllers
         [Authorize(Roles = "Medlem")]
         public async Task<ActionResult> SignUp(SignUpModel model, string id)
         {
-            if (!int.TryParse(id, out int eId))
+            if (!int.TryParse(id, out var eId))
                 return Json(new {success = false, message = "Felaktigt id"});
             if (string.IsNullOrWhiteSpace(model.Where))
                 return Json(new

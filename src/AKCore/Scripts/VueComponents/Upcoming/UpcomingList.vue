@@ -13,6 +13,7 @@
                 </upcoming-list-item>
             </div>
         </div>
+        <p v-if="years.length < 1">Vi har tyvärr inga spelningar inplanerade närmaste tiden.</p>
     </div>   
 </template>
 <script>
