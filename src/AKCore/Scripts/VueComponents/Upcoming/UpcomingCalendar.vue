@@ -3,7 +3,8 @@
         <div class="controls">
             <a href="" 
                class="prev-month glyphicon glyphicon-chevron-left" 
-               @click.prevent="prevMonth"></a>
+               @click.prevent="prevMonth"
+               v-show="showPrevArrow"></a>
             <span class="date">{{thisMonthName}} {{year}}</span>
             <a href="" class="next-month glyphicon glyphicon-chevron-right" @click.prevent="nextMonth"></a>
         </div>
@@ -15,7 +16,8 @@
             </thead>
             <tbody>
                 <tr class="week" v-for="day of firstWeekDays">
-                    <calendar-day :month="month" 
+                    <calendar-day :year="year"
+                                  :month="month" 
                                   :day="day.addDays(i)" 
                                   v-for="i in (0, 7)"
                                   :key="month + '' + i">
@@ -84,9 +86,9 @@
                     monday = monday.addDays(7);
                 }
                 return weeks;
-            }
+            },
             showPrevArrow() {
-                //TODO
+                return this.month - 1 >= today.getMonth() || this.year > today.getFullYear();
             }
         },
         created() {
