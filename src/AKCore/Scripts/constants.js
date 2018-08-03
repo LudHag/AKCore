@@ -39,11 +39,14 @@ const MONTHS = ["Januari", "Februari", "Mars", "April", "Maj", "Juni",
     "Juli", "Augusti", "September", "Oktober", "November", "December"
 ];
 
+const DAYS = ["Måndag", "Tisdag", "Onsdag", "Torsdag", "Fredag", "Lördag",
+    "Söndag"];
 
 export default {
     POSTS,
     ROLES,
     MEDALS,
     MONTHS,
-    SIGNUPTYPES
+    SIGNUPTYPES,
+    DAYS
 }
