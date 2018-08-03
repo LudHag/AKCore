@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
@@ -56,12 +57,12 @@ namespace AKCore.Controllers
                     .Where(x => x.Day >= DateTime.UtcNow.Date)
                     .OrderBy(x => x.Day).ThenBy(x => x.StartsTime)
                     .GroupBy(x => x.Day.Year)
-                    .Select(x => new YearList
+                    .ToDictionary(x => x.Key, x => new YearList
                     {
                         Year = x.Key,
-                        Months = x.Select(y => MapEventModel(y, loggedIn, userId)).GroupBy(z => z.Month)
-                    })
-                    .ToList(),
+                        Months = x.Select(y => MapEventModel(y, loggedIn, userId)).GroupBy(z => z.Month).
+                            ToDictionary(xx => xx.Key, xx => xx.ToList())
+                    }),
                 LoggedIn = loggedIn,
                 Member = member,
                 IcalLink = $"{Request.Scheme}://{Request.Host}/upcoming/akevents.ics"

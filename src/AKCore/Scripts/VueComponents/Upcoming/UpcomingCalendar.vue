@@ -17,9 +17,10 @@
             <tbody>
                 <tr class="week" v-for="day of firstWeekDays">
                     <calendar-day :year="year"
-                                  :month="month" 
+                                  :month="month"
+                                  :monthevents="monthEvents"
                                   :day="day.addDays(i)" 
-                                  v-for="i in (0, 7)"
+                                  v-for="i in [0,1,2,3,4,5,6]"
                                   :key="month + '' + i">
                     </calendar-day>
                 </tr>
@@ -69,6 +70,13 @@
         computed: {
             days() {
                 return Constants.DAYS;
+            },
+            monthEvents() {
+                const yearEvents = this.years[this.year];
+                if (yearEvents) {
+                    return yearEvents.months[this.month + 1];
+                }
+                return [];
             },
             thisMonthName() {
                 return this.getMonthName(this.month);

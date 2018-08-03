@@ -2,6 +2,7 @@
     <div id="upcoming-app">
         <div v-if="!showEvent">
             <div class="calendar-actions" v-if="loggedIn">
+                <a href="/upcoming/akevents.ics" @click.prevent="showIcal = !showIcal" class="fa fa-calendar"> Ical-länk</a>
                 <div class="input-group ical-copy" v-if="showIcal">
                     <input class="form-control" id="ical-link" type="text" readonly :value="icalLink" />
                     <span class="input-group-btn">

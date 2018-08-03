@@ -6,7 +6,7 @@ namespace AKCore.Models
 {
     public class UpcomingViewModel
     {
-        public IEnumerable<YearList> Years { get; set; }
+        public IDictionary<int, YearList> Years { get; set; }
         public bool LoggedIn { get; set; }
         public bool Member { get; set; }
         public string IcalLink { get; set; }
@@ -37,6 +37,7 @@ namespace AKCore.Models
     public class YearList
     {
         public int Year { get; set; }
-        public IEnumerable<IGrouping<int, EventViewModel>> Months { get; set; }
+        public IDictionary<int, List<EventViewModel>> Months { get; set; }
     }
+
 }
