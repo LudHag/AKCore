@@ -5,7 +5,6 @@ import "./general.js";
 import "./vueapps.js";
 import "./profile.js";
 import "./musicplayer.js";
-import "./calendar.js";
 import "./Vendor/chosen.jquery.min.js";
 
 import "./Admin/menuedit.js";

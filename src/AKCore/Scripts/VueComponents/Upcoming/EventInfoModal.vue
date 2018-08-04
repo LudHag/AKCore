@@ -23,8 +23,8 @@
                                     <a class="green" v-if="member && event.signupState" @click.prevent.stop="openSignup" :href="signupUrl">Anmäld ({{event.signupState}})</a>
                                     <a v-if="member && !event.signupState" @click.prevent.stop="openSignup" :href="signupUrl">Anmäl</a>
                                     <p class="modal-comming">{{event.coming}} Kommer - {{event.notComing}} Kommer inte</p>
-                                    <p class="modal-stand">Speltyp: {{event.stand}}</p>
-                                    <p class="modal-fika">Fika och städning: {{event.fika}}</p>
+                                    <p class="modal-stand" v-if="event.stand">Speltyp: {{event.stand}}</p>
+                                    <p class="modal-fika" v-if="event.fika">Fika och städning: {{event.fika}}</p>
                                 </div>
                                 <div class="extra">
                                     <div class="col-sm-12">

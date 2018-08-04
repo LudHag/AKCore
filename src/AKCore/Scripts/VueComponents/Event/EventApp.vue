@@ -6,7 +6,7 @@
             <h1>{{eventInfo.event.name}}</h1>
             <div class="row hidden-print">
                 <div class="col-sm-6">
-                    <event-form :event-info="eventInfo" @update="loadEvent"></event-form>
+                    <event-form :event-info="eventInfo" @update="loadEvents"></event-form>
                 </div>
                 <div class="col-sm-6">
                     <div class="col-sm-12" style="font-weight: 500;">
@@ -67,6 +67,10 @@
             }
         },
         methods: {
+            loadEvents() {
+                this.loadEvent();
+                this.$emit('update');
+            },
             loadEvent() {
                 const self = this;
                 this.loading = true;

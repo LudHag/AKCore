@@ -28,7 +28,8 @@
         <keep-alive>
             <event-app v-if="showEvent"
                        :event-id="selectedEventId"
-                       @close="closeEvent"></event-app>
+                       @close="closeEvent"
+                       @update="loadEvents"></event-app>
         </keep-alive>
     </div>        
 </template>
@@ -75,6 +76,26 @@
                 this.showEvent = false;
                 history.pushState({ showEvent: false, selectedEventId: -1 },
                     "", "/upcoming");
+            },
+            loadEvents() {
+                const self = this;
+                this.loading = true;
+
+                $.ajax({
+                    url: "/Upcoming/UpcomingListData",
+                    type: "GET",
+                    success: function (res) {
+                        self.years = res.years;
+                        self.loggedIn = res.loggedIn;
+                        self.member = res.member;
+                        self.icalLink = res.icalLink;
+                        self.loading = false;
+                    },
+                    error: function () {
+                        console.log("fel");
+                        self.loading = false;
+                    }
+                });
             }
         },
         created() {
@@ -88,24 +109,8 @@
                 history.replaceState({ showEvent: false, selectedEventId: -1 },
                     "", "/upcoming");
             }
-
-            this.loading = true;
-        
-            $.ajax({
-                url: "/Upcoming/UpcomingListData",
-                type: "GET",
-                success: function (res) {
-                    self.years = res.years;
-                    self.loggedIn = res.loggedIn;
-                    self.member = res.member;
-                    self.icalLink = res.icalLink;
-                    self.loading = false;
-                },
-                error: function () {
-                    console.log("fel");
-                    self.loading = false;
-                }
-            });
+            this.loadEvents();
+            
             window.onpopstate = function (event) {
                 if (event.state) {
                     self.showEvent = event.state.showEvent;

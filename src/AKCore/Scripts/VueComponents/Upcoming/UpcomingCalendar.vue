@@ -37,6 +37,12 @@
 
     const timeDay = 24 * 60 * 60 * 1000;
     const today = new Date();
+    Date.prototype.addDays = function (days) {
+        const dat = new Date(this.valueOf());
+        dat.setDate(dat.getDate() + days);
+        return dat;
+    }
+
     export default {
         props: ['years', 'loggedIn', 'member'],
         components: {
