@@ -1,0 +1,112 @@
+﻿<template>
+    <div class="row event-row" @click.prevent="expanded=!expanded" v-bind:class="{ expandable, expanded }">
+        <div class="col-sm-4 col-xs-6" style="font-weight: 500;">
+            <p style="text-transform: capitalize;">{{event.day}} </p>
+            <p v-if="isRep">{{event.type}}</p>
+            <p v-if="event.type === 'Rep'">{{event.place}}</p>
+            <template v-if="!isRep && loggedIn">
+                <p>{{event.name}}</p>
+                <p>{{event.place}}</p>
+            </template>
+        </div>
+        <div class="col-sm-4 col-xs-6">
+            <template v-if="loggedIn">
+                <p v-if="event.halanTime">Samling i hålan: {{event.halanTime}}</p>
+                <p v-if="event.thereTime && (event.type === 'Spelning' || event.type === 'Kårhusrep')">Samling på plats: {{event.thereTime}}</p>
+                <p v-if="event.startsTime && event.type === 'Spelning'">Spelning startar: {{event.startsTime}}</p>
+            </template>
+            <template v-if="!loggedIn">
+                <p>{{event.name}}</p>
+                <p>{{event.place}}</p>
+            </template>
+        </div>
+        <div class="col-sm-4 col-xs-12">
+            <template v-if="!loggedIn">
+                <p v-if="event.startsTime && !loggedIn">Spelning startar: {{event.startsTime}}</p>
+            </template>
+            <template v-if="loggedIn && (event.type === 'Spelning' || event.type === 'Kårhusrep')">
+                <a class="green" v-if="member && event.signupState" @click.prevent.stop="openSignup" :href="signupUrl">Anmäld ({{event.signupState}})</a>
+                <a v-if="member && !event.signupState" @click.prevent.stop="openSignup" :href="signupUrl">Anmäl</a>
+                <p class="hidden-xs">{{event.coming}} Kommer - {{event.notComing}} Kommer inte</p>
+            </template>
+            <p v-if="loggedIn && event.type === 'Spelning' && event.stand">Speltyp: {{event.stand}}</p>
+            <p v-if="loggedIn && (event.type === 'Rep' || event.type === 'Kårhusrep')">Fika och städning: {{event.fika}}</p>
+        </div>
+        <div class="extra" v-if="expanded">
+            <div class="col-sm-12 description" v-if="event.description">
+                <p>{{event.description}}</p>
+            </div>
+            <div class="col-xs-12" v-if="event.internalDescription">
+                <p>{{event.internalDescription}}</p>
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+    export default {
+        props: ['event', 'loggedIn', 'member'],
+        data() {
+            return {
+                expanded: false
+            }
+        },
+        methods: {
+            openSignup() {
+                this.$emit('signup', this.event.id);
+            }
+        },
+        computed: {
+            expandable() {
+                return this.event.description || this.event.internalDescription;
+            },
+            isRep() {
+                return this.event.type === "Rep" || this.event.type === "Kårhusrep" || this.event.type === "Fikarep";
+            },
+            signupUrl() {
+                return "/upcoming/Event/" + this.event.id;
+            }
+        }
+    }
+</script>
+<style lang="scss">
+    @import "../../../Styles/variables.scss";
+
+    .event-row.expandable:before {
+        content: "+";
+        color: $akred;
+        position: absolute;
+        right: 6px;
+        top: 3px;
+        font-size: 25px;
+        line-height: 25px;
+    }
+    .event-row.expandable.expanded.extra {
+        display: block;
+    }
+    .event-row.expandable.expanded:before {
+        content: "-";
+        right: 6px;
+        top: 0px;
+        font-size: 50px;
+    }
+    .event-row.expandable a {
+        margin: 0 0 10px;
+        display: block;
+    }
+
+    .event-row {
+        padding: 15px;
+        border: 3px solid $akred;
+        border-radius: 7px;
+        cursor: pointer;
+        position: relative;
+    }
+    .event-row:hover {
+        background-color: #1a0000;
+    }
+
+    .event-row .green {
+        color: #02C66F;
+    }
+
+</style>

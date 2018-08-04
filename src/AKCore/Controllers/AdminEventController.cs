@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 
 namespace AKCore.Controllers
@@ -133,7 +132,7 @@ namespace AKCore.Controllers
         [Route("Remove/{id:int}")]
         public async Task<ActionResult> Remove(string id)
         {
-            if (!int.TryParse(id, out int eId))
+            if (!int.TryParse(id, out var eId))
                 return Json(new { success = false, message = "Misslyckades med att ta bort event" });
             var e = _db.Events.Include(x => x.SignUps).FirstOrDefault(x => x.Id == eId);
             if (e == null) return Json(new {success = false, message = "Misslyckades med att ta bort event"});
@@ -155,7 +154,7 @@ namespace AKCore.Controllers
         [Route("GetEvent/{id:int}")]
         public ActionResult GetEvent(string id)
         {
-            if (!int.TryParse(id, out int eId))
+            if (!int.TryParse(id, out var eId))
                 return Json(new { success = false, message = "Misslyckades med att hämta event" });
             var e = _db.Events.FirstOrDefault(x => x.Id == eId);
             if (e == null) return Json(new {success = false, message = "Misslyckades med att hämta event"});

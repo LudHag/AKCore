@@ -30,8 +30,23 @@ const MEDALS = [
     "Dollarn",
     "Gubben"];
 
+const SIGNUPTYPES = [
+    "Hålan",
+    "Direkt",
+    "Kan inte komma"];
+
+const MONTHS = ["Januari", "Februari", "Mars", "April", "Maj", "Juni",
+    "Juli", "Augusti", "September", "Oktober", "November", "December"
+];
+
+const DAYS = ["Måndag", "Tisdag", "Onsdag", "Torsdag", "Fredag", "Lördag",
+    "Söndag"];
+
 export default {
-    POSTS: POSTS,
-    ROLES: ROLES,
-    MEDALS: MEDALS
+    POSTS,
+    ROLES,
+    MEDALS,
+    MONTHS,
+    SIGNUPTYPES,
+    DAYS
 }
