@@ -63,7 +63,9 @@
                 return "/upcoming/Event/" + this.event.id;
             },
             signupable() {
-                return this.member && (event.type === 'Spelning' || event.type === 'Kårhusrep');
+                console.log(event.type);
+                console.log(event.type === 'Spelning' || event.type === 'Kårhusrep');
+                return this.member && (this.event.type === 'Spelning' || this.event.type === 'Kårhusrep');
             }
         }
     }
