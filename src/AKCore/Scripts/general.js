@@ -108,34 +108,6 @@ $(function () {
             });
         });
 
-    $('#hire-form').on('submit',
-        function(e) {
-            e.preventDefault();
-            const form = $(this);
-            const success = form.find(".alert-success");
-            const error = form.find(".alert-danger");
-
-            $.ajax({
-                url: form.attr("action"),
-                type: "POST",
-                data: form.serialize(),
-                success: function(res) {
-                    if (res.success) {
-                        form.trigger("reset");
-                        success.text(res.message);
-                        success.slideDown().delay(3000).slideUp();
-                    } else {
-                        error.text(res.message);
-                        error.slideDown().delay(5000).slideUp();
-                    }
-                },
-                error: function(err) {
-                    error.text("Ett fel uppstod när ansökan skickades");
-                    error.slideDown().delay(5000).slideUp();
-                }
-            });
-        });
-
     const allowedKeys = { 70: "f", 76: "l", 192: "ö", 74: "j", 84: "t" }, code = ["f", "l", "ö", "j", "t"];
     let pos = 0;
     document.addEventListener("keydown",
