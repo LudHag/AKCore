@@ -21,28 +21,33 @@
                                   :monthevents="monthEvents"
                                   :day="day.addDays(i)" 
                                   v-for="i in [0,1,2,3,4,5,6]"
-                                  :key="month + '' + i">
+                                  :key="month + '' + i"
+                                  @open="openEvent">                                  >
                     </calendar-day>
                 </tr>
             </tbody>
         </table>
+        <event-info-modal :event="modalEvent" member="member" @signup="signup" @close="closeModal"></event-info-modal>
     </div>   
 </template>
 <script>
     import Constants from '../../constants';
     import CalendarDay from './CalendarDay';
+    import EventInfoModal from './EventInfoModal';
 
     const timeDay = 24 * 60 * 60 * 1000;
     const today = new Date();
     export default {
         props: ['years', 'loggedIn', 'member'],
         components: {
-            CalendarDay
+            CalendarDay,
+            EventInfoModal
         },
         data() {
             return {
                 month: 0,
-                year: 0
+                year: 0,
+                modalEvent: null
             }
         },
         methods: {
@@ -50,6 +55,7 @@
                 return Constants.MONTHS[month];
             },
             signup(id) {
+                this.closeModal();
                 this.$emit('signup', id);
             },
             nextMonth() {
@@ -65,6 +71,12 @@
                     this.month = 11;
                     this.year--;
                 }
+            },
+            openEvent(e) {
+                this.modalEvent = e;
+            },
+            closeModal() {
+                this.modalEvent = null;
             }
         },
         computed: {

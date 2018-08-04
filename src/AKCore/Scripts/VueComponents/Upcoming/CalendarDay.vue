@@ -1,7 +1,7 @@
 ﻿<template>
     <td class="day" v-bind:class="{ outside: outside }">
         <span class="date">{{day.getDate()}}</span>
-        <a href="#" v-for="e in events" class="dayEvent">{{e.halanTime}} {{e.name}}</a>
+        <a href="#" v-for="e in events" @click.prevent="openEvent(e)" class="dayEvent">{{e.halanTime}} {{e.name}}</a>
     </td>
 </template>
 <script>
@@ -27,6 +27,11 @@
                 return this.monthevents.filter((e) => {
                     return e.dayInMonth === this.day.getDate();
                 });
+            }
+        },
+        methods: {
+            openEvent(e) {
+                this.$emit("open",e)
             }
         }
     }
