@@ -52,11 +52,11 @@
                     <div class="alert alert-success" style="display: none;">Lösenord uppdaterat</div>
                     <div class="form-group">
                         <label for="newpass">Nytt lösenord:</label>
-                        <input type="password" class="form-control" name="password" placeholder="Lösenord">
+                        <input v-model="password" type="password" class="form-control" name="password" placeholder="Lösenord" required>
                     </div>
                     <div class="form-group">
                         <label for="confirmpass">Bekräfta lösenord:</label>
-                        <input type="password" class="form-control" placeholder="Bekräfta lösenord">
+                        <input v-model="confirmPass"  type="password" class="form-control" placeholder="Bekräfta lösenord" required>
                     </div>
                     <div class="form-group">
                         <button type="submit" class="btn btn-default">Uppdatera lösenord</button>
@@ -102,7 +102,9 @@
         },
         data() {
             return {
-                profileData: null
+                profileData: null,
+                password: "",
+                confirmPass: ""
             }
         },
         computed: {
@@ -119,8 +121,36 @@
             updateProfile() {
                 console.log("update");
             },
-            changePassword() {
-                console.log("change");
+            changePassword(event) {
+                const self = this;
+                const form = $(event.target);
+                const error = form.find(".alert-danger");
+                const success = form.find(".alert-success");
+                if (this.password !== this.confirmPass) {
+                    error.text("Lösenord matchar ej");
+                    error.slideDown().delay(3500).slideUp();
+                    return;
+                }
+
+                $.ajax({
+                    url: form.attr("action"),
+                    type: form.attr("method"),
+                    data: form.serialize(),
+                    success: function (res) {
+                        if (res.success) {
+                            success.slideDown().delay(3000).slideUp();
+                            self.password = "";
+                            self.confirmPass = "";
+                        } else {
+                            error.text(res.message);
+                            error.slideDown().delay(3500).slideUp();
+                        }
+                    },
+                    error: function (err) {
+                        error.text("Misslyckades med att ändra lösenord");
+                        error.slideDown().delay(3500).slideUp();
+                    }
+                });
             }
         },
         created() {

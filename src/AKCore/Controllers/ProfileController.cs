@@ -29,27 +29,10 @@ namespace AKCore.Controllers
             _db = db;
         }
 
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
-            var user = await _userManager.FindByNameAsync(User.Identity.Name);
             ViewBag.Title = "Profil";
-            var logins=_db.UserLogins.Where(x => x.ProviderDisplayName == user.UserName).ToList();
-
-            var model = new ProfileModel
-            {
-                UserName = user.UserName,
-                Email = user.Email,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Phone = user.Phone,
-                Instrument = user.Instrument,
-                OtherInstrument = string.IsNullOrWhiteSpace(user.OtherInstruments) ? null : user.OtherInstruments.Split(',').ToList(),
-                Poster = !string.IsNullOrWhiteSpace(user.SlavPoster) ? JsonConvert.DeserializeObject<List<string>>(user.SlavPoster) : new List<string>(),
-                Roles = await _userManager.GetRolesAsync(user),
-                Medal = user.Medal,
-                GivenMedal = user.GivenMedal
-            };
-            return View(model);
+            return View();
         }
 
         [Route("ProfileData")]
