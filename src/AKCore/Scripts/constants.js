@@ -35,6 +35,22 @@ const SIGNUPTYPES = [
     "Direkt",
     "Kan inte komma"];
 
+const INSTRUMENTS = [
+    "Altsax",
+    "Balett",
+    "Banjo",
+    "Barytonsax",
+    "Euphonium",
+    "Flute",
+    "Horn",
+    "Klarinett",
+    "Oboe",
+    "Slagverk",
+    "Tenorsax",
+    "Trombon",
+    "Trumpet",
+    "Tuba"];
+
 const MONTHS = ["Januari", "Februari", "Mars", "April", "Maj", "Juni",
     "Juli", "Augusti", "September", "Oktober", "November", "December"
 ];
@@ -48,5 +64,6 @@ export default {
     MEDALS,
     MONTHS,
     SIGNUPTYPES,
-    DAYS
+    DAYS,
+    INSTRUMENTS
 }
