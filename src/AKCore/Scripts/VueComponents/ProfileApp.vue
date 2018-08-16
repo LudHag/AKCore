@@ -119,7 +119,29 @@
         },
         methods: {
             updateProfile() {
-                console.log("update");
+                const form = $(event.target);
+                const success = form.find(".alert-success");
+                const error = form.find(".alert-danger");
+                $.ajax({
+                    url: form.attr("action"),
+                    type: form.attr("method"),
+                    contentType: "application/json",
+                    data: JSON.stringify(this.profileData),
+                    success: function (res) {
+                        if (res.success) {
+                            form.parent().get(0).scrollIntoView();
+                            success.text("Din profil uppdaterades");
+                            success.slideDown().delay(3000).slideUp();
+                        } else {
+                            error.text(res.message);
+                            error.slideDown().delay(3500).slideUp();
+                        }
+                    },
+                    error: function (err) {
+                        error.text("Uppdateringen misslyckades");
+                        error.slideDown().delay(3500).slideUp();
+                    }
+                });
             },
             changePassword(event) {
                 const self = this;

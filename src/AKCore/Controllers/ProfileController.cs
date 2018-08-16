@@ -59,7 +59,7 @@ namespace AKCore.Controllers
         }
 
         [Route("EditProfile")]
-        public async Task<ActionResult> EditProfile(ProfileModel model)
+        public async Task<ActionResult> EditProfile([FromBody] ProfileModel model)
         {
             if (model.OtherInstrument?.Contains(model.Instrument) ?? false)
             {
