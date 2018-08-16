@@ -241,7 +241,7 @@ namespace AKCore.Controllers
 
             model.IsNintendo = nintendo;
             model.Event = MapEventModel(spelning, true, user.Id);
-            model.Signups = spelning.SignUps;
+            model.Signups = spelning.SignUps.OrderBy(x=>x.InstrumentName).ThenBy(x=>x.PersonName);
 
             if (nintendo)
             {
