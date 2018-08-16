@@ -1,6 +1,7 @@
 ﻿import Vue from "vue";
 import VideoBar from "./VueComponents/VideoBar";
 import MembersList from "./VueComponents/MembersList";
+import ProfileApp from "./VueComponents/ProfileApp";
 import UpcomingApp from "./VueComponents/Upcoming/UpcomingApp";
 
 $(".videos-app").each(function () {
@@ -36,3 +37,12 @@ if ($("#upcoming-app").length > 0) {
         components: { UpcomingApp }
     });
 }
+
+if ($("#profile-app").length > 0) {
+    const profileApp = new Vue({
+        el: `#profile-app`,
+        template: "<profile-app />",
+        components: { ProfileApp }
+    });
+}
+

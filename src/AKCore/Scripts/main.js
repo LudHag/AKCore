@@ -3,7 +3,6 @@ import "./Vendor/jquery-ui.js";
 import "./Vendor/jquery.multi-select.js";
 import "./general.js";
 import "./vueapps.js";
-import "./profile.js";
 import "./musicplayer.js";
 import "./Vendor/chosen.jquery.min.js";
 
