@@ -19,9 +19,14 @@
                         <p v-if="eventInfo.event.thereTime">Samling på plats: {{eventInfo.event.thereTime}}</p>
                         <p v-if="eventInfo.event.startsTime">Spelning startar: {{eventInfo.event.startsTime}}</p>
                     </div>
-                    <div class="col-sm-12" v-if="eventInfo.isNintendo">
-                        <a href="#" class="btn btn-default" @click.prevent="showAdminEdit">Lägg till anmälningar</a>
+                    <div class="col-sm-12">
+                        <a href="#" class="btn btn-default" v-if="eventInfo.isNintendo" @click.prevent="showAdminEdit">Lägg till anmälningar</a>
+                        <a href="#" class="btn btn-default" @click.prevent="toggleInfo">Visa information</a>
                     </div>
+                </div>
+                <div class="col-xs-12" v-if="showInfo">
+                    <p v-if="eventInfo.event.description">{{eventInfo.event.description}}</p>
+                    <p v-if="eventInfo.event.internalDescription">{{eventInfo.event.internalDescription}}</p>
                 </div>
             </div>
             <edit-signup-modal v-if="showEditForm" :event-id="eventId" :members="eventInfo.members" @update="loadEvent" @close="closeModal"></edit-signup-modal>
@@ -47,7 +52,8 @@
             return {
                 events: {},
                 loading: false,
-                showEditForm: false
+                showEditForm: false,
+                showInfo: false
             }
         },
         computed: {
@@ -95,6 +101,9 @@
             },
             closeModal() {
                 this.showEditForm = false;
+            },
+            toggleInfo() {
+                this.showInfo = !this.showInfo;
             }
         },
         created() {
