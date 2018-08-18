@@ -56,6 +56,7 @@ namespace AKCore.Controllers
                     .Where(x => loggedIn || (!x.Secret))
                     .Where(x => x.Day >= DateTime.UtcNow.Date)
                     .OrderBy(x => x.Day).ThenBy(x => x.StartsTime)
+                    .ToList()
                     .GroupBy(x => x.Day.Year)
                     .ToDictionary(x => x.Key, x => new YearList
                     {

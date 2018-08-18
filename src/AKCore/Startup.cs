@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -33,7 +34,8 @@ namespace AKCore
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<AKContext>(options => options.UseMySql(Configuration["DbConnectionString"]));
-            services.AddMvc();
+
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddRouting();
             services.AddMemoryCache();
 
@@ -78,8 +80,10 @@ namespace AKCore
             else
             {
                 app.UseExceptionHandler("/Page/Error");
+                app.UseHsts();
             }
 
+            app.UseHttpsRedirection();
 #if DEBUG
 #else
             var options = new RewriteOptions().AddRedirectToHttps();
