@@ -25,14 +25,14 @@
                 <p v-if="event.startsTime && !loggedIn">Spelning startar: {{event.startsTime}}</p>
             </template>
             <template v-if="loggedIn && (event.type === 'Spelning' || event.type === 'Kårhusrep')">
-                <a class="green" v-if="member && event.signupState" @click.prevent.stop="openSignup" :href="signupUrl">Anmäld ({{event.signupState}})</a>
-                <a v-if="member && !event.signupState" @click.prevent.stop="openSignup" :href="signupUrl">Anmäl</a>
+                <a class="green signup-link" v-if="member && event.signupState" @click.prevent.stop="openSignup" :href="signupUrl">Anmäld ({{event.signupState}})</a>
+                <a class="signup-link" v-if="member && !event.signupState" @click.prevent.stop="openSignup" :href="signupUrl">Anmäl</a>
                 <p class="hidden-xs">{{event.coming}} Kommer - {{event.notComing}} Kommer inte</p>
             </template>
             <p v-if="loggedIn && event.type === 'Spelning' && event.stand">Speltyp: {{event.stand}}</p>
             <p v-if="loggedIn && (event.type === 'Rep' || event.type === 'Kårhusrep')">Fika och städning: {{event.fika}}</p>
         </div>
-        <div class="extra" v-if="expanded">
+        <div class="extra">
             <div class="col-sm-12 description" v-if="event.description">
                 <p>{{event.description}}</p>
             </div>
@@ -71,24 +71,6 @@
 <style lang="scss">
     @import "../../../Styles/variables.scss";
 
-    .event-row.expandable:before {
-        content: "+";
-        color: $akred;
-        position: absolute;
-        right: 6px;
-        top: 3px;
-        font-size: 25px;
-        line-height: 25px;
-    }
-    .event-row.expandable.expanded.extra {
-        display: block;
-    }
-    .event-row.expandable.expanded:before {
-        content: "-";
-        right: 6px;
-        top: 0px;
-        font-size: 50px;
-    }
     .event-row.expandable a {
         margin: 0 0 10px;
         display: block;
@@ -98,7 +80,6 @@
         padding: 15px;
         border: 3px solid $akred;
         border-radius: 7px;
-        cursor: pointer;
         position: relative;
     }
     .event-row:hover {
@@ -108,5 +89,34 @@
     .event-row .green {
         color: #02C66F;
     }
+    @media screen and (max-width: 768px ) {
+        .event-row a.signup-link {
+            display: inline-block;
+        }
 
+        .event-row.expandable:before {
+            content: "+";
+            color: $akred;
+            position: absolute;
+            right: 6px;
+            top: 3px;
+            font-size: 25px;
+            line-height: 25px;
+        }
+
+        .event-row.expandable .extra {
+            display: none;
+        }
+
+        .event-row.expanded .extra {
+            display: block;
+        }
+
+        .event-row.expandable.expanded:before {
+            content: "-";
+            right: 6px;
+            top: 0px;
+            font-size: 50px;
+        }
+    }
 </style>
