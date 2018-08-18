@@ -34,16 +34,9 @@ namespace AKCore.Controllers
         public ActionResult Index(UsersModel model)
         {
             ViewBag.Title = "Användare";
-            PopulateModel(model);
-            return View(model);
+            return View();
         }
 
-        [Route("UserList")]
-        public ActionResult UserList(UsersModel model)
-        {
-            PopulateModel(model);
-            return PartialView("_UserList", model);
-        }
 
         [Route("UserListData")]
         public ActionResult UserListData(UsersModel model)

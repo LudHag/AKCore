@@ -29,11 +29,17 @@ namespace AKCore.Controllers
             _db = db;
         }
 
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
+        {
+            ViewBag.Title = "Profil";
+            return View();
+        }
+
+        [Route("ProfileData")]
+        public async Task<ActionResult> ProfileData()
         {
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
-            ViewBag.Title = "Profil";
-            var logins=_db.UserLogins.Where(x => x.ProviderDisplayName == user.UserName).ToList();
+            var logins = _db.UserLogins.Where(x => x.ProviderDisplayName == user.UserName).ToList();
 
             var model = new ProfileModel
             {
@@ -49,11 +55,11 @@ namespace AKCore.Controllers
                 Medal = user.Medal,
                 GivenMedal = user.GivenMedal
             };
-            return View(model);
+            return Json(model);
         }
 
         [Route("EditProfile")]
-        public async Task<ActionResult> EditProfile(ProfileModel model)
+        public async Task<ActionResult> EditProfile([FromBody] ProfileModel model)
         {
             if (model.OtherInstrument?.Contains(model.Instrument) ?? false)
             {

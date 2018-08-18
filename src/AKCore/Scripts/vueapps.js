@@ -1,6 +1,8 @@
 ﻿import Vue from "vue";
 import VideoBar from "./VueComponents/VideoBar";
 import MembersList from "./VueComponents/MembersList";
+import ProfileApp from "./VueComponents/ProfileApp";
+import UpcomingApp from "./VueComponents/Upcoming/UpcomingApp";
 
 $(".videos-app").each(function () {
     const widgetId = $(this).data("id");
@@ -19,9 +21,28 @@ if ($("#search-widget").length > 0) {
         el: `#search-widget`,
         data: {
             members: memberList,
-            instruments: instruments
+            instruments
         },
         template: "<members-list :members='members' :instruments='instruments' />",
         components: { MembersList }
     });
 }
+if ($("#upcoming-app").length > 0) {
+    const upcomingApp = new Vue({
+        el: `#upcoming-app`,
+        data: {
+            eventId
+        },
+        template: "<upcoming-app :event-id='eventId' />",
+        components: { UpcomingApp }
+    });
+}
+
+if ($("#profile-app").length > 0) {
+    const profileApp = new Vue({
+        el: `#profile-app`,
+        template: "<profile-app />",
+        components: { ProfileApp }
+    });
+}
+

@@ -53,8 +53,9 @@
                 });
                 if (this.searchPhrase !== "") {
                     filtered = filtered.filter((user) => {
-                        return user.fullName.toLowerCase().indexOf(this.searchPhrase) >= 0 ||
-                            user.userName.toLowerCase().indexOf(this.searchPhrase) >= 0;
+                        const lowerPhrase = this.searchPhrase.toLowerCase();
+                        return user.fullName.toLowerCase().indexOf(lowerPhrase) >= 0 ||
+                            user.userName.toLowerCase().indexOf(lowerPhrase) >= 0;
                     });
                 }
                 return filtered;

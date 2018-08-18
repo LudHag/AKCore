@@ -302,56 +302,6 @@ p.infobox {
     }
 }
 
-.content-wrapper .row.event-row {
-    padding: 15px;
-    border: 3px solid $akred;
-    border-radius: 7px;
-    cursor: pointer;
-    position: relative;
-
-    &:hover {
-        background-color: #1a0000;
-    }
-
-    &.expandable {
-        &:before {
-            content: "+";
-            color: $akred;
-            position: absolute;
-            right: 6px;
-            top: 3px;
-            font-size: 25px;
-            line-height: 25px;
-        }
-
-        &.expanded {
-            .extra {
-                display: block;
-            }
-
-            &:before {
-                content: "-";
-                right: 6px;
-                top: 0px;
-                font-size: 50px;
-            }
-        }
-
-        a {
-            margin: 0 0 10px;
-            display: block;
-        }
-    }
-
-    a.green {
-        color: #02C66F;
-    }
-
-    .extra {
-        display: none;
-    }
-}
-
 @media screen and (max-width: $screen-xs-max) {
     #adress-register .kamerer > div {
         &.name-email {

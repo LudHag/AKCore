@@ -20,17 +20,24 @@ namespace AKCore.Models
 
         public bool IsNintendo { get; set; }
 
-        public IList<AkUser> Members { get; set; }
+        public IEnumerable<MemberViewModel> Members { get; set; }
 
-        public Event Event { get; set; }
-
+        public EventViewModel Event { get; set; }
+        public IEnumerable<SignUp> Signups { get; set; }
+        
         public IList<SignUp> Comming()
         {
-            return Event.SignUps.Where(x => x.Where != "Kan inte komma").OrderBy(x=>x.InstrumentName).ToList();
+            return Signups.Where(x => x.Where != "Kan inte komma").OrderBy(x=>x.InstrumentName).ToList();
         }
         public IList<SignUp> NotComming()
         {
-            return Event.SignUps.Where(x => x.Where == "Kan inte komma").OrderBy(x => x.InstrumentName).ToList();
+            return Signups.Where(x => x.Where == "Kan inte komma").OrderBy(x => x.InstrumentName).ToList();
         }
+    }
+
+    public class MemberViewModel
+    {
+        public string Id { get; set; }
+        public string FullName { get; set; }
     }
 }
