@@ -1,7 +1,9 @@
 ﻿@using AKCore.DataModel
 @model AKCore.Models.AdminEventModel
 
-<div class="row">
+<div id="admin-event-app"></div>
+
+@*<div class="row">
     <div class="col-sm-2">
         <a href="#" class="btn btn-primary" id="create-new-event">Lägg till händelse</a>
     </div>
@@ -15,7 +17,7 @@
             </div>
         </form>
     </div>
-</div>
+</div>*@
 <div class="row" id="admin-event-list">
     <h1>Händelser:</h1>
     @foreach (var e in Model.Events)

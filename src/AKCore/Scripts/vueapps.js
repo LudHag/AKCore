@@ -3,6 +3,7 @@ import VideoBar from "./VueComponents/VideoBar";
 import MembersList from "./VueComponents/MembersList";
 import ProfileApp from "./VueComponents/ProfileApp";
 import UpcomingApp from "./VueComponents/Upcoming/UpcomingApp";
+import AdminEventApp from "./VueComponents/AdminEvent/AdminEventApp";
 
 $(".videos-app").each(function () {
     const widgetId = $(this).data("id");
@@ -43,6 +44,14 @@ if ($("#profile-app").length > 0) {
         el: `#profile-app`,
         template: "<profile-app />",
         components: { ProfileApp }
+    });
+}
+
+if ($("#admin-event-app").length > 0) {
+    const adminEventApp = new Vue({
+        el: `#admin-event-app`,
+        template: "<admin-event-app />",
+        components: { AdminEventApp }
     });
 }
 
