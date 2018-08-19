@@ -1,156 +1,155 @@
 ﻿@using AKCore.DataModel
 @model AKCore.Models.AdminEventModel
-
 <div id="admin-event-app"></div>
-
 @*<div class="row">
-    <div class="col-sm-2">
-        <a href="#" class="btn btn-primary" id="create-new-event">Lägg till händelse</a>
-    </div>
-    <div class="col-sm-3">
-        <form>
-            <div class="form-group">
-                <select id="sort-future-select" name="Future" class="form-control">
-                    <option>Kommande</option>
-                    <option>Gamla</option>
-                </select>
-            </div>
-        </form>
-    </div>
-</div>*@
-<div class="row" id="admin-event-list">
-    <h1>Händelser:</h1>
-    @foreach (var e in Model.Events)
-    {
-        <div class="row event-row" data-id="@e.Id">
-            <div class="col-sm-2">
-                <p>@e.Day.ToString("dd MMM - yyyy")</p>
-            </div>
-            <div class="col-sm-4">
-                <p>@e.Name</p>
-            </div>
-            <div class="col-sm-4">
-                <p>@e.Type</p>
-            </div>
-            <div class="col-sm-2">
-                <a href="/AdminEvent/Remove/@e.Id" class="remove-event glyphicon glyphicon-remove"></a>
-            </div>
+        <div class="col-sm-2">
+            <a href="#" class="btn btn-primary" id="create-new-event">Lägg till händelse</a>
         </div>
-    }
-    <div class="col-xs-12">
-        <ul class="pagination">
-            @for(var i = 1; i <= Model.TotalPages; i++) {
-                <li class="@(Model.CurrentPage == i ? "active" : "")" data-page="@i"><a href="#">@i</a></li>
-            }
-        </ul>
-    </div>
-</div>
-<div id="edit-event-modal" class="modal fade">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Redigera händelse</h4>
-            </div>
-            <form action="/AdminEvent/Edit" id="edit-event-form" method="post">
-                <div class="modal-body">
-                    <div class="alert alert-success" style="display: none;">
-                    </div>
-                    <div class="alert alert-danger" style="display: none;">
-                    </div>
-                    <input type="hidden" asp-for="Id" value="0" />
-                    <div class="form-group">
-                        <label asp-for="Type"></label>
-                        <select class="form-control" asp-for="Type" required>
-                            <option value="">Typ av händelse</option>
-                            @foreach (var typ in AkEventTypes.Types)
-                            {
-                                <option>@typ</option>
-                            }
-                        </select>
-                    </div>
-                    <div class="editeventbody">
-                        <div class="form-group spelning-fest">
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <label asp-for="Name"></label>
-                                    <input class="form-control" asp-for="Name">
-                                </div>
-                                <div class="col-sm-6 only-spelning">
-                                    <label> </label>
-                                    <div class="checkbox checkbox-center">
-                                        <label>
-                                            <input type="checkbox" asp-for="Secret"> Hemlig spelning
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group place">
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <label asp-for="Place"></label>
-                                    <input class="form-control" asp-for="Place">
-                                </div>
-                                <div class="col-sm-6 sta-ga">
-                                    <label asp-for="Stand"></label>
-                                    <select class="form-control" asp-for="Stand">
-                                        <option value="">Välj speltyp</option>
-                                        @foreach (var sp in AkSpeltyp.Speltyper)
-                                        {
-                                            <option>@sp</option>
-                                        }
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <label asp-for="Day"></label>
-                                    <input type="datetime" class="form-control datepicker" asp-for="Day" required>
-                                </div>
-                                <div class="col-sm-3">
-                                    <label asp-for="Halan"></label>
-                                    <input class="form-control" type="time" asp-for="Halan" value="00:00">
-                                </div>
-                                <div class="col-sm-3 spelning-tid-there">
-                                    <label asp-for="There"></label>
-                                    <input class="form-control" type="time" asp-for="There" value="00:00">
-                                </div>
-                                <div class="col-sm-3 spelning-tid">
-                                    <label asp-for="Starts"></label>
-                                    <input class="form-control" type="time" asp-for="Starts" value="00:00" required>
-                                </div>
-                                <div class="col-sm-6 rep-fika">
-                                    <label asp-for="Fika"></label>
-                                    <select class="form-control" asp-for="Fika">
-                                        <option value="">Välj en sektion</option>
-                                        @foreach (var inst in AkFika.Sektioner)
-                                        {
-                                            <option>@inst</option>
-                                        }
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group description">
-                            <label asp-for="Description"></label>
-                            <textarea class="form-control" asp-for="Description"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="InternalDescription"></label>
-                            <textarea class="form-control" asp-for="InternalDescription"></textarea>
-                        </div>
-                    </div>
-
-                        </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Stäng</button>
-                    <button type="submit" class="btn btn-primary">Spara</button>
+        <div class="col-sm-3">
+            <form>
+                <div class="form-group">
+                    <select id="sort-future-select" name="Future" class="form-control">
+                        <option>Kommande</option>
+                        <option>Gamla</option>
+                    </select>
                 </div>
             </form>
         </div>
     </div>
-</div>
+    <div class="row" id="admin-event-list">
+        <h1>Händelser:</h1>
+        @foreach (var e in Model.Events)
+        {
+            <div class="row event-row" data-id="@e.Id">
+                <div class="col-sm-2">
+                    <p>@e.Day.ToString("dd MMM - yyyy")</p>
+                </div>
+                <div class="col-sm-4">
+                    <p>@e.Name</p>
+                </div>
+                <div class="col-sm-4">
+                    <p>@e.Type</p>
+                </div>
+                <div class="col-sm-2">
+                    <a href="/AdminEvent/Remove/@e.Id" class="remove-event glyphicon glyphicon-remove"></a>
+                </div>
+            </div>
+        }
+        <div class="col-xs-12">
+            <ul class="pagination">
+                @for(var i = 1; i <= Model.TotalPages; i++) {
+                    <li class="@(Model.CurrentPage == i ? "active" : "")" data-page="@i"><a href="#">@i</a></li>
+                }
+            </ul>
+        </div>
+    </div>
+    <div id="edit-event-modal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Redigera händelse</h4>
+                </div>
+                <form action="/AdminEvent/Edit" id="edit-event-form" method="post">
+                    <div class="modal-body">
+                        <div class="alert alert-success" style="display: none;">
+                        </div>
+                        <div class="alert alert-danger" style="display: none;">
+                        </div>
+                        <input type="hidden" asp-for="Id" value="0" />
+                        <div class="form-group">
+                            <label asp-for="Type"></label>
+                            <select class="form-control" asp-for="Type" required>
+                                <option value="">Typ av händelse</option>
+                                @foreach (var typ in AkEventTypes.Types)
+                                {
+                                    <option>@typ</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="editeventbody">
+                            <div class="form-group spelning-fest">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <label asp-for="Name"></label>
+                                        <input class="form-control" asp-for="Name">
+                                    </div>
+                                    <div class="col-sm-6 only-spelning">
+                                        <label> </label>
+                                        <div class="checkbox checkbox-center">
+                                            <label>
+                                                <input type="checkbox" asp-for="Secret"> Hemlig spelning
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group place">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <label asp-for="Place"></label>
+                                        <input class="form-control" asp-for="Place">
+                                    </div>
+                                    <div class="col-sm-6 sta-ga">
+                                        <label asp-for="Stand"></label>
+                                        <select class="form-control" asp-for="Stand">
+                                            <option value="">Välj speltyp</option>
+                                            @foreach (var sp in AkSpeltyp.Speltyper)
+                                            {
+                                                <option>@sp</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <label asp-for="Day"></label>
+                                        <input type="datetime" class="form-control datepicker" asp-for="Day" required>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <label asp-for="Halan"></label>
+                                        <input class="form-control" type="time" asp-for="Halan" value="00:00">
+                                    </div>
+                                    <div class="col-sm-3 spelning-tid-there">
+                                        <label asp-for="There"></label>
+                                        <input class="form-control" type="time" asp-for="There" value="00:00">
+                                    </div>
+                                    <div class="col-sm-3 spelning-tid">
+                                        <label asp-for="Starts"></label>
+                                        <input class="form-control" type="time" asp-for="Starts" value="00:00" required>
+                                    </div>
+                                    <div class="col-sm-6 rep-fika">
+                                        <label asp-for="Fika"></label>
+                                        <select class="form-control" asp-for="Fika">
+                                            <option value="">Välj en sektion</option>
+                                            @foreach (var inst in AkFika.Sektioner)
+                                            {
+                                                <option>@inst</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group description">
+                                <label asp-for="Description"></label>
+                                <textarea class="form-control" asp-for="Description"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="InternalDescription"></label>
+                                <textarea class="form-control" asp-for="InternalDescription"></textarea>
+                            </div>
+                        </div>
+
+                            </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Stäng</button>
+                        <button type="submit" class="btn btn-primary">Spara</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+*@

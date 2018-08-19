@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using AKCore.DataModel;
@@ -17,6 +18,7 @@ namespace AKCore.Controllers
     {
         private readonly AKContext _db;
         private readonly UserManager<AkUser> _userManager;
+        private static readonly CultureInfo Culture = new CultureInfo("sv");
         public AdminEventController(AKContext db, UserManager<AkUser> userManager)
         {
             _db = db;
@@ -43,7 +45,7 @@ namespace AKCore.Controllers
 
             var model = new AdminEventModel
             {
-                Events = events,
+                Events = events.Select(MapEventModel),
                 TotalPages = totalPages,
                 CurrentPage = pId
             };
@@ -51,11 +53,16 @@ namespace AKCore.Controllers
         }
 
         [Route("EventData")]
-        public ActionResult EventData(bool future, int page)
+        public ActionResult EventData(bool old, int page)
         {
+            if (page == 0)
+            {
+                page = 1;
+            }
+
             ViewBag.Title = "Profil";
             IQueryable<Event> eventsQuery;
-            if (!future)
+            if (old)
                 eventsQuery = _db.Events.OrderByDescending(x => x.Day).Where(x => x.Day < DateTime.UtcNow.Date);
             else
                 eventsQuery = _db.Events.OrderBy(x => x.Day).Where(x => x.Day >= DateTime.UtcNow.Date);
@@ -66,11 +73,42 @@ namespace AKCore.Controllers
 
             var model = new AdminEventModel
             {
-                Events = events,
+                Events = events.Select(MapEventModel),
                 TotalPages = totalPages,
-                CurrentPage = page
+                CurrentPage = page,
+                Old = old
             };
             return Json(model);
+        }
+
+        private static EventViewModel MapEventModel(Event e)
+        {
+                var model = new EventViewModel()
+                {
+                    Id = e.Id,
+                    Type = e.Type,
+                    Name = e.Name,
+                    Place = e.Place,
+                    Description = e.Description,
+                    InternalDescription = e.InternalDescription,
+                    Fika = e.Fika,
+                    DayDate = e.Day,
+                    Day = e.Day.ToString("dd MMM - yyyy", Culture),
+                    DayInMonth = e.Day.Day,
+                    HalanTime = ParseTime(e.HalanTime),
+                    ThereTime = ParseTime(e.ThereTime),
+                    StartsTime = ParseTime(e.StartsTime),
+                    Stand = e.Stand,
+                    Year = e.Day.Year,
+                    Month = e.Day.Month
+                };
+            return model;
+        }
+
+        private static string ParseTime(TimeSpan date)
+        {
+            var time = date.ToString(@"hh\:mm");
+            return time == "00:00" ? null : time;
         }
 
         [HttpPost]

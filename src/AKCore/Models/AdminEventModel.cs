@@ -9,7 +9,7 @@ namespace AKCore.Models
 {
     public class AdminEventModel
     {
-        public IList<Event> Events { get; set; }
+        public IEnumerable<EventViewModel> Events { get; set; }
         public int Id { get; set; }
         public bool Secret { get; set; }
         [Display(Name = "Namn")]
@@ -35,6 +35,7 @@ namespace AKCore.Models
         [Display(Name = "Stå- eller gåspelning")]
         public string Stand { get; set; }
 
+        public bool Old { get; set; }
         public int TotalPages { get; set; }
         public int CurrentPage { get; set; }
     }
