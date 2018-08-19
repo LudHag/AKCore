@@ -50,6 +50,29 @@ namespace AKCore.Controllers
             return View(model);
         }
 
+        [Route("EventData")]
+        public ActionResult EventData(bool future, int page)
+        {
+            ViewBag.Title = "Profil";
+            IQueryable<Event> eventsQuery;
+            if (!future)
+                eventsQuery = _db.Events.OrderByDescending(x => x.Day).Where(x => x.Day < DateTime.UtcNow.Date);
+            else
+                eventsQuery = _db.Events.OrderBy(x => x.Day).Where(x => x.Day >= DateTime.UtcNow.Date);
+
+            var totalPages = ((eventsQuery.Count() - 1) / 20) + 1;
+
+            var events = eventsQuery.Skip(20 * (page - 1)).Take(20).ToList();
+
+            var model = new AdminEventModel
+            {
+                Events = events,
+                TotalPages = totalPages,
+                CurrentPage = page
+            };
+            return Json(model);
+        }
+
         [HttpPost]
         [Route("Edit")]
         public async Task<ActionResult> Edit(AdminEventModel model)
