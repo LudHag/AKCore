@@ -60,6 +60,10 @@ const DAYS = ["Måndag", "Tisdag", "Onsdag", "Torsdag", "Fredag", "Lördag",
 
 const EVENTTYPES = ["Spelning", "Rep", "Kårhusrep", "Fikarep", "Fest"];
 
+const SPELTYPER = ["Stå", "Gå", "Stå och gå"];
+
+const SEKTIONER = ["Balett", "Flöjt", "Klarinett", "Komp", "Sax", "Trombon", "Trumpet"];
+
 export default {
     POSTS,
     ROLES,
@@ -68,5 +72,7 @@ export default {
     SIGNUPTYPES,
     DAYS,
     INSTRUMENTS,
-    EVENTTYPES
+    EVENTTYPES,
+    SPELTYPER,
+    SEKTIONER
 }

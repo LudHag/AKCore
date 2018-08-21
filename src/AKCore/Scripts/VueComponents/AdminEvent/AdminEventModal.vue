@@ -6,7 +6,7 @@
                     <button type="button" class="close" @click.prevent="close">&times;</button>
                     <h4 class="modal-title">Redigera händelse</h4>
                 </div>
-                <form action="/AdminEvent/Edit" method="post">
+                <form action="/AdminEvent/Edit" method="post" @submit.prevent="formSubmit">
                     <div class="modal-body">
                         <div class="alert alert-success" style="display: none;">
                         </div>
@@ -21,37 +21,34 @@
                                 <option v-for="e in eventTypes">{{e}}</option>
                             </select>
                         </div>
-                        <div class="editeventbody">
-                            <div class="form-group spelning-fest">
+                        <div class="editeventbody" v-if="eventType">
+                            <div class="form-group" v-if="spelningFest">
                                 <div class="row">
                                     <div class="col-sm-6">
-                                        <label asp-for="Name"></label>
-                                        <input class="form-control" asp-for="Name">
+                                        <label>Namn</label>
+                                        <input class="form-control" name="Name">
                                     </div>
-                                    <div class="col-sm-6 only-spelning">
-                                        <label> </label>
+                                    <div class="col-sm-6" v-if="eventType === 'Spelning'">
+                                        <label></label>
                                         <div class="checkbox checkbox-center">
                                             <label>
-                                                <input type="checkbox" asp-for="Secret"> Hemlig spelning
+                                                <input type="checkbox" name="Secret"> Hemlig spelning
                                             </label>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group place">
+                            <div class="form-group" v-if="spelningFest">
                                 <div class="row">
                                     <div class="col-sm-6">
-                                        <label asp-for="Place"></label>
-                                        <input class="form-control" asp-for="Place">
+                                        <label>Plats</label>
+                                        <input class="form-control" name="Place">
                                     </div>
-                                    <div class="col-sm-6 sta-ga">
-                                        <label asp-for="Stand"></label>
-                                        <select class="form-control" asp-for="Stand">
+                                    <div class="col-sm-6" v-if="eventType === 'Spelning'">
+                                        <label>Stå- eller gåspelning</label>
+                                        <select class="form-control" name="Stand">
                                             <option value="">Välj speltyp</option>
-                                            @foreach (var sp in AkSpeltyp.Speltyper)
-                                            {
-                                            <option>@sp</option>
-                                            }
+                                            <option v-for="type in spelTyper">{{type}}</option>
                                         </select>
                                     </div>
                                 </div>
@@ -59,41 +56,38 @@
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-sm-3">
-                                        <label asp-for="Day"></label>
-                                        <input type="datetime" class="form-control datepicker" asp-for="Day" required>
+                                        <label>Dag</label>
+                                        <input type="datetime" class="form-control datepicker" name="Day" required>
                                     </div>
                                     <div class="col-sm-3">
-                                        <label asp-for="Halan"></label>
-                                        <input class="form-control" type="time" asp-for="Halan" value="00:00">
+                                        <label>Vid hålan</label>
+                                        <input class="form-control" type="time" name="Halan" value="00:00">
                                     </div>
-                                    <div class="col-sm-3 spelning-tid-there">
-                                        <label asp-for="There"></label>
-                                        <input class="form-control" type="time" asp-for="There" value="00:00">
+                                    <div class="col-sm-3" v-if="spelningKarhus">
+                                        <label>På plats</label>
+                                        <input class="form-control" type="time" name="There" value="00:00">
                                     </div>
-                                    <div class="col-sm-3 spelning-tid">
-                                        <label asp-for="Starts"></label>
-                                        <input class="form-control" type="time" asp-for="Starts" value="00:00" required>
+                                    <div class="col-sm-3" v-if="eventType === 'Spelning'">
+                                        <label>Spelning</label>
+                                        <input class="form-control" type="time" name="Starts" value="00:00" required>
                                     </div>
-                                    <div class="col-sm-6 rep-fika">
-                                        <label asp-for="Fika"></label>
-                                        <select class="form-control" asp-for="Fika">
+                                    <div class="col-sm-6" v-if="repFika && eventType !== 'Fikarep'">
+                                        <label>Fika</label>
+                                        <select class="form-control" name="Fika">
                                             <option value="">Välj en sektion</option>
-                                            @foreach (var inst in AkFika.Sektioner)
-                                            {
-                                            <option>@inst</option>
-                                            }
+                                            <option v-for="s in sektioner">{{s}}</option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="form-group description">
-                                <label asp-for="Description"></label>
-                                <textarea class="form-control" asp-for="Description"></textarea>
+                            <div class="form-group" v-if="eventType === 'Spelning'">
+                                <label>Beskrivning</label>
+                                <textarea class="form-control" name="Description"></textarea>
                             </div>
                             <div class="form-group">
-                                <label asp-for="InternalDescription"></label>
-                                <textarea class="form-control" asp-for="InternalDescription"></textarea>
+                                <label>Intern beskrivning</label>
+                                <textarea class="form-control" name="InternalDescription"></textarea>
                             </div>
                         </div>
 
@@ -123,6 +117,9 @@
                     event.target.classList.contains("close")) {
                     this.$emit("close");
                 }
+            },
+            formSubmit() {
+                console.log("send");
             }
         },
         computed: {
@@ -135,6 +132,23 @@
             eventTypes() {
                 return Constants.EVENTTYPES;
             },
+            spelTyper() {
+                return Constants.SPELTYPER;
+            },
+            sektioner() {
+                return Constants.SEKTIONER;
+            },
+            spelningFest() {
+                return this.eventType === "Spelning" || this.eventType === "Fest";
+            },
+            spelningKarhus() {
+                return this.eventType === "Spelning" || this.eventType === "Kårhusrep";
+            },
+            repFika() {
+                return this.eventType === "Rep" ||
+                    this.eventType === "Kårhusrep" ||
+                    this.eventType === "Fikarep";
+            }
         },
         created() {
             this.eventType = this.selectedEvent ? this.selectedEvent.type : "";
