@@ -2,7 +2,7 @@
     <div id="admin-event-app">
         <div class="row">
             <div class="col-sm-6">
-                <a href="#" class="btn btn-primary">Lägg till händelse</a>
+                <a href="#" class="btn btn-primary" @click.prevent="openNewEvent">Lägg till händelse</a>
             </div>
             <div class="col-sm-6">
                 <select class="form-control" @change="newSort">
@@ -14,7 +14,9 @@
         <spinner :size="'medium'" v-if="!adminEventData"></spinner>
         <div v-if="adminEventData">
             <h1>Händelser:</h1>
-            <div class="row event-row" v-for="e in adminEventData.events">
+            <div class="row event-row"
+                 v-for="e in adminEventData.events"
+                 @click="openEvent(e)">
                 <div class="col-sm-2">
                     <p>{{e.day}}</p>
                 </div>
@@ -25,7 +27,7 @@
                     <p>{{e.type}}</p>
                 </div>
                 <div class="col-sm-2">
-                    <a href="#" class="remove-event glyphicon glyphicon-remove" @click.prevent="removeEvent(e)"></a>
+                    <a href="#" class="remove-event glyphicon glyphicon-remove" @click.prevent.stop="removeEvent(e)"></a>
                 </div>
             </div>
             <div class="row" v-if="adminEventData.totalPages > 1">
@@ -40,17 +42,30 @@
                 </div>
             </div>
         </div>
+        <transition name="modal">
+            <div v-if="eventModalOpened">
+                <admin-event-modal :selected-event="modalEvent"
+                                   @close="closeModal">
+                </admin-event-modal>
+                <div class="modal-backdrop fade in"></div>
+            </div>
+        </transition>
     </div>
 </template>
 <script>
     import Spinner from "../Spinner";
+    import AdminEventModal from "./AdminEventModal";
+
     export default {
         components: {
-            Spinner
+            Spinner,
+            AdminEventModal
         },
         data() {
             return {
-                adminEventData: null
+                adminEventData: null,
+                eventModalOpened: false,
+                modalEvent: null
             }
         },
         computed: {
@@ -79,6 +94,17 @@
             },
             removeEvent(e) {
                 console.log(e);
+            },
+            openEvent(e) {
+                this.modalEvent = e;
+                this.eventModalOpened = true;
+            },
+            openNewEvent() {
+                this.modalEvent = null;
+                this.eventModalOpened = true;
+            },
+            closeModal() {
+                this.eventModalOpened = false;
             },
             toPage(i) {
                 this.loadEvents(this.adminEventData.old, i);

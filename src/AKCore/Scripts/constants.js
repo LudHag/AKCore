@@ -58,6 +58,8 @@ const MONTHS = ["Januari", "Februari", "Mars", "April", "Maj", "Juni",
 const DAYS = ["Måndag", "Tisdag", "Onsdag", "Torsdag", "Fredag", "Lördag",
     "Söndag"];
 
+const EVENTTYPES = ["Spelning", "Rep", "Kårhusrep", "Fikarep", "Fest"];
+
 export default {
     POSTS,
     ROLES,
@@ -65,5 +67,6 @@ export default {
     MONTHS,
     SIGNUPTYPES,
     DAYS,
-    INSTRUMENTS
+    INSTRUMENTS,
+    EVENTTYPES
 }
