@@ -26,13 +26,13 @@
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <label>Namn</label>
-                                        <input class="form-control" name="Name">
+                                        <input class="form-control" v-model="event.name" name="Name">
                                     </div>
                                     <div class="col-sm-6" v-if="eventType === 'Spelning'">
                                         <label></label>
                                         <div class="checkbox checkbox-center">
                                             <label>
-                                                <input type="checkbox" name="Secret"> Hemlig spelning
+                                                <input type="checkbox" v-model="event.secret" name="Secret"> Hemlig spelning
                                             </label>
                                         </div>
                                     </div>
@@ -42,11 +42,11 @@
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <label>Plats</label>
-                                        <input class="form-control" name="Place">
+                                        <input class="form-control" v-model="event.place" name="Place">
                                     </div>
                                     <div class="col-sm-6" v-if="eventType === 'Spelning'">
                                         <label>Stå- eller gåspelning</label>
-                                        <select class="form-control" name="Stand">
+                                        <select class="form-control" v-model="event.stand" name="Stand">
                                             <option value="">Välj speltyp</option>
                                             <option v-for="type in spelTyper">{{type}}</option>
                                         </select>
@@ -57,23 +57,23 @@
                                 <div class="row">
                                     <div class="col-sm-3">
                                         <label>Dag</label>
-                                        <input type="datetime" class="form-control datepicker" name="Day" required>
+                                        <input type="datetime" class="form-control datepicker" v-model="event.dayDate" name="Day" required>
                                     </div>
                                     <div class="col-sm-3">
                                         <label>Vid hålan</label>
-                                        <input class="form-control" type="time" name="Halan" value="00:00">
+                                        <input class="form-control" type="time" v-model="event.halanTime" name="Halan" value="00:00">
                                     </div>
                                     <div class="col-sm-3" v-if="spelningKarhus">
                                         <label>På plats</label>
-                                        <input class="form-control" type="time" name="There" value="00:00">
+                                        <input class="form-control" type="time" v-model="event.thereTime" name="There" value="00:00">
                                     </div>
                                     <div class="col-sm-3" v-if="eventType === 'Spelning'">
                                         <label>Spelning</label>
-                                        <input class="form-control" type="time" name="Starts" value="00:00" required>
+                                        <input class="form-control" type="time" name="Starts" v-model="event.startsTime" value="00:00" required>
                                     </div>
                                     <div class="col-sm-6" v-if="repFika && eventType !== 'Fikarep'">
                                         <label>Fika</label>
-                                        <select class="form-control" name="Fika">
+                                        <select class="form-control" v-model="event.fika" name="Fika">
                                             <option value="">Välj en sektion</option>
                                             <option v-for="s in sektioner">{{s}}</option>
                                         </select>
@@ -83,11 +83,11 @@
 
                             <div class="form-group" v-if="eventType === 'Spelning'">
                                 <label>Beskrivning</label>
-                                <textarea class="form-control" name="Description"></textarea>
+                                <textarea class="form-control" v-model="event.description" name="Description"></textarea>
                             </div>
                             <div class="form-group">
                                 <label>Intern beskrivning</label>
-                                <textarea class="form-control" name="InternalDescription"></textarea>
+                                <textarea class="form-control" v-model="event.internalDescription" name="InternalDescription"></textarea>
                             </div>
                         </div>
 
@@ -108,7 +108,8 @@
         props: ['selectedEvent'],
         data() {
             return {
-                eventType: ""
+                eventType: "",
+                event: null
             }
         },
         methods: {
@@ -119,7 +120,7 @@
                 }
             },
             formSubmit() {
-                console.log("send");
+                console.log(this.event);
             }
         },
         computed: {
@@ -151,7 +152,25 @@
             }
         },
         created() {
+            const today = new Date();
             this.eventType = this.selectedEvent ? this.selectedEvent.type : "";
+            this.event = this.selectedEvent ? this.selectedEvent :
+                {
+                    type: "",
+                    name: "",
+                    place: "",
+                    description: "",
+                    internalDescription: "",
+                    year: today.getFullYear,
+                    month: today.getMonth + 1,
+                    dayDate: today,
+                    fika: "",
+                    halanTime: "00:00",
+                    thereTime: "00:00",
+                    startsTime: "00:00",
+                    stand: "",
+                    secret: false
+                };
         }
     }
 </script>

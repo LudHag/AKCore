@@ -98,6 +98,7 @@ namespace AKCore.Controllers
                     HalanTime = ParseTime(e.HalanTime),
                     ThereTime = ParseTime(e.ThereTime),
                     StartsTime = ParseTime(e.StartsTime),
+                    Secret = e.Secret,
                     Stand = e.Stand,
                     Year = e.Day.Year,
                     Month = e.Day.Month
