@@ -57,7 +57,7 @@
                                 <div class="row">
                                     <div class="col-sm-3">
                                         <label>Dag</label>
-                                        <input type="datetime" class="form-control datepicker" v-model="event.dayDate" name="Day" required>
+                                        <datepicker input-class="form-control" v-model="event.dayDate" name="Day" required></datepicker>
                                     </div>
                                     <div class="col-sm-3">
                                         <label>Vid hålan</label>
@@ -103,9 +103,13 @@
 </template>
 <script>
     import Constants from '../../constants';
+    import Datepicker from 'vuejs-datepicker';
 
     export default {
         props: ['selectedEvent'],
+        components: {
+            Datepicker
+        },
         data() {
             return {
                 eventType: "",
