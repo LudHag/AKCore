@@ -114,7 +114,7 @@ namespace AKCore.Controllers
 
         [HttpPost]
         [Route("Edit")]
-        public async Task<ActionResult> Edit(AdminEventModel model)
+        public async Task<ActionResult> Edit(EventViewModel model)
         {
             if(model.Type == AkEventTypes.Spelning)
             {
@@ -122,19 +122,20 @@ namespace AKCore.Controllers
                     return Json(new { success = false, message = "Du måste välja stå eller gå." });
                 }
             }
-            if (model.Type != null)
+
+            if (model.Type != null || model.DayDate == null)
                 if (model.Id > 0) //redigera
                 {
                     var changeEvent = _db.Events.FirstOrDefault(x => x.Id == model.Id);
                     if (changeEvent == null)
-                        return Json(new {success = false, message = "Misslyckades med att spara ändringen"});
+                        return Json(new { success = false, message = "Misslyckades med att spara ändringen" });
                     changeEvent.Name = model.Name;
                     changeEvent.Place = model.Place ?? "";
-                    changeEvent.Day = model.Day;
-                    changeEvent.HalanTime = model.Halan;
-                    changeEvent.ThereTime = model.There;
+                    changeEvent.Day = model.DayDate;
+                    changeEvent.HalanTime = TimeSpan.Parse(model.HalanTime);
+                    changeEvent.ThereTime = TimeSpan.Parse(model.ThereTime);
                     changeEvent.Stand = model.Stand;
-                    changeEvent.StartsTime = model.Starts;
+                    changeEvent.StartsTime = TimeSpan.Parse(model.StartsTime);
                     changeEvent.Fika = model.Fika;
                     changeEvent.Description = model.Description;
                     changeEvent.InternalDescription = model.InternalDescription;
@@ -142,16 +143,16 @@ namespace AKCore.Controllers
                     changeEvent.Secret = model.Secret;
 
                     var user = await _userManager.FindByNameAsync(User.Identity.Name);
-                    _db.Log.Add(new LogItem()
-                    {
-                        Type = AkLogTypes.Events,
-                        Modified = DateTime.Now,
-                        ModifiedBy = user,
-                        Comment = "Händelse med id " + model.Id + " redigeras"
-                    });
+                    //_db.Log.Add(new LogItem()
+                    //{
+                    //    Type = AkLogTypes.Events,
+                    //    Modified = DateTime.Now,
+                    //    ModifiedBy = user,
+                    //    Comment = "Händelse med id " + model.Id + " redigeras"
+                    //});
 
                     _db.SaveChanges();
-                    return Json(new {success = true});
+                    return Json(new { success = true, message = "Lyckades ändra händelse" });
                 }
                 else //skapa
                 {
@@ -175,19 +176,19 @@ namespace AKCore.Controllers
                         Secret = model.Secret
                     };
                     var user = await _userManager.FindByNameAsync(User.Identity.Name);
-                    _db.Log.Add(new LogItem()
-                    {
-                        Type = AkLogTypes.Events,
-                        Modified = DateTime.Now,
-                        ModifiedBy = user,
-                        Comment = "Händelse med namn " + model.Name + " skapas"
-                    });
+                    //_db.Log.Add(new LogItem()
+                    //{
+                    //    Type = AkLogTypes.Events,
+                    //    Modified = DateTime.Now,
+                    //    ModifiedBy = user,
+                    //    Comment = "Händelse med namn " + model.Name + " skapas"
+                    //});
 
                     _db.Events.Add(newEvent);
                     _db.SaveChanges();
-                    return Json(new {success = true});
+                    return Json(new { success = true, message = "Lyckades skapa en ny händelse" });
                 }
-            return Json(new {success = false, message = "Misslyckades med att spara ändringen"});
+            return Json(new { success = false, message = "Misslyckades med att spara ändringen" });
         }
 
         [HttpPost]

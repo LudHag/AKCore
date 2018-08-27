@@ -10,13 +10,20 @@
                     <option value="Gamla">Gamla</option>
                 </select>
             </div>
+
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="alert alert-success" style="display: none;">
+                </div>
+            </div>
         </div>
         <spinner :size="'medium'" v-if="!adminEventData"></spinner>
         <div v-if="adminEventData">
             <h1>Händelser:</h1>
             <div class="row event-row"
-                 v-for="e in adminEventData.events"
-                 @click="openEvent(e)">
+                    v-for="e in adminEventData.events"
+                    @click="openEvent(e)">
                 <div class="col-sm-2">
                     <p>{{e.day}}</p>
                 </div>
@@ -44,8 +51,10 @@
         </div>
         <transition name="modal">
             <div v-if="eventModalOpened">
-                <admin-event-modal :selected-event="modalEvent"
-                                   @close="closeModal">
+                <admin-event-modal :old="adminEventData.old"
+                                    :selected-event="modalEvent"
+                                    @update="eventUpdated"
+                                    @close="closeModal">
                 </admin-event-modal>
                 <div class="modal-backdrop fade in"></div>
             </div>
@@ -105,6 +114,10 @@
             },
             closeModal() {
                 this.eventModalOpened = false;
+            },
+            eventUpdated() {
+                this.closeModal();
+                this.loadEvents(this.adminEventData.old, this.adminEventData.currentPage);
             },
             toPage(i) {
                 this.loadEvents(this.adminEventData.old, i);

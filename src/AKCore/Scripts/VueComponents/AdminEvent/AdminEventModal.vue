@@ -1,5 +1,5 @@
 ﻿<template>
-    <div class="modal show" @click="close">
+    <div class="modal show" @click="modalClose">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -8,8 +8,6 @@
                 </div>
                 <form action="/AdminEvent/Edit" method="post" @submit.prevent="formSubmit">
                     <div class="modal-body">
-                        <div class="alert alert-success" style="display: none;">
-                        </div>
                         <div class="alert alert-danger" style="display: none;">
                         </div>
                         <input type="hidden" name="Id" :value="eventId" />
@@ -93,8 +91,8 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Stäng</button>
-                        <button type="submit" class="btn btn-primary">Spara</button>
+                        <button class="btn btn-default" @click.prevent="close">Stäng</button>
+                        <button v-if="!old || !eventId" type="submit" class="btn btn-primary">Spara</button>
                     </div>
                 </form>
             </div>
@@ -104,9 +102,10 @@
 <script>
     import Constants from '../../constants';
     import Datepicker from 'vuejs-datepicker';
+    import ApiService from '../../services/apiservice';
 
     export default {
-        props: ['selectedEvent'],
+        props: ['selectedEvent', 'old'],
         components: {
             Datepicker
         },
@@ -117,14 +116,25 @@
             }
         },
         methods: {
-            close() {
-                if (event.target.classList.contains("modal") ||
-                    event.target.classList.contains("close")) {
+            modalClose() {
+                if (event.target.classList.contains("modal")) {
                     this.$emit("close");
                 }
             },
-            formSubmit() {
-                console.log(this.event);
+            close() {
+                this.$emit("close");
+            },
+            formSubmit(event) {
+                if (this.old && this.eventId) {
+                    return;
+                }
+                const error = $(event.target).find(".alert-danger");
+                const success = $(".alert-success");
+                const self = this;
+                this.event.type = this.eventType;
+                ApiService.postByObject("/AdminEvent/Edit", this.event, error, success, () => {
+                    self.$emit("update");
+                });
             }
         },
         computed: {
@@ -165,8 +175,8 @@
                     place: "",
                     description: "",
                     internalDescription: "",
-                    year: today.getFullYear,
-                    month: today.getMonth + 1,
+                    year: today.getFullYear(),
+                    month: today.getMonth() + 1,
                     dayDate: today,
                     fika: "",
                     halanTime: "00:00",
