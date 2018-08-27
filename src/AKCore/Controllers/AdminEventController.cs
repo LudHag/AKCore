@@ -123,7 +123,7 @@ namespace AKCore.Controllers
                 }
             }
 
-            if (model.Type != null || model.DayDate == null)
+            if (model.Type != null || model.Day != null)
                 if (model.Id > 0) //redigera
                 {
                     var changeEvent = _db.Events.FirstOrDefault(x => x.Id == model.Id);
@@ -131,7 +131,7 @@ namespace AKCore.Controllers
                         return Json(new { success = false, message = "Misslyckades med att spara ändringen" });
                     changeEvent.Name = model.Name;
                     changeEvent.Place = model.Place ?? "";
-                    changeEvent.Day = model.DayDate;
+                    changeEvent.Day = DateTime.Parse(model.Day);
                     changeEvent.HalanTime = TimeSpan.Parse(model.HalanTime);
                     changeEvent.ThereTime = TimeSpan.Parse(model.ThereTime);
                     changeEvent.Stand = model.Stand;
@@ -166,13 +166,13 @@ namespace AKCore.Controllers
                         Place = model.Place ?? "",
                         Description = model.Description,
                         InternalDescription = model.InternalDescription,
-                        Day = model.Day,
+                        Day = DateTime.Parse(model.Day),
                         Type = model.Type,
                         Fika = model.Fika,
-                        HalanTime = model.Halan,
+                        HalanTime = TimeSpan.Parse(model.HalanTime),
+                        ThereTime = TimeSpan.Parse(model.ThereTime),
                         Stand = model.Stand,
-                        StartsTime = model.Starts,
-                        ThereTime = model.There,
+                        StartsTime = TimeSpan.Parse(model.StartsTime),
                         Secret = model.Secret
                     };
                     var user = await _userManager.FindByNameAsync(User.Identity.Name);

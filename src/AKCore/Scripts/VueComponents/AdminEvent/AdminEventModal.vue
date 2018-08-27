@@ -132,6 +132,7 @@
                 const success = $(".alert-success");
                 const self = this;
                 this.event.type = this.eventType;
+                this.event.day = this.event.dayDate.toUTCString();
                 ApiService.postByObject("/AdminEvent/Edit", this.event, error, success, () => {
                     self.$emit("update");
                 });
@@ -177,7 +178,7 @@
                     internalDescription: "",
                     year: today.getFullYear(),
                     month: today.getMonth() + 1,
-                    dayDate: today,
+                    dayDate: new Date(today),
                     fika: "",
                     halanTime: "00:00",
                     thereTime: "00:00",
