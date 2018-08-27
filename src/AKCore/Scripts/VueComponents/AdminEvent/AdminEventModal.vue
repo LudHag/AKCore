@@ -44,7 +44,7 @@
                                     </div>
                                     <div class="col-sm-6" v-if="eventType === 'Spelning'">
                                         <label>Stå- eller gåspelning</label>
-                                        <select class="form-control" v-model="event.stand" name="Stand">
+                                        <select class="form-control" v-model="event.stand" name="Stand" required>
                                             <option value="">Välj speltyp</option>
                                             <option v-for="type in spelTyper">{{type}}</option>
                                         </select>
@@ -169,7 +169,7 @@
         created() {
             const today = new Date();
             this.eventType = this.selectedEvent ? this.selectedEvent.type : "";
-            this.event = this.selectedEvent ? this.selectedEvent :
+            this.event = this.selectedEvent ? Object.assign({}, this.selectedEvent) :
                 {
                     type: "",
                     name: "",
@@ -178,7 +178,7 @@
                     internalDescription: "",
                     year: today.getFullYear(),
                     month: today.getMonth() + 1,
-                    dayDate: new Date(today),
+                    dayDate: today,
                     fika: "",
                     halanTime: "00:00",
                     thereTime: "00:00",
@@ -186,6 +186,7 @@
                     stand: "",
                     secret: false
                 };
+            this.event.dayDate = new Date(this.event.dayDate);
         }
     }
 </script>

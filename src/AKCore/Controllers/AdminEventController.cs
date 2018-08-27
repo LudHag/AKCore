@@ -132,10 +132,10 @@ namespace AKCore.Controllers
                     changeEvent.Name = model.Name;
                     changeEvent.Place = model.Place ?? "";
                     changeEvent.Day = DateTime.Parse(model.Day);
-                    changeEvent.HalanTime = TimeSpan.Parse(model.HalanTime);
-                    changeEvent.ThereTime = TimeSpan.Parse(model.ThereTime);
+                    changeEvent.HalanTime = ParseTime(model.HalanTime);
+                    changeEvent.ThereTime = ParseTime(model.ThereTime);
                     changeEvent.Stand = model.Stand;
-                    changeEvent.StartsTime = TimeSpan.Parse(model.StartsTime);
+                    changeEvent.StartsTime = ParseTime(model.StartsTime);
                     changeEvent.Fika = model.Fika;
                     changeEvent.Description = model.Description;
                     changeEvent.InternalDescription = model.InternalDescription;
@@ -169,10 +169,10 @@ namespace AKCore.Controllers
                         Day = DateTime.Parse(model.Day),
                         Type = model.Type,
                         Fika = model.Fika,
-                        HalanTime = TimeSpan.Parse(model.HalanTime),
-                        ThereTime = TimeSpan.Parse(model.ThereTime),
+                        HalanTime = ParseTime(model.HalanTime),
+                        ThereTime = ParseTime(model.ThereTime),
                         Stand = model.Stand,
-                        StartsTime = TimeSpan.Parse(model.StartsTime),
+                        StartsTime = ParseTime(model.StartsTime),
                         Secret = model.Secret
                     };
                     var user = await _userManager.FindByNameAsync(User.Identity.Name);
@@ -191,6 +191,11 @@ namespace AKCore.Controllers
             return Json(new { success = false, message = "Misslyckades med att spara ändringen" });
         }
 
+        private TimeSpan ParseTime(string stringTime)
+        {
+            return stringTime == null ? default(TimeSpan) : TimeSpan.Parse(stringTime);
+        }
+
         [HttpPost]
         [Route("Remove/{id:int}")]
         public async Task<ActionResult> Remove(string id)
@@ -201,17 +206,17 @@ namespace AKCore.Controllers
             if (e == null) return Json(new {success = false, message = "Misslyckades med att ta bort event"});
 
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
-            _db.Log.Add(new LogItem()
-            {
-                Type = AkLogTypes.Events,
-                Modified = DateTime.Now,
-                ModifiedBy = user,
-                Comment = "Händelse med id " + id + " tas bort"
-            });
+            //_db.Log.Add(new LogItem()
+            //{
+            //    Type = AkLogTypes.Events,
+            //    Modified = DateTime.Now,
+            //    ModifiedBy = user,
+            //    Comment = "Händelse med id " + id + " tas bort"
+            //});
 
             _db.Events.Remove(e);
             _db.SaveChanges();
-            return Json(new {success = true});
+            return Json(new {success = true, message = "Lyckades ta bort event" });
         }
 
         [Route("GetEvent/{id:int}")]

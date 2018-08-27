@@ -16,6 +16,8 @@
             <div class="col-xs-12">
                 <div class="alert alert-success" style="display: none;">
                 </div>
+                <div class="alert alert-error" style="display: none;">
+                </div>
             </div>
         </div>
         <spinner :size="'medium'" v-if="!adminEventData"></spinner>
@@ -64,6 +66,7 @@
 <script>
     import Spinner from "../Spinner";
     import AdminEventModal from "./AdminEventModal";
+    import ApiService from '../../services/apiservice';
 
     export default {
         components: {
@@ -102,7 +105,11 @@
                 this.loadEvents(e.target.value === "Gamla", this.adminEventData.currentPage);
             },
             removeEvent(e) {
-                console.log(e);
+                const error = $(".alert-danger");
+                const success = $(".alert-success");
+                ApiService.postByUrl("/AdminEvent/Remove/" + e.id, error, success, () => {
+                    this.loadEvents(this.adminEventData.old, this.adminEventData.currentPage);
+                });
             },
             openEvent(e) {
                 this.modalEvent = e;
@@ -124,12 +131,8 @@
             },
             loadEvents(old, page) {
                 const self = this;
-                $.ajax({
-                    url: "/AdminEvent/EventData?old=" + old + "&page=" + page,
-                    type: "GET",
-                    success: function (res) {
-                        self.adminEventData = res;
-                    }
+                ApiService.get("/AdminEvent/EventData?old=" + old + "&page=" + page, null, (res) => {
+                    self.adminEventData = res;
                 });
             }
         },
