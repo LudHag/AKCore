@@ -26,30 +26,9 @@ namespace AKCore.Controllers
         }
         public ActionResult Index(string Future, string page)
         {
-            ViewBag.Title = "Profil";
-            IQueryable<Event> eventsQuery;
-            if (!string.IsNullOrWhiteSpace(Future) && (Future == "Gamla"))
-                eventsQuery = _db.Events.OrderByDescending(x => x.Day).Where(x => x.Day < DateTime.UtcNow.Date);
-            else
-                eventsQuery = _db.Events.OrderBy(x => x.Day).Where(x => x.Day >= DateTime.UtcNow.Date);
-
-            var pId = 1;
-            if (int.TryParse(page, out var tpId))
-            {
-                pId = tpId;
-            }
-
-            var totalPages = ((eventsQuery.Count() - 1) / 20) + 1;
-
-            var events = eventsQuery.Skip(20 * (pId - 1)).Take(20).ToList();
-
-            var model = new AdminEventModel
-            {
-                Events = events.Select(MapEventModel),
-                TotalPages = totalPages,
-                CurrentPage = pId
-            };
-            return View(model);
+            ViewBag.Title = "Ändra händelser";
+            
+            return View();
         }
 
         [Route("EventData")]
@@ -60,7 +39,6 @@ namespace AKCore.Controllers
                 page = 1;
             }
 
-            ViewBag.Title = "Profil";
             IQueryable<Event> eventsQuery;
             if (old)
                 eventsQuery = _db.Events.OrderByDescending(x => x.Day).Where(x => x.Day < DateTime.UtcNow.Date);
