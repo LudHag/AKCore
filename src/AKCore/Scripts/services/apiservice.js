@@ -88,5 +88,20 @@
                 }
             }
         });
+    },
+    get(url, error, callback) {
+        $.ajax({
+            url: url,
+            type: "GET",
+            success: function (res) {
+                callback(res);
+            },
+            error: function () {
+                if (error) {
+                    error.text("Server error");
+                    error.slideDown().delay(4000).slideUp();
+                }
+            }
+        });
     }
 }

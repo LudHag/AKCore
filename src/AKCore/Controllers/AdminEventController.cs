@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using AKCore.DataModel;
@@ -17,6 +18,7 @@ namespace AKCore.Controllers
     {
         private readonly AKContext _db;
         private readonly UserManager<AkUser> _userManager;
+        private static readonly CultureInfo Culture = new CultureInfo("sv");
         public AdminEventController(AKContext db, UserManager<AkUser> userManager)
         {
             _db = db;
@@ -43,16 +45,76 @@ namespace AKCore.Controllers
 
             var model = new AdminEventModel
             {
-                Events = events,
+                Events = events.Select(MapEventModel),
                 TotalPages = totalPages,
                 CurrentPage = pId
             };
             return View(model);
         }
 
+        [Route("EventData")]
+        public ActionResult EventData(bool old, int page)
+        {
+            if (page == 0)
+            {
+                page = 1;
+            }
+
+            ViewBag.Title = "Profil";
+            IQueryable<Event> eventsQuery;
+            if (old)
+                eventsQuery = _db.Events.OrderByDescending(x => x.Day).Where(x => x.Day < DateTime.UtcNow.Date);
+            else
+                eventsQuery = _db.Events.OrderBy(x => x.Day).Where(x => x.Day >= DateTime.UtcNow.Date);
+
+            var totalPages = ((eventsQuery.Count() - 1) / 20) + 1;
+
+            var events = eventsQuery.Skip(20 * (page - 1)).Take(20).ToList();
+
+            var model = new AdminEventModel
+            {
+                Events = events.Select(MapEventModel),
+                TotalPages = totalPages,
+                CurrentPage = page,
+                Old = old
+            };
+            return Json(model);
+        }
+
+        private static EventViewModel MapEventModel(Event e)
+        {
+                var model = new EventViewModel()
+                {
+                    Id = e.Id,
+                    Type = e.Type,
+                    Name = e.Name,
+                    Place = e.Place,
+                    Description = e.Description,
+                    InternalDescription = e.InternalDescription,
+                    Fika = e.Fika,
+                    DayDate = e.Day,
+                    Day = e.Day.ToString("dd MMM - yyyy", Culture),
+                    DayInMonth = e.Day.Day,
+                    HalanTime = ParseTime(e.HalanTime),
+                    ThereTime = ParseTime(e.ThereTime),
+                    StartsTime = ParseTime(e.StartsTime),
+                    Secret = e.Secret,
+                    Stand = e.Stand,
+                    Year = e.Day.Year,
+                    Month = e.Day.Month
+                };
+            return model;
+        }
+
+        private static string ParseTime(TimeSpan date)
+        {
+            var time = date.ToString(@"hh\:mm");
+            return time == "00:00" ? null : time;
+        }
+
         [HttpPost]
         [Route("Edit")]
-        public async Task<ActionResult> Edit(AdminEventModel model)
+        public async Task<ActionResult> Edit(EventViewModel model)
         {
             if(model.Type == AkEventTypes.Spelning)
             {
@@ -60,19 +122,20 @@ namespace AKCore.Controllers
                     return Json(new { success = false, message = "Du måste välja stå eller gå." });
                 }
             }
-            if (model.Type != null)
+
+            if (model.Type != null || model.Day != null)
                 if (model.Id > 0) //redigera
                 {
                     var changeEvent = _db.Events.FirstOrDefault(x => x.Id == model.Id);
                     if (changeEvent == null)
-                        return Json(new {success = false, message = "Misslyckades med att spara ändringen"});
+                        return Json(new { success = false, message = "Misslyckades med att spara ändringen" });
                     changeEvent.Name = model.Name;
                     changeEvent.Place = model.Place ?? "";
-                    changeEvent.Day = model.Day;
-                    changeEvent.HalanTime = model.Halan;
-                    changeEvent.ThereTime = model.There;
+                    changeEvent.Day = DateTime.Parse(model.Day);
+                    changeEvent.HalanTime = ParseTime(model.HalanTime);
+                    changeEvent.ThereTime = ParseTime(model.ThereTime);
                     changeEvent.Stand = model.Stand;
-                    changeEvent.StartsTime = model.Starts;
+                    changeEvent.StartsTime = ParseTime(model.StartsTime);
                     changeEvent.Fika = model.Fika;
                     changeEvent.Description = model.Description;
                     changeEvent.InternalDescription = model.InternalDescription;
@@ -80,16 +143,16 @@ namespace AKCore.Controllers
                     changeEvent.Secret = model.Secret;
 
                     var user = await _userManager.FindByNameAsync(User.Identity.Name);
-                    _db.Log.Add(new LogItem()
-                    {
-                        Type = AkLogTypes.Events,
-                        Modified = DateTime.Now,
-                        ModifiedBy = user,
-                        Comment = "Händelse med id " + model.Id + " redigeras"
-                    });
+                    //_db.Log.Add(new LogItem()
+                    //{
+                    //    Type = AkLogTypes.Events,
+                    //    Modified = DateTime.Now,
+                    //    ModifiedBy = user,
+                    //    Comment = "Händelse med id " + model.Id + " redigeras"
+                    //});
 
                     _db.SaveChanges();
-                    return Json(new {success = true});
+                    return Json(new { success = true, message = "Lyckades ändra händelse" });
                 }
                 else //skapa
                 {
@@ -103,29 +166,34 @@ namespace AKCore.Controllers
                         Place = model.Place ?? "",
                         Description = model.Description,
                         InternalDescription = model.InternalDescription,
-                        Day = model.Day,
+                        Day = DateTime.Parse(model.Day),
                         Type = model.Type,
                         Fika = model.Fika,
-                        HalanTime = model.Halan,
+                        HalanTime = ParseTime(model.HalanTime),
+                        ThereTime = ParseTime(model.ThereTime),
                         Stand = model.Stand,
-                        StartsTime = model.Starts,
-                        ThereTime = model.There,
+                        StartsTime = ParseTime(model.StartsTime),
                         Secret = model.Secret
                     };
                     var user = await _userManager.FindByNameAsync(User.Identity.Name);
-                    _db.Log.Add(new LogItem()
-                    {
-                        Type = AkLogTypes.Events,
-                        Modified = DateTime.Now,
-                        ModifiedBy = user,
-                        Comment = "Händelse med namn " + model.Name + " skapas"
-                    });
+                    //_db.Log.Add(new LogItem()
+                    //{
+                    //    Type = AkLogTypes.Events,
+                    //    Modified = DateTime.Now,
+                    //    ModifiedBy = user,
+                    //    Comment = "Händelse med namn " + model.Name + " skapas"
+                    //});
 
                     _db.Events.Add(newEvent);
                     _db.SaveChanges();
-                    return Json(new {success = true});
+                    return Json(new { success = true, message = "Lyckades skapa en ny händelse" });
                 }
-            return Json(new {success = false, message = "Misslyckades med att spara ändringen"});
+            return Json(new { success = false, message = "Misslyckades med att spara ändringen" });
+        }
+
+        private TimeSpan ParseTime(string stringTime)
+        {
+            return stringTime == null ? default(TimeSpan) : TimeSpan.Parse(stringTime);
         }
 
         [HttpPost]
@@ -138,17 +206,17 @@ namespace AKCore.Controllers
             if (e == null) return Json(new {success = false, message = "Misslyckades med att ta bort event"});
 
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
-            _db.Log.Add(new LogItem()
-            {
-                Type = AkLogTypes.Events,
-                Modified = DateTime.Now,
-                ModifiedBy = user,
-                Comment = "Händelse med id " + id + " tas bort"
-            });
+            //_db.Log.Add(new LogItem()
+            //{
+            //    Type = AkLogTypes.Events,
+            //    Modified = DateTime.Now,
+            //    ModifiedBy = user,
+            //    Comment = "Händelse med id " + id + " tas bort"
+            //});
 
             _db.Events.Remove(e);
             _db.SaveChanges();
-            return Json(new {success = true});
+            return Json(new {success = true, message = "Lyckades ta bort event" });
         }
 
         [Route("GetEvent/{id:int}")]

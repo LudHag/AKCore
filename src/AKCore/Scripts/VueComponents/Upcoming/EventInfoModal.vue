@@ -76,13 +76,4 @@
     .modal-dialog {
         transition: all .3s ease;
     }
-
-    .modal-enter, .modal-leave-active {
-        opacity: 0;
-    }
-
-    .modal-enter .modal-dialog,
-    .modal-leave-active .modal-dialog {
-        transform: translateY(-30%);
-    }
 </style>

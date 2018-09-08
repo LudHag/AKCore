@@ -19,7 +19,7 @@ namespace AKCore.Controllers
     {
         private readonly UserManager<AkUser> _userManager;
         private readonly AKContext _db;
-        private static readonly CultureInfo culture = new CultureInfo("sv");
+        private static readonly CultureInfo Culture = new CultureInfo("sv");
 
         public UpcomingController(
             UserManager<AkUser> userManager, AKContext db)
@@ -84,7 +84,7 @@ namespace AKCore.Controllers
                     Description = e.Description,
                     InternalDescription = e.InternalDescription,
                     Fika = e.Fika,
-                    Day = e.Day.ToString("dddd dd", culture) + "/" + e.Day.ToString("MM", culture),
+                    Day = e.Day.ToString("dddd dd", Culture) + "/" + e.Day.ToString("MM", Culture),
                     DayInMonth = e.Day.Day,
                     HalanTime = ParseTime(e.HalanTime),
                     ThereTime = ParseTime(e.ThereTime),
@@ -103,7 +103,7 @@ namespace AKCore.Controllers
                     Place = e.Place,
                     Type = e.Type,
                     Description = e.Description,
-                    Day = e.Day.ToString("dddd dd", culture) + "/" + e.Day.ToString("MM", culture),
+                    Day = e.Day.ToString("dddd dd", Culture) + "/" + e.Day.ToString("MM", Culture),
                     StartsTime = ParseTime(e.StartsTime),
                     Year = e.Day.Year,
                     Month = e.Day.Month

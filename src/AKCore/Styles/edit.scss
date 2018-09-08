@@ -408,60 +408,6 @@ table{
     font-weight: 500;
 }
 
-#edit-event-modal {
-    .description, .rep-fika, .spelning-tid, .sta-ga, .spelning-tid-there, .only-spelning {
-        display: none;
-    }
-
-    .editeventbody {
-        display: none;
-    }
-
-    &.Rep, &.Kårhusrep, &.Fikarep, &.Spelning, &.Fest {
-        .editeventbody {
-            display: block;
-        }
-    }
-
-    &.Spelning {
-        .spelning-tid,
-        .spelning-tid-there,
-        .description,
-        .sta-ga,
-        .only-spelning {
-            display: block;
-        }
-    }
-
-    &.Rep, &.Kårhusrep, &.Fikarep {
-        .rep-fika {
-            display: block;
-        }
-
-        .spelning-fest {
-            display: none;
-        }
-    }
-
-    &.Kårhusrep, &.Fikarep, &.Rep {
-        .place {
-            display: none;
-        }
-    }
-
-    &.Kårhusrep {
-        .spelning-tid-there {
-            display: block;
-        }
-    }
-
-    &.Fikarep {
-        .rep-fika {
-            display: none;
-        }
-    }
-}
-
 .add-video-link{
 }
 .video-area{

@@ -37,13 +37,13 @@
     "vue-html-loader": "^1.2.4",
     "vue-loader": "^14.1.1",
     "vue-template-compiler": "^2.5.13",
+    "vuejs-datepicker": "^1.5.3",
     "webpack": "^3.10.0",
     "webpack-hot-middleware": "^2.21.0"
   },
   "dependencies": {
     "aspnet-prerendering": "^3.0.1",
     "bootstrap-sass": "^3.3.7",
-    "tiny-date-picker": "^3.2.5",
     "vue-select": "^2.4.0"
   }
 }
