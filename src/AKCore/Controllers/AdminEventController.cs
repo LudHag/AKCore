@@ -143,13 +143,13 @@ namespace AKCore.Controllers
                     changeEvent.Secret = model.Secret;
 
                     var user = await _userManager.FindByNameAsync(User.Identity.Name);
-                    //_db.Log.Add(new LogItem()
-                    //{
-                    //    Type = AkLogTypes.Events,
-                    //    Modified = DateTime.Now,
-                    //    ModifiedBy = user,
-                    //    Comment = "Händelse med id " + model.Id + " redigeras"
-                    //});
+                    _db.Log.Add(new LogItem()
+                    {
+                        Type = AkLogTypes.Events,
+                        Modified = DateTime.Now,
+                        ModifiedBy = user,
+                        Comment = "Händelse med id " + model.Id + " redigeras"
+                    });
 
                     _db.SaveChanges();
                     return Json(new { success = true, message = "Lyckades ändra händelse" });
@@ -176,13 +176,13 @@ namespace AKCore.Controllers
                         Secret = model.Secret
                     };
                     var user = await _userManager.FindByNameAsync(User.Identity.Name);
-                    //_db.Log.Add(new LogItem()
-                    //{
-                    //    Type = AkLogTypes.Events,
-                    //    Modified = DateTime.Now,
-                    //    ModifiedBy = user,
-                    //    Comment = "Händelse med namn " + model.Name + " skapas"
-                    //});
+                    _db.Log.Add(new LogItem()
+                    {
+                        Type = AkLogTypes.Events,
+                        Modified = DateTime.Now,
+                        ModifiedBy = user,
+                        Comment = "Händelse med namn " + model.Name + " skapas"
+                    });
 
                     _db.Events.Add(newEvent);
                     _db.SaveChanges();
@@ -206,13 +206,13 @@ namespace AKCore.Controllers
             if (e == null) return Json(new {success = false, message = "Misslyckades med att ta bort event"});
 
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
-            //_db.Log.Add(new LogItem()
-            //{
-            //    Type = AkLogTypes.Events,
-            //    Modified = DateTime.Now,
-            //    ModifiedBy = user,
-            //    Comment = "Händelse med id " + id + " tas bort"
-            //});
+            _db.Log.Add(new LogItem()
+            {
+                Type = AkLogTypes.Events,
+                Modified = DateTime.Now,
+                ModifiedBy = user,
+                Comment = "Händelse med id " + id + " tas bort"
+            });
 
             _db.Events.Remove(e);
             _db.SaveChanges();
