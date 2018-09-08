@@ -102,7 +102,7 @@
         },
         methods: {
             newSort(e) {
-                this.loadEvents(e.target.value === "Gamla", this.adminEventData.currentPage);
+                this.loadEvents(e.target.value === "Gamla", 1);
             },
             removeEvent(e) {
                 if (confirm("Är du säker på att du vill ta bort event: " + e.day + " " + e.name)) {
