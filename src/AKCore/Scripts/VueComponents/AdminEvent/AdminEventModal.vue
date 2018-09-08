@@ -191,5 +191,7 @@
     }
 </script>
 <style lang="scss">
-
+    .vdp-datepicker .form-control[readonly] {
+        background-color: #fff;
+    }
 </style>

@@ -105,11 +105,13 @@
                 this.loadEvents(e.target.value === "Gamla", this.adminEventData.currentPage);
             },
             removeEvent(e) {
-                const error = $(".alert-danger");
-                const success = $(".alert-success");
-                ApiService.postByUrl("/AdminEvent/Remove/" + e.id, error, success, () => {
-                    this.loadEvents(this.adminEventData.old, this.adminEventData.currentPage);
-                });
+                if (confirm("Är du säker på att du vill ta bort event: " + e.day + " " + e.name)) {
+                    const error = $(".alert-danger");
+                    const success = $(".alert-success");
+                    ApiService.postByUrl("/AdminEvent/Remove/" + e.id, error, success, () => {
+                        this.loadEvents(this.adminEventData.old, this.adminEventData.currentPage);
+                    });
+                }
             },
             openEvent(e) {
                 this.modalEvent = e;
