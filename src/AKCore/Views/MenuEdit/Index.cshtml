@@ -1,5 +1,4 @@
 ﻿@model AKCore.Models.MenuEditModel
-
 <div class="row">
     <div class="col-md-6">
         <button type="button" id="add-menu" class="btn btn-primary">
@@ -50,7 +49,8 @@
 <div class="row menu-display" id="menus">
     @Html.Partial("_MenuList", Model)
 </div>
-
-@Html.Partial("_SubMenuModal",Model)
+@Html.Partial("_SubMenuModal", Model)
 @Html.Partial("_EditMenuModal", Model)
-
+@section scripts {
+    <script src="~/dist/admin.js" asp-append-version="true"></script>
+}

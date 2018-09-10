@@ -5,15 +5,16 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const BabiliPlugin = require('babili-webpack-plugin');
 
 var appName = 'main';
-var entryPoint = './Scripts/main.js';
 var exportPath = path.resolve(__dirname, './wwwroot/dist/');
 
 var plugins = [];
-var extractSASS = new ExtractTextPlugin("style.css");
+var extractSASS = new ExtractTextPlugin("[name].css",
+    {
+        allChunks: true
+    });
 
 var sassbuild = extractSASS.extract({
-    use: ['css-loader', 'postcss-loader', 'sass-loader'],
-    fallback: ['style-loader']
+    use: ['css-loader', 'postcss-loader', 'sass-loader']
 });
 
 plugins.push(extractSASS);
@@ -40,13 +41,27 @@ if (process.env.NODE_ENV === 'production') {
     }));
 }
 
+plugins.push(new webpack.optimize.CommonsChunkPlugin({
+    name: "vendor",
+    minChunks: function (module) {
+        if (module.resource && (/^.*\.(css|scss)$/).test(module.resource)) {
+            return false;
+        }
+        return module.context && module.context.includes('node_modules');
+    }
+}));
+
 appName = appName + '.js';
 
 module.exports = {
-    entry: { main: entryPoint },
+    entry: {
+        main: './Scripts/main.js',
+        vendor: ["vue"],
+        admin: './Scripts/admin.js'
+    },
     output: {
         path: exportPath,
-        filename: appName,
+        filename: '[name].js',
         publicPath: '/dist/',
         hotUpdateChunkFilename: 'hot/hot-update.js',
         hotUpdateMainFilename: 'hot/hot-update.json'
