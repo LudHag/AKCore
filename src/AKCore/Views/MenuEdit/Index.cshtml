@@ -48,9 +48,8 @@
     <div class="alert alert-success" style="display: none;"></div>
 </div>
 <div class="row menu-display" id="menus">
-    @Html.Partial("_MenuList", Model)
+    <partial name="_MenuList" model="Model" />
 </div>
 
-@Html.Partial("_SubMenuModal",Model)
-@Html.Partial("_EditMenuModal", Model)
-
+<partial name="_SubMenuModal" model="Model" />
+<partial name="_EditMenuModal" model="Model" />

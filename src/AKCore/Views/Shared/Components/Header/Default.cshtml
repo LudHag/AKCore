@@ -41,9 +41,9 @@
         </div>
     </div>
     <nav>
-        @Html.Partial("Partials/DesktopMenu", Model)
+        <partial name="Partials/DesktopMenu" model="Model"/>
     </nav>
 </header>
 <div id="mobile-menu">
-    @Html.Partial("Partials/MobileMenu", Model)
+    <partial name="Partials/MobileMenu" model="Model"/>
 </div>

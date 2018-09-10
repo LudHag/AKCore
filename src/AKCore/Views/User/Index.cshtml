@@ -5,9 +5,8 @@
     </div>
 </div>
 
-@Html.Partial("_CreateUserModal")
+<partial name="_CreateUserModal" />
 <div id="editUserModal" class="modal fade">
-    @Html.Partial("_EditUserModal", new ProfileModel())
+    <partial name="_EditUserModal" model="new ProfileModel()"/>
 </div>
-@Html.Partial("_ChangePasswordModal")
-
+<partial name="_ChangePasswordModal" />

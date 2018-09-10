@@ -146,7 +146,7 @@
                 <h4>@w.GetHeader()</h4> <span class="btn pull-right remove-widget glyphicon glyphicon-remove"></span><span class="btn pull-right min-widget glyphicon glyphicon-minus"></span>
             </div>
             <div class="widget-body">
-                    @Html.Partial("Widgets/" + w.Type, w)
+                <partial name="Widgets/@w.Type" model="w" />
             </div>
         </li>
     }
@@ -163,7 +163,7 @@
                 <h4>@w.GetHeader()</h4> <span class="btn pull-right remove-widget glyphicon glyphicon-remove"></span><span class="btn pull-right min-widget glyphicon glyphicon-minus"></span>
             </div>
             <div class="widget-body">
-                @Html.Partial("Widgets/" + w.Type, w)
+                <partial name="Widgets/@w.Type" model="w" />
             </div>
         </li>
     }
