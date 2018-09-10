@@ -10,7 +10,9 @@
     @Html.Partial("_EditUserModal", new ProfileModel())
 </div>
 @Html.Partial("_ChangePasswordModal")
-
+@section styles {
+    <link rel="stylesheet" href="/dist/admin.css" asp-append-version="true">
+}
 @section scripts {
     <script src="~/dist/admin.js" asp-append-version="true"></script>
 }

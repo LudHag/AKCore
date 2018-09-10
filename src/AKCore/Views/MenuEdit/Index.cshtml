@@ -51,6 +51,10 @@
 </div>
 @Html.Partial("_SubMenuModal", Model)
 @Html.Partial("_EditMenuModal", Model)
+
+@section styles {
+    <script src="~/dist/admin.css" asp-append-version="true"></script>
+}
 @section scripts {
     <script src="~/dist/admin.js" asp-append-version="true"></script>
 }

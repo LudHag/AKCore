@@ -3,7 +3,6 @@
 @{
     ViewData["Album"] = Model.Albums;
 }
-
 <div class="row">
     <form id="page-edit" action="/Edit/Page/@Model.PageId" data-isrev="@((Model.SelectedRevision!=null).ToString().ToLower())" method="post">
         <div class="col-md-6">
@@ -47,7 +46,7 @@
         @if (Model.Revisions != null && Model.Revisions.Count() > 0)
         {
             <div class="col-md-3 revisions hidden-xs">
-                <br class="visible-sm"/>
+                <br class="visible-sm" />
                 <h2>Versioner</h2>
                 @foreach (var revision in Model.Revisions)
                 {
@@ -146,7 +145,7 @@
                 <h4>@w.GetHeader()</h4> <span class="btn pull-right remove-widget glyphicon glyphicon-remove"></span><span class="btn pull-right min-widget glyphicon glyphicon-minus"></span>
             </div>
             <div class="widget-body">
-                    @Html.Partial("Widgets/" + w.Type, w)
+                @Html.Partial("Widgets/" + w.Type, w)
             </div>
         </li>
     }
@@ -168,7 +167,6 @@
         </li>
     }
 </ul>
-
 
 <div id="imagePickerModal" class="modal fade">
     <div class="modal-dialog modal-lg">
@@ -201,7 +199,6 @@
         </div>
     </div>
 </div>
-
 <div id="filePickerModal" class="modal fade">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -221,8 +218,9 @@
         </div>
     </div>
 </div>
-
-
+@section styles {
+    <script src="~/dist/admin.css" asp-append-version="true"></script>
+}
 @section scripts {
     <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
     <script src="~/dist/admin.js" asp-append-version="true"></script>
