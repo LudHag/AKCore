@@ -24,7 +24,7 @@
                     <option>Välj en sida</option>
                     @foreach (var p in Model.Pages)
                     {
-                        <option value="@p.Id">@p.Name</option>
+                    <option value="@p.Id">@p.Name</option>
                     }
                 </select>
             </div>
@@ -47,14 +47,15 @@
     <div class="alert alert-success" style="display: none;"></div>
 </div>
 <div class="row menu-display" id="menus">
-    @Html.Partial("_MenuList", Model)
+    <partial name="_MenuList" model="Model" />
 </div>
-@Html.Partial("_SubMenuModal", Model)
-@Html.Partial("_EditMenuModal", Model)
 
+<partial name="_SubMenuModal" model="Model" />
+<partial name="_EditMenuModal" model="Model" />
 @section styles {
-    <script src="~/dist/admin.css" asp-append-version="true"></script>
+<script src="~/dist/admin.css" asp-append-version="true"></script>
 }
 @section scripts {
-    <script src="~/dist/admin.js" asp-append-version="true"></script>
+<script src="~/dist/admin.js" asp-append-version="true"></script>
 }
+
