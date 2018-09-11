@@ -3,9 +3,8 @@
 @{
     ViewData["Album"] = Model.Albums;
 }
-
 <div class="row">
-    <form id="page-edit" action="/Edit/Page/@Model.PageId" data-isrev="@((Model.SelectedRevision!=null).ToString().ToLower())" method="post">
+    <form id="page-edit" action="/Edit/Page/@Model.PageId" data-isrev="@((Model.SelectedRevision != null).ToString().ToLower())" method="post">
         <div class="col-md-6">
             <div class="alert alert-danger" style="display: none;"></div>
             <div class="alert alert-success" style="display: none;"></div>
@@ -146,7 +145,7 @@
                 <h4>@w.GetHeader()</h4> <span class="btn pull-right remove-widget glyphicon glyphicon-remove"></span><span class="btn pull-right min-widget glyphicon glyphicon-minus"></span>
             </div>
             <div class="widget-body">
-                <partial name="Widgets/@w.Type" model="w" />
+                <partial name="Widgets/@w.Type" model="w"/>
             </div>
         </li>
     }
@@ -163,12 +162,11 @@
                 <h4>@w.GetHeader()</h4> <span class="btn pull-right remove-widget glyphicon glyphicon-remove"></span><span class="btn pull-right min-widget glyphicon glyphicon-minus"></span>
             </div>
             <div class="widget-body">
-                <partial name="Widgets/@w.Type" model="w" />
+                <partial name="Widgets/@w.Type" model="w"/>
             </div>
         </li>
     }
 </ul>
-
 
 <div id="imagePickerModal" class="modal fade">
     <div class="modal-dialog modal-lg">
@@ -201,7 +199,6 @@
         </div>
     </div>
 </div>
-
 <div id="filePickerModal" class="modal fade">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -222,7 +219,11 @@
     </div>
 </div>
 
+@section styles {
+    <link rel="stylesheet" href="/dist/admin.css" asp-append-version="true">
+}
 
 @section scripts {
     <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+    <script src="~/dist/admin.js" asp-append-version="true"></script>
 }

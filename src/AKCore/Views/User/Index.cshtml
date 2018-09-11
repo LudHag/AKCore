@@ -5,8 +5,16 @@
     </div>
 </div>
 
-<partial name="_CreateUserModal" />
+<partial name="_CreateUserModal"/>
 <div id="editUserModal" class="modal fade">
     <partial name="_EditUserModal" model="new ProfileModel()"/>
 </div>
-<partial name="_ChangePasswordModal" />
+<partial name="_ChangePasswordModal"/>
+
+@section styles {
+    <link rel="stylesheet" href="/dist/admin.css" asp-append-version="true">
+}
+
+@section scripts {
+    <script src="~/dist/admin.js" asp-append-version="true"></script>
+}
