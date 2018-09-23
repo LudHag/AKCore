@@ -29,13 +29,15 @@
         </div>
         <div class="checkbox">
             <label>
-                <input type="checkbox" name="Car" v-model="car">
+                <input type="checkbox" v-model="car">
+                <input type="hidden" name="Car" v-model="car" />
                 Har bil
             </label>
         </div>
         <div class="checkbox">
             <label>
-                <input type="checkbox" name="Instrument" v-model="instrument">
+                <input type="checkbox" v-model="instrument">
+                <input type="hidden" name="Instrument" v-model="instrument"/>
                 Tar med instrument själv
             </label>
         </div>
