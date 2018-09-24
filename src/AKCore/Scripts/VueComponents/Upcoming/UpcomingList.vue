@@ -13,7 +13,7 @@
                 </upcoming-list-item>
             </div>
         </div>
-        <p v-if="years.length < 1">Vi har tyvärr inga spelningar inplanerade närmaste tiden.</p>
+        <p v-if="noYears">Vi har tyvärr inga spelningar inplanerade närmaste tiden.</p>
     </div>   
 </template>
 <script>
@@ -34,6 +34,13 @@
         computed: {
             months() {
                 return Constants.MONTHS;
+            },
+            noYears() {
+                for (var key in this.years) {
+                    if (this.years.hasOwnProperty(key))
+                        return false;
+                }
+                return true;
             }
         }
     }
