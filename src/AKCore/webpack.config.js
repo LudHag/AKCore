@@ -2,7 +2,6 @@ const webpack = require('webpack');
 const LoaderOptionsPlugin = require("webpack/lib/LoaderOptionsPlugin");
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const BabiliPlugin = require('babili-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const devMode = process.env.NODE_ENV !== 'production'
 
@@ -12,7 +11,6 @@ var exportPath = path.resolve(__dirname, './wwwroot/dist/');
 var plugins = [];
 
 if (!devMode) {
-    plugins.push(new BabiliPlugin());
     plugins.push(new webpack.LoaderOptionsPlugin({
         minimize: true
     }));
@@ -46,7 +44,7 @@ module.exports = {
     mode: process.env.NODE_ENV,
     entry: {
         main: './Scripts/main.js',
-        //vendor: ["vue"],
+        vendor: ["vue"],
         admin: './Scripts/admin.js'
     },
     output: {
