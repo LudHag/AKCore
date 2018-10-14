@@ -4,6 +4,7 @@ const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const devMode = process.env.NODE_ENV !== 'production'
 
 var appName = 'main';
@@ -26,18 +27,8 @@ if (!devMode) {
     }));
 }
 
-// plugins.push(new webpack.optimize.CommonsChunkPlugin({
-//     name: "vendor",
-//     minChunks: function (module) {
-//         if (module.resource && (/^.*\.(css|scss)$/).test(module.resource)) {
-//             return false;
-//         }
-//         return module.context && module.context.includes('node_modules');
-//     }
-// }));
-
 plugins.push(new VueLoaderPlugin());
-plugins.push( new MiniCssExtractPlugin());
+plugins.push(new MiniCssExtractPlugin());
 
 appName = appName + '.js';
 
@@ -71,10 +62,10 @@ module.exports = {
             {
                 test: /\.(sa|sc|c)ss$/,
                 use: [
-                  devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
-                  'css-loader',
-                  'postcss-loader',
-                  'sass-loader',
+                    devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
+                    'css-loader',
+                    'postcss-loader',
+                    'sass-loader',
                 ],
             },
             {
@@ -96,15 +87,23 @@ module.exports = {
         "jquery": "jQuery"
     },
     optimization: {
+        minimizer: [
+            new UglifyJsPlugin({
+                cache: true,
+                parallel: true,
+                sourceMap: true // set to true if you want JS source maps
+            }),
+            new OptimizeCSSAssetsPlugin({})
+        ],
         splitChunks: {
             cacheGroups: {
-              commons: {
-                name: 'vendor',
-                chunks: 'initial',
-                minChunks: 2
-              }
+                commons: {
+                    name: 'vendor',
+                    chunks: 'initial',
+                    minChunks: 2
+                }
             }
-          }
+        }
     },
     plugins
 };
