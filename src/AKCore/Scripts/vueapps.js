@@ -4,6 +4,7 @@ import MembersList from "./VueComponents/MembersList";
 import ProfileApp from "./VueComponents/ProfileApp";
 import UpcomingApp from "./VueComponents/Upcoming/UpcomingApp";
 import AdminEventApp from "./VueComponents/AdminEvent/AdminEventApp";
+import GhostApp from "./VueComponents/Ghost";
 
 $(".videos-app").each(function () {
     const widgetId = $(this).data("id");
@@ -52,6 +53,14 @@ if ($("#admin-event-app").length > 0) {
         el: `#admin-event-app`,
         template: "<admin-event-app />",
         components: { AdminEventApp }
+    });
+}
+
+if ($("#spooky-container").length > 0) {
+    const ghostApp = new Vue({
+        el: `#spooky-container`,
+        template: "<ghost-app />",
+        components: { GhostApp }
     });
 }
 
