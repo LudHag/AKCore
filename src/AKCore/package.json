@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "clear": "rm -rf ./wwwroot/dist/hot && rm -f ./wwwroot/dist/*",
+    "clear": "rm -f ./wwwroot/dist/*",
     "build": "cross-env NODE_ENV=production webpack -p --colors",
     "dev": "cross-env NODE_ENV=dev webpack --progress --colors --watch"
   },
