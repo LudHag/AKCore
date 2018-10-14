@@ -1,31 +1,17 @@
 const webpack = require('webpack');
 const LoaderOptionsPlugin = require("webpack/lib/LoaderOptionsPlugin");
 const path = require('path');
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const BabiliPlugin = require('babili-webpack-plugin');
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const devMode = process.env.NODE_ENV !== 'production'
 
 var appName = 'main';
 var exportPath = path.resolve(__dirname, './wwwroot/dist/');
 
 var plugins = [];
-var extractSASS = new ExtractTextPlugin("[name].css",
-    {
-        allChunks: true
-    });
 
-var sassbuild = extractSASS.extract({
-    use: ['css-loader', 'postcss-loader', 'sass-loader']
-});
-
-plugins.push(extractSASS);
-
-if (process.env.NODE_ENV === 'production') {
-    plugins.push(new webpack.DefinePlugin({
-            'process.env': {
-                NODE_ENV: '"production"'
-            }
-        }
-    ));
+if (!devMode) {
     plugins.push(new BabiliPlugin());
     plugins.push(new webpack.LoaderOptionsPlugin({
         minimize: true
@@ -41,22 +27,26 @@ if (process.env.NODE_ENV === 'production') {
     }));
 }
 
-plugins.push(new webpack.optimize.CommonsChunkPlugin({
-    name: "vendor",
-    minChunks: function (module) {
-        if (module.resource && (/^.*\.(css|scss)$/).test(module.resource)) {
-            return false;
-        }
-        return module.context && module.context.includes('node_modules');
-    }
-}));
+// plugins.push(new webpack.optimize.CommonsChunkPlugin({
+//     name: "vendor",
+//     minChunks: function (module) {
+//         if (module.resource && (/^.*\.(css|scss)$/).test(module.resource)) {
+//             return false;
+//         }
+//         return module.context && module.context.includes('node_modules');
+//     }
+// }));
+
+plugins.push(new VueLoaderPlugin());
+plugins.push( new MiniCssExtractPlugin());
 
 appName = appName + '.js';
 
 module.exports = {
+    mode: process.env.NODE_ENV,
     entry: {
         main: './Scripts/main.js',
-        vendor: ["vue"],
+        //vendor: ["vue"],
         admin: './Scripts/admin.js'
     },
     output: {
@@ -67,9 +57,9 @@ module.exports = {
         hotUpdateMainFilename: 'hot/hot-update.json'
     },
     module: {
-        loaders: [
+        rules: [
             {
-                test: /\.(js|vue)$/,
+                test: /\.(js)$/,
                 exclude: /(node_modules|bower_components)/,
                 loader: 'babel-loader',
                 query: {
@@ -78,14 +68,16 @@ module.exports = {
             },
             {
                 test: /\.vue$/,
-                loader: 'vue-loader',
-                options: {
-                    extractCSS: true
-                }
+                loader: 'vue-loader'
             },
             {
-                test: /\.(scss|sass)$/,
-                use: sassbuild
+                test: /\.(sa|sc|c)ss$/,
+                use: [
+                  devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
+                  'css-loader',
+                  'postcss-loader',
+                  'sass-loader',
+                ],
             },
             {
                 test: /\.(png|jpg|gif|svg|woff|woff2|eot|ttf)$/,
