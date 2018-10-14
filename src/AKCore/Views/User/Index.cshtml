@@ -12,7 +12,10 @@
 <partial name="_ChangePasswordModal"/>
 
 @section styles {
-    <link rel="stylesheet" href="/dist/admin.css" asp-append-version="true">
+    <environment exclude="Development">
+        <link rel="stylesheet" href="/dist/admin.css" asp-append-version="true">
+        <link rel="stylesheet" href="/dist/vendor.css" asp-append-version="true">
+    </environment>
 }
 
 @section scripts {

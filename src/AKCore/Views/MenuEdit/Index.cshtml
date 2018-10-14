@@ -47,14 +47,17 @@
     <div class="alert alert-success" style="display: none;"></div>
 </div>
 <div class="row menu-display" id="menus">
-    <partial name="_MenuList" model="Model"/>
+    <partial name="_MenuList" model="Model" />
 </div>
 
-<partial name="_SubMenuModal" model="Model"/>
-<partial name="_EditMenuModal" model="Model"/>
+<partial name="_SubMenuModal" model="Model" />
+<partial name="_EditMenuModal" model="Model" />
 
 @section styles {
-    <link rel="stylesheet" href="/dist/admin.css" asp-append-version="true">
+    <environment exclude="Development">
+        <link rel="stylesheet" href="/dist/admin.css" asp-append-version="true">
+        <link rel="stylesheet" href="/dist/vendor.css" asp-append-version="true">
+    </environment>
 }
 
 @section scripts {

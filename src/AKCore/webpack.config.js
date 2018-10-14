@@ -96,7 +96,6 @@ module.exports = {
         "jquery": "jQuery"
     },
     optimization: {
-        minimizer: [new UglifyJsPlugin()],
         splitChunks: {
             cacheGroups: {
               commons: {
