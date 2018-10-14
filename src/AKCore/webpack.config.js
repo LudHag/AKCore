@@ -2,7 +2,8 @@ const webpack = require('webpack');
 const LoaderOptionsPlugin = require("webpack/lib/LoaderOptionsPlugin");
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const devMode = process.env.NODE_ENV !== 'production'
 
 var appName = 'main';
@@ -44,7 +45,6 @@ module.exports = {
     mode: process.env.NODE_ENV,
     entry: {
         main: './Scripts/main.js',
-        vendor: ["vue"],
         admin: './Scripts/admin.js'
     },
     output: {
@@ -94,6 +94,18 @@ module.exports = {
     },
     externals: {
         "jquery": "jQuery"
+    },
+    optimization: {
+        minimizer: [new UglifyJsPlugin()],
+        splitChunks: {
+            cacheGroups: {
+              commons: {
+                name: 'vendor',
+                chunks: 'initial',
+                minChunks: 2
+              }
+            }
+          }
     },
     plugins
 };
