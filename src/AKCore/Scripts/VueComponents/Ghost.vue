@@ -1,5 +1,5 @@
 ﻿<template>
-    <div id="spooky-container" class="xs-hidden" v-bind:class="{ fly }" @click="fly = !fly">
+    <div id="spooky-container" class="hidden-xs" v-bind:class="{ fly }" @click="fly = !fly">
         <div id="spooky">
             <div id="body">
                 <div id="eyes"></div>
