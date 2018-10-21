@@ -4,7 +4,6 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <PreserveCompilationContext>true</PreserveCompilationContext>
     <AssemblyName>AKCore</AssemblyName>
-    <OutputType>Exe</OutputType>
     <PackageId>AKCore</PackageId>
     <RuntimeFrameworkVersion>2.1.0</RuntimeFrameworkVersion>
     <RuntimeIdentifiers>win10-x64</RuntimeIdentifiers>
