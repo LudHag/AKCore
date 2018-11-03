@@ -39,13 +39,13 @@ namespace AKCore
             services.AddRouting();
             services.AddMemoryCache();
 
-//#if DEBUG
-//#else
-//            services.Configure<MvcOptions>(options =>
-//            {
-//                options.Filters.Add(new RequireHttpsAttribute());
-//            });
-//#endif
+#if DEBUG
+#else
+            services.Configure<MvcOptions>(options =>
+            {
+                options.Filters.Add(new RequireHttpsAttribute());
+            });
+#endif
             services.AddSession();
             services.AddIdentity<AkUser, IdentityRole>()
                 .AddEntityFrameworkStores<AKContext>()
@@ -81,14 +81,9 @@ namespace AKCore
             {
                 app.UseExceptionHandler("/Page/Error");
                 app.UseHsts();
+                app.UseHttpsRedirection();
             }
 
-//            app.UseHttpsRedirection();
-//#if DEBUG
-//#else
-//            var options = new RewriteOptions().AddRedirectToHttps();
-//            app.UseRewriter(options);
-//#endif
 
             app.UseSession();
             app.UseAuthentication();
