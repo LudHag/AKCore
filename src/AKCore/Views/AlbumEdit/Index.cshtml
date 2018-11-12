@@ -106,3 +106,13 @@
         }
     }
 </script>
+
+@section styles {
+    <environment exclude="Development">
+        <link rel="stylesheet" href="/dist/admin.css" asp-append-version="true">
+    </environment>
+}
+
+@section scripts {
+    <script src="~/dist/admin.js" asp-append-version="true"></script>
+}
