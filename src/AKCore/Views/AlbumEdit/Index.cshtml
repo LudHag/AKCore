@@ -1,6 +1,9 @@
 ﻿@using AKCore.DataModel
 @model AKCore.Models.AlbumEditModel
-<div class="album-upload">
+
+<div id="album-edit-app"></div>
+
+@*<div class="album-upload">
     <div class="row">
         <div class="col-md-12">
             <button type="button" id="add-album" class="btn btn-primary">
@@ -105,7 +108,7 @@
             @: albums['@a.Id'].tracks['@track.Number'].id = '@track.Id';
         }
     }
-</script>
+</script>*@
 
 @section styles {
     <environment exclude="Development">
