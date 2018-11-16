@@ -29,7 +29,7 @@
                     <p v-if="eventInfo.event.internalDescription">{{eventInfo.event.internalDescription}}</p>
                 </div>
             </div>
-            <edit-signup-modal v-if="showEditForm" :event-id="eventId" :members="eventInfo.members" @update="loadEvent" @close="closeModal"></edit-signup-modal>
+            <edit-signup-modal v-if="eventInfo" :show-modal="showEditForm" :event-id="eventId" :members="eventInfo.members" @update="loadEvent" @close="closeModal"></edit-signup-modal>
             <signup-list :signups="eventInfo.signups" :nintendo="eventInfo.isNintendo"></signup-list>
         </div>
     </div>        

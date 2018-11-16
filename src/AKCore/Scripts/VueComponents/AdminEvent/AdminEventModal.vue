@@ -67,7 +67,7 @@
                                 <label>Fika</label>
                                 <select class="form-control" v-model="event.fika" name="Fika">
                                     <option value="">Välj en sektion</option>
-                                    <option v-for="s in sektioner">{{s}}</option>
+                                    <option v-for="s in sektioner" :key="s">{{s}}</option>
                                 </select>
                             </div>
                         </div>
