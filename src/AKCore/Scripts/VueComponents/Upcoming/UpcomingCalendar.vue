@@ -11,11 +11,11 @@
         <table class="month table table-bordered">
             <thead>
                 <tr>
-                    <th v-for="day in days">{{day}}</th> 
+                    <th v-for="day in days" :key="day">{{day}}</th> 
                 </tr>
             </thead>
             <tbody>
-                <tr class="week" v-for="day of firstWeekDays">
+                <tr class="week" v-for="day of firstWeekDays" :key="day.toString()">
                     <calendar-day :year="year"
                                   :month="month"
                                   :monthevents="monthEvents"

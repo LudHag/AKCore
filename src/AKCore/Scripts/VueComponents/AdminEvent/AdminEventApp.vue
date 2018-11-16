@@ -51,16 +51,14 @@
                 </div>
             </div>
         </div>
-        <transition name="modal">
-            <div v-if="eventModalOpened">
-                <admin-event-modal :old="adminEventData.old"
-                                    :selected-event="modalEvent"
-                                    @update="eventUpdated"
-                                    @close="closeModal">
-                </admin-event-modal>
-                <div class="modal-backdrop fade in"></div>
-            </div>
-        </transition>
+        <admin-event-modal 
+            v-if="adminEventData"
+            :show-modal="eventModalOpened"
+            :old="adminEventData.old"
+            :selected-event="modalEvent"
+            @update="eventUpdated"
+            @close="closeModal">
+        </admin-event-modal>
     </div>
 </template>
 <script>
