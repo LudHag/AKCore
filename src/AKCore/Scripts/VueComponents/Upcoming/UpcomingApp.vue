@@ -57,7 +57,8 @@
                 icalLink: "",
                 showIcal: false,
                 showEvent: false,
-                selectedEventId: -1
+                selectedEventId: -1,
+                latestTop: 0
             }
         },
         methods: {
@@ -67,6 +68,7 @@
                 document.execCommand("copy");
             },
             signup(id) {
+                this.latestTop = window.pageYOffset;
                 this.selectedEventId = id;
                 this.showEvent = true;
                 history.pushState({ showEvent: true, selectedEventId: id },
@@ -76,6 +78,9 @@
                 this.showEvent = false;
                 history.pushState({ showEvent: false, selectedEventId: -1 },
                     "", "/upcoming");
+                this.$nextTick(() => {
+                    window.scrollTo(0, this.latestTop);
+                });
             },
             loadEvents() {
                 const self = this;
