@@ -8,6 +8,11 @@
         flex-wrap: wrap;
         margin-top: 15px;
         justify-content: center;
+
+        .album-img {
+            height: 100px;
+            max-width: 100px;
+        }
     }
 
     .album-element {
