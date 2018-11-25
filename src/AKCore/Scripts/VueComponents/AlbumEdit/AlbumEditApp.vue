@@ -24,22 +24,32 @@
                 </div>
             </div>
         </div>
-        <album-edit-item v-for="album in albums" :album="album" :key="album.id" @name="changeName" @delete="deleteAlbum">
+        <album-edit-item v-for="album in albums" 
+            :album="album" 
+            :key="album.id" 
+            @name="changeName" 
+            @delete="deleteAlbum"
+            @image="pickImage">
         </album-edit-item>
+        <image-picker-modal :show-modal="showImagePicker" @close="closeImagePicker"></image-picker-modal>
     </div>
 </template>
 <script>
 import ApiService from "../../services/apiservice";
 import AlbumEditItem from "./AlbumEditItem";
+import ImagePickerModal from "../ImagePickerModal";
 
 export default {
   components: {
-    AlbumEditItem
+    AlbumEditItem,
+    ImagePickerModal
   },
   data() {
     return {
       albums: null,
-      createOpened: false
+      createOpened: false,
+      showImagePicker: false,
+      selectedAlbum: -1
     };
   },
   methods: {
@@ -93,6 +103,14 @@ export default {
       ApiService.get("/AlbumEdit/AlbumData", null, res => {
         this.albums = res;
       });
+    },
+    pickImage(id) {
+      this.showImagePicker = true;
+      this.selectedAlbum = id;
+    },
+    closeImagePicker() {
+      this.showImagePicker = false;
+      this.selectedAlbum = -1;
     }
   },
   created() {

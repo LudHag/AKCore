@@ -16,7 +16,6 @@ namespace AKCore.Controllers
     public class MediaController : Controller
     {
         private static readonly string[] ImageExtensions = { "jpg", "bmp", "gif", "png","svg" };
-        //private static readonly string[] VideoExtensions = { "mp4", "avi"};
         private static readonly string[] DocumentExtensions = { "pdf", "docx", "doc" };
         private readonly AKContext _db;
         private readonly IHostingEnvironment _hostingEnv;
@@ -80,6 +79,16 @@ namespace AKCore.Controllers
                 CurrentPage = search.Page < 1 ? 1 : search.Page
             };
             return PartialView("_MediaPickerList", model);
+        }
+
+        [Route("ImageListData")]
+        public ActionResult MediaPickerListData()
+        {
+            var images = _db.Medias
+                .Where(x => x.Type == "Image")
+                .OrderByDescending(x => x.Created);
+
+            return Json(images);
         }
 
         private IDictionary<string, int> GetFacets()

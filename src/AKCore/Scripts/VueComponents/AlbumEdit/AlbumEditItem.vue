@@ -1,7 +1,7 @@
 ﻿<template>
     <div class="row">
         <div class="col-sm-2 image">
-            <img class="album-img" :src="album.image"/>
+            <img class="album-img" :src="album.image" @click="pickImage"/>
         </div>
         <div class="col-sm-4 name">
             <input ref="inputelement" v-if="editName" type="text" class="name-input" v-model="name" @keyup.enter="onInputBlur" @blur="onInputBlur">
@@ -46,11 +46,15 @@ export default {
       if (
         window.confirm(
           "är du säker på att du vill ta bort album med namn " +
-            this.album.name + " ?"
+            this.album.name +
+            " ?"
         )
       ) {
         this.$emit("delete", this.album.id);
       }
+    },
+    pickImage() {
+      this.$emit("image", this.album.id);
     }
   },
   computed: {
