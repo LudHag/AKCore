@@ -1,6 +1,6 @@
 ﻿<template>
     <div id="album-edit-app">
-        <album-edit-item v-for="album in albums" :album="album" :key="album.id">
+        <album-edit-item v-for="album in albums" :album="album" :key="album.id" @name="changeName">
         </album-edit-item>
     </div>
 </template>
@@ -17,6 +17,13 @@ export default {
       albums: null
     };
   },
+  methods: {
+    changeName(name, id) {
+      ApiService.postByObject(
+        "/AlbumEdit/ChangeName",
+        { id: id, name: name });
+    }
+  },
   created() {
     ApiService.get("/AlbumEdit/AlbumData", null, res => {
       this.albums = res;
@@ -25,5 +32,4 @@ export default {
 };
 </script>
 <style lang="scss">
-
 </style>

@@ -144,7 +144,7 @@ namespace AKCore.Controllers
         [Route("ChangeName")]
         public async Task<ActionResult> ChangeName(string id, string name)
         {
-            if (!int.TryParse(id, out int aId) || string.IsNullOrWhiteSpace(name))
+            if (!int.TryParse(id, out var aId) || string.IsNullOrWhiteSpace(name))
                 return Json(new { success = false, message = "Misslyckades med att ändra albumnamn" });
             var album = _db.Albums.FirstOrDefault(x => x.Id == aId);
             if (album == null)
