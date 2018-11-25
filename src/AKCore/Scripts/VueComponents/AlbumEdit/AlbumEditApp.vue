@@ -1,6 +1,28 @@
 ﻿<template>
     <div id="album-edit-app">
-        <div class="alert alert-danger" style="display: none;">
+        <div class="album-upload">
+            <div class="row">
+                <div class="col-md-12">
+                    <button type="button" id="add-album" class="btn btn-primary" @click.prevent="openCreate">
+                        Skapa album
+                    </button>
+                </div>
+            </div>
+             <div class="alert alert-danger" style="display: none;">
+            </div>
+             <div class="alert alert-success" style="display: none;">
+            </div>
+            <div class="row edit-form" id="add-album-container" v-if="createOpened">
+                <div class="col-md-6">
+                    <form action="/AlbumEdit/AddAlbum" method="post" @submit.prevent="createAlbum">
+                        <div class="form-group">
+                            <label for="name">Albumnamn: </label>
+                            <input ref="addalbuminput" type="text" class="form-control" id="name" name="name" required placeholder="Albumnamn">
+                        </div>
+                        <button type="submit" class="btn btn-default">Skapa</button>
+                    </form>
+                </div>
+            </div>
         </div>
         <album-edit-item v-for="album in albums" :album="album" :key="album.id" @name="changeName" @delete="deleteAlbum">
         </album-edit-item>
@@ -16,7 +38,8 @@ export default {
   },
   data() {
     return {
-      albums: null
+      albums: null,
+      createOpened: false
     };
   },
   methods: {
@@ -40,19 +63,45 @@ export default {
     },
     deleteAlbum(id) {
       const error = $(".alert-danger");
-      ApiService.postByUrl("/AlbumEdit/DeleteAlbum/" + id, error, null, item => {
-        this.albums = this.albums.filter((album) => {
-          return album.id !== id;
-        });
+      ApiService.postByUrl(
+        "/AlbumEdit/DeleteAlbum/" + id,
+        error,
+        null,
+        item => {
+          this.albums = this.albums.filter(album => {
+            return album.id !== id;
+          });
+        }
+      );
+    },
+    openCreate() {
+      this.createOpened = !this.createOpened;
+      if (this.createOpened) {
+        this.$nextTick(() => this.$refs.addalbuminput.focus());
+      }
+    },
+    createAlbum() {
+      const error = $(".alert-danger");
+      const success = $(".alert-success");
+      const form = $(event.target);
+      ApiService.defaultFormSend(form, error, success, () => {
+        this.loadAlbumData();
+        this.createOpened = false;
+      });
+    },
+    loadAlbumData() {
+      ApiService.get("/AlbumEdit/AlbumData", null, res => {
+        this.albums = res;
       });
     }
   },
   created() {
-    ApiService.get("/AlbumEdit/AlbumData", null, res => {
-      this.albums = res;
-    });
+    this.loadAlbumData();
   }
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
+.edit-form {
+  padding-top: 0;
+}
 </style>

@@ -43,7 +43,14 @@ export default {
       }
     },
     deleteAlbum() {
-      this.$emit("delete", this.album.id);
+      if (
+        window.confirm(
+          "är du säker på att du vill ta bort album med namn " +
+            this.album.name + " ?"
+        )
+      ) {
+        this.$emit("delete", this.album.id);
+      }
     }
   },
   computed: {

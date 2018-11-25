@@ -33,18 +33,13 @@ namespace AKCore.Controllers
         public ActionResult Index()
         {
             ViewBag.Title = "Album";
-
-            var model = new AlbumEditModel
-            {
-                Albums = _db.Albums.Include(x => x.Tracks).OrderBy(x=>x.Name).ToList()
-            };
-            return View(model);
+            return View();
         }
 
         [Route("AlbumData")]
         public ActionResult AlbumData()
         {
-            var albums = _db.Albums.Include(x => x.Tracks).OrderBy(x => x.Name);
+            var albums = _db.Albums.Include(x => x.Tracks).OrderByDescending(x => x.Created);
             return Json(albums);
         }
 
@@ -79,7 +74,7 @@ namespace AKCore.Controllers
             var filepath = _hostingEnv.WebRootPath + $@"\albums\" + album.Id + @"\";
             Directory.CreateDirectory(filepath);
 
-            return Json(new {success = true, id = album.Id});
+            return Json(new {success = true, id = album.Id, message="Album skapat"});
         }
 
         [HttpPost]
