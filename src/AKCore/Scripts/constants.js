@@ -64,6 +64,15 @@ const SPELTYPER = ["Stå", "Gå", "Stå och gå"];
 
 const SEKTIONER = ["Balett", "Flöjt", "Klarinett", "Komp", "Sax", "Trombon", "Trumpet"];
 
+const IMAGETYPES = [
+    "Albumomslag",
+    "Allmän",
+    "Balett",
+    "Dokument",
+    "Ikoner",
+    "Startsidebilder"];
+
+
 export default {
     POSTS,
     ROLES,
@@ -74,5 +83,6 @@ export default {
     INSTRUMENTS,
     EVENTTYPES,
     SPELTYPER,
-    SEKTIONER
+    SEKTIONER,
+    IMAGETYPES
 }

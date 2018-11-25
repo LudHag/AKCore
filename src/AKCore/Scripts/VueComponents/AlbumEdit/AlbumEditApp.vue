@@ -31,7 +31,7 @@
             @delete="deleteAlbum"
             @image="pickImage">
         </album-edit-item>
-        <image-picker-modal :show-modal="showImagePicker" @close="closeImagePicker"></image-picker-modal>
+        <image-picker-modal :show-modal="showImagePicker" @close="closeImagePicker" @image="imageSelected"></image-picker-modal>
     </div>
 </template>
 <script>
@@ -77,7 +77,7 @@ export default {
         "/AlbumEdit/DeleteAlbum/" + id,
         error,
         null,
-        item => {
+        () => {
           this.albums = this.albums.filter(album => {
             return album.id !== id;
           });
@@ -111,6 +111,17 @@ export default {
     closeImagePicker() {
       this.showImagePicker = false;
       this.selectedAlbum = -1;
+    },
+    imageSelected(image) {
+      const error = $(".alert-danger");
+      ApiService.postByObject("/AlbumEdit/UpdateImage", 
+        {id: this.selectedAlbum, src: '/media/' + image.name}, 
+        error,
+        null, () => {
+          this.loadAlbumData();
+        }
+      );
+      this.closeImagePicker();
     }
   },
   created() {
