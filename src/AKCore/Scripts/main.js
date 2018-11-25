@@ -5,4 +5,4 @@ import "./musicplayer.js";
 import "./Admin/menuedit.js";
 import "./Admin/media.js";
 import "./Admin/recruits.js";
-import "./Admin/album.js";
+//import "./Admin/album.js";

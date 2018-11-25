@@ -41,6 +41,13 @@ namespace AKCore.Controllers
             return View(model);
         }
 
+        [Route("AlbumData")]
+        public ActionResult AlbumData()
+        {
+            var albums = _db.Albums.Include(x => x.Tracks).OrderBy(x => x.Name);
+            return Json(albums);
+        }
+
         [Route("AddAlbum")]
         [HttpPost]
         public async Task<ActionResult> AddAlbum(string name)
