@@ -8,7 +8,7 @@
             <span class="album-name" v-if="!editName" @click="showInput">{{name}}</span>
         </div>
         <div class="col-sm-2 actions">
-            <a href="#" class="del-album btn glyphicon glyphicon-remove"></a>
+            <a href="#" class="del-album btn glyphicon glyphicon-remove" @click.prevent="deleteAlbum"></a>
         </div>
         <div class="col-sm-4 tracks">
             <span class="tracks-info">
@@ -31,16 +31,19 @@ export default {
   },
   methods: {
     showInput() {
-        this.editName = true;
-        this.$nextTick(() => this.$refs.inputelement.focus());
+      this.editName = true;
+      this.$nextTick(() => this.$refs.inputelement.focus());
     },
     onInputBlur() {
-        if(this.editName){
-            this.editName = false;
-            if(this.album.name !== this.name) {
-                this.$emit("name", this.name, this.album.id);
-            }
+      if (this.editName) {
+        this.editName = false;
+        if (this.album.name !== this.name) {
+          this.$emit("name", this.name, this.album.id);
         }
+      }
+    },
+    deleteAlbum() {
+      this.$emit("delete", this.album.id);
     }
   },
   computed: {
@@ -49,7 +52,7 @@ export default {
     }
   },
   created() {
-      this.name = this.album.name;
+    this.name = this.album.name;
   }
 };
 </script>
@@ -104,8 +107,8 @@ export default {
   height: 100px;
   width: 100px;
 }
-.album-img{
-    height: 100px;
-    max-width: 100px;
+.album-img {
+  height: 100px;
+  max-width: 100px;
 }
 </style>
