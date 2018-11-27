@@ -29,27 +29,32 @@
             :key="album.id" 
             @name="changeName" 
             @delete="deleteAlbum"
-            @image="pickImage">
+            @image="pickImage"
+            @tracks="uploadTracks">
         </album-edit-item>
         <image-picker-modal :show-modal="showImagePicker" @close="closeImagePicker" @image="imageSelected"></image-picker-modal>
+        <album-upload-modal :album="tracksAlbum" @close="closeUploadModal"></album-upload-modal>
     </div>
 </template>
 <script>
 import ApiService from "../../services/apiservice";
 import AlbumEditItem from "./AlbumEditItem";
 import ImagePickerModal from "../ImagePickerModal";
+import AlbumUploadModal from "./AlbumUploadModal";
 
 export default {
   components: {
     AlbumEditItem,
-    ImagePickerModal
+    ImagePickerModal,
+    AlbumUploadModal
   },
   data() {
     return {
       albums: null,
       createOpened: false,
       showImagePicker: false,
-      selectedAlbum: -1
+      selectedAlbum: -1,
+      tracksAlbum: null
     };
   },
   methods: {
@@ -122,6 +127,12 @@ export default {
         }
       );
       this.closeImagePicker();
+    },
+    uploadTracks(album) {
+      this.tracksAlbum = album;
+    },
+    closeUploadModal() {
+      this.tracksAlbum = null;
     }
   },
   created() {

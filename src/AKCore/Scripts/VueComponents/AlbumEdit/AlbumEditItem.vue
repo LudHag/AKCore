@@ -10,7 +10,7 @@
         <div class="col-sm-2 actions">
             <a href="#" class="del-album btn glyphicon glyphicon-remove" @click.prevent="deleteAlbum"></a>
         </div>
-        <div class="col-sm-4 tracks">
+        <div class="col-sm-4 tracks" @click="uploadTracks">
             <span class="tracks-info">
                 {{tracks}} spår uppladdade.<br>
                 Klicka här för att hantera.
@@ -41,6 +41,9 @@ export default {
           this.$emit("name", this.name, this.album.id);
         }
       }
+    },
+    uploadTracks() {
+      this.$emit("tracks", this.album);
     },
     deleteAlbum() {
       if (
