@@ -64,4 +64,7 @@ export default {
 .input-file {
   display: none;
 }
+.btn {
+  margin-top: 20px;
+}
 </style>

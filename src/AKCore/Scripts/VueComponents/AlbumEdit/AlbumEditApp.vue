@@ -33,7 +33,7 @@
             @tracks="uploadTracks">
         </album-edit-item>
         <image-picker-modal :show-modal="showImagePicker" @close="closeImagePicker" @image="imageSelected"></image-picker-modal>
-        <album-upload-modal :album="tracksAlbum" @close="closeUploadModal" @uploaded="loadAlbumData"></album-upload-modal>
+        <album-upload-modal :album="tracksAlbum" @close="closeUploadModal" @update="loadAlbumData"></album-upload-modal>
     </div>
 </template>
 <script>
@@ -54,8 +54,18 @@ export default {
       createOpened: false,
       showImagePicker: false,
       selectedAlbum: -1,
-      tracksAlbum: null
+      tracksAlbumId: -1
     };
+  },
+  computed: {
+    tracksAlbum() {
+      if(!this.albums || this.tracksAlbumId == -1) {
+        return null;
+      }
+      return this.albums.find((album) => {
+        return album.id === this.tracksAlbumId;
+      });
+    }
   },
   methods: {
     changeName(name, id) {
@@ -129,10 +139,10 @@ export default {
       this.closeImagePicker();
     },
     uploadTracks(album) {
-      this.tracksAlbum = album;
+      this.tracksAlbumId = album.id;
     },
     closeUploadModal() {
-      this.tracksAlbum = null;
+      this.tracksAlbumId = -1;
     }
   },
   created() {

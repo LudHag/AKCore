@@ -3,9 +3,13 @@
     <div slot="body" class="modal-body" v-if="album">
       <file-uploader :button-text="'Ladda upp spår'" @upload="uploadFiles">
         <div slot="content" class="tracks">
-            <div class="alert alert-danger" ref="error" style="display: none;">
-          </div>
-          <album-upload-track-item :track="track" v-for="track in orderedTracks" :key="track.id"></album-upload-track-item>
+          <div class="alert alert-danger" ref="error" style="display: none;"></div>
+          <album-upload-track-item
+            :track="track"
+            v-for="track in orderedTracks"
+            :key="track.id"
+            @remove="removeTrack"
+          ></album-upload-track-item>
         </div>
       </file-uploader>
     </div>
@@ -56,7 +60,19 @@ export default {
         error,
         null,
         () => {
-          this.$emit("uploaded");
+          this.$emit("update");
+        }
+      );
+    },
+    removeTrack(id) {
+      const error = $(this.$refs.error);
+      ApiService.postByObject(
+        "/AlbumEdit/DeleteTrack",
+        { id, album: this.album.id },
+        error,
+        null,
+        () => {
+          this.$emit("update");
         }
       );
     }
@@ -65,7 +81,8 @@ export default {
 </script>
 <style lang="scss" scoped>
 .tracks {
-  width: 100%;
+  width: 80%;
   text-align: left;
+  margin: auto;
 }
 </style>
