@@ -1,7 +1,7 @@
 ﻿<template>
     <div class="row">
-        <div class="col-sm-2 image">
-            <img class="album-img" :src="album.image" @click="pickImage"/>
+        <div class="col-sm-2 image" @click="pickImage">
+            <img class="album-img" :src="album.image"/>
         </div>
         <div class="col-sm-4 name">
             <input ref="inputelement" v-if="editName" type="text" class="name-input" v-model="name" @keyup.enter="onInputBlur" @blur="onInputBlur">

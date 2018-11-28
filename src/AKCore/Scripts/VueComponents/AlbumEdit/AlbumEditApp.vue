@@ -33,7 +33,7 @@
             @tracks="uploadTracks">
         </album-edit-item>
         <image-picker-modal :show-modal="showImagePicker" @close="closeImagePicker" @image="imageSelected"></image-picker-modal>
-        <album-upload-modal :album="tracksAlbum" @close="closeUploadModal"></album-upload-modal>
+        <album-upload-modal :album="tracksAlbum" @close="closeUploadModal" @uploaded="loadAlbumData"></album-upload-modal>
     </div>
 </template>
 <script>

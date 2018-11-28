@@ -1,18 +1,21 @@
 ﻿<template>
-    <modal :show-modal="album" :header="header" @close="close">
-        <div slot="body" class="modal-body" v-if="album">
-          <file-uploader :button-text="'Ladda upp spår'">
-            <div slot="content" class="tracks">
-              <album-upload-track-item :track="track" v-for="track in orderedTracks" :key="track.id"></album-upload-track-item>
-            </div>
-          </file-uploader>
+  <modal :show-modal="album" :header="header" @close="close">
+    <div slot="body" class="modal-body" v-if="album">
+      <file-uploader :button-text="'Ladda upp spår'" @upload="uploadFiles">
+        <div slot="content" class="tracks">
+            <div class="alert alert-danger" ref="error" style="display: none;">
+          </div>
+          <album-upload-track-item :track="track" v-for="track in orderedTracks" :key="track.id"></album-upload-track-item>
         </div>
-    </modal>
+      </file-uploader>
+    </div>
+  </modal>
 </template>
 <script>
 import Modal from "../Modal";
 import FileUploader from "../FileUploader";
 import AlbumUploadTrackItem from "./AlbumUploadTrackItem";
+import ApiService from "../../services/apiservice";
 
 export default {
   components: {
@@ -26,14 +29,12 @@ export default {
       return this.album ? this.album.name : "";
     },
     orderedTracks() {
-      if(!this.album || !this.album.tracks) {
+      if (!this.album || !this.album.tracks) {
         return [];
       }
       return this.album.tracks.slice().sort((a, b) => {
-         if (a.number < b.number)
-          return -1;
-        if (a.number > b.number)
-          return 1;
+        if (a.number < b.number) return -1;
+        if (a.number > b.number) return 1;
         return 0;
       });
     }
@@ -41,13 +42,30 @@ export default {
   methods: {
     close() {
       this.$emit("close");
+    },
+    uploadFiles(files) {
+      const mediaData = new FormData();
+      for (var i = 0; i < files.length; i++) {
+        mediaData.append("TrackFiles", files[i]);
+      }
+      mediaData.append("AlbumId", this.album.id);
+      const error = $(this.$refs.error);
+      ApiService.postFormData(
+        "/AlbumEdit/UploadTracks/",
+        mediaData,
+        error,
+        null,
+        () => {
+          this.$emit("uploaded");
+        }
+      );
     }
   }
 };
 </script>
 <style lang="scss" scoped>
-  .tracks{
-    width: 100%;
-    text-align: left;
-  }
+.tracks {
+  width: 100%;
+  text-align: left;
+}
 </style>
