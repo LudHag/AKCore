@@ -63,46 +63,6 @@
         border-top-color: $akwhite;
     }
 }
-.menu-item{
-    margin-bottom: 5px;
-}
-.menu-row {
-    display: inline-block;
-    width: 100%;
-
-    &.sub-row {
-        margin-top: 5px;
-        padding-left: 50px;
-    }
-
-    .btn {
-        padding: 3px 23px;
-    }
-
-    &:hover {
-        background-color: #1a0000;
-    }
-}
-#menualerts{
-    margin-top: 20px;
-}
-
-.submenu {
-    background-color: #999999;
-    color: white;
-
-    &:focus {
-        background-color: $akred;
-        border-color: #6E1601;
-        color: white;
-    }
-
-    &:hover {
-        color: #333;
-        background-color: $akwhite;
-        border-color: #ccc;
-    }
-}
 
 .save-medal {
     margin-bottom: 10px;
@@ -417,9 +377,4 @@ table{
     color:black;
     position: absolute;
     right: 10px;
-}
-@media screen and (max-width: $screen-xs-max) {
-    .menu-row.sub-row {
-        padding-left: 0;
-    }
 }
