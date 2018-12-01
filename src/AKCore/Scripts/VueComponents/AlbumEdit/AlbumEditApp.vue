@@ -1,40 +1,59 @@
 ﻿<template>
-    <div id="album-edit-app">
-        <div class="album-upload">
-            <div class="row">
-                <div class="col-md-12">
-                    <button type="button" id="add-album" class="btn btn-primary" @click.prevent="openCreate">
-                        Skapa album
-                    </button>
-                </div>
+  <div id="album-edit-app">
+    <div class="album-upload">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-inline">
+            <button
+              type="button"
+              id="add-album"
+              class="btn btn-primary"
+              @click.prevent="openCreate"
+            >Skapa album</button>
+            <div class="form-group search-input">
+              <input type="text" class="form-control" placeholder="Sök här" v-model="search">
             </div>
-             <div class="alert alert-danger" style="display: none;">
-            </div>
-             <div class="alert alert-success" style="display: none;">
-            </div>
-            <div class="row edit-form" id="add-album-container" v-if="createOpened">
-                <div class="col-md-6">
-                    <form action="/AlbumEdit/AddAlbum" method="post" @submit.prevent="createAlbum">
-                        <div class="form-group">
-                            <label for="name">Albumnamn: </label>
-                            <input ref="addalbuminput" type="text" class="form-control" id="name" name="name" required placeholder="Albumnamn">
-                        </div>
-                        <button type="submit" class="btn btn-default">Skapa</button>
-                    </form>
-                </div>
-            </div>
+          </div>
         </div>
-        <album-edit-item v-for="album in albums" 
-            :album="album" 
-            :key="album.id" 
-            @name="changeName" 
-            @delete="deleteAlbum"
-            @image="pickImage"
-            @tracks="uploadTracks">
-        </album-edit-item>
-        <image-picker-modal :show-modal="showImagePicker" @close="closeImagePicker" @image="imageSelected"></image-picker-modal>
-        <album-upload-modal :album="tracksAlbum" @close="closeUploadModal" @update="loadAlbumData"></album-upload-modal>
+      </div>
+      <div class="alert alert-danger" style="display: none;"></div>
+      <div class="alert alert-success" style="display: none;"></div>
+      <div class="row edit-form" id="add-album-container" v-if="createOpened">
+        <div class="col-md-6">
+          <form action="/AlbumEdit/AddAlbum" method="post" @submit.prevent="createAlbum">
+            <div class="form-group">
+              <label for="name">Albumnamn:</label>
+              <input
+                ref="addalbuminput"
+                type="text"
+                class="form-control"
+                id="name"
+                name="name"
+                required
+                placeholder="Albumnamn"
+              >
+            </div>
+            <button type="submit" class="btn btn-default">Skapa</button>
+          </form>
+        </div>
+      </div>
     </div>
+    <album-edit-item
+      v-for="album in filteredAlbums"
+      :album="album"
+      :key="album.id"
+      @name="changeName"
+      @delete="deleteAlbum"
+      @image="pickImage"
+      @tracks="uploadTracks"
+    ></album-edit-item>
+    <image-picker-modal
+      :show-modal="showImagePicker"
+      @close="closeImagePicker"
+      @image="imageSelected"
+    ></image-picker-modal>
+    <album-upload-modal :album="tracksAlbum" @close="closeUploadModal" @update="loadAlbumData"></album-upload-modal>
+  </div>
 </template>
 <script>
 import ApiService from "../../services/apiservice";
@@ -54,17 +73,26 @@ export default {
       createOpened: false,
       showImagePicker: false,
       selectedAlbum: -1,
-      tracksAlbumId: -1
+      tracksAlbumId: -1,
+      search: ""
     };
   },
   computed: {
     tracksAlbum() {
-      if(!this.albums || this.tracksAlbumId == -1) {
+      if (!this.albums || this.tracksAlbumId == -1) {
         return null;
       }
-      return this.albums.find((album) => {
+      return this.albums.find(album => {
         return album.id === this.tracksAlbumId;
       });
+    },
+    filteredAlbums() {
+      if(!this.search || !this.albums) {
+        return this.albums;
+      }
+      return this.albums.filter((album) => {
+        return album.name.toLowerCase().indexOf(this.search.toLowerCase()) > -1;
+      })
     }
   },
   methods: {
@@ -88,16 +116,11 @@ export default {
     },
     deleteAlbum(id) {
       const error = $(".alert-danger");
-      ApiService.postByUrl(
-        "/AlbumEdit/DeleteAlbum/" + id,
-        error,
-        null,
-        () => {
-          this.albums = this.albums.filter(album => {
-            return album.id !== id;
-          });
-        }
-      );
+      ApiService.postByUrl("/AlbumEdit/DeleteAlbum/" + id, error, null, () => {
+        this.albums = this.albums.filter(album => {
+          return album.id !== id;
+        });
+      });
     },
     openCreate() {
       this.createOpened = !this.createOpened;
@@ -129,10 +152,12 @@ export default {
     },
     imageSelected(image) {
       const error = $(".alert-danger");
-      ApiService.postByObject("/AlbumEdit/UpdateImage", 
-        {id: this.selectedAlbum, src: '/media/' + image.name}, 
+      ApiService.postByObject(
+        "/AlbumEdit/UpdateImage",
+        { id: this.selectedAlbum, src: "/media/" + image.name },
         error,
-        null, () => {
+        null,
+        () => {
           this.loadAlbumData();
         }
       );
@@ -153,5 +178,8 @@ export default {
 <style lang="scss" scoped>
 .edit-form {
   padding-top: 0;
+}
+.search-input {
+  margin-left: 30px;
 }
 </style>
