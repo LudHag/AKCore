@@ -8,6 +8,7 @@
             :track="track"
             v-for="track in orderedTracks"
             :key="track.id"
+            @update="update"
             @remove="removeTrack"
           ></album-upload-track-item>
         </div>
@@ -75,6 +76,9 @@ export default {
           this.$emit("update");
         }
       );
+    },
+    update() {
+      this.$emit("update");
     }
   }
 };

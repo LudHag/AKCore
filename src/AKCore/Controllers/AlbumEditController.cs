@@ -233,7 +233,7 @@ namespace AKCore.Controllers
         [Route("ChangeTrackName")]
         public async Task<ActionResult> ChangeTrackNameAsync(string id, string name)
         {
-            if (!int.TryParse(id, out int tId))
+            if (!int.TryParse(id, out var tId))
                 return Json(new { success = false, message = "Misslyckades med att ändra namn på spår" });
             if (string.IsNullOrWhiteSpace(name))
             {

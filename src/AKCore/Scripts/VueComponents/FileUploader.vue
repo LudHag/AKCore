@@ -2,6 +2,7 @@
   <form
     class="file-upload-area"
     :class="{ 'drag-hover': formDragHover }"
+    v-on:submit.prevent
     v-on:drag.stop.prevent
     v-on:dragstart.stop.prevent
     v-on:dragover.stop.prevent="enterDrag"
