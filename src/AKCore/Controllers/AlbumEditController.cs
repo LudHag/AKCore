@@ -33,12 +33,14 @@ namespace AKCore.Controllers
         public ActionResult Index()
         {
             ViewBag.Title = "Album";
+            return View();
+        }
 
-            var model = new AlbumEditModel
-            {
-                Albums = _db.Albums.Include(x => x.Tracks).OrderBy(x=>x.Name).ToList()
-            };
-            return View(model);
+        [Route("AlbumData")]
+        public ActionResult AlbumData()
+        {
+            var albums = _db.Albums.Include(x => x.Tracks).OrderByDescending(x => x.Created);
+            return Json(albums);
         }
 
         [Route("AddAlbum")]
@@ -72,7 +74,7 @@ namespace AKCore.Controllers
             var filepath = _hostingEnv.WebRootPath + $@"\albums\" + album.Id + @"\";
             Directory.CreateDirectory(filepath);
 
-            return Json(new {success = true, id = album.Id});
+            return Json(new {success = true, id = album.Id, message="Album skapat"});
         }
 
         [HttpPost]
@@ -137,7 +139,7 @@ namespace AKCore.Controllers
         [Route("ChangeName")]
         public async Task<ActionResult> ChangeName(string id, string name)
         {
-            if (!int.TryParse(id, out int aId) || string.IsNullOrWhiteSpace(name))
+            if (!int.TryParse(id, out var aId) || string.IsNullOrWhiteSpace(name))
                 return Json(new { success = false, message = "Misslyckades med att ändra albumnamn" });
             var album = _db.Albums.FirstOrDefault(x => x.Id == aId);
             if (album == null)
@@ -231,7 +233,7 @@ namespace AKCore.Controllers
         [Route("ChangeTrackName")]
         public async Task<ActionResult> ChangeTrackNameAsync(string id, string name)
         {
-            if (!int.TryParse(id, out int tId))
+            if (!int.TryParse(id, out var tId))
                 return Json(new { success = false, message = "Misslyckades med att ändra namn på spår" });
             if (string.IsNullOrWhiteSpace(name))
             {

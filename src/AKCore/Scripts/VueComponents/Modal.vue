@@ -6,7 +6,7 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" @click.prevent="close">&times;</button>
-                            <h4 class="modal-title">Redigera händelse</h4>
+                            <h4 class="modal-title">{{header}}</h4>
                         </div>
                         <slot name="body"></slot>
                     </div>
