@@ -21,7 +21,7 @@ https://docs.asp.net/en/latest/security/authentication/identity.html
 # Bootstrap
 Som frontendframework används Bootstrap 3. Läs mer om dess standardanvändning [här](http://getbootstrap.com/css/) och dess komponenter [här](http://getbootstrap.com/components/).
 
-# Webpack CSS och JS:
+# Webpack, CSS och JS:
 
 JS och scssfiler byggs med webpack. Vill du lägga till en javascriptfil lägg till i main.js under scripts. Vill du lägga till en scssfil lägg till i /Styles/akstyle.scss. I developmentmiljö så byggs statiska filer om automatiskt.
 
