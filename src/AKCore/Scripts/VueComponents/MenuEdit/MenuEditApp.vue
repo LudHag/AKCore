@@ -16,7 +16,7 @@
           <div class="alert alert-success" style="display: none;">Meny sparad</div>
           <div class="form-group">
             <label for="name">Menytext:</label>
-            <input type="text" class="form-control" id="name" name="name" placeholder="Menytext">
+            <input type="text" class="form-control" name="name" placeholder="Menytext">
           </div>
           <div class="form-group">
             <label for="slug">Menylänk:</label>
@@ -39,11 +39,7 @@
         </form>
       </div>
     </div>
-    <menu-list :menus="menus"></menu-list>
-    <div class="row menualerts">
-      <div class="alert alert-danger" ref="error" style="display: none;"></div>
-      <div class="alert alert-success" ref="success" style="display: none;"></div>
-    </div>
+    <menu-list :menus="menus" @update="loadMenus"></menu-list>
   </div>
 </template>
 <script>
@@ -72,7 +68,12 @@ export default {
       this.showAddMenu = !this.showAddMenu;
     },
     createMenu(event) {
-      console.log(event);
+      const form = $(event.target);
+      ApiService.defaultFormSend(form, null, null, () => {
+        this.loadMenus();
+        this.showAddMenu = false;
+        form.trigger("reset");
+      });
     }
   },
   created() {
