@@ -18,25 +18,19 @@
           >
         </div>
         <div class="form-group">
-          <select
-            name="pageId"
-            class="form-control"
-            :value="linkId"
-            placeholder="Sida"
-            required
-          >
+          <select name="pageId" class="form-control" :value="linkId" placeholder="Sida" required>
             <option value>Välj en sida</option>
             <option :value="page.id" v-for="page in pages" :key="page.id">{{page.name}}</option>
           </select>
         </div>
         <div class="checkbox">
           <label>
-            <input name="loggedIn" class="logged" type="checkbox"> Kräv inloggning
+            <input name="loggedIn" class="logged" v-model="menuLoggedIn" type="checkbox"> Kräv inloggning
           </label>
         </div>
         <div class="checkbox">
           <label>
-            <input name="balett" class="balett" type="checkbox"> Visa enbart för balett
+            <input name="balett" class="balett" type="checkbox" v-model="menuBalett"> Visa enbart för balett
           </label>
         </div>
       </form>
@@ -56,16 +50,22 @@ export default {
   components: {
     Modal
   },
+  data() {
+    return {
+      menuLoggedIn: false,
+      menuBalett: false
+    };
+  },
   computed: {
     menuName() {
-      if(this.menu) {
+      if (this.menu) {
         return this.menu.name;
       } else {
         return "";
       }
     },
     linkId() {
-      if(this.menu) {
+      if (this.menu && this.menu.linkId > 0) {
         return this.menu.linkId;
       } else {
         return "";
@@ -78,7 +78,21 @@ export default {
     },
     submitForm() {
       console.log("submit");
+    },
+    updateValues() {
+      if (this.menu) {
+        this.menuLoggedIn = this.menu.menuLoggedIn;
+        this.menuBalett = this.menu.menuBalett;
+      }
     }
+  },
+  watch: {
+    menu() {
+      this.updateValues();
+    }
+  },
+  created() {
+    this.updateValues();
   }
 };
 </script>
