@@ -7,7 +7,7 @@
     <div class="row menu-display">
       <div class="col-sm-12 menu-item" v-for="menu in menus" :key="menu.id">
         <div class="menu-row">
-          <a class="btn btn-default menu">{{menu.name}}</a>
+          <a class="btn btn-default menu" @click.prevent="editMenu(menu)">{{menu.name}}</a>
           <a class="btn add-sub-menu glyphicon glyphicon-plus" @click.prevent="addSubmenu(menu)"></a>
           <a class="btn remove-menu glyphicon glyphicon-remove" @click.prevent="deleteMenu(menu)"></a>
           <a class="btn move-right glyphicon glyphicon-chevron-down" @click.prevent="menuDown(menu)"></a>
@@ -36,6 +36,9 @@ export default {
   methods: {
     addSubmenu(menu) {
       console.log("skapa submeny");
+    },
+    editMenu(menu) {
+      this.$emit("edit", menu);
     },
     menuUp(menu) {
       ApiService.postByObject(

@@ -39,25 +39,34 @@
         </form>
       </div>
     </div>
-    <menu-list :menus="menus" @update="loadMenus"></menu-list>
+    <menu-list :menus="menus" @update="loadMenus" @edit="editMenu"></menu-list>
+    <menu-edit-modal :show-modal="showEditModal" :pages="pages" :menu="editedMenu" @close="closeEditMenu"></menu-edit-modal>
   </div>
 </template>
 <script>
 import ApiService from "../../services/apiservice";
 import MenuList from "./MenuList";
+import MenuEditModal from "./MenuEditModal";
 
 export default {
   components: {
-    MenuList
+    MenuList,
+    MenuEditModal
   },
   data() {
     return {
       menus: null,
       showAddMenu: false,
-      pages: null
+      pages: null,
+      showEditModal: false,
+      editedMenu: null
     };
   },
   methods: {
+    editMenu(menu) {
+      this.showEditModal = true;
+      this.editedMenu = menu;
+    },
     loadMenus() {
       ApiService.get("/MenuEdit/MenuListData", null, res => {
         this.menus = res.menus;
@@ -74,6 +83,10 @@ export default {
         this.showAddMenu = false;
         form.trigger("reset");
       });
+    },
+    closeEditMenu() {
+      this.showEditModal = false;
+      this.editedMenu = null;
     }
   },
   created() {
