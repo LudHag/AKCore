@@ -27,20 +27,11 @@ namespace AKCore.Controllers
         public ActionResult Index()
         {
             ViewBag.Title = "Redigera Menyer";
-            var pages = _db.Pages.OrderBy(x=>x.Name).ToList();
-            var menus = _db.Menus.Include(x=>x.Children).OrderBy(x=>x.PosIndex).ToList();
-            var modelMenus = menus.Select(m => new ModelMenu(m,true)).ToList();
-
-            var model = new MenuEditModel
-            {
-                Pages = pages,
-                Menus = modelMenus
-            };
-            return View(model);
+            return View();
         }
 
-        [Route("MenuList")]
-        public ActionResult MenuList()
+        [Route("MenuListData")]
+        public ActionResult MenuListData()
         {
             var pages = _db.Pages.OrderBy(x => x.Name).ToList();
             var menus = _db.Menus.Include(x=>x.Children).OrderBy(x => x.PosIndex).ToList();
@@ -50,7 +41,7 @@ namespace AKCore.Controllers
                 Pages = pages,
                 Menus = modelMenus
             };
-            return View("_MenuList", model);
+            return Json(model);
         }
 
         [HttpPost]
@@ -108,7 +99,7 @@ namespace AKCore.Controllers
                 return Json(new {success = false, message = "Menyn måste ha ett namn"});
             }
 
-            if (parentId != "true")
+            if (string.IsNullOrWhiteSpace(parentId))
             {
                 if (!int.TryParse(menuId, out var id))
                 {

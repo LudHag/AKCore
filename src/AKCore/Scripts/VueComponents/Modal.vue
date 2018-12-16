@@ -9,6 +9,7 @@
                             <h4 class="modal-title">{{header}}</h4>
                         </div>
                         <slot name="body"></slot>
+                        <slot name="footer"></slot>
                     </div>
                 </div>
             </div>

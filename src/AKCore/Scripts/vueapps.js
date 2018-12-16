@@ -5,6 +5,7 @@ import ProfileApp from "./VueComponents/ProfileApp";
 import UpcomingApp from "./VueComponents/Upcoming/UpcomingApp";
 import AdminEventApp from "./VueComponents/AdminEvent/AdminEventApp";
 import AlbumEditApp from "./VueComponents/AlbumEdit/AlbumEditApp";
+import MenuEditApp from "./VueComponents/MenuEdit/MenuEditApp";
 
 $(".videos-app").each(function () {
     const widgetId = $(this).data("id");
@@ -64,3 +65,10 @@ if ($("#album-edit-app").length > 0) {
     });
 }
 
+if ($("#menu-edit-app").length > 0) {
+    const menuEdit = new Vue({
+        el: `#menu-edit-app`,
+        template: "<menu-edit-app />",
+        components: { MenuEditApp }
+    });
+}
