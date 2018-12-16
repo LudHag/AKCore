@@ -99,7 +99,7 @@ namespace AKCore.Controllers
                 return Json(new {success = false, message = "Menyn måste ha ett namn"});
             }
 
-            if (parentId != "true")
+            if (string.IsNullOrWhiteSpace(parentId))
             {
                 if (!int.TryParse(menuId, out var id))
                 {
