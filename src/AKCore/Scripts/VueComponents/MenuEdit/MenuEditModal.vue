@@ -1,7 +1,7 @@
 ﻿<template>
   <modal :show-modal="showModal" :header="'Redigera meny'" @close="close">
     <div slot="body" class="modal-body">
-      <form action="/MenuEdit/EditMenu" method="post" @submit.prevent="submitForm" ref="editform">
+      <form :action="formEndpoint" method="post" @submit.prevent="submitForm" ref="editform">
         <div class="alert alert-danger" style="display: none;"></div>
         <input type="hidden" name="parentId" class="parentId" :value="parentId">
         <input type="hidden" name="menuId" class="menuId" :value="menuId">
@@ -22,14 +22,14 @@
             <option :value="page.id" v-for="page in pages" :key="page.id">{{page.name}}</option>
           </select>
         </div>
-        <div class="checkbox">
+        <div class="checkbox" v-if="!parentId">
           <label>
-            <input name="loggedIn" class="logged" v-model="menuLoggedIn" type="checkbox"> Kräv inloggning
+            <input name="loggedIn" class="logged" :checked="menuLoggedIn" type="checkbox"> Kräv inloggning
           </label>
         </div>
-        <div class="checkbox">
+        <div class="checkbox" v-if="!parentId">
           <label>
-            <input name="balett" class="balett" type="checkbox" v-model="menuBalett"> Visa enbart för balett
+            <input name="balett" class="balett" type="checkbox" :checked="menuBalett"> Visa enbart för balett
           </label>
         </div>
       </form>
@@ -76,6 +76,9 @@ export default {
       } else {
         return "";
       }
+    },
+    formEndpoint() {
+      return this.menu ? "/MenuEdit/EditMenu" : "/MenuEdit/AddSubMenu";
     }
   },
   methods: {

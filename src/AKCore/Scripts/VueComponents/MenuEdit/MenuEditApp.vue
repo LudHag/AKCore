@@ -40,7 +40,7 @@
       </div>
     </div>
     <menu-list :menus="menus" @update="loadMenus" @edit="editMenu"></menu-list>
-    <menu-edit-modal :show-modal="showEditModal" :pages="pages" :menu="editedMenu" @update="loadMenus" @close="closeEditMenu"></menu-edit-modal>
+    <menu-edit-modal :show-modal="showEditModal" :pages="pages" :parent-id="parentId" :menu="editedMenu" @update="loadMenus" @close="closeEditMenu"></menu-edit-modal>
   </div>
 </template>
 <script>

@@ -8,7 +8,7 @@
       <div class="col-sm-12 menu-item" v-for="menu in menus" :key="menu.id">
         <div class="menu-row">
           <a class="btn btn-default menu" @click.prevent="editMenu(menu)">{{menu.name}}</a>
-          <a class="btn add-sub-menu glyphicon glyphicon-plus" @click.prevent="addSubmenu(menu)"></a>
+          <a class="btn add-sub-menu glyphicon glyphicon-plus" @click.prevent="addSubMenu(menu)"></a>
           <a class="btn remove-menu glyphicon glyphicon-remove" @click.prevent="deleteMenu(menu)"></a>
           <a class="btn move-right glyphicon glyphicon-chevron-down" @click.prevent="menuDown(menu)"></a>
           <a class="btn move-left glyphicon glyphicon-chevron-up" @click.prevent="menuUp(menu)"></a>
@@ -20,7 +20,7 @@
           :key="child.id"
         >
           <a class="btn submenu" @click.prevent="editSubMenu(child, menu)">{{child.name}}</a>
-          <a class="btn remove-sub-menu glyphicon glyphicon-remove" @click.prevent="deleteSubMenu(menu)"></a>
+          <a class="btn remove-sub-menu glyphicon glyphicon-remove" @click.prevent="deleteSubMenu(child)"></a>
           <a class="btn move-down glyphicon glyphicon-chevron-down" @click.prevent="subMenuDown(menu, child)"></a>
           <a class="btn move-up glyphicon glyphicon-chevron-up" @click.prevent="subMenuUp(menu, child)"></a>
         </div>
@@ -34,8 +34,8 @@ import ApiService from "../../services/apiservice";
 export default {
   props: ["menus"],
   methods: {
-    addSubmenu(menu) {
-      console.log("skapa submeny");
+    addSubMenu(menu) {
+      this.$emit("edit", null, menu);
     },
     editMenu(menu) {
       this.$emit("edit", menu);
