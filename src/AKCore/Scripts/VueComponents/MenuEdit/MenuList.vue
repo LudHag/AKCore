@@ -19,7 +19,7 @@
           v-for="child in menu.children"
           :key="child.id"
         >
-          <a class="btn submenu">{{child.name}}</a>
+          <a class="btn submenu" @click.prevent="editSubMenu(child, menu)">{{child.name}}</a>
           <a class="btn remove-sub-menu glyphicon glyphicon-remove" @click.prevent="deleteSubMenu(menu)"></a>
           <a class="btn move-down glyphicon glyphicon-chevron-down" @click.prevent="subMenuDown(menu, child)"></a>
           <a class="btn move-up glyphicon glyphicon-chevron-up" @click.prevent="subMenuUp(menu, child)"></a>
@@ -39,6 +39,9 @@ export default {
     },
     editMenu(menu) {
       this.$emit("edit", menu);
+    },
+    editSubMenu(child, menu) {
+      this.$emit("edit", child, menu);
     },
     menuUp(menu) {
       ApiService.postByObject(

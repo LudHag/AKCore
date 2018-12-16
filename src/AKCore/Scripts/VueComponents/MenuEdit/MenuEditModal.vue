@@ -1,11 +1,10 @@
 ﻿<template>
   <modal :show-modal="showModal" :header="'Redigera meny'" @close="close">
     <div slot="body" class="modal-body">
-      <form action="/MenuEdit/EditMenu" method="post" @submit.prevent="submitForm">
-        <div class="alert alert-success" style="display: none;"></div>
+      <form action="/MenuEdit/EditMenu" method="post" @submit.prevent="submitForm" ref="editform">
         <div class="alert alert-danger" style="display: none;"></div>
-        <input type="hidden" name="parentId" class="parentId">
-        <input type="hidden" name="menuId" class="menuId">
+        <input type="hidden" name="parentId" class="parentId" :value="parentId">
+        <input type="hidden" name="menuId" class="menuId" :value="menuId">
         <div class="form-group">
           <label>Namn</label>
           <input
@@ -46,7 +45,7 @@ import ApiService from "../../services/apiservice";
 import Modal from "../Modal";
 
 export default {
-  props: ["menu", "showModal", "pages"],
+  props: ["menu", "parentId", "showModal", "pages"],
   components: {
     Modal
   },
@@ -70,14 +69,26 @@ export default {
       } else {
         return "";
       }
+    },
+    menuId() {
+      if (this.menu && this.menu.id > 0) {
+        return this.menu.id;
+      } else {
+        return "";
+      }
     }
   },
   methods: {
     close() {
       this.$emit("close");
     },
-    submitForm() {
-      console.log("submit");
+    submitForm(event) {
+      const error = $(".alert-danger");
+      const form = $(this.$refs.editform);
+      ApiService.defaultFormSend(form, error, null, () => {
+        this.$emit("update");
+        this.close();
+      });
     },
     updateValues() {
       if (this.menu) {

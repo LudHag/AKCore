@@ -40,7 +40,7 @@
       </div>
     </div>
     <menu-list :menus="menus" @update="loadMenus" @edit="editMenu"></menu-list>
-    <menu-edit-modal :show-modal="showEditModal" :pages="pages" :menu="editedMenu" @close="closeEditMenu"></menu-edit-modal>
+    <menu-edit-modal :show-modal="showEditModal" :pages="pages" :menu="editedMenu" @update="loadMenus" @close="closeEditMenu"></menu-edit-modal>
   </div>
 </template>
 <script>
@@ -59,13 +59,17 @@ export default {
       showAddMenu: false,
       pages: null,
       showEditModal: false,
-      editedMenu: null
+      editedMenu: null,
+      parentId: null
     };
   },
   methods: {
-    editMenu(menu) {
+    editMenu(menu, parent) {
       this.showEditModal = true;
       this.editedMenu = menu;
+      if(parent) {
+        this.parentId = parent.id;
+      }
     },
     loadMenus() {
       ApiService.get("/MenuEdit/MenuListData", null, res => {
@@ -87,6 +91,7 @@ export default {
     closeEditMenu() {
       this.showEditModal = false;
       this.editedMenu = null;
+      this.parentId = null;
     }
   },
   created() {
