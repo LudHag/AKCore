@@ -70,6 +70,11 @@ namespace AKCore.Controllers
                 }
             }
             ViewData["Title"] = page.Name;
+            if(!string.IsNullOrWhiteSpace(page.MetaDescription))
+            {
+                ViewData["Description"] = page.MetaDescription;
+            }
+
             var model = new PageRenderModel()
             {
                 Widgets = page.WidgetsJson != null ? JsonConvert.DeserializeObject<List<Widget>>(page.WidgetsJson) : new List<Widget>()
