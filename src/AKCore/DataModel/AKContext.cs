@@ -49,6 +49,7 @@ namespace AKCore.DataModel
         [Required]
         [StringLength(450)]
         public string Slug { get; set; }
+        public string MetaDescription { get; set; }
         public string WidgetsJson { get; set; }
         [Required]
         public bool LoggedIn { get; set; }
