@@ -1,16 +1,18 @@
 ﻿<template>
   <div class="media-library row" v-if="categories">
-    <div class="tags col-sm-3">
-      <div
-        class="tag"
-        v-for="(category, name) in categories"
-        :class="{ selected : name === selectedCategory}"
-        :key="name"
-        @drop.prevent="onFileDrop($event, name)"
-        @dragover.prevent="onFileDragover"
-        @dragleave="onFileDragleave"
-        @click="selectedCategory = name"
-      >{{name}}</div>
+    <div class="col-sm-3">
+      <div class="tags">
+        <div
+          class="tag"
+          v-for="(category, name) in categories"
+          :class="{ selected : name === selectedCategory}"
+          :key="name"
+          @drop.prevent="onFileDrop($event, name)"
+          @dragover.prevent="onFileDragover"
+          @dragleave="onFileDragleave"
+          @click="selectedCategory = name"
+        >{{name}}</div>
+      </div>
     </div>
     <div class="col-sm-9" v-if="files">
       <div class="files">
@@ -24,6 +26,11 @@
         >
           <img :src="'/media/' + file.name" v-if="file.type==='Image'">
           <span class="glyphicon glyphicon-file" v-if="file.type==='Document'"></span>
+          <a
+            href="#"
+            class="remove-file glyphicon glyphicon-remove"
+            @click.prevent.stop="remove(file)"
+          ></a>
           <p class="name">{{file.name}}</p>
         </div>
       </div>
@@ -75,7 +82,21 @@ export default {
       event.target.classList.remove("drag");
     },
     clickFile(file) {
-      window.open('/media/' + file.name);
+      window.open("/media/" + file.name);
+    },
+    remove(file) {
+      if (
+        window.confirm("Är du säker på att du vill ta bort filen: " + file.name)
+      ) {
+        ApiService.postByUrl(
+          "/Media/RemoveFile?filename=" + file.name,
+          null,
+          null,
+          res => {
+            this.$emit("update");
+          }
+        );
+      }
     }
   },
   computed: {
@@ -89,6 +110,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+@import "~bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss";
 @import "../../../Styles/variables.scss";
 .tags,
 .files {
@@ -99,30 +121,46 @@ export default {
   padding: 14px 10px;
   font-size: 16px;
   cursor: pointer;
-  &.selected, &.drag {
+  &.selected,
+  &.drag {
     background-color: #4d0101;
   }
 }
 .files {
   position: relative;
   display: grid;
+
   grid-template-columns: 22% 22% 22% 22%;
   grid-gap: 4%;
   grid-row-gap: 1em;
   justify-content: space-between;
+  @media screen and (max-width: $screen-xs-max) {
+    grid-template-columns: 45% 45%;
+  }
 }
 .file {
   cursor: pointer;
   width: 100%;
   height: auto;
   max-height: 200px;
-  overflow: hidden;
   text-align: center;
   font-size: 12px;
   position: relative;
 
+  .remove-file {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: $akred;
+    color: #fff;
+    padding: 5px;
+    border-radius: 50%;
+    transform: translate(50%, -50%);
+  }
+
   img {
     width: 100%;
+    max-height: 150px;
   }
   .glyphicon-file {
     font-size: 100px;
