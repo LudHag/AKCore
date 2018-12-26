@@ -3,5 +3,4 @@ import "./general.js";
 import "./Vendor/object-assign-poly";
 import "./vueapps.js";
 import "./musicplayer.js";
-import "./Admin/media.js";
 import "./Admin/recruits.js";

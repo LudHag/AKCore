@@ -29,17 +29,7 @@ namespace AKCore.Controllers
         public ActionResult Index()
         {
             ViewBag.Title = "Filuppladdning";
-
-            //var medias = PopulateList(1, out int totalPages, "", "Image");
-            var model = new MediaModel
-            {
-                MediaFiles = new List<Media>(),
-                Folders = GetFacets(),
-                TotalPages = 1,
-                CurrentPage = 1
-            };
-
-            return View(model);
+            return View();
         }
 
         [Route("MediaData")]
@@ -49,31 +39,6 @@ namespace AKCore.Controllers
                 .GroupBy(x => x.Tag).ToDictionary(x=>x.Key);
             
             return Json(model);
-        }
-
-        [Route("MediaList")]
-        public ActionResult MediaList(SearchModel search)
-        {
-            var type = "";
-            if (search.Tag=="Document" || search.Tag == "Image") {
-                type = search.Tag;
-                search.Tag = "";
-            }
-
-            var model = new MediaModel();
-            if(string.IsNullOrWhiteSpace(search.Tag) && string.IsNullOrWhiteSpace(search.SearchPhrase)) {
-                model.Folders = GetFacets();
-            }
-            else
-            {
-                var medias = PopulateList(search.Page < 1 ? 1 : search.Page, out int totalPages, search.SearchPhrase ?? "", type, search.Tag);
-                if (totalPages < search.Page) search.Page = totalPages;
-                model.MediaFiles = medias;
-                model.TotalPages = totalPages;
-                model.CurrentPage = search.Page < 1 ? 1 : search.Page;
-            }
-
-            return PartialView("Partials/MediaList",model);
         }
 
         [Route("MediaPickerList")]
@@ -98,19 +63,6 @@ namespace AKCore.Controllers
                 .OrderByDescending(x => x.Created);
 
             return Json(images);
-        }
-
-        private IDictionary<string, int> GetFacets()
-        {
-            var facetes = _db.Medias
-                .GroupBy(x => x.Tag)
-                .Select(x => new
-                {
-                    Tag = x.Key,
-                    Count = x.Count()
-                });
-
-            return facetes.ToDictionary(z=>z.Tag,z=>z.Count);
         }
 
         private List<Media> PopulateList(int page, out int totalPages,string searchPhrase, string type = "", string tag = "")
@@ -141,42 +93,47 @@ namespace AKCore.Controllers
 
             return Json(new { success = false });
         }
-        [Route("UploadFile")]
-        public ActionResult UploadFile(MediaModel model)
+        [Route("UploadFiles")]
+        public ActionResult UploadFile(MediasModel model)
         {
-            var file = model.UploadFile;
-            var ext=Path.GetExtension(file.FileName).ToLower();
-            var isImage = ImageExtensions.FirstOrDefault(x => ext.EndsWith(x)) != null;
-            var isDocument = DocumentExtensions.FirstOrDefault(x => ext.EndsWith(x)) != null;
-            if (!(isImage || isDocument) || string.IsNullOrWhiteSpace(model.Tag))
+            foreach (var uploadFile in model.UploadFiles)
             {
-                return Json(new { success = false, message = "Filen har fel format" });
+
+                var file = uploadFile;
+                var ext=Path.GetExtension(file.FileName).ToLower();
+                var isImage = ImageExtensions.FirstOrDefault(x => ext.EndsWith(x)) != null;
+                var isDocument = DocumentExtensions.FirstOrDefault(x => ext.EndsWith(x)) != null;
+                if (!(isImage || isDocument) || string.IsNullOrWhiteSpace(model.Tag))
+                {
+                    return Json(new { success = false, message = "Filen har fel format" });
+                }
+
+                var filename = ContentDispositionHeaderValue
+                    .Parse(file.ContentDisposition)
+                    .FileName
+                    .ToString()
+                    .Trim('"');
+                var filepath = _hostingEnv.WebRootPath + $@"\media\{filename}";
+                
+                if (_db.Medias.FirstOrDefault(x => x.Name == filename) != null)
+                {
+                    return Json(new {success = false, message = "Filen finns redan uppladdad"});
+                }
+                using (var fs = System.IO.File.Create(filepath))
+                {
+                    file.CopyTo(fs);
+                    fs.Flush();
+                }
+                var mediaFile = new Media
+                {
+                    Name = filename,
+                    Created = DateTime.Now,
+                    Tag = model.Tag
+                };
+                mediaFile.Type = isImage ? "Image" : "Document";
+                _db.Medias.Add(mediaFile);
             }
 
-            var filename = ContentDispositionHeaderValue
-                .Parse(file.ContentDisposition)
-                .FileName
-                .ToString()
-                .Trim('"');
-            var filepath = _hostingEnv.WebRootPath + $@"\media\{filename}";
-            
-            if (_db.Medias.FirstOrDefault(x => x.Name == filename) != null)
-            {
-                return Json(new {success = false, message = "Filen finns redan uppladdad"});
-            }
-            using (var fs = System.IO.File.Create(filepath))
-            {
-                file.CopyTo(fs);
-                fs.Flush();
-            }
-            var mediaFile = new Media
-            {
-                Name = filename,
-                Created = DateTime.Now,
-                Tag = model.Tag
-            };
-            mediaFile.Type = isImage ? "Image" : "Document";
-            _db.Medias.Add(mediaFile);
             _db.SaveChanges();
 
             return Json(new {success = true});

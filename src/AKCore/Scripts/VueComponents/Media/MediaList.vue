@@ -1,6 +1,6 @@
 ﻿<template>
   <div class="media-library row" v-if="categories">
-    <div class="col-sm-3">
+    <div class="col-sm-4">
       <div class="tags">
         <div
           class="tag"
@@ -11,10 +11,11 @@
           @dragover.prevent="onFileDragover"
           @dragleave="onFileDragleave"
           @click="selectedCategory = name"
-        >{{name}}</div>
+        >{{name}} ({{category.length}})</div>
       </div>
+      <p class="tag-info">Dra filer till en kategori för att ändra kategori.</p>
     </div>
-    <div class="col-sm-9" v-if="files">
+    <div class="col-sm-8" v-if="files">
       <div class="files">
         <div
           class="file"
@@ -44,7 +45,7 @@ export default {
   props: ["categories"],
   data() {
     return {
-      selectedCategory: null
+      selectedCategory: "Allmän"
     };
   },
   methods: {
@@ -112,7 +113,13 @@ export default {
 <style lang="scss" scoped>
 @import "~bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss";
 @import "../../../Styles/variables.scss";
-.tags,
+.tags {
+  border: 3px solid $akred;
+  padding: 8px;
+}
+.tag-info {
+  margin-top: 20px;
+}
 .files {
   border: 3px solid $akred;
   padding: 15px;
