@@ -42,6 +42,15 @@ namespace AKCore.Controllers
             return View(model);
         }
 
+        [Route("MediaData")]
+        public ActionResult MediaData()
+        {
+            var model = _db.Medias
+                .GroupBy(x => x.Tag).ToDictionary(x=>x.Key);
+            
+            return Json(model);
+        }
+
         [Route("MediaList")]
         public ActionResult MediaList(SearchModel search)
         {
