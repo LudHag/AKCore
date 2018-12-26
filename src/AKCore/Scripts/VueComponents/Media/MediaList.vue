@@ -6,12 +6,22 @@
         v-for="(category, name) in categories"
         :class="{ selected : name === selectedCategory}"
         :key="name"
+        @drop.prevent="onFileDrop($event, name)"
+        @dragover.prevent="onFileDragover"
+        @dragleave="onFileDragleave"
         @click="selectedCategory = name"
       >{{name}}</div>
     </div>
     <div class="col-sm-9" v-if="files">
       <div class="files">
-        <div class="file" v-for="file in files" :key="file.id" draggable="true">
+        <div
+          class="file"
+          v-for="file in files"
+          :key="file.id"
+          draggable="true"
+          @dragstart="onFileDragStart($event, file)"
+          @click="clickFile(file)"
+        >
           <img :src="'/media/' + file.name" v-if="file.type==='Image'">
           <span class="glyphicon glyphicon-file" v-if="file.type==='Document'"></span>
           <p class="name">{{file.name}}</p>
@@ -21,12 +31,52 @@
   </div>
 </template>
 <script>
+import ApiService from "../../services/apiservice";
+
 export default {
   props: ["categories"],
   data() {
     return {
       selectedCategory: null
     };
+  },
+  methods: {
+    onFileDragStart(event, file) {
+      event.dataTransfer.setData("text", file.id);
+      event.dataTransfer.effectAllowed = "all";
+    },
+    onFileDrop(event, name) {
+      if (event.target.classList.contains("selected")) {
+        return;
+      }
+      event.target.classList.remove("drag");
+      const id = event.dataTransfer.getData("text");
+      if (name && id) {
+        ApiService.postByObject(
+          "/Media/EditFile",
+          { Tag: name, Id: id },
+          null,
+          null,
+          res => {
+            this.$emit("update");
+          }
+        );
+      }
+    },
+    onFileDragover(event) {
+      if (event.target.classList.contains("selected")) {
+        event.dataTransfer.dropEffect = "none";
+        return;
+      }
+      event.dataTransfer.dropEffect = "move";
+      event.target.classList.add("drag");
+    },
+    onFileDragleave(event) {
+      event.target.classList.remove("drag");
+    },
+    clickFile(file) {
+      window.open('/media/' + file.name);
+    }
   },
   computed: {
     files() {
@@ -49,7 +99,7 @@ export default {
   padding: 14px 10px;
   font-size: 16px;
   cursor: pointer;
-  &.selected {
+  &.selected, &.drag {
     background-color: #4d0101;
   }
 }
