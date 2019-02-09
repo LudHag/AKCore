@@ -200,39 +200,6 @@ namespace AKCore.DataModel
         };
     }
 
-    public class AkNationer
-    {
-        public const string Ostgota = "Östgöta nation";
-        public const string Vastgota = "Västgöta nation";
-        public const string Lund = "Lunds Nation";
-        public const string Malmo = "Malmö nation";
-        public const string Helsingkrona = "Helsingkrona nation";
-        public const string Sydskanska = "Sydskånska nationen";
-        public const string Kristianstad = "Kristianstads nation";
-        public const string Blekingska = "Blekingska nationen";
-        public const string Goteborg = "Göteborgs nation";
-        public const string Halland = "Hallands nation";
-        public const string Kalmar = "Kalmar nation";
-        public const string Wermland = "Wermlands nation";
-        public const string NoNation = "Ingen nation";
-
-        public static readonly IList<string> Nationer = new List<string>()
-        {
-            Ostgota,
-            Vastgota,
-            Lund,
-            Malmo,
-            Helsingkrona,
-            Sydskanska,
-            Kristianstad,
-            Blekingska,
-            Goteborg,
-            Halland,
-            Kalmar,
-            Wermland,
-            NoNation
-        };
-    }
     public class AkLogTypes
     {
         public const string Page = "Page";
@@ -249,6 +216,20 @@ namespace AKCore.DataModel
             Files,
             Events,
             Menus
+        };
+    }
+    public class AkAlbumCategories
+    {
+        public const string Jubileum = "Jubileum";
+        public const string BalettJubileum = "BalettJubileum";
+        public const string Skivor = "Skivor";
+        public const string Övrigt = "Övrigt";
+        public static readonly IList<string> Categories = new List<string>()
+        {
+            Jubileum,
+            BalettJubileum,
+            Skivor,
+            Övrigt
         };
     }
 }

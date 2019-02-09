@@ -72,6 +72,11 @@ const IMAGETYPES = [
     "Ikoner",
     "Startsidebilder"];
 
+const ALBUMCATEGORIES = [
+    "Jubileum",
+    "BalettJubileum",
+    "Skivor",
+    "Övrigt"];
 
 export default {
     POSTS,
@@ -84,5 +89,6 @@ export default {
     EVENTTYPES,
     SPELTYPER,
     SEKTIONER,
-    IMAGETYPES
+    IMAGETYPES,
+    ALBUMCATEGORIES
 }
