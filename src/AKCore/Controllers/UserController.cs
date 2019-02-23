@@ -168,17 +168,17 @@ namespace AKCore.Controllers
             user.GivenMedal = model.GivenMedal;
 
             var result = await _userManager.UpdateAsync(user);
-
-            var editingUser = await _userManager.FindByNameAsync(User.Identity.Name);
-            _db.Log.Add(new LogItem()
-            {
-                Type = AkLogTypes.User,
-                Modified = DateTime.Now,
-                ModifiedBy = editingUser,
-                Comment = "Användare med namn " + user.GetName() + " redigeras"
-            });
-            _db.SaveChanges();
-
+            if(result.Succeeded) {
+                var editingUser = await _userManager.FindByNameAsync(User.Identity.Name);
+                _db.Log.Add(new LogItem()
+                {
+                    Type = AkLogTypes.User,
+                    Modified = DateTime.Now,
+                    ModifiedBy = editingUser,
+                    Comment = "Användare med namn " + user.GetName() + " redigeras"
+                });
+                _db.SaveChanges();
+            }
             return Json(new
             {
                 success = result.Succeeded,
