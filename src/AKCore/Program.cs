@@ -12,8 +12,10 @@ namespace AKCore
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseKestrel()
-                .UseIISIntegration()
-                .UseStartup<Startup>();
+                .UseStartup<Startup>()
+                .ConfigureKestrel((context, options) =>
+                {
+                    // Set properties and call methods on options
+                });
     }
 }

@@ -35,7 +35,7 @@ namespace AKCore
         {
             services.AddDbContext<AKContext>(options => options.UseMySql(Configuration["DbConnectionString"]));
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddRouting();
             services.AddMemoryCache();
 
