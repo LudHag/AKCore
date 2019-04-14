@@ -74,7 +74,7 @@ const IMAGETYPES = [
 
 const ALBUMCATEGORIES = [
     "Jubileum",
-    "BalettJubileum",
+    "Balettjubileum",
     "Skivor",
     "Övrigt"];
 

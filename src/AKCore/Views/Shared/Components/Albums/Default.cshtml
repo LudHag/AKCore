@@ -4,7 +4,9 @@
     @foreach (var a in Model)
     {
         @: widgetAlbums['@a.Id'] = {};
-        @: widgetAlbums['@a.Id'].category = '@a.Category';
+        if(!string.IsNullOrEmpty(a.Category)) {
+            @: widgetAlbums['@a.Id'].category = '@Html.Raw(a.Category)';
+        }
         @: widgetAlbums['@a.Id'].name = '@Html.Raw(a.Name)';
         @: widgetAlbums['@a.Id'].image = '@a.Image';
         @: widgetAlbums['@a.Id'].tracks = {};

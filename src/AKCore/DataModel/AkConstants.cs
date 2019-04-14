@@ -221,7 +221,7 @@ namespace AKCore.DataModel
     public class AkAlbumCategories
     {
         public const string Jubileum = "Jubileum";
-        public const string BalettJubileum = "BalettJubileum";
+        public const string BalettJubileum = "Balettjubileum";
         public const string Skivor = "Skivor";
         public const string Övrigt = "Övrigt";
         public static readonly IList<string> Categories = new List<string>()

@@ -1,6 +1,5 @@
 ﻿<template>
   <div id="music-app">
-    <h1>woop woop</h1>
     <album-list v-if="albums" :albums="albums"></album-list>
   </div>
 </template>
