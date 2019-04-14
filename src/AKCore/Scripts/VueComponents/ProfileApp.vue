@@ -118,7 +118,7 @@
             }
         },
         methods: {
-            updateProfile() {
+            updateProfile(event) {
                 const form = $(event.target);
                 const success = form.find(".alert-success");
                 const error = form.find(".alert-danger");
