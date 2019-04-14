@@ -19,7 +19,7 @@ namespace AKCore.Components
 
         public IViewComponentResult Invoke(Widget widget)
         {
-            var model = widget.Albums.Select(a => _db.Albums.Include(x=>x.Tracks).FirstOrDefault(x => x.Id == a)).Where(album => album != null).OrderBy(x => x.Name).ToList();
+            var model = widget.Albums.Select(a => _db.Albums.Include(x=>x.Tracks).FirstOrDefault(x => x.Id == a)).Where(album => album != null).ToList();
             return View(model);
         }
     }

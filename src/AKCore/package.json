@@ -9,10 +9,10 @@
   },
   "browserslist": {
     "development": [
-      "> 1%"
+      "> 3%"
     ],
     "production": [
-      "> 1%"
+      "> 3%"
     ]
   },
   "devDependencies": {

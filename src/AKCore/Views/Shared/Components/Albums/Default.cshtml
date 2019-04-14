@@ -4,7 +4,8 @@
     @foreach (var a in Model)
     {
         @: widgetAlbums['@a.Id'] = {};
-        @: widgetAlbums['@a.Id'].name = '@a.Name';
+        @: widgetAlbums['@a.Id'].category = '@a.Category';
+        @: widgetAlbums['@a.Id'].name = '@Html.Raw(a.Name)';
         @: widgetAlbums['@a.Id'].image = '@a.Image';
         @: widgetAlbums['@a.Id'].tracks = {};
         foreach (var track in a.Tracks)

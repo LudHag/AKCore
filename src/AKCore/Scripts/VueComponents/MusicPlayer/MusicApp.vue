@@ -1,17 +1,25 @@
 ﻿<template>
   <div id="music-app">
-    woop woop
+    <h1>woop woop</h1>
+    <album-list v-if="albums" :albums="albums"></album-list>
   </div>
 </template>
 <script>
-import ApiService from "../../services/apiservice";
+import AlbumList from "./AlbumList";
 
 export default {
+  data() {
+    return {
+      albums: null
+    };
+  },
+  components: {
+    AlbumList
+  },
   created() {
-    console.log(widgetAlbums);
+    this.albums = widgetAlbums;
   }
 };
 </script>
 <style lang="scss" scoped>
-
 </style>
