@@ -4,3 +4,11 @@ export const groupBy = (xs, key) => {
       return rv;
     }, {});
   };
+
+  export const nameCompare = (a,b) => {
+    if (a.name < b.name)
+      return -1;
+    if (a.name > b.name)
+      return 1;
+    return 0;
+  };
