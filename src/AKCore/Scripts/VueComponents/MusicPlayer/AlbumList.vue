@@ -82,7 +82,9 @@ export default {
           const filteredTracks = trackKeys
             .map(tKey => this.albums[key].tracks[tKey])
             .filter(track => track.name.toLowerCase().indexOf(lowerQuery) > -1);
-          return Object.assign({}, this.albums[key], { tracks: filteredTracks });
+          return Object.assign({}, this.albums[key], {
+            tracks: filteredTracks
+          });
         })
         .filter(album => album.tracks.length > 0);
       return albums;
@@ -113,7 +115,7 @@ export default {
   padding-top: 40px;
   h2 {
     color: #999;
-        font-size: 17px;
+    font-size: 17px;
   }
 }
 .track {

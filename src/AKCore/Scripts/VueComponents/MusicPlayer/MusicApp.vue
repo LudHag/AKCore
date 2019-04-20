@@ -2,29 +2,30 @@
   <div id="music-app">
     <h2 class="album-title" v-if="currentAlbum">{{this.currentAlbum.name}}</h2>
     <div class="player-container" v-if="currentAlbum">
-      <div class="album-display">
-        <img class="album-display-image" :src="this.currentAlbum.image">
-        <a href="#" class="play-all" @click.prevent="playAll">
-          Spela alla spår
-          <span class="glyphicon glyphicon-play"></span>
-        </a>
-      </div>
+      <AlbumDisplay :album="currentAlbum" @playall="playAll"></AlbumDisplay>
+      <PlayList :play-list="playList" :playing="playing" @playpause="playPause"></PlayList>
     </div>
     <album-list v-if="albums" @select="selectAlbum" :albums="albums"></album-list>
   </div>
 </template>
 <script>
 import AlbumList from "./AlbumList";
+import AlbumDisplay from "./AlbumDisplay";
+import PlayList from "./PlayList";
 
 export default {
   data() {
     return {
       albums: null,
-      currentAlbumId: -1
+      currentAlbumId: -1,
+      playList: [],
+      playing: false
     };
   },
   components: {
-    AlbumList
+    AlbumList,
+    AlbumDisplay,
+    PlayList
   },
   computed: {
     currentAlbum() {
@@ -40,6 +41,9 @@ export default {
     },
     playAll() {
       console.log("play all");
+    },
+    playPause() {
+      this.playing = !this.playing;
     }
   },
   created() {
@@ -63,24 +67,5 @@ export default {
   border-radius: 5px;
   padding: 20px;
   max-height: 320px;
-}
-
-.album-display {
-  flex-grow: 1;
-  text-align: center;
-  max-width: 290px;
-  margin: auto;
-}
-
-.play-all {
-  display: block;
-  margin-top: 10px;
-  font-size: 16px;
-  font-weight: 800;
-}
-
-.album-display-image {
-  height: 220px;
-  max-width: 220px;
 }
 </style>
