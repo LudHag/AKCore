@@ -30,7 +30,7 @@
         <a
           href="#"
           class="track"
-          @click.prevent="clickTrack"
+          @click.prevent="$emit('add-track', track)"
           v-for="track in album.tracks"
           :key="track.id"
           v-html="track.name"
@@ -88,11 +88,6 @@ export default {
         })
         .filter(album => album.tracks.length > 0);
       return albums;
-    }
-  },
-  methods: {
-    clickTrack() {
-      console.log("click");
     }
   }
 };

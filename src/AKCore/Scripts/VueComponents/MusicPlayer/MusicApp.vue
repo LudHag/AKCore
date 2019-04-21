@@ -2,16 +2,22 @@
   <div id="music-app">
     <h2 class="album-title" v-if="currentAlbum">{{this.currentAlbum.name}}</h2>
     <div class="player-container" v-if="currentAlbum">
-      <AlbumDisplay :album="currentAlbum" @playall="playAll"></AlbumDisplay>
+      <AlbumDisplay
+        :album="currentAlbum"
+        @add-track="addTrack"
+        :show-tracks="playList.length > 0"
+        @playall="playAll"
+      ></AlbumDisplay>
       <PlayList
         :play-list="playList"
         :album="currentAlbum"
         :playing="playing"
+        @add-track="addTrack"
         @playpause="playPause"
         @stop="stop"
       ></PlayList>
     </div>
-    <album-list v-if="albums" @select="selectAlbum" :albums="albums"></album-list>
+    <album-list v-if="albums" @add-track="addTrack" @select="selectAlbum" :albums="albums"></album-list>
   </div>
 </template>
 <script>
@@ -53,6 +59,11 @@ export default {
     },
     stop() {
       this.playing = false;
+    },
+    addTrack(track) {
+      if (this.playList.indexOf(track) < 0) {
+        this.playList.push(track);
+      }
     }
   },
   created() {
