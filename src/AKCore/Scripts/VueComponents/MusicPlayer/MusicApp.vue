@@ -3,7 +3,7 @@
     <h2 class="album-title" v-if="currentAlbum">{{this.currentAlbum.name}}</h2>
     <div class="player-container" v-if="currentAlbum">
       <AlbumDisplay :album="currentAlbum" @playall="playAll"></AlbumDisplay>
-      <PlayList :play-list="playList" :playing="playing" @playpause="playPause"></PlayList>
+      <PlayList :play-list="playList" :album="currentAlbum" :playing="playing" @playpause="playPause"></PlayList>
     </div>
     <album-list v-if="albums" @select="selectAlbum" :albums="albums"></album-list>
   </div>

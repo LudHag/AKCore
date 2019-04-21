@@ -13,8 +13,9 @@
         foreach (var track in a.Tracks)
         {
             @: widgetAlbums['@a.Id'].tracks['@track.Number'] = {};
-            @: widgetAlbums['@a.Id'].tracks['@track.Number'].filename = '@track.FileName';
+            @: widgetAlbums['@a.Id'].tracks['@track.Number'].filepath = "/albums/@(a.Id)/@(Html.Raw(track.FileName))";
             @: widgetAlbums['@a.Id'].tracks['@track.Number'].name = '@track.GetDisplayName()';
+            @: widgetAlbums['@a.Id'].tracks['@track.Number'].id = '@track.Id';
         }
     }
 
