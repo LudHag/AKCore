@@ -98,6 +98,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+@import "~bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss";
 .album-list {
   margin-top: 10px;
   position: relative;
@@ -155,5 +156,11 @@ h2 {
   text-align: center;
   font-size: 14px;
   margin-top: 5px;
+}
+
+@media screen and (max-width: $screen-xs-max) {
+  .album-element {
+    width: 125px;
+  }
 }
 </style>

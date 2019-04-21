@@ -76,9 +76,11 @@ export default {
       if (val) {
         player.play();
         player.addEventListener("timeupdate", this.timeUpdate);
+        player.addEventListener("ended", this.endedListener);
       } else {
         player.pause();
         player.removeEventListener("timeupdate", this.timeUpdate);
+        player.removeEventListener("ended", this.endedListener);
       }
     }
   },
@@ -87,6 +89,23 @@ export default {
       const player = this.$refs.player;
       this.trackLength = player.duration;
       this.timePlayed = event.target.currentTime;
+    },
+    endedListener() {
+      this.trackLength = 0;
+      this.timePlayed = 0;
+      this.next();
+    },
+    next() {
+      const currentIndex = this.tracks.findIndex(
+        track => track.id === this.trackPlaying.id
+      );
+      if (currentIndex === -1 || currentIndex + 1 >= this.tracks.length) {
+        this.$emit("stop");
+        this.trackPlaying = null;
+      } else {
+        this.trackPlaying = this.tracks[currentIndex + 1];
+        this.reloadTrack();
+      }
     },
     clickProgress(event) {
       const progressContainer = this.$refs.progress;
@@ -102,17 +121,21 @@ export default {
       if (!this.playing) {
         this.$nextTick(() => this.$emit("playpause"));
       } else {
-        const player = this.$refs.player;
-        this.$nextTick(() => {
-          player.load();
-          player.play();
-        });
+        this.reloadTrack();
       }
+    },
+    reloadTrack() {
+      const player = this.$refs.player;
+      this.$nextTick(() => {
+        player.load();
+        player.play();
+      });
     }
   }
 };
 </script>
 <style lang="scss" scoped>
+@import "~bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss";
 @import "../../../Styles/variables.scss";
 .player-module {
   flex-grow: 1;
@@ -211,5 +234,31 @@ export default {
 ::-webkit-scrollbar-thumb {
   border-radius: 10px;
   -webkit-box-shadow: inset 0 0 6px #a5a2a0;
+}
+
+@media screen and (max-width: $screen-xs-max) {
+  .player {
+    width: 100%;
+  }
+
+  .player-module {
+    padding-top: 30px;
+    padding-left: 0;
+  }
+
+  .playlist-element {
+    position: relative;
+
+    .name {
+      width: 82%;
+      display: inline-block;
+    }
+
+    .glyphicon-download {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
 }
 </style>

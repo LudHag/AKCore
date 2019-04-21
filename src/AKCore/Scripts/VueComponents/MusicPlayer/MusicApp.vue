@@ -3,7 +3,13 @@
     <h2 class="album-title" v-if="currentAlbum">{{this.currentAlbum.name}}</h2>
     <div class="player-container" v-if="currentAlbum">
       <AlbumDisplay :album="currentAlbum" @playall="playAll"></AlbumDisplay>
-      <PlayList :play-list="playList" :album="currentAlbum" :playing="playing" @playpause="playPause"></PlayList>
+      <PlayList
+        :play-list="playList"
+        :album="currentAlbum"
+        :playing="playing"
+        @playpause="playPause"
+        @stop="stop"
+      ></PlayList>
     </div>
     <album-list v-if="albums" @select="selectAlbum" :albums="albums"></album-list>
   </div>
@@ -44,6 +50,9 @@ export default {
     },
     playPause() {
       this.playing = !this.playing;
+    },
+    stop() {
+      this.playing = false;
     }
   },
   created() {
@@ -53,6 +62,8 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+@import "~bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss";
+@import "../../../Styles/variables.scss";
 .album-title {
   background-color: #111111;
   border-radius: 5px;
@@ -67,5 +78,14 @@ export default {
   border-radius: 5px;
   padding: 20px;
   max-height: 320px;
+}
+
+@media screen and (max-width: $screen-xs-max) {
+  .player-container {
+    display: block;
+    margin-top: 20px;
+    max-height: inherit;
+    max-height: initial;
+  }
 }
 </style>
