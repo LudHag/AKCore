@@ -64,13 +64,19 @@ export default {
       const currentIndex = this.tracks.findIndex(
         track => track.id === this.trackPlaying.id
       );
+      let dontRemove = false;
       if (currentIndex === -1 || currentIndex + 1 >= this.tracks.length) {
-        this.$emit("stop");
-        this.trackPlaying = null;
+        if(this.playList.length > 0 && this.trackPlaying !== this.playList[0]) {
+          this.trackPlaying = this.tracks[0];
+          dontRemove = true;
+        } else {
+          this.$emit("stop");
+          this.trackPlaying = null;
+        }
       } else {
         this.trackPlaying = this.tracks[currentIndex + 1];
       }
-      if(this.playList.length > 0) {
+      if(this.playList.length > 0 && !dontRemove) {
         this.$emit("remove", this.playList[0]);
       }
     },

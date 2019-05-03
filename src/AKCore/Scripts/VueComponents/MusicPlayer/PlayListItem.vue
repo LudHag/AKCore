@@ -37,21 +37,22 @@ export default {
 @import "~bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss";
 @import "../../../Styles/variables.scss";
 .playlist-element {
-  display: block;
+  display: flex;
   color: #a5a2a0;
   padding: 3px 0;
   font-size: 16px;
   text-align: left;
+  .name {
+    flex-grow: 1;
+  }
+
   .glyphicon-download {
     float: right;
-    margin-right: 30px;
+    margin-right: 15px;
   }
 
   &.small {
     font-size: 14px;
-    .glyphicon-download {
-      margin-right: 15px;
-    }
   }
 
   &.queued {
@@ -65,22 +66,6 @@ export default {
   .glyphicon-minus-sign {
     float: right;
     margin-right: 15px;
-  }
-}
-@media screen and (max-width: $screen-xs-max) {
-  .playlist-element {
-    position: relative;
-
-    .name {
-      width: 82%;
-      display: inline-block;
-    }
-
-    .glyphicon-download {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-    }
   }
 }
 </style>

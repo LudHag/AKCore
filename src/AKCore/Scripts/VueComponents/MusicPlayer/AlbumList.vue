@@ -157,5 +157,11 @@ h2 {
   .album-element {
     width: 125px;
   }
+  .categories {
+    padding-top: 20px;
+  }
+  .tracks {
+    padding-top: 65px;
+  }
 }
 </style>

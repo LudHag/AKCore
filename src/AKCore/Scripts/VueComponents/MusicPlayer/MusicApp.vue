@@ -81,7 +81,8 @@ export default {
   },
   created() {
     this.albums = widgetAlbums;
-    this.currentAlbumId = Object.keys(widgetAlbums)[0];
+    const albumIds = Object.keys(widgetAlbums);
+    this.currentAlbumId = albumIds[Math.floor(Math.random() * albumIds.length)];
   }
 };
 </script>
