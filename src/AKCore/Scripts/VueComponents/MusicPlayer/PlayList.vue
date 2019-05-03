@@ -61,6 +61,7 @@ export default {
   },
   methods: {
     next() {
+      console.log(this.tracks);
       const currentIndex = this.tracks.findIndex(
         track => track.id === this.trackPlaying.id
       );

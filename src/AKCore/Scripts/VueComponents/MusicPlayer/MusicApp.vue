@@ -19,7 +19,7 @@
         @stop="stop"
       ></PlayList>
     </div>
-    <album-list v-if="albums" @add-track="addTrack" @select="selectAlbum" :albums="albums"></album-list>
+    <album-list v-if="albums && albums.length > 0" @add-track="addTrack" @select="selectAlbum" :albums="albums"></album-list>
   </div>
 </template>
 <script>
