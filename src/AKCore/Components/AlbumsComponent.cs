@@ -1,10 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using AKCore.DataModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Hosting;
 
 namespace AKCore.Components
 {
@@ -19,7 +16,7 @@ namespace AKCore.Components
 
         public IViewComponentResult Invoke(Widget widget)
         {
-            var model = widget.Albums.Select(a => _db.Albums.Include(x=>x.Tracks).FirstOrDefault(x => x.Id == a)).Where(album => album != null).OrderBy(x => x.Name).ToList();
+            var model = widget.Albums.Select(a => _db.Albums.Include(x=>x.Tracks).FirstOrDefault(x => x.Id == a)).Where(album => album != null).ToList();
             return View(model);
         }
     }

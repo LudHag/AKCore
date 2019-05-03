@@ -13,6 +13,12 @@
             <div class="form-group search-input">
               <input type="text" class="form-control" placeholder="Sök här" v-model="search">
             </div>
+            <div class="form-group">
+              <select class="form-control" v-model="albumCategory">
+                <option value>Filtrera på kategori</option>
+                <option v-for="cat in albumCategories" :key="cat">{{cat}}</option>
+              </select>
+            </div>
           </div>
         </div>
       </div>
@@ -43,6 +49,7 @@
       :album="album"
       :key="album.id"
       @name="changeName"
+      @category="changeCategory"
       @delete="deleteAlbum"
       @image="pickImage"
       @tracks="uploadTracks"
@@ -60,6 +67,7 @@ import ApiService from "../../services/apiservice";
 import AlbumEditItem from "./AlbumEditItem";
 import ImagePickerModal from "../ImagePickerModal";
 import AlbumUploadModal from "./AlbumUploadModal";
+import Constants from "../../constants";
 
 export default {
   components: {
@@ -74,7 +82,8 @@ export default {
       showImagePicker: false,
       selectedAlbum: -1,
       tracksAlbumId: -1,
-      search: ""
+      search: "",
+      albumCategory: ""
     };
   },
   computed: {
@@ -87,12 +96,20 @@ export default {
       });
     },
     filteredAlbums() {
-      if(!this.search || !this.albums) {
+      if (!this.albums) {
         return this.albums;
       }
-      return this.albums.filter((album) => {
-        return album.name.toLowerCase().indexOf(this.search.toLowerCase()) > -1;
-      })
+      return this.albums.filter(album => {
+        const albumCategory = album.category ? album.category : "Övrigt";
+        return (
+          (!this.search ||
+            album.name.toLowerCase().indexOf(this.search.toLowerCase()) > -1) &&
+          (!this.albumCategory || albumCategory === this.albumCategory)
+        );
+      });
+    },
+    albumCategories() {
+      return Constants.ALBUMCATEGORIES;
     }
   },
   methods: {
@@ -107,6 +124,24 @@ export default {
           this.albums = this.albums.map(item => {
             if (item.id === id) {
               return Object.assign({}, item, { name });
+            } else {
+              return item;
+            }
+          });
+        }
+      );
+    },
+    changeCategory(category, id) {
+      const error = $(".alert-danger");
+      ApiService.postByObject(
+        "/AlbumEdit/ChangeCategory",
+        { id, category },
+        error,
+        null,
+        () => {
+          this.albums = this.albums.map(item => {
+            if (item.id === id) {
+              return Object.assign({}, item, { category });
             } else {
               return item;
             }
