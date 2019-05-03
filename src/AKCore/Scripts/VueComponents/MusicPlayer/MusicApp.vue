@@ -12,6 +12,8 @@
         :play-list="playList"
         :album="currentAlbum"
         :playing="playing"
+        @remove="removeTrack"
+        @remove-before="removeBefore"
         @add-track="addTrack"
         @playpause="playPause"
         @stop="stop"
@@ -63,6 +65,17 @@ export default {
     addTrack(track) {
       if (this.playList.indexOf(track) < 0) {
         this.playList.push(track);
+      }
+    },
+    removeTrack(track) {
+      const index = this.playList.indexOf(track);
+      if (index > -1) {
+        this.playList.splice(index, 1);
+      }
+    },
+    removeBefore(index) {
+      if(this.playList.length > index) {
+        this.playList.splice(0, index);
       }
     }
   },

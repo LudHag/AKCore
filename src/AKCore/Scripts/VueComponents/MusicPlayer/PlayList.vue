@@ -13,7 +13,9 @@
         :key="track.id"
         :track="track"
         :active="trackPlaying && track.id === trackPlaying.id"
+        :remove="playList.length > 0"
         @select="selectTrack"
+        @remove="$emit('remove', track)"
         @add="$emit('add-track', track)"
       ></PlayListItem>
     </div>
@@ -68,11 +70,18 @@ export default {
       } else {
         this.trackPlaying = this.tracks[currentIndex + 1];
       }
+      if(this.playList.length > 0) {
+        this.$emit("remove", this.playList[0]);
+      }
     },
     selectTrack(track) {
       this.trackPlaying = track;
       if (!this.playing) {
         this.$nextTick(() => this.$emit("playpause"));
+      }
+      if(this.playList.length > 0) {
+        const index = this.playList.indexOf(track);
+        this.$emit("remove-before", index);
       }
     }
   }

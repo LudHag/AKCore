@@ -6,17 +6,31 @@
     @click.prevent="$emit('select', track)"
   >
     <span class="name" v-html="track.name"></span>
-    <span class="glyphicon glyphicon-download"></span>
+    <span class="glyphicon glyphicon-download" @click.prevent.stop="downloadUri"></span>
     <span
       class="glyphicon glyphicon-plus-sign"
-      v-if="!noAdd"
+      v-if="!noAdd && !remove"
       @click.prevent.stop="$emit('add', track)"
+    ></span>
+    <span
+      class="glyphicon glyphicon-minus-sign"
+      v-if="remove"
+      @click.prevent.stop="$emit('remove', track)"
     ></span>
   </a>
 </template>
 <script>
 export default {
-  props: ["track", "active", "noAdd", "small"]
+  props: ["track", "active", "noAdd", "small", "remove"],
+  methods: {
+    downloadUri() {
+      const link = document.createElement("a");
+      const trackPathParts = this.track.filepath.split("/");
+      link.download = trackPathParts[trackPathParts.length - 1];
+      link.href = this.track.filepath;
+      link.click();
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>
@@ -28,9 +42,16 @@ export default {
   padding: 3px 0;
   font-size: 16px;
   text-align: left;
+  .glyphicon-download {
+    float: right;
+    margin-right: 30px;
+  }
 
   &.small {
     font-size: 14px;
+    .glyphicon-download {
+      margin-right: 15px;
+    }
   }
 
   &.queued {
@@ -40,13 +61,10 @@ export default {
   &.active {
     color: $akred;
   }
-  .glyphicon-plus-sign {
+  .glyphicon-plus-sign,
+  .glyphicon-minus-sign {
     float: right;
     margin-right: 15px;
-  }
-  .glyphicon-download {
-    float: right;
-    margin-right: 30px;
   }
 }
 @media screen and (max-width: $screen-xs-max) {
