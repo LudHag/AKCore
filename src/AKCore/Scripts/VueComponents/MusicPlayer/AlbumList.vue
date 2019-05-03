@@ -2,6 +2,7 @@
   <div class="album-list">
     <div class="form-inline track-search">
       <div class="form-group">
+        <a v-if="searchQuery" href="#" @click.prevent="searchQuery = ''" class="show-albums">Visa album</a>
         Sök låtar:
         <input
           type="text"
@@ -97,6 +98,10 @@ export default {
 .album-list {
   margin-top: 10px;
   position: relative;
+}
+.show-albums {
+  margin-right: 20px;
+  color: gray;
 }
 .categories {
   margin-top: 10px;
