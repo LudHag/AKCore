@@ -77,9 +77,6 @@ $(function () {
                 }
             });
 
-    if ($(".youtubelist").length > 0)
-        $(".youtubelist").youtubegallery();
-
     $('#recruit-form').on('submit',
         function(e) {
             e.preventDefault();

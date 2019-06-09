@@ -6,8 +6,6 @@
 
         });
 
-$(".chosen-select").chosen({ width: '100%'});
-
 $(".remove-page").on("click", function(e) {
     e.preventDefault();
     if (window.confirm("Är du säker på att du vill ta bort denna sida?")) {
@@ -138,7 +136,7 @@ var options = {
     ],
     toolbar_items_size: "small",
     height: "200",
-    content_css: "/dist/style.css",
+    content_css: "/dist/main.css",
     body_class: "body-content",
     browser_spellcheck: true,
     file_browser_callback: function(field_name, url, type, win) {
