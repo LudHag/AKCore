@@ -4,7 +4,7 @@
             <td>{{user.fullName}}</td>
             <td>{{user.userName}}</td>
             <td class="roles">
-                <span v-for="role in user.roles" class="role" v-tooltip:top="roleInfo(role)">
+                <span v-for="role in user.roles" :key="role" class="role" v-tooltip:top="roleInfo(role)">
                     {{role}} <a v-if="expanded" class="remove-role glyphicon glyphicon-remove" @click.prevent.stop="removeRole(role)"></a>
                 </span>
             </td>
@@ -30,7 +30,7 @@
                                 </p>
                                 <p>
                                     <strong>Slavposter:</strong>
-                                    <span class="listed-items" v-for="post in user.posts">{{post}}</span>
+                                    <span class="listed-items" :key="post" v-for="post in user.posts">{{post}}</span>
                                 </p>
                                 <form class="form-inline save-medal" method="post" action="/User/SaveMedal" @submit.prevent="saveLastEarned">
                                     <div class="form-group">
@@ -38,7 +38,7 @@
                                         <input type="hidden" name="userName" :value="user.userName"/>
                                         <select class="form-control input-sm" name="medal" :value="user.medal">
                                             <option value="">Ingen</option>
-                                            <option v-for="medal in medals" :value="medal">{{medal}}</option>
+                                            <option v-for="medal in medals" :key="medal" :value="medal">{{medal}}</option>
                                         </select>
                                     </div>
                                     <div class="form-group">
@@ -51,7 +51,7 @@
                                         <input type="hidden" name="userName" :value="user.userName" />
                                         <select class="form-control input-sm" name="medal" :value="user.givenMedal">
                                             <option value="">Ingen</option>
-                                            <option v-for="medal in medals" :value="medal">{{medal}}</option>
+                                            <option v-for="medal in medals" :key="medal" :value="medal">{{medal}}</option>
                                         </select>
                                     </div>
                                     <div class="form-group">
@@ -70,7 +70,7 @@
                                         <label>Lägg till roll: </label>
                                         <select class="form-control input-sm" name="Role">
                                             <option value="">Välj roll</option>
-                                            <option v-for="role in roles" :value="role">{{role}}</option>
+                                            <option v-for="role in roles" :key="role" :value="role">{{role}}</option>
                                         </select>
                                     </div>
                                     <div class="form-group">
@@ -210,8 +210,9 @@
                 });
             },
             resetPassword() {
-                $('#change-user-name').val(this.user.userName);
-                $('#changePasswordModal').modal('show');
+                // $('#change-user-name').val(this.user.userName);
+                // $('#changePasswordModal').modal('show');
+                this.$emit("newpassword", this.user);
             },
             addPost() {
                 const error = $(".alert-danger");

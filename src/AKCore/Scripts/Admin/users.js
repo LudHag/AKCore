@@ -31,34 +31,34 @@ if (usercontainer.length > 0) {
                 });
         });
 
-    $("#change-pass-form")
-        .on('submit',
-            function(e) {
-                e.preventDefault();
-                const form = $(this);
-                const error = form.find(".alert-danger");
-                const success = $(".alert-success");
-                $.ajax({
-                    url: form.attr("action"),
-                    type: form.attr("method"),
-                    data: form.serialize(),
-                    success: function(res) {
-                        if (res.success) {
-                            $('#change-user-pass').val("");
-                            $('#changePasswordModal').modal('hide');
-                            success.text('Användarens lösenord ändrat');
-                            success.slideDown().delay(3000).slideUp();
-                        } else {
-                            error.text(res.message);
-                            error.slideDown().delay(3000).slideUp();
-                        }
-                    },
-                    error: function(err) {
-                        error.text("Misslyckades med att byta lösenord");
-                        error.slideDown().delay(3000).slideUp();
-                    }
-                });
-            });
+    // $("#change-pass-form")
+    //     .on('submit',
+    //         function(e) {
+    //             e.preventDefault();
+    //             const form = $(this);
+    //             const error = form.find(".alert-danger");
+    //             const success = $(".alert-success");
+    //             $.ajax({
+    //                 url: form.attr("action"),
+    //                 type: form.attr("method"),
+    //                 data: form.serialize(),
+    //                 success: function(res) {
+    //                     if (res.success) {
+    //                         $('#change-user-pass').val("");
+    //                         $('#changePasswordModal').modal('hide');
+    //                         success.text('Användarens lösenord ändrat');
+    //                         success.slideDown().delay(3000).slideUp();
+    //                     } else {
+    //                         error.text(res.message);
+    //                         error.slideDown().delay(3000).slideUp();
+    //                     }
+    //                 },
+    //                 error: function(err) {
+    //                     error.text("Misslyckades med att byta lösenord");
+    //                     error.slideDown().delay(3000).slideUp();
+    //                 }
+    //             });
+    //         });
     usercontainer.on("click",
         "#create-user",
         function(e) {
