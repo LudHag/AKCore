@@ -1,5 +1,6 @@
 ﻿<template>
   <div id="user-list">
+    <div class="alert alert-success update-password-success" style="display: none;">Lösenord uppdaterat</div>
     <table class="table">
       <thead>
         <tr>
@@ -21,6 +22,7 @@
     <password-modal
       :show-modal="showUpdatePasswordModal"
       :user="updatePasswordUser"
+      @success="newPasswordSuccess"
       @close="closeModal"
     ></password-modal>
   </div>
@@ -55,6 +57,9 @@ export default {
     closeModal() {
       this.showUpdatePasswordModal = false;
       this.updatePasswordUser = null;
+    },
+    newPasswordSuccess() {
+      $(".update-password-success").slideDown().delay(4000).slideUp();
     }
   }
 };

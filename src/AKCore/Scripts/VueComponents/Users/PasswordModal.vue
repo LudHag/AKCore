@@ -9,7 +9,7 @@
         @submit.prevent="submitForm"
         v-if="user"
       >
-        <div class="alert alert-danger" style="display: none;"></div>
+        <div class="alert alert-danger change-password-error" style="display: none;"></div>
         <input type="hidden" class="form-control" name="userName" :value="user.userName" required>
         <div class="form-group">
           <label>Lösenord</label>
@@ -50,10 +50,10 @@ export default {
       form.submit();
     },
     submitForm(event) {
-      const error = $(".alert-danger");
+      const error = $(".change-password-error");
       const form = $(this.$refs.changepassform);
       ApiService.defaultFormSend(form, error, null, () => {
-        this.$emit("update");
+        this.$emit("success");
         this.close();
       });
     }
