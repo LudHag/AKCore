@@ -40,6 +40,10 @@ namespace AKCore.Controllers
         {
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
             var logins = _db.UserLogins.Where(x => x.ProviderDisplayName == user.UserName).ToList();
+            if(user.SlavPoster == "[null]")
+            {
+                user.SlavPoster = null;
+            }
 
             var model = new ProfileModel
             {

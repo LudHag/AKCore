@@ -63,18 +63,18 @@
                     </div>
                 </form>
                 <div>
-                    <div v-if="profileData.roles">
+                    <div v-if="profileData.roles && profileData.roles.length > 0">
                         <h3>Roller</h3>
                         <div class="roles">
-                            <span class="role" v-for="role in profileData.roles">
+                            <span class="role" :key="role" v-for="role in profileData.roles">
                                 {{role}}
                             </span>
                         </div>
                     </div>
-                    <div v-if="profileData.poster">
+                    <div v-if="profileData.poster && profileData.poster.length > 0">
                         <h3>Slavposter</h3>
                         <div class="roles">
-                            <span class="role" v-for="post in profileData.poster">
+                            <span class="role" :key="post" v-for="post in profileData.poster">
                                 {{post}}
                             </span>
                         </div>
