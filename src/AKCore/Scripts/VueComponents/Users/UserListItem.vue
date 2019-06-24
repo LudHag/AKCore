@@ -115,6 +115,11 @@
             }
         },
         watch: {
+            user() {
+                if (this.user && this.user.posts) {
+                    this.selectedPosts = this.user.posts.slice();
+                }
+            },
             expanded(val) {
                 if (val && this.user && this.user.posts) {
                     this.selectedPosts = this.user.posts.slice();
@@ -137,8 +142,8 @@
             },
             removeUser() {
                 if (confirm("Vill du verkligen ta bort " + this.user.fullName + "?")) {
-                    const error = $(".alert-danger");
-                    const success = $(".alert-success");
+                    const error = $($(".alert-danger")[0]);
+                    const success = $($(".alert-success")[0]);
                     ApiService.postByUrl(
                         "/User/RemoveUser?userName=" + this.user.userName,
                         error, success, () => {
@@ -147,8 +152,8 @@
                 }
             },
             saveLastEarned(event) {
-                const error = $(".alert-danger");
-                const success = $(".alert-success");
+                const error = $($(".alert-danger")[0]);
+                const success = $($(".alert-success")[0]);
                 const form = $(event.target);
                 ApiService.defaultFormSend(form, error, success, () => {
                     this.$emit('updateuserprop', {
@@ -159,8 +164,8 @@
                 });
             },
             saveLastGiven(event) {
-                const error = $(".alert-danger");
-                const success = $(".alert-success");
+                const error = $($(".alert-danger")[0]);
+                const success = $($(".alert-success")[0]);
                 const form = $(event.target);
                 ApiService.defaultFormSend(form, error, success, () => {
                     this.$emit('updateuserprop', {
@@ -171,8 +176,8 @@
                 });
             },
             removeRole(role) {
-                const error = $(".alert-danger");
-                const success = $(".alert-success");
+                const error = $($(".alert-danger")[0]);
+                const success = $($(".alert-success")[0]);
                 const roleIndex = this.user.roles.indexOf(role);
                 if (roleIndex === -1) {
                     return;
@@ -191,8 +196,8 @@
                     });
             },
             addRole(event) {
-                const error = $(".alert-danger");
-                const success = $(".alert-success");
+                const error = $($(".alert-danger")[0]);
+                const success = $($(".alert-success")[0]);
                 const form = $(event.target);
                 const role = event.target.elements.Role.value;
                 const roleIndex = this.user.roles.indexOf(role);
@@ -210,13 +215,11 @@
                 });
             },
             resetPassword() {
-                // $('#change-user-name').val(this.user.userName);
-                // $('#changePasswordModal').modal('show');
                 this.$emit("newpassword", this.user);
             },
             addPost() {
-                const error = $(".alert-danger");
-                const success = $(".alert-success");
+                const error = $($(".alert-danger")[0]);
+                const success = $($(".alert-success")[0]);
                 const postObj = { post: this.selectedPosts, userName: this.user.userName };
                 ApiService.postByObject("/User/AddPost", postObj, error, success, () => {
                     this.$emit('updateuserprop', {

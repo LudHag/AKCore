@@ -26,8 +26,8 @@
     <edit-user-modal
       :show-modal="showUserModal"
       :user="updateUser"
-      @success="updateUserSuccess"
       @close="closeModal"
+      @updated="userUpdated"
     ></edit-user-modal>
   </div>
 </template>
@@ -109,8 +109,10 @@ export default {
       });
       this.users.splice(userIndex, 1);
     },
-    updateUserSuccess() {
-      console.log("woop woop success");
+    userUpdated(user) {
+        const index = this.users.map(u => u.id).indexOf(user.id);
+        this.users = Object.assign([], this.users, {[index]: user});
+        this.closeModal();
     },
     closeModal() {
       this.showUserModal = false;

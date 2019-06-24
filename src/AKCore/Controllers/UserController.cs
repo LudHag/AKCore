@@ -61,6 +61,7 @@ namespace AKCore.Controllers
                     LastName = user.LastName,
                     FullName = user.FirstName + " " + user.LastName,
                     Email = user.Email,
+                    Id = user.Id,
                     GivenMedal = user.GivenMedal,
                     HasKey = user.HasKey,
                     Instrument = user.Instrument,
@@ -115,40 +116,7 @@ namespace AKCore.Controllers
             model.Users = users.OrderBy(x => x.FirstName).ToList();
         }
 
-        [Route("EditUserInfo")]
-        public async Task<ActionResult> EditUserInfo(string userName)
-        {
-            if (string.IsNullOrWhiteSpace(userName))
-            {
-                return Json(new {success = false, message = "Användarnamn saknas"});
-            }
-
-            var user = await _userManager.FindByNameAsync(userName);
-            if (user == null)
-            {
-                return Json(new {success = false, message = "Användare saknas"});
-            }
-
-            var model = new ProfileModel
-            {
-                Id = user.Id,
-                UserName = user.UserName,
-                Email = user.Email,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Phone = user.Phone,
-                Instrument = user.Instrument,
-                OtherInstrument = string.IsNullOrWhiteSpace(user.OtherInstruments)
-                    ? null
-                    : user.OtherInstruments.Split(',').ToList(),
-                Poster = user.SlavPoster != null
-                    ? JsonConvert.DeserializeObject<List<string>>(user.SlavPoster)
-                    : new List<string>()
-            };
-            return PartialView("_EditUserModal", model);
-        }
-
-        [Route("EditUser")]
+        [HttpPost("EditUser")]
         public async Task<ActionResult> EditUser(ProfileModel model)
         {
             var user = await _userManager.FindByIdAsync(model.Id);
@@ -163,8 +131,8 @@ namespace AKCore.Controllers
             user.LastName = model.LastName;
             user.Phone = model.Phone;
             user.Instrument = model.Instrument;
-            user.SlavPoster = model.Poster == null ? "" : JsonConvert.SerializeObject(model.Poster);
-            user.OtherInstruments = model.OtherInstrument == null ? "" : string.Join(",", model.OtherInstrument);
+            user.SlavPoster = model.Posts == null ? "" : JsonConvert.SerializeObject(model.Posts);
+            user.OtherInstruments = model.OtherInstruments == null ? "" : string.Join(",", model.OtherInstruments);
             user.Medal = model.Medal;
             user.GivenMedal = model.GivenMedal;
 
@@ -209,7 +177,7 @@ namespace AKCore.Controllers
                 LastName = model.LastName,
                 Phone = model.Phone,
                 Instrument = model.Instrument,
-                SlavPoster = model.Poster == null ? "" : JsonConvert.SerializeObject(model.Poster),
+                SlavPoster = model.Posts == null ? "" : JsonConvert.SerializeObject(model.Posts),
                 Medal = model.Medal,
                 GivenMedal = model.GivenMedal
             };

@@ -53,8 +53,8 @@ namespace AKCore.Controllers
                 LastName = user.LastName,
                 Phone = user.Phone,
                 Instrument = user.Instrument,
-                OtherInstrument = string.IsNullOrWhiteSpace(user.OtherInstruments) ? null : user.OtherInstruments.Split(',').ToList(),
-                Poster = !string.IsNullOrWhiteSpace(user.SlavPoster) ? JsonConvert.DeserializeObject<List<string>>(user.SlavPoster) : new List<string>(),
+                OtherInstruments = string.IsNullOrWhiteSpace(user.OtherInstruments) ? null : user.OtherInstruments.Split(',').ToList(),
+                Posts = !string.IsNullOrWhiteSpace(user.SlavPoster) ? JsonConvert.DeserializeObject<List<string>>(user.SlavPoster) : new List<string>(),
                 Roles = await _userManager.GetRolesAsync(user),
                 Medal = user.Medal,
                 GivenMedal = user.GivenMedal
@@ -65,7 +65,7 @@ namespace AKCore.Controllers
         [Route("EditProfile")]
         public async Task<ActionResult> EditProfile([FromBody] ProfileModel model)
         {
-            if (model.OtherInstrument?.Contains(model.Instrument) ?? false)
+            if (model.OtherInstruments?.Contains(model.Instrument) ?? false)
             {
                 return Json(new { success = false, message = "Du kan inte välja samma instrument som både huvudinstrument och andrainstrument." });
             }
@@ -78,7 +78,7 @@ namespace AKCore.Controllers
             user.LastName = model.LastName;
             user.Phone = model.Phone;
             user.Instrument = model.Instrument;
-            user.OtherInstruments = model.OtherInstrument == null ? "" : string.Join(",",model.OtherInstrument);
+            user.OtherInstruments = model.OtherInstruments == null ? "" : string.Join(",",model.OtherInstruments);
             var result = await _userManager.UpdateAsync(user);
             if (result.Succeeded && updateUName)
             {
