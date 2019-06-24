@@ -58,7 +58,7 @@
                                         <button type="submit" class="btn btn-primary input-sm">Spara</button>
                                     </div>
                                 </form>
-                                <a href="#" :data-user="user.userName" class="btn btn-default edit-user-info">Redigera användarinfo</a>
+                                <a href="#" class="btn btn-default edit-user-info" @click.prevent="$emit('edit')">Redigera användarinfo</a>
                             </div>
                         </div>
                         <div class="col-sm-6">

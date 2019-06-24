@@ -60,6 +60,7 @@ namespace AKCore.Controllers
                     FirstName = user.FirstName,
                     LastName = user.LastName,
                     FullName = user.FirstName + " " + user.LastName,
+                    Email = user.Email,
                     GivenMedal = user.GivenMedal,
                     HasKey = user.HasKey,
                     Instrument = user.Instrument,

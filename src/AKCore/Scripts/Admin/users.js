@@ -17,19 +17,19 @@ if (usercontainer.length > 0) {
             });
         });
 
-    usercontainer.on("click",
-        ".edit-user-info",
-        function(e) {
-            e.preventDefault();
-            const userName = $(this).data("user");
+    // usercontainer.on("click",
+    //     ".edit-user-info",
+    //     function(e) {
+    //         e.preventDefault();
+    //         const userName = $(this).data("user");
 
-            $.get("/User/EditUserInfo?userName=" + userName,
-                function(data) {
-                    $("#editUserModal").empty().append(data);
-                    $("#editUserModal").modal("show");
-                    $("#editUserModal .multi-select").multiSelect({});
-                });
-        });
+    //         $.get("/User/EditUserInfo?userName=" + userName,
+    //             function(data) {
+    //                 $("#editUserModal").empty().append(data);
+    //                 $("#editUserModal").modal("show");
+    //                 $("#editUserModal .multi-select").multiSelect({});
+    //             });
+        // });
 
     usercontainer.on("click",
         "#create-user",

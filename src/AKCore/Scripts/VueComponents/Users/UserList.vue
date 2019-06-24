@@ -14,6 +14,7 @@
         v-for="user in users"
         :user="user"
         :key="user.userName"
+        @edit="$emit('edit', user)"
         @newpassword="updatePassword"
         @updateuserprop="updateUserProp"
         @removeuser="removeUser"
