@@ -55,6 +55,10 @@
                 <option :key="instr" v-for="instr in instruments">{{instr}}</option>
               </select>
             </div>
+            <div class="form-group">
+              <label>Andra instrument</label>
+              <v-select multiple :searchable="false" name="OtherInstruments" :options="othInstruments" v-model="editedUser.otherInstruments"></v-select>
+            </div>
           </div>
 
           <div class="col-sm-6">
@@ -144,6 +148,11 @@ export default {
     },
     medals() {
       return Constants.MEDALS;
+    },
+    othInstruments() {
+        return Constants.INSTRUMENTS.filter((instr) => {
+            return instr !== this.editedUser.instrument;
+        });
     }
   },
   methods: {

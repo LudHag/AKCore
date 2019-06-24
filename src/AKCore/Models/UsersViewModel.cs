@@ -21,7 +21,7 @@ namespace AKCore.Models
         public string SlavPoster { get; set; }
         public string Medal { get; set; }
         public string GivenMedal { get; set; }
-        public string OtherInstruments { get; set; }
+        public IEnumerable<string> OtherInstruments { get; set; }
         public bool HasKey { get; set; }
         public bool Active { get; set; }
         public IEnumerable<string> Roles;

@@ -65,7 +65,7 @@ namespace AKCore.Controllers
                     HasKey = user.HasKey,
                     Instrument = user.Instrument,
                     Medal = user.Medal,
-                    OtherInstruments = user.OtherInstruments,
+                    OtherInstruments = string.IsNullOrWhiteSpace(user.OtherInstruments) ? null : user.OtherInstruments.Split(',').ToList(),
                     Phone = user.Phone,
                     SlavPoster = user.SlavPoster,
                     Roles = roles,
