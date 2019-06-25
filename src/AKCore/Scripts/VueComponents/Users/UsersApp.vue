@@ -17,7 +17,7 @@
         </div>
       </div>
       <div class="alert alert-danger" style="display: none;"></div>
-      <div class="alert alert-success" style="display: none;">Användare skapad</div>
+      <div class="alert alert-success alert-edit-user" style="display: none;"></div>
       <user-list :users="filteredUsers" @edit="editUser" @updateuserprop="updateUserProp" @removeuser="removeUser"/>
     </div>
     <div class="col-md-3">
@@ -114,11 +114,13 @@ export default {
         const index = this.users.map(u => u.id).indexOf(user.id);
         this.users = Object.assign([], this.users, {[index]: user});
         this.closeModal();
+        $(".alert-edit-user").text("Användare uppdaterad").slideDown().delay(4000).slideUp();
     },
     userCreated(user){
       user.fullName = user.firstName + " " + user.lastName;
       this.users.push(user);
       this.closeModal();
+      $(".alert-edit-user").text("Användare skapad").slideDown().delay(4000).slideUp();
     },
     closeModal() {
       this.showUserModal = false;
