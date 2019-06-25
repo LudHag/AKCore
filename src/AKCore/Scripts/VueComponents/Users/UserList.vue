@@ -11,7 +11,7 @@
         </tr>
       </thead>
       <user-list-item
-        v-for="user in users"
+        v-for="user in sortedUsers"
         :user="user"
         :key="user.userName"
         @edit="$emit('edit', user)"
@@ -43,6 +43,11 @@ export default {
       showUpdatePasswordModal: false,
       updatePasswordUser: null
     };
+  },
+  computed: {
+    sortedUsers() {
+      return this.users.sort((a,b) => a.firstName.localeCompare(b.firstName));
+    }
   },
   methods: {
     updateUserProp(updateInfo) {

@@ -21,13 +21,14 @@
       <user-list :users="filteredUsers" @edit="editUser" @updateuserprop="updateUserProp" @removeuser="removeUser"/>
     </div>
     <div class="col-md-3">
-      <a class="btn btn-default" id="create-user" href="#" role="button">Lägg till ny användare</a>
+      <a class="btn btn-default" @click.prevent="createNewUser" href="#" role="button">Lägg till ny användare</a>
     </div>
     <edit-user-modal
       :show-modal="showUserModal"
       :user="updateUser"
       @close="closeModal"
       @updated="userUpdated"
+      @created="userCreated"
     ></edit-user-modal>
   </div>
 </template>
@@ -114,6 +115,11 @@ export default {
         this.users = Object.assign([], this.users, {[index]: user});
         this.closeModal();
     },
+    userCreated(user){
+      user.fullName = user.firstName + " " + user.lastName;
+      this.users.push(user);
+      this.closeModal();
+    },
     closeModal() {
       this.showUserModal = false;
       this.updateUser = null;
@@ -121,6 +127,10 @@ export default {
     editUser(user) {
         this.showUserModal = true;
         this.updateUser = user;
+    },
+    createNewUser() {
+        this.showUserModal = true;
+        this.updateUser = null;
     }
   },
   created() {

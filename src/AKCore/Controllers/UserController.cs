@@ -155,7 +155,7 @@ namespace AKCore.Controllers
             });
         }
 
-        [Route("CreateUser")]
+        [HttpPost("CreateUser")]
         public async Task<ActionResult> CreateUser(ProfileModel model)
         {
             if (string.IsNullOrWhiteSpace(model.UserName) || string.IsNullOrWhiteSpace(model.Password))
@@ -202,8 +202,6 @@ namespace AKCore.Controllers
 
             if (!createRes.Succeeded)
                 return Json(new {success = false, message = createRes.ToString()});
-
-            await _userManager.AddToRoleAsync(newUser, AkRoles.Medlem);
 
             var editingUser = await _userManager.FindByNameAsync(User.Identity.Name);
             _db.Log.Add(new LogItem()
