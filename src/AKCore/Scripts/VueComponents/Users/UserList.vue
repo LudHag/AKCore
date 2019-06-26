@@ -1,47 +1,82 @@
 ﻿<template>
-    <div id="user-list">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Namn</th>
-                    <th>Email</th>
-                    <th>Roller</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <user-list-item v-for="user in users" 
-                            :user="user" 
-                            :key="user.userName"
-                            @updateuserprop="updateUserProp"
-                            @removeuser="removeUser">
-            </user-list-item>
-        </table>
-    </div>
+  <div id="user-list">
+    <div class="alert alert-success update-password-success" style="display: none;">Lösenord uppdaterat</div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Namn</th>
+          <th>Email</th>
+          <th>Roller</th>
+          <th></th>
+        </tr>
+      </thead>
+      <user-list-item
+        v-for="user in sortedUsers"
+        :user="user"
+        :key="user.userName"
+        @edit="$emit('edit', user)"
+        @newpassword="updatePassword"
+        @updateuserprop="updateUserProp"
+        @removeuser="removeUser"
+      ></user-list-item>
+    </table>
+    <password-modal
+      :show-modal="showUpdatePasswordModal"
+      :user="updatePasswordUser"
+      @success="newPasswordSuccess"
+      @close="closeModal"
+    ></password-modal>
+  </div>
 </template>
 <script>
-    import UserListItem from "./UserListItem";
-    export default {
-        props: ['users'],
-        components: {
-            UserListItem
-        },
-        methods: {
-            updateUserProp(updateInfo) {
-                this.$emit('updateuserprop', updateInfo);
-            },
-            removeUser(userName) {
-                this.$emit('removeuser', userName);
-            }
-        }
+import UserListItem from "./UserListItem";
+import PasswordModal from "./PasswordModal";
+
+export default {
+  props: ["users"],
+  components: {
+    UserListItem,
+    PasswordModal
+  },
+  data() {
+    return {
+      showUpdatePasswordModal: false,
+      updatePasswordUser: null
+    };
+  },
+  computed: {
+    sortedUsers() {
+      return this.users.sort((a,b) => a.firstName.localeCompare(b.firstName));
     }
+  },
+  methods: {
+    updateUserProp(updateInfo) {
+      this.$emit("updateuserprop", updateInfo);
+    },
+    removeUser(userName) {
+      this.$emit("removeuser", userName);
+    },
+    updatePassword(user) {
+      this.showUpdatePasswordModal = true;
+      this.updatePasswordUser = user;
+    },
+    closeModal() {
+      this.showUpdatePasswordModal = false;
+      this.updatePasswordUser = null;
+    },
+    newPasswordSuccess() {
+      $(".update-password-success").slideDown().delay(4000).slideUp();
+    }
+  }
+};
 </script>
 <style lang="scss" scoped>
-    @import "../../../Styles/variables.scss";
+@import "../../../Styles/variables.scss";
 
-    table {
-        table-layout: auto;
-    }
-    table .role {
-        cursor: pointer;
-    }
+table {
+  table-layout: auto;
+}
+table .role {
+  cursor: pointer;
+}
 </style>

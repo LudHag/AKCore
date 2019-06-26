@@ -22,14 +22,14 @@ namespace AKCore.Models
         public string Instrument { get; set; }
 
         [Display(Name = "Andra instrument")]
-        public IList<string> OtherInstrument { get; set; }
+        public IList<string> OtherInstruments { get; set; }
 
 
         public string Medal { get; set; }
         public string GivenMedal { get; set; }
 
         public IList<string> Roles { get; set; }
-        public IList<string> Poster { get; set; }
+        public IList<string> Posts { get; set; }
         public ProfileModel()
         {
             Roles=new List<string>();
