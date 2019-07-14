@@ -7,9 +7,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using AcademicWork.JobWeb.E2ETests.Enums;
 using OpenQA.Selenium.Remote;
-using OpenQA.Selenium.Safari;
 
 namespace AkCore.E2ETests
 {

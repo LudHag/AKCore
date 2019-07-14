@@ -2,11 +2,10 @@
 using OpenQA.Selenium;
 using System.IO;
 using System;
-using AcademicWork.JobWeb.E2ETests.Enums;
-using AcademicWork.JobWeb.E2ETests.Extensions;
-using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Support.UI;
 using AkCore.E2ETests.Models;
+using AkCore.E2ETests.Enums;
+using AkCore.E2ETests.Extensions;
 
 namespace AkCore.E2ETests
 {

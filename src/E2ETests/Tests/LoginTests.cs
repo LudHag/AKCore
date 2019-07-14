@@ -1,7 +1,5 @@
-using System;
+using AkCore.E2ETests.Enums;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using AcademicWork.JobWeb.E2ETests.Enums;
-using OpenQA.Selenium;
 
 namespace AkCore.E2ETests
 {

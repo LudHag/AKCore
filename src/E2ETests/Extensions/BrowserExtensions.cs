@@ -1,11 +1,11 @@
-using AcademicWork.JobWeb.E2ETests.Enums;
+using AkCore.E2ETests.Enums;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.IE;
 using System;
 using System.IO;
-namespace AcademicWork.JobWeb.E2ETests.Extensions
+namespace AkCore.E2ETests.Extensions
 {
     public static class BrowserExtensions
     {
