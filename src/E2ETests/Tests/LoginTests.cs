@@ -27,7 +27,6 @@ namespace AkCore.E2ETests
             var page = new LoginPage(Driver);
             page.Login(login.UserName, login.Password);
             var profileLink = Driver.WaitFindSelector(".profile-link");
-            var a = profileLink.Text;
             Assert.IsNotNull(profileLink);
             Assert.AreEqual(profileLink.Text, login.UserName);
         }
