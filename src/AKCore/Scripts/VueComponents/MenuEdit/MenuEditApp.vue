@@ -20,7 +20,7 @@
           </div>
           <div class="form-group">
             <label for="slug">Menylänk:</label>
-            <select name="pageId" class="form-control chosen-select">
+            <select name="pageId" class="form-control">
               <option>Välj en sida</option>
               <option :value="page.id" v-for="page in pages" :key="page.id">{{page.name}}</option>
             </select>

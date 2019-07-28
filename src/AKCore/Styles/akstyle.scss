@@ -1,14 +1,13 @@
 ﻿@import "variables.scss";
-@import "chosen.scss";
 @import "~bootstrap-sass/assets/stylesheets/_bootstrap.scss";
 @import "modals.scss";
 @import "edit.scss";
 @import "general.scss";
 @import "menu.scss";
 @import "videos.scss";
-@import "musicplayer.scss";
 @import "multi-select.scss";
 @import "joinus.scss";
 @import "recruits.scss";
 @import "calendar.scss";
 @import "widget-styling.scss";
+@import '~vue-select/dist/vue-select.css';

@@ -30,14 +30,14 @@
                         <label>Instrument</label>
                         <select v-model="profileData.instrument" class="form-control" name="Instrument" required>
                             <option value="">Välj instrument</option>
-                            <option v-for="instr in instruments">{{instr}}</option>
+                            <option v-for="instr in instruments" :key="instr">{{instr}}</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label>Andra instrument</label>
                         <v-select multiple 
                                   :searchable="false" 
-                                  v-model="profileData.otherInstrument" 
+                                  v-model="profileData.otherInstruments" 
                                   :options="othInstruments"></v-select>
                     </div>
                     <div class="form-group">
@@ -63,18 +63,18 @@
                     </div>
                 </form>
                 <div>
-                    <div v-if="profileData.roles">
+                    <div v-if="profileData.roles && profileData.roles.length > 0">
                         <h3>Roller</h3>
                         <div class="roles">
-                            <span class="role" v-for="role in profileData.roles">
+                            <span class="role" :key="role" v-for="role in profileData.roles">
                                 {{role}}
                             </span>
                         </div>
                     </div>
-                    <div v-if="profileData.poster">
+                    <div v-if="profileData.posts && profileData.posts.length > 0">
                         <h3>Slavposter</h3>
                         <div class="roles">
-                            <span class="role" v-for="post in profileData.poster">
+                            <span class="role" :key="post" v-for="post in profileData.posts">
                                 {{post}}
                             </span>
                         </div>
@@ -118,7 +118,7 @@
             }
         },
         methods: {
-            updateProfile() {
+            updateProfile(event) {
                 const form = $(event.target);
                 const success = form.find(".alert-success");
                 const error = form.find(".alert-danger");

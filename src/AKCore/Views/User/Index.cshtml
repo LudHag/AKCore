@@ -1,15 +1,7 @@
-﻿@using AKCore.Models
-
-<div id="user-container">
+﻿<div id="user-container">
     <div id="user-app">
     </div>
 </div>
-
-<partial name="_CreateUserModal"/>
-<div id="editUserModal" class="modal fade">
-    <partial name="_EditUserModal" model="new ProfileModel()"/>
-</div>
-<partial name="_ChangePasswordModal"/>
 
 @section styles {
     <environment exclude="Development">
