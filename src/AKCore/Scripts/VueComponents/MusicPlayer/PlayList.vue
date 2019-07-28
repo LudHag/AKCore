@@ -4,6 +4,7 @@
     <Player
       :playing="playing"
       :track-playing="trackPlaying"
+      :reset="reset"
       @playpause="$emit('playpause')"
       @next="next"
     ></Player>
@@ -33,7 +34,8 @@ export default {
   },
   data() {
     return {
-      trackPlaying: null
+      trackPlaying: null,
+      reset: false
     };
   },
   computed: {
@@ -81,13 +83,18 @@ export default {
       }
     },
     selectTrack(track) {
-      this.trackPlaying = track;
-      if (!this.playing) {
-        this.$nextTick(() => this.$emit("playpause"));
-      }
-      if(this.playList.length > 0) {
-        const index = this.playList.indexOf(track);
-        this.$emit("remove-before", index);
+      if(this.playing && this.trackPlaying === track) {
+        this.reset = true;
+        this.$nextTick(() => this.reset = false);
+      } else {
+        this.trackPlaying = track;
+        if (!this.playing) {
+          this.$nextTick(() => this.$emit("playpause"));
+        }
+        if(this.playList.length > 0) {
+          const index = this.playList.indexOf(track);
+          this.$emit("remove-before", index);
+        }
       }
     }
   }

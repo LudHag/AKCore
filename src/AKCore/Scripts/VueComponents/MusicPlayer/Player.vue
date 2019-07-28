@@ -28,7 +28,7 @@
 <script>
 import { fmtMSS } from "../../utils/functions";
 export default {
-  props: ["playing", "trackPlaying"],
+  props: ["playing", "trackPlaying", "reset"],
   data() {
     return {
       trackLength: 0,
@@ -69,6 +69,16 @@ export default {
           player.load();
           player.play();
         });
+      }
+    },
+    reset(val) {
+      if(val) {
+        const player = this.$refs.player;
+        const decimalProgress = 0;
+        const time = 0;
+        this.trackLength = player.duration;
+        this.timePlayed = 0;
+        player.currentTime = 0;
       }
     }
   },
