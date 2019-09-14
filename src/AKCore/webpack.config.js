@@ -3,7 +3,7 @@ const LoaderOptionsPlugin = require("webpack/lib/LoaderOptionsPlugin");
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const devMode = process.env.NODE_ENV !== 'production'
 
@@ -87,12 +87,9 @@ module.exports = {
         "jquery": "jQuery"
     },
     optimization: {
+        minimize: true,
         minimizer: [
-            new UglifyJsPlugin({
-                cache: true,
-                parallel: true,
-                sourceMap: true
-            }),
+            new TerserPlugin(),
             new OptimizeCSSAssetsPlugin({})
         ],
         splitChunks: {
