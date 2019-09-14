@@ -188,6 +188,8 @@ namespace AKCore.DataModel
         public const string Dokument = "Dokument";
         public const string Ikoner = "Ikoner";
         public const string Startsidebilder = "Startsidebilder";
+        public const string Fotoalbum = "Fotoalbum";
+
 
         public static readonly IList<string> MediaTags = new List<string>()
         {
@@ -196,7 +198,8 @@ namespace AKCore.DataModel
             Balett,
             Dokument,
             Ikoner,
-            Startsidebilder
+            Startsidebilder,
+            Fotoalbum
         };
     }
 

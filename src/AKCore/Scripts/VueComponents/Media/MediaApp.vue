@@ -9,7 +9,7 @@
         <div class="alert alert-danger" ref="error" style="display: none;"></div>
         <p>Välj kategori, dra hit fil(er) eller välj med knappen för att ladda up fil(er).</p>
         <select class="form-control" v-model="selectedTag" required>
-          <option v-for="cat in categoryNames" :key="cat">{{cat}}</option>
+          <option v-for="cat in imageTypes" :key="cat">{{cat}}</option>
         </select>
       </div>
     </file-uploader>
@@ -21,6 +21,7 @@
 import ApiService from "../../services/apiservice";
 import FileUploader from "../FileUploader";
 import MediaList from "./MediaList";
+import Constants from "../../constants";
 
 export default {
   components: {
@@ -39,12 +40,20 @@ export default {
         return [];
       }
       return Object.keys(this.categories);
+    },
+    imageTypes() {
+      return Constants.IMAGETYPES;
     }
   },
   methods: {
     loadMediaList() {
       ApiService.get("/Media/MediaData", null, res => {
         this.categories = res;
+        this.imageTypes.forEach((type) => {
+          if(!(type in this.categories)) {
+            this.categories[type] = [];
+          }
+        })  
       });
     },
     uploadFiles(files) {

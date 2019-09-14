@@ -70,6 +70,7 @@ const IMAGETYPES = [
     "Balett",
     "Dokument",
     "Ikoner",
+    "Fotoalbum",
     "Startsidebilder"];
 
 const ALBUMCATEGORIES = [
