@@ -135,6 +135,7 @@ namespace AKCore.DataModel
         public const string KarRep = "Kårhusrep";
         public const string FikaRep = "Fikarep";
         public const string Fest = "Fest";
+        public const string Evenemang = "Evenemang";
 
         public static readonly IList<string> Types = new List<string>()
         {
@@ -142,7 +143,8 @@ namespace AKCore.DataModel
             Rep,
             KarRep,
             FikaRep,
-            Fest
+            Fest,
+            Evenemang
         };
     }
 

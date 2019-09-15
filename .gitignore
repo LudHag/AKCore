@@ -252,3 +252,5 @@ ModelManifest.xml
 /src/AKCore/wwwroot/albums/
 /src/AKCore/wwwroot/media/
 appsettings.json
+
+.vscode

@@ -52,7 +52,7 @@ namespace AKCore.Controllers
             {
                 Years = _db.Events
                     .Include(x => x.SignUps)
-                    .Where(x => loggedIn || (x.Type == "Spelning"))
+                    .Where(x => loggedIn || (x.Type == "Spelning") || (x.Type == "Evenemang"))
                     .Where(x => loggedIn || (!x.Secret))
                     .Where(x => x.Day >= DateTime.UtcNow.Date)
                     .OrderBy(x => x.Day).ThenBy(x => x.StartsTime)

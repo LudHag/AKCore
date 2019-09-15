@@ -1,5 +1,5 @@
 ﻿<template>
-  <modal :show-modal="showModal" header="'Redigera händelse'" @close="close">
+  <modal :show-modal="showModal" header="Redigera händelse" @close="close">
     <form slot="body" action="/AdminEvent/Edit" method="post" @submit.prevent="formSubmit">
       <div class="modal-body">
         <div class="alert alert-danger" style="display: none;"></div>
@@ -12,7 +12,7 @@
           </select>
         </div>
         <div class="editeventbody" v-if="eventType">
-          <div class="form-group" v-if="spelningFest">
+          <div class="form-group" v-if="spelningFest || eventType === 'Evenemang'">
             <div class="row">
               <div class="col-sm-6">
                 <label>Namn</label>
@@ -28,7 +28,7 @@
               </div>
             </div>
           </div>
-          <div class="form-group" v-if="spelningFest">
+          <div class="form-group" v-if="spelningFest || eventType == 'Evenemang'">
             <div class="row">
               <div class="col-sm-6">
                 <label>Plats</label>
@@ -49,7 +49,7 @@
                 <label>Dag</label>
                 <datepicker input-class="form-control" v-model="event.dayDate" name="Day" required></datepicker>
               </div>
-              <div class="col-sm-3">
+              <div class="col-sm-3" v-if="eventType !== 'Evenemang'">
                 <label>Vid hålan</label>
                 <input
                   class="form-control"
@@ -90,7 +90,7 @@
             </div>
           </div>
 
-          <div class="form-group" v-if="eventType === 'Spelning'">
+          <div class="form-group" v-if="eventType === 'Spelning' || eventType === 'Evenemang'">
             <label>Beskrivning</label>
             <textarea class="form-control" v-model="event.description" name="Description"></textarea>
           </div>

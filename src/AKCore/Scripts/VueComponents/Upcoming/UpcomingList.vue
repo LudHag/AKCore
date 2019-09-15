@@ -1,8 +1,8 @@
 ﻿<template>
     <div>
-        <div v-for="year in years">
+        <div v-for="year in years" :key="year.year">
             <h2>{{year.year}}</h2>
-            <div v-for="month in year.months">
+            <div v-for="month in year.months" :key="getMonthName(month)">
                 <h3 class="new-month">{{getMonthName(month)}}</h3>
                 <upcoming-list-item v-for="event in month"
                                     :key="event.id"
