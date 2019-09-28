@@ -62,7 +62,7 @@ const EVENTTYPES = ["Spelning", "Rep", "Kårhusrep", "Fikarep", "Fest", "Evenema
 
 const SPELTYPER = ["Stå", "Gå", "Stå och gå"];
 
-const SEKTIONER = ["Balett", "Flöjt", "Klarinett", "Komp", "Sax", "Trombon", "Trumpet"];
+const SEKTIONER = ["Balett", "Flöjt", "Grovbrass", "Klarinett", "Komp", "Sax", "Trumpet"];
 
 const IMAGETYPES = [
     "Albumomslag",
