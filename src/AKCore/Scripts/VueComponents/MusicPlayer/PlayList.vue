@@ -89,6 +89,8 @@ export default {
       } else {
         this.trackPlaying = track;
         if (!this.playing) {
+          this.reset = true;
+          this.$nextTick(() => this.reset = false);
           this.$nextTick(() => this.$emit("playpause"));
         }
         if(this.playList.length > 0) {

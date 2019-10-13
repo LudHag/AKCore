@@ -76,17 +76,21 @@ export default {
         const player = this.$refs.player;
         const decimalProgress = 0;
         const time = 0;
-        this.trackLength = player.duration;
+        this.trackLength = player ? player.duration : 0;
         this.timePlayed = 0;
-        player.currentTime = 0;
+        if(player) {
+          player.currentTime = 0;
+        }
       }
     }
   },
   methods: {
     timeUpdate(event) {
       const player = this.$refs.player;
-      this.trackLength = player.duration;
-      this.timePlayed = event.target.currentTime;
+      if(player) {
+        this.trackLength = player.duration;
+        this.timePlayed = event.target.currentTime;
+      }
     },
     endedListener() {
       this.trackLength = 0;
