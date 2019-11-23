@@ -41,7 +41,7 @@ const INSTRUMENTS = [
     "Banjo",
     "Barytonsax",
     "Euphonium",
-    "Flute",
+    "Flöjt",
     "Horn",
     "Klarinett",
     "Oboe",
