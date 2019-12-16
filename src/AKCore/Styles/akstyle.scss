@@ -13,18 +13,21 @@
 @import '~vue-select/dist/vue-select.css';
 
 #snow{
-    display: block;
+  display: block;
   position: absolute;
   left: 0;
   top: 0;
   right: 0;
   height: 133px;
-  opacity: 0.3;
+  opacity: 0.9;
   z-index: 5;
   pointer-events: none;
   background-color: #b10000;
+  @media screen and (max-width: $screen-xs-max) {
+    height: 85px;
+  }
 }
 
-header .container {
+header .container, header nav {
     z-index: 6;
 }
