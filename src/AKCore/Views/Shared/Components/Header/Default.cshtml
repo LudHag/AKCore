@@ -1,10 +1,11 @@
 ﻿@model AKCore.Models.HeaderModel
 
 <header>
+    <span id="snow"></span>
     <div class="container">
         <a class="logo" href="/">
-            <img class="hidden-xs" src="~/images/logo.png" alt="Alte Kamereren & Kamrérbaletten" />
-            <img class="visible-xs" src="~/images/mobillogo.png" alt="Alte Kamereren & Kamrérbaletten" />
+            <img class="hidden-xs" src="~/images/logo.png" alt="Alte Kamereren & Kamrérbaletten"/>
+            <img class="visible-xs" src="~/images/mobillogo.png" alt="Alte Kamereren & Kamrérbaletten"/>
         </a>
         <div class="account hidden-xs">
             @if (!Model.LoggedIn)
@@ -14,7 +15,8 @@
             else
             {
                 <p>
-                    @if (Model.Recruits > 0) { 
+                    @if (Model.Recruits > 0)
+                    {
                         <a class="interested-notice" title="@Model.Recruits olästa intresseanmälningar" href="/Signup/Recruits">
                             <span class="fa fa-exclamation-circle" aria-hidden="true"></span>
                             <span class="text">@Model.Recruits</span>
