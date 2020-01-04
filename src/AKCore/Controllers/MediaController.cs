@@ -18,9 +18,9 @@ namespace AKCore.Controllers
         private static readonly string[] ImageExtensions = { "jpg", "bmp", "gif", "png","svg" };
         private static readonly string[] DocumentExtensions = { "pdf", "docx", "doc" };
         private readonly AKContext _db;
-        private readonly IHostingEnvironment _hostingEnv;
+        private readonly IWebHostEnvironment _hostingEnv;
 
-        public MediaController(AKContext db, IHostingEnvironment hostingEnv)
+        public MediaController(AKContext db, IWebHostEnvironment hostingEnv)
         {
             _db = db;
             _hostingEnv = hostingEnv;

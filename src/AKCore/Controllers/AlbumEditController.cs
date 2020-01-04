@@ -19,11 +19,11 @@ namespace AKCore.Controllers
     public class AlbumEditController : Controller
     {
         private static readonly string[] MusicExtensions = {"mp3"};
-        private readonly IHostingEnvironment _hostingEnv;
+        private readonly IWebHostEnvironment _hostingEnv;
         private readonly AKContext _db;
         private readonly UserManager<AkUser> _userManager;
 
-        public AlbumEditController(IHostingEnvironment env, AKContext db, UserManager<AkUser> userManager)
+        public AlbumEditController(IWebHostEnvironment env, AKContext db, UserManager<AkUser> userManager)
         {
             _hostingEnv = env;
             _db = db;
