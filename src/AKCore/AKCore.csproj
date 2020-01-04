@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <PreserveCompilationContext>true</PreserveCompilationContext>
+    <AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
     <AssemblyName>AKCore</AssemblyName>
     <PackageId>AKCore</PackageId>
     <RuntimeFrameworkVersion>3.1.0</RuntimeFrameworkVersion>
