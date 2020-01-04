@@ -39,7 +39,7 @@ namespace AKCore
                 options.Filters.Add(new RequireHttpsAttribute());
             });
 #endif
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddNewtonsoftJson();
             services.AddSession();
             services.AddIdentity<AkUser, IdentityRole>()
                 .AddEntityFrameworkStores<AKContext>()
@@ -78,8 +78,9 @@ namespace AKCore
 
 
             app.UseSession();
-            app.UseAuthentication();
             app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

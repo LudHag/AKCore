@@ -36,6 +36,7 @@ namespace AKCore.Controllers
         public ActionResult MediaData()
         {
             var model = _db.Medias
+                .ToList()
                 .GroupBy(x => x.Tag).ToDictionary(x=>x.Key);
             
             return Json(model);
