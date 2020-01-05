@@ -1,6 +1,6 @@
 # Instruktioner för installation
 
-Utvecklat med VS 2017 (Visual studio code fungerar bra också).
+Utvecklat med VS 2019 (Visual studio code fungerar bra också).
 
 Rekomenderas inte att installera med äldre verktyg.
 
