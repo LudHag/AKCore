@@ -12,15 +12,12 @@ namespace AKCore.Components
     public class MemberListViewComponent : ViewComponent
     {
         private readonly UserManager<AkUser> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
 
         public MemberListViewComponent(
-            UserManager<AkUser> userManager,
-            RoleManager<IdentityRole> roleManager
+            UserManager<AkUser> userManager
         )
         {
             _userManager = userManager;
-            _roleManager = roleManager;
         }
 
         public async Task<IViewComponentResult> InvokeAsync()
