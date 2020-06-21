@@ -2,9 +2,8 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.SpaServices.Webpack;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -44,7 +43,6 @@ namespace AKCore
             services.AddIdentity<AkUser, IdentityRole>()
                 .AddEntityFrameworkStores<AKContext>()
                 .AddDefaultTokenProviders();
-
             services.Configure<IdentityOptions>(options =>
             {
                 options.Password.RequireDigit = false;
@@ -64,10 +62,12 @@ namespace AKCore
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+#pragma warning disable CS0618 // Type or member is obsolete
                 app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
                 {
                     HotModuleReplacement = true
                 });
+#pragma warning restore CS0618 // Type or member is obsolete
             }
             else
             {
@@ -76,6 +76,13 @@ namespace AKCore
                 app.UseHttpsRedirection();
             }
 
+            app.Use(async (ctx, next) =>
+            {
+                ctx.Response.Headers.Add("Content-Security-Policy",
+                                         "style-src 'self' 'unsafe-inline' http://cdn.tinymce.com https://fonts.googleapis.com https://maxcdn.bootstrapcdn.com;" +
+                                         "default-src 'self' 'unsafe-inline' 'unsafe-eval' http://cdn.tinymce.com https://www.altekamereren.org https://code.jquery.com https://fonts.gstatic.com https://maxcdn.bootstrapcdn.com;");
+                await next();
+            });
 
             app.UseSession();
             app.UseRouting();

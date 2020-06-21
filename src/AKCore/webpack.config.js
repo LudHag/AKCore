@@ -86,6 +86,7 @@ module.exports = {
     externals: {
         "jquery": "jQuery"
     },
+    devtool: 'cheap-module-source-map',
     optimization: {
         minimize: true,
         minimizer: [
