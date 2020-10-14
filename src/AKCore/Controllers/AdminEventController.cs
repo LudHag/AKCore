@@ -24,7 +24,7 @@ namespace AKCore.Controllers
             _db = db;
             _userManager = userManager;
         }
-        public ActionResult Index(string Future, string page)
+        public ActionResult Index()
         {
             ViewBag.Title = "Ändra händelser";
 
@@ -173,7 +173,7 @@ namespace AKCore.Controllers
 
         private TimeSpan ParseTime(string stringTime)
         {
-            return stringTime == null ? default(TimeSpan) : TimeSpan.Parse(stringTime);
+            return stringTime == null ? default : TimeSpan.Parse(stringTime);
         }
 
         [HttpPost]
