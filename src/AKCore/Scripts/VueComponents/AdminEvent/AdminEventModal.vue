@@ -203,12 +203,13 @@ export default {
       return this.eventType === "Spelning" || this.eventType === "Fest";
     },
     spelningKarhus() {
-      return this.eventType === "Spelning" || this.eventType === "Kårhusrep";
+        return this.eventType === "Spelning" || this.eventType === "Kårhusrep" || this.eventType === "Athenrep";;
     },
     repFika() {
       return (
         this.eventType === "Rep" ||
         this.eventType === "Kårhusrep" ||
+        this.eventType === "Athenrep" ||
         this.eventType === "Fikarep"
       );
     }

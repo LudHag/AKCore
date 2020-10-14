@@ -2,9 +2,8 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.SpaServices.Webpack;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -34,9 +33,9 @@ namespace AKCore
 
 #if DEBUG
 #else
-            services.Configure<MvcOptions>(options =>
+            services.Configure<Microsoft.AspNetCore.Mvc.MvcOptions>(options =>
             {
-                options.Filters.Add(new RequireHttpsAttribute());
+                options.Filters.Add(new Microsoft.AspNetCore.Mvc.RequireHttpsAttribute());
             });
 #endif
             services.AddControllersWithViews().AddNewtonsoftJson();
@@ -64,10 +63,12 @@ namespace AKCore
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+#pragma warning disable CS0618 // Type or member is obsolete
                 app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
                 {
                     HotModuleReplacement = true
                 });
+#pragma warning restore CS0618 // Type or member is obsolete
             }
             else
             {
