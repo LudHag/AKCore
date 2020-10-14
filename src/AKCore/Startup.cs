@@ -73,8 +73,8 @@ namespace AKCore
             else
             {
                 app.UseExceptionHandler("/Page/Error");
-                //app.UseHsts();
-                //app.UseHttpsRedirection();
+                app.UseHsts();
+                app.UseHttpsRedirection();
             }
 
 
