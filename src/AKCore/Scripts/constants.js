@@ -58,7 +58,7 @@ const MONTHS = ["Januari", "Februari", "Mars", "April", "Maj", "Juni",
 const DAYS = ["Måndag", "Tisdag", "Onsdag", "Torsdag", "Fredag", "Lördag",
     "Söndag"];
 
-const EVENTTYPES = ["Spelning", "Rep", "Kårhusrep", "Fikarep", "Fest", "Evenemang"];
+const EVENTTYPES = ["Spelning", "Rep", "Kårhusrep", "Athenrep" ,"Fikarep", "Fest", "Evenemang"];
 
 const SPELTYPER = ["Stå", "Gå", "Stå och gå"];
 

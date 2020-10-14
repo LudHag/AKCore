@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace AKCore.DataModel
 {
@@ -34,7 +32,7 @@ namespace AKCore.DataModel
         public const string Trombon = "Trombon";
         public const string Trumpet = "Trumpet";
         public const string Tuba = "Tuba";
-        
+
         public static readonly IList<string> Instrument = new List<string>()
         {
             Altsax,
@@ -133,6 +131,7 @@ namespace AKCore.DataModel
         public const string Spelning = "Spelning";
         public const string Rep = "Rep";
         public const string KarRep = "Kårhusrep";
+        public const string AthenRep = "Athenrep";
         public const string FikaRep = "Fikarep";
         public const string Fest = "Fest";
         public const string Evenemang = "Evenemang";
@@ -142,6 +141,7 @@ namespace AKCore.DataModel
             Spelning,
             Rep,
             KarRep,
+            AthenRep,
             FikaRep,
             Fest,
             Evenemang

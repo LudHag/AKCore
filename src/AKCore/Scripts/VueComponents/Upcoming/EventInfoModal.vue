@@ -52,7 +52,7 @@ export default {
     signupable() {
       return (
         this.member &&
-        (this.event.type === "Spelning" || this.event.type === "Kårhusrep")
+          (this.event.type === "Spelning" || this.event.type === "Kårhusrep" || this.event.type === "Athenrep")
       );
     },
     header() {
