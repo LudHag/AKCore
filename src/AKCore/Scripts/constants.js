@@ -4,6 +4,7 @@
     "Kamrerskamerer",
     "Balettkamerer",
     "Busskamerer",
+    "Instrumentkamerer",
     "Kamerakamerer",
     "Myskamerer",
     "Musikkamerer",
