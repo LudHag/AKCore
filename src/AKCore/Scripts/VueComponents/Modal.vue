@@ -48,7 +48,6 @@
     transition: all .3s ease;
 }
 .modal-dialog {
-    overflow: auto;
     max-height: calc(100vh - 30px);
 }
 </style>

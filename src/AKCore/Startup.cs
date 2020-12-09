@@ -1,23 +1,18 @@
 ﻿using AKCore.DataModel;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using System.IO;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Rewrite;
 using Microsoft.AspNetCore.SpaServices.Webpack;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Hosting;
 
 namespace AKCore
 {
     public class Startup
     {
-        public Startup(IHostingEnvironment env)
+        public Startup(IWebHostEnvironment env)
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
@@ -25,9 +20,7 @@ namespace AKCore
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
-            CurrentEnvironment = env;
         }
-        private IHostingEnvironment CurrentEnvironment { get; set; }
         public IConfigurationRoot Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -35,17 +28,17 @@ namespace AKCore
         {
             services.AddDbContext<AKContext>(options => options.UseMySql(Configuration["DbConnectionString"]));
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddRouting();
-            services.AddMemoryCache();
+            services.AddDistributedMemoryCache();
 
 #if DEBUG
 #else
-            services.Configure<MvcOptions>(options =>
+            services.Configure<Microsoft.AspNetCore.Mvc.MvcOptions>(options =>
             {
-                options.Filters.Add(new RequireHttpsAttribute());
+                options.Filters.Add(new Microsoft.AspNetCore.Mvc.RequireHttpsAttribute());
             });
 #endif
+            services.AddControllersWithViews().AddNewtonsoftJson();
             services.AddSession();
             services.AddIdentity<AkUser, IdentityRole>()
                 .AddEntityFrameworkStores<AKContext>()
@@ -63,19 +56,19 @@ namespace AKCore
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
             app.UseStaticFiles();
 
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+#pragma warning disable CS0618 // Type or member is obsolete
                 app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
                 {
                     HotModuleReplacement = true
                 });
+#pragma warning restore CS0618 // Type or member is obsolete
             }
             else
             {
@@ -86,17 +79,22 @@ namespace AKCore
 
 
             app.UseSession();
+            app.UseRouting();
             app.UseAuthentication();
-            app.UseMvc(routes =>
+            app.UseAuthorization();
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapRoute(
+                endpoints.MapControllers();
+                endpoints.MapControllerRoute(
                     "StartPage",
                     "",
-                    new {controller = "Page", action = "Page"});
-                routes.MapRoute(
+                    new { controller = "Page", action = "Page" });
+                endpoints.MapControllerRoute(
                     "Page",
                     "{slug}",
-                    new {controller = "Page", action = "Page"});
+                    new { controller = "Page", action = "Page" });
+
+
             });
         }
     }

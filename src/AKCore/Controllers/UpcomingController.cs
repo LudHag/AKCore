@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace AKCore.Controllers
 {
@@ -208,7 +209,7 @@ namespace AKCore.Controllers
 
         [Route("Event/{id:int}")]
         [Authorize(Roles = "Medlem")]
-        public ActionResult Event(SignUpModel model, string id)
+        public ActionResult Event(string id)
         {
             ViewBag.Title = "Anmälan";
             if (!int.TryParse(id, out var eId))

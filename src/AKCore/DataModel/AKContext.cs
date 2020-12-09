@@ -146,7 +146,7 @@ namespace AKCore.DataModel
         {
             if (!string.IsNullOrWhiteSpace(Name)) return Name;
             var parts = FileName.Split('.');
-            return parts[parts.Length - 2].Replace('_', ' ');
+            return parts[^2].Replace('_', ' ');
         }
     }
 

@@ -12,7 +12,7 @@
         <div class="col-sm-4 col-xs-6">
             <template v-if="loggedIn">
                 <p v-if="event.halanTime">Samling i hålan: {{event.halanTime}}</p>
-                <p v-if="event.thereTime && (event.type === 'Spelning' || event.type === 'Kårhusrep')">Samling på plats: {{event.thereTime}}</p>
+                <p v-if="event.thereTime && (event.type === 'Spelning' || event.type === 'Kårhusrep'|| event.type === 'Athenrep')">Samling på plats: {{event.thereTime}}</p>
                 <p v-if="event.startsTime && event.type === 'Spelning'">Spelning startar: {{event.startsTime}}</p>
             </template>
             <template v-if="!loggedIn">
@@ -24,13 +24,13 @@
             <template v-if="!loggedIn">
                 <p v-if="event.startsTime && !loggedIn">Spelning startar: {{event.startsTime}}</p>
             </template>
-            <template v-if="loggedIn && (event.type === 'Spelning' || event.type === 'Kårhusrep')">
+            <template v-if="loggedIn && (event.type === 'Spelning' || event.type === 'Kårhusrep' || event.type === 'Athenrep')">
                 <a class="green signup-link" v-if="member && event.signupState" @click.prevent.stop="openSignup" :href="signupUrl">Anmäld ({{event.signupState}})</a>
                 <a class="signup-link" v-if="member && !event.signupState" @click.prevent.stop="openSignup" :href="signupUrl">Anmäl</a>
                 <p class="hidden-xs">{{event.coming}} Kommer - {{event.notComing}} Kommer inte</p>
             </template>
             <p v-if="loggedIn && event.type === 'Spelning' && event.stand">Speltyp: {{event.stand}}</p>
-            <p v-if="loggedIn && (event.type === 'Rep' || event.type === 'Kårhusrep')">Fika och städning: {{event.fika}}</p>
+            <p v-if="loggedIn && (event.type === 'Rep' || event.type === 'Kårhusrep' || event.type === 'Athenrep')">Fika och städning: {{event.fika}}</p>
         </div>
         <div class="extra">
             <div class="col-sm-12 description" v-if="event.description">
@@ -60,7 +60,7 @@
                 return this.event.description || this.event.internalDescription;
             },
             isRep() {
-                return this.event.type === "Rep" || this.event.type === "Kårhusrep" || this.event.type === "Fikarep";
+                return this.event.type === "Rep" || this.event.type === "Kårhusrep" || this.event.type === "Athenrep" || this.event.type === "Fikarep";
             },
             signupUrl() {
                 return "/upcoming/Event/" + this.event.id;

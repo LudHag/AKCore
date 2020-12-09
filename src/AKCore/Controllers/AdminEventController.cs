@@ -1,14 +1,14 @@
-﻿using System;
-using System.Globalization;
-using System.Linq;
-using System.Threading.Tasks;
-using AKCore.DataModel;
+﻿using AKCore.DataModel;
 using AKCore.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using Microsoft.AspNetCore.Identity;
+using System;
+using System.Globalization;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace AKCore.Controllers
 {
@@ -24,10 +24,10 @@ namespace AKCore.Controllers
             _db = db;
             _userManager = userManager;
         }
-        public ActionResult Index(string Future, string page)
+        public ActionResult Index()
         {
             ViewBag.Title = "Ändra händelser";
-            
+
             return View();
         }
 
@@ -61,26 +61,26 @@ namespace AKCore.Controllers
 
         private static EventViewModel MapEventModel(Event e)
         {
-                var model = new EventViewModel()
-                {
-                    Id = e.Id,
-                    Type = e.Type,
-                    Name = e.Name,
-                    Place = e.Place,
-                    Description = e.Description,
-                    InternalDescription = e.InternalDescription,
-                    Fika = e.Fika,
-                    DayDate = e.Day,
-                    Day = e.Day.ToString("dd MMM - yyyy", Culture),
-                    DayInMonth = e.Day.Day,
-                    HalanTime = ParseTime(e.HalanTime),
-                    ThereTime = ParseTime(e.ThereTime),
-                    StartsTime = ParseTime(e.StartsTime),
-                    Secret = e.Secret,
-                    Stand = e.Stand,
-                    Year = e.Day.Year,
-                    Month = e.Day.Month
-                };
+            var model = new EventViewModel()
+            {
+                Id = e.Id,
+                Type = e.Type,
+                Name = e.Name,
+                Place = e.Place,
+                Description = e.Description,
+                InternalDescription = e.InternalDescription,
+                Fika = e.Fika,
+                DayDate = e.Day,
+                Day = e.Day.ToString("dd MMM - yyyy", Culture),
+                DayInMonth = e.Day.Day,
+                HalanTime = ParseTime(e.HalanTime),
+                ThereTime = ParseTime(e.ThereTime),
+                StartsTime = ParseTime(e.StartsTime),
+                Secret = e.Secret,
+                Stand = e.Stand,
+                Year = e.Day.Year,
+                Month = e.Day.Month
+            };
             return model;
         }
 
@@ -94,9 +94,10 @@ namespace AKCore.Controllers
         [Route("Edit")]
         public async Task<ActionResult> Edit(EventViewModel model)
         {
-            if(model.Type == AkEventTypes.Spelning)
+            if (model.Type == AkEventTypes.Spelning)
             {
-                if (!AkSpeltyp.Speltyper.Contains(model.Stand)){
+                if (!AkSpeltyp.Speltyper.Contains(model.Stand))
+                {
                     return Json(new { success = false, message = "Du måste välja stå eller gå." });
                 }
             }
@@ -135,6 +136,7 @@ namespace AKCore.Controllers
                 else //skapa
                 {
                     if ((model.Type == AkEventTypes.FikaRep) || (model.Type == AkEventTypes.KarRep) ||
+                        (model.Type == AkEventTypes.AthenRep) ||
                         (model.Type == AkEventTypes.Rep))
                         model.Name = model.Type;
 
@@ -171,7 +173,7 @@ namespace AKCore.Controllers
 
         private TimeSpan ParseTime(string stringTime)
         {
-            return stringTime == null ? default(TimeSpan) : TimeSpan.Parse(stringTime);
+            return stringTime == null ? default : TimeSpan.Parse(stringTime);
         }
 
         [HttpPost]
@@ -181,7 +183,7 @@ namespace AKCore.Controllers
             if (!int.TryParse(id, out var eId))
                 return Json(new { success = false, message = "Misslyckades med att ta bort event" });
             var e = _db.Events.Include(x => x.SignUps).FirstOrDefault(x => x.Id == eId);
-            if (e == null) return Json(new {success = false, message = "Misslyckades med att ta bort event"});
+            if (e == null) return Json(new { success = false, message = "Misslyckades med att ta bort event" });
 
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
             _db.Log.Add(new LogItem()
@@ -194,7 +196,7 @@ namespace AKCore.Controllers
 
             _db.Events.Remove(e);
             _db.SaveChanges();
-            return Json(new {success = true, message = "Lyckades ta bort event" });
+            return Json(new { success = true, message = "Lyckades ta bort event" });
         }
 
         [Route("GetEvent/{id:int}")]
@@ -203,9 +205,9 @@ namespace AKCore.Controllers
             if (!int.TryParse(id, out var eId))
                 return Json(new { success = false, message = "Misslyckades med att hämta event" });
             var e = _db.Events.FirstOrDefault(x => x.Id == eId);
-            if (e == null) return Json(new {success = false, message = "Misslyckades med att hämta event"});
+            if (e == null) return Json(new { success = false, message = "Misslyckades med att hämta event" });
 
-            return Json(new {success = true, e = JsonConvert.SerializeObject(e)});
+            return Json(new { success = true, e = JsonConvert.SerializeObject(e) });
         }
     }
 }
