@@ -8,6 +8,7 @@ import AlbumEditApp from "./VueComponents/AlbumEdit/AlbumEditApp";
 import MenuEditApp from "./VueComponents/MenuEdit/MenuEditApp";
 import MediaApp from "./VueComponents/Media/MediaApp";
 import MusicApp from "./VueComponents/MusicPlayer/MusicApp";
+import PageEdit from "./VueComponents/PageEdit/PageEdit";
 
 $(".videos-app").each(function () {
     const widgetId = $(this).data("id");
@@ -89,5 +90,11 @@ if ($("#music-app").length > 0) {
         template: "<music-app />",
         components: { MusicApp }
     });
+}
+
+if ($("#pageedit-app").length > 0) {
+    new Vue({
+        render: h => h(PageEdit),
+      }).$mount('#pageedit-app')
 }
 
