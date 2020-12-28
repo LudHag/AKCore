@@ -7,16 +7,19 @@
         <page-meta v-model="pageModel"></page-meta>
       </form>
     </div>
+    <add-widget @add="widgetAdd"></add-widget>
   </div>
 </template>
 <script>
 import Constants from "../../constants";
 import PageMeta from "./PageMeta";
+import AddWidget from "./AddWidget";
 import ApiService from "../../services/apiservice";
 
 export default {
   components: {
-    PageMeta
+    PageMeta,
+    AddWidget
   },
   data() {
     return {
@@ -34,6 +37,9 @@ export default {
     });
   },
   methods: {
+    widgetAdd(type) {
+      console.log(type);
+    },
     save(e) {
       const self = this;
       const success = $(".alert-success");
