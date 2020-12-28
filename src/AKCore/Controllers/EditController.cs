@@ -164,8 +164,7 @@ namespace AKCore.Controllers
             return View("EditPage", model);
         }
 
-        [HttpPost]
-        [Route("Page/{id:int}")]
+        [HttpPost("Page/{id:int}")]
         [Authorize(Roles = "SuperNintendo,Editor")]
         public async Task<ActionResult> Page(PageEditModel model, int id)
         {

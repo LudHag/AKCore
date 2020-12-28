@@ -28,21 +28,25 @@
       <div class="form-group">
         <label for="slug">Inställningar</label>
         <div class="checkbox">
-          <label> <input type="checkbox" /> Startsida </label>
-        </div>
-        <div class="checkbox">
           <label>
-            <input type="checkbox" v-model="value.loggedIn" /> Kräver inloggning
+            <input type="checkbox" name="LoggedIn" v-model="value.loggedIn" />
+            Kräver inloggning
           </label>
         </div>
         <div class="checkbox">
           <label>
-            <input type="checkbox" v-model="value.loggedOut" /> Enbart utloggade
+            <input type="checkbox" name="LoggedOut" v-model="value.loggedOut" />
+            Enbart utloggade
           </label>
         </div>
         <div class="checkbox">
           <label>
-            <input type="checkbox" v-model="value.balettOnly" /> För baletten
+            <input
+              type="checkbox"
+              name="BalettOnly"
+              v-model="value.balettOnly"
+            />
+            För baletten
           </label>
         </div>
       </div>

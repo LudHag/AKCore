@@ -12,6 +12,7 @@
 <script>
 import Constants from "../../constants";
 import PageMeta from "./PageMeta";
+import ApiService from "../../services/apiservice";
 
 export default {
   components: {
@@ -34,7 +35,17 @@ export default {
   },
   methods: {
     save(e) {
-      console.log(this.pageModel.name);
+      const self = this;
+      const success = $(".alert-success");
+      const error = $(".alert-danger");
+
+      ApiService.postByObject(
+        window.location.href,
+        this.pageModel,
+        error,
+        success,
+        null
+      );
     }
   }
 };
