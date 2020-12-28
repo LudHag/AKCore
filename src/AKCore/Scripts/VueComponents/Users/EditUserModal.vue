@@ -8,7 +8,10 @@
       <form autocomplete="off" @submit.prevent="submitForm">
         <div class="row">
           <div class="col-sm-6">
-            <div class="alert alert-danger update-user-error" style="display: none;"></div>
+            <div
+              class="alert alert-danger update-user-error"
+              style="display: none;"
+            ></div>
             <div class="form-group">
               <label>Förnamn</label>
               <input
@@ -18,7 +21,7 @@
                 name="FirstName"
                 placeholder="Förnamn"
                 v-model="editedUser.firstName"
-              >
+              />
             </div>
             <div class="form-group">
               <label>Efternamn</label>
@@ -29,7 +32,7 @@
                 name="LastName"
                 placeholder="Efternamn"
                 v-model="editedUser.lastName"
-              >
+              />
             </div>
             <div class="form-group">
               <label>Telefonnummer</label>
@@ -40,7 +43,7 @@
                 name="Phone"
                 placeholder="Telefonnummer"
                 v-model="editedUser.phone"
-              >
+              />
             </div>
             <div class="form-group">
               <label>Epost</label>
@@ -51,13 +54,19 @@
                 name="Email"
                 placeholder="Epost"
                 v-model="editedUser.email"
-              >
+              />
             </div>
             <div class="form-group">
               <label>Instrument</label>
-              <select class="form-control" name="Instrument" v-model="editedUser.instrument">
+              <select
+                class="form-control"
+                name="Instrument"
+                v-model="editedUser.instrument"
+              >
                 <option value>Välj instrument</option>
-                <option :key="instr" v-for="instr in instruments">{{instr}}</option>
+                <option :key="instr" v-for="instr in instruments">{{
+                  instr
+                }}</option>
               </select>
             </div>
             <div class="form-group">
@@ -83,7 +92,7 @@
                 placeholder="Användarnamn"
                 required
                 v-model="editedUser.userName"
-              >
+              />
             </div>
             <div class="form-group" v-if="!user">
               <label>Lösenord</label>
@@ -95,7 +104,7 @@
                 placeholder="Lösenord"
                 required
                 v-model="editedUser.password"
-              >
+              />
             </div>
             <div class="form-group" v-if="!user">
               <label>Roller</label>
@@ -119,16 +128,28 @@
             </div>
             <div class="form-group">
               <label>Senaste medalj</label>
-              <select class="form-control" name="Medal" v-model="editedUser.medal">
+              <select
+                class="form-control"
+                name="Medal"
+                v-model="editedUser.medal"
+              >
                 <option value>Ingen medalj</option>
-                <option :key="medal" v-for="medal in medals">{{medal}}</option>
+                <option :key="medal" v-for="medal in medals">{{
+                  medal
+                }}</option>
               </select>
             </div>
             <div class="form-group">
               <label>Senast utdelade medalj</label>
-              <select class="form-control" name="GivenMedal" v-model="editedUser.givenMedal">
+              <select
+                class="form-control"
+                name="GivenMedal"
+                v-model="editedUser.givenMedal"
+              >
                 <option value>Ingen medalj</option>
-                <option :key="medal" v-for="medal in medals">{{medal}}</option>
+                <option :key="medal" v-for="medal in medals">{{
+                  medal
+                }}</option>
               </select>
             </div>
           </div>
@@ -160,7 +181,7 @@ export default {
   watch: {
     showModal() {
       const newUser = this.user || {};
-      if(!this.user) {
+      if (!this.user) {
         newUser.roles = ["Medlem"];
       }
       this.editedUser = Object.assign({}, newUser);
@@ -192,7 +213,7 @@ export default {
     submitForm() {
       const error = $(".update-user-error");
       if (this.user) {
-        ApiService.postByObject(
+        ApiService.postByObjectAsForm(
           "/User/EditUser",
           this.editedUser,
           error,
@@ -202,7 +223,7 @@ export default {
           }
         );
       } else {
-        ApiService.postByObject(
+        ApiService.postByObjectAsForm(
           "/User/CreateUser",
           this.editedUser,
           error,
@@ -216,5 +237,4 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

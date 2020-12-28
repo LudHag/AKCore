@@ -93,8 +93,6 @@ namespace AKCore.Controllers
                 Slug = page.Slug,
                 PageId = page.Id,
                 LastModified = page.LastModified,
-                WidgetsJson = page.WidgetsJson,
-                Albums = _db.Albums.ToList(),
                 LoggedIn = page.LoggedIn,
                 LoggedOut = page.LoggedOut,
                 BalettOnly = page.BalettOnly,
@@ -120,8 +118,6 @@ namespace AKCore.Controllers
                 Slug = page.Slug,
                 PageId = page.Id,
                 LastModified = page.LastModified,
-                WidgetsJson = page.WidgetsJson,
-                Albums = _db.Albums.ToList(),
                 LoggedIn = page.LoggedIn,
                 LoggedOut = page.LoggedOut,
                 BalettOnly = page.BalettOnly,
@@ -151,8 +147,6 @@ namespace AKCore.Controllers
                 Slug = revision.Slug,
                 PageId = page.Id,
                 LastModified = page.LastModified,
-                WidgetsJson = revision.WidgetsJson,
-                Albums = _db.Albums.ToList(),
                 LoggedIn = revision.LoggedIn,
                 LoggedOut = revision.LoggedOut,
                 BalettOnly = revision.BalettOnly,
@@ -166,7 +160,7 @@ namespace AKCore.Controllers
 
         [HttpPost("Page/{id:int}")]
         [Authorize(Roles = "SuperNintendo,Editor")]
-        public async Task<ActionResult> Page(PageEditModel model, int id)
+        public async Task<ActionResult> Page([FromBody] PageEditModel model, int id)
         {
             if (id == 0)
             {
@@ -206,12 +200,12 @@ namespace AKCore.Controllers
                 ModifiedBy = user,
                 Name = model.Name,
                 Slug = model.Slug,
-                WidgetsJson = model.WidgetsJson
+                WidgetsJson = JsonConvert.SerializeObject(model.Widgets)
             });
 
             page.Name = model.Name;
             page.Slug = model.Slug;
-            page.WidgetsJson = model.WidgetsJson;
+            page.WidgetsJson = JsonConvert.SerializeObject(model.Widgets);
             page.LoggedIn = model.LoggedIn;
             page.LoggedOut = model.LoggedOut;
             page.BalettOnly = model.BalettOnly;

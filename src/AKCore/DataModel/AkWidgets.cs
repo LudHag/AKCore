@@ -1,6 +1,6 @@
-﻿using System.Collections;
+﻿using AKCore.Models;
+using System.Collections;
 using System.Collections.Generic;
-using AKCore.Models;
 
 namespace AKCore.DataModel
 {
@@ -49,32 +49,5 @@ namespace AKCore.DataModel
         public List<int> Albums { get; set; }
         public JoinUsModel JoinUsModel { get; set; }
         public HireModel HireModel { get; set; }
-        public string GetHeader()
-        {
-            switch (Type)
-            {
-                case "Text":
-                    return "Text-widget";
-                case "Image":
-                    return "Bild-widget";
-                case "Video":
-                    return "Video-widget";
-                case "Music":
-                    return "Musik-widget";
-                case "Join":
-                    return "Gå med-widget";
-                case "Hire":
-                    return "Anlita oss-widget";
-                case "MemberList":
-                    return "Adressregister-widget";
-                case "PostList":
-                    return "Kamererspostlista-widget";
-                case "HeaderText":
-                    return "Headertext-widget";
-                case "ThreePuffs":
-                    return "Tre puffar-widget";
-            }
-            return "Text-bild-widget";
-        }
     }
 }

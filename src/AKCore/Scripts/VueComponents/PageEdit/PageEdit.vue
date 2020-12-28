@@ -8,6 +8,27 @@
       </form>
     </div>
     <add-widget @add="widgetAdd"></add-widget>
+    <ul class="widget-area">
+      <li
+        v-for="widget in pageModel.widgets"
+        class="row widget"
+        :class="widget.type"
+        :key="widget.Id"
+      >
+        <div class="widget-header">
+          <h4>{{ getHeader(widget.type) }}</h4>
+          <span
+            class="btn pull-right remove-widget glyphicon glyphicon-remove"
+          ></span
+          ><span
+            class="btn pull-right min-widget glyphicon glyphicon-minus"
+          ></span>
+        </div>
+        <div class="widget-body">
+          <!-- <partial name="Widgets/@w.Type" model="w" /> -->
+        </div>
+      </li>
+    </ul>
   </div>
 </template>
 <script>
@@ -15,6 +36,7 @@ import Constants from "../../constants";
 import PageMeta from "./PageMeta";
 import AddWidget from "./AddWidget";
 import ApiService from "../../services/apiservice";
+import { getHeader } from "./functions";
 
 export default {
   components: {
@@ -37,6 +59,7 @@ export default {
     });
   },
   methods: {
+    getHeader,
     widgetAdd(type) {
       console.log(type);
     },
@@ -44,7 +67,6 @@ export default {
       const self = this;
       const success = $(".alert-success");
       const error = $(".alert-danger");
-
       ApiService.postByObject(
         window.location.href,
         this.pageModel,
@@ -56,4 +78,9 @@ export default {
   }
 };
 </script>
-<style lang="scss"></style>
+<style lang="scss">
+.widget-area {
+  list-style-type: none;
+  padding: 0;
+}
+</style>
