@@ -9,6 +9,7 @@
       >
     </div>
     <image-picker-modal
+      v-if="showModal"
       :show-modal="showModal"
       :notransition="true"
       @close="showModal = false"
@@ -28,8 +29,8 @@ export default {
   },
   methods: {
     selectImage(image) {
-      this.showModal = false;
       this.$emit("input", "/media/" + image.name);
+      this.showModal = false;
     }
   }
 };
