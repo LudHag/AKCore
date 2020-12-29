@@ -6,7 +6,7 @@ const init = () => {
   }
 
   const today = new Date();
-  let newYear = new Date(today.getFullYear() + 1, 0, 1);
+  let newYear = new Date(2021, 0, 1);
   const msLeft = newYear - today;
   let hrLeft = msLeft / (1000 * 60 * 60);
 
@@ -15,7 +15,7 @@ const init = () => {
   }
 
   if (hrLeft < 0) {
-    hrLeft = 1000;
+    hrLeft = 0;
   }
   const intensity = Math.pow(40 - hrLeft, 1.89);
 
