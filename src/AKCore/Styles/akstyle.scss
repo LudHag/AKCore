@@ -10,24 +10,17 @@
 @import "recruits.scss";
 @import "calendar.scss";
 @import "widget-styling.scss";
-@import '~vue-select/dist/vue-select.css';
+@import "~vue-select/dist/vue-select.css";
 
-#snow{
-  display: block;
+#firework {
   position: absolute;
+  bottom: -80vh;
   left: 0;
-  top: 0;
-  right: 0;
-  height: 133px;
-  opacity: 0.9;
-  z-index: 5;
-  pointer-events: none;
-  background-color: #b10000;
-  @media screen and (max-width: $screen-xs-max) {
-    height: 85px;
-  }
+  overflow: hidden;
+  max-width: 100%;
 }
 
-header .container, header nav {
-    z-index: 6;
+header .container,
+header nav {
+  z-index: 6;
 }
