@@ -96,7 +96,7 @@ namespace AKCore.Controllers
                 LoggedIn = page.LoggedIn,
                 LoggedOut = page.LoggedOut,
                 BalettOnly = page.BalettOnly,
-                Widgets = page.WidgetsJson != null ? JsonConvert.DeserializeObject<List<Widget>>(page.WidgetsJson) : new List<Widget>(),
+                Widgets = GetWidgetsFromString(page.WidgetsJson),
                 Revisions = page.Revisions?.SkipLast(1)
             };
             ViewBag.Title = "Redigera " + page.Name;
@@ -121,11 +121,22 @@ namespace AKCore.Controllers
                 LoggedIn = page.LoggedIn,
                 LoggedOut = page.LoggedOut,
                 BalettOnly = page.BalettOnly,
-                Widgets = page.WidgetsJson != null ? JsonConvert.DeserializeObject<List<Widget>>(page.WidgetsJson) : new List<Widget>(),
+                Widgets = GetWidgetsFromString(page.WidgetsJson),
                 Revisions = page.Revisions?.SkipLast(1)
             };
             return Ok(model);
         }
+        private IList<Widget> GetWidgetsFromString(string widgetJson)
+        {
+            var widgetList = widgetJson != null ? JsonConvert.DeserializeObject<List<Widget>>(widgetJson) : new List<Widget>();
+            foreach (var (widget, id) in widgetList.Select((value, i) => (value, i)))
+            {
+                widget.Id = id;
+            }
+
+            return widgetList;
+        }
+
 
         [Route("Page/{id:int}/{revisionId:int}")]
         [Authorize(Roles = "SuperNintendo,Editor")]
@@ -151,7 +162,7 @@ namespace AKCore.Controllers
                 LoggedOut = revision.LoggedOut,
                 BalettOnly = revision.BalettOnly,
                 SelectedRevision = revision,
-                Widgets = revision.WidgetsJson != null ? JsonConvert.DeserializeObject<List<Widget>>(revision.WidgetsJson) : new List<Widget>(),
+                Widgets = GetWidgetsFromString(revision.WidgetsJson),
                 Revisions = page.Revisions?.SkipLast(1)
             };
             ViewBag.Title = "Redigera " + page.Name;

@@ -9,25 +9,12 @@
     </div>
     <add-widget @add="widgetAdd"></add-widget>
     <ul class="widget-area">
-      <li
+      <widget
         v-for="widget in pageModel.widgets"
-        class="row widget"
-        :class="widget.type"
-        :key="widget.Id"
+        :value="widget"
+        :key="widget.id"
       >
-        <div class="widget-header">
-          <h4>{{ getHeader(widget.type) }}</h4>
-          <span
-            class="btn pull-right remove-widget glyphicon glyphicon-remove"
-          ></span
-          ><span
-            class="btn pull-right min-widget glyphicon glyphicon-minus"
-          ></span>
-        </div>
-        <div class="widget-body">
-          <!-- <partial name="Widgets/@w.Type" model="w" /> -->
-        </div>
-      </li>
+      </widget>
     </ul>
   </div>
 </template>
@@ -35,13 +22,14 @@
 import Constants from "../../constants";
 import PageMeta from "./PageMeta";
 import AddWidget from "./AddWidget";
+import Widget from "./Widgets/Widget";
 import ApiService from "../../services/apiservice";
-import { getHeader } from "./functions";
 
 export default {
   components: {
     PageMeta,
-    AddWidget
+    AddWidget,
+    Widget
   },
   data() {
     return {
@@ -59,7 +47,6 @@ export default {
     });
   },
   methods: {
-    getHeader,
     widgetAdd(type) {
       console.log(type);
     },
