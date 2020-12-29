@@ -3,6 +3,16 @@
 
 <div id="pageedit-app"></div>
 
+@section styles {
+    <environment exclude="Development">
+        <link rel="stylesheet" href="/dist/admin.css" asp-append-version="true">
+    </environment>
+}
+
+@section scripts {
+    <script src="~/dist/admin.js" asp-append-version="true"></script>
+}
+
 @*<div class="row">
         <form id="page-edit" action="/Edit/Page/@Model.PageId" data-isrev="@((Model.SelectedRevision != null).ToString().ToLower())" method="post">
             <div class="col-md-6">
