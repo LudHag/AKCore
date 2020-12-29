@@ -22,7 +22,7 @@
 import Constants from "../../constants";
 import PageMeta from "./PageMeta";
 import AddWidget from "./AddWidget";
-import Widget from "./Widgets/Widget";
+import Widget from "./Widget";
 import ApiService from "../../services/apiservice";
 
 export default {

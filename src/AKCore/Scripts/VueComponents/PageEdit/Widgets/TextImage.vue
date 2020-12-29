@@ -3,16 +3,13 @@
     <div class="col-sm-6">
       <textarea class="mce-content" v-html="value.text"></textarea>
     </div>
-    <div class="col-sm-6">
-      <div class="picture-select">
-        <img class="selected-image" :src="value.image" />
-        <a class="btn btn-default choose-picture-btn">Välj bild</a>
-      </div>
-    </div>
+    <image-edit v-model="value.image"></image-edit>
   </div>
 </template>
 <script>
+import ImageEdit from "../WidgetParts/ImageEdit.vue";
 export default {
+  components: { ImageEdit },
   props: ["value"]
 };
 </script>

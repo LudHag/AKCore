@@ -18,9 +18,9 @@
   </li>
 </template>
 <script>
-import { getHeader } from "../functions";
-import TextImage from "./TextImage.vue";
-import ThreePuffs from "./ThreePuffs.vue";
+import { getHeader } from "./functions";
+import TextImage from "./Widgets/TextImage.vue";
+import ThreePuffs from "./Widgets/ThreePuffs.vue";
 
 export default {
   components: { TextImage, ThreePuffs },
