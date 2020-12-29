@@ -2,11 +2,13 @@
   <div class="col-sm-6">
     <!-- <textarea class="mce-content" v-html="value" @input="update"></textarea> -->
     <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
-      <button :class="{ 'is-active': isActive.bold() }" @click="commands.bold">
-        Bold
-      </button>
+      <button
+        class="fa fa-bold"
+        :class="{ 'is-active': isActive.bold() }"
+        @click="commands.bold"
+      ></button>
     </editor-menu-bar>
-    <editor-content class="tipeditor" :editor="editor" @input="update" />
+    <editor-content class="tipeditor" :editor="editor" @update="update" />
   </div>
 </template>
 <script>
@@ -20,13 +22,14 @@ export default {
     return {
       editor: new Editor({
         extensions: [new Blockquote(), new Bold(), new Link()],
-        content: this.value
+        content: this.value,
+        onUpdate: this.update
       })
     };
   },
   methods: {
-    update(event) {
-      this.$emit("input", event.target.value);
+    update(state) {
+      this.$emit("input", state.getHTML());
     }
   },
   beforeDestroy() {
@@ -37,6 +40,7 @@ export default {
 <style lang="scss" scoped>
 .tipeditor /deep/ .ProseMirror {
   min-height: 230px;
+  padding: 5px;
   border: 1px solid green;
 }
 </style>
