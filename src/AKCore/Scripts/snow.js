@@ -1,6 +1,24 @@
 const init = () => {
   const holder = document.querySelector("#firework");
 
+  if (!holder) {
+    return;
+  }
+
+  const today = new Date();
+  let newYear = new Date(today.getFullYear() + 1, 0, 1);
+  const msLeft = newYear - today;
+  let hrLeft = msLeft / (1000 * 60 * 60);
+
+  if (hrLeft < -24) {
+    return;
+  }
+
+  if (hrLeft < 0) {
+    hrLeft = 0;
+  }
+  const intensity = Math.pow(40 - hrLeft, 1.89);
+
   var gl = holder.getContext("webgl", { preserveDrawingBuffer: true }),
     w = (holder.width = window.innerWidth),
     h = (holder.height = window.innerHeight),
@@ -16,7 +34,7 @@ const init = () => {
       xFriction: 0.995,
       baseShardVel: 1,
       addedShardVel: 0.2,
-      fireworks: 1000,
+      fireworks: intensity,
       baseShardsParFirework: 10,
       addedShardsParFirework: 10,
       shardFireworkVelMultiplier: 0.3,
