@@ -15,7 +15,7 @@ const init = () => {
   }
 
   if (hrLeft < 0) {
-    hrLeft = 0;
+    hrLeft = 1000;
   }
   const intensity = Math.pow(40 - hrLeft, 1.89);
 

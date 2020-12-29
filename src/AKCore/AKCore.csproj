@@ -33,6 +33,7 @@
     <Compile Remove="wwwroot\albums\7\**" />
     <Compile Remove="wwwroot\albums\8\**" />
     <Compile Remove="wwwroot\albums\9\**" />
+    <Compile Remove="wwwroot\dist\**" />
     <Content Remove="wwwroot\albums\10\**" />
     <Content Remove="wwwroot\albums\11\**" />
     <Content Remove="wwwroot\albums\12\**" />
@@ -55,6 +56,7 @@
     <Content Remove="wwwroot\albums\7\**" />
     <Content Remove="wwwroot\albums\8\**" />
     <Content Remove="wwwroot\albums\9\**" />
+    <Content Remove="wwwroot\dist\**" />
     <EmbeddedResource Remove="wwwroot\albums\10\**" />
     <EmbeddedResource Remove="wwwroot\albums\11\**" />
     <EmbeddedResource Remove="wwwroot\albums\12\**" />
@@ -77,6 +79,7 @@
     <EmbeddedResource Remove="wwwroot\albums\7\**" />
     <EmbeddedResource Remove="wwwroot\albums\8\**" />
     <EmbeddedResource Remove="wwwroot\albums\9\**" />
+    <EmbeddedResource Remove="wwwroot\dist\**" />
     <None Remove="wwwroot\albums\10\**" />
     <None Remove="wwwroot\albums\11\**" />
     <None Remove="wwwroot\albums\12\**" />
@@ -99,6 +102,7 @@
     <None Remove="wwwroot\albums\7\**" />
     <None Remove="wwwroot\albums\8\**" />
     <None Remove="wwwroot\albums\9\**" />
+    <None Remove="wwwroot\dist\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -120,7 +124,6 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\albums\" />
-    <Folder Include="wwwroot\dist\" />
   </ItemGroup>
 
   <Target Name="PrepublishScript" BeforeTargets="PrepareForPublish">
