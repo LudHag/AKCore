@@ -5,7 +5,7 @@
   </div>
 </template>
 <script>
-import { exec, init } from "pell";
+import { exec, init } from "../../../Vendor/pell";
 
 export default {
   props: ["value"],
@@ -31,7 +31,6 @@ export default {
         "italic",
         "heading1",
         "heading2",
-        "quote",
         "ulist",
         {
           name: "image",
