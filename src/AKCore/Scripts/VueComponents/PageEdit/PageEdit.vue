@@ -24,6 +24,7 @@ import PageMeta from "./PageMeta";
 import AddWidget from "./AddWidget";
 import Widget from "./Widget";
 import ApiService from "../../services/apiservice";
+import { tinyMceOpts } from "./functions";
 
 export default {
   components: {
@@ -45,6 +46,9 @@ export default {
         self.pageModel = res;
       }
     });
+  },
+  updated() {
+    tinymce.init(tinyMceOpts);
   },
   methods: {
     widgetAdd(type) {
