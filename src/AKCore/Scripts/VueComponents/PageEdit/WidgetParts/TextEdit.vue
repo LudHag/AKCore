@@ -27,24 +27,12 @@ export default {
         selected: "pell-button-selected"
       },
       actions: [
-        {
-          name: "backColor",
-          icon: '<div style="background-color:pink;">A</div>',
-          title: "Highlight Color",
-          result: () => exec("backColor", "pink")
-        },
         "bold",
         "italic",
-        "underline",
-        "strikethrough",
         "heading1",
         "heading2",
-        "paragraph",
         "quote",
-        "olist",
         "ulist",
-        "code",
-        "line",
         {
           name: "image",
           result: () => {
@@ -66,13 +54,29 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "../../../../node_modules/pell/src/pell";
+@import "../../../../Styles/variables.scss";
 .pell {
-  border: 2px solid #000;
-  border-radius: 0;
-  box-shadow: none;
 }
 /deep/ .pell-content {
   height: 220px;
   overflow-y: auto;
+  padding: 5px;
+}
+
+/deep/ .pell-actionbar {
+  background-color: #fff;
+  .pell-button {
+    background-color: #fff;
+    outline: none;
+    box-shadow: none;
+    border-radius: 0;
+    font-size: 20px;
+    padding: 4px;
+    border: 0;
+    &.pell-button-selected {
+      font-weight: bold;
+      color: $akred;
+    }
+  }
 }
 </style>
