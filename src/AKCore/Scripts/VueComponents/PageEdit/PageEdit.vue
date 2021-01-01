@@ -16,6 +16,13 @@
       >
       </widget>
     </ul>
+    <image-picker-modal
+      v-if="saveImageDest"
+      :show-modal="saveImageDest"
+      :destination="saveImageDest"
+      :notransition="true"
+      @close="saveImageDest = null"
+    ></image-picker-modal>
   </div>
 </template>
 <script>
@@ -25,16 +32,19 @@ import AddWidget from "./AddWidget";
 import Widget from "./Widget";
 import ApiService from "../../services/apiservice";
 import { tinyMceOpts } from "./functions";
+import ImagePickerModal from "../ImagePickerModal.vue";
 
 export default {
   components: {
     PageMeta,
     AddWidget,
-    Widget
+    Widget,
+    ImagePickerModal
   },
   data() {
     return {
-      pageModel: null
+      pageModel: null,
+      saveImageDest: null
     };
   },
   created() {
@@ -48,12 +58,16 @@ export default {
     });
   },
   updated() {
-    tinymce.init(tinyMceOpts);
+    tinymce.init(tinyMceOpts(this.selectImage, this.selectfile));
   },
   methods: {
     widgetAdd(type) {
       console.log(type);
     },
+    selectImage(destination) {
+      this.saveImageDest = destination;
+    },
+    selectfile(destination) {},
     save(e) {
       const self = this;
       const success = $(".alert-success");

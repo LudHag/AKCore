@@ -61,7 +61,7 @@ export default {
       search: ""
     };
   },
-  props: ["showModal", "notransition"],
+  props: ["showModal", "notransition", "destination"],
   methods: {
     close() {
       this.$emit("close");
@@ -72,7 +72,12 @@ export default {
       });
     },
     selectImage(image) {
-      this.$emit("image", image);
+      if (this.destination) {
+        this.destination.val("/media/" + image.name);
+        this.$emit("close");
+      } else {
+        this.$emit("image", image);
+      }
     },
     toPage(n) {
       this.page = n;

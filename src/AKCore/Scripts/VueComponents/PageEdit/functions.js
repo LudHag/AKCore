@@ -1,6 +1,6 @@
 import { EventBus } from "../../utils/eventbus";
 
-export const tinyMceOpts = {
+export const tinyMceOpts = (imageCallback, fileCallback) => ({
   selector: ".widget-area .mce-content",
   theme: "modern",
   plugins: [
@@ -37,13 +37,13 @@ export const tinyMceOpts = {
   },
   file_browser_callback: function(field_name, url, type, win) {
     if (type === "image") {
-      //$("#" + field_name).val($(this).data("path"));
+      imageCallback($("#" + field_name));
     }
     if (type === "file") {
-      //$("#" + field_name).val($(this).data("path"));
+      fileCallback($("#" + field_name));
     }
   }
-};
+});
 
 export const getHeader = type => {
   switch (type) {
