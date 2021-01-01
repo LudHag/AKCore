@@ -11,13 +11,15 @@
         @click="remove"
       ></span>
     </div>
-    <div class="widget-body" v-if="!minimized">
-      <text-image
-        v-if="value.type === 'TextImage'"
-        v-model="value"
-      ></text-image>
-      <three-puffs v-if="value.type === 'ThreePuffs'" v-model="value">
-      </three-puffs>
+    <div class="widget-body row" v-if="!minimized">
+      <div class="col-xs-12">
+        <text-image
+          v-if="value.type === 'TextImage'"
+          v-model="value"
+        ></text-image>
+        <three-puffs v-if="value.type === 'ThreePuffs'" v-model="value">
+        </three-puffs>
+      </div>
     </div>
   </li>
 </template>
