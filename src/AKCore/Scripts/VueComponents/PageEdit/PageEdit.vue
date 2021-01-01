@@ -9,14 +9,21 @@
     </div>
     <add-widget @add="widgetAdd"></add-widget>
     <ul class="widget-area">
-      <widget
-        v-for="widget in pageModel.widgets"
-        :value="widget"
-        :key="widget.id"
-        @updated="loadTiny"
-        @remove="removeWidget(widget)"
+      <draggable
+        v-model="pageModel.widgets"
+        @start="drag = true"
+        @end="drag = false"
+        handle=".widget-header"
       >
-      </widget>
+        <widget
+          v-for="widget in pageModel.widgets"
+          :value="widget"
+          :key="widget.id"
+          @updated="loadTiny"
+          @remove="removeWidget(widget)"
+        >
+        </widget>
+      </draggable>
     </ul>
     <image-picker-modal
       v-if="saveImageDest"
@@ -44,6 +51,7 @@ import ApiService from "../../services/apiservice";
 import { tinyMceOpts } from "./functions";
 import ImagePickerModal from "../ImagePickerModal.vue";
 import DocumentPickerModal from "../DocumentPickerModal.vue";
+import draggable from "vuedraggable";
 
 export default {
   components: {
@@ -51,13 +59,15 @@ export default {
     AddWidget,
     Widget,
     ImagePickerModal,
-    DocumentPickerModal
+    DocumentPickerModal,
+    draggable
   },
   data() {
     return {
       pageModel: null,
       saveImageDest: null,
-      saveDocumentDest: null
+      saveDocumentDest: null,
+      drag: false
     };
   },
   created() {
@@ -86,6 +96,19 @@ export default {
   },
   updated() {
     this.loadTiny();
+  },
+  watch: {
+    drag(value) {
+      Array.from(document.querySelectorAll(".mce-content"))
+        .map(x => x.id)
+        .forEach(id => {
+          if (value) {
+            tinymce.execCommand("mceRemoveEditor", false, id);
+          } else {
+            tinymce.execCommand("mceAddEditor", true, id);
+          }
+        });
+    }
   },
   methods: {
     widgetAdd(type) {
