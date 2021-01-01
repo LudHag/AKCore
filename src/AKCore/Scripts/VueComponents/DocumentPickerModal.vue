@@ -6,32 +6,29 @@
     @close="close"
   >
     <div slot="body" class="modal-body">
-      <form class="form-inline ak-search">
+      <form class="form-inline ak-search" @submit.prevent>
         <div class="form-group">
           <input type="text" class="form-control" v-model="search" />
         </div>
       </form>
-      <div class="row gallery">
-        <div
-          class="col-sm-3 image-box"
+      <div class="gallery document-list">
+        <a
+          class="document-item"
           v-for="doc in shownDocuments"
           :key="doc.id"
           @click.prevent="selectDocument(doc)"
         >
-          <img :src="'/media/' + doc.name" />
-          <p class="name">{{ doc.name }}</p>
-        </div>
-        <div class="col-xs-12">
-          <ul class="pagination">
-            <li
-              v-bind:class="{ active: page + 1 === n }"
-              v-for="n in pagesLength"
-              :key="n"
-            >
-              <a href="#" @click.prevent="toPage(n - 1)">{{ n }}</a>
-            </li>
-          </ul>
-        </div>
+          {{ doc.name }}
+        </a>
+        <ul class="pagination">
+          <li
+            v-bind:class="{ active: page + 1 === n }"
+            v-for="n in pagesLength"
+            :key="n"
+          >
+            <a href="#" @click.prevent="toPage(n - 1)">{{ n }}</a>
+          </li>
+        </ul>
       </div>
     </div>
   </modal>
@@ -85,11 +82,11 @@ export default {
       });
     },
     shownDocuments() {
-      const take = this.page * 8;
-      return this.filteredDocuments.slice(take, take + 8);
+      const take = this.page * 16;
+      return this.filteredDocuments.slice(take, take + 16);
     },
     pagesLength() {
-      const nbrPages = Math.ceil(this.filteredDocuments.length / 8);
+      const nbrPages = Math.ceil(this.filteredDocuments.length / 16);
       if (this.page + 1 > nbrPages && nbrPages - 1 > -1) {
         this.page = nbrPages - 1;
       }
@@ -102,7 +99,8 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.image-box {
+.document-item {
   cursor: pointer;
+  display: block;
 }
 </style>
