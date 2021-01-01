@@ -262,23 +262,6 @@
   display: none;
 }
 
-.widget {
-  background-color: white;
-  margin-right: 0;
-  margin-left: 0;
-  margin-top: 20px;
-  color: black;
-  padding-bottom: 20px;
-  border-radius: 4px;
-}
-.widget-header {
-  position: relative;
-  padding: 12px 15px 12px 40px;
-  background-color: #ece8e5;
-  margin-bottom: 20px;
-  border-radius: 4px;
-}
-
 .picture-select {
   text-align: center;
   img {
@@ -292,12 +275,6 @@
   width: 100px;
   margin-left: auto;
   margin-right: auto;
-}
-
-.min-widget,
-.remove-widget {
-  font-size: 22px;
-  top: -41px;
 }
 
 #picker-images {

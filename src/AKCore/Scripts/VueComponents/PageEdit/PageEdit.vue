@@ -13,6 +13,8 @@
         v-for="widget in pageModel.widgets"
         :value="widget"
         :key="widget.id"
+        @updated="loadTiny"
+        @remove="removeWidget(widget)"
       >
       </widget>
     </ul>
@@ -69,11 +71,19 @@ export default {
     });
   },
   updated() {
-    tinymce.init(tinyMceOpts(this.selectImage, this.selectfile));
+    this.loadTiny();
   },
   methods: {
     widgetAdd(type) {
       console.log(type);
+    },
+    loadTiny() {
+      tinymce.init(tinyMceOpts(this.selectImage, this.selectfile));
+    },
+    removeWidget(widget) {
+      this.pageModel.widgets = this.pageModel.widgets.filter(
+        x => x.id != widget.id
+      );
     },
     selectImage(destination) {
       this.saveImageDest = destination;
