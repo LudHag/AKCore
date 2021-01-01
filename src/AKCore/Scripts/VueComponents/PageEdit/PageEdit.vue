@@ -23,6 +23,14 @@
       :notransition="true"
       @close="saveImageDest = null"
     ></image-picker-modal>
+    <document-picker-modal
+      v-if="saveDocumentDest"
+      :show-modal="saveDocumentDest"
+      :destination="saveDocumentDest"
+      :notransition="true"
+      @close="saveDocumentDest = null"
+    >
+    </document-picker-modal>
   </div>
 </template>
 <script>
@@ -33,18 +41,21 @@ import Widget from "./Widget";
 import ApiService from "../../services/apiservice";
 import { tinyMceOpts } from "./functions";
 import ImagePickerModal from "../ImagePickerModal.vue";
+import DocumentPickerModal from "../DocumentPickerModal.vue";
 
 export default {
   components: {
     PageMeta,
     AddWidget,
     Widget,
-    ImagePickerModal
+    ImagePickerModal,
+    DocumentPickerModal
   },
   data() {
     return {
       pageModel: null,
-      saveImageDest: null
+      saveImageDest: null,
+      saveDocumentDest: null
     };
   },
   created() {
@@ -67,7 +78,9 @@ export default {
     selectImage(destination) {
       this.saveImageDest = destination;
     },
-    selectfile(destination) {},
+    selectfile(destination) {
+      this.saveDocumentDest = destination;
+    },
     save(e) {
       const self = this;
       const success = $(".alert-success");
