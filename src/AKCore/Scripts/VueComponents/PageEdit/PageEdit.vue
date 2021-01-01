@@ -69,13 +69,32 @@ export default {
         self.pageModel = res;
       }
     });
+
+    document.addEventListener(
+      "keydown",
+      e => {
+        if (
+          (window.navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey) &&
+          e.keyCode == 83
+        ) {
+          e.preventDefault();
+          this.save();
+        }
+      },
+      false
+    );
   },
   updated() {
     this.loadTiny();
   },
   methods: {
     widgetAdd(type) {
-      console.log(type);
+      let newId = this.pageModel.widgets.length;
+      while (this.pageModel.widgets.some(x => x.id === newId)) {
+        newId++;
+      }
+
+      this.pageModel.widgets.push({ id: newId, type: type });
     },
     loadTiny() {
       tinymce.init(tinyMceOpts(this.selectImage, this.selectfile));
@@ -91,7 +110,7 @@ export default {
     selectfile(destination) {
       this.saveDocumentDest = destination;
     },
-    save(e) {
+    save() {
       const self = this;
       const success = $(".alert-success");
       const error = $(".alert-danger");
