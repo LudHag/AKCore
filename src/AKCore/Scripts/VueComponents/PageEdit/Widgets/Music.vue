@@ -1,6 +1,10 @@
 <template>
-  <div>
-    <text-edit v-model="value.text" :fullwidth="true"></text-edit>
+  <div class="col-sm-12">
+    <select multiple="multiple" class="multi-select album" asp-for="Albums">
+      @foreach (var a in albums) {
+      <option value="@a.Id">@a.Name</option>
+      }
+    </select>
   </div>
 </template>
 <script>
