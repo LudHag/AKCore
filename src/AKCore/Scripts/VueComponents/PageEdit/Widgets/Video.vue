@@ -11,8 +11,8 @@
       </div>
       <div
         class="form-group video-area row"
-        v-for="video in value.videos"
-        :key="video.link"
+        v-for="(video, index) in value.videos"
+        :key="index"
       >
         <div class="col-sm-6">
           <input class="form-control video-link" v-model="video.link" />
@@ -20,8 +20,8 @@
         <div class="col-sm-6">
           <input class="form-control video-title" v-model="video.title" /><a
             href="#"
-            class="btn glyphicon glyphicon-remove"
-            @click.prevent="removeVideo(video)"
+            class="btn glyphicon glyphicon-remove remove-video"
+            @click.prevent="removeVideo(index)"
           ></a>
         </div>
       </div>
@@ -39,9 +39,9 @@ export default {
   components: { TextEdit },
   props: ["value"],
   methods: {
-    removeVideo(video) {
+    removeVideo(removeIndex) {
       this.value.videos = this.value.videos.filter(
-        x => x.link !== video.link && x.title !== video.title
+        (video, index) => removeIndex !== index
       );
     },
     addVideo() {
