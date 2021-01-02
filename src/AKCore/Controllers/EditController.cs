@@ -96,6 +96,7 @@ namespace AKCore.Controllers
                 LoggedIn = page.LoggedIn,
                 LoggedOut = page.LoggedOut,
                 BalettOnly = page.BalettOnly,
+                Albums = _db.Albums.ToList(),
                 Widgets = GetWidgetsFromString(page.WidgetsJson),
                 Revisions = page.Revisions?.SkipLast(1)
             };
@@ -121,6 +122,7 @@ namespace AKCore.Controllers
                 LoggedIn = page.LoggedIn,
                 LoggedOut = page.LoggedOut,
                 BalettOnly = page.BalettOnly,
+                Albums = _db.Albums.ToList(),
                 Widgets = GetWidgetsFromString(page.WidgetsJson),
                 Revisions = page.Revisions?.SkipLast(1)
             };

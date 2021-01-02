@@ -24,7 +24,11 @@
         ></image-widget>
         <join v-if="value.type === 'Join'" v-model="value"></join>
         <member-list v-if="value.type === 'MemberList'"></member-list>
-        <music v-if="value.type === 'Music'" v-model="value"></music>
+        <music
+          v-if="value.type === 'Music'"
+          v-model="value"
+          :albums="albums"
+        ></music>
         <post-list v-if="value.type === 'PostList'"></post-list>
         <text-widget v-if="value.type === 'Text'" v-model="value"></text-widget>
         <text-image
@@ -71,7 +75,7 @@ export default {
     VideoWidget,
     PostList
   },
-  props: ["value"],
+  props: ["value", "albums"],
   data() {
     return {
       minimized: false

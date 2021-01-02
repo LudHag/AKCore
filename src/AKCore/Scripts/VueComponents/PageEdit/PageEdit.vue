@@ -19,6 +19,7 @@
           v-for="widget in pageModel.widgets"
           :value="widget"
           :key="widget.id"
+          :albums="pageModel.albums"
           @updated="loadTiny"
           @remove="removeWidget(widget)"
         >
@@ -117,7 +118,7 @@ export default {
         newId++;
       }
 
-      this.pageModel.widgets.push({ id: newId, type: type });
+      this.pageModel.widgets.push({ id: newId, type: type, albums: [] });
     },
     loadTiny() {
       tinymce.init(tinyMceOpts(this.selectImage, this.selectfile));
