@@ -13,23 +13,64 @@
     </div>
     <div class="widget-body row" v-if="!minimized">
       <div class="col-xs-12">
+        <header-text
+          v-if="value.type === 'HeaderText'"
+          v-model="value"
+        ></header-text>
+        <hire v-if="value.type === 'Hire'" v-model="value"></hire>
+        <image-widget
+          v-if="value.type === 'Image'"
+          v-model="value"
+        ></image-widget>
+        <join v-if="value.type === 'Join'" v-model="value"></join>
+        <member-list v-if="value.type === 'MemberList'"></member-list>
+        <music v-if="value.type === 'Music'" v-model="value"></music>
+        <post-list v-if="value.type === 'PostList'"></post-list>
+        <text-widget v-if="value.type === 'Text'" v-model="value"></text-widget>
         <text-image
           v-if="value.type === 'TextImage'"
           v-model="value"
         ></text-image>
         <three-puffs v-if="value.type === 'ThreePuffs'" v-model="value">
         </three-puffs>
+        <video-widget
+          v-if="value.type === 'Video'"
+          v-model="value"
+        ></video-widget>
       </div>
     </div>
   </li>
 </template>
 <script>
 import { getHeader } from "./functions";
-import TextImage from "./Widgets/TextImage.vue";
-import ThreePuffs from "./Widgets/ThreePuffs.vue";
+import {
+  TextImage,
+  ThreePuffs,
+  HeaderText,
+  TextWidget,
+  Hire,
+  Join,
+  MemberList,
+  ImageWidget,
+  Music,
+  VideoWidget,
+  PostList
+} from "./Widgets/widgets";
 
 export default {
-  components: { TextImage, ThreePuffs },
+  components: {
+    TextImage,
+    ThreePuffs,
+    HeaderText,
+    TextWidget,
+    Hire,
+    Join,
+    MemberList,
+    ImageWidget,
+    Music,
+    VideoWidget,
+    PostList
+  },
   props: ["value"],
   data() {
     return {

@@ -1,12 +1,12 @@
 <template>
-  <div class="col-sm-6">
+  <div :class="fullwidth ? 'col-sm-12' : 'col-sm-6'">
     <textarea ref="editor" class="mce-content" v-html="value"></textarea>
   </div>
 </template>
 <script>
 import { EventBus } from "../../../utils/eventbus";
 export default {
-  props: ["value"],
+  props: ["value", "fullwidth"],
   data() {
     return {
       editorId: null
