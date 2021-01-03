@@ -4,7 +4,12 @@
       <form method="post" @submit.prevent="save">
         <div class="alert alert-danger" style="display: none;"></div>
         <div class="alert alert-success" style="display: none;"></div>
-        <page-meta v-model="pageModel"></page-meta>
+        <div class="col-xs-12">
+          <h2 v-if="selectedRevision">
+            Version från {{ selectedRevision.modified }}
+          </h2>
+        </div>
+        <page-meta v-model="usedModel"></page-meta>
         <page-versions
           :value="pageModel"
           :selectedRevision="selectedRevision"
@@ -15,13 +20,13 @@
     <add-widget @add="widgetAdd"></add-widget>
     <ul class="widget-area">
       <draggable
-        v-model="pageModel.widgets"
+        v-model="usedModel.widgets"
         @start="drag = true"
         @end="drag = false"
         handle=".widget-header"
       >
         <widget
-          v-for="widget in pageModel.widgets"
+          v-for="widget in usedModel.widgets"
           :value="widget"
           :key="widget.id"
           :albums="pageModel.albums"
@@ -76,7 +81,8 @@ export default {
       saveImageDest: null,
       saveDocumentDest: null,
       drag: false,
-      selectedRevision: null
+      selectedRevision: null,
+      usedModel: null
     };
   },
   created() {
@@ -86,9 +92,9 @@ export default {
       type: "GET",
       success: function(res) {
         self.pageModel = res;
+        self.usedModel = self.pageModel;
       }
     });
-
     document.addEventListener(
       "keydown",
       e => {
@@ -117,11 +123,18 @@ export default {
             tinymce.execCommand("mceAddEditor", true, id);
           }
         });
+    },
+    selectedRevision(value) {
+      if (value) {
+        this.usedModel = value;
+      } else {
+        this.usedModel = this.pageModel;
+      }
     }
   },
   methods: {
-    selectRevision(revisionId) {
-      this.selectedRevision = revisionId;
+    selectRevision(revision) {
+      this.selectedRevision = revision;
     },
     widgetAdd(type) {
       let newId = this.pageModel.widgets.length;
@@ -154,7 +167,13 @@ export default {
         this.pageModel,
         error,
         success,
-        null
+        res => {
+          if (!this.pageModel.revisions) {
+            this.pageModel.revisions = [];
+          }
+          this.pageModel.revisions.shift();
+          this.pageModel.revisions.push(res.latestRevision);
+        }
       );
     }
   }

@@ -9,19 +9,24 @@ namespace AKCore.Extensions
     {
         public static IEnumerable<RevisionViewModel> Map(this IEnumerable<Revision> revisions)
         {
-            return revisions?.Select(x => new RevisionViewModel
-            {
-                Id = x.Id,
-                Name = x.Name,
-                Slug = x.Slug,
-                Widgets = x.WidgetsJson.GetWidgetsFromString(),
-                LoggedIn = x.LoggedIn,
-                LoggedOut = x.LoggedOut,
-                BalettOnly = x.BalettOnly,
-                Modified = x.Modified.ToString("yy-MM-dd HH:mm"),
-                ModifiedBy = x.ModifiedBy.GetName()
+            return revisions?.Select(x => x.Map());
+        }
 
-            });
+        public static RevisionViewModel Map(this Revision revision)
+        {
+            return new RevisionViewModel
+            {
+                Id = revision.Id,
+                Name = revision.Name,
+                Slug = revision.Slug,
+                Widgets = revision.WidgetsJson.GetWidgetsFromString(),
+                LoggedIn = revision.LoggedIn,
+                LoggedOut = revision.LoggedOut,
+                BalettOnly = revision.BalettOnly,
+                Modified = revision.Modified.ToString("yy-MM-dd HH:mm"),
+                ModifiedBy = revision.ModifiedBy.GetName()
+
+            };
         }
 
     }

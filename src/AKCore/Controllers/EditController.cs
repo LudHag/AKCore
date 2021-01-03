@@ -149,7 +149,6 @@ namespace AKCore.Controllers
                 if (oldestRevision != null) _db.Revisions.Remove(oldestRevision);
             }
             var latestRevision = page.Revisions.LastOrDefault();
-            var latestRevisionLink = CreateRevisionLink(latestRevision, id);
 
             page.Revisions.Add(new Revision()
             {
@@ -180,14 +179,7 @@ namespace AKCore.Controllers
             });
 
             _db.SaveChanges();
-            return Json(new { success = true, message = "Uppdaterade sidan framgångsrikt", revlink = latestRevisionLink });
-        }
-
-        private string CreateRevisionLink(Revision rev, int pageId)
-        {
-            if (rev == null) return null;
-            var text = rev.Modified.ToString("yy-MM-dd HH:mm") + " - " + rev.ModifiedBy.GetName();
-            return $@"<a href=""/Edit/Page/{pageId}/{rev.Id}"" class=""revision"">{text}</a>";
+            return Json(new { success = true, message = "Uppdaterade sidan framgångsrikt", latestRevision = latestRevision.Map() });
         }
 
         [Route("RemovePage/{id:int}")]

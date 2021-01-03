@@ -8,8 +8,10 @@
     <a
       class="revision"
       href="#"
-      @click.prevent="selectRevision(revision.id)"
-      :class="{ selected: revision.id === selectedRevision }"
+      @click.prevent="selectRevision(revision)"
+      :class="{
+        selected: selectedRevision && revision.id === selectedRevision.id
+      }"
       v-for="revision in value.revisions"
       :key="revision.id"
     >
@@ -30,8 +32,8 @@ import { formatDate } from "./functions";
 export default {
   props: ["value", "selectedRevision"],
   methods: {
-    selectRevision(revisionId) {
-      this.$emit("select", revisionId);
+    selectRevision(revision) {
+      this.$emit("select", revision);
     }
   }
 };

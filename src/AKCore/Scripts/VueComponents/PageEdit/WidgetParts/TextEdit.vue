@@ -18,12 +18,19 @@ export default {
   beforeDestroy() {
     EventBus.$off("editor-updated", this.update);
   },
+  updated() {
+    tinymce.get(this.getEdId()).setContent(this.value);
+  },
   methods: {
-    update(event) {
+    getEdId() {
       if (!this.editorId) {
         this.editorId = this.$refs.editor.id;
       }
-      if (this.editorId === event.id) {
+      return this.editorId;
+    },
+    update(event) {
+      const editorId = this.getEdId();
+      if (editorId === event.id) {
         this.$emit("input", event.content);
       }
     }
