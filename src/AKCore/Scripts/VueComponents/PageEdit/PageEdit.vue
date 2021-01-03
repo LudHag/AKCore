@@ -5,6 +5,11 @@
         <div class="alert alert-danger" style="display: none;"></div>
         <div class="alert alert-success" style="display: none;"></div>
         <page-meta v-model="pageModel"></page-meta>
+        <page-versions
+          :value="pageModel"
+          :selectedRevision="selectedRevision"
+          @select="selectRevision"
+        ></page-versions>
       </form>
     </div>
     <add-widget @add="widgetAdd"></add-widget>
@@ -53,6 +58,7 @@ import { tinyMceOpts } from "./functions";
 import ImagePickerModal from "../ImagePickerModal.vue";
 import DocumentPickerModal from "../DocumentPickerModal.vue";
 import draggable from "vuedraggable";
+import PageVersions from "./PageVersions.vue";
 
 export default {
   components: {
@@ -61,14 +67,16 @@ export default {
     Widget,
     ImagePickerModal,
     DocumentPickerModal,
-    draggable
+    draggable,
+    PageVersions
   },
   data() {
     return {
       pageModel: null,
       saveImageDest: null,
       saveDocumentDest: null,
-      drag: false
+      drag: false,
+      selectedRevision: null
     };
   },
   created() {
@@ -112,6 +120,9 @@ export default {
     }
   },
   methods: {
+    selectRevision(revisionId) {
+      this.selectedRevision = revisionId;
+    },
     widgetAdd(type) {
       let newId = this.pageModel.widgets.length;
       while (this.pageModel.widgets.some(x => x.id === newId)) {
@@ -149,7 +160,7 @@ export default {
   }
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .widget-area {
   list-style-type: none;
   padding: 0;

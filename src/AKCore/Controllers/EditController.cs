@@ -1,4 +1,5 @@
 ﻿using AKCore.DataModel;
+using AKCore.Extensions;
 using AKCore.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -87,21 +88,9 @@ namespace AKCore.Controllers
             {
                 return Redirect("/Edit");
             }
-            var model = new PageEditModel
-            {
-                Name = page.Name,
-                Slug = page.Slug,
-                PageId = page.Id,
-                LastModified = page.LastModified,
-                LoggedIn = page.LoggedIn,
-                LoggedOut = page.LoggedOut,
-                BalettOnly = page.BalettOnly,
-                Albums = _db.Albums.ToList(),
-                Widgets = GetWidgetsFromString(page.WidgetsJson),
-                Revisions = page.Revisions?.SkipLast(1)
-            };
+
             ViewBag.Title = "Redigera " + page.Name;
-            return View("EditPage", model);
+            return View("EditPage");
         }
 
         [HttpGet("Page/{id:int}/model")]
@@ -123,52 +112,10 @@ namespace AKCore.Controllers
                 LoggedOut = page.LoggedOut,
                 BalettOnly = page.BalettOnly,
                 Albums = _db.Albums.ToList(),
-                Widgets = GetWidgetsFromString(page.WidgetsJson),
-                Revisions = page.Revisions?.SkipLast(1)
+                Widgets = page.WidgetsJson.GetWidgetsFromString(),
+                Revisions = page.Revisions?.SkipLast(1).Map()
             };
             return Ok(model);
-        }
-        private IList<Widget> GetWidgetsFromString(string widgetJson)
-        {
-            var widgetList = widgetJson != null ? JsonConvert.DeserializeObject<List<Widget>>(widgetJson) : new List<Widget>();
-            foreach (var (widget, id) in widgetList.Select((value, i) => (value, i)))
-            {
-                widget.Id = id;
-            }
-
-            return widgetList;
-        }
-
-
-        [Route("Page/{id:int}/{revisionId:int}")]
-        [Authorize(Roles = "SuperNintendo,Editor")]
-        public ActionResult PageRevision(int id, int revisionId)
-        {
-            var page = _db.Pages.Include(x => x.Revisions).ThenInclude(x => x.ModifiedBy).FirstOrDefault(x => x.Id == id);
-            if (page == null)
-            {
-                return Redirect("/Edit");
-            }
-            var revision = page.Revisions.FirstOrDefault(x => x.Id == revisionId);
-            if (revision == null)
-            {
-                return Redirect("/Edit");
-            }
-            var model = new PageEditModel
-            {
-                Name = revision.Name,
-                Slug = revision.Slug,
-                PageId = page.Id,
-                LastModified = page.LastModified,
-                LoggedIn = revision.LoggedIn,
-                LoggedOut = revision.LoggedOut,
-                BalettOnly = revision.BalettOnly,
-                SelectedRevision = revision,
-                Widgets = GetWidgetsFromString(revision.WidgetsJson),
-                Revisions = page.Revisions?.SkipLast(1)
-            };
-            ViewBag.Title = "Redigera " + page.Name;
-            return View("EditPage", model);
         }
 
         [HttpPost("Page/{id:int}")]
