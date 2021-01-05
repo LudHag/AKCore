@@ -164,15 +164,12 @@ export default {
       const error = $(".alert-danger");
       ApiService.postByObject(
         window.location.href,
-        this.pageModel,
+        this.usedModel,
         error,
         success,
         res => {
-          if (!this.pageModel.revisions) {
-            this.pageModel.revisions = [];
-          }
-          this.pageModel.revisions.shift();
-          this.pageModel.revisions.push(res.latestRevision);
+          this.selectedRevision = null;
+          this.pageModel = res.newModel;
         }
       );
     }

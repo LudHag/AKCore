@@ -93,16 +93,14 @@ namespace AKCore.Controllers
             return View("EditPage");
         }
 
-        [HttpGet("Page/{id:int}/model")]
-        [Authorize(Roles = "SuperNintendo,Editor")]
-        public ActionResult PageEditModel(int id)
+        private PageEditModel GetPageModel(int id)
         {
             var page = _db.Pages.Include(x => x.Revisions).ThenInclude(x => x.ModifiedBy).FirstOrDefault(x => x.Id == id);
             if (page == null)
             {
-                return NotFound();
+                return null;
             }
-            var model = new PageEditModel
+            return new PageEditModel
             {
                 Name = page.Name,
                 Slug = page.Slug,
@@ -115,6 +113,18 @@ namespace AKCore.Controllers
                 Widgets = page.WidgetsJson.GetWidgetsFromString(),
                 Revisions = page.Revisions?.SkipLast(1).Map()
             };
+        }
+
+        [HttpGet("Page/{id:int}/model")]
+        [Authorize(Roles = "SuperNintendo,Editor")]
+        public ActionResult PageEditModel(int id)
+        {
+            var model = GetPageModel(id);
+            if (model == null)
+            {
+                return NotFound();
+            }
+
             return Ok(model);
         }
 
@@ -148,7 +158,6 @@ namespace AKCore.Controllers
                 var oldestRevision = page.Revisions.OrderBy(x => x.Modified).FirstOrDefault();
                 if (oldestRevision != null) _db.Revisions.Remove(oldestRevision);
             }
-            var latestRevision = page.Revisions.LastOrDefault();
 
             page.Revisions.Add(new Revision()
             {
@@ -179,7 +188,8 @@ namespace AKCore.Controllers
             });
 
             _db.SaveChanges();
-            return Json(new { success = true, message = "Uppdaterade sidan framgångsrikt", latestRevision = latestRevision.Map() });
+            var newModel = GetPageModel(id);
+            return Json(new { success = true, message = "Uppdaterade sidan framgångsrikt", newModel = newModel });
         }
 
         [Route("RemovePage/{id:int}")]
