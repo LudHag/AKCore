@@ -189,7 +189,7 @@ namespace AKCore.Controllers
 
             _db.SaveChanges();
             var newModel = GetPageModel(id);
-            return Json(new { success = true, message = "Uppdaterade sidan framgångsrikt", newModel = newModel });
+            return Json(new { success = true, message = "Uppdaterade sidan framgångsrikt", newModel });
         }
 
         [Route("RemovePage/{id:int}")]

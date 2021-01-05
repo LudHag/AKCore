@@ -159,6 +159,15 @@ export default {
       this.saveDocumentDest = destination;
     },
     save() {
+      if (this.selectedRevision) {
+        if (
+          !window.confirm(
+            "Är du säker på att du vill ersätta sidan med denna version?"
+          )
+        ) {
+          return;
+        }
+      }
       const self = this;
       const success = $(".alert-success");
       const error = $(".alert-danger");
