@@ -1,6 +1,6 @@
 ﻿<template>
   <div class="track">
-    <span class="name" v-if="!showEditName" @click="nameClick">{{name}}</span>
+    <span class="name" v-if="!showEditName" @click="nameClick">{{ name }}</span>
     <input
       class="name-input"
       ref="inputelement"
@@ -8,7 +8,7 @@
       v-model="editName"
       @keyup.enter="onInputBlur"
       @blur="onInputBlur"
-    >
+    />
     <a class="rem-track" href="#" @click.prevent="remove">x</a>
   </div>
 </template>
@@ -42,7 +42,7 @@ export default {
     },
     onInputBlur() {
       this.showEditName = false;
-      ApiService.postByObject(
+      ApiService.postByObjectAsForm(
         "/AlbumEdit/ChangeTrackName",
         { id: this.track.id, name: this.editName },
         null,

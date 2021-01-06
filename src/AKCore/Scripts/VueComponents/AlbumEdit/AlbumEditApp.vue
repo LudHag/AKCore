@@ -9,14 +9,23 @@
               id="add-album"
               class="btn btn-primary"
               @click.prevent="openCreate"
-            >Skapa album</button>
+            >
+              Skapa album
+            </button>
             <div class="form-group search-input">
-              <input type="text" class="form-control" placeholder="Sök här" v-model="search">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Sök här"
+                v-model="search"
+              />
             </div>
             <div class="form-group">
               <select class="form-control" v-model="albumCategory">
                 <option value>Filtrera på kategori</option>
-                <option v-for="cat in albumCategories" :key="cat">{{cat}}</option>
+                <option v-for="cat in albumCategories" :key="cat">{{
+                  cat
+                }}</option>
               </select>
             </div>
           </div>
@@ -26,7 +35,11 @@
       <div class="alert alert-success" style="display: none;"></div>
       <div class="row edit-form" id="add-album-container" v-if="createOpened">
         <div class="col-md-6">
-          <form action="/AlbumEdit/AddAlbum" method="post" @submit.prevent="createAlbum">
+          <form
+            action="/AlbumEdit/AddAlbum"
+            method="post"
+            @submit.prevent="createAlbum"
+          >
             <div class="form-group">
               <label for="name">Albumnamn:</label>
               <input
@@ -37,7 +50,7 @@
                 name="name"
                 required
                 placeholder="Albumnamn"
-              >
+              />
             </div>
             <button type="submit" class="btn btn-default">Skapa</button>
           </form>
@@ -59,7 +72,11 @@
       @close="closeImagePicker"
       @image="imageSelected"
     ></image-picker-modal>
-    <album-upload-modal :album="tracksAlbum" @close="closeUploadModal" @update="loadAlbumData"></album-upload-modal>
+    <album-upload-modal
+      :album="tracksAlbum"
+      @close="closeUploadModal"
+      @update="loadAlbumData"
+    ></album-upload-modal>
   </div>
 </template>
 <script>
@@ -115,7 +132,7 @@ export default {
   methods: {
     changeName(name, id) {
       const error = $(".alert-danger");
-      ApiService.postByObject(
+      ApiService.postByObjectAsForm(
         "/AlbumEdit/ChangeName",
         { id: id, name: name },
         error,
@@ -133,7 +150,7 @@ export default {
     },
     changeCategory(category, id) {
       const error = $(".alert-danger");
-      ApiService.postByObject(
+      ApiService.postByObjectAsForm(
         "/AlbumEdit/ChangeCategory",
         { id, category },
         error,
@@ -187,7 +204,7 @@ export default {
     },
     imageSelected(image) {
       const error = $(".alert-danger");
-      ApiService.postByObject(
+      ApiService.postByObjectAsForm(
         "/AlbumEdit/UpdateImage",
         { id: this.selectedAlbum, src: "/media/" + image.name },
         error,

@@ -3,7 +3,11 @@
     <div slot="body" class="modal-body" v-if="album">
       <file-uploader :button-text="'Ladda upp spår'" @upload="uploadFiles">
         <div slot="content" class="tracks">
-          <div class="alert alert-danger" ref="error" style="display: none;"></div>
+          <div
+            class="alert alert-danger"
+            ref="error"
+            style="display: none;"
+          ></div>
           <album-upload-track-item
             :track="track"
             v-for="track in orderedTracks"
@@ -67,7 +71,7 @@ export default {
     },
     removeTrack(id) {
       const error = $(this.$refs.error);
-      ApiService.postByObject(
+      ApiService.postByObjectAsForm(
         "/AlbumEdit/DeleteTrack",
         { id, album: this.album.id },
         error,
