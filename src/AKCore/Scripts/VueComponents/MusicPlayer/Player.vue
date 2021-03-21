@@ -1,7 +1,8 @@
-﻿
-<template>
+﻿<template>
   <div>
-    <div class="playingnow" v-if="trackPlaying" v-html="nowPlayingText">Spelar nu: 03 Dansa i neon</div>
+    <div class="playingnow" v-if="trackPlaying" v-html="nowPlayingText">
+      Spelar nu: 03 Dansa i neon
+    </div>
     <div class="controls" v-if="trackPlaying">
       <a
         href="#"
@@ -15,20 +16,38 @@
         v-else
         class="pauseplay glyphicon glyphicon-play"
       ></a>
-      <div class="progress-container" ref="progress" @click.prevent="clickProgress">
+      <div
+        class="progress-container"
+        ref="progress"
+        @click.prevent="clickProgress"
+      >
         <div class="music-progress">
-          <span class="music-progress-bar" :style="{ width: progress + '%' }"></span>
+          <span
+            class="music-progress-bar"
+            :style="{ width: progress + '%' }"
+          ></span>
         </div>
       </div>
-      <div class="progresstime">{{timeDisplay}}</div>
+      <div class="progresstime">{{ timeDisplay }}</div>
+      <a
+        href="#"
+        @click.prevent="$emit('replay')"
+        :class="{ active: replay }"
+        class="replay glyphicon glyphicon-repeat"
+      ></a>
     </div>
-    <audio class="player" v-if="trackPlaying" ref="player" :src="trackPlaying.filepath"></audio>
+    <audio
+      class="player"
+      v-if="trackPlaying"
+      ref="player"
+      :src="trackPlaying.filepath"
+    ></audio>
   </div>
 </template>
 <script>
 import { fmtMSS } from "../../utils/functions";
 export default {
-  props: ["playing", "trackPlaying", "reset"],
+  props: ["playing", "trackPlaying", "reset", "replay"],
   data() {
     return {
       trackLength: 0,
@@ -72,13 +91,13 @@ export default {
       }
     },
     reset(val) {
-      if(val) {
+      if (val) {
         const player = this.$refs.player;
         const decimalProgress = 0;
         const time = 0;
         this.trackLength = player ? player.duration : 0;
         this.timePlayed = 0;
-        if(player) {
+        if (player) {
           player.currentTime = 0;
         }
       }
@@ -87,7 +106,7 @@ export default {
   methods: {
     timeUpdate(event) {
       const player = this.$refs.player;
-      if(player) {
+      if (player) {
         this.trackLength = player.duration;
         this.timePlayed = event.target.currentTime;
       }
@@ -128,7 +147,13 @@ export default {
 .pauseplay {
   margin-right: 7px;
 }
-
+.replay {
+  margin-left: 7px;
+  color: #6f6f6f;
+  &.active {
+    color: $akred;
+  }
+}
 .progress-container {
   flex-grow: 1;
   height: 15px;

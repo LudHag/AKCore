@@ -1,11 +1,12 @@
-﻿
-<template>
+﻿<template>
   <div class="player-module">
     <Player
       :playing="playing"
       :track-playing="trackPlaying"
       :reset="reset"
+      :replay="replay"
       @playpause="$emit('playpause')"
+      @replay="replay = !replay"
       @next="next"
     ></Player>
     <div class="playlist">
@@ -35,7 +36,8 @@ export default {
   data() {
     return {
       trackPlaying: null,
-      reset: false
+      reset: false,
+      replay: false
     };
   },
   computed: {
@@ -55,7 +57,7 @@ export default {
   },
   watch: {
     playList() {
-      if(this.playList.length > 0 && !this.trackPlaying) {
+      if (this.playList.length > 0 && !this.trackPlaying) {
         this.trackPlaying = this.playList[0];
         this.$nextTick(() => this.$emit("playpause"));
       }
@@ -66,9 +68,16 @@ export default {
       const currentIndex = this.tracks.findIndex(
         track => track.id === this.trackPlaying.id
       );
+      if (this.replay) {
+        return this.nextIfReplay(currentIndex);
+      }
+
       let dontRemove = false;
       if (currentIndex === -1 || currentIndex + 1 >= this.tracks.length) {
-        if(this.playList.length > 0 && this.trackPlaying !== this.playList[0]) {
+        if (
+          this.playList.length > 0 &&
+          this.trackPlaying !== this.playList[0]
+        ) {
           this.trackPlaying = this.tracks[0];
           dontRemove = true;
         } else {
@@ -78,22 +87,37 @@ export default {
       } else {
         this.trackPlaying = this.tracks[currentIndex + 1];
       }
-      if(this.playList.length > 0 && !dontRemove) {
+      if (this.playList.length > 0 && !dontRemove) {
         this.$emit("remove", this.playList[0]);
       }
     },
-    selectTrack(track) {
-      if(this.playing && this.trackPlaying === track) {
+    nextIfReplay(currentIndex) {
+      if (this.playList.length === 0) {
+        this.trackPlaying = this.tracks[currentIndex];
+        this.$emit("stop");
         this.reset = true;
-        this.$nextTick(() => this.reset = false);
+        this.$nextTick(() => (this.reset = false));
+        this.$nextTick(() => this.$emit("playpause"));
+      } else {
+        if (currentIndex + 1 >= this.tracks.length) {
+          this.trackPlaying = this.tracks[0];
+        } else {
+          this.trackPlaying = this.tracks[currentIndex + 1];
+        }
+      }
+    },
+    selectTrack(track) {
+      if (this.playing && this.trackPlaying === track) {
+        this.reset = true;
+        this.$nextTick(() => (this.reset = false));
       } else {
         this.trackPlaying = track;
         if (!this.playing) {
           this.reset = true;
-          this.$nextTick(() => this.reset = false);
+          this.$nextTick(() => (this.reset = false));
           this.$nextTick(() => this.$emit("playpause"));
         }
-        if(this.playList.length > 0) {
+        if (this.playList.length > 0) {
           const index = this.playList.indexOf(track);
           this.$emit("remove-before", index);
         }
