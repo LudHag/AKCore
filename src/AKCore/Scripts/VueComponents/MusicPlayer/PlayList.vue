@@ -12,9 +12,9 @@
     <div class="playlist">
       <PlayListItem
         v-for="track in tracks"
-        :key="track.id"
+        :key="track.key"
         :track="track"
-        :active="trackPlaying && track.id === trackPlaying.id"
+        :active="trackPlaying && track.key === trackPlaying.key"
         :remove="playList.length > 0"
         @select="selectTrack"
         @remove="$emit('remove', track)"
@@ -52,7 +52,10 @@ export default {
         return this.playList;
       }
       const trackKeys = Object.keys(this.album.tracks);
-      return trackKeys.map(key => this.album.tracks[key]).sort(nameCompare);
+      return trackKeys
+        .map(key => this.album.tracks[key])
+        .map(track => ({ ...track, key: track.id }))
+        .sort(nameCompare);
     }
   },
   watch: {
@@ -66,7 +69,7 @@ export default {
   methods: {
     next() {
       const currentIndex = this.tracks.findIndex(
-        track => track.id === this.trackPlaying.id
+        track => track.key === this.trackPlaying.key
       );
       if (this.replay) {
         return this.nextIfReplay(currentIndex);
@@ -119,7 +122,9 @@ export default {
         }
         if (this.playList.length > 0) {
           const index = this.playList.indexOf(track);
-          this.$emit("remove-before", index);
+          if (!this.replay) {
+            this.$emit("remove-before", index);
+          }
         }
       }
     }
