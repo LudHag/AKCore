@@ -1,15 +1,15 @@
-﻿using System;
-using System.Globalization;
-using System.Linq;
-using System.Threading.Tasks;
-using AKCore.DataModel;
+﻿using AKCore.DataModel;
 using AKCore.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using System.Text;
-using Newtonsoft.Json;
+using System.Threading.Tasks;
 
 namespace AKCore.Controllers
 {
@@ -181,7 +181,7 @@ namespace AKCore.Controllers
         public ActionResult EditSignup(string eventId, string memberId, string type)
         {
             if (!int.TryParse(eventId, out var eIdInt) || string.IsNullOrWhiteSpace(type) ||
-                string.IsNullOrWhiteSpace(memberId)) return Json(new {success = false, message = "Felaktig data"});
+                string.IsNullOrWhiteSpace(memberId)) return Json(new { success = false, message = "Felaktig data" });
             var e = _db.Events.Include(x => x.SignUps).FirstOrDefault(x => x.Id == eIdInt);
             var member = _db.Users.FirstOrDefault(x => x.Id == memberId);
             var signUp = e.SignUps.FirstOrDefault(x => x.PersonId == member.Id);
@@ -204,7 +204,7 @@ namespace AKCore.Controllers
             }
 
             _db.SaveChanges();
-            return Json(new {success = true});
+            return Json(new { success = true });
         }
 
         [Route("Event/{id:int}")]
@@ -242,7 +242,8 @@ namespace AKCore.Controllers
 
             model.IsNintendo = nintendo;
             model.Event = MapEventModel(spelning, true, user.Id);
-            model.Signups = spelning.SignUps.OrderBy(x=>x.InstrumentName).ThenBy(x=>x.PersonName);
+            var signups = spelning.SignUps.OrderBy(x => x.InstrumentName).ThenBy(x => x.PersonName);
+            model.Signups = await RemoveDoubles(signups, eId);
 
             if (nintendo)
             {
@@ -257,12 +258,38 @@ namespace AKCore.Controllers
             return Json(model);
         }
 
+        private async Task<IEnumerable<SignUp>> RemoveDoubles(IEnumerable<SignUp> signups, int eventId)
+        {
+            var doubles = signups.GroupBy(x => x.PersonId).Where(x => x.Count() > 1);
+
+            if (!doubles.Any())
+            {
+                return signups;
+            }
+
+
+            foreach (var personSignups in doubles)
+            {
+                var signupsToDelete = personSignups.SkipLast(1);
+
+                _db.SignUps.RemoveRange(signupsToDelete);
+
+            }
+
+            await _db.SaveChangesAsync();
+            var spelning = _db.Events.Include(x => x.SignUps).FirstOrDefault(x => x.Id == eventId);
+
+
+            return spelning.SignUps;
+        }
+
+
         [Route("Signup/{id:int}")]
         [Authorize(Roles = "Medlem")]
         public async Task<ActionResult> SignUp(SignUpModel model, string id)
         {
             if (!int.TryParse(id, out var eId))
-                return Json(new {success = false, message = "Felaktigt id"});
+                return Json(new { success = false, message = "Felaktigt id" });
             if (string.IsNullOrWhiteSpace(model.Where))
                 return Json(new
                 {
@@ -270,7 +297,7 @@ namespace AKCore.Controllers
                     message = "Du måste välja om du kommer via hålan, direkt eller inte alls"
                 });
             var spelning = _db.Events.Include(x => x.SignUps).FirstOrDefault(x => x.Id == eId);
-            if (spelning == null) return Json(new {success = false, message = "Felaktigt id"});
+            if (spelning == null) return Json(new { success = false, message = "Felaktigt id" });
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
             var signup = spelning.SignUps.FirstOrDefault(x => x.PersonId == user.Id) ?? new SignUp();
             if (signup.Where == AkSignupType.CantCome || model.Where == AkSignupType.CantCome)
@@ -293,7 +320,7 @@ namespace AKCore.Controllers
             signup.OtherInstruments = user.OtherInstruments;
             spelning.SignUps.Add(signup);
             _db.SaveChanges();
-            return Json(new {success = true});
+            return Json(new { success = true });
         }
     }
 }
