@@ -6,7 +6,7 @@ const init = () => {
   }
 
   const today = new Date();
-  let newYear = new Date(2021, 0, 1);
+  let newYear = new Date(2022, 0, 1);
   const msLeft = newYear - today;
   let hrLeft = msLeft / (1000 * 60 * 60);
 
@@ -110,7 +110,7 @@ void main(){
 
   webgl.data = [];
 
-  webgl.clear = function() {
+  webgl.clear = function () {
     gl.uniform1i(webgl.modeUniformLoc, 1);
     var a = 0.1;
     webgl.data = [
@@ -143,7 +143,7 @@ void main(){
     gl.uniform1i(webgl.modeUniformLoc, 0);
     webgl.data.length = 0;
   };
-  webgl.draw = function(glType) {
+  webgl.draw = function (glType) {
     gl.bufferData(
       gl.ARRAY_BUFFER,
       new Float32Array(webgl.data),
@@ -171,7 +171,7 @@ void main(){
     for (var i = 0; i < maxShardsParFirework; ++i)
       this.shards.push(new Shard(this));
   }
-  Firework.prototype.reset = function() {
+  Firework.prototype.reset = function () {
     var angle = -Math.PI / 2 + (Math.random() - 0.5) * opts.fireworkAngleSpan,
       vel = opts.baseFireworkVel + opts.addedFireworkVel * Math.random();
 
@@ -184,7 +184,7 @@ void main(){
 
     this.hue = tick * opts.initHueMultiplier;
   };
-  Firework.prototype.step = function() {
+  Firework.prototype.step = function () {
     if (this.mode === 0) {
       var ph = this.hue,
         px = this.x,
@@ -247,7 +247,7 @@ void main(){
   function Shard(parent) {
     this.parent = parent;
   }
-  Shard.prototype.reset = function(vx, vy) {
+  Shard.prototype.reset = function (vx, vy) {
     this.x = this.parent.x;
     this.y = this.parent.y;
     this.vx = this.parent.vx * opts.shardFireworkVelMultiplier + vx;
@@ -256,7 +256,7 @@ void main(){
     this.dead = false;
     this.tick = 1;
   };
-  Shard.prototype.step = function() {
+  Shard.prototype.step = function () {
     this.tick += 0.05;
 
     var px = this.x,
@@ -290,7 +290,7 @@ void main(){
 
     if (fireworks.length < opts.fireworks) fireworks.push(new Firework());
 
-    fireworks.map(function(firework) {
+    fireworks.map(function (firework) {
       firework.step();
     });
 
@@ -298,14 +298,14 @@ void main(){
   }
   anim();
 
-  window.addEventListener("resize", function() {
+  window.addEventListener("resize", function () {
     w = holder.width = window.innerWidth;
     h = holder.height = window.innerHeight;
 
     gl.viewport(0, 0, w, h);
     gl.uniform2f(webgl.resUniformLoc, w, h);
   });
-  window.addEventListener("click", function(e) {
+  window.addEventListener("click", function (e) {
     var firework = new Firework();
     firework.x = e.clientX;
     firework.y = e.clientY;
@@ -314,6 +314,6 @@ void main(){
     fireworks.push(firework);
   });
 };
-$(function() {
+$(function () {
   init();
 });
