@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using AKCore.DataModel;
+﻿using AKCore.DataModel;
 using AKCore.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace AKCore.Controllers
 {
@@ -15,7 +15,7 @@ namespace AKCore.Controllers
     [Authorize(Roles = "SuperNintendo,Editor")]
     public class MediaController : Controller
     {
-        private static readonly string[] ImageExtensions = { "jpg", "bmp", "gif", "png","svg" };
+        private static readonly string[] ImageExtensions = { "jpg", "bmp", "gif", "png", "svg" };
         private static readonly string[] DocumentExtensions = { "pdf", "docx", "doc" };
         private readonly AKContext _db;
         private readonly IWebHostEnvironment _hostingEnv;
@@ -37,8 +37,8 @@ namespace AKCore.Controllers
         {
             var model = _db.Medias
                 .ToList()
-                .GroupBy(x => x.Tag).ToDictionary(x=>x.Key);
-            
+                .GroupBy(x => x.Tag).ToDictionary(x => x.Key);
+
             return Json(model);
         }
 
@@ -56,7 +56,7 @@ namespace AKCore.Controllers
             return PartialView("_MediaPickerList", model);
         }
 
-        [Route("ImageListData")]
+        [HttpGet("ImageListData")]
         public ActionResult MediaPickerListData()
         {
             var images = _db.Medias
@@ -66,17 +66,27 @@ namespace AKCore.Controllers
             return Json(images);
         }
 
-        private List<Media> PopulateList(int page, out int totalPages,string searchPhrase, string type = "", string tag = "")
+        [HttpGet("DocumentListData")]
+        public ActionResult DocumentPickerListData()
+        {
+            var images = _db.Medias
+                .Where(x => x.Type == "Document")
+                .OrderByDescending(x => x.Created);
+
+            return Json(images);
+        }
+
+        private List<Media> PopulateList(int page, out int totalPages, string searchPhrase, string type = "", string tag = "")
         {
             var pagesize = 12;
-            var searched=_db.Medias
-                .Where(x=>x.Name.Contains(searchPhrase))
+            var searched = _db.Medias
+                .Where(x => x.Name.Contains(searchPhrase))
                 .Where(x => string.IsNullOrWhiteSpace(type) || x.Type == type)
                 .Where(x => string.IsNullOrWhiteSpace(tag) || x.Tag == tag)
-                .OrderByDescending(x=>x.Created);
-            totalPages = ((searched.Count()-1) / pagesize) +1;
+                .OrderByDescending(x => x.Created);
+            totalPages = ((searched.Count() - 1) / pagesize) + 1;
             if (totalPages < page) page = totalPages;
-            return searched.Skip((page - 1)* pagesize).Take(pagesize).ToList();
+            return searched.Skip((page - 1) * pagesize).Take(pagesize).ToList();
         }
         [Route("EditFile")]
         public ActionResult EditFile(string Tag, string Id)
@@ -101,7 +111,7 @@ namespace AKCore.Controllers
             {
 
                 var file = uploadFile;
-                var ext=Path.GetExtension(file.FileName).ToLower();
+                var ext = Path.GetExtension(file.FileName).ToLower();
                 var isImage = ImageExtensions.FirstOrDefault(x => ext.EndsWith(x)) != null;
                 var isDocument = DocumentExtensions.FirstOrDefault(x => ext.EndsWith(x)) != null;
                 if (!(isImage || isDocument) || string.IsNullOrWhiteSpace(model.Tag))
@@ -115,10 +125,10 @@ namespace AKCore.Controllers
                     .ToString()
                     .Trim('"');
                 var filepath = _hostingEnv.WebRootPath + $@"\media\{filename}";
-                
+
                 if (_db.Medias.FirstOrDefault(x => x.Name == filename) != null)
                 {
-                    return Json(new {success = false, message = "Filen finns redan uppladdad"});
+                    return Json(new { success = false, message = "Filen finns redan uppladdad" });
                 }
                 using (var fs = System.IO.File.Create(filepath))
                 {
@@ -137,7 +147,7 @@ namespace AKCore.Controllers
 
             _db.SaveChanges();
 
-            return Json(new {success = true});
+            return Json(new { success = true });
         }
         [Route("RemoveFile")]
         public ActionResult RemoveFile(string filename)

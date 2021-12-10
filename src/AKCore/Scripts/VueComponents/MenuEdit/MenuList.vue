@@ -2,16 +2,34 @@
   <div>
     <div class="row menualerts">
       <div class="alert alert-danger" ref="error" style="display: none;"></div>
-      <div class="alert alert-success" ref="success" style="display: none;"></div>
+      <div
+        class="alert alert-success"
+        ref="success"
+        style="display: none;"
+      ></div>
     </div>
     <div class="row menu-display">
       <div class="col-sm-12 menu-item" v-for="menu in menus" :key="menu.id">
         <div class="menu-row">
-          <a class="btn btn-default menu" @click.prevent="editMenu(menu)">{{menu.name}}</a>
-          <a class="btn add-sub-menu glyphicon glyphicon-plus" @click.prevent="addSubMenu(menu)"></a>
-          <a class="btn remove-menu glyphicon glyphicon-remove" @click.prevent="deleteMenu(menu)"></a>
-          <a class="btn move-right glyphicon glyphicon-chevron-down" @click.prevent="menuDown(menu)"></a>
-          <a class="btn move-left glyphicon glyphicon-chevron-up" @click.prevent="menuUp(menu)"></a>
+          <a class="btn btn-default menu" @click.prevent="editMenu(menu)">{{
+            menu.name
+          }}</a>
+          <a
+            class="btn add-sub-menu glyphicon glyphicon-plus"
+            @click.prevent="addSubMenu(menu)"
+          ></a>
+          <a
+            class="btn remove-menu glyphicon glyphicon-remove"
+            @click.prevent="deleteMenu(menu)"
+          ></a>
+          <a
+            class="btn move-right glyphicon glyphicon-chevron-down"
+            @click.prevent="menuDown(menu)"
+          ></a>
+          <a
+            class="btn move-left glyphicon glyphicon-chevron-up"
+            @click.prevent="menuUp(menu)"
+          ></a>
         </div>
         <div
           class="menu-row sub-row"
@@ -19,10 +37,21 @@
           v-for="child in menu.children"
           :key="child.id"
         >
-          <a class="btn submenu" @click.prevent="editSubMenu(child, menu)">{{child.name}}</a>
-          <a class="btn remove-sub-menu glyphicon glyphicon-remove" @click.prevent="deleteSubMenu(child)"></a>
-          <a class="btn move-down glyphicon glyphicon-chevron-down" @click.prevent="subMenuDown(menu, child)"></a>
-          <a class="btn move-up glyphicon glyphicon-chevron-up" @click.prevent="subMenuUp(menu, child)"></a>
+          <a class="btn submenu" @click.prevent="editSubMenu(child, menu)">{{
+            child.name
+          }}</a>
+          <a
+            class="btn remove-sub-menu glyphicon glyphicon-remove"
+            @click.prevent="deleteSubMenu(child)"
+          ></a>
+          <a
+            class="btn move-down glyphicon glyphicon-chevron-down"
+            @click.prevent="subMenuDown(menu, child)"
+          ></a>
+          <a
+            class="btn move-up glyphicon glyphicon-chevron-up"
+            @click.prevent="subMenuUp(menu, child)"
+          ></a>
         </div>
       </div>
     </div>
@@ -44,7 +73,7 @@ export default {
       this.$emit("edit", child, menu);
     },
     menuUp(menu) {
-      ApiService.postByObject(
+      ApiService.postByObjectAsForm(
         "/MenuEdit/MoveLeft",
         { id: menu.id },
         $(this.$refs.error),
@@ -55,7 +84,7 @@ export default {
       );
     },
     menuDown(menu) {
-      ApiService.postByObject(
+      ApiService.postByObjectAsForm(
         "/MenuEdit/MoveRight",
         { id: menu.id },
         $(this.$refs.error),
@@ -66,7 +95,7 @@ export default {
       );
     },
     subMenuUp(menu, child) {
-       ApiService.postByObject(
+      ApiService.postByObjectAsForm(
         "/MenuEdit/MoveUp",
         { id: child.id, parent: menu.id },
         $(this.$refs.error),
@@ -77,7 +106,7 @@ export default {
       );
     },
     subMenuDown(menu, child) {
-      ApiService.postByObject(
+      ApiService.postByObjectAsForm(
         "/MenuEdit/MoveDown",
         { id: child.id, parent: menu.id },
         $(this.$refs.error),
@@ -88,7 +117,7 @@ export default {
       );
     },
     deleteMenu(menu) {
-      ApiService.postByObject(
+      ApiService.postByObjectAsForm(
         "/MenuEdit/RemoveTopMenu",
         { id: menu.id },
         $(this.$refs.error),
@@ -99,7 +128,7 @@ export default {
       );
     },
     deleteSubMenu(menu) {
-      ApiService.postByObject(
+      ApiService.postByObjectAsForm(
         "/MenuEdit/RemoveSubMenu",
         { id: menu.id },
         $(this.$refs.error),

@@ -5,13 +5,15 @@
         <div
           class="tag"
           v-for="(category, name) in categories"
-          :class="{ selected : name === selectedCategory}"
+          :class="{ selected: name === selectedCategory }"
           :key="name"
           @drop.prevent="onFileDrop($event, name)"
           @dragover.prevent="onFileDragover"
           @dragleave="onFileDragleave"
           @click="selectedCategory = name"
-        >{{name}} ({{category.length}})</div>
+        >
+          {{ name }} ({{ category.length }})
+        </div>
       </div>
       <p class="tag-info">Dra filer till en kategori för att ändra kategori.</p>
     </div>
@@ -25,14 +27,17 @@
           @dragstart="onFileDragStart($event, file)"
           @click="clickFile(file)"
         >
-          <img :src="'/media/' + file.name" v-if="file.type==='Image'">
-          <span class="glyphicon glyphicon-file" v-if="file.type==='Document'"></span>
+          <img :src="'/media/' + file.name" v-if="file.type === 'Image'" />
+          <span
+            class="glyphicon glyphicon-file"
+            v-if="file.type === 'Document'"
+          ></span>
           <a
             href="#"
             class="remove-file glyphicon glyphicon-remove"
             @click.prevent.stop="remove(file)"
           ></a>
-          <p class="name">{{file.name}}</p>
+          <p class="name">{{ file.name }}</p>
         </div>
       </div>
     </div>
@@ -60,7 +65,7 @@ export default {
       event.target.classList.remove("drag");
       const id = event.dataTransfer.getData("text");
       if (name && id) {
-        ApiService.postByObject(
+        ApiService.postByObjectAsForm(
           "/Media/EditFile",
           { Tag: name, Id: id },
           null,
