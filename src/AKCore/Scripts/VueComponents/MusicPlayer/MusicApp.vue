@@ -1,6 +1,8 @@
 ﻿<template>
   <div id="music-app">
-    <h2 class="album-title" v-if="currentAlbum">{{this.currentAlbum.name}}</h2>
+    <h2 class="album-title" v-if="currentAlbum">
+      {{ this.currentAlbum.name }}
+    </h2>
     <div class="player-container" v-if="currentAlbum">
       <AlbumDisplay
         :album="currentAlbum"
@@ -19,7 +21,12 @@
         @stop="stop"
       ></PlayList>
     </div>
-    <album-list v-if="albums && Object.keys(albums).length > 1" @add-track="addTrack" @select="selectAlbum" :albums="albums"></album-list>
+    <album-list
+      v-if="albums && Object.keys(albums).length > 1"
+      @add-track="addTrack"
+      @select="selectAlbum"
+      :albums="albums"
+    ></album-list>
   </div>
 </template>
 <script>
@@ -63,9 +70,8 @@ export default {
       this.playing = false;
     },
     addTrack(track) {
-      if (this.playList.indexOf(track) < 0) {
-        this.playList.push(track);
-      }
+      const newTrack = { ...track, key: track.id + this.playList.length };
+      this.playList.push(newTrack);
     },
     removeTrack(track) {
       const index = this.playList.indexOf(track);
@@ -74,7 +80,7 @@ export default {
       }
     },
     removeBefore(index) {
-      if(this.playList.length > index) {
+      if (this.playList.length > index) {
         this.playList.splice(0, index);
       }
     }

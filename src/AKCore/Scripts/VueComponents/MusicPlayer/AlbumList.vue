@@ -96,8 +96,9 @@ export default {
 <style lang="scss" scoped>
 @import "~bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss";
 .album-list {
-  margin-top: 10px;
-  position: relative;
+    margin-top: 10px;
+    position: relative;
+    padding-top: 20px;
 }
 .show-albums {
   margin-right: 20px;

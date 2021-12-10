@@ -1,19 +1,20 @@
-﻿
-<template>
+﻿<template>
   <div class="player-module">
     <Player
       :playing="playing"
       :track-playing="trackPlaying"
       :reset="reset"
+      :replay="replay"
       @playpause="$emit('playpause')"
+      @replay="replay = !replay"
       @next="next"
     ></Player>
     <div class="playlist">
       <PlayListItem
         v-for="track in tracks"
-        :key="track.id"
+        :key="track.key"
         :track="track"
-        :active="trackPlaying && track.id === trackPlaying.id"
+        :active="trackPlaying && track.key === trackPlaying.key"
         :remove="playList.length > 0"
         @select="selectTrack"
         @remove="$emit('remove', track)"
@@ -35,7 +36,8 @@ export default {
   data() {
     return {
       trackPlaying: null,
-      reset: false
+      reset: false,
+      replay: false
     };
   },
   computed: {
@@ -50,12 +52,15 @@ export default {
         return this.playList;
       }
       const trackKeys = Object.keys(this.album.tracks);
-      return trackKeys.map(key => this.album.tracks[key]).sort(nameCompare);
+      return trackKeys
+        .map(key => this.album.tracks[key])
+        .map(track => ({ ...track, key: track.id }))
+        .sort(nameCompare);
     }
   },
   watch: {
     playList() {
-      if(this.playList.length > 0 && !this.trackPlaying) {
+      if (this.playList.length > 0 && !this.trackPlaying) {
         this.trackPlaying = this.playList[0];
         this.$nextTick(() => this.$emit("playpause"));
       }
@@ -64,11 +69,18 @@ export default {
   methods: {
     next() {
       const currentIndex = this.tracks.findIndex(
-        track => track.id === this.trackPlaying.id
+        track => track.key === this.trackPlaying.key
       );
+      if (this.replay) {
+        return this.nextIfReplay(currentIndex);
+      }
+
       let dontRemove = false;
       if (currentIndex === -1 || currentIndex + 1 >= this.tracks.length) {
-        if(this.playList.length > 0 && this.trackPlaying !== this.playList[0]) {
+        if (
+          this.playList.length > 0 &&
+          this.trackPlaying !== this.playList[0]
+        ) {
           this.trackPlaying = this.tracks[0];
           dontRemove = true;
         } else {
@@ -78,24 +90,41 @@ export default {
       } else {
         this.trackPlaying = this.tracks[currentIndex + 1];
       }
-      if(this.playList.length > 0 && !dontRemove) {
+      if (this.playList.length > 0 && !dontRemove) {
         this.$emit("remove", this.playList[0]);
       }
     },
-    selectTrack(track) {
-      if(this.playing && this.trackPlaying === track) {
+    nextIfReplay(currentIndex) {
+      if (this.playList.length === 0) {
+        this.trackPlaying = this.tracks[currentIndex];
+        this.$emit("stop");
         this.reset = true;
-        this.$nextTick(() => this.reset = false);
+        this.$nextTick(() => (this.reset = false));
+        this.$nextTick(() => this.$emit("playpause"));
+      } else {
+        if (currentIndex + 1 >= this.tracks.length) {
+          this.trackPlaying = this.tracks[0];
+        } else {
+          this.trackPlaying = this.tracks[currentIndex + 1];
+        }
+      }
+    },
+    selectTrack(track) {
+      if (this.playing && this.trackPlaying === track) {
+        this.reset = true;
+        this.$nextTick(() => (this.reset = false));
       } else {
         this.trackPlaying = track;
         if (!this.playing) {
           this.reset = true;
-          this.$nextTick(() => this.reset = false);
+          this.$nextTick(() => (this.reset = false));
           this.$nextTick(() => this.$emit("playpause"));
         }
-        if(this.playList.length > 0) {
+        if (this.playList.length > 0) {
           const index = this.playList.indexOf(track);
-          this.$emit("remove-before", index);
+          if (!this.replay) {
+            this.$emit("remove-before", index);
+          }
         }
       }
     }
