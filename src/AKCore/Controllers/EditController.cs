@@ -156,7 +156,10 @@ namespace AKCore.Controllers
             else if (page.Revisions.Count > 5)
             {
                 var oldestRevision = page.Revisions.OrderBy(x => x.Modified).FirstOrDefault();
-                if (oldestRevision != null) _db.Revisions.Remove(oldestRevision);
+                if (oldestRevision != null)
+                {
+                    _db.Revisions.Remove(oldestRevision);
+                }
             }
 
             page.Revisions.Add(new Revision()

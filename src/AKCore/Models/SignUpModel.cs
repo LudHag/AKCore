@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
+﻿using AKCore.DataModel;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using AKCore.DataModel;
 
 namespace AKCore.Models
 {
@@ -24,10 +23,10 @@ namespace AKCore.Models
 
         public EventViewModel Event { get; set; }
         public IEnumerable<SignUp> Signups { get; set; }
-        
+
         public IList<SignUp> Comming()
         {
-            return Signups.Where(x => x.Where != "Kan inte komma").OrderBy(x=>x.InstrumentName).ToList();
+            return Signups.Where(x => x.Where != "Kan inte komma").OrderBy(x => x.InstrumentName).ToList();
         }
         public IList<SignUp> NotComming()
         {

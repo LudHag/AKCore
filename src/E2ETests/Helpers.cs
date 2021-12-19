@@ -2,12 +2,12 @@
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.IE;
+using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using OpenQA.Selenium.Remote;
 
 namespace AkCore.E2ETests
 {
@@ -71,11 +71,11 @@ namespace AkCore.E2ETests
             {
                 driver.SwitchTo().Alert();
                 return true;
-            }   
+            }
             catch (NoAlertPresentException)
             {
                 return false;
-            }   
+            }
         }
 
         public static RemoteWebDriver SetBrowser(string browser)

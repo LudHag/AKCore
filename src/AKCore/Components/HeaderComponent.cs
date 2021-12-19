@@ -1,11 +1,10 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using AKCore.DataModel;
+﻿using AKCore.DataModel;
 using AKCore.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Hosting;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace AKCore.Components
 {
@@ -31,11 +30,11 @@ namespace AKCore.Components
                 .ToList()
                 .Where(x => loggedIn || !x.LoggedIn)
                 .Where(x => balett || !x.Balett)
-                .Where(x => x.Link==null || loggedIn || !x.Link.LoggedIn)
+                .Where(x => x.Link == null || loggedIn || !x.Link.LoggedIn)
                 .Where(x => x.Link == null || !loggedIn || !x.Link.LoggedOut)
-                .Where(x => x.Link == null ||  !x.Link.BalettOnly || (loggedIn && balett));
+                .Where(x => x.Link == null || !x.Link.BalettOnly || (loggedIn && balett));
             var modelMenus = menus.Select(m => new ModelMenu(m, loggedIn)).ToList();
-            var upcoming = new ModelMenu(loggedIn ? "På gång" : "Spelningar", "/upcoming", true) {Id = 10003};
+            var upcoming = new ModelMenu(loggedIn ? "På gång" : "Spelningar", "/upcoming", true) { Id = 10003 };
             modelMenus.Add(upcoming);
             var member = false;
             var numberUnreadRecruits = 0;
@@ -51,15 +50,19 @@ namespace AKCore.Components
                     var signUpMenus = new ModelMenu("Intresseanmälningar", "/Signup/Recruits", true) { Id = 10007 };
                     modelMenus.Add(signUpMenus);
 
-                    var adminMenu = new ModelMenu("Admin", "", true) {Id = 10015};
-                    if (nintendo) adminMenu.Children.Add(new ModelMenu("Ändra användare", "/User", true));
+                    var adminMenu = new ModelMenu("Admin", "", true) { Id = 10015 };
+                    if (nintendo)
+                    {
+                        adminMenu.Children.Add(new ModelMenu("Ändra användare", "/User", true));
+                    }
+
                     adminMenu.Children.Add(new ModelMenu("Ändra filer", "/Media", true));
                     if (nintendo)
                     {
                         adminMenu.Children.Add(new ModelMenu("Ändra händelser", "/AdminEvent", true));
                         adminMenu.Children.Add(new ModelMenu("Ändra menyer", "/MenuEdit", true));
                     }
-                    adminMenu.Children.Add(new ModelMenu("Ändra sidor", "/Edit", true) {Id = 10017});
+                    adminMenu.Children.Add(new ModelMenu("Ändra sidor", "/Edit", true) { Id = 10017 });
                     adminMenu.Children.Add(new ModelMenu("Ändra skivor", "/AlbumEdit", true));
 
                     if (nintendo)

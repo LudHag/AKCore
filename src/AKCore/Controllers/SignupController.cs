@@ -1,10 +1,9 @@
-﻿using System;
-using System.Linq;
-using AKCore.DataModel;
+﻿using AKCore.DataModel;
 using AKCore.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Hosting;
+using System;
+using System.Linq;
 
 namespace AKCore.Controllers
 {
@@ -24,8 +23,12 @@ namespace AKCore.Controllers
         public ActionResult Signup(JoinUsModel model)
         {
             if (string.IsNullOrWhiteSpace(model.Email) && string.IsNullOrWhiteSpace(model.Tel))
+            {
                 return Json(new { success = false, message = "Du har ej angett ett sätt att kontakta dig med." });
+            }
+
             if (string.IsNullOrWhiteSpace(model.Instrument))
+            {
                 return
                     Json(
                         new
@@ -34,11 +37,14 @@ namespace AKCore.Controllers
                             message =
                             "Du måste ange vilke instrument du spelar eller om du vill dansa med baletten."
                         });
+            }
+
             if (
                 _db.Recruits.Any(
                     x =>
                         (!string.IsNullOrWhiteSpace(model.Email) && (x.Email == model.Email)) ||
                         (!string.IsNullOrWhiteSpace(model.Tel) && (x.Phone == model.Tel))))
+            {
                 return
                     Json(
                         new
@@ -46,6 +52,7 @@ namespace AKCore.Controllers
                             success = false,
                             message = "En person med din kontaktinformation har redan anmält sig."
                         });
+            }
 
             var rec = new Recruit
             {
@@ -89,7 +96,11 @@ namespace AKCore.Controllers
                 return Json(new { success = false });
             }
             var recruit = _db.Recruits.FirstOrDefault(x => x.Id == id);
-            if (recruit == null) return Json(new { success = false });
+            if (recruit == null)
+            {
+                return Json(new { success = false });
+            }
+
             recruit.Archived = arch;
             _db.SaveChanges();
             return Json(new { success = true });
@@ -104,7 +115,11 @@ namespace AKCore.Controllers
                 return Json(new { success = false });
             }
             var recruit = _db.Recruits.FirstOrDefault(x => x.Id == id);
-            if (recruit == null) return Json(new { success = false });
+            if (recruit == null)
+            {
+                return Json(new { success = false });
+            }
+
             _db.Recruits.Remove(recruit);
             _db.SaveChanges();
             return Json(new { success = true });

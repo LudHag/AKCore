@@ -1,7 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
-using System;
-using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AKCore.Migrations
 {
@@ -20,7 +17,7 @@ namespace AKCore.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-           
+
             migrationBuilder.DropColumn(
                 name: "Balett",
                 table: "Menus");

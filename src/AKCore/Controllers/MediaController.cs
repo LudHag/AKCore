@@ -46,7 +46,11 @@ namespace AKCore.Controllers
         public ActionResult MediaPickerList(SearchModel search)
         {
             var medias = PopulateList(search.Page < 1 ? 1 : search.Page, out int totalPages, search.SearchPhrase ?? "", search.Type, search.Tag);
-            if (totalPages < search.Page) search.Page = totalPages;
+            if (totalPages < search.Page)
+            {
+                search.Page = totalPages;
+            }
+
             var model = new MediaModel
             {
                 MediaFiles = medias,
@@ -85,7 +89,11 @@ namespace AKCore.Controllers
                 .Where(x => string.IsNullOrWhiteSpace(tag) || x.Tag == tag)
                 .OrderByDescending(x => x.Created);
             totalPages = ((searched.Count() - 1) / pagesize) + 1;
-            if (totalPages < page) page = totalPages;
+            if (totalPages < page)
+            {
+                page = totalPages;
+            }
+
             return searched.Skip((page - 1) * pagesize).Take(pagesize).ToList();
         }
         [Route("EditFile")]

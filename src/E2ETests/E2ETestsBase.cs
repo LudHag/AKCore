@@ -1,11 +1,11 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OpenQA.Selenium;
-using System.IO;
-using System;
-using OpenQA.Selenium.Support.UI;
-using AkCore.E2ETests.Models;
-using AkCore.E2ETests.Enums;
+﻿using AkCore.E2ETests.Enums;
 using AkCore.E2ETests.Extensions;
+using AkCore.E2ETests.Models;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
+using System;
+using System.IO;
 
 namespace AkCore.E2ETests
 {
@@ -26,7 +26,8 @@ namespace AkCore.E2ETests
         private static void InitializeSetUp(TestContext context)
         {
             appUrl = context.Properties["webAppUrl"].ToString();
-            login = new WebLogin(){
+            login = new WebLogin()
+            {
                 UserName = context.Properties["userName"].ToString(),
                 Password = context.Properties["password"].ToString()
             };

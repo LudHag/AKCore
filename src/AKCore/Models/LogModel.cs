@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using AKCore.DataModel;
+﻿using AKCore.DataModel;
+using System.Collections.Generic;
 namespace AKCore.Models
 {
     public class LogModel

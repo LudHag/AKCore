@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AKCore.DataModel;
+﻿using AKCore.DataModel;
 using AKCore.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace AKCore.Controllers
 {
@@ -93,19 +93,22 @@ namespace AKCore.Controllers
             }
 
             if (model.SearchPhrase != null)
+            {
                 users =
                     users
                         .Where(
                             x =>
                                 x.UserName.Contains(model.SearchPhrase) ||
                                 (x.FirstName + ' ' + x.LastName).Contains(model.SearchPhrase)).ToList();
+            }
+
             foreach (var user in users)
             {
                 var uRoles = (from role in user.Roles
-                    select roles.FirstOrDefault(x => x.Id == role.RoleId)
+                              select roles.FirstOrDefault(x => x.Id == role.RoleId)
                     into t
-                    where t != null
-                    select t.Name).ToList();
+                              where t != null
+                              select t.Name).ToList();
 
                 model.Roles[user.UserName] = uRoles;
                 model.Posts[user.UserName] = user.SlavPoster != null && user.SlavPoster != "[null]"
@@ -122,7 +125,7 @@ namespace AKCore.Controllers
             var user = await _userManager.FindByIdAsync(model.Id);
             if (user == null)
             {
-                return Json(new {success = false, message = "Användare finns ej"});
+                return Json(new { success = false, message = "Användare finns ej" });
             }
 
             user.UserName = model.UserName;
@@ -137,7 +140,8 @@ namespace AKCore.Controllers
             user.GivenMedal = model.GivenMedal;
 
             var result = await _userManager.UpdateAsync(user);
-            if(result.Succeeded) {
+            if (result.Succeeded)
+            {
                 var editingUser = await _userManager.FindByNameAsync(User.Identity.Name);
                 _db.Log.Add(new LogItem()
                 {
@@ -160,13 +164,13 @@ namespace AKCore.Controllers
         {
             if (string.IsNullOrWhiteSpace(model.UserName) || string.IsNullOrWhiteSpace(model.Password))
             {
-                return Json(new {success = false, message = "Användarnamn och lösenord krävs"});
+                return Json(new { success = false, message = "Användarnamn och lösenord krävs" });
             }
 
             var oldUser = await _userManager.FindByNameAsync(model.UserName);
             if (oldUser != null)
             {
-                return Json(new {success = false, message = "Användarnamn finns redan"});
+                return Json(new { success = false, message = "Användarnamn finns redan" });
             }
 
             var newUser = new AkUser
@@ -186,7 +190,7 @@ namespace AKCore.Controllers
 
             if (!createRes.Succeeded)
             {
-                return Json(new {success = false, message = string.Join(" ", createRes.ToString())});
+                return Json(new { success = false, message = string.Join(" ", createRes.ToString()) });
             }
 
             if (model.Roles != null)
@@ -201,7 +205,9 @@ namespace AKCore.Controllers
             }
 
             if (!createRes.Succeeded)
-                return Json(new {success = false, message = createRes.ToString()});
+            {
+                return Json(new { success = false, message = createRes.ToString() });
+            }
 
             var editingUser = await _userManager.FindByNameAsync(User.Identity.Name);
             _db.Log.Add(new LogItem()
@@ -213,7 +219,7 @@ namespace AKCore.Controllers
             });
             _db.SaveChanges();
 
-            return Json(new {success = true, message = "Användare skapades"});
+            return Json(new { success = true, message = "Användare skapades" });
         }
 
         [Route("RemoveUser")]
@@ -235,10 +241,10 @@ namespace AKCore.Controllers
                 });
                 _db.SaveChanges();
 
-                return Json(new {success = true, message = "Användare borttagen"});
+                return Json(new { success = true, message = "Användare borttagen" });
             }
 
-            return Json(new {success = false, message = delRes.ToString()});
+            return Json(new { success = false, message = delRes.ToString() });
         }
 
         [Route("AddRole")]
@@ -247,10 +253,16 @@ namespace AKCore.Controllers
             var user = await _userManager.FindByNameAsync(UserName);
             var role = await _roleManager.FindByNameAsync(Role);
             if ((user == null) || (role == null))
-                return Json(new {success = false, message = "Misslyckades att lägga till roll"});
+            {
+                return Json(new { success = false, message = "Misslyckades att lägga till roll" });
+            }
 
             var result = await _userManager.AddToRoleAsync(user, Role);
-            if (!result.Succeeded) return Json(new {success = false, message = "Misslyckades att lägga till roll"});
+            if (!result.Succeeded)
+            {
+                return Json(new { success = false, message = "Misslyckades att lägga till roll" });
+            }
+
             var editingUser = await _userManager.FindByNameAsync(User.Identity.Name);
             _db.Log.Add(new LogItem()
             {
@@ -260,7 +272,7 @@ namespace AKCore.Controllers
                 Comment = "Användare med namn " + UserName + " får roll " + Role + " tillagd"
             });
             _db.SaveChanges();
-            return Json(new {success = true, message = "Lyckades lägga till roll"});
+            return Json(new { success = true, message = "Lyckades lägga till roll" });
         }
 
         [Route("RemoveRole")]
@@ -269,10 +281,16 @@ namespace AKCore.Controllers
             var user = await _userManager.FindByNameAsync(UserName);
             var role = await _roleManager.FindByNameAsync(Role);
             if ((user == null) || (role == null))
-                return Json(new {success = false, message = "Misslyckades att ta bort roll"});
+            {
+                return Json(new { success = false, message = "Misslyckades att ta bort roll" });
+            }
 
             var result = await _userManager.RemoveFromRoleAsync(user, Role);
-            if (!result.Succeeded) return Json(new {success = false, message = result.ToString()});
+            if (!result.Succeeded)
+            {
+                return Json(new { success = false, message = result.ToString() });
+            }
+
             var editingUser = await _userManager.FindByNameAsync(User.Identity.Name);
             _db.Log.Add(new LogItem()
             {
@@ -282,7 +300,7 @@ namespace AKCore.Controllers
                 Comment = "Användare med namn " + UserName + " får roll " + Role + " borttagen"
             });
             _db.SaveChanges();
-            return Json(new {success = true, message = "Lyckades ta bort roll"});
+            return Json(new { success = true, message = "Lyckades ta bort roll" });
         }
 
         [Route("ChangePassword")]
@@ -293,7 +311,9 @@ namespace AKCore.Controllers
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
             var result = await _userManager.ResetPasswordAsync(user, token, password);
             if (!result.Succeeded)
-                return Json(new {success = result.Succeeded, message = result.ToString()});
+            {
+                return Json(new { success = result.Succeeded, message = result.ToString() });
+            }
 
             var editingUser = await _userManager.FindByNameAsync(User.Identity.Name);
             _db.Log.Add(new LogItem()
@@ -305,7 +325,7 @@ namespace AKCore.Controllers
             });
             _db.SaveChanges();
 
-            return Json(new {success = result.Succeeded, message = "Lösenord ändrat"});
+            return Json(new { success = result.Succeeded, message = "Lösenord ändrat" });
         }
 
         [Route("AddPost")]
@@ -313,7 +333,10 @@ namespace AKCore.Controllers
         {
             var user = await _userManager.FindByNameAsync(userName);
             if (user == null)
-                return Json(new {success = false, message = "Misslyckades att lägga till post"});
+            {
+                return Json(new { success = false, message = "Misslyckades att lägga till post" });
+            }
+
             var poster = JsonConvert.SerializeObject(post);
             user.SlavPoster = poster;
             var result = await _userManager.UpdateAsync(user);
@@ -329,7 +352,10 @@ namespace AKCore.Controllers
         {
             var user = await _userManager.FindByNameAsync(userName);
             if (user == null)
-                return Json(new {success = false, message = "Misslyckades att lägga till medalj"});
+            {
+                return Json(new { success = false, message = "Misslyckades att lägga till medalj" });
+            }
+
             user.Medal = medal;
             var result = await _userManager.UpdateAsync(user);
 
@@ -345,7 +371,10 @@ namespace AKCore.Controllers
         {
             var user = await _userManager.FindByNameAsync(userName);
             if (user == null)
-                return Json(new {success = false, message = "Misslyckades att lägga till medalj"});
+            {
+                return Json(new { success = false, message = "Misslyckades att lägga till medalj" });
+            }
+
             user.GivenMedal = medal;
             var result = await _userManager.UpdateAsync(user);
 

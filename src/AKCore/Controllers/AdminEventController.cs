@@ -41,9 +41,13 @@ namespace AKCore.Controllers
 
             IQueryable<Event> eventsQuery;
             if (old)
+            {
                 eventsQuery = _db.Events.OrderByDescending(x => x.Day).Where(x => x.Day < DateTime.UtcNow.Date);
+            }
             else
+            {
                 eventsQuery = _db.Events.OrderBy(x => x.Day).Where(x => x.Day >= DateTime.UtcNow.Date);
+            }
 
             var totalPages = ((eventsQuery.Count() - 1) / 20) + 1;
 
@@ -103,11 +107,15 @@ namespace AKCore.Controllers
             }
 
             if (model.Type != null || model.Day != null)
+            {
                 if (model.Id > 0) //redigera
                 {
                     var changeEvent = _db.Events.FirstOrDefault(x => x.Id == model.Id);
                     if (changeEvent == null)
+                    {
                         return Json(new { success = false, message = "Misslyckades med att spara ändringen" });
+                    }
+
                     changeEvent.Name = model.Name;
                     changeEvent.Place = model.Place ?? "";
                     changeEvent.Day = DateTime.Parse(model.Day);
@@ -138,7 +146,9 @@ namespace AKCore.Controllers
                     if ((model.Type == AkEventTypes.FikaRep) || (model.Type == AkEventTypes.KarRep) ||
                         (model.Type == AkEventTypes.AthenRep) ||
                         (model.Type == AkEventTypes.Rep))
+                    {
                         model.Name = model.Type;
+                    }
 
                     var newEvent = new Event
                     {
@@ -168,6 +178,8 @@ namespace AKCore.Controllers
                     _db.SaveChanges();
                     return Json(new { success = true, message = "Lyckades skapa en ny händelse" });
                 }
+            }
+
             return Json(new { success = false, message = "Misslyckades med att spara ändringen" });
         }
 
@@ -181,9 +193,15 @@ namespace AKCore.Controllers
         public async Task<ActionResult> Remove(string id)
         {
             if (!int.TryParse(id, out var eId))
+            {
                 return Json(new { success = false, message = "Misslyckades med att ta bort event" });
+            }
+
             var e = _db.Events.Include(x => x.SignUps).FirstOrDefault(x => x.Id == eId);
-            if (e == null) return Json(new { success = false, message = "Misslyckades med att ta bort event" });
+            if (e == null)
+            {
+                return Json(new { success = false, message = "Misslyckades med att ta bort event" });
+            }
 
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
             _db.Log.Add(new LogItem()
@@ -203,9 +221,15 @@ namespace AKCore.Controllers
         public ActionResult GetEvent(string id)
         {
             if (!int.TryParse(id, out var eId))
+            {
                 return Json(new { success = false, message = "Misslyckades med att hämta event" });
+            }
+
             var e = _db.Events.FirstOrDefault(x => x.Id == eId);
-            if (e == null) return Json(new { success = false, message = "Misslyckades med att hämta event" });
+            if (e == null)
+            {
+                return Json(new { success = false, message = "Misslyckades med att hämta event" });
+            }
 
             return Json(new { success = true, e = JsonConvert.SerializeObject(e) });
         }

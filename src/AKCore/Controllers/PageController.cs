@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using AKCore.DataModel;
+﻿using AKCore.DataModel;
 using AKCore.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using Microsoft.AspNetCore.Hosting;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace AKCore.Controllers
 {
@@ -29,7 +28,10 @@ namespace AKCore.Controllers
         {
             var loggedIn = User.Identity.IsAuthenticated;
             var redirectLink = "/";
-            if (loggedIn) redirectLink = "/upcoming";
+            if (loggedIn)
+            {
+                redirectLink = "/upcoming";
+            }
 
             Page page;
             if (string.IsNullOrWhiteSpace(slug))
@@ -70,7 +72,7 @@ namespace AKCore.Controllers
                 }
             }
             ViewData["Title"] = page.Name;
-            if(!string.IsNullOrWhiteSpace(page.MetaDescription))
+            if (!string.IsNullOrWhiteSpace(page.MetaDescription))
             {
                 ViewData["Description"] = page.MetaDescription;
             }

@@ -1,18 +1,18 @@
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace AKCore.DataModel
 {
     public class AKContext : IdentityDbContext<AkUser>
     {
         public AKContext(DbContextOptions<AKContext> options)
-          :base(options)
-        {}
+          : base(options)
+        { }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -144,7 +144,11 @@ namespace AKCore.DataModel
 
         public string GetDisplayName()
         {
-            if (!string.IsNullOrWhiteSpace(Name)) return Name;
+            if (!string.IsNullOrWhiteSpace(Name))
+            {
+                return Name;
+            }
+
             var parts = FileName.Split('.');
             return parts[^2].Replace('_', ' ');
         }

@@ -1,11 +1,4 @@
-﻿using System;
-using System.Linq;
-using AKCore.DataModel;
-using AKCore.Models;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Hosting;
-/**
+﻿/**
 namespace AKCore.Controllers
 {
     [Route("Hire")]

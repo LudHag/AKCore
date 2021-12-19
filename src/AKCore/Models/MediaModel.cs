@@ -1,7 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using AKCore.DataModel;
+﻿using AKCore.DataModel;
 using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
 
 namespace AKCore.Models
 {

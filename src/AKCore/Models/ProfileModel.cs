@@ -32,7 +32,7 @@ namespace AKCore.Models
         public IList<string> Posts { get; set; }
         public ProfileModel()
         {
-            Roles=new List<string>();
+            Roles = new List<string>();
         }
     }
 }

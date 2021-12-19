@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using AKCore.DataModel;
+﻿using AKCore.DataModel;
 using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace AKCore.Models
 {

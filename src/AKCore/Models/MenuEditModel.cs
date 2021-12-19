@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using AKCore.DataModel;
+using System.Collections.Generic;
 using System.Linq;
-using AKCore.DataModel;
 
 namespace AKCore.Models
 {
@@ -30,10 +30,18 @@ namespace AKCore.Models
             MenuBalett = menu.Balett;
             Link = menu.Link?.Slug ?? "";
             LinkId = menu.Link?.Id ?? 0;
-            if (menu.Link != null) LoggedIn = menu.Link.LoggedIn;
+            if (menu.Link != null)
+            {
+                LoggedIn = menu.Link.LoggedIn;
+            }
+
             PosIndex = menu.PosIndex;
-            if (menu.Children == null) return;
-            foreach (var m in menu.Children.Where(x=> userLoggedIn || !x.Link.LoggedIn).OrderBy(x=>x.SubPosIndex).ToList())
+            if (menu.Children == null)
+            {
+                return;
+            }
+
+            foreach (var m in menu.Children.Where(x => userLoggedIn || !x.Link.LoggedIn).OrderBy(x => x.SubPosIndex).ToList())
             {
                 Children.Add(new ModelMenu(m));
             }
@@ -41,10 +49,18 @@ namespace AKCore.Models
         public ModelMenu(SubMenu menu)
         {
             Id = menu.Id;
-            if (menu.Link != null) LoggedIn = menu.Link.LoggedIn;
+            if (menu.Link != null)
+            {
+                LoggedIn = menu.Link.LoggedIn;
+            }
+
             LinkId = menu.Link?.Id ?? 0;
             Name = menu.Name;
-            if (menu.Link != null) Link = menu.Link.Slug;
+            if (menu.Link != null)
+            {
+                Link = menu.Link.Slug;
+            }
+
             PosIndex = menu.SubPosIndex;
         }
 

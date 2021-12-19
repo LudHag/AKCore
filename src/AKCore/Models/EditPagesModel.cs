@@ -1,6 +1,5 @@
-﻿using System.Collections;
+﻿using AKCore.DataModel;
 using System.Collections.Generic;
-using AKCore.DataModel;
 
 namespace AKCore.Models
 {

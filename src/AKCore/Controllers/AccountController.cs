@@ -1,8 +1,8 @@
-﻿using System.Threading.Tasks;
-using AKCore.DataModel;
+﻿using AKCore.DataModel;
 using AKCore.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace AKCore.Controllers
 {
@@ -34,13 +34,13 @@ namespace AKCore.Controllers
 
                 if (result.Succeeded)
                 {
-                    return Json(new { success = true});
+                    return Json(new { success = true });
                 }
                 if (result.IsLockedOut)
                 {
                     return Json(new { success = false, message = "Utlåst" });
                 }
-                
+
             }
             return Json(new { success = false, message = "Inloggning misslyckades" });
         }
@@ -52,7 +52,7 @@ namespace AKCore.Controllers
         }
 
 #if DEBUG
-        
+
         [Route("InitNintendo")]
         public async Task<ActionResult> InitNintendo()
         {
@@ -60,12 +60,16 @@ namespace AKCore.Controllers
             foreach (var r in AkRoles.Roles)
             {
                 var roleresult = await _roleManager.FindByNameAsync(r);
-                if (roleresult != null) continue;
+                if (roleresult != null)
+                {
+                    continue;
+                }
+
                 var role = new IdentityRole(r);
                 await _roleManager.CreateAsync(role);
             }
 
-            var newUser = new AkUser() {UserName = "nintendo"};
+            var newUser = new AkUser() { UserName = "nintendo" };
             var newCommonUser = new AkUser() { UserName = "test" };
             var user = await _userManager.FindByNameAsync("nintendo");
             if (user == null)
@@ -75,7 +79,7 @@ namespace AKCore.Controllers
                 await _userManager.AddToRoleAsync(user, AkRoles.SuperNintendo);
                 await _userManager.AddToRoleAsync(user, AkRoles.Medlem);
             }
-            
+
             var user2 = await _userManager.FindByNameAsync("test");
             if (user2 == null)
             {
@@ -83,10 +87,10 @@ namespace AKCore.Controllers
                 user2 = await _userManager.FindByNameAsync("test");
                 await _userManager.AddToRoleAsync(user2, AkRoles.Medlem);
 
-                return Json(new {success = true});
+                return Json(new { success = true });
             }
 
-            return Json(new {success = true});
+            return Json(new { success = true });
         }
 #endif
     }
