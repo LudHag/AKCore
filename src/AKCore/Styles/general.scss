@@ -1,321 +1,328 @@
-﻿html{
-    overflow-y: scroll;
+﻿html {
+  overflow-y: scroll;
 }
 
-html,body,.wrap{
-    height: 100%;
+html,
+body,
+.wrap {
+  height: 100%;
 }
 html,
 body {
-    overflow: auto;
-    height: 100%;
-    font-weight: 300;
-    b, strong {
-        font-weight: 500;
-    }
+  overflow: auto;
+  height: 100%;
+  font-weight: 300;
+  b,
+  strong {
+    font-weight: 500;
+  }
 }
 
 body {
-    overflow: visible;
+  overflow: visible;
 }
 
-h1{
-    color: $akred;
+h1 {
+  color: $akred;
 }
 
-h2{
-    font-size: 22px;
-    line-height: 40px;
-    font-weight: 500;
-    margin-top: 0;
-    margin-bottom: 0;
-    color: $akred;
+h2 {
+  font-size: 22px;
+  line-height: 40px;
+  font-weight: 500;
+  margin-top: 0;
+  margin-bottom: 0;
+  color: $akred;
 }
 h3 {
-    font-size: 18px;
-    line-height: 30px;
-    font-weight: 500;
-    margin-top: 0;
-    margin-bottom: 0;
-    color: $akred;
+  font-size: 18px;
+  line-height: 30px;
+  font-weight: 500;
+  margin-top: 0;
+  margin-bottom: 0;
+  color: $akred;
 }
 th {
-    font-weight: 500;
+  font-weight: 500;
 }
 label {
-    font-weight: 500;
+  font-weight: 500;
 }
 header {
-    display: block;
+  display: block;
+  position: relative;
+  border-bottom: 2px solid #1a1a1a;
+  padding: 15px 0 0;
+  background: $akred;
+  .container {
     position: relative;
-    border-bottom: 2px solid #1a1a1a;
-    padding: 15px 0 0;
-    background: $akred;
-    .container {
-        position: relative;
-        padding: 0 45px;
-    }
+    padding: 0 45px;
+  }
 
-    a, a:visited {
-        color: #000;
-        font-weight: 500;
-    }
+  a,
+  a:visited {
+    color: #000;
+    font-weight: 500;
+  }
 
-    .logo {
-        display: block;
-    }
+  .logo {
+    display: block;
+  }
 }
 table td {
-    padding: 10px;
+  padding: 10px;
 }
 body {
-    background: #000;
-    height: 100%;
-    font-family: 'Roboto', sans-serif;
-    color: #dddddd;
-    font-size: 15px;
+  background: #000;
+  height: 100%;
+  font-family: "Roboto", sans-serif;
+  color: #dddddd;
+  font-size: 15px;
 }
 
-a:hover, a:visited, a:link, a:active
-{
-    text-decoration: none;
+a:hover,
+a:visited,
+a:link,
+a:active {
+  text-decoration: none;
 }
-p.big{
-    font-size: 18px;
+p.big {
+  font-size: 18px;
 }
 
 a {
-    font-weight: 400;
+  font-weight: 400;
 }
 .body-content {
-    background: #000;
-    color: $akwhite;
+  background: #000;
+  color: $akwhite;
 }
 
 .modal {
-    z-index: 70000;
+  z-index: 70000;
 }
 
 .modal-open {
-    padding-right: 0 !important;
+  padding-right: 0 !important;
 }
 
 ::selection {
-    background: $akred;
-    color: $akwhite;
-    text-shadow: none;
+  background: $akred;
+  color: $akwhite;
+  text-shadow: none;
 }
 
 .account {
-    text-align: right;
-    padding: 5px;
-    color: $akwhite;
-    z-index: 10;
-    top: 5px;
-    position: absolute;
-    right: 20px;
+  text-align: right;
+  padding: 5px;
+  color: $akwhite;
+  z-index: 10;
+  top: 5px;
+  position: absolute;
+  right: 20px;
 }
 
 .social {
-    text-align: right;
-    padding: 5px;
+  text-align: right;
+  padding: 5px;
+  color: $akwhite;
+  z-index: 10;
+  bottom: -10px;
+  position: absolute;
+  right: 20px;
+  font-size: 26px;
+
+  a {
+    transition: all 0.2s linear;
+  }
+
+  a:hover {
     color: $akwhite;
-    z-index: 10;
-    bottom: -10px;
-    position: absolute;
-    right: 20px;
-    font-size: 26px;
-
-    a {
-        transition: all 0.2s linear;
-    }
-
-    a:hover {
-        color: $akwhite;
-    }
+  }
 }
 
 .content-wrapper {
-    padding: 40px 30px;
+  padding: 40px 30px;
 
-    .row {
-        margin-bottom: 20px;
-    }
+  .row {
+    margin-bottom: 20px;
+  }
 }
 
 .btn.btn-default,
 .btn.btn-primary {
+  background-color: $akred;
+  border-color: #6e1601;
+  color: white;
+
+  &:focus {
     background-color: $akred;
-    border-color: #6E1601;
+    border-color: #6e1601;
     color: white;
+  }
 
-    &:focus {
-        background-color: $akred;
-        border-color: #6E1601;
-        color: white;
-    }
-
-    &:hover {
-        color: #333;
-        background-color: $akwhite;
-        border-color: #ccc;
-    }
+  &:hover {
+    color: #333;
+    background-color: $akwhite;
+    border-color: #ccc;
+  }
 }
 
 a:visited,
 a {
-    &.btn {
-        color: white;
-    }
+  &.btn {
+    color: white;
+  }
 }
 
 .side-image {
-    width: 100%;
+  width: 100%;
 }
 
-
 .description {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
 .exp:hover .subnav {
-    display: block;
+  display: block;
 }
 
 .roles {
-    .role {
-        background-color: $akred;
-        border-radius: 5px;
-        margin-right: 10px;
-        padding: 2px;
-    }
+  .role {
+    background-color: $akred;
+    border-radius: 5px;
+    margin-right: 10px;
+    padding: 2px;
+  }
 }
 
 .center-image {
-    text-align: center;
+  text-align: center;
 }
 
 .main-image {
-    width: 100%;
+  width: 100%;
 }
 
 p.infobox {
-    background-color: #6e1601;
-    color: #dddddd;
-    border: 5px solid #430800;
-    border-radius: 10px;
-    padding: 10px;
-    margin: 40px 0;
+  background-color: #6e1601;
+  color: #dddddd;
+  border: 5px solid #430800;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 40px 0;
 }
 
 #kamerersposter {
-    .kategori + .kategori {
-        border-top: 1px solid red;
-        padding-top: 20px;
-    }
+  .kategori + .kategori {
+    border-top: 1px solid red;
+    padding-top: 20px;
+  }
 
-    .row {
-        padding: 10px;
-        margin-bottom: 15px;
+  .row {
+    padding: 10px;
+    margin-bottom: 15px;
 
-        &:hover {
-            background-color: #1a0000;
-        }
+    &:hover {
+      background-color: #1a0000;
     }
+  }
 }
 
 #signup-list {
-    .can-come {
-        float: right;
-    }
+  .can-come {
+    float: right;
+  }
 }
 
 .indent {
-    margin-left: 20px;
+  margin-left: 20px;
 }
 
 .new-month {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    text-transform: uppercase;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  text-transform: uppercase;
 }
 
 .content-wrapper .signup-row {
-    background-color: #430800;
-    margin-bottom: 10px;
-    padding: 5px;
-    padding-top: 15px;
-    margin-left: 0px;
-    margin-right: 0px;
+  background-color: #430800;
+  margin-bottom: 10px;
+  padding: 5px;
+  padding-top: 15px;
+  margin-left: 0px;
+  margin-right: 0px;
 
-    &:nth-of-type(even) {
-        background-color: #1e0500;
-    }
+  &:nth-of-type(even) {
+    background-color: #1e0500;
+  }
 }
 
 .signup-element {
-    overflow: hidden;
+  overflow: hidden;
 }
 
-
 .interested-notice {
-    margin-right: 30px;
+  margin-right: 30px;
 
-    .text {
-        color: $akwhite;
-    }
+  .text {
+    color: $akwhite;
+  }
 
-    .fa {
-        font-size: 20px;
-        position: absolute;
-        left: -17px;
-    }
+  .fa {
+    font-size: 20px;
+    position: absolute;
+    left: -17px;
+  }
 }
 
 @media screen and (max-width: $screen-xs-max) {
-    
-    .content-wrapper {
-        padding: 40px 7px;
+  h1 {
+    font-size: 30px;
+  }
+
+  .content-wrapper {
+    padding: 40px 7px;
+  }
+
+  header {
+    height: 85px;
+
+    .container {
+      padding: 0 15px;
     }
 
-    header {
-        height: 85px;
-
-        .container {
-            padding: 0 15px;
-        }
-
-        .logo {
-            img {
-                max-height: 90px;
-                width: auto;
-            }
-        }
-
-        nav {
-            height: 0;
-            position: absolute;
-            top: 85px;
-        }
-
-        #open-mobile-menu {
-            top: -82px;
-        }
+    .logo {
+      img {
+        max-height: 90px;
+        width: auto;
+      }
     }
+
+    nav {
+      height: 0;
+      position: absolute;
+      top: 85px;
+    }
+
+    #open-mobile-menu {
+      top: -82px;
+    }
+  }
 }
 
-@media print{
-    a[href]:after{
-        content: "";
-    }
-    .signup-row{
-        border-bottom: 1px solid #000;
-    }
-    .signup-element {
-        width: 20%;
-        float: left;
-    }
-    body{
-        overflow: visible;
-    }
+@media print {
+  a[href]:after {
+    content: "";
+  }
+  .signup-row {
+    border-bottom: 1px solid #000;
+  }
+  .signup-element {
+    width: 20%;
+    float: left;
+  }
+  body {
+    overflow: visible;
+  }
 }
