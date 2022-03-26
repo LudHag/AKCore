@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Web;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace AKCore.DataModel
 {
@@ -30,10 +30,10 @@ namespace AKCore.DataModel
             }
             else
             {
-                return FirstName + " " + LastName;
+                return HttpUtility.JavaScriptStringEncode(FirstName + " " + LastName);
             }
         }
     }
-    
+
 }
 
