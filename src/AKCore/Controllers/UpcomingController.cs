@@ -120,7 +120,7 @@ namespace AKCore.Controllers
         [Route("akevents.ics")]
         public ActionResult Ical()
         {
-            var events = _db.Events.OrderBy(x => x.Day).ThenBy(x => x.StartsTime)
+            var events = _db.Events.OrderBy(x => x.Day.Date).ThenBy(x => x.StartsTime)
                 .Include(x => x.SignUps)
                 .Where(x => x.Day >= DateTime.UtcNow.Date);
 
