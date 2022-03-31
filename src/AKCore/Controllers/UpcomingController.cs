@@ -55,8 +55,8 @@ namespace AKCore.Controllers
                     .Where(x => loggedIn || (x.Type == "Spelning") || (x.Type == "Evenemang"))
                     .Where(x => loggedIn || (!x.Secret))
                     .Where(x => x.Day >= DateTime.UtcNow.Date)
-                    .OrderBy(x => x.Day).ThenBy(x => x.StartsTime)
                     .ToList()
+                    .OrderBy(x => x.Day.Date).ThenBy(x => x.StartsTime != default ? x.StartsTime : x.HalanTime)
                     .GroupBy(x => x.Day.Year)
                     .ToDictionary(x => x.Key, x => new YearList
                     {
