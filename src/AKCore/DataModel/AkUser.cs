@@ -33,6 +33,18 @@ namespace AKCore.DataModel
                 return HttpUtility.JavaScriptStringEncode(FirstName + " " + LastName);
             }
         }
+
+        public string GetNameNoEncode()
+        {
+            if (string.IsNullOrWhiteSpace(FirstName) && string.IsNullOrWhiteSpace(LastName))
+            {
+                return UserName;
+            }
+            else
+            {
+                return FirstName + " " + LastName;
+            }
+        }
     }
 
 }
