@@ -22,7 +22,7 @@ namespace AKCore.DataModel
 
         public virtual ICollection<IdentityUserRole<string>> Roles { get; } = new List<IdentityUserRole<string>>();
 
-        public string GetName()
+        public string GetEncodedName()
         {
             if (string.IsNullOrWhiteSpace(FirstName) && string.IsNullOrWhiteSpace(LastName))
             {
@@ -34,7 +34,8 @@ namespace AKCore.DataModel
             }
         }
 
-        public string GetNameNoEncode()
+
+        public string GetName()
         {
             if (string.IsNullOrWhiteSpace(FirstName) && string.IsNullOrWhiteSpace(LastName))
             {
