@@ -23,6 +23,11 @@ namespace AKCore.Controllers
         [AllowAnonymous]
         public ActionResult Signup(JoinUsModel model)
         {
+            if(model.BotQuestion != "3")
+            {
+                return Json(new { success = false, message = "Du angav fel svar för 1 + 2, testa med annan siffra. Ursäkta för krångel, vill bara stoppa spammet." });
+            }
+
             if (string.IsNullOrWhiteSpace(model.Email) && string.IsNullOrWhiteSpace(model.Tel))
                 return Json(new { success = false, message = "Du har ej angett ett sätt att kontakta dig med." });
             if (string.IsNullOrWhiteSpace(model.Instrument))
