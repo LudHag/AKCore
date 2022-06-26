@@ -2,8 +2,8 @@
   <div id="pageedit-app" v-if="pageModel">
     <div class="row">
       <form method="post" @submit.prevent="save">
-        <div class="alert alert-danger" style="display: none;"></div>
-        <div class="alert alert-success" style="display: none;"></div>
+        <div class="alert alert-danger" style="display: none"></div>
+        <div class="alert alert-success" style="display: none"></div>
         <div class="col-xs-12">
           <h2 v-if="selectedRevision">
             Version från {{ selectedRevision.modified }}
@@ -54,7 +54,6 @@
   </div>
 </template>
 <script>
-import Constants from "../../constants";
 import PageMeta from "./PageMeta";
 import AddWidget from "./AddWidget";
 import Widget from "./Widget";
@@ -73,7 +72,7 @@ export default {
     ImagePickerModal,
     DocumentPickerModal,
     draggable,
-    PageVersions
+    PageVersions,
   },
   data() {
     return {
@@ -82,7 +81,7 @@ export default {
       saveDocumentDest: null,
       drag: false,
       selectedRevision: null,
-      usedModel: null
+      usedModel: null,
     };
   },
   created() {
@@ -90,14 +89,14 @@ export default {
     $.ajax({
       url: window.location.href + "/Model",
       type: "GET",
-      success: function(res) {
+      success: function (res) {
         self.pageModel = res;
         self.usedModel = self.pageModel;
-      }
+      },
     });
     document.addEventListener(
       "keydown",
-      e => {
+      (e) => {
         if (
           (window.navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey) &&
           e.keyCode == 83
@@ -115,8 +114,8 @@ export default {
   watch: {
     drag(value) {
       Array.from(document.querySelectorAll(".mce-content"))
-        .map(x => x.id)
-        .forEach(id => {
+        .map((x) => x.id)
+        .forEach((id) => {
           if (value) {
             tinymce.execCommand("mceRemoveEditor", false, id);
           } else {
@@ -130,7 +129,7 @@ export default {
       } else {
         this.usedModel = this.pageModel;
       }
-    }
+    },
   },
   methods: {
     selectRevision(revision) {
@@ -138,7 +137,7 @@ export default {
     },
     widgetAdd(type) {
       let newId = this.pageModel.widgets.length;
-      while (this.pageModel.widgets.some(x => x.id === newId)) {
+      while (this.pageModel.widgets.some((x) => x.id === newId)) {
         newId++;
       }
 
@@ -149,7 +148,7 @@ export default {
     },
     removeWidget(widget) {
       this.pageModel.widgets = this.pageModel.widgets.filter(
-        x => x.id != widget.id
+        (x) => x.id != widget.id
       );
     },
     selectImage(destination) {
@@ -176,13 +175,13 @@ export default {
         this.usedModel,
         error,
         success,
-        res => {
+        (res) => {
           this.selectedRevision = null;
           this.pageModel = res.newModel;
         }
       );
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
