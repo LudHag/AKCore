@@ -37,6 +37,7 @@ namespace AKCore.DataModel
         public DbSet<Recruit> Recruits { get; set; }
         public DbSet<Hire> Hires { get; set; }
         public DbSet<LogItem> Log { get; set; }
+        public DbSet<MailBoxItem> MailBoxItems { get; set; }
     }
 
     public class Page
@@ -257,5 +258,16 @@ namespace AKCore.DataModel
         public string Comment { get; set; }
         public DateTime Modified { get; set; }
         public AkUser ModifiedBy { get; set; }
+    }
+
+    public class MailBoxItem
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+        public string Subject { get; set; }
+        public string Message { get; set; }
+        public DateTime Created { get; set; }
+        public bool Archived { get; set; }
     }
 }
