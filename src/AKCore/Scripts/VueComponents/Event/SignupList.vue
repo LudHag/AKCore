@@ -20,7 +20,7 @@
           <p>{{ signup.comment }}</p>
         </div>
         <div class="col-sm-3 signup-element" v-if="nintendo">
-          <p>{{ formatDate(signup.signupTime) }}</p>
+          <p>{{ formatDateMethod(signup.signupTime) }}</p>
         </div>
         <div class="col-sm-6 signup-element" v-if="!nintendo">
           <p>{{ signup.comment }}</p>
@@ -38,7 +38,7 @@
           <p>{{ signup.comment }}</p>
         </div>
         <div class="col-sm-3 signup-element" v-if="nintendo">
-          <p>{{ formatDate(signup.signupTime) }}</p>
+          <p>{{ formatDateMethod(signup.signupTime) }}</p>
         </div>
         <div class="col-sm-6 signup-element" v-if="!nintendo">
           <p>{{ signup.comment }}</p>
@@ -48,6 +48,7 @@
   </div>
 </template>
 <script>
+import { formatDate } from "../../utils/functions";
 export default {
   props: ["signups", "nintendo"],
   computed: {
@@ -69,16 +70,8 @@ export default {
     },
   },
   methods: {
-    formatDate(dateString) {
-      const date = new Date(dateString);
-      const dateStr =
-        this.frmtNum(date.getMonth() + 1) + "-" + this.frmtNum(date.getDate());
-      const strTime =
-        this.frmtNum(date.getHours()) + ":" + this.frmtNum(date.getMinutes());
-      return dateStr + " " + strTime;
-    },
-    frmtNum(num) {
-      return ("0" + num).slice(-2);
+    formatDateMethod(date) {
+      return formatDate(date);
     },
     otherInstrumentsList(signup) {
       if (signup.otherInstruments) {
