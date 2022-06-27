@@ -1,47 +1,72 @@
 ﻿<template>
   <div id="mailbox-app">
     <mail-box-form></mail-box-form>
-    <div v-if="mailBoxItems.length">
-      <h2>Brevlådeposter</h2>
-      <div
-        class="row mailpost"
+    <div v-if="isUserBoard">
+      <div class="list-header">
+        <h2>Brevlådeposter</h2>
+        <div class="toggle">
+          <input
+            class="toggle-switch"
+            id="archived-mailbox-flip"
+            type="checkbox"
+            v-model="isArchived"
+            @change="filterChange()"
+          />
+          <label
+            class="toggle-switch-btn"
+            for="archived-mailbox-flip"
+            data-tg-off="Aktiva"
+            data-tg-on="Arkiverade"
+          ></label>
+        </div>
+      </div>
+      <mail-box-item
         v-for="mailitem in mailBoxItems"
         :key="mailitem.id"
-      >
-        <div class="subject col-xs-12">
-          <span class="date"> {{ formatDateMethod(mailitem.created) }}</span> -
-          {{ mailitem.subject }}
-        </div>
-        <div class="message col-xs-12">{{ mailitem.message }}</div>
-      </div>
+        :mailitem="mailitem"
+        @archive="archive(mailitem.id)"
+      ></mail-box-item>
     </div>
   </div>
 </template>
 <script>
 import ApiService from "../../services/apiservice";
-import { formatDate } from "../../utils/functions";
 import MailBoxForm from "./MailBoxForm";
+import MailBoxItem from "./MailBoxItem";
 
 export default {
   components: {
     MailBoxForm,
+    MailBoxItem,
   },
   data() {
     return {
       mailBoxItems: [],
+      isArchived: false,
     };
   },
   methods: {
+    isUserBoard() {
+      return isBoard;
+    },
     loadMediaList() {
       if (isBoard) {
-        ApiService.get("/MailBox/GetItems", null, (response) => {
-          this.mailBoxItems = response;
-          console.log(this.mailBoxItems);
-        });
+        ApiService.get(
+          "/MailBox/GetItems?archived=" + this.isArchived,
+          null,
+          (response) => {
+            this.mailBoxItems = response;
+          }
+        );
       }
     },
-    formatDateMethod(date) {
-      return formatDate(date);
+    archive(id) {
+      ApiService.postByUrl(`/MailBox/${id}/Archive`, null, null, (response) => {
+        this.loadMediaList();
+      });
+    },
+    filterChange() {
+      this.loadMediaList();
     },
   },
   created() {
@@ -52,19 +77,13 @@ export default {
 <style lang="scss" scoped>
 @import "../../../Styles/variables.scss";
 
-.mailpost {
-  padding-top: 20px;
-}
-.mailpost + .mailpost {
-  border-top: 2px solid $akred;
+.list-header {
+  position: relative;
 }
 
-.subject {
-  font-weight: 500;
-  font-size: 1.2em;
-}
-
-.date {
-  color: #a19f9f;
+.toggle {
+  position: absolute;
+  right: 0;
+  top: 0;
 }
 </style>

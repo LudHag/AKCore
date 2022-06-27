@@ -40,10 +40,39 @@ namespace AKCore.Controllers
         [Authorize(Roles = AkRoles.SuperNintendo)]
         public ActionResult GetMailboxItems(bool archived = false)
         {
-            var items = _db.MailBoxItems.Where(x=>x.Archived == archived).ToList();
+            var items = _db.MailBoxItems.OrderByDescending(x=>x.Created).Where(x=>x.Archived == archived).ToList();
 
             return Ok(items);
         }
 
+
+        [HttpPost("{id}/Archive")]
+        [Authorize(Roles = AkRoles.SuperNintendo)]
+        public ActionResult Archive(int id)
+        {
+            if (id < 0)
+            {
+                return Json(new { success = false });
+            }
+            var item = _db.MailBoxItems.FirstOrDefault(x => x.Id == id);
+            if (item == null) return Json(new { success = false });
+            item.Archived = !item.Archived;
+            _db.SaveChanges();
+            return Json(new { success = true });
+        }
+        [Authorize(Roles = AkRoles.SuperNintendo)]
+        [HttpDelete("{id}")]
+        public ActionResult Remove(int id)
+        {
+            if (id < 0)
+            {
+                return Json(new { success = false });
+            }
+            var item = _db.MailBoxItems.FirstOrDefault(x => x.Id == id);
+            if (item == null) return Json(new { success = false });
+            _db.MailBoxItems.Remove(item);
+            _db.SaveChanges();
+            return Json(new { success = true });
+        }
     }
 }
