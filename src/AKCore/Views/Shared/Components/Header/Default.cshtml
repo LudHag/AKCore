@@ -13,13 +13,21 @@
             }
             else
             {
-                <p>
+                <span class="notice-box hidden-sm">
                     @if (Model.Recruits > 0) { 
                         <a class="interested-notice" title="@Model.Recruits olästa intresseanmälningar" href="/Signup/Recruits">
                             <span class="fa fa-exclamation-circle" aria-hidden="true"></span>
                             <span class="text">@Model.Recruits</span>
                         </a>
                     }
+                     @if (Model.Mails > 0) { 
+                        <a class="mail-notice" title="@Model.Mails olästa brevlådeposter" href="/MailBox">
+                            <span class="fa fa-envelope" aria-hidden="true"></span>
+                            <span class="text">@Model.Mails</span>
+                        </a>
+                    }
+                </span>
+                <p>
                     Inloggad som
                     @if (Model.UserName == "nintendo")
                     {

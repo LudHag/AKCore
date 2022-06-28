@@ -5,6 +5,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace AKCore.DataModel
 {
@@ -37,6 +39,8 @@ namespace AKCore.DataModel
         public DbSet<Recruit> Recruits { get; set; }
         public DbSet<Hire> Hires { get; set; }
         public DbSet<LogItem> Log { get; set; }
+        public DbSet<MailBoxItem> MailBoxItems { get; set; }
+        public DatabaseFacade DatabaseAccessor => Database;
     }
 
     public class Page
@@ -258,4 +262,17 @@ namespace AKCore.DataModel
         public DateTime Modified { get; set; }
         public AkUser ModifiedBy { get; set; }
     }
+
+    public class MailBoxItem
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+        public string Subject { get; set; }
+        public string Message { get; set; }
+        public DateTime Created { get; set; }
+        public bool Archived { get; set; }
+    }
+
+  
 }

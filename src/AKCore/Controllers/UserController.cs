@@ -31,7 +31,7 @@ namespace AKCore.Controllers
             _db = db;
         }
 
-        public ActionResult Index(UsersModel model)
+        public ActionResult Index()
         {
             ViewBag.Title = "Användare";
             return View();
