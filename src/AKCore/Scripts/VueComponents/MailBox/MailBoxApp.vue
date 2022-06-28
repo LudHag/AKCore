@@ -1,7 +1,7 @@
 ﻿<template>
   <div id="mailbox-app">
-    <mail-box-form></mail-box-form>
-    <div v-if="isUserBoard">
+    <mail-box-form @sent="loadMediaList"></mail-box-form>
+    <div v-if="isUserBoard()">
       <div class="list-header">
         <h2>Brevlådeposter</h2>
         <div class="toggle">
@@ -25,6 +25,7 @@
         :key="mailitem.id"
         :mailitem="mailitem"
         @archive="archive(mailitem.id)"
+        @remove="remove(mailitem.id)"
       ></mail-box-item>
     </div>
   </div>
@@ -65,6 +66,19 @@ export default {
         this.loadMediaList();
       });
     },
+    remove(id) {
+      if (window.confirm("är du säker på att du vill ta bort post?")) {
+        ApiService.postByUrl(
+          `/MailBox/${id}/Delete`,
+          null,
+          null,
+          (response) => {
+            this.loadMediaList();
+          }
+        );
+      }
+    },
+
     filterChange() {
       this.loadMediaList();
     },

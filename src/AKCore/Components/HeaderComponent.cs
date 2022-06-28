@@ -39,6 +39,7 @@ namespace AKCore.Components
             modelMenus.Add(upcoming);
             var member = false;
             var numberUnreadRecruits = 0;
+            var numberUnreadMail = 0;
             if (loggedIn)
             {
                 var user = await _userManager.FindByNameAsync(User.Identity.Name);
@@ -70,6 +71,10 @@ namespace AKCore.Components
                     modelMenus.Add(adminMenu);
                     numberUnreadRecruits = _db.Recruits.Count(x => x.Archived == false);
                 }
+                if(nintendo)
+                {
+                    numberUnreadMail = _db.MailBoxItems.Count(x => x.Archived == false);
+                }
             }
 
             var model = new HeaderModel
@@ -79,7 +84,8 @@ namespace AKCore.Components
                 UserName = User.Identity.Name,
                 CurrentUrl = Request.Path.ToString(),
                 Member = member,
-                Recruits = numberUnreadRecruits
+                Recruits = numberUnreadRecruits,
+                Mails = numberUnreadMail
             };
             return View(model);
         }

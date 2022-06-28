@@ -18,7 +18,7 @@ namespace AKCore.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = AkRoles.Medlem)]
+        [Authorize]
         public ActionResult SaveMailBox(MailBoxModel model)
         {
 
@@ -61,7 +61,7 @@ namespace AKCore.Controllers
             return Json(new { success = true });
         }
         [Authorize(Roles = AkRoles.SuperNintendo)]
-        [HttpDelete("{id}")]
+        [HttpPost("{id}/Delete")]
         public ActionResult Remove(int id)
         {
             if (id < 0)

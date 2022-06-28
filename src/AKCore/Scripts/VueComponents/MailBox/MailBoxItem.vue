@@ -3,9 +3,21 @@
     <div class="subject col-xs-12">
       <span class="date"> {{ formatDateMethod(mailitem.created) }}</span> -
       {{ mailitem.subject }}
-      <a href="#" @click.prevent="archive" class="archive btn btn-primary"
-        >Arkivera</a
-      >
+      <span class="actions">
+        <a
+          href="#"
+          @click.prevent="archive"
+          :class="{ green: mailitem.archived }"
+          title="Arkivera"
+          class="archive glyphicon glyphicon-folder-open"
+        ></a>
+        <a
+          href="#"
+          @click.prevent="remove"
+          title="Ta bort"
+          class="remove glyphicon glyphicon-remove"
+        ></a>
+      </span>
     </div>
     <div class="message col-xs-12">{{ calculatedMessage }}</div>
     <div v-if="showExpand" class="expand-container col-xs-12">
@@ -47,6 +59,9 @@ export default {
     archive() {
       this.$emit("archive", this.mailitem);
     },
+    remove() {
+      this.$emit("remove", this.mailitem);
+    },
   },
 };
 </script>
@@ -77,8 +92,14 @@ export default {
   left: 50%;
   transform: translateX(-50%);
 }
-.archive {
+.actions {
   position: absolute;
   right: 0;
+}
+.archive {
+  margin-right: 10px;
+}
+.archive.green {
+  color: #02c66f;
 }
 </style>
