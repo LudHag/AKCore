@@ -28,7 +28,7 @@
   </div>
 </template>
 <script>
-import { formatDate } from "../../utils/functions";
+import { formatDateNoTime } from "../../utils/functions";
 
 export default {
   data() {
@@ -51,7 +51,7 @@ export default {
   },
   methods: {
     formatDateMethod(date) {
-      return formatDate(date);
+      return formatDateNoTime(date);
     },
     expand() {
       this.expanded = true;

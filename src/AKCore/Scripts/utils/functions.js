@@ -29,3 +29,9 @@ export const formatDate = (dateString) => {
   const strTime = frmtNum(date.getHours()) + ":" + frmtNum(date.getMinutes());
   return dateStr + " " + strTime;
 };
+
+export const formatDateNoTime = (dateString) => {
+  const date = new Date(dateString);
+  const dateStr = frmtNum(date.getMonth() + 1) + "-" + frmtNum(date.getDate());
+  return dateStr;
+};
