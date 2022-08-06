@@ -3,6 +3,10 @@
   border: 0;
 }
 
+:root {
+    --vs-border-width: 0;
+}
+
 html,
 body,
 .wrap {
