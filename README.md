@@ -8,10 +8,10 @@ När du sätter upp en lokal utvecklingsmiljö så behöver du sätta upp en lok
 
 # Databas orm:
 
-[Entityframeworkcore](https://docs.efproject.net/en/latest/) med [Mysql](https://www.mysql.com/). <br />
+[Entityframeworkcore](https://docs.efproject.net/en/latest/) med [Mysql](https://www.mysql.com/) 5 alternativt Maria Db(Marian db är kompatibelt med MySQL 5 och är vad vi använder i produktion just nu). <br />
 
 För lokal utveckling kan man skapa en lokal mysqldb. För att sätta upp den så kopierar man
-appsettings.json.example och tar bort .example samt ersätter connectionsträngen med den som ska användas. Efter det kör man Update-Database i package manager console.
+appsettings.json.example och tar bort .example samt ersätter connectionsträngen med den som ska användas. Migrationer appliceras automatiskt vid uppstart av applikationen. Alternativt kan man köra Update-Database i package manager console.
 
 Migrationer hanteras med Add-Migration och Update-Database i package manager console.
 
