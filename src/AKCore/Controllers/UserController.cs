@@ -142,7 +142,7 @@ namespace AKCore.Controllers
                 _db.Log.Add(new LogItem()
                 {
                     Type = AkLogTypes.User,
-                    Modified = DateTime.Now,
+                   Modified = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time")),
                     ModifiedBy = editingUser,
                     Comment = "Användare med namn " + user.GetName() + " redigeras"
                 });
@@ -207,7 +207,7 @@ namespace AKCore.Controllers
             _db.Log.Add(new LogItem()
             {
                 Type = AkLogTypes.User,
-                Modified = DateTime.Now,
+               Modified = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time")),
                 ModifiedBy = editingUser,
                 Comment = "Användare med namn " + newUser.GetName() + " skapad"
             });
@@ -229,7 +229,7 @@ namespace AKCore.Controllers
                 _db.Log.Add(new LogItem()
                 {
                     Type = AkLogTypes.User,
-                    Modified = DateTime.Now,
+                   Modified = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time")),
                     ModifiedBy = editingUser,
                     Comment = "Användare med namn " + fullName + " borttagen"
                 });
@@ -255,7 +255,7 @@ namespace AKCore.Controllers
             _db.Log.Add(new LogItem()
             {
                 Type = AkLogTypes.User,
-                Modified = DateTime.Now,
+               Modified = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time")),
                 ModifiedBy = editingUser,
                 Comment = "Användare med namn " + UserName + " får roll " + Role + " tillagd"
             });
@@ -277,7 +277,7 @@ namespace AKCore.Controllers
             _db.Log.Add(new LogItem()
             {
                 Type = AkLogTypes.User,
-                Modified = DateTime.Now,
+               Modified = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time")),
                 ModifiedBy = editingUser,
                 Comment = "Användare med namn " + UserName + " får roll " + Role + " borttagen"
             });
@@ -299,7 +299,7 @@ namespace AKCore.Controllers
             _db.Log.Add(new LogItem()
             {
                 Type = AkLogTypes.User,
-                Modified = DateTime.Now,
+               Modified = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time")),
                 ModifiedBy = editingUser,
                 Comment = "Användare med namn " + userName + " får lösenord ändrat"
             });

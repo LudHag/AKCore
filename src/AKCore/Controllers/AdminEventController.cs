@@ -120,12 +120,12 @@ namespace AKCore.Controllers
                     changeEvent.InternalDescription = model.InternalDescription;
                     changeEvent.Type = model.Type;
                     changeEvent.Secret = model.Secret;
-
                     var user = await _userManager.FindByNameAsync(User.Identity.Name);
                     _db.Log.Add(new LogItem()
                     {
                         Type = AkLogTypes.Events,
-                        Modified = DateTime.Now,
+                        Modified = TimeZoneInfo.ConvertTime(DateTime.Now,
+                TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time")),
                         ModifiedBy = user,
                         Comment = "Händelse med id " + model.Id + " redigeras"
                     });
@@ -156,10 +156,11 @@ namespace AKCore.Controllers
                         Secret = model.Secret
                     };
                     var user = await _userManager.FindByNameAsync(User.Identity.Name);
+
                     _db.Log.Add(new LogItem()
                     {
                         Type = AkLogTypes.Events,
-                        Modified = DateTime.Now,
+                        Modified = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time")),
                         ModifiedBy = user,
                         Comment = "Händelse med namn " + model.Name + " skapas"
                     });
@@ -189,7 +190,8 @@ namespace AKCore.Controllers
             _db.Log.Add(new LogItem()
             {
                 Type = AkLogTypes.Events,
-                Modified = DateTime.Now,
+                Modified = TimeZoneInfo.ConvertTime(DateTime.Now,
+                TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time")),
                 ModifiedBy = user,
                 Comment = "Händelse med id " + id + " tas bort"
             });
