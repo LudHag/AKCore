@@ -7,7 +7,7 @@
       @submit.prevent="formSubmit"
     >
       <div class="modal-body">
-        <div class="alert alert-danger" style="display: none;"></div>
+        <div class="alert alert-danger" style="display: none"></div>
         <input type="hidden" name="Id" :value="eventId" />
         <div class="form-group">
           <label>Typ</label>
@@ -63,9 +63,9 @@
                   required
                 >
                   <option value>Välj speltyp</option>
-                  <option v-for="type in spelTyper" :key="type">{{
-                    type
-                  }}</option>
+                  <option v-for="type in spelTyper" :key="type">
+                    {{ type }}
+                  </option>
                 </select>
               </div>
             </div>
@@ -145,9 +145,7 @@
       </div>
       <div class="modal-footer">
         <button class="btn btn-default" @click.prevent="close">Stäng</button>
-        <button v-if="!old || !eventId" type="submit" class="btn btn-primary">
-          Spara
-        </button>
+        <button type="submit" class="btn btn-primary">Spara</button>
       </div>
     </form>
   </modal>
@@ -162,12 +160,12 @@ export default {
   props: ["selectedEvent", "old", "showModal"],
   components: {
     Datepicker,
-    Modal
+    Modal,
   },
   data() {
     return {
       eventType: "",
-      event: null
+      event: null,
     };
   },
   methods: {
@@ -175,9 +173,6 @@ export default {
       this.$emit("close");
     },
     formSubmit(event) {
-      if (this.old && this.eventId) {
-        return;
-      }
       const error = $(event.target).find(".alert-danger");
       const success = $(".alert-success");
       const self = this;
@@ -212,17 +207,17 @@ export default {
             thereTime: "00:00",
             startsTime: "00:00",
             stand: "",
-            secret: false
+            secret: false,
           };
       this.event.dayDate = new Date(this.event.dayDate);
-    }
+    },
   },
   watch: {
     selectedEvent() {
       if (this.showModal) {
         this.resetEvent();
       }
-    }
+    },
   },
   computed: {
     eventId() {
@@ -257,11 +252,11 @@ export default {
         this.eventType === "Athenrep" ||
         this.eventType === "Fikarep"
       );
-    }
+    },
   },
   created() {
     this.resetEvent();
-  }
+  },
 };
 </script>
 <style lang="scss">
