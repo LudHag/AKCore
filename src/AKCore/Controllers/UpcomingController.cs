@@ -126,7 +126,7 @@ namespace AKCore.Controllers
 
 
             var sb = new StringBuilder();
-            var DateFormat = "yyyyMMddTHHmmssZ";
+            var DateFormat = "yyyyMMddTHHmmss";
             var now = DateTime.Now.ToUniversalTime().ToString(DateFormat);
             sb.AppendLine("BEGIN:VCALENDAR");
             sb.AppendLine("PRODID:-//AkCalendar//altekamereren.org");
@@ -142,8 +142,8 @@ namespace AKCore.Controllers
 
                 var dtEnd = dtStart.AddHours(1);
                 sb.AppendLine("BEGIN:VEVENT");
-                sb.AppendLine("DTSTART:" + GetCESTTimeFormated(dtStart));
-                sb.AppendLine("DTEND:" + GetCESTTimeFormated(dtEnd));
+                sb.AppendLine("DTSTART:" + dtStart.ToString(DateFormat));
+                sb.AppendLine("DTEND:" + dtEnd.ToString(DateFormat));
                 sb.AppendLine("DTSTAMP:" + now);
                 sb.AppendLine("UID:" + Guid.NewGuid());
                 sb.AppendLine("CREATED:" + now);
@@ -163,12 +163,6 @@ namespace AKCore.Controllers
             sb.AppendLine("END:VCALENDAR");
             var bytes = Encoding.UTF8.GetBytes(sb.ToString());
             return File(bytes, "application/octet-stream", "akevents.ics");
-        }
-
-        private static string GetCESTTimeFormated(DateTime dateTime)
-        {
-            var DateFormat = "yyyyMMddTHHmmssZ";
-            return TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time")).ToString(DateFormat);
         }
 
         private static string GetName(Event e)

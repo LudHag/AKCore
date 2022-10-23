@@ -151,7 +151,7 @@ namespace AKCore.Controllers
             _db.Log.Add(new LogItem()
             {
                 Type = AkLogTypes.Album,
-               Modified = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time")),
+                Modified = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time")),
                 ModifiedBy = user,
                 Comment = "Album med id " + id + " uppdaterar namn"
             });
