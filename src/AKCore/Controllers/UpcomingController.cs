@@ -1,4 +1,5 @@
 ﻿using AKCore.DataModel;
+using AKCore.Extensions;
 using AKCore.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -197,7 +198,7 @@ namespace AKCore.Controllers
                     Person = member.UserName,
                     PersonName = member.GetName(),
                     PersonId = member.Id,
-                    SignupTime = DateTime.Now,
+                    SignupTime = DateTime.Now.ConvertToSwedishTime(),
                     Where = type,
                     InstrumentName = member.Instrument
                 });
