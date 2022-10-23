@@ -126,7 +126,7 @@ namespace AKCore.Controllers
 
 
             var sb = new StringBuilder();
-            var DateFormat = "yyyyMMddTHHmmssZ";
+            var DateFormat = "yyyyMMddTHHmmss";
             var now = DateTime.Now.ToUniversalTime().ToString(DateFormat);
             sb.AppendLine("BEGIN:VCALENDAR");
             sb.AppendLine("PRODID:-//AkCalendar//altekamereren.org");
@@ -142,8 +142,8 @@ namespace AKCore.Controllers
 
                 var dtEnd = dtStart.AddHours(1);
                 sb.AppendLine("BEGIN:VEVENT");
-                sb.AppendLine("DTSTART:" + dtStart.ToUniversalTime().ToString(DateFormat));
-                sb.AppendLine("DTEND:" + dtEnd.ToUniversalTime().ToString(DateFormat));
+                sb.AppendLine("DTSTART:" + dtStart.ToString(DateFormat));
+                sb.AppendLine("DTEND:" + dtEnd.ToString(DateFormat));
                 sb.AppendLine("DTSTAMP:" + now);
                 sb.AppendLine("UID:" + Guid.NewGuid());
                 sb.AppendLine("CREATED:" + now);

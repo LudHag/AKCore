@@ -110,7 +110,7 @@ namespace AKCore.Controllers
                         return Json(new { success = false, message = "Misslyckades med att spara ändringen" });
                     changeEvent.Name = model.Name;
                     changeEvent.Place = model.Place ?? "";
-                    changeEvent.Day = DateTime.Parse(model.Day);
+                    changeEvent.Day = ConvertToSwedishTime(DateTime.Parse(model.Day));
                     changeEvent.HalanTime = ParseTime(model.HalanTime);
                     changeEvent.ThereTime = ParseTime(model.ThereTime);
                     changeEvent.Stand = model.Stand;
@@ -120,12 +120,12 @@ namespace AKCore.Controllers
                     changeEvent.InternalDescription = model.InternalDescription;
                     changeEvent.Type = model.Type;
                     changeEvent.Secret = model.Secret;
-
                     var user = await _userManager.FindByNameAsync(User.Identity.Name);
                     _db.Log.Add(new LogItem()
                     {
                         Type = AkLogTypes.Events,
-                        Modified = DateTime.Now,
+                        Modified = TimeZoneInfo.ConvertTime(DateTime.Now,
+                TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time")),
                         ModifiedBy = user,
                         Comment = "Händelse med id " + model.Id + " redigeras"
                     });
@@ -146,7 +146,7 @@ namespace AKCore.Controllers
                         Place = model.Place ?? "",
                         Description = model.Description,
                         InternalDescription = model.InternalDescription,
-                        Day = DateTime.Parse(model.Day),
+                        Day = ConvertToSwedishTime(DateTime.Parse(model.Day)),
                         Type = model.Type,
                         Fika = model.Fika,
                         HalanTime = ParseTime(model.HalanTime),
@@ -156,10 +156,11 @@ namespace AKCore.Controllers
                         Secret = model.Secret
                     };
                     var user = await _userManager.FindByNameAsync(User.Identity.Name);
+
                     _db.Log.Add(new LogItem()
                     {
                         Type = AkLogTypes.Events,
-                        Modified = DateTime.Now,
+                        Modified = ConvertToSwedishTime(DateTime.Now),
                         ModifiedBy = user,
                         Comment = "Händelse med namn " + model.Name + " skapas"
                     });
@@ -169,6 +170,10 @@ namespace AKCore.Controllers
                     return Json(new { success = true, message = "Lyckades skapa en ny händelse" });
                 }
             return Json(new { success = false, message = "Misslyckades med att spara ändringen" });
+        }
+        private DateTime ConvertToSwedishTime(DateTime dateTime)
+        {
+            return TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time"));
         }
 
         private TimeSpan ParseTime(string stringTime)
@@ -189,7 +194,8 @@ namespace AKCore.Controllers
             _db.Log.Add(new LogItem()
             {
                 Type = AkLogTypes.Events,
-                Modified = DateTime.Now,
+                Modified = TimeZoneInfo.ConvertTime(DateTime.Now,
+                TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time")),
                 ModifiedBy = user,
                 Comment = "Händelse med id " + id + " tas bort"
             });

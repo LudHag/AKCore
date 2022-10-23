@@ -80,7 +80,7 @@ namespace AKCore.Controllers
             _db.Log.Add(new LogItem()
             {
                 Type = AkLogTypes.Menus,
-                Modified = DateTime.Now,
+               Modified = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time")),
                 ModifiedBy = user,
                 Comment = "Toppmeny med namn " + m.Name + " skapas"
             });
@@ -150,7 +150,7 @@ namespace AKCore.Controllers
             _db.Log.Add(new LogItem()
             {
                 Type = AkLogTypes.Menus,
-                Modified = DateTime.Now,
+               Modified = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time")),
                 ModifiedBy = user,
                 Comment = "Meny med id " + menuId + " redigeras"
             });
@@ -200,7 +200,7 @@ namespace AKCore.Controllers
                 _db.Log.Add(new LogItem()
                 {
                     Type = AkLogTypes.Menus,
-                    Modified = DateTime.Now,
+                   Modified = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time")),
                     ModifiedBy = user,
                     Comment = "Submeny med namn " + text + " läggs till"
                 });
@@ -240,7 +240,7 @@ namespace AKCore.Controllers
             _db.Log.Add(new LogItem()
             {
                 Type = AkLogTypes.Menus,
-                Modified = DateTime.Now,
+               Modified = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time")),
                 ModifiedBy = user,
                 Comment = "Submeny med namn " + menuName + " tas bort"
             });
@@ -277,7 +277,7 @@ namespace AKCore.Controllers
             _db.Log.Add(new LogItem()
             {
                 Type = AkLogTypes.Menus,
-                Modified = DateTime.Now,
+               Modified = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time")),
                 ModifiedBy = user,
                 Comment = "Meny med id " + id + " flyttas"
             });
@@ -315,7 +315,7 @@ namespace AKCore.Controllers
             _db.Log.Add(new LogItem()
             {
                 Type = AkLogTypes.Menus,
-                Modified = DateTime.Now,
+               Modified = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time")),
                 ModifiedBy = user,
                 Comment = "Meny med id " + id + " flyttas"
             });
@@ -361,7 +361,7 @@ namespace AKCore.Controllers
                 _db.Log.Add(new LogItem()
                 {
                     Type = AkLogTypes.Menus,
-                    Modified = DateTime.Now,
+                   Modified = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time")),
                     ModifiedBy = user,
                     Comment = "Meny med id " + id + " flyttas"
                 });
@@ -408,7 +408,7 @@ namespace AKCore.Controllers
                 _db.Log.Add(new LogItem()
                 {
                     Type = AkLogTypes.Menus,
-                    Modified = DateTime.Now,
+                   Modified = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time")),
                     ModifiedBy = user,
                     Comment = "Meny med id " + id + " flyttas"
                 });
@@ -444,7 +444,7 @@ namespace AKCore.Controllers
             _db.Log.Add(new LogItem()
             {
                 Type = AkLogTypes.Menus,
-                Modified = DateTime.Now,
+               Modified = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time")),
                 ModifiedBy = user,
                 Comment = "Submeny med namn " + menuName + " flyttas"
             });

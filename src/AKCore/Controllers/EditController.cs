@@ -69,7 +69,7 @@ namespace AKCore.Controllers
             _db.Log.Add(new LogItem()
             {
                 Type = AkLogTypes.Page,
-                Modified = DateTime.Now,
+               Modified = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time")),
                 ModifiedBy = user,
                 Comment = "Sida skapad med namn " + name
             });
@@ -164,7 +164,7 @@ namespace AKCore.Controllers
                 BalettOnly = model.BalettOnly,
                 LoggedIn = model.LoggedIn,
                 LoggedOut = model.LoggedOut,
-                Modified = DateTime.Now,
+               Modified = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time")),
                 ModifiedBy = user,
                 Name = model.Name,
                 Slug = model.Slug,
@@ -182,7 +182,7 @@ namespace AKCore.Controllers
             _db.Log.Add(new LogItem()
             {
                 Type = AkLogTypes.Page,
-                Modified = DateTime.Now,
+               Modified = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time")),
                 ModifiedBy = user,
                 Comment = "Sida med namn " + model.Name + " uppdaterad"
             });
@@ -233,7 +233,7 @@ namespace AKCore.Controllers
             _db.Log.Add(new LogItem()
             {
                 Type = AkLogTypes.Page,
-                Modified = DateTime.Now,
+               Modified = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time")),
                 ModifiedBy = user,
                 Comment = "Sida med namn " + pageName + " borttagen"
             });
