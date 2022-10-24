@@ -1,4 +1,5 @@
 ﻿using AKCore.DataModel;
+using AKCore.Extensions;
 using AKCore.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
@@ -138,7 +139,7 @@ namespace AKCore.Controllers
                 var mediaFile = new Media
                 {
                     Name = filename,
-                    Created = DateTime.Now,
+                    Created = DateTime.Now.ConvertToSwedishTime(),
                     Tag = model.Tag
                 };
                 mediaFile.Type = isImage ? "Image" : "Document";

@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AKCore.DataModel;
+using AKCore.Extensions;
 using AKCore.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
@@ -56,7 +57,7 @@ namespace AKCore.Controllers
             var album = new Album
             {
                 Name = name,
-                Created = DateTime.UtcNow
+                Created = DateTime.Now.ConvertToSwedishTime()
             };
             _db.Albums.Add(album);
 
@@ -64,8 +65,7 @@ namespace AKCore.Controllers
             _db.Log.Add(new LogItem()
             {
                 Type = AkLogTypes.Album,
-                Modified = TimeZoneInfo.ConvertTime(DateTime.Now,
-                TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time")),
+                Modified = DateTime.Now.ConvertToSwedishTime(),
                 ModifiedBy = user,
                 Comment = "Album med namn " + album.Name + " tillagt"
             });
@@ -98,7 +98,7 @@ namespace AKCore.Controllers
             _db.Log.Add(new LogItem()
             {
                 Type = AkLogTypes.Album,
-               Modified = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time")),
+                Modified = DateTime.Now.ConvertToSwedishTime(),
                 ModifiedBy = user,
                 Comment = "Album med namn " + albumName + " borttaget"
             });
@@ -126,7 +126,7 @@ namespace AKCore.Controllers
             _db.Log.Add(new LogItem()
             {
                 Type = AkLogTypes.Album,
-               Modified = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time")),
+                Modified = DateTime.Now.ConvertToSwedishTime(),
                 ModifiedBy = user,
                 Comment = "Album med id " + id + " uppdaterar bild"
             });
@@ -151,7 +151,7 @@ namespace AKCore.Controllers
             _db.Log.Add(new LogItem()
             {
                 Type = AkLogTypes.Album,
-                Modified = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time")),
+                Modified = DateTime.Now.ConvertToSwedishTime(),
                 ModifiedBy = user,
                 Comment = "Album med id " + id + " uppdaterar namn"
             });
@@ -176,7 +176,7 @@ namespace AKCore.Controllers
             _db.Log.Add(new LogItem()
             {
                 Type = AkLogTypes.Album,
-               Modified = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time")),
+                Modified = DateTime.Now.ConvertToSwedishTime(),
                 ModifiedBy = user,
                 Comment = "Album med id " + id + " uppdaterar kategori"
             });
@@ -229,7 +229,7 @@ namespace AKCore.Controllers
                 var track = new Track
                 {
                     FileName = filename,
-                    Created = DateTime.UtcNow
+                    Created = DateTime.Now.ConvertToSwedishTime()
                 };
                 album.Tracks?.Add(track);
             }
@@ -244,7 +244,7 @@ namespace AKCore.Controllers
             _db.Log.Add(new LogItem()
             {
                 Type = AkLogTypes.Album,
-               Modified = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time")),
+                Modified = DateTime.Now.ConvertToSwedishTime(),
                 ModifiedBy = user,
                 Comment = "Album med id " + model.AlbumId + " laddar upp filer"
             });
@@ -274,7 +274,7 @@ namespace AKCore.Controllers
             _db.Log.Add(new LogItem()
             {
                 Type = AkLogTypes.Album,
-               Modified = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time")),
+                Modified = DateTime.Now.ConvertToSwedishTime(),
                 ModifiedBy = user,
                 Comment = "Musikspår med id " + id + " byter namn"
             });
@@ -315,7 +315,7 @@ namespace AKCore.Controllers
             _db.Log.Add(new LogItem()
             {
                 Type = AkLogTypes.Album,
-               Modified = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time")),
+                Modified = DateTime.Now.ConvertToSwedishTime(),
                 ModifiedBy = user,
                 Comment = "Musikspår med id " + id + " tas bort"
             });

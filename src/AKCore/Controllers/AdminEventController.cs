@@ -9,6 +9,7 @@ using System;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using AKCore.Extensions;
 
 namespace AKCore.Controllers
 {
@@ -110,7 +111,7 @@ namespace AKCore.Controllers
                         return Json(new { success = false, message = "Misslyckades med att spara ändringen" });
                     changeEvent.Name = model.Name;
                     changeEvent.Place = model.Place ?? "";
-                    changeEvent.Day = ConvertToSwedishTime(DateTime.Parse(model.Day));
+                    changeEvent.Day = DateTime.Parse(model.Day).ConvertToSwedishTime();
                     changeEvent.HalanTime = ParseTime(model.HalanTime);
                     changeEvent.ThereTime = ParseTime(model.ThereTime);
                     changeEvent.Stand = model.Stand;
@@ -124,8 +125,7 @@ namespace AKCore.Controllers
                     _db.Log.Add(new LogItem()
                     {
                         Type = AkLogTypes.Events,
-                        Modified = TimeZoneInfo.ConvertTime(DateTime.Now,
-                TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time")),
+                        Modified = DateTime.Now.ConvertToSwedishTime(),
                         ModifiedBy = user,
                         Comment = "Händelse med id " + model.Id + " redigeras"
                     });
@@ -146,7 +146,7 @@ namespace AKCore.Controllers
                         Place = model.Place ?? "",
                         Description = model.Description,
                         InternalDescription = model.InternalDescription,
-                        Day = ConvertToSwedishTime(DateTime.Parse(model.Day)),
+                        Day = DateTime.Parse(model.Day).ConvertToSwedishTime(),
                         Type = model.Type,
                         Fika = model.Fika,
                         HalanTime = ParseTime(model.HalanTime),
@@ -160,7 +160,7 @@ namespace AKCore.Controllers
                     _db.Log.Add(new LogItem()
                     {
                         Type = AkLogTypes.Events,
-                        Modified = ConvertToSwedishTime(DateTime.Now),
+                        Modified = DateTime.Now.ConvertToSwedishTime(),
                         ModifiedBy = user,
                         Comment = "Händelse med namn " + model.Name + " skapas"
                     });
@@ -170,10 +170,6 @@ namespace AKCore.Controllers
                     return Json(new { success = true, message = "Lyckades skapa en ny händelse" });
                 }
             return Json(new { success = false, message = "Misslyckades med att spara ändringen" });
-        }
-        private DateTime ConvertToSwedishTime(DateTime dateTime)
-        {
-            return TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time"));
         }
 
         private TimeSpan ParseTime(string stringTime)
@@ -194,8 +190,7 @@ namespace AKCore.Controllers
             _db.Log.Add(new LogItem()
             {
                 Type = AkLogTypes.Events,
-                Modified = TimeZoneInfo.ConvertTime(DateTime.Now,
-                TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time")),
+                Modified = DateTime.Now.ConvertToSwedishTime(),
                 ModifiedBy = user,
                 Comment = "Händelse med id " + id + " tas bort"
             });

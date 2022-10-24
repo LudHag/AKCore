@@ -5,6 +5,7 @@ using AKCore.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Hosting;
+using AKCore.Extensions;
 
 namespace AKCore.Controllers
 {
@@ -56,7 +57,7 @@ namespace AKCore.Controllers
             {
                 FirstName = model.FirstName,
                 LastName = model.LastName,
-                Created = DateTime.UtcNow,
+                Created = DateTime.Now.ConvertToSwedishTime(),
                 Email = model.Email,
                 Phone = model.Tel,
                 Instrument = model.Instrument,
