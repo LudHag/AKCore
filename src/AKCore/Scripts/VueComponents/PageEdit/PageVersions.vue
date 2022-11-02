@@ -10,7 +10,7 @@
       href="#"
       @click.prevent="selectRevision(revision)"
       :class="{
-        selected: selectedRevision && revision.id === selectedRevision.id
+        selected: selectedRevision && revision.id === selectedRevision.id,
       }"
       v-for="revision in value.revisions"
       :key="revision.id"
@@ -28,14 +28,13 @@
   </div>
 </template>
 <script>
-import { formatDate } from "./functions";
 export default {
   props: ["value", "selectedRevision"],
   methods: {
     selectRevision(revision) {
       this.$emit("select", revision);
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>

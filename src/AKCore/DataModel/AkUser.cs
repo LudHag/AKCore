@@ -1,5 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Web;
+using Microsoft.AspNetCore.Identity;
 
 namespace AKCore.DataModel
 {
@@ -20,6 +21,19 @@ namespace AKCore.DataModel
         public bool HasKey { get; set; }
 
         public virtual ICollection<IdentityUserRole<string>> Roles { get; } = new List<IdentityUserRole<string>>();
+
+        public string GetEncodedName()
+        {
+            if (string.IsNullOrWhiteSpace(FirstName) && string.IsNullOrWhiteSpace(LastName))
+            {
+                return UserName;
+            }
+            else
+            {
+                return HttpUtility.JavaScriptStringEncode(FirstName + " " + LastName);
+            }
+        }
+
 
         public string GetName()
         {

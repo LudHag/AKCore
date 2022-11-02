@@ -1,25 +1,28 @@
 # Instruktioner för installation
 
-Utvecklat med VS 2019 (Visual studio code fungerar bra också).
+Utvecklat med VS 2022 (Visual studio code fungerar bra också).
 
 Rekomenderas inte att installera med äldre verktyg.
 
 När du sätter upp en lokal utvecklingsmiljö så behöver du sätta upp en lokal mysql databas samt lägga till en initial användare med /account/initnintendo . Då skapas bla användaren nintendo med lösen 123456.
 
 # Databas orm:
-[Entityframeworkcore](https://docs.efproject.net/en/latest/) med [Mysql](https://www.mysql.com/). <br />
 
-För lokal utveckling kan man skapa en lokal mysqldb. För att sätta upp den så kopierar man 
-appsettings.json.example och tar bort .example samt ersätter connectionsträngen med den som ska användas. Efter det kör man Update-Database i package manager console.
+[Entityframeworkcore](https://docs.efproject.net/en/latest/) med [Mysql](https://www.mysql.com/) 5 alternativt Maria Db(Marian db är kompatibelt med MySQL 5 och är vad vi använder i produktion just nu). <br />
+
+För lokal utveckling kan man skapa en lokal mysqldb. För att sätta upp den så kopierar man
+appsettings.json.example och tar bort .example samt ersätter connectionsträngen med den som ska användas. Migrationer appliceras automatiskt vid uppstart av applikationen. Alternativt kan man köra Update-Database i package manager console.
 
 Migrationer hanteras med Add-Migration och Update-Database i package manager console.
 
 # Användare:
-Identity: 
+
+Identity:
 https://docs.asp.net/en/latest/security/authentication/identity.html
 
 # Bootstrap
-Som frontendframework används Bootstrap 3. Läs mer om dess standardanvändning [här](http://getbootstrap.com/css/) och dess komponenter [här](http://getbootstrap.com/components/).
+
+Sidan använder Bootstrap 3. Läs mer om dess standardanvändning [här](http://getbootstrap.com/css/) och dess komponenter [här](http://getbootstrap.com/components/).
 
 # Webpack, CSS och JS:
 

@@ -32,7 +32,7 @@
             <a
               href="#"
               @click.prevent="click('Image')"
-              style="text-align: center;"
+              style="text-align: center"
             >
               <span class="glyphicon glyphicon-picture"></span>
             </a>
@@ -41,7 +41,7 @@
             <a
               href="#"
               @click.prevent="click('Video')"
-              style="text-align: center;"
+              style="text-align: center"
             >
               <span class="glyphicon glyphicon-facetime-video"></span>
             </a>
@@ -50,7 +50,7 @@
             <a
               href="#"
               @click.prevent="click('Music')"
-              style="text-align: center;"
+              style="text-align: center"
             >
               <span class="glyphicon glyphicon-music"></span>
             </a>
@@ -59,7 +59,7 @@
             <a
               href="#"
               @click.prevent="click('HeaderText')"
-              style="text-align: center;"
+              style="text-align: center"
             >
               <span class="glyphicon glyphicon-header"></span>
             </a>
@@ -92,19 +92,16 @@
             </a>
           </li>
           <li>
-            <a href="#" @click.prevent="click('Join')">
-              Gå med-formulär
-            </a>
+            <a href="#" @click.prevent="click('Join')"> Gå med-formulär </a>
           </li>
           <li>
-            <a href="#" @click.prevent="click('Hire')">
-              Anlita oss-sida
-            </a>
+            <a href="#" @click.prevent="click('Hire')"> Anlita oss-sida </a>
           </li>
           <li>
-            <a href="#" @click.prevent="click('ThreePuffs')">
-              Tre puffar
-            </a>
+            <a href="#" @click.prevent="click('MailBox')"> Anonym brevlåda </a>
+          </li>
+          <li>
+            <a href="#" @click.prevent="click('ThreePuffs')"> Tre puffar </a>
           </li>
         </ul>
       </div>
@@ -116,8 +113,8 @@ export default {
   methods: {
     click(type) {
       this.$emit("add", type);
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss"></style>

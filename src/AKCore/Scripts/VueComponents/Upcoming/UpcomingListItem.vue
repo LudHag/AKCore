@@ -110,6 +110,11 @@
 
         .event-row.expanded .extra {
             display: block;
+            float: left;
+
+            .description {
+                margin-top: 0;
+            }
         }
 
         .event-row.expandable.expanded:before {

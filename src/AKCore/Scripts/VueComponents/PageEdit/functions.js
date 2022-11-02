@@ -5,7 +5,7 @@ export const tinyMceOpts = (imageCallback, fileCallback) => ({
   theme: "modern",
   plugins: [
     "advlist link image imagetools lists charmap print hr anchor spellchecker searchreplace wordcount code fullscreen media nonbreaking",
-    "table contextmenu directionality emoticons template textcolor paste textcolor colorpicker textpattern"
+    "table contextmenu directionality emoticons template textcolor paste textcolor colorpicker textpattern",
   ],
   toolbar1:
     "bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | styleselect code fullscreen",
@@ -22,30 +22,30 @@ export const tinyMceOpts = (imageCallback, fileCallback) => ({
     { title: "Rubrik 2", block: "h2" },
     { title: "Infobox", selector: "p", classes: "infobox" },
     { title: "3-delskolumn", block: "p", classes: "col-sm-4" },
-    { title: "Block med marginal", block: "p", classes: "col-xs-12" }
+    { title: "Block med marginal", block: "p", classes: "col-xs-12" },
   ],
   toolbar_items_size: "small",
   height: "200",
   content_css: "/dist/main.css",
   body_class: "body-content",
   browser_spellcheck: true,
-  setup: function(ed) {
-    ed.on("change", function(e) {
+  setup: function (ed) {
+    ed.on("change", function (e) {
       const elcontent = ed.getContent();
       EventBus.$emit("editor-updated", { id: ed.id, content: elcontent });
     });
   },
-  file_browser_callback: function(field_name, url, type, win) {
+  file_browser_callback: function (field_name, url, type, win) {
     if (type === "image") {
       imageCallback($("#" + field_name));
     }
     if (type === "file") {
       fileCallback($("#" + field_name));
     }
-  }
+  },
 });
 
-export const getHeader = type => {
+export const getHeader = (type) => {
   switch (type) {
     case "Text":
       return "Text-widget";
@@ -67,6 +67,8 @@ export const getHeader = type => {
       return "Headertext-widget";
     case "ThreePuffs":
       return "Tre puffar-widget";
+    case "MailBox":
+      return "Anonym brevlåda";
   }
   return "Text-bild-widget";
 };

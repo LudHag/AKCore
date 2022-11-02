@@ -61,7 +61,7 @@ namespace AKCore.Controllers
                 Name = name,
                 Slug = slug,
                 LoggedIn = loggedIn == "on",
-                LastModified = DateTime.Now
+                LastModified = DateTime.Now.ConvertToSwedishTime(),
             };
             _db.Pages.Add(page);
 
@@ -69,7 +69,7 @@ namespace AKCore.Controllers
             _db.Log.Add(new LogItem()
             {
                 Type = AkLogTypes.Page,
-                Modified = DateTime.Now,
+                Modified = DateTime.Now.ConvertToSwedishTime(),
                 ModifiedBy = user,
                 Comment = "Sida skapad med namn " + name
             });
@@ -167,7 +167,7 @@ namespace AKCore.Controllers
                 BalettOnly = model.BalettOnly,
                 LoggedIn = model.LoggedIn,
                 LoggedOut = model.LoggedOut,
-                Modified = DateTime.Now,
+                Modified = DateTime.Now.ConvertToSwedishTime(),
                 ModifiedBy = user,
                 Name = model.Name,
                 Slug = model.Slug,
@@ -180,12 +180,12 @@ namespace AKCore.Controllers
             page.LoggedIn = model.LoggedIn;
             page.LoggedOut = model.LoggedOut;
             page.BalettOnly = model.BalettOnly;
-            page.LastModified = DateTime.Now;
+            page.LastModified = DateTime.Now.ConvertToSwedishTime();
 
             _db.Log.Add(new LogItem()
             {
                 Type = AkLogTypes.Page,
-                Modified = DateTime.Now,
+                Modified = DateTime.Now.ConvertToSwedishTime(),
                 ModifiedBy = user,
                 Comment = "Sida med namn " + model.Name + " uppdaterad"
             });
@@ -236,7 +236,7 @@ namespace AKCore.Controllers
             _db.Log.Add(new LogItem()
             {
                 Type = AkLogTypes.Page,
-                Modified = DateTime.Now,
+                Modified = DateTime.Now.ConvertToSwedishTime(),
                 ModifiedBy = user,
                 Comment = "Sida med namn " + pageName + " borttagen"
             });

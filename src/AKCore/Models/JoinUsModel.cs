@@ -23,5 +23,8 @@ namespace AKCore.Models
 
         [Display(Name = "Övrigt")]
         public string Other { get; set; }
+
+        [Display(Name = "Vad är 1 + 2?")]
+        public string BotQuestion { get; set; }
     }
 }

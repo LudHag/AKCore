@@ -1,5 +1,11 @@
 ﻿html {
   overflow-y: scroll;
+  border: 0;
+}
+
+:root {
+    --vs-border-width: 0;
+    --vs-dropdown-option-color: #000;
 }
 
 html,
@@ -261,9 +267,14 @@ p.infobox {
 .signup-element {
   overflow: hidden;
 }
+.notice-box{
+  position: absolute;
+  right: 180px;
+}
+.interested-notice, .mail-notice {
 
-.interested-notice {
-  margin-right: 30px;
+  margin-bottom: 8px;
+  display: block;
 
   .text {
     color: $akwhite;
@@ -272,7 +283,7 @@ p.infobox {
   .fa {
     font-size: 20px;
     position: absolute;
-    left: -17px;
+    left: -25px;
   }
 }
 

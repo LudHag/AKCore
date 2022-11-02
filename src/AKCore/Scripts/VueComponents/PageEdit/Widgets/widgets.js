@@ -9,6 +9,7 @@ import MemberList from "./MemberList.vue";
 import Music from "./Music.vue";
 import PostList from "./PostList.vue";
 import VideoWidget from "./Video.vue";
+import MailBox from "./MailBox.vue";
 
 export {
   TextImage,
@@ -21,5 +22,6 @@ export {
   ImageWidget,
   Music,
   VideoWidget,
-  PostList
+  PostList,
+  MailBox,
 };

@@ -15,7 +15,7 @@ var plugins = [];
 if (!devMode) {
   plugins.push(
     new webpack.LoaderOptionsPlugin({
-      minimize: true
+      minimize: true,
     })
   );
 } else {
@@ -24,9 +24,9 @@ if (!devMode) {
       options: {
         eslint: {
           emitErrors: true,
-          failOnHint: true
-        }
-      }
+          failOnHint: true,
+        },
+      },
     })
   );
 }
@@ -40,14 +40,14 @@ module.exports = {
   mode: process.env.NODE_ENV,
   entry: {
     main: "./Scripts/main.js",
-    admin: "./Scripts/admin.js"
+    admin: "./Scripts/admin.js",
   },
   output: {
     path: exportPath,
     filename: "[name].js",
     publicPath: "/dist/",
     hotUpdateChunkFilename: "hot/hot-update.js",
-    hotUpdateMainFilename: "hot/hot-update.json"
+    hotUpdateMainFilename: "hot/hot-update.json",
   },
   module: {
     rules: [
@@ -56,12 +56,12 @@ module.exports = {
         exclude: /(node_modules|bower_components)/,
         loader: "babel-loader",
         query: {
-          presets: ["env"]
-        }
+          presets: ["env"],
+        },
       },
       {
         test: /\.vue$/,
-        loader: "vue-loader"
+        loader: "vue-loader",
       },
       {
         test: /\.(sa|sc|c)ss$/,
@@ -69,26 +69,26 @@ module.exports = {
           devMode ? "style-loader" : MiniCssExtractPlugin.loader,
           "css-loader",
           "postcss-loader",
-          "sass-loader"
-        ]
+          "sass-loader",
+        ],
       },
       {
         test: /\.(png|jpg|gif|svg|woff|woff2|eot|ttf)$/,
         loader: "file-loader",
         options: {
-          name: "[name].[ext]?[hash]"
-        }
-      }
-    ]
+          name: "[name].[ext]?[hash]",
+        },
+      },
+    ],
   },
   resolve: {
     alias: {
-      vue$: "vue/dist/vue.esm.js"
+      vue$: "vue/dist/vue.esm.js",
     },
-    extensions: ["*", ".js", ".vue"]
+    extensions: ["*", ".js", ".vue"],
   },
   externals: {
-    jquery: "jQuery"
+    jquery: "jQuery",
   },
   optimization: {
     minimize: true,
@@ -98,10 +98,10 @@ module.exports = {
         commons: {
           name: "vendor",
           chunks: "initial",
-          minChunks: 2
-        }
-      }
-    }
+          minChunks: 2,
+        },
+      },
+    },
   },
-  plugins
+  plugins,
 };
