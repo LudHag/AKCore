@@ -1,11 +1,10 @@
 ﻿<template>
     <td class="day" v-bind:class="{ outside: outside }">
         <span class="date">{{day.getDate()}}</span>
-        <a href="#" v-for="e in events" @click.prevent="openEvent(e)" class="dayEvent">{{e.halanTime}} {{e.name}}</a>
+        <a href="#" v-for="e in events" @click.prevent="openEvent(e)" :class="e.signupState ? 'dayEvent green' : 'dayEvent'"> {{e.halanTime}} {{e.signupState}} {{e.name}}</a>
     </td>
 </template>
 <script>
-    import Constants from '../../constants';
     const today = new Date();
 
     export default {
