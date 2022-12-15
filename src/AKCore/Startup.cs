@@ -2,12 +2,14 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.JsonPatch.Internal;
 using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using System.Collections.Generic;
 
 namespace AKCore
 {
@@ -68,7 +70,11 @@ namespace AKCore
 #pragma warning disable CS0618 // Type or member is obsolete
                 app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
                 {
-                    HotModuleReplacement = true
+                    HotModuleReplacement = true,
+                    EnvironmentVariables = new Dictionary<string, string>()
+                    {
+                        ["NODE_OPTIONS"] = "--openssl-legacy-provider"
+                    }
                 });
 #pragma warning restore CS0618 // Type or member is obsolete
             }
