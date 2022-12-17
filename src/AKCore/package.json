@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "clear": "rm -f ./wwwroot/dist/*",
-    "build": "set NODE_OPTIONS=--openssl-legacy-provider && cross-env NODE_ENV=production webpack -p --colors",
-    "dev": "cross-env NODE_ENV=development webpack --progress --colors --watch"
+    "build": "set NODE_OPTIONS=--openssl-legacy-provider && cross-env NODE_ENV=production webpack --mode production",
+    "dev": "set NODE_OPTIONS=--openssl-legacy-provider && cross-env NODE_ENV=development webpack --progress --watch"
   },
   "browserslist": {
     "development": [
@@ -40,10 +40,10 @@
     "vue-select": "^3.20.0",
     "vue-template-compiler": "^2.5.13",
     "vuejs-datepicker": "^1.6.2",
-    "webpack": "^4.20.2",
-    "webpack-cli": "^3.1.2",
+    "webpack": "^4.46.0",
+    "webpack-cli": "^4.10.0",
     "webpack-dev-middleware": "^3.7.0",
-    "webpack-hot-middleware": "^2.24.3"
+    "webpack-hot-middleware": "^2.25.3"
   },
   "dependencies": {
     "aspnet-prerendering": "^3.0.1",
