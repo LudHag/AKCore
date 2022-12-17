@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "clear": "rm -f ./wwwroot/dist/*",
-    "build": "set NODE_OPTIONS=--openssl-legacy-provider && cross-env NODE_ENV=production webpack -p --colors",
-    "dev": "cross-env NODE_ENV=development webpack --progress --colors --watch"
+    "build": "set NODE_OPTIONS=--openssl-legacy-provider && cross-env NODE_ENV=production webpack --mode production",
+    "dev": "set NODE_OPTIONS=--openssl-legacy-provider && cross-env NODE_ENV=development webpack --progress --watch"
   },
   "browserslist": {
     "development": [
@@ -17,37 +17,37 @@
   },
   "devDependencies": {
     "aspnet-webpack": "^3.0.0",
-    "autoprefixer": "^7.2.5",
-    "babel-core": "^6.26.0",
-    "babel-loader": "^7.1.2",
+    "autoprefixer": "^10.4.13",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-polyfill": "^6.26.0",
-    "babel-preset-env": "^1.6.1",
-    "cross-env": "^5.1.3",
-    "css-loader": "^0.28.9",
-    "file-loader": "^1.1.11",
-    "mini-css-extract-plugin": "^0.4.4",
-    "optimize-css-assets-webpack-plugin": "^5.0.1",
-    "postcss-loader": "^2.1.0",
-    "sass": "^1.53.0",
-    "sass-loader": "^10.0.0",
-    "style-loader": "^0.13.1",
-    "terser-webpack-plugin": "^2.0.1",
-    "vue": "^2.5.13",
-    "vue-hot-reload-api": "^2.3.1",
+    "babel-preset-env": "^1.7.0",
+    "cross-env": "^7.0.3",
+    "css-loader": "^3.6.0",
+    "file-loader": "^6.2.0",
+    "mini-css-extract-plugin": "^1.6.2",
+    "optimize-css-assets-webpack-plugin": "^6.0.1",
+    "postcss-loader": "^4.3.0",
+    "sass": "^1.57.0",
+    "sass-loader": "^10.4.1",
+    "style-loader": "^1.3.0",
+    "terser-webpack-plugin": "^4.2.3",
+    "vue": "^2.7.14",
+    "vue-hot-reload-api": "^2.3.4",
     "vue-html-loader": "^1.2.4",
-    "vue-loader": "^15.4.2",
+    "vue-loader": "^15.10.1",
     "vue-select": "^3.20.0",
     "vue-template-compiler": "^2.5.13",
     "vuejs-datepicker": "^1.6.2",
-    "webpack": "^4.20.2",
-    "webpack-cli": "^3.1.2",
-    "webpack-dev-middleware": "^3.7.0",
-    "webpack-hot-middleware": "^2.24.3"
+    "webpack": "^4.46.0",
+    "webpack-cli": "^4.10.0",
+    "webpack-dev-middleware": "^3.7.3",
+    "webpack-hot-middleware": "^2.25.3"
   },
   "dependencies": {
     "aspnet-prerendering": "^3.0.1",
-    "bootstrap-sass": "^3.3.7",
+    "bootstrap-sass": "^3.4.3",
     "vuedraggable": "^2.24.3"
   }
 }
