@@ -2,14 +2,11 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.JsonPatch.Internal;
-using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
-using System.Collections.Generic;
 
 namespace AKCore
 {
@@ -67,16 +64,6 @@ namespace AKCore
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-#pragma warning disable CS0618 // Type or member is obsolete
-                app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
-                {
-                    HotModuleReplacement = true,
-                    EnvironmentVariables = new Dictionary<string, string>()
-                    {
-                        ["NODE_OPTIONS"] = "--openssl-legacy-provider"
-                    }
-                });
-#pragma warning restore CS0618 // Type or member is obsolete
             }
             else
             {
@@ -104,6 +91,15 @@ namespace AKCore
 
 
             });
+
+            if (env.IsDevelopment())
+            {
+                app.UseSpa(spa =>
+                {
+                    spa.UseProxyToSpaDevelopmentServer("http://localhost:8080/");
+                });
+            }
+
         }
     }
 }

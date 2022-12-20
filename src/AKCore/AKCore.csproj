@@ -23,6 +23,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.8" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.8" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices" Version="3.1.28" />
+    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="6.0.12" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="6.0.2" />
 	<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.8">
 		<PrivateAssets>all</PrivateAssets>
@@ -31,6 +32,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="ClientApp\" />
     <Folder Include="wwwroot\albums\" />
     <Folder Include="wwwroot\dist\" />
   </ItemGroup>
@@ -38,5 +40,6 @@
   <Target Name="PrepublishScript" BeforeTargets="PrepareForPublish">
     <Exec Command="npm run build" />
   </Target>
+  
 
 </Project>
