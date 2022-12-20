@@ -5,7 +5,8 @@
   "scripts": {
     "clear": "rm -f ./wwwroot/dist/*",
     "build": "set NODE_OPTIONS=--openssl-legacy-provider && cross-env NODE_ENV=production webpack --mode production",
-    "dev": "set NODE_OPTIONS=--openssl-legacy-provider && cross-env NODE_ENV=development webpack --progress --watch"
+    "dev": "set NODE_OPTIONS=--openssl-legacy-provider && cross-env NODE_ENV=development webpack --progress --watch",
+    "serve": "set NODE_OPTIONS=--openssl-legacy-provider && cross-env NODE_ENV=development webpack serve"
   },
   "browserslist": {
     "development": [
@@ -42,11 +43,12 @@
     "webpack": "^4.46.0",
     "webpack-cli": "^4.10.0",
     "webpack-dev-middleware": "^3.7.3",
+    "webpack-dev-server": "^4.11.1",
     "webpack-hot-middleware": "^2.25.3"
   },
   "dependencies": {
-    "vue": "^2.7.14",
     "bootstrap-sass": "^3.4.3",
+    "vue": "^2.7.14",
     "vuedraggable": "^2.24.3",
     "vuejs-datepicker": "^1.6.2"
   }
