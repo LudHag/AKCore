@@ -96,7 +96,7 @@ namespace AKCore
             {
                 app.UseSpa(spa =>
                 {
-                    spa.UseProxyToSpaDevelopmentServer("http://localhost:8080/");
+                    spa.UseProxyToSpaDevelopmentServer("http://localhost:5173/");
                 });
             }
 
