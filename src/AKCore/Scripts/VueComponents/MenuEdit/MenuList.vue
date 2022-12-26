@@ -1,11 +1,11 @@
 ﻿<template>
   <div>
     <div class="row menualerts">
-      <div class="alert alert-danger" ref="error" style="display: none;"></div>
+      <div class="alert alert-danger" ref="error" style="display: none"></div>
       <div
         class="alert alert-success"
         ref="success"
-        style="display: none;"
+        style="display: none"
       ></div>
     </div>
     <div class="row menu-display">
@@ -58,92 +58,92 @@
   </div>
 </template>
 <script>
-import ApiService from "../../services/apiservice";
+import ApiService from '../../services/apiservice';
 
 export default {
-  props: ["menus"],
+  props: ['menus'],
   methods: {
     addSubMenu(menu) {
-      this.$emit("edit", null, menu);
+      this.$emit('edit', null, menu);
     },
     editMenu(menu) {
-      this.$emit("edit", menu);
+      this.$emit('edit', menu);
     },
     editSubMenu(child, menu) {
-      this.$emit("edit", child, menu);
+      this.$emit('edit', child, menu);
     },
     menuUp(menu) {
       ApiService.postByObjectAsForm(
-        "/MenuEdit/MoveLeft",
+        '/MenuEdit/MoveLeft',
         { id: menu.id },
         $(this.$refs.error),
         null,
         () => {
-          this.$emit("update");
+          this.$emit('update');
         }
       );
     },
     menuDown(menu) {
       ApiService.postByObjectAsForm(
-        "/MenuEdit/MoveRight",
+        '/MenuEdit/MoveRight',
         { id: menu.id },
         $(this.$refs.error),
         null,
         () => {
-          this.$emit("update");
+          this.$emit('update');
         }
       );
     },
     subMenuUp(menu, child) {
       ApiService.postByObjectAsForm(
-        "/MenuEdit/MoveUp",
+        '/MenuEdit/MoveUp',
         { id: child.id, parent: menu.id },
         $(this.$refs.error),
         null,
         () => {
-          this.$emit("update");
+          this.$emit('update');
         }
       );
     },
     subMenuDown(menu, child) {
       ApiService.postByObjectAsForm(
-        "/MenuEdit/MoveDown",
+        '/MenuEdit/MoveDown',
         { id: child.id, parent: menu.id },
         $(this.$refs.error),
         null,
         () => {
-          this.$emit("update");
+          this.$emit('update');
         }
       );
     },
     deleteMenu(menu) {
       ApiService.postByObjectAsForm(
-        "/MenuEdit/RemoveTopMenu",
+        '/MenuEdit/RemoveTopMenu',
         { id: menu.id },
         $(this.$refs.error),
         null,
         () => {
-          this.$emit("update");
+          this.$emit('update');
         }
       );
     },
     deleteSubMenu(menu) {
       ApiService.postByObjectAsForm(
-        "/MenuEdit/RemoveSubMenu",
+        '/MenuEdit/RemoveSubMenu',
         { id: menu.id },
         $(this.$refs.error),
         null,
         () => {
-          this.$emit("update");
+          this.$emit('update');
         }
       );
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
-@import "~bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss";
-@import "../../../Styles/variables.scss";
+@import 'bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss';
+@import '../../../Styles/variables.scss';
 .menu-item {
   margin-bottom: 5px;
 }

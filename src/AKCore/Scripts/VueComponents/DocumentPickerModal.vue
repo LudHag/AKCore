@@ -34,46 +34,46 @@
   </modal>
 </template>
 <script>
-import Modal from "./Modal";
-import ApiService from "../services/apiservice";
+import Modal from './Modal.vue';
+import ApiService from '../services/apiservice';
 
 export default {
   components: {
-    Modal
+    Modal,
   },
   data() {
     return {
       documents: [],
       page: 0,
-      type: "",
-      search: ""
+      type: '',
+      search: '',
     };
   },
-  props: ["showModal", "notransition", "destination"],
+  props: ['showModal', 'notransition', 'destination'],
   methods: {
     close() {
-      this.$emit("close");
+      this.$emit('close');
     },
     loadDocuments() {
-      ApiService.get("/Media/DocumentListData", null, res => {
+      ApiService.get('/Media/DocumentListData', null, (res) => {
         this.documents = res;
       });
     },
     selectDocument(document) {
       if (this.destination) {
-        this.destination.val("/media/" + document.name);
-        this.$emit("close");
+        this.destination.val('/media/' + document.name);
+        this.$emit('close');
       } else {
-        this.$emit("document", document);
+        this.$emit('document', document);
       }
     },
     toPage(n) {
       this.page = n;
-    }
+    },
   },
   computed: {
     filteredDocuments() {
-      return this.documents.filter(document => {
+      return this.documents.filter((document) => {
         return (
           (!this.type || this.type === document.tag) &&
           (!this.search ||
@@ -91,11 +91,11 @@ export default {
         this.page = nbrPages - 1;
       }
       return nbrPages;
-    }
+    },
   },
   created() {
     this.loadDocuments();
-  }
+  },
 };
 </script>
 <style lang="scss" scoped>

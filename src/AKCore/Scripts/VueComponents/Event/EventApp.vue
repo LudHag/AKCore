@@ -1,120 +1,152 @@
 ﻿<template>
-    <div id="event-app">
-        <spinner v-if="loading && !eventInfo" :size="'medium'"></spinner>
-        <div v-if="eventInfo">
-            <a href="#" @click.prevent="close" class="close-event pull-right glyphicon glyphicon-remove"></a>
-            <h1>{{eventInfo.event.name}}</h1>
-            <div class="row hidden-print">
-                <div class="col-sm-6">
-                    <event-form :event-info="eventInfo" @update="loadEvents"></event-form>
-                </div>
-                <div class="col-sm-6">
-                    <div class="col-sm-12" style="font-weight: 500;">
-                        <p style="text-transform: capitalize;">{{eventInfo.event.day}}</p>
-                        <p>{{eventInfo.event.place}}</p>
-                        <br />
-                    </div>
-                    <div class="col-sm-12">
-                        <p v-if="eventInfo.event.halanTime">Samling i hålan: {{eventInfo.event.halanTime}}</p>
-                        <p v-if="eventInfo.event.thereTime">Samling på plats: {{eventInfo.event.thereTime}}</p>
-                        <p v-if="eventInfo.event.startsTime">Spelning startar: {{eventInfo.event.startsTime}}</p>
-                    </div>
-                    <div class="col-sm-12">
-                        <a href="#" class="btn btn-default" v-if="eventInfo.isNintendo" @click.prevent="showAdminEdit">Lägg till anmälningar</a>
-                        <a href="#" class="btn btn-default" @click.prevent="toggleInfo">Visa information</a>
-                    </div>
-                </div>
-                <div class="col-xs-12" v-if="showInfo">
-                    <p v-if="eventInfo.event.description">{{eventInfo.event.description}}</p>
-                    <p v-if="eventInfo.event.internalDescription">{{eventInfo.event.internalDescription}}</p>
-                </div>
-            </div>
-            <edit-signup-modal v-if="eventInfo" :show-modal="showEditForm" :event-id="eventId" :members="eventInfo.members" @update="loadEvent" @close="closeModal"></edit-signup-modal>
-            <signup-list :signups="eventInfo.signups" :nintendo="eventInfo.isNintendo"></signup-list>
+  <div id="event-app">
+    <spinner v-if="loading && !eventInfo" :size="'medium'"></spinner>
+    <div v-if="eventInfo">
+      <a
+        href="#"
+        @click.prevent="close"
+        class="close-event pull-right glyphicon glyphicon-remove"
+      ></a>
+      <h1>{{ eventInfo.event.name }}</h1>
+      <div class="row hidden-print">
+        <div class="col-sm-6">
+          <event-form :event-info="eventInfo" @update="loadEvents"></event-form>
         </div>
-    </div>        
+        <div class="col-sm-6">
+          <div class="col-sm-12" style="font-weight: 500">
+            <p style="text-transform: capitalize">{{ eventInfo.event.day }}</p>
+            <p>{{ eventInfo.event.place }}</p>
+            <br />
+          </div>
+          <div class="col-sm-12">
+            <p v-if="eventInfo.event.halanTime">
+              Samling i hålan: {{ eventInfo.event.halanTime }}
+            </p>
+            <p v-if="eventInfo.event.thereTime">
+              Samling på plats: {{ eventInfo.event.thereTime }}
+            </p>
+            <p v-if="eventInfo.event.startsTime">
+              Spelning startar: {{ eventInfo.event.startsTime }}
+            </p>
+          </div>
+          <div class="col-sm-12">
+            <a
+              href="#"
+              class="btn btn-default"
+              v-if="eventInfo.isNintendo"
+              @click.prevent="showAdminEdit"
+              >Lägg till anmälningar</a
+            >
+            <a href="#" class="btn btn-default" @click.prevent="toggleInfo"
+              >Visa information</a
+            >
+          </div>
+        </div>
+        <div class="col-xs-12" v-if="showInfo">
+          <p v-if="eventInfo.event.description">
+            {{ eventInfo.event.description }}
+          </p>
+          <p v-if="eventInfo.event.internalDescription">
+            {{ eventInfo.event.internalDescription }}
+          </p>
+        </div>
+      </div>
+      <edit-signup-modal
+        v-if="eventInfo"
+        :show-modal="showEditForm"
+        :event-id="eventId"
+        :members="eventInfo.members"
+        @update="loadEvent"
+        @close="closeModal"
+      ></edit-signup-modal>
+      <signup-list
+        :signups="eventInfo.signups"
+        :nintendo="eventInfo.isNintendo"
+      ></signup-list>
+    </div>
+  </div>
 </template>
 <script>
-    import Spinner from "../Spinner";
-    import EventForm from "./EventForm";
-    import SignupList from "./SignupList";
-    import EditSignupModal from "./EditSignupModal";
+import Spinner from '../Spinner.vue';
+import EventForm from './EventForm.vue';
+import SignupList from './SignupList.vue';
+import EditSignupModal from './EditSignupModal.vue';
 
-    export default {
-        components: {
-            Spinner,
-            EventForm,
-            SignupList,
-            EditSignupModal
+export default {
+  components: {
+    Spinner,
+    EventForm,
+    SignupList,
+    EditSignupModal,
+  },
+  props: ['eventId'],
+  data() {
+    return {
+      events: {},
+      loading: false,
+      showEditForm: false,
+      showInfo: false,
+    };
+  },
+  computed: {
+    eventInfo() {
+      if (this.eventId < 0 || !this.events) {
+        return false;
+      }
+      const eInfo = this.events[this.eventId];
+      return eInfo;
+    },
+  },
+  watch: {
+    eventId() {
+      if (!this.events[this.eventId]) {
+        this.loadEvent();
+      }
+    },
+  },
+  methods: {
+    loadEvents() {
+      this.loadEvent();
+      this.$emit('update');
+    },
+    loadEvent() {
+      const self = this;
+      this.loading = true;
+      $.ajax({
+        url: '/upcoming/Event/EventData/' + self.eventId,
+        type: 'GET',
+        success: function (res) {
+          self.events = Object.assign({}, self.events, { [self.eventId]: res });
+          self.loading = false;
         },
-        props: ['eventId'],
-        data() {
-            return {
-                events: {},
-                loading: false,
-                showEditForm: false,
-                showInfo: false
-            }
+        error: function () {
+          console.log('fel');
+          self.loading = false;
         },
-        computed: {
-            eventInfo() {
-                if (this.eventId < 0 || !this.events) {
-                    return false;
-                }
-                const eInfo = this.events[this.eventId];
-                return eInfo;
-            }
-        },
-        watch: {
-            eventId() {
-                if (!this.events[this.eventId]) {
-                    this.loadEvent();
-                }
-            }
-        },
-        methods: {
-            loadEvents() {
-                this.loadEvent();
-                this.$emit('update');
-            },
-            loadEvent() {
-                const self = this;
-                this.loading = true;
-                $.ajax({
-                    url: "/upcoming/Event/EventData/" + self.eventId,
-                    type: "GET",
-                    success: function (res) {
-                        self.events = Object.assign({}, self.events, { [self.eventId]: res})
-                        self.loading = false;
-                    },
-                    error: function () {
-                        console.log("fel");
-                        self.loading = false;
-                    }
-                });
-            },
-            close() {
-                this.$emit('close');
-            },
-            showAdminEdit() {
-                this.showEditForm = true;
-            },
-            closeModal() {
-                this.showEditForm = false;
-            },
-            toggleInfo() {
-                this.showInfo = !this.showInfo;
-            }
-        },
-        created() {
-            if (this.eventId > -1) {
-                this.loadEvent();
-            }
-        }
+      });
+    },
+    close() {
+      this.$emit('close');
+    },
+    showAdminEdit() {
+      this.showEditForm = true;
+    },
+    closeModal() {
+      this.showEditForm = false;
+    },
+    toggleInfo() {
+      this.showInfo = !this.showInfo;
+    },
+  },
+  created() {
+    if (this.eventId > -1) {
+      this.loadEvent();
     }
+  },
+};
 </script>
 <style lang="scss">
-    .close-event {
-        font-size: 26px;
-    }
+.close-event {
+  font-size: 26px;
+}
 </style>

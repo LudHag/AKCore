@@ -4,9 +4,8 @@
   "private": true,
   "scripts": {
     "clear": "rm -f ./wwwroot/dist/*",
-    "build": "set NODE_OPTIONS=--openssl-legacy-provider && cross-env NODE_ENV=production webpack --mode production",
-    "dev": "set NODE_OPTIONS=--openssl-legacy-provider && cross-env NODE_ENV=development webpack --progress --watch",
-    "serve": "set NODE_OPTIONS=--openssl-legacy-provider && cross-env NODE_ENV=development webpack serve"
+    "dev": "vite",
+    "build": "vite build"
   },
   "browserslist": {
     "development": [
@@ -17,38 +16,15 @@
     ]
   },
   "devDependencies": {
-    "aspnet-prerendering": "^3.0.1",
-    "aspnet-webpack": "^3.0.0",
-    "autoprefixer": "^10.4.13",
-    "babel-core": "^6.26.3",
-    "babel-loader": "^7.1.5",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-polyfill": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
     "cross-env": "^7.0.3",
-    "css-loader": "^3.6.0",
-    "file-loader": "^6.2.0",
-    "mini-css-extract-plugin": "^1.6.2",
-    "optimize-css-assets-webpack-plugin": "^6.0.1",
-    "postcss-loader": "^4.3.0",
-    "sass": "^1.57.0",
-    "sass-loader": "^10.4.1",
-    "style-loader": "^1.3.0",
-    "terser-webpack-plugin": "^4.2.3",
-    "vue-hot-reload-api": "^2.3.4",
-    "vue-html-loader": "^1.2.4",
-    "vue-loader": "^15.10.1",
-    "vue-select": "^3.20.0",
-    "vue-template-compiler": "^2.5.13",
-    "webpack": "^4.46.0",
-    "webpack-cli": "^4.10.0",
-    "webpack-dev-middleware": "^3.7.3",
-    "webpack-dev-server": "^4.11.1",
-    "webpack-hot-middleware": "^2.25.3"
+    "@vitejs/plugin-vue2": "^2.2.0",
+    "sass": "^1.57.1",
+    "vite": "^4.0.0"
   },
   "dependencies": {
     "bootstrap-sass": "^3.4.3",
     "vue": "^2.7.14",
+    "vue-select": "^3.20.0",
     "vuedraggable": "^2.24.3",
     "vuejs-datepicker": "^1.6.2"
   }

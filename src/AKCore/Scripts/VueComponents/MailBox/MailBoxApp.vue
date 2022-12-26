@@ -31,9 +31,9 @@
   </div>
 </template>
 <script>
-import ApiService from "../../services/apiservice";
-import MailBoxForm from "./MailBoxForm";
-import MailBoxItem from "./MailBoxItem";
+import ApiService from '../../services/apiservice';
+import MailBoxForm from './MailBoxForm.vue';
+import MailBoxItem from './MailBoxItem.vue';
 
 export default {
   components: {
@@ -53,7 +53,7 @@ export default {
     loadMediaList() {
       if (isBoard) {
         ApiService.get(
-          "/MailBox/GetItems?archived=" + this.isArchived,
+          '/MailBox/GetItems?archived=' + this.isArchived,
           null,
           (response) => {
             this.mailBoxItems = response;
@@ -67,7 +67,7 @@ export default {
       });
     },
     remove(id) {
-      if (window.confirm("är du säker på att du vill ta bort post?")) {
+      if (window.confirm('är du säker på att du vill ta bort post?')) {
         ApiService.postByUrl(
           `/MailBox/${id}/Delete`,
           null,
@@ -89,7 +89,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import "../../../Styles/variables.scss";
+@import '../../../Styles/variables.scss';
 
 .list-header {
   position: relative;

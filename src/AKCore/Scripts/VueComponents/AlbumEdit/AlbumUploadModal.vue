@@ -6,7 +6,7 @@
           <div
             class="alert alert-danger"
             ref="error"
-            style="display: none;"
+            style="display: none"
           ></div>
           <album-upload-track-item
             :track="track"
@@ -21,21 +21,21 @@
   </modal>
 </template>
 <script>
-import Modal from "../Modal";
-import FileUploader from "../FileUploader";
-import AlbumUploadTrackItem from "./AlbumUploadTrackItem";
-import ApiService from "../../services/apiservice";
+import Modal from '../Modal.vue';
+import FileUploader from '../FileUploader.vue';
+import AlbumUploadTrackItem from './AlbumUploadTrackItem.vue';
+import ApiService from '../../services/apiservice';
 
 export default {
   components: {
     Modal,
     FileUploader,
-    AlbumUploadTrackItem
+    AlbumUploadTrackItem,
   },
-  props: ["album"],
+  props: ['album'],
   computed: {
     header() {
-      return this.album ? this.album.name : "";
+      return this.album ? this.album.name : '';
     },
     orderedTracks() {
       if (!this.album || !this.album.tracks) {
@@ -46,45 +46,45 @@ export default {
         if (a.number > b.number) return 1;
         return 0;
       });
-    }
+    },
   },
   methods: {
     close() {
-      this.$emit("close");
+      this.$emit('close');
     },
     uploadFiles(files) {
       const mediaData = new FormData();
       for (var i = 0; i < files.length; i++) {
-        mediaData.append("TrackFiles", files[i]);
+        mediaData.append('TrackFiles', files[i]);
       }
-      mediaData.append("AlbumId", this.album.id);
+      mediaData.append('AlbumId', this.album.id);
       const error = $(this.$refs.error);
       ApiService.postFormData(
-        "/AlbumEdit/UploadTracks/",
+        '/AlbumEdit/UploadTracks/',
         mediaData,
         error,
         null,
         () => {
-          this.$emit("update");
+          this.$emit('update');
         }
       );
     },
     removeTrack(id) {
       const error = $(this.$refs.error);
       ApiService.postByObjectAsForm(
-        "/AlbumEdit/DeleteTrack",
+        '/AlbumEdit/DeleteTrack',
         { id, album: this.album.id },
         error,
         null,
         () => {
-          this.$emit("update");
+          this.$emit('update');
         }
       );
     },
     update() {
-      this.$emit("update");
-    }
-  }
+      this.$emit('update');
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
