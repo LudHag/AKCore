@@ -24,13 +24,13 @@ https://docs.asp.net/en/latest/security/authentication/identity.html
 
 Sidan använder Bootstrap 3. Läs mer om dess standardanvändning [här](http://getbootstrap.com/css/) och dess komponenter [här](http://getbootstrap.com/components/).
 
-# Webpack, CSS och JS:
+# Vite, CSS och JS:
 
-JS och scssfiler byggs med webpack. Vill du lägga till en javascriptfil lägg till i main.js under scripts. Vill du lägga till en scssfil lägg till i /Styles/akstyle.scss. I developmentmiljö så byggs statiska filer om automatiskt.
+JS och scssfiler byggs med vite. Vill du lägga till en javascriptfil lägg till i main.js under scripts. Vill du lägga till en scssfil lägg till i /Styles/akstyle.scss. I developmentmiljö så byggs statiska filer om automatiskt.
 
 ## Installation
 
-För att få frontendresurser att bygga krävs NPM (Node package manager). Installera det samt ladda ner paketen som behövs med kommandot npm install (isntall fungerar också). Webpack körs av webbinstansen och bör ej köras manuellt.
+För att få frontendresurser att bygga krävs NPM (Node package manager). Installera det samt ladda ner paketen som behövs med kommandot npm install (isntall fungerar också). I samband med att man kör webinstansen behöver man även köra viteservern med kommandot `npm run dev`.
 
 ## Scss
 
@@ -38,4 +38,4 @@ För att få frontendresurser att bygga krävs NPM (Node package manager). Insta
 
 ## Vue.js
 
-[Vue](https://vuejs.org/) används för vissa inloggade sidor för att hantera dynamiska element och liknar mycket react i funktionalitet.
+[Vue 2](https://vuejs.org/) används för vissa inloggade sidor för att hantera dynamiska element och liknar mycket react i funktionalitet.

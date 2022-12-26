@@ -1,15 +1,15 @@
-import { defineConfig } from 'vite';
-import { resolve } from 'path';
-import vue from '@vitejs/plugin-vue2';
+import { defineConfig } from "vite";
+import { resolve } from "path";
+import vue from "@vitejs/plugin-vue2";
 
 const assetFileNames = (assetInfo) => {
   if (
-    assetInfo.name.endsWith('css') &&
-    (assetInfo.name.includes('admin') || assetInfo.name.includes('main'))
+    assetInfo.name.endsWith("css") &&
+    (assetInfo.name.includes("admin") || assetInfo.name.includes("main"))
   ) {
-    return 'assets/[name].[ext]';
+    return "[name].[ext]";
   } else {
-    return 'assets/vendor.[ext]';
+    return "vendor.[ext]";
   }
 };
 
@@ -21,14 +21,15 @@ export default defineConfig({
   },
   plugins: [vue()],
   build: {
+    outDir: "wwwroot/dist",
     rollupOptions: {
       input: {
-        main: resolve(__dirname, 'Scripts/main.html'),
-        admin: resolve(__dirname, 'Scripts/admin.html'),
+        main: resolve(__dirname, "Scripts/main.html"),
+        admin: resolve(__dirname, "Scripts/admin.html"),
       },
       output: {
-        entryFileNames: `assets/[name].js`,
-        chunkFileNames: `assets/vendor.js`,
+        entryFileNames: `[name].js`,
+        chunkFileNames: `vendor.js`,
         assetFileNames: assetFileNames,
       },
     },
