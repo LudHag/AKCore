@@ -72,7 +72,6 @@ namespace AKCore
                 app.UseHttpsRedirection();
             }
 
-            app.UseWebSockets();
             app.UseSession();
             app.UseRouting();
             app.UseAuthentication();
