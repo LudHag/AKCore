@@ -7,9 +7,9 @@ const assetFileNames = (assetInfo) => {
     assetInfo.name.endsWith("css") &&
     (assetInfo.name.includes("admin") || assetInfo.name.includes("main"))
   ) {
-    return "[name].[ext]";
+    return "dist/[name].[ext]";
   } else {
-    return "vendor.[ext]";
+    return "dist/vendor.[ext]";
   }
 };
 
@@ -21,15 +21,16 @@ export default defineConfig({
   },
   plugins: [vue()],
   build: {
-    outDir: "wwwroot/dist",
+    emptyOutDir: false,
+    outDir: "wwwroot",
     rollupOptions: {
       input: {
         main: resolve(__dirname, "Scripts/main.html"),
         admin: resolve(__dirname, "Scripts/admin.html"),
       },
       output: {
-        entryFileNames: `[name].js`,
-        chunkFileNames: `vendor.js`,
+        entryFileNames: `dist/[name].js`,
+        chunkFileNames: `dist/vendor.js`,
         assetFileNames: assetFileNames,
       },
     },
