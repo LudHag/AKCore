@@ -2,11 +2,12 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.SpaServices.Webpack;
+using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace AKCore
 {
@@ -26,7 +27,8 @@ namespace AKCore
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<AKContext>(options => options.UseMySql(Configuration["DbConnectionString"]));
+
+            services.AddDbContext<AKContext>(options => options.UseMySql(Configuration["DbConnectionString"], new MySqlServerVersion(new Version(5, 6, 0))));
 
             services.AddRouting();
             services.AddDistributedMemoryCache();
@@ -63,12 +65,6 @@ namespace AKCore
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-#pragma warning disable CS0618 // Type or member is obsolete
-                app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
-                {
-                    HotModuleReplacement = true
-                });
-#pragma warning restore CS0618 // Type or member is obsolete
             }
             else
             {
@@ -76,7 +72,6 @@ namespace AKCore
                 app.UseHsts();
                 app.UseHttpsRedirection();
             }
-
 
             app.UseSession();
             app.UseRouting();
@@ -96,6 +91,18 @@ namespace AKCore
 
 
             });
+
+            if (env.IsDevelopment())
+            {
+                app.UseSpa(spa =>
+                {
+                    spa.Options.SourcePath = "./";
+                    spa.Options.DevServerPort = 5173;
+                    // Doesnt actually run react but simply runs npm script and awaits console to write "Starting the development server"
+                    spa.UseReactDevelopmentServer(npmScript: "start");
+                });
+            }
+
         }
     }
 }

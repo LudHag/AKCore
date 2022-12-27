@@ -11,7 +11,7 @@
         foreach (var pers in instr)
         {
             @: var pers = {};
-            @: pers.name = '@Html.Raw(pers.GetName())';
+            @: pers.name = '@Html.Raw(pers.GetEncodedName())';
             @: pers.email = '@Html.Raw(pers.Email)';
             @: pers.phone = '@Html.Raw(pers.Phone)';
             @: pers.instrument = '@Html.Raw(pers.Instrument)';

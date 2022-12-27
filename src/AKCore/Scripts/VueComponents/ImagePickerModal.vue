@@ -13,9 +13,9 @@
         <div class="form-group">
           <select name="Tag" v-model="type" class="form-control">
             <option value="">Alla bilder</option>
-            <option :value="type" v-for="type in imageTypes" :key="type">{{
-              type
-            }}</option>
+            <option :value="type" v-for="type in imageTypes" :key="type">
+              {{ type }}
+            </option>
           </select>
         </div>
       </form>
@@ -45,47 +45,47 @@
   </modal>
 </template>
 <script>
-import Modal from "./Modal";
-import ApiService from "../services/apiservice";
-import Constants from "../constants";
+import Modal from './Modal.vue';
+import ApiService from '../services/apiservice';
+import Constants from '../constants';
 
 export default {
   components: {
-    Modal
+    Modal,
   },
   data() {
     return {
       images: [],
       page: 0,
-      type: "",
-      search: ""
+      type: '',
+      search: '',
     };
   },
-  props: ["showModal", "notransition", "destination"],
+  props: ['showModal', 'notransition', 'destination'],
   methods: {
     close() {
-      this.$emit("close");
+      this.$emit('close');
     },
     loadImages() {
-      ApiService.get("/Media/ImageListData", null, res => {
+      ApiService.get('/Media/ImageListData', null, (res) => {
         this.images = res;
       });
     },
     selectImage(image) {
       if (this.destination) {
-        this.destination.val("/media/" + image.name);
-        this.$emit("close");
+        this.destination.val('/media/' + image.name);
+        this.$emit('close');
       } else {
-        this.$emit("image", image);
+        this.$emit('image', image);
       }
     },
     toPage(n) {
       this.page = n;
-    }
+    },
   },
   computed: {
     filteredImages() {
-      return this.images.filter(image => {
+      return this.images.filter((image) => {
         return (
           (!this.type || this.type === image.tag) &&
           (!this.search ||
@@ -106,11 +106,11 @@ export default {
     },
     imageTypes() {
       return Constants.IMAGETYPES;
-    }
+    },
   },
   created() {
     this.loadImages();
-  }
+  },
 };
 </script>
 <style lang="scss" scoped>

@@ -5,6 +5,7 @@ using AKCore.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Hosting;
+using AKCore.Extensions;
 
 namespace AKCore.Controllers
 {
@@ -23,6 +24,11 @@ namespace AKCore.Controllers
         [AllowAnonymous]
         public ActionResult Signup(JoinUsModel model)
         {
+            if(model.BotQuestion != "3")
+            {
+                return Json(new { success = false, message = "Du angav fel svar för 1 + 2, testa med annan siffra. Ursäkta för krångel, vill bara stoppa spammet." });
+            }
+
             if (string.IsNullOrWhiteSpace(model.Email) && string.IsNullOrWhiteSpace(model.Tel))
                 return Json(new { success = false, message = "Du har ej angett ett sätt att kontakta dig med." });
             if (string.IsNullOrWhiteSpace(model.Instrument))
@@ -51,7 +57,7 @@ namespace AKCore.Controllers
             {
                 FirstName = model.FirstName,
                 LastName = model.LastName,
-                Created = DateTime.UtcNow,
+                Created = DateTime.Now.ConvertToSwedishTime(),
                 Email = model.Email,
                 Phone = model.Tel,
                 Instrument = model.Instrument,

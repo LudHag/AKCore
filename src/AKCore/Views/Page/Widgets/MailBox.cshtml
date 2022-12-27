@@ -1,0 +1,13 @@
+﻿@using AKCore.DataModel
+@model AKCore.DataModel.Widget
+
+
+<script>
+var isBoard = @(User.IsInRole(AkRoles.SuperNintendo) ? "true" : "false");
+</script>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div id="mailbox"></div>
+    </div>
+</div>

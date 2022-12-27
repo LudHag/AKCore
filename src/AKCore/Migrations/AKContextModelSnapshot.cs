@@ -14,72 +14,99 @@ namespace AKCore.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
+                .HasAnnotation("ProductVersion", "3.1.22")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("AKCore.DataModel.AkUser", b =>
                 {
                     b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
-                    b.Property<int>("AccessFailedCount");
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Adress");
+                    b.Property<string>("Adress")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<string>("City");
+                    b.Property<string>("City")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken();
+                        .IsConcurrencyToken()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("Email")
+                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4")
                         .HasMaxLength(256);
 
-                    b.Property<bool>("EmailConfirmed");
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("tinyint(1)");
 
-                    b.Property<string>("FirstName");
+                    b.Property<string>("FirstName")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<string>("GivenMedal");
+                    b.Property<string>("GivenMedal")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<bool>("HasKey");
+                    b.Property<bool>("HasKey")
+                        .HasColumnType("tinyint(1)");
 
-                    b.Property<string>("Instrument");
+                    b.Property<string>("Instrument")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<string>("LastName");
+                    b.Property<string>("LastName")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<bool>("LockoutEnabled");
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("tinyint(1)");
 
-                    b.Property<DateTimeOffset?>("LockoutEnd");
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetime(6)");
 
-                    b.Property<string>("Medal");
+                    b.Property<string>("Medal")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<string>("Nation");
+                    b.Property<string>("Nation")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("NormalizedEmail")
+                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4")
                         .HasMaxLength(256);
 
                     b.Property<string>("NormalizedUserName")
+                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4")
                         .HasMaxLength(256);
 
-                    b.Property<string>("OtherInstruments");
+                    b.Property<string>("OtherInstruments")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<string>("PasswordHash");
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<string>("Phone");
+                    b.Property<string>("Phone")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<string>("PhoneNumber");
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<bool>("PhoneNumberConfirmed");
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("tinyint(1)");
 
-                    b.Property<string>("SecurityStamp");
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<string>("SlavPoster");
+                    b.Property<string>("SlavPoster")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<bool>("TwoFactorEnabled");
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("UserName")
+                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4")
                         .HasMaxLength(256);
 
-                    b.Property<string>("ZipCode");
+                    b.Property<string>("ZipCode")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
 
@@ -96,19 +123,26 @@ namespace AKCore.Migrations
             modelBuilder.Entity("AKCore.DataModel.Album", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.Property<string>("Category");
+                    b.Property<string>("Category")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<DateTime>("Created");
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime(6)");
 
-                    b.Property<string>("Image");
+                    b.Property<string>("Image")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<DateTime>("Released");
+                    b.Property<DateTime>("Released")
+                        .HasColumnType("datetime(6)");
 
-                    b.Property<string>("Year");
+                    b.Property<string>("Year")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
 
@@ -118,34 +152,47 @@ namespace AKCore.Migrations
             modelBuilder.Entity("AKCore.DataModel.Event", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.Property<DateTime>("Day");
+                    b.Property<DateTime>("Day")
+                        .HasColumnType("datetime(6)");
 
-                    b.Property<string>("Description");
+                    b.Property<string>("Description")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<string>("Fika");
+                    b.Property<string>("Fika")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<TimeSpan>("HalanTime");
+                    b.Property<TimeSpan>("HalanTime")
+                        .HasColumnType("time(6)");
 
-                    b.Property<string>("InternalDescription");
+                    b.Property<string>("InternalDescription")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("Name")
                         .IsRequired()
+                        .HasColumnType("varchar(450) CHARACTER SET utf8mb4")
                         .HasMaxLength(450);
 
-                    b.Property<string>("Place");
+                    b.Property<string>("Place")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<bool>("Secret");
+                    b.Property<bool>("Secret")
+                        .HasColumnType("tinyint(1)");
 
-                    b.Property<string>("Stand");
+                    b.Property<string>("Stand")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<TimeSpan>("StartsTime");
+                    b.Property<TimeSpan>("StartsTime")
+                        .HasColumnType("time(6)");
 
-                    b.Property<TimeSpan>("ThereTime");
+                    b.Property<TimeSpan>("ThereTime")
+                        .HasColumnType("time(6)");
 
                     b.Property<string>("Type")
                         .IsRequired()
+                        .HasColumnType("varchar(450) CHARACTER SET utf8mb4")
                         .HasMaxLength(450);
 
                     b.HasKey("Id");
@@ -156,19 +203,26 @@ namespace AKCore.Migrations
             modelBuilder.Entity("AKCore.DataModel.Hire", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.Property<bool>("Archived");
+                    b.Property<bool>("Archived")
+                        .HasColumnType("tinyint(1)");
 
-                    b.Property<DateTime>("Created");
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime(6)");
 
-                    b.Property<string>("Email");
+                    b.Property<string>("Email")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<string>("Other");
+                    b.Property<string>("Other")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<string>("Tel");
+                    b.Property<string>("Tel")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
 
@@ -178,15 +232,20 @@ namespace AKCore.Migrations
             modelBuilder.Entity("AKCore.DataModel.LogItem", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.Property<string>("Comment");
+                    b.Property<string>("Comment")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<DateTime>("Modified");
+                    b.Property<DateTime>("Modified")
+                        .HasColumnType("datetime(6)");
 
-                    b.Property<string>("ModifiedById");
+                    b.Property<string>("ModifiedById")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
-                    b.Property<string>("Type");
+                    b.Property<string>("Type")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
 
@@ -195,18 +254,46 @@ namespace AKCore.Migrations
                     b.ToTable("Log");
                 });
 
+            modelBuilder.Entity("AKCore.DataModel.MailBoxItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Archived")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Message")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("Subject")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MailBoxItems");
+                });
+
             modelBuilder.Entity("AKCore.DataModel.Media", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.Property<DateTime>("Created");
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime(6)");
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<string>("Tag");
+                    b.Property<string>("Tag")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<string>("Type");
+                    b.Property<string>("Type")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
 
@@ -216,19 +303,25 @@ namespace AKCore.Migrations
             modelBuilder.Entity("AKCore.DataModel.Menu", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.Property<bool>("Balett");
+                    b.Property<bool>("Balett")
+                        .HasColumnType("tinyint(1)");
 
-                    b.Property<int?>("LinkId");
+                    b.Property<int?>("LinkId")
+                        .HasColumnType("int");
 
-                    b.Property<bool>("LoggedIn");
+                    b.Property<bool>("LoggedIn")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Name")
                         .IsRequired()
+                        .HasColumnType("varchar(450) CHARACTER SET utf8mb4")
                         .HasMaxLength(450);
 
-                    b.Property<int>("PosIndex");
+                    b.Property<int>("PosIndex")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -240,26 +333,35 @@ namespace AKCore.Migrations
             modelBuilder.Entity("AKCore.DataModel.Page", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.Property<bool>("BalettOnly");
+                    b.Property<bool>("BalettOnly")
+                        .HasColumnType("tinyint(1)");
 
-                    b.Property<DateTime>("LastModified");
+                    b.Property<DateTime>("LastModified")
+                        .HasColumnType("datetime(6)");
 
-                    b.Property<bool>("LoggedIn");
+                    b.Property<bool>("LoggedIn")
+                        .HasColumnType("tinyint(1)");
 
-                    b.Property<bool>("LoggedOut");
+                    b.Property<bool>("LoggedOut")
+                        .HasColumnType("tinyint(1)");
 
-                    b.Property<string>("MetaDescription");
+                    b.Property<string>("MetaDescription")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("Name")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("Slug")
                         .IsRequired()
+                        .HasColumnType("varchar(450) CHARACTER SET utf8mb4")
                         .HasMaxLength(450);
 
-                    b.Property<string>("WidgetsJson");
+                    b.Property<string>("WidgetsJson")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
 
@@ -269,23 +371,32 @@ namespace AKCore.Migrations
             modelBuilder.Entity("AKCore.DataModel.Recruit", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.Property<bool>("Archived");
+                    b.Property<bool>("Archived")
+                        .HasColumnType("tinyint(1)");
 
-                    b.Property<DateTime>("Created");
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime(6)");
 
-                    b.Property<string>("Email");
+                    b.Property<string>("Email")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<string>("FirstName");
+                    b.Property<string>("FirstName")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<string>("Instrument");
+                    b.Property<string>("Instrument")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<string>("LastName");
+                    b.Property<string>("LastName")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<string>("Other");
+                    b.Property<string>("Other")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<string>("Phone");
+                    b.Property<string>("Phone")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
 
@@ -295,28 +406,38 @@ namespace AKCore.Migrations
             modelBuilder.Entity("AKCore.DataModel.Revision", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.Property<bool>("BalettOnly");
+                    b.Property<bool>("BalettOnly")
+                        .HasColumnType("tinyint(1)");
 
-                    b.Property<bool>("LoggedIn");
+                    b.Property<bool>("LoggedIn")
+                        .HasColumnType("tinyint(1)");
 
-                    b.Property<bool>("LoggedOut");
+                    b.Property<bool>("LoggedOut")
+                        .HasColumnType("tinyint(1)");
 
-                    b.Property<DateTime>("Modified");
+                    b.Property<DateTime>("Modified")
+                        .HasColumnType("datetime(6)");
 
-                    b.Property<string>("ModifiedById");
+                    b.Property<string>("ModifiedById")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<string>("Name")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<int?>("PageId");
+                    b.Property<int?>("PageId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Slug")
                         .IsRequired()
+                        .HasColumnType("varchar(450) CHARACTER SET utf8mb4")
                         .HasMaxLength(450);
 
-                    b.Property<string>("WidgetsJson");
+                    b.Property<string>("WidgetsJson")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
 
@@ -330,31 +451,43 @@ namespace AKCore.Migrations
             modelBuilder.Entity("AKCore.DataModel.SignUp", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.Property<bool>("Car");
+                    b.Property<bool>("Car")
+                        .HasColumnType("tinyint(1)");
 
-                    b.Property<string>("Comment");
+                    b.Property<string>("Comment")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<int?>("EventId");
+                    b.Property<int?>("EventId")
+                        .HasColumnType("int");
 
-                    b.Property<bool>("Instrument");
+                    b.Property<bool>("Instrument")
+                        .HasColumnType("tinyint(1)");
 
-                    b.Property<string>("InstrumentName");
+                    b.Property<string>("InstrumentName")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<string>("OtherInstruments");
+                    b.Property<string>("OtherInstruments")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("Person")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("PersonId")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<string>("PersonName");
+                    b.Property<string>("PersonName")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<DateTime>("SignupTime");
+                    b.Property<DateTime>("SignupTime")
+                        .HasColumnType("datetime(6)");
 
-                    b.Property<string>("Where");
+                    b.Property<string>("Where")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
 
@@ -366,17 +499,22 @@ namespace AKCore.Migrations
             modelBuilder.Entity("AKCore.DataModel.SubMenu", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.Property<int?>("LinkId");
+                    b.Property<int?>("LinkId")
+                        .HasColumnType("int");
 
-                    b.Property<int?>("MenuId");
+                    b.Property<int?>("MenuId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
+                        .HasColumnType("varchar(450) CHARACTER SET utf8mb4")
                         .HasMaxLength(450);
 
-                    b.Property<int>("SubPosIndex");
+                    b.Property<int>("SubPosIndex")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -390,17 +528,23 @@ namespace AKCore.Migrations
             modelBuilder.Entity("AKCore.DataModel.Track", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.Property<int?>("AlbumId");
+                    b.Property<int?>("AlbumId")
+                        .HasColumnType("int");
 
-                    b.Property<DateTime>("Created");
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime(6)");
 
-                    b.Property<string>("FileName");
+                    b.Property<string>("FileName")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<int>("Number");
+                    b.Property<int>("Number")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -412,15 +556,18 @@ namespace AKCore.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken();
+                        .IsConcurrencyToken()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("Name")
+                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4")
                         .HasMaxLength(256);
 
                     b.Property<string>("NormalizedName")
+                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4")
                         .HasMaxLength(256);
 
                     b.HasKey("Id");
@@ -435,14 +582,18 @@ namespace AKCore.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.Property<string>("ClaimType");
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<string>("ClaimValue");
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("RoleId")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
 
@@ -454,14 +605,18 @@ namespace AKCore.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.Property<string>("ClaimType");
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<string>("ClaimValue");
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("UserId")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
 
@@ -472,14 +627,18 @@ namespace AKCore.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.Property<string>("LoginProvider");
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
-                    b.Property<string>("ProviderKey");
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
-                    b.Property<string>("ProviderDisplayName");
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("UserId")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -490,9 +649,11 @@ namespace AKCore.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
-                    b.Property<string>("UserId");
+                    b.Property<string>("UserId")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
-                    b.Property<string>("RoleId");
+                    b.Property<string>("RoleId")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.HasKey("UserId", "RoleId");
 
@@ -503,13 +664,17 @@ namespace AKCore.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.Property<string>("UserId");
+                    b.Property<string>("UserId")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
-                    b.Property<string>("LoginProvider");
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
-                    b.Property<string>("Value");
+                    b.Property<string>("Value")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
@@ -536,14 +701,14 @@ namespace AKCore.Migrations
                         .WithMany()
                         .HasForeignKey("ModifiedById");
 
-                    b.HasOne("AKCore.DataModel.Page")
+                    b.HasOne("AKCore.DataModel.Page", null)
                         .WithMany("Revisions")
                         .HasForeignKey("PageId");
                 });
 
             modelBuilder.Entity("AKCore.DataModel.SignUp", b =>
                 {
-                    b.HasOne("AKCore.DataModel.Event")
+                    b.HasOne("AKCore.DataModel.Event", null)
                         .WithMany("SignUps")
                         .HasForeignKey("EventId");
                 });
@@ -554,61 +719,67 @@ namespace AKCore.Migrations
                         .WithMany()
                         .HasForeignKey("LinkId");
 
-                    b.HasOne("AKCore.DataModel.Menu")
+                    b.HasOne("AKCore.DataModel.Menu", null)
                         .WithMany("Children")
                         .HasForeignKey("MenuId");
                 });
 
             modelBuilder.Entity("AKCore.DataModel.Track", b =>
                 {
-                    b.HasOne("AKCore.DataModel.Album")
+                    b.HasOne("AKCore.DataModel.Album", null)
                         .WithMany("Tracks")
                         .HasForeignKey("AlbumId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("AKCore.DataModel.AkUser")
+                    b.HasOne("AKCore.DataModel.AkUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("AKCore.DataModel.AkUser")
+                    b.HasOne("AKCore.DataModel.AkUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("AKCore.DataModel.AkUser")
+                    b.HasOne("AKCore.DataModel.AkUser", null)
                         .WithMany("Roles")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("AKCore.DataModel.AkUser")
+                    b.HasOne("AKCore.DataModel.AkUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

@@ -1,4 +1,5 @@
 ﻿using AKCore.DataModel;
+using AKCore.Extensions;
 using AKCore.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -55,8 +56,8 @@ namespace AKCore.Controllers
                     .Where(x => loggedIn || (x.Type == "Spelning") || (x.Type == "Evenemang"))
                     .Where(x => loggedIn || (!x.Secret))
                     .Where(x => x.Day >= DateTime.UtcNow.Date)
-                    .OrderBy(x => x.Day).ThenBy(x => x.StartsTime)
                     .ToList()
+                    .OrderBy(x => x.Day.Date).ThenBy(x => x.StartsTime != default ? x.StartsTime : x.HalanTime)
                     .GroupBy(x => x.Day.Year)
                     .ToDictionary(x => x.Key, x => new YearList
                     {
@@ -120,13 +121,13 @@ namespace AKCore.Controllers
         [Route("akevents.ics")]
         public ActionResult Ical()
         {
-            var events = _db.Events.OrderBy(x => x.Day).ThenBy(x => x.StartsTime)
+            var events = _db.Events.OrderBy(x => x.Day.Date).ThenBy(x => x.StartsTime)
                 .Include(x => x.SignUps)
                 .Where(x => x.Day >= DateTime.UtcNow.Date);
 
 
             var sb = new StringBuilder();
-            var DateFormat = "yyyyMMddTHHmmssZ";
+            var DateFormat = "yyyyMMddTHHmmss";
             var now = DateTime.Now.ToUniversalTime().ToString(DateFormat);
             sb.AppendLine("BEGIN:VCALENDAR");
             sb.AppendLine("PRODID:-//AkCalendar//altekamereren.org");
@@ -142,8 +143,8 @@ namespace AKCore.Controllers
 
                 var dtEnd = dtStart.AddHours(1);
                 sb.AppendLine("BEGIN:VEVENT");
-                sb.AppendLine("DTSTART:" + dtStart.ToUniversalTime().ToString(DateFormat));
-                sb.AppendLine("DTEND:" + dtEnd.ToUniversalTime().ToString(DateFormat));
+                sb.AppendLine("DTSTART:" + dtStart.ToString(DateFormat));
+                sb.AppendLine("DTEND:" + dtEnd.ToString(DateFormat));
                 sb.AppendLine("DTSTAMP:" + now);
                 sb.AppendLine("UID:" + Guid.NewGuid());
                 sb.AppendLine("CREATED:" + now);
@@ -197,7 +198,7 @@ namespace AKCore.Controllers
                     Person = member.UserName,
                     PersonName = member.GetName(),
                     PersonId = member.Id,
-                    SignupTime = DateTime.Now,
+                    SignupTime = DateTime.Now.ConvertToSwedishTime(),
                     Where = type,
                     InstrumentName = member.Instrument
                 });

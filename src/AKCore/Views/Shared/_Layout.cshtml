@@ -14,6 +14,7 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <environment exclude="Development">
+        <link rel="modulepreload" crossorigin href="/dist/vendor.js" asp-append-version="true">
         <link rel="stylesheet" href="~/dist/main.css" asp-append-version="true">
         <link rel="stylesheet" href="~/dist/vendor.css" asp-append-version="true">
     </environment>
@@ -31,10 +32,14 @@
             integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
             crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    <script src="~/dist/vendor.js" asp-append-version="true">
-    </script>
-    <script src="~/dist/main.js" asp-append-version="true">
-    </script>
+    <environment exclude="Development">
+        <script src="~/dist/main.js" type="module" asp-append-version="true">
+        </script>
+    </environment>
+    <environment include="Development">
+        <script src="~/Scripts/main.js" type="module" asp-append-version="true">
+        </script>
+    </environment>
     @RenderSection("scripts", required: false)
 </body>
 </html>

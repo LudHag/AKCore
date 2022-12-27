@@ -9,22 +9,27 @@
           <label>Namn</label>
         </div>
       </div>
-      <div
-        class="form-group video-area row"
-        v-for="(video, index) in value.videos"
-        :key="index"
-      >
-        <div class="col-sm-6">
-          <input class="form-control video-link" v-model="video.link" />
+      <draggable v-model="value.videos" handle=".video-drag-area">
+        <div
+          class="form-group video-area row"
+          v-for="(video, index) in value.videos"
+          :key="index"
+        >
+          <div
+            class="col-sm-1 glyphicon glyphicon-align-justify video-drag-area"
+          ></div>
+          <div class="col-sm-5">
+            <input class="form-control video-link" v-model="video.link" />
+          </div>
+          <div class="col-sm-6">
+            <input class="form-control video-title" v-model="video.title" /><a
+              href="#"
+              class="btn glyphicon glyphicon-remove remove-video"
+              @click.prevent="removeVideo(index)"
+            ></a>
+          </div>
         </div>
-        <div class="col-sm-6">
-          <input class="form-control video-title" v-model="video.title" /><a
-            href="#"
-            class="btn glyphicon glyphicon-remove remove-video"
-            @click.prevent="removeVideo(index)"
-          ></a>
-        </div>
-      </div>
+      </draggable>
     </div>
     <div class="col-sm-6">
       <a href="#" class="btn btn-default" @click.prevent="addVideo"
@@ -34,9 +39,10 @@
   </div>
 </template>
 <script>
+import draggable from "vuedraggable";
 import TextEdit from "../WidgetParts/TextEdit.vue";
 export default {
-  components: { TextEdit },
+  components: { TextEdit, draggable },
   props: ["value"],
   methods: {
     removeVideo(removeIndex) {
@@ -46,8 +52,8 @@ export default {
     },
     addVideo() {
       this.value.videos.push({ title: "", link: "" });
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
@@ -58,5 +64,11 @@ export default {
   color: black;
   position: absolute;
   right: 10px;
+}
+.video-drag-area {
+  height: 34px;
+  display: flex;
+  align-items: center;
+  cursor: grab;
 }
 </style>

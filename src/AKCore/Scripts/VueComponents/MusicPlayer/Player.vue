@@ -45,18 +45,18 @@
   </div>
 </template>
 <script>
-import { fmtMSS } from "../../utils/functions";
+import { fmtMSS } from '../../utils/functions';
 export default {
-  props: ["playing", "trackPlaying", "reset", "replay"],
+  props: ['playing', 'trackPlaying', 'reset', 'replay'],
   data() {
     return {
       trackLength: 0,
-      timePlayed: 0
+      timePlayed: 0,
     };
   },
   computed: {
     timeDisplay() {
-      return fmtMSS(this.timePlayed) + "/" + fmtMSS(this.trackLength);
+      return fmtMSS(this.timePlayed) + '/' + fmtMSS(this.trackLength);
     },
     progress() {
       if (this.timePlayed === 0 || this.trackLength === 0) {
@@ -65,20 +65,20 @@ export default {
       return (this.timePlayed / this.trackLength) * 100;
     },
     nowPlayingText() {
-      return "Spelar nu: " + this.trackPlaying.name;
-    }
+      return 'Spelar nu: ' + this.trackPlaying.name;
+    },
   },
   watch: {
     playing(val) {
       const player = this.$refs.player;
       if (val) {
         player.play();
-        player.addEventListener("timeupdate", this.timeUpdate);
-        player.addEventListener("ended", this.endedListener);
+        player.addEventListener('timeupdate', this.timeUpdate);
+        player.addEventListener('ended', this.endedListener);
       } else {
         player.pause();
-        player.removeEventListener("timeupdate", this.timeUpdate);
-        player.removeEventListener("ended", this.endedListener);
+        player.removeEventListener('timeupdate', this.timeUpdate);
+        player.removeEventListener('ended', this.endedListener);
       }
     },
     trackPlaying() {
@@ -101,7 +101,7 @@ export default {
           player.currentTime = 0;
         }
       }
-    }
+    },
   },
   methods: {
     timeUpdate(event) {
@@ -117,7 +117,7 @@ export default {
       this.next();
     },
     next() {
-      this.$emit("next");
+      this.$emit('next');
     },
     clickProgress(event) {
       const progressContainer = this.$refs.progress;
@@ -127,13 +127,13 @@ export default {
       this.trackLength = player.duration;
       this.timePlayed = time;
       player.currentTime = time;
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
-@import "~bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss";
-@import "../../../Styles/variables.scss";
+@import 'bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss';
+@import '../../../Styles/variables.scss';
 .controls {
   border: 1px solid $akred;
   border-radius: 7px;

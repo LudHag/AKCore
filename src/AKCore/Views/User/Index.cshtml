@@ -10,5 +10,11 @@
 }
 
 @section scripts {
-    <script src="~/dist/admin.js" asp-append-version="true"></script>
+    <environment exclude="Development">
+        <script src="~/dist/admin.js" type="module" asp-append-version="true"></script>
+    </environment>
+    <environment include="Development">
+        <script src="~/Scripts/admin.js" type="module" asp-append-version="true">
+        </script>
+    </environment>
 }

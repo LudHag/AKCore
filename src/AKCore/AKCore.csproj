@@ -1,12 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <PreserveCompilationContext>true</PreserveCompilationContext>
     <AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
     <AssemblyName>AKCore</AssemblyName>
     <PackageId>AKCore</PackageId>
-    <RuntimeFrameworkVersion>3.1.0</RuntimeFrameworkVersion>
     <RuntimeIdentifiers>win10-x64</RuntimeIdentifiers>
   </PropertyGroup>
 
@@ -33,7 +32,6 @@
     <Compile Remove="wwwroot\albums\7\**" />
     <Compile Remove="wwwroot\albums\8\**" />
     <Compile Remove="wwwroot\albums\9\**" />
-    <Compile Remove="wwwroot\dist\**" />
     <Content Remove="wwwroot\albums\10\**" />
     <Content Remove="wwwroot\albums\11\**" />
     <Content Remove="wwwroot\albums\12\**" />
@@ -56,7 +54,6 @@
     <Content Remove="wwwroot\albums\7\**" />
     <Content Remove="wwwroot\albums\8\**" />
     <Content Remove="wwwroot\albums\9\**" />
-    <Content Remove="wwwroot\dist\**" />
     <EmbeddedResource Remove="wwwroot\albums\10\**" />
     <EmbeddedResource Remove="wwwroot\albums\11\**" />
     <EmbeddedResource Remove="wwwroot\albums\12\**" />
@@ -79,7 +76,6 @@
     <EmbeddedResource Remove="wwwroot\albums\7\**" />
     <EmbeddedResource Remove="wwwroot\albums\8\**" />
     <EmbeddedResource Remove="wwwroot\albums\9\**" />
-    <EmbeddedResource Remove="wwwroot\dist\**" />
     <None Remove="wwwroot\albums\10\**" />
     <None Remove="wwwroot\albums\11\**" />
     <None Remove="wwwroot\albums\12\**" />
@@ -102,7 +98,6 @@
     <None Remove="wwwroot\albums\7\**" />
     <None Remove="wwwroot\albums\8\**" />
     <None Remove="wwwroot\albums\9\**" />
-    <None Remove="wwwroot\dist\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -116,10 +111,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.0" />
-    <PackageReference Include="Microsoft.AspNetCore.SpaServices" Version="3.1.0" />
-    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.8" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.8" />
+    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="6.0.12" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="6.0.2" />
+	<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.8">
+		<PrivateAssets>all</PrivateAssets>
+		<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	</PackageReference>
   </ItemGroup>
 
   <ItemGroup>
@@ -129,5 +128,6 @@
   <Target Name="PrepublishScript" BeforeTargets="PrepareForPublish">
     <Exec Command="npm run build" />
   </Target>
+  
 
 </Project>

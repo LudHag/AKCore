@@ -1,7 +1,6 @@
-﻿
-<template>
+﻿<template>
   <div class="album-display" v-if="album">
-    <img class="album-display-image" :src="album.image">
+    <img class="album-display-image" :src="album.image" />
     <div class="tracks" v-if="showTracks">
       <PlayListItem
         v-for="track in tracks"
@@ -15,19 +14,19 @@
   </div>
 </template>
 <script>
-import { nameCompare } from "../../utils/functions";
-import PlayListItem from "./PlayListItem";
+import { nameCompare } from '../../utils/functions';
+import PlayListItem from './PlayListItem.vue';
 export default {
-  props: ["album", "showTracks"],
+  props: ['album', 'showTracks'],
   components: {
-    PlayListItem
+    PlayListItem,
   },
   computed: {
     tracks() {
       const trackKeys = Object.keys(this.album.tracks);
-      return trackKeys.map(key => this.album.tracks[key]).sort(nameCompare);
-    }
-  }
+      return trackKeys.map((key) => this.album.tracks[key]).sort(nameCompare);
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>

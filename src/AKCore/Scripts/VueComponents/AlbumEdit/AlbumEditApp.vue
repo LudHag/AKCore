@@ -23,16 +23,16 @@
             <div class="form-group">
               <select class="form-control" v-model="albumCategory">
                 <option value>Filtrera på kategori</option>
-                <option v-for="cat in albumCategories" :key="cat">{{
-                  cat
-                }}</option>
+                <option v-for="cat in albumCategories" :key="cat">
+                  {{ cat }}
+                </option>
               </select>
             </div>
           </div>
         </div>
       </div>
-      <div class="alert alert-danger" style="display: none;"></div>
-      <div class="alert alert-success" style="display: none;"></div>
+      <div class="alert alert-danger" style="display: none"></div>
+      <div class="alert alert-success" style="display: none"></div>
       <div class="row edit-form" id="add-album-container" v-if="createOpened">
         <div class="col-md-6">
           <form
@@ -80,17 +80,17 @@
   </div>
 </template>
 <script>
-import ApiService from "../../services/apiservice";
-import AlbumEditItem from "./AlbumEditItem";
-import ImagePickerModal from "../ImagePickerModal";
-import AlbumUploadModal from "./AlbumUploadModal";
-import Constants from "../../constants";
+import ApiService from '../../services/apiservice';
+import AlbumEditItem from './AlbumEditItem.vue';
+import ImagePickerModal from '../ImagePickerModal.vue';
+import AlbumUploadModal from './AlbumUploadModal.vue';
+import Constants from '../../constants';
 
 export default {
   components: {
     AlbumEditItem,
     ImagePickerModal,
-    AlbumUploadModal
+    AlbumUploadModal,
   },
   data() {
     return {
@@ -99,8 +99,8 @@ export default {
       showImagePicker: false,
       selectedAlbum: -1,
       tracksAlbumId: -1,
-      search: "",
-      albumCategory: ""
+      search: '',
+      albumCategory: '',
     };
   },
   computed: {
@@ -108,7 +108,7 @@ export default {
       if (!this.albums || this.tracksAlbumId == -1) {
         return null;
       }
-      return this.albums.find(album => {
+      return this.albums.find((album) => {
         return album.id === this.tracksAlbumId;
       });
     },
@@ -116,8 +116,8 @@ export default {
       if (!this.albums) {
         return this.albums;
       }
-      return this.albums.filter(album => {
-        const albumCategory = album.category ? album.category : "Övrigt";
+      return this.albums.filter((album) => {
+        const albumCategory = album.category ? album.category : 'Övrigt';
         return (
           (!this.search ||
             album.name.toLowerCase().indexOf(this.search.toLowerCase()) > -1) &&
@@ -127,18 +127,18 @@ export default {
     },
     albumCategories() {
       return Constants.ALBUMCATEGORIES;
-    }
+    },
   },
   methods: {
     changeName(name, id) {
-      const error = $(".alert-danger");
+      const error = $('.alert-danger');
       ApiService.postByObjectAsForm(
-        "/AlbumEdit/ChangeName",
+        '/AlbumEdit/ChangeName',
         { id: id, name: name },
         error,
         null,
         () => {
-          this.albums = this.albums.map(item => {
+          this.albums = this.albums.map((item) => {
             if (item.id === id) {
               return Object.assign({}, item, { name });
             } else {
@@ -149,14 +149,14 @@ export default {
       );
     },
     changeCategory(category, id) {
-      const error = $(".alert-danger");
+      const error = $('.alert-danger');
       ApiService.postByObjectAsForm(
-        "/AlbumEdit/ChangeCategory",
+        '/AlbumEdit/ChangeCategory',
         { id, category },
         error,
         null,
         () => {
-          this.albums = this.albums.map(item => {
+          this.albums = this.albums.map((item) => {
             if (item.id === id) {
               return Object.assign({}, item, { category });
             } else {
@@ -167,9 +167,9 @@ export default {
       );
     },
     deleteAlbum(id) {
-      const error = $(".alert-danger");
-      ApiService.postByUrl("/AlbumEdit/DeleteAlbum/" + id, error, null, () => {
-        this.albums = this.albums.filter(album => {
+      const error = $('.alert-danger');
+      ApiService.postByUrl('/AlbumEdit/DeleteAlbum/' + id, error, null, () => {
+        this.albums = this.albums.filter((album) => {
           return album.id !== id;
         });
       });
@@ -181,8 +181,8 @@ export default {
       }
     },
     createAlbum() {
-      const error = $(".alert-danger");
-      const success = $(".alert-success");
+      const error = $('.alert-danger');
+      const success = $('.alert-success');
       const form = $(event.target);
       ApiService.defaultFormSend(form, error, success, () => {
         this.loadAlbumData();
@@ -190,7 +190,7 @@ export default {
       });
     },
     loadAlbumData() {
-      ApiService.get("/AlbumEdit/AlbumData", null, res => {
+      ApiService.get('/AlbumEdit/AlbumData', null, (res) => {
         this.albums = res;
       });
     },
@@ -203,10 +203,10 @@ export default {
       this.selectedAlbum = -1;
     },
     imageSelected(image) {
-      const error = $(".alert-danger");
+      const error = $('.alert-danger');
       ApiService.postByObjectAsForm(
-        "/AlbumEdit/UpdateImage",
-        { id: this.selectedAlbum, src: "/media/" + image.name },
+        '/AlbumEdit/UpdateImage',
+        { id: this.selectedAlbum, src: '/media/' + image.name },
         error,
         null,
         () => {
@@ -220,11 +220,11 @@ export default {
     },
     closeUploadModal() {
       this.tracksAlbumId = -1;
-    }
+    },
   },
   created() {
     this.loadAlbumData();
-  }
+  },
 };
 </script>
 <style lang="scss" scoped>

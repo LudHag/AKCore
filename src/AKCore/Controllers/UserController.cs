@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Microsoft.EntityFrameworkCore;
+using AKCore.Extensions;
 
 namespace AKCore.Controllers
 {
@@ -31,7 +32,7 @@ namespace AKCore.Controllers
             _db = db;
         }
 
-        public ActionResult Index(UsersModel model)
+        public ActionResult Index()
         {
             ViewBag.Title = "Användare";
             return View();
@@ -142,7 +143,7 @@ namespace AKCore.Controllers
                 _db.Log.Add(new LogItem()
                 {
                     Type = AkLogTypes.User,
-                    Modified = DateTime.Now,
+                    Modified = DateTime.Now.ConvertToSwedishTime(),
                     ModifiedBy = editingUser,
                     Comment = "Användare med namn " + user.GetName() + " redigeras"
                 });
@@ -207,7 +208,7 @@ namespace AKCore.Controllers
             _db.Log.Add(new LogItem()
             {
                 Type = AkLogTypes.User,
-                Modified = DateTime.Now,
+                Modified = DateTime.Now.ConvertToSwedishTime(),
                 ModifiedBy = editingUser,
                 Comment = "Användare med namn " + newUser.GetName() + " skapad"
             });
@@ -229,7 +230,7 @@ namespace AKCore.Controllers
                 _db.Log.Add(new LogItem()
                 {
                     Type = AkLogTypes.User,
-                    Modified = DateTime.Now,
+                    Modified = DateTime.Now.ConvertToSwedishTime(),
                     ModifiedBy = editingUser,
                     Comment = "Användare med namn " + fullName + " borttagen"
                 });
@@ -255,7 +256,7 @@ namespace AKCore.Controllers
             _db.Log.Add(new LogItem()
             {
                 Type = AkLogTypes.User,
-                Modified = DateTime.Now,
+                Modified = DateTime.Now.ConvertToSwedishTime(),
                 ModifiedBy = editingUser,
                 Comment = "Användare med namn " + UserName + " får roll " + Role + " tillagd"
             });
@@ -277,7 +278,7 @@ namespace AKCore.Controllers
             _db.Log.Add(new LogItem()
             {
                 Type = AkLogTypes.User,
-                Modified = DateTime.Now,
+                Modified = DateTime.Now.ConvertToSwedishTime(),
                 ModifiedBy = editingUser,
                 Comment = "Användare med namn " + UserName + " får roll " + Role + " borttagen"
             });
@@ -299,7 +300,7 @@ namespace AKCore.Controllers
             _db.Log.Add(new LogItem()
             {
                 Type = AkLogTypes.User,
-                Modified = DateTime.Now,
+                Modified = DateTime.Now.ConvertToSwedishTime(),
                 ModifiedBy = editingUser,
                 Comment = "Användare med namn " + userName + " får lösenord ändrat"
             });

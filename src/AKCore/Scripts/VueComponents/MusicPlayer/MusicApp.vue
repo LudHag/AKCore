@@ -30,9 +30,9 @@
   </div>
 </template>
 <script>
-import AlbumList from "./AlbumList";
-import AlbumDisplay from "./AlbumDisplay";
-import PlayList from "./PlayList";
+import AlbumList from './AlbumList.vue';
+import AlbumDisplay from './AlbumDisplay.vue';
+import PlayList from './PlayList.vue';
 
 export default {
   data() {
@@ -40,13 +40,13 @@ export default {
       albums: null,
       currentAlbumId: -1,
       playList: [],
-      playing: false
+      playing: false,
     };
   },
   components: {
     AlbumList,
     AlbumDisplay,
-    PlayList
+    PlayList,
   },
   computed: {
     currentAlbum() {
@@ -54,14 +54,14 @@ export default {
         return null;
       }
       return this.albums[this.currentAlbumId];
-    }
+    },
   },
   methods: {
     selectAlbum(album) {
       this.currentAlbumId = album.id;
     },
     playAll() {
-      console.log("play all");
+      console.log('play all');
     },
     playPause() {
       this.playing = !this.playing;
@@ -83,18 +83,18 @@ export default {
       if (this.playList.length > index) {
         this.playList.splice(0, index);
       }
-    }
+    },
   },
   created() {
     this.albums = widgetAlbums;
     const albumIds = Object.keys(widgetAlbums);
     this.currentAlbumId = albumIds[Math.floor(Math.random() * albumIds.length)];
-  }
+  },
 };
 </script>
 <style lang="scss" scoped>
-@import "~bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss";
-@import "../../../Styles/variables.scss";
+@import 'bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss';
+@import '../../../Styles/variables.scss';
 .album-title {
   background-color: #111111;
   border-radius: 5px;
