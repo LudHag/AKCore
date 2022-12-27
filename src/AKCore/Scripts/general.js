@@ -5,77 +5,78 @@
 };
 
 $(function () {
-  $('.account').on('click', '.login', function (e) {
+  // $(".account").on("click", ".login", function (e) {
+  //   e.preventDefault();
+  //   document.getElementById("loginModal").style.display = "block";
+  //   // $('#loginModal').modal('show');
+  // });
+
+  // $("#loginModal").on("shown.bs.modal", function () {
+  //   $("#username").focus();
+  // });
+
+  // $("#mobile-menu").on("click", ".login", function (e) {
+  //   e.preventDefault();
+  //   $("#loginModal").modal("show");
+  // });
+  // $("#loginForm").on("submit", function (e) {
+  //   e.preventDefault();
+  //   const form = $(this);
+  //   const success = form.find(".alert-success");
+  //   const error = form.find(".alert-danger");
+  //   $.ajax({
+  //     url: form.attr("action"),
+  //     type: "POST",
+  //     data: form.serialize(),
+  //     success: function (res) {
+  //       if (res.success) {
+  //         window.location.reload();
+  //       } else {
+  //         error.text(res.message);
+  //         error.slideDown().delay(4000).slideUp();
+  //       }
+  //     },
+  //     error: function (err) {
+  //       error.text("Misslyckades att logga in");
+  //       error.slideDown().delay(4000).slideUp();
+  //     },
+  //   });
+  // });
+
+  $("#open-mobile-menu").on("click", function (e) {
     e.preventDefault();
-    $('#loginModal').modal('show');
+    $("#mobile-menu").slideToggle();
   });
 
-  $('#loginModal').on('shown.bs.modal', function () {
-    $('#username').focus();
-  });
-
-  $('#mobile-menu').on('click', '.login', function (e) {
-    e.preventDefault();
-    $('#loginModal').modal('show');
-  });
-  $('#loginForm').on('submit', function (e) {
-    e.preventDefault();
-    const form = $(this);
-    const success = form.find('.alert-success');
-    const error = form.find('.alert-danger');
-    $.ajax({
-      url: form.attr('action'),
-      type: 'POST',
-      data: form.serialize(),
-      success: function (res) {
-        if (res.success) {
-          window.location.reload();
-        } else {
-          error.text(res.message);
-          error.slideDown().delay(4000).slideUp();
-        }
-      },
-      error: function (err) {
-        error.text('Misslyckades att logga in');
-        error.slideDown().delay(4000).slideUp();
-      },
-    });
-  });
-
-  $('#open-mobile-menu').on('click', function (e) {
-    e.preventDefault();
-    $('#mobile-menu').slideToggle();
-  });
-
-  $('#mobile-menu').on('click', 'a', function (e) {
+  $("#mobile-menu").on("click", "a", function (e) {
     const target = $(e.target);
-    if (target.hasClass('exp-submenu')) {
+    if (target.hasClass("exp-submenu")) {
       e.preventDefault();
-      if (target.hasClass('glyphicon-plus')) {
-        target.addClass('glyphicon-minus');
-        target.removeClass('glyphicon-plus');
+      if (target.hasClass("glyphicon-plus")) {
+        target.addClass("glyphicon-minus");
+        target.removeClass("glyphicon-plus");
       } else {
-        target.addClass('glyphicon-plus');
-        target.removeClass('glyphicon-minus');
+        target.addClass("glyphicon-plus");
+        target.removeClass("glyphicon-minus");
       }
 
-      $(target.data('id')).slideToggle();
+      $(target.data("id")).slideToggle();
     }
   });
 
-  $('#recruit-form').on('submit', function (e) {
+  $("#recruit-form").on("submit", function (e) {
     e.preventDefault();
     const form = $(this);
-    const success = form.find('.alert-success');
-    const error = form.find('.alert-danger');
+    const success = form.find(".alert-success");
+    const error = form.find(".alert-danger");
 
     $.ajax({
-      url: form.attr('action'),
-      type: 'POST',
+      url: form.attr("action"),
+      type: "POST",
       data: form.serialize(),
       success: function (res) {
         if (res.success) {
-          form.trigger('reset');
+          form.trigger("reset");
           success.text(res.message);
           success.slideDown().delay(3000).slideUp();
         } else {
@@ -84,16 +85,16 @@ $(function () {
         }
       },
       error: function (err) {
-        error.text('Ett fel uppstod när ansökan skickades');
+        error.text("Ett fel uppstod när ansökan skickades");
         error.slideDown().delay(5000).slideUp();
       },
     });
   });
 
-  const allowedKeys = { 70: 'f', 76: 'l', 192: 'ö', 74: 'j', 84: 't' },
-    code = ['f', 'l', 'ö', 'j', 't'];
+  const allowedKeys = { 70: "f", 76: "l", 192: "ö", 74: "j", 84: "t" },
+    code = ["f", "l", "ö", "j", "t"];
   let pos = 0;
-  document.addEventListener('keydown', function (a) {
+  document.addEventListener("keydown", function (a) {
     let b = allowedKeys[a.keyCode],
       c = code[pos];
     b == c ? (pos++, pos == code.length && flojt()) : (pos = 0);
@@ -102,18 +103,18 @@ $(function () {
 
 function flojt() {
   const a = document;
-  let b = a.getElementById('__cornify_nodes');
+  let b = a.getElementById("__cornify_nodes");
   if (b) cornify_add();
   else {
     let c = null;
-    (c = a.createElement('div')),
-      (c.id = '__cornify_nodes'),
-      a.getElementsByTagName('body')[0].appendChild(c);
+    (c = a.createElement("div")),
+      (c.id = "__cornify_nodes"),
+      a.getElementsByTagName("body")[0].appendChild(c);
     let d = [
-      'https://cornify.com/js/cornify.js',
-      'https://cornify.com/js/cornify_run.js',
+      "https://cornify.com/js/cornify.js",
+      "https://cornify.com/js/cornify_run.js",
     ];
     for (let e = 0; e < d.length; e++)
-      (b = a.createElement('script')), (b.src = d[e]), c.appendChild(b);
+      (b = a.createElement("script")), (b.src = d[e]), c.appendChild(b);
   }
 }
