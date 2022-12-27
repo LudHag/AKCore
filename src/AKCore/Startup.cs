@@ -98,7 +98,7 @@ namespace AKCore
                 {
                     spa.Options.SourcePath = "./";
                     spa.Options.DevServerPort = 5173;
-
+                    // Doesnt actually run react but simply runs npm script and awaits console to write "Starting the development server"
                     spa.UseReactDevelopmentServer(npmScript: "start");
                 });
             }
