@@ -35,9 +35,13 @@
     <environment exclude="Development">
         <script src="~/dist/main.js" type="module" asp-append-version="true">
         </script>
+        <script src="~/snow/snow.js" type="module" asp-append-version="true">
+        </script>
     </environment>
     <environment include="Development">
         <script src="~/Scripts/main.js" type="module" asp-append-version="true">
+        </script>
+        <script src="~/snow/snow.js" type="module" asp-append-version="true">
         </script>
     </environment>
     @RenderSection("scripts", required: false)
