@@ -2,6 +2,9 @@
 @using AKCore.DataModel
 @model AKCore.Models.RecruitsModel
 
+<div id="recruits-app"></div>
+
+@*
 <div class="row filters">
     <div class="col-lg-5">
         <h1>Intresseanmälningar</h1>
@@ -52,14 +55,13 @@
 
         </div>
     </div>
-</div>
+</div>*@
 
 <script>
-    var recruitListData = {};
+    var recruitList = [];
     @foreach (var recruit in Model.Recruits)
     {
-        @: recruitListData['@recruit.Id'] = {};
-        @: var recruit = recruitListData['@recruit.Id'];
+        @: var recruit = {};
         @: recruit.fname = '@recruit.FirstName';
         @: recruit.lname = '@recruit.LastName';
         @: recruit.archived = @recruit.Archived.ToString().ToLower();
@@ -69,6 +71,7 @@
         @: recruit.instrument = '@recruit.Instrument';
         @: recruit.other = '@recruit.Other';
         @: recruit.id = '@recruit.Id';
+        @: recruitList.push(recruit);
     }
 </script>
 
