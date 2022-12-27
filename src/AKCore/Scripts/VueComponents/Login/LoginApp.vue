@@ -32,7 +32,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">
+          <button type="button" class="btn btn-default" @click="close">
             Stäng
           </button>
           <button type="submit" class="btn btn-primary submit-login">
