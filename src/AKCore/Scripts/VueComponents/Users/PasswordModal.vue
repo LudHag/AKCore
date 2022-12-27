@@ -9,8 +9,17 @@
         @submit.prevent="submitForm"
         v-if="user"
       >
-        <div class="alert alert-danger change-password-error" style="display: none;"></div>
-        <input type="hidden" class="form-control" name="userName" :value="user.userName" required>
+        <div
+          class="alert alert-danger change-password-error"
+          style="display: none"
+        ></div>
+        <input
+          type="hidden"
+          class="form-control"
+          name="userName"
+          :value="user.userName"
+          required
+        />
         <div class="form-group">
           <label>Lösenord</label>
           <input
@@ -20,45 +29,43 @@
             name="password"
             placeholder="Lösenord"
             required
-          >
+          />
         </div>
         <div class="modal-footer">
-          <button
-            type="submit"
-            class="btn btn-primary"
-          >Skapa nytt lösenord</button>
+          <button type="submit" class="btn btn-primary">
+            Skapa nytt lösenord
+          </button>
         </div>
       </form>
     </div>
   </modal>
 </template>
 <script>
-import ApiService from "../../services/apiservice";
-import Modal from "../Modal";
+import ApiService from '../../services/apiservice';
+import Modal from '../Modal.vue';
 
 export default {
-  props: ["user", "showModal"],
+  props: ['user', 'showModal'],
   components: {
-    Modal
+    Modal,
   },
   methods: {
     close() {
-      this.$emit("close");
+      this.$emit('close');
     },
     submitButton() {
       const form = $(this.$refs.changepassform);
       form.submit();
     },
     submitForm(event) {
-      const error = $(".change-password-error");
+      const error = $('.change-password-error');
       const form = $(this.$refs.changepassform);
       ApiService.defaultFormSend(form, error, null, () => {
-        this.$emit("success");
+        this.$emit('success');
         this.close();
       });
-    }
-  }
+    },
+  },
 };
 </script>
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

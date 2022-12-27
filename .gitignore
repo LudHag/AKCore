@@ -247,6 +247,7 @@ ModelManifest.xml
 .fake/
 /src/AKCore/wwwroot/js/
 /src/AKCore/wwwroot/dist/
+/src/AKCore/wwwroot/Scripts/
 /src/AKCore/wwwroot/dist/hot
 /src/AKCore/wwwroot/css/
 /src/AKCore/wwwroot/albums/

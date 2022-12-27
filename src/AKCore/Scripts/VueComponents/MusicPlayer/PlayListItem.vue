@@ -2,11 +2,14 @@
   <a
     :href="track.filepath"
     class="playlist-element"
-    :class="{'active': active, 'small': small}"
+    :class="{ active: active, small: small }"
     @click.prevent="$emit('select', track)"
   >
     <span class="name" v-html="track.name"></span>
-    <span class="glyphicon glyphicon-download" @click.prevent.stop="downloadUri"></span>
+    <span
+      class="glyphicon glyphicon-download"
+      @click.prevent.stop="downloadUri"
+    ></span>
     <span
       class="glyphicon glyphicon-plus-sign"
       v-if="!noAdd && !remove"
@@ -21,21 +24,21 @@
 </template>
 <script>
 export default {
-  props: ["track", "active", "noAdd", "small", "remove"],
+  props: ['track', 'active', 'noAdd', 'small', 'remove'],
   methods: {
     downloadUri() {
-      const link = document.createElement("a");
-      const trackPathParts = this.track.filepath.split("/");
+      const link = document.createElement('a');
+      const trackPathParts = this.track.filepath.split('/');
       link.download = trackPathParts[trackPathParts.length - 1];
       link.href = this.track.filepath;
       link.click();
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
-@import "~bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss";
-@import "../../../Styles/variables.scss";
+@import 'bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss';
+@import '../../../Styles/variables.scss';
 .playlist-element {
   display: flex;
   color: #a5a2a0;

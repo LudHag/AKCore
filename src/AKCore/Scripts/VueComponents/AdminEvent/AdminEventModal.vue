@@ -151,62 +151,62 @@
   </modal>
 </template>
 <script>
-import Constants from "../../constants";
-import Datepicker from "vuejs-datepicker";
-import ApiService from "../../services/apiservice";
-import Modal from "../Modal";
+import Constants from '../../constants';
+import Datepicker from 'vuejs-datepicker';
+import ApiService from '../../services/apiservice';
+import Modal from '../Modal.vue';
 
 export default {
-  props: ["selectedEvent", "old", "showModal"],
+  props: ['selectedEvent', 'old', 'showModal'],
   components: {
     Datepicker,
     Modal,
   },
   data() {
     return {
-      eventType: "",
+      eventType: '',
       event: null,
     };
   },
   methods: {
     close() {
-      this.$emit("close");
+      this.$emit('close');
     },
     formSubmit(event) {
-      const error = $(event.target).find(".alert-danger");
-      const success = $(".alert-success");
+      const error = $(event.target).find('.alert-danger');
+      const success = $('.alert-success');
       const self = this;
       this.event.type = this.eventType;
       this.event.day = this.event.dayDate.toUTCString();
       ApiService.postByObjectAsForm(
-        "/AdminEvent/Edit",
+        '/AdminEvent/Edit',
         this.event,
         error,
         success,
         () => {
-          self.$emit("update");
+          self.$emit('update');
         }
       );
     },
     resetEvent() {
       const today = new Date();
-      this.eventType = this.selectedEvent ? this.selectedEvent.type : "";
+      this.eventType = this.selectedEvent ? this.selectedEvent.type : '';
       this.event = this.selectedEvent
         ? Object.assign({}, this.selectedEvent)
         : {
-            type: "",
-            name: "",
-            place: "",
-            description: "",
-            internalDescription: "",
+            type: '',
+            name: '',
+            place: '',
+            description: '',
+            internalDescription: '',
             year: today.getFullYear(),
             month: today.getMonth() + 1,
             dayDate: today,
-            fika: "",
-            halanTime: "00:00",
-            thereTime: "00:00",
-            startsTime: "00:00",
-            stand: "",
+            fika: '',
+            halanTime: '00:00',
+            thereTime: '00:00',
+            startsTime: '00:00',
+            stand: '',
             secret: false,
           };
       this.event.dayDate = new Date(this.event.dayDate);
@@ -236,21 +236,21 @@ export default {
       return Constants.SEKTIONER;
     },
     spelningFest() {
-      return this.eventType === "Spelning" || this.eventType === "Fest";
+      return this.eventType === 'Spelning' || this.eventType === 'Fest';
     },
     spelningKarhus() {
       return (
-        this.eventType === "Spelning" ||
-        this.eventType === "Kårhusrep" ||
-        this.eventType === "Athenrep"
+        this.eventType === 'Spelning' ||
+        this.eventType === 'Kårhusrep' ||
+        this.eventType === 'Athenrep'
       );
     },
     repFika() {
       return (
-        this.eventType === "Rep" ||
-        this.eventType === "Kårhusrep" ||
-        this.eventType === "Athenrep" ||
-        this.eventType === "Fikarep"
+        this.eventType === 'Rep' ||
+        this.eventType === 'Kårhusrep' ||
+        this.eventType === 'Athenrep' ||
+        this.eventType === 'Fikarep'
       );
     },
   },

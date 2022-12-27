@@ -1,6 +1,11 @@
 ﻿<template>
   <div id="user-list">
-    <div class="alert alert-success update-password-success" style="display: none;">Lösenord uppdaterat</div>
+    <div
+      class="alert alert-success update-password-success"
+      style="display: none"
+    >
+      Lösenord uppdaterat
+    </div>
     <table class="table">
       <thead>
         <tr>
@@ -29,32 +34,32 @@
   </div>
 </template>
 <script>
-import UserListItem from "./UserListItem";
-import PasswordModal from "./PasswordModal";
+import UserListItem from './UserListItem.vue';
+import PasswordModal from './PasswordModal.vue';
 
 export default {
-  props: ["users"],
+  props: ['users'],
   components: {
     UserListItem,
-    PasswordModal
+    PasswordModal,
   },
   data() {
     return {
       showUpdatePasswordModal: false,
-      updatePasswordUser: null
+      updatePasswordUser: null,
     };
   },
   computed: {
     sortedUsers() {
-      return this.users.sort((a,b) => a.firstName.localeCompare(b.firstName));
-    }
+      return this.users.sort((a, b) => a.firstName.localeCompare(b.firstName));
+    },
   },
   methods: {
     updateUserProp(updateInfo) {
-      this.$emit("updateuserprop", updateInfo);
+      this.$emit('updateuserprop', updateInfo);
     },
     removeUser(userName) {
-      this.$emit("removeuser", userName);
+      this.$emit('removeuser', userName);
     },
     updatePassword(user) {
       this.showUpdatePasswordModal = true;
@@ -65,13 +70,13 @@ export default {
       this.updatePasswordUser = null;
     },
     newPasswordSuccess() {
-      $(".update-password-success").slideDown().delay(4000).slideUp();
-    }
-  }
+      $('.update-password-success').slideDown().delay(4000).slideUp();
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
-@import "../../../Styles/variables.scss";
+@import '../../../Styles/variables.scss';
 
 table {
   table-layout: auto;

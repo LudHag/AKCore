@@ -24,20 +24,20 @@
   </div>
 </template>
 <script>
-import { nameCompare } from "../../utils/functions";
-import Player from "./Player";
-import PlayListItem from "./PlayListItem";
+import { nameCompare } from '../../utils/functions';
+import Player from './Player.vue';
+import PlayListItem from './PlayListItem.vue';
 export default {
-  props: ["playList", "playing", "album"],
+  props: ['playList', 'playing', 'album'],
   components: {
     Player,
-    PlayListItem
+    PlayListItem,
   },
   data() {
     return {
       trackPlaying: null,
       reset: false,
-      replay: false
+      replay: false,
     };
   },
   computed: {
@@ -53,23 +53,23 @@ export default {
       }
       const trackKeys = Object.keys(this.album.tracks);
       return trackKeys
-        .map(key => this.album.tracks[key])
-        .map(track => ({ ...track, key: track.id }))
+        .map((key) => this.album.tracks[key])
+        .map((track) => ({ ...track, key: track.id }))
         .sort(nameCompare);
-    }
+    },
   },
   watch: {
     playList() {
       if (this.playList.length > 0 && !this.trackPlaying) {
         this.trackPlaying = this.playList[0];
-        this.$nextTick(() => this.$emit("playpause"));
+        this.$nextTick(() => this.$emit('playpause'));
       }
-    }
+    },
   },
   methods: {
     next() {
       const currentIndex = this.tracks.findIndex(
-        track => track.key === this.trackPlaying.key
+        (track) => track.key === this.trackPlaying.key
       );
       if (this.replay) {
         return this.nextIfReplay(currentIndex);
@@ -84,23 +84,23 @@ export default {
           this.trackPlaying = this.tracks[0];
           dontRemove = true;
         } else {
-          this.$emit("stop");
+          this.$emit('stop');
           this.trackPlaying = null;
         }
       } else {
         this.trackPlaying = this.tracks[currentIndex + 1];
       }
       if (this.playList.length > 0 && !dontRemove) {
-        this.$emit("remove", this.playList[0]);
+        this.$emit('remove', this.playList[0]);
       }
     },
     nextIfReplay(currentIndex) {
       if (this.playList.length === 0) {
         this.trackPlaying = this.tracks[currentIndex];
-        this.$emit("stop");
+        this.$emit('stop');
         this.reset = true;
         this.$nextTick(() => (this.reset = false));
-        this.$nextTick(() => this.$emit("playpause"));
+        this.$nextTick(() => this.$emit('playpause'));
       } else {
         if (currentIndex + 1 >= this.tracks.length) {
           this.trackPlaying = this.tracks[0];
@@ -118,22 +118,22 @@ export default {
         if (!this.playing) {
           this.reset = true;
           this.$nextTick(() => (this.reset = false));
-          this.$nextTick(() => this.$emit("playpause"));
+          this.$nextTick(() => this.$emit('playpause'));
         }
         if (this.playList.length > 0) {
           const index = this.playList.indexOf(track);
           if (!this.replay) {
-            this.$emit("remove-before", index);
+            this.$emit('remove-before', index);
           }
         }
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
-@import "~bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss";
-@import "../../../Styles/variables.scss";
+@import 'bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss';
+@import '../../../Styles/variables.scss';
 .player-module {
   flex-grow: 1;
   padding-left: 30px;
