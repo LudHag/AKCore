@@ -10,7 +10,7 @@
           <div class="col-sm-6">
             <div
               class="alert alert-danger update-user-error"
-              style="display: none;"
+              style="display: none"
             ></div>
             <div class="form-group">
               <label>Förnamn</label>
@@ -64,9 +64,9 @@
                 v-model="editedUser.instrument"
               >
                 <option value>Välj instrument</option>
-                <option :key="instr" v-for="instr in instruments">{{
-                  instr
-                }}</option>
+                <option :key="instr" v-for="instr in instruments">
+                  {{ instr }}
+                </option>
               </select>
             </div>
             <div class="form-group">
@@ -134,9 +134,9 @@
                 v-model="editedUser.medal"
               >
                 <option value>Ingen medalj</option>
-                <option :key="medal" v-for="medal in medals">{{
-                  medal
-                }}</option>
+                <option :key="medal" v-for="medal in medals">
+                  {{ medal }}
+                </option>
               </select>
             </div>
             <div class="form-group">
@@ -147,9 +147,9 @@
                 v-model="editedUser.givenMedal"
               >
                 <option value>Ingen medalj</option>
-                <option :key="medal" v-for="medal in medals">{{
-                  medal
-                }}</option>
+                <option :key="medal" v-for="medal in medals">
+                  {{ medal }}
+                </option>
               </select>
             </div>
           </div>
@@ -162,30 +162,30 @@
   </modal>
 </template>
 <script>
-import ApiService from "../../services/apiservice";
-import Modal from "../Modal";
-import Constants from "../../constants";
-import vSelect from "vue-select";
+import ApiService from '../../services/apiservice';
+import Modal from '../Modal.vue';
+import Constants from '../../constants';
+import vSelect from 'vue-select';
 
 export default {
-  props: ["user", "showModal"],
+  props: ['user', 'showModal'],
   components: {
     Modal,
-    vSelect
+    vSelect,
   },
   data() {
     return {
-      editedUser: {}
+      editedUser: {},
     };
   },
   watch: {
     showModal() {
       const newUser = this.user || {};
       if (!this.user) {
-        newUser.roles = ["Medlem"];
+        newUser.roles = ['Medlem'];
       }
       this.editedUser = Object.assign({}, newUser);
-    }
+    },
   },
   computed: {
     instruments() {
@@ -201,40 +201,40 @@ export default {
       return Constants.MEDALS;
     },
     othInstruments() {
-      return Constants.INSTRUMENTS.filter(instr => {
+      return Constants.INSTRUMENTS.filter((instr) => {
         return instr !== this.editedUser.instrument;
       });
-    }
+    },
   },
   methods: {
     close() {
-      this.$emit("close");
+      this.$emit('close');
     },
     submitForm() {
-      const error = $(".update-user-error");
+      const error = $('.update-user-error');
       if (this.user) {
         ApiService.postByObjectAsForm(
-          "/User/EditUser",
+          '/User/EditUser',
           this.editedUser,
           error,
           null,
           () => {
-            this.$emit("updated", this.editedUser);
+            this.$emit('updated', this.editedUser);
           }
         );
       } else {
         ApiService.postByObjectAsForm(
-          "/User/CreateUser",
+          '/User/CreateUser',
           this.editedUser,
           error,
           null,
           () => {
-            this.$emit("created", Object.assign({}, this.editedUser));
+            this.$emit('created', Object.assign({}, this.editedUser));
           }
         );
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss" scoped></style>

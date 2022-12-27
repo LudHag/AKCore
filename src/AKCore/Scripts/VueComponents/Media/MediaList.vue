@@ -44,66 +44,66 @@
   </div>
 </template>
 <script>
-import ApiService from "../../services/apiservice";
+import ApiService from '../../services/apiservice';
 
 export default {
-  props: ["categories"],
+  props: ['categories'],
   data() {
     return {
-      selectedCategory: "Allmän"
+      selectedCategory: 'Allmän',
     };
   },
   methods: {
     onFileDragStart(event, file) {
-      event.dataTransfer.setData("text", file.id);
-      event.dataTransfer.effectAllowed = "all";
+      event.dataTransfer.setData('text', file.id);
+      event.dataTransfer.effectAllowed = 'all';
     },
     onFileDrop(event, name) {
-      if (event.target.classList.contains("selected")) {
+      if (event.target.classList.contains('selected')) {
         return;
       }
-      event.target.classList.remove("drag");
-      const id = event.dataTransfer.getData("text");
+      event.target.classList.remove('drag');
+      const id = event.dataTransfer.getData('text');
       if (name && id) {
         ApiService.postByObjectAsForm(
-          "/Media/EditFile",
+          '/Media/EditFile',
           { Tag: name, Id: id },
           null,
           null,
-          res => {
-            this.$emit("update");
+          (res) => {
+            this.$emit('update');
           }
         );
       }
     },
     onFileDragover(event) {
-      if (event.target.classList.contains("selected")) {
-        event.dataTransfer.dropEffect = "none";
+      if (event.target.classList.contains('selected')) {
+        event.dataTransfer.dropEffect = 'none';
         return;
       }
-      event.dataTransfer.dropEffect = "move";
-      event.target.classList.add("drag");
+      event.dataTransfer.dropEffect = 'move';
+      event.target.classList.add('drag');
     },
     onFileDragleave(event) {
-      event.target.classList.remove("drag");
+      event.target.classList.remove('drag');
     },
     clickFile(file) {
-      window.open("/media/" + file.name);
+      window.open('/media/' + file.name);
     },
     remove(file) {
       if (
-        window.confirm("Är du säker på att du vill ta bort filen: " + file.name)
+        window.confirm('Är du säker på att du vill ta bort filen: ' + file.name)
       ) {
         ApiService.postByUrl(
-          "/Media/RemoveFile?filename=" + file.name,
+          '/Media/RemoveFile?filename=' + file.name,
           null,
           null,
-          res => {
-            this.$emit("update");
+          (res) => {
+            this.$emit('update');
           }
         );
       }
-    }
+    },
   },
   computed: {
     files() {
@@ -111,13 +111,13 @@ export default {
         return null;
       }
       return this.categories[this.selectedCategory];
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
-@import "~bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss";
-@import "../../../Styles/variables.scss";
+@import 'bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss';
+@import '../../../Styles/variables.scss';
 .tags {
   border: 3px solid $akred;
   padding: 8px;

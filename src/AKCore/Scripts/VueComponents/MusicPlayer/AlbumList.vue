@@ -2,24 +2,41 @@
   <div class="album-list">
     <div class="form-inline track-search">
       <div class="form-group">
-        <a v-if="searchQuery" href="#" @click.prevent="searchQuery = ''" class="show-albums">Visa album</a>
+        <a
+          v-if="searchQuery"
+          href="#"
+          @click.prevent="searchQuery = ''"
+          class="show-albums"
+          >Visa album</a
+        >
         Sök låtar:
         <input
           type="text"
           v-model="searchQuery"
           class="form-control"
           placeholder="Sök här"
-        >
+        />
       </div>
     </div>
     <div class="categories" v-if="!filteredAlbums">
-      <div class="category" v-for="category in categoryList" :key="category[0].category">
-        <h2 v-if="categoryList.length > 1">{{category[0].category}}</h2>
-        <div class="category-list" :class="{'no-cats': categoryList.length === 1}">
+      <div
+        class="category"
+        v-for="category in categoryList"
+        :key="category[0].category"
+      >
+        <h2 v-if="categoryList.length > 1">{{ category[0].category }}</h2>
+        <div
+          class="category-list"
+          :class="{ 'no-cats': categoryList.length === 1 }"
+        >
           <div class="album-element" v-for="album in category" :key="album.id">
-            <a class="album-link" href="#" @click.prevent="$emit('select', album)">
-              <img class="album-img" :src="album.image">
-              <p class="album-name">{{album.name}}</p>
+            <a
+              class="album-link"
+              href="#"
+              @click.prevent="$emit('select', album)"
+            >
+              <img class="album-img" :src="album.image" />
+              <p class="album-name">{{ album.name }}</p>
             </a>
           </div>
         </div>
@@ -27,7 +44,7 @@
     </div>
     <div class="tracks" v-if="filteredAlbums">
       <div v-for="album in filteredAlbums" :key="album.id">
-        <h2>{{album.name}}</h2>
+        <h2>{{ album.name }}</h2>
         <a
           href="#"
           class="track"
@@ -41,23 +58,23 @@
   </div>
 </template>
 <script>
-import { groupBy, nameCompare } from "../../utils/functions";
+import { groupBy, nameCompare } from '../../utils/functions';
 
 export default {
-  props: ["albums"],
+  props: ['albums'],
   data() {
     return {
       categoriesEnabled: true,
-      searchQuery: ""
+      searchQuery: '',
     };
   },
   computed: {
     categoryList() {
       const keys = Object.keys(this.albums);
       const albums = keys
-        .map(key => {
+        .map((key) => {
           return Object.assign(
-            { id: key, category: "Övrigt" },
+            { id: key, category: 'Övrigt' },
             this.albums[key]
           );
         })
@@ -65,10 +82,10 @@ export default {
       if (!this.categoriesEnabled || keys.length < 6) {
         return [albums];
       }
-      const categories = groupBy(albums, "category");
+      const categories = groupBy(albums, 'category');
       return Object.keys(categories)
         .sort()
-        .map(cat => categories[cat]);
+        .map((cat) => categories[cat]);
     },
     filteredAlbums() {
       if (!this.searchQuery) {
@@ -78,27 +95,29 @@ export default {
       let tracks = [];
       const keys = Object.keys(this.albums);
       const albums = keys
-        .map(key => {
+        .map((key) => {
           const trackKeys = Object.keys(this.albums[key].tracks);
           const filteredTracks = trackKeys
-            .map(tKey => this.albums[key].tracks[tKey])
-            .filter(track => track.name.toLowerCase().indexOf(lowerQuery) > -1);
+            .map((tKey) => this.albums[key].tracks[tKey])
+            .filter(
+              (track) => track.name.toLowerCase().indexOf(lowerQuery) > -1
+            );
           return Object.assign({}, this.albums[key], {
-            tracks: filteredTracks
+            tracks: filteredTracks,
           });
         })
-        .filter(album => album.tracks.length > 0);
+        .filter((album) => album.tracks.length > 0);
       return albums;
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
-@import "~bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss";
+@import 'bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss';
 .album-list {
-    margin-top: 10px;
-    position: relative;
-    padding-top: 20px;
+  margin-top: 10px;
+  position: relative;
+  padding-top: 20px;
 }
 .show-albums {
   margin-right: 20px;
