@@ -6,7 +6,7 @@ const init = () => {
   }
 
   const today = new Date();
-  let newYear = new Date(2022, 0, 1);
+  let newYear = new Date(2023, 0, 1);
   const msLeft = newYear - today;
   let hrLeft = msLeft / (1000 * 60 * 60);
 
