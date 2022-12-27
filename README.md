@@ -30,7 +30,7 @@ JS och scssfiler byggs med vite. Vill du lägga till en javascriptfil lägg till
 
 ## Installation
 
-För att få frontendresurser att bygga krävs NPM (Node package manager). Installera det samt ladda ner paketen som behövs med kommandot npm install (isntall fungerar också). I samband med att man kör webinstansen behöver man även köra viteservern med kommandot `npm run dev`.
+För att få frontendresurser att bygga krävs NPM (Node package manager). Installera det samt ladda ner paketen som behövs med kommandot npm install (isntall fungerar också). Vite körs av webbinstansen och bör ej köras manuellt.
 
 ## Scss
 
