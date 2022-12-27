@@ -6,7 +6,11 @@
       @searchchange="searchText = $event"
       @archivechange="archived = $event"
     ></recruits-header>
-    <recruits-list :recruits="filteredRecruits"></recruits-list>
+    <recruits-list
+      :recruits="filteredRecruits"
+      @update="updateRecruit"
+      @remove="removeRecruit"
+    ></recruits-list>
   </div>
 </template>
 <script>
@@ -36,6 +40,21 @@ export default {
     filteredRecruits() {
       return this.recruits.filter((recruit) => {
         return recruit.archived === this.archived;
+      });
+    },
+  },
+  methods: {
+    updateRecruit({ id, arch }) {
+      this.recruits = this.recruits.map((recruit) => {
+        if (recruit.id === id) {
+          recruit.archived = arch;
+        }
+        return recruit;
+      });
+    },
+    removeRecruit(id) {
+      this.recruits = this.recruits.filter((recruit) => {
+        return recruit.id !== id;
       });
     },
   },

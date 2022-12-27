@@ -13,8 +13,8 @@
       :key="recruit.id"
     >
       <div class="col-sm-2">{{ getDate(recruit) }}</div>
-      <div class="col-sm-3">{{ recruit.fname + " " + recruit.lname }}</div>
-      <div class="col-sm-2">{{ recruit.instrument }}</div>
+      <div class="col-sm-3" v-html="recruit.fname + ' ' + recruit.lname"></div>
+      <div class="col-sm-2" v-html="recruit.instrument"></div>
       <div class="col-sm-4 contact" v-html="geContactInfo(recruit)"></div>
       <div class="col-sm-1 actions">
         <a
@@ -22,13 +22,13 @@
           :title="recruit.archived ? 'Aktivera' : 'Arkivera'"
           class="archive glyphicon glyphicon-folder-open"
           :class="{ green: recruit.archived }"
-          @click="archive(recruit)"
+          @click.prevent="archive(recruit)"
         ></a>
         <a
           href="#"
           title="Ta bort"
           class="remove glyphicon glyphicon-remove"
-          @click="remove(recruit)"
+          @click.prevent="remove(recruit)"
         ></a>
       </div>
     </div>
@@ -57,10 +57,38 @@ export default {
       );
     },
     archive(recruit) {
-      console.log("archive");
+      ApiService.postByObjectAsForm(
+        "/Signup/Archive",
+        { id: recruit.id, arch: !recruit.archived },
+        null,
+        null,
+        (response) => {
+          if (response.success) {
+            this.$emit("update", { id: recruit.id, arch: !recruit.archived });
+          }
+        }
+      );
     },
     remove(recruit) {
-      console.log("remove");
+      if (
+        !window.confirm(
+          "Är du säker att du vill ta bort den här intresseanmälan?"
+        )
+      ) {
+        return;
+      }
+
+      ApiService.postByObjectAsForm(
+        "/Signup/Remove",
+        { id: recruit.id },
+        null,
+        null,
+        (response) => {
+          if (response.success) {
+            this.$emit("remove", recruit.id);
+          }
+        }
+      );
     },
   },
 };
