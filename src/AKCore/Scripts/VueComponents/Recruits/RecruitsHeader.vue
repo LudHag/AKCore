@@ -2,7 +2,7 @@
   <div class="row filters">
     <div class="col-lg-5">
       <h1>Intresseanmälningar</h1>
-      <a id="export-interested" class="btn btn-primary"> Exportera </a>
+      <a @click="$emit('export')" class="btn btn-primary"> Exportera </a>
     </div>
     <div class="col-lg-7">
       <div class="form-inline interest-filters">

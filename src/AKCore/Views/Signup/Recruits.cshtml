@@ -4,59 +4,6 @@
 
 <div id="recruits-app"></div>
 
-@*
-<div class="row filters">
-    <div class="col-lg-5">
-        <h1>Intresseanmälningar</h1>
-        <a id="export-interested" class="btn btn-primary">
-            Exportera
-        </a>
-    </div>
-    <div class="col-lg-7">
-        <div class="form-inline interest-filters">
-            <div class="form-group">
-                <input class="toggle-switch" id="archived-flip" type="checkbox">
-                <label class="toggle-switch-btn" for="archived-flip" data-tg-off="Aktiva" , data-tg-on="Arkiverade"></label>
-            </div>
-            <div class="form-group">
-                <input type="text" id="interest-search" class="form-control" placeholder="Sök här">
-            </div>
-            <div class="form-group">
-                <select class="form-control" id="select-instrument">
-                    <option value="">Sök efter instrument</option>
-                    @foreach (var i in AkInstruments.Instrument)
-                    {
-                        <option>@i</option>
-                    }
-                </select>
-            </div>
-          
-        </div>
-       
-    </div>
-</div>
-<div id="recruitList">
-
-</div>
-
-<div id="export-modal" class="modal fade">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Export</h4>
-            </div>
-                <div class="modal-body">
-                    <textarea id="export-field" class="form-control" rows="5"></textarea>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Stäng</button>
-                </div>
-
-        </div>
-    </div>
-</div>*@
-
 <script>
     var recruitList = [];
     @foreach (var recruit in Model.Recruits)
