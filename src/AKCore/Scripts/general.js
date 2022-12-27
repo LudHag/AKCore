@@ -5,44 +5,6 @@
 };
 
 $(function () {
-  // $(".account").on("click", ".login", function (e) {
-  //   e.preventDefault();
-  //   document.getElementById("loginModal").style.display = "block";
-  //   // $('#loginModal').modal('show');
-  // });
-
-  // $("#loginModal").on("shown.bs.modal", function () {
-  //   $("#username").focus();
-  // });
-
-  // $("#mobile-menu").on("click", ".login", function (e) {
-  //   e.preventDefault();
-  //   $("#loginModal").modal("show");
-  // });
-  // $("#loginForm").on("submit", function (e) {
-  //   e.preventDefault();
-  //   const form = $(this);
-  //   const success = form.find(".alert-success");
-  //   const error = form.find(".alert-danger");
-  //   $.ajax({
-  //     url: form.attr("action"),
-  //     type: "POST",
-  //     data: form.serialize(),
-  //     success: function (res) {
-  //       if (res.success) {
-  //         window.location.reload();
-  //       } else {
-  //         error.text(res.message);
-  //         error.slideDown().delay(4000).slideUp();
-  //       }
-  //     },
-  //     error: function (err) {
-  //       error.text("Misslyckades att logga in");
-  //       error.slideDown().delay(4000).slideUp();
-  //     },
-  //   });
-  // });
-
   $("#open-mobile-menu").on("click", function (e) {
     e.preventDefault();
     $("#mobile-menu").slideToggle();
