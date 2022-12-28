@@ -63,9 +63,8 @@ export default {
     submitForm(e) {
       e.preventDefault();
       const form = $(e.target);
-      const success = form.find(".alert-success");
       const error = form.find(".alert-danger");
-      ApiService.defaultFormSend(form, error, success, () => {
+      ApiService.defaultFormSend(form, error, null, () => {
         window.location.reload();
       });
     },
