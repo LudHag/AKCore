@@ -13,20 +13,22 @@
       @remove="removeRecruit"
     ></recruits-list>
     <modal :show-modal="showModal" header="Export" @close="close">
-      <div slot="body">
-        <div class="modal-body">
-          <textarea
-            class="form-control"
-            rows="5"
-            v-html="exportedText"
-          ></textarea>
+      <template v-slot:body>
+        <div>
+          <div class="modal-body">
+            <textarea
+              class="form-control"
+              rows="5"
+              v-html="exportedText"
+            ></textarea>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" @click="close">
+              Stäng
+            </button>
+          </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" @click="close">
-            Stäng
-          </button>
-        </div>
-      </div>
+      </template>
     </modal>
   </div>
 </template>

@@ -1,11 +1,8 @@
-﻿import Vue from "vue/dist/vue.esm.js";
+﻿import { createApp } from "vue";
 import VideoBar from "./VueComponents/VideoBar.vue";
 import MembersList from "./VueComponents/MembersList.vue";
 import ProfileApp from "./VueComponents/ProfileApp.vue";
 import UpcomingApp from "./VueComponents/Upcoming/UpcomingApp.vue";
-import AdminEventApp from "./VueComponents/AdminEvent/AdminEventApp.vue";
-import AlbumEditApp from "./VueComponents/AlbumEdit/AlbumEditApp.vue";
-import MenuEditApp from "./VueComponents/MenuEdit/MenuEditApp.vue";
 import MediaApp from "./VueComponents/Media/MediaApp.vue";
 import MusicApp from "./VueComponents/MusicPlayer/MusicApp.vue";
 import MailBoxApp from "./VueComponents/MailBox/MailBoxApp.vue";
@@ -13,98 +10,39 @@ import LoginApp from "./VueComponents/Login/LoginApp.vue";
 
 $(".videos-app").each(function () {
   const widgetId = $(this).data("id");
-  const videoApp = new Vue({
-    el: `#videos-app-${widgetId}`,
-    data: {
-      videos: videos[widgetId],
-    },
-    template: "<video-bar :videos='videos' />",
-    components: { VideoBar },
-  });
+  createApp(VideoBar, { videos: videos[widgetId] }).mount(
+    `#videos-app-${widgetId}`
+  );
 });
 
 if ($("#search-widget").length > 0) {
-  const searchApp = new Vue({
-    el: `#search-widget`,
-    data: {
-      members: memberList,
-      instruments,
-    },
-    template: "<members-list :members='members' :instruments='instruments' />",
-    components: { MembersList },
-  });
+  createApp(MembersList, {
+    members: memberList,
+    instruments: instruments,
+  }).mount("#search-widget");
 }
 if ($("#upcoming-app").length > 0) {
-  const upcomingApp = new Vue({
-    el: `#upcoming-app`,
-    data: {
-      eventId,
-    },
-    template: "<upcoming-app :event-id='eventId' />",
-    components: { UpcomingApp },
-  });
+  createApp(UpcomingApp, {
+    "event-id": eventId,
+  }).mount("#upcoming-app");
 }
 
 if ($("#profile-app").length > 0) {
-  const profileApp = new Vue({
-    el: `#profile-app`,
-    template: "<profile-app />",
-    components: { ProfileApp },
-  });
-}
-
-if ($("#admin-event-app").length > 0) {
-  const adminEventApp = new Vue({
-    el: `#admin-event-app`,
-    template: "<admin-event-app />",
-    components: { AdminEventApp },
-  });
-}
-
-if ($("#album-edit-app").length > 0) {
-  const albumEdit = new Vue({
-    el: `#album-edit-app`,
-    template: "<album-edit-app />",
-    components: { AlbumEditApp },
-  });
-}
-
-if ($("#menu-edit-app").length > 0) {
-  const menuEdit = new Vue({
-    el: `#menu-edit-app`,
-    template: "<menu-edit-app />",
-    components: { MenuEditApp },
-  });
+  createApp(ProfileApp).mount("#profile-app");
 }
 
 if ($("#media-app").length > 0) {
-  const mediaApp = new Vue({
-    el: `#media-app`,
-    template: "<media-app />",
-    components: { MediaApp },
-  });
+  createApp(MediaApp).mount("#media-app");
 }
 
 if ($("#music-app").length > 0) {
-  const musicPlayer = new Vue({
-    el: `#music-app`,
-    template: "<music-app />",
-    components: { MusicApp },
-  });
+  createApp(MusicApp).mount("#music-app");
 }
 
 if ($("#mailbox").length > 0) {
-  const mailbox = new Vue({
-    el: `#mailbox`,
-    template: "<mail-box-app />",
-    components: { MailBoxApp },
-  });
+  createApp(MailBoxApp).mount("#mailbox");
 }
 
 if ($("#loginapp").length > 0) {
-  const loginapp = new Vue({
-    el: `#loginapp`,
-    template: "<login-app />",
-    components: { LoginApp },
-  });
+  createApp(LoginApp).mount("#loginapp");
 }

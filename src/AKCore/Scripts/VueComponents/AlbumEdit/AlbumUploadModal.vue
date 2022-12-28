@@ -1,30 +1,34 @@
 ﻿<template>
   <modal :show-modal="album" :header="header" @close="close">
-    <div slot="body" class="modal-body" v-if="album">
-      <file-uploader :button-text="'Ladda upp spår'" @upload="uploadFiles">
-        <div slot="content" class="tracks">
-          <div
-            class="alert alert-danger"
-            ref="error"
-            style="display: none"
-          ></div>
-          <album-upload-track-item
-            :track="track"
-            v-for="track in orderedTracks"
-            :key="track.id"
-            @update="update"
-            @remove="removeTrack"
-          ></album-upload-track-item>
-        </div>
-      </file-uploader>
-    </div>
+    <template v-slot:body>
+      <div class="modal-body" v-if="album">
+        <file-uploader :button-text="'Ladda upp spår'" @upload="uploadFiles">
+          <template v-slot:content>
+            <div class="tracks">
+              <div
+                class="alert alert-danger"
+                ref="error"
+                style="display: none"
+              ></div>
+              <album-upload-track-item
+                :track="track"
+                v-for="track in orderedTracks"
+                :key="track.id"
+                @update="update"
+                @remove="removeTrack"
+              ></album-upload-track-item>
+            </div>
+          </template>
+        </file-uploader>
+      </div>
+    </template>
   </modal>
 </template>
 <script>
-import Modal from '../Modal.vue';
-import FileUploader from '../FileUploader.vue';
-import AlbumUploadTrackItem from './AlbumUploadTrackItem.vue';
-import ApiService from '../../services/apiservice';
+import Modal from "../Modal.vue";
+import FileUploader from "../FileUploader.vue";
+import AlbumUploadTrackItem from "./AlbumUploadTrackItem.vue";
+import ApiService from "../../services/apiservice";
 
 export default {
   components: {
@@ -32,10 +36,10 @@ export default {
     FileUploader,
     AlbumUploadTrackItem,
   },
-  props: ['album'],
+  props: ["album"],
   computed: {
     header() {
-      return this.album ? this.album.name : '';
+      return this.album ? this.album.name : "";
     },
     orderedTracks() {
       if (!this.album || !this.album.tracks) {
@@ -50,39 +54,39 @@ export default {
   },
   methods: {
     close() {
-      this.$emit('close');
+      this.$emit("close");
     },
     uploadFiles(files) {
       const mediaData = new FormData();
       for (var i = 0; i < files.length; i++) {
-        mediaData.append('TrackFiles', files[i]);
+        mediaData.append("TrackFiles", files[i]);
       }
-      mediaData.append('AlbumId', this.album.id);
+      mediaData.append("AlbumId", this.album.id);
       const error = $(this.$refs.error);
       ApiService.postFormData(
-        '/AlbumEdit/UploadTracks/',
+        "/AlbumEdit/UploadTracks/",
         mediaData,
         error,
         null,
         () => {
-          this.$emit('update');
+          this.$emit("update");
         }
       );
     },
     removeTrack(id) {
       const error = $(this.$refs.error);
       ApiService.postByObjectAsForm(
-        '/AlbumEdit/DeleteTrack',
+        "/AlbumEdit/DeleteTrack",
         { id, album: this.album.id },
         error,
         null,
         () => {
-          this.$emit('update');
+          this.$emit("update");
         }
       );
     },
     update() {
-      this.$emit('update');
+      this.$emit("update");
     },
   },
 };

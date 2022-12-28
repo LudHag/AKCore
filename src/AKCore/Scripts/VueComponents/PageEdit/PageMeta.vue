@@ -9,7 +9,7 @@
           required="required"
           name="Name"
           placeholder="Namn"
-          v-model="value.name"
+          v-model="modelValue.name"
         />
       </div>
       <div class="form-group">
@@ -20,7 +20,7 @@
           required="required"
           name="Slug"
           placeholder="Sidlänk"
-          v-model="value.slug"
+          v-model="modelValue.slug"
         />
       </div>
     </div>
@@ -29,13 +29,21 @@
         <label for="slug">Inställningar</label>
         <div class="checkbox">
           <label>
-            <input type="checkbox" name="LoggedIn" v-model="value.loggedIn" />
+            <input
+              type="checkbox"
+              name="LoggedIn"
+              v-model="modelValue.loggedIn"
+            />
             Kräver inloggning
           </label>
         </div>
         <div class="checkbox">
           <label>
-            <input type="checkbox" name="LoggedOut" v-model="value.loggedOut" />
+            <input
+              type="checkbox"
+              name="LoggedOut"
+              v-model="modelValue.loggedOut"
+            />
             Enbart utloggade
           </label>
         </div>
@@ -44,21 +52,19 @@
             <input
               type="checkbox"
               name="BalettOnly"
-              v-model="value.balettOnly"
+              v-model="modelValue.balettOnly"
             />
             För baletten
           </label>
         </div>
       </div>
-      <button type="submit" class="btn btn-default">
-        Spara
-      </button>
+      <button type="submit" class="btn btn-default">Spara</button>
     </div>
   </div>
 </template>
 <script>
 export default {
-  props: ["value"]
+  props: ["modelValue"],
 };
 </script>
 <style lang="scss"></style>

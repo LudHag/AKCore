@@ -1,7 +1,7 @@
 <template>
-  <li class="row widget" :class="value.type">
+  <li class="row widget" :class="modelValue.type">
     <div class="widget-header">
-      <h4>{{ getHeader(value.type) }}</h4>
+      <h4>{{ getHeader(modelValue.type) }}</h4>
       <span
         class="btn min-widget glyphicon glyphicon-minus"
         @click="minimize"
@@ -14,32 +14,52 @@
     <div class="widget-body row" v-if="!minimized">
       <div class="col-xs-12">
         <header-text
-          v-if="value.type === 'HeaderText'"
-          v-model="value"
+          v-if="modelValue.type === 'HeaderText'"
+          value="value"
         ></header-text>
-        <hire v-if="value.type === 'Hire'" v-model="value"></hire>
+        <hire
+          v-if="modelValue.type === 'Hire'"
+          :modelValue="modelValue"
+          @update:modelValue="modelValue = $event"
+        ></hire>
         <image-widget
-          v-if="value.type === 'Image'"
-          v-model="value"
+          v-if="modelValue.type === 'Image'"
+          :modelValue="modelValue"
+          @update:modelValue="modelValue = $event"
         ></image-widget>
-        <join v-if="value.type === 'Join'" v-model="value"></join>
-        <member-list v-if="value.type === 'MemberList'"></member-list>
+        <join
+          v-if="modelValue.type === 'Join'"
+          :modelValue="modelValue"
+          @update:modelValue="modelValue = $event"
+        ></join>
+        <member-list v-if="modelValue.type === 'MemberList'"></member-list>
         <music
-          v-if="value.type === 'Music'"
-          v-model="value"
+          v-if="modelValue.type === 'Music'"
+          :modelValue="modelValue"
+          @update:modelValue="modelValue = $event"
           :albums="albums"
         ></music>
-        <post-list v-if="value.type === 'PostList'"></post-list>
-        <text-widget v-if="value.type === 'Text'" v-model="value"></text-widget>
+        <post-list v-if="modelValue.type === 'PostList'"></post-list>
+        <text-widget
+          v-if="modelValue.type === 'Text'"
+          :modelValue="modelValue"
+          @update:modelValue="modelValue = $event"
+        ></text-widget>
         <text-image
-          v-if="value.type === 'TextImage'"
-          v-model="value"
+          v-if="modelValue.type === 'TextImage'"
+          :modelValue="modelValue"
+          @update:modelValue="modelValue = $event"
         ></text-image>
-        <three-puffs v-if="value.type === 'ThreePuffs'" v-model="value">
+        <three-puffs
+          v-if="modelValue.type === 'ThreePuffs'"
+          :modelValue="modelValue"
+          @update:modelValue="modelValue = $event"
+        >
         </three-puffs>
         <video-widget
-          v-if="value.type === 'Video'"
-          v-model="value"
+          v-if="modelValue.type === 'Video'"
+          :modelValue="modelValue"
+          @update:modelValue="modelValue = $event"
         ></video-widget>
       </div>
     </div>
@@ -58,7 +78,7 @@ import {
   ImageWidget,
   Music,
   VideoWidget,
-  PostList
+  PostList,
 } from "./Widgets/widgets";
 
 export default {
@@ -73,12 +93,12 @@ export default {
     ImageWidget,
     Music,
     VideoWidget,
-    PostList
+    PostList,
   },
-  props: ["value", "albums"],
+  props: ["modelValue", "albums"],
   data() {
     return {
-      minimized: false
+      minimized: false,
     };
   },
   updated() {
@@ -93,8 +113,8 @@ export default {
       if (window.confirm("Är du säker att du vill ta bort den här widgeten?")) {
         this.$emit("remove");
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>

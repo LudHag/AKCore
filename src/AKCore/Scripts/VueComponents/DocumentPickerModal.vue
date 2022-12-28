@@ -5,37 +5,39 @@
     :notransition="notransition"
     @close="close"
   >
-    <div slot="body" class="modal-body">
-      <form class="form-inline ak-search" @submit.prevent>
-        <div class="form-group">
-          <input type="text" class="form-control" v-model="search" />
-        </div>
-      </form>
-      <div class="gallery document-list">
-        <a
-          class="document-item"
-          v-for="doc in shownDocuments"
-          :key="doc.id"
-          @click.prevent="selectDocument(doc)"
-        >
-          {{ doc.name }}
-        </a>
-        <ul class="pagination">
-          <li
-            v-bind:class="{ active: page + 1 === n }"
-            v-for="n in pagesLength"
-            :key="n"
+    <template v-slot:body>
+      <div class="modal-body">
+        <form class="form-inline ak-search" @submit.prevent>
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="search" />
+          </div>
+        </form>
+        <div class="gallery document-list">
+          <a
+            class="document-item"
+            v-for="doc in shownDocuments"
+            :key="doc.id"
+            @click.prevent="selectDocument(doc)"
           >
-            <a href="#" @click.prevent="toPage(n - 1)">{{ n }}</a>
-          </li>
-        </ul>
+            {{ doc.name }}
+          </a>
+          <ul class="pagination">
+            <li
+              v-bind:class="{ active: page + 1 === n }"
+              v-for="n in pagesLength"
+              :key="n"
+            >
+              <a href="#" @click.prevent="toPage(n - 1)">{{ n }}</a>
+            </li>
+          </ul>
+        </div>
       </div>
-    </div>
+    </template>
   </modal>
 </template>
 <script>
-import Modal from './Modal.vue';
-import ApiService from '../services/apiservice';
+import Modal from "./Modal.vue";
+import ApiService from "../services/apiservice";
 
 export default {
   components: {
@@ -45,26 +47,26 @@ export default {
     return {
       documents: [],
       page: 0,
-      type: '',
-      search: '',
+      type: "",
+      search: "",
     };
   },
-  props: ['showModal', 'notransition', 'destination'],
+  props: ["showModal", "notransition", "destination"],
   methods: {
     close() {
-      this.$emit('close');
+      this.$emit("close");
     },
     loadDocuments() {
-      ApiService.get('/Media/DocumentListData', null, (res) => {
+      ApiService.get("/Media/DocumentListData", null, (res) => {
         this.documents = res;
       });
     },
     selectDocument(document) {
       if (this.destination) {
-        this.destination.val('/media/' + document.name);
-        this.$emit('close');
+        this.destination.val("/media/" + document.name);
+        this.$emit("close");
       } else {
-        this.$emit('document', document);
+        this.$emit("document", document);
       }
     },
     toPage(n) {
