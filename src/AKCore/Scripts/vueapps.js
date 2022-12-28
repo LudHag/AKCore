@@ -1,7 +1,7 @@
 ﻿import { createApp } from "vue";
 import VideoBar from "./VueComponents/VideoBar.vue";
 import MembersList from "./VueComponents/MembersList.vue";
-// import ProfileApp from "./VueComponents/ProfileApp.vue";
+import ProfileApp from "./VueComponents/ProfileApp.vue";
 import UpcomingApp from "./VueComponents/Upcoming/UpcomingApp.vue";
 // import AdminEventApp from "./VueComponents/AdminEvent/AdminEventApp.vue";
 import AlbumEditApp from "./VueComponents/AlbumEdit/AlbumEditApp.vue";
@@ -30,9 +30,9 @@ if ($("#upcoming-app").length > 0) {
   }).mount("#upcoming-app");
 }
 
-// if ($("#profile-app").length > 0) {
-//   createApp(ProfileApp).mount("#profile-app");
-// }
+if ($("#profile-app").length > 0) {
+  createApp(ProfileApp).mount("#profile-app");
+}
 
 // if ($("#admin-event-app").length > 0) {
 //   createApp(AdminEventApp).mount("#admin-event-app");
