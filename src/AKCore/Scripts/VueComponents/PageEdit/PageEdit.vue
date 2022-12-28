@@ -11,7 +11,7 @@
         </div>
         <page-meta v-model="usedModel"></page-meta>
         <page-versions
-          :value="pageModel"
+          :modelValue="pageModel"
           :selectedRevision="selectedRevision"
           @select="selectRevision"
         ></page-versions>

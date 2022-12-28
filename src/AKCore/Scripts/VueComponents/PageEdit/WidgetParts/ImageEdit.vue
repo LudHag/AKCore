@@ -29,7 +29,7 @@ export default {
   },
   methods: {
     selectImage(image) {
-      this.$emit("input", "/media/" + image.name);
+      this.$emit("update:modelValue", "/media/" + image.name);
       this.showModal = false;
     },
   },

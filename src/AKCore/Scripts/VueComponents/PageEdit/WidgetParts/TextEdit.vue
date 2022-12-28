@@ -31,7 +31,7 @@ export default {
     update(event) {
       const editorId = this.getEdId();
       if (editorId === event.id) {
-        this.$emit("input", event.content);
+        this.$emit("update:modelValue", event.content);
       }
     },
   },
