@@ -1,13 +1,11 @@
 ﻿<template>
   <div class="row">
     <div class="col-xs-12">
-      <div class="dropdown">
+      <div class="dropdown dropdown-normal" :class="{ open: widgetExanded }">
         <button
           class="btn btn-default"
           type="button"
-          data-toggle="dropdown"
-          aria-haspopup="true"
-          aria-expanded="true"
+          @click.prevent="widgetExanded = !widgetExanded"
         >
           Lägg till widget
           <span class="caret"></span>
@@ -66,13 +64,14 @@
           </li>
         </ul>
       </div>
-      <div class="dropdown">
+      <div
+        class="dropdown dropdown-special"
+        :class="{ open: specialWidgetExpanded }"
+      >
         <button
           class="btn btn-default"
           type="button"
-          data-toggle="dropdown"
-          aria-haspopup="true"
-          aria-expanded="true"
+          @click.prevent="specialWidgetExpanded = !specialWidgetExpanded"
         >
           Lägg till specialwidget
           <span class="caret"></span>
@@ -110,10 +109,28 @@
 </template>
 <script>
 export default {
+  data() {
+    return {
+      widgetExanded: false,
+      specialWidgetExpanded: false,
+    };
+  },
   methods: {
     click(type) {
       this.$emit("add", type);
+      this.specialWidgetExpanded = false;
+      this.widgetExanded = false;
     },
+  },
+  created() {
+    document.addEventListener("click", (e) => {
+      if (!e.target.closest(".dropdown-normal")) {
+        this.widgetExanded = false;
+      }
+      if (!e.target.closest(".dropdown-special")) {
+        this.specialWidgetExpanded = false;
+      }
+    });
   },
 };
 </script>
