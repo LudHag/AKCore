@@ -22,6 +22,11 @@
     }
 </script>
 
+@section styles {
+    <environment exclude="Development">
+        <link rel="stylesheet" href="/dist/admin.css" asp-append-version="true">
+    </environment>
+}
 
 @section scripts {
     <environment exclude="Development">
