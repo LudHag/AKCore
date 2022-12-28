@@ -1,18 +1,18 @@
-﻿import Vue from 'vue/dist/vue.esm.js';
-import UsersApp from '../VueComponents/Users/UsersApp.vue';
+﻿import Vue from "vue/dist/vue.esm.js";
+import UsersApp from "../VueComponents/Users/UsersApp.vue";
 
-const usercontainer = $('#user-container');
+const usercontainer = $("#user-container");
 if (usercontainer.length > 0) {
   let usersApp = new Vue({
     el: `#user-app`,
-    template: '<users-app />',
+    template: "<users-app />",
     components: { UsersApp },
   });
-  Vue.directive('tooltip', function (el, binding) {
-    $(el).tooltip({
-      title: binding.value,
-      placement: binding.arg,
-      trigger: 'hover',
-    });
-  });
+  // Vue.directive('tooltip', function (el, binding) {
+  //   $(el).tooltip({
+  //     title: binding.value,
+  //     placement: binding.arg,
+  //     trigger: 'hover',
+  //   });
+  // });
 }

@@ -7,8 +7,8 @@
         <span
           v-for="role in user.roles"
           :key="role"
-          class="role"
-          v-tooltip:top="roleInfo(role)"
+          class="role hover-tooltip"
+          :data-tooltip="roleInfo(role)"
         >
           {{ role }}
           <a
@@ -70,8 +70,9 @@
                         v-for="medal in medals"
                         :key="medal"
                         :value="medal"
-                        >{{ medal }}</option
                       >
+                        {{ medal }}
+                      </option>
                     </select>
                   </div>
                   <div class="form-group">
@@ -105,8 +106,9 @@
                         v-for="medal in medals"
                         :key="medal"
                         :value="medal"
-                        >{{ medal }}</option
                       >
+                        {{ medal }}
+                      </option>
                     </select>
                   </div>
                   <div class="form-group">
@@ -126,14 +128,16 @@
             <div class="col-sm-6">
               <p>
                 Ändra användarinställningar:
-                <i
-                  class="fa fa-question-circle roles-info"
-                  data-html="true"
-                  v-tooltip:top="
-                    'Supernintendo: Full access <br>Editor: Kan redigera sidor, filer, album samt se intresseanmlningar<br>Medlem: Kan anmäla sig till spelningar samt redigera sin info<br>Balett: Kan se balettsidor'
-                  "
-                  aria-hidden="true"
-                ></i>
+                <span
+                  class="hover-tooltip"
+                  data-tooltip="Supernintendo: Full access Editor: Kan redigera sidor, filer, album samt se intresseanmlningar Medlem: Kan anmäla sig till spelningar samt redigera sin info Balett: Kan se balettsidor"
+                >
+                  <i
+                    class="fa fa-question-circle roles-info"
+                    data-html="true"
+                    aria-hidden="true"
+                  ></i>
+                </span>
               </p>
               <div class="edit-group">
                 <form
@@ -151,9 +155,9 @@
                     <label>Lägg till roll: </label>
                     <select class="form-control input-sm" name="Role">
                       <option value="">Välj roll</option>
-                      <option v-for="role in roles" :key="role" :value="role">{{
-                        role
-                      }}</option>
+                      <option v-for="role in roles" :key="role" :value="role">
+                        {{ role }}
+                      </option>
                     </select>
                   </div>
                   <div class="form-group">
@@ -214,12 +218,12 @@ import ApiService from "../../services/apiservice";
 export default {
   props: ["user"],
   components: {
-    vSelect
+    vSelect,
   },
   data() {
     return {
       expanded: false,
-      selectedPosts: []
+      selectedPosts: [],
     };
   },
   watch: {
@@ -232,7 +236,7 @@ export default {
       if (val && this.user && this.user.posts) {
         this.selectedPosts = this.user.posts.slice();
       }
-    }
+    },
   },
   methods: {
     roleInfo(role) {
@@ -270,7 +274,7 @@ export default {
         this.$emit("updateuserprop", {
           userName: this.user.userName,
           prop: "medal",
-          value: event.target.elements.medal.value
+          value: event.target.elements.medal.value,
         });
       });
     },
@@ -282,7 +286,7 @@ export default {
         this.$emit("updateuserprop", {
           userName: this.user.userName,
           prop: "givenMedal",
-          value: event.target.elements.medal.value
+          value: event.target.elements.medal.value,
         });
       });
     },
@@ -304,7 +308,7 @@ export default {
           this.$emit("updateuserprop", {
             userName: this.user.userName,
             prop: "roles",
-            value: newRoles
+            value: newRoles,
           });
         }
       );
@@ -324,7 +328,7 @@ export default {
         this.$emit("updateuserprop", {
           userName: this.user.userName,
           prop: "roles",
-          value: newRoles
+          value: newRoles,
         });
       });
     },
@@ -336,7 +340,7 @@ export default {
       const success = $($(".alert-success")[0]);
       const postObj = {
         post: this.selectedPosts,
-        userName: this.user.userName
+        userName: this.user.userName,
       };
       ApiService.postByObjectAsForm(
         "/User/AddPost",
@@ -347,28 +351,28 @@ export default {
           this.$emit("updateuserprop", {
             userName: this.user.userName,
             prop: "posts",
-            value: this.selectedPosts.slice()
+            value: this.selectedPosts.slice(),
           });
         }
       );
     },
     clearPosts() {
       this.selectedPosts = [];
-    }
+    },
   },
   computed: {
     medals() {
       return Constants.MEDALS;
     },
     roles() {
-      return Constants.ROLES.filter(role => {
+      return Constants.ROLES.filter((role) => {
         return this.user.roles.indexOf(role) == -1;
       });
     },
     posts() {
       return Constants.POSTS;
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
@@ -387,5 +391,35 @@ export default {
 }
 .item-actions {
   text-align: right;
+}
+
+.hover-tooltip {
+  position: relative;
+  display: inline-block;
+  cursor: default;
+  line-height: 1.2em;
+}
+
+.hover-tooltip:hover {
+  &:before {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 35px;
+    left: 0;
+    width: 255px;
+    background: $akwhite;
+    color: #555555;
+    padding: 5px;
+    border-radius: 5px;
+    z-index: 100;
+  }
+  &:after {
+    content: "";
+    position: absolute;
+    left: 5px;
+    bottom: 15px;
+    border: 10px solid $akwhite;
+    border-color: $akwhite transparent transparent transparent;
+  }
 }
 </style>
