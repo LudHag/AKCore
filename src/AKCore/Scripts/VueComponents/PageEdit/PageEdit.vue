@@ -24,16 +24,17 @@
         @start="drag = true"
         @end="drag = false"
         handle=".widget-header"
+        item-key="id"
       >
-        <widget
-          v-for="widget in usedModel.widgets"
-          :value="widget"
-          :key="widget.id"
-          :albums="pageModel.albums"
-          @updated="loadTiny"
-          @remove="removeWidget(widget)"
-        >
-        </widget>
+        <template #item="{ element }">
+          <widget
+            :modelValue="element"
+            :albums="pageModel.albums"
+            @updated="loadTiny"
+            @remove="removeWidget(element)"
+          >
+          </widget>
+        </template>
       </draggable>
     </ul>
     <image-picker-modal
@@ -54,15 +55,15 @@
   </div>
 </template>
 <script>
-import PageMeta from './PageMeta.vue';
-import AddWidget from './AddWidget.vue';
-import Widget from './Widget.vue';
-import ApiService from '../../services/apiservice';
-import { tinyMceOpts } from './functions';
-import ImagePickerModal from '../ImagePickerModal.vue';
-import DocumentPickerModal from '../DocumentPickerModal.vue';
-import draggable from 'vuedraggable';
-import PageVersions from './PageVersions.vue';
+import PageMeta from "./PageMeta.vue";
+import AddWidget from "./AddWidget.vue";
+import Widget from "./Widget.vue";
+import ApiService from "../../services/apiservice";
+import { tinyMceOpts } from "./functions";
+import ImagePickerModal from "../ImagePickerModal.vue";
+import DocumentPickerModal from "../DocumentPickerModal.vue";
+import draggable from "vuedraggable";
+import PageVersions from "./PageVersions.vue";
 
 export default {
   components: {
@@ -87,18 +88,18 @@ export default {
   created() {
     const self = this;
     $.ajax({
-      url: window.location.href + '/Model',
-      type: 'GET',
+      url: window.location.href + "/Model",
+      type: "GET",
       success: function (res) {
         self.pageModel = res;
         self.usedModel = self.pageModel;
       },
     });
     document.addEventListener(
-      'keydown',
+      "keydown",
       (e) => {
         if (
-          (window.navigator.platform.match('Mac') ? e.metaKey : e.ctrlKey) &&
+          (window.navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey) &&
           e.keyCode == 83
         ) {
           e.preventDefault();
@@ -113,13 +114,13 @@ export default {
   },
   watch: {
     drag(value) {
-      Array.from(document.querySelectorAll('.mce-content'))
+      Array.from(document.querySelectorAll(".mce-content"))
         .map((x) => x.id)
         .forEach((id) => {
           if (value) {
-            tinymce.execCommand('mceRemoveEditor', false, id);
+            tinymce.execCommand("mceRemoveEditor", false, id);
           } else {
-            tinymce.execCommand('mceAddEditor', true, id);
+            tinymce.execCommand("mceAddEditor", true, id);
           }
         });
     },
@@ -161,15 +162,15 @@ export default {
       if (this.selectedRevision) {
         if (
           !window.confirm(
-            'Är du säker på att du vill ersätta sidan med denna version?'
+            "Är du säker på att du vill ersätta sidan med denna version?"
           )
         ) {
           return;
         }
       }
       const self = this;
-      const success = $('.alert-success');
-      const error = $('.alert-danger');
+      const success = $(".alert-success");
+      const error = $(".alert-danger");
       ApiService.postByObject(
         window.location.href,
         this.usedModel,

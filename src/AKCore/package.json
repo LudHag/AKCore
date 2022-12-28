@@ -26,6 +26,7 @@
     "bootstrap-sass": "^3.4.3",
     "vue": "^3.2.45",
     "vue-select": "^4.0.0-beta.6",
-    "vue3-datepicker": "^0.3.4"
+    "vue3-datepicker": "^0.3.4",
+    "vuedraggable": "^4.1.0"
   }
 }

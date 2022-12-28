@@ -1,25 +1,25 @@
 <template>
   <div :class="fullwidth ? 'col-sm-12' : 'col-sm-6'">
-    <textarea ref="editor" class="mce-content" v-html="value"></textarea>
+    <textarea ref="editor" class="mce-content" v-html="modelValue"></textarea>
   </div>
 </template>
 <script>
 import { EventBus } from "../../../utils/eventbus";
 export default {
-  props: ["value", "fullwidth"],
+  props: ["modelValue", "fullwidth"],
   data() {
     return {
-      editorId: null
+      editorId: null,
     };
   },
   mounted() {
-    EventBus.$on("editor-updated", this.update);
+    EventBus.on("editor-updated", this.update);
   },
   beforeDestroy() {
-    EventBus.$off("editor-updated", this.update);
+    EventBus.off("editor-updated", this.update);
   },
   updated() {
-    tinymce.get(this.getEdId()).setContent(this.value);
+    tinymce.get(this.getEdId()).setContent(this.modelValue);
   },
   methods: {
     getEdId() {
@@ -33,8 +33,8 @@ export default {
       if (editorId === event.id) {
         this.$emit("input", event.content);
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss" scoped></style>

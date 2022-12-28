@@ -3,9 +3,6 @@ import VideoBar from "./VueComponents/VideoBar.vue";
 import MembersList from "./VueComponents/MembersList.vue";
 import ProfileApp from "./VueComponents/ProfileApp.vue";
 import UpcomingApp from "./VueComponents/Upcoming/UpcomingApp.vue";
-import AdminEventApp from "./VueComponents/AdminEvent/AdminEventApp.vue";
-import AlbumEditApp from "./VueComponents/AlbumEdit/AlbumEditApp.vue";
-import MenuEditApp from "./VueComponents/MenuEdit/MenuEditApp.vue";
 import MediaApp from "./VueComponents/Media/MediaApp.vue";
 import MusicApp from "./VueComponents/MusicPlayer/MusicApp.vue";
 import MailBoxApp from "./VueComponents/MailBox/MailBoxApp.vue";
@@ -32,18 +29,6 @@ if ($("#upcoming-app").length > 0) {
 
 if ($("#profile-app").length > 0) {
   createApp(ProfileApp).mount("#profile-app");
-}
-
-if ($("#admin-event-app").length > 0) {
-  createApp(AdminEventApp).mount("#admin-event-app");
-}
-
-if ($("#album-edit-app").length > 0) {
-  createApp(AlbumEditApp).mount("#album-edit-app");
-}
-
-if ($("#menu-edit-app").length > 0) {
-  createApp(MenuEditApp).mount("#menu-edit-app");
 }
 
 if ($("#media-app").length > 0) {
