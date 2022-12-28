@@ -32,7 +32,7 @@ export const tinyMceOpts = (imageCallback, fileCallback) => ({
   setup: function (ed) {
     ed.on("change", function (e) {
       const elcontent = ed.getContent();
-      EventBus.$emit("editor-updated", { id: ed.id, content: elcontent });
+      EventBus.trigger("editor-updated", { id: ed.id, content: elcontent });
     });
   },
   file_browser_callback: function (field_name, url, type, win) {

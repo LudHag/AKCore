@@ -1,7 +1,7 @@
 ﻿<template>
   <div
     class="col-md-3 revisions hidden-xs"
-    v-if="value.revisions && value.revisions.length"
+    v-if="modelValue.revisions && modelValue.revisions.length"
   >
     <br class="visible-sm" />
     <h2>Versioner</h2>
@@ -12,7 +12,7 @@
       :class="{
         selected: selectedRevision && revision.id === selectedRevision.id,
       }"
-      v-for="revision in value.revisions"
+      v-for="revision in modelValue.revisions"
       :key="revision.id"
     >
       {{ revision.modified }} -
@@ -29,7 +29,7 @@
 </template>
 <script>
 export default {
-  props: ["value", "selectedRevision"],
+  props: ["modelValue", "selectedRevision"],
   methods: {
     selectRevision(revision) {
       this.$emit("select", revision);

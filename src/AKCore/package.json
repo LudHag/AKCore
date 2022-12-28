@@ -17,16 +17,16 @@
     ]
   },
   "devDependencies": {
+    "@vitejs/plugin-vue": "^4.0.0",
     "cross-env": "^7.0.3",
-    "@vitejs/plugin-vue2": "^2.2.0",
     "sass": "^1.57.1",
     "vite": "^4.0.0"
   },
   "dependencies": {
     "bootstrap-sass": "^3.4.3",
-    "vue": "^2.7.14",
-    "vue-select": "^3.20.0",
-    "vuedraggable": "^2.24.3",
-    "vuejs-datepicker": "^1.6.2"
+    "vue": "^3.2.45",
+    "vue-select": "^4.0.0-beta.6",
+    "vue3-datepicker": "^0.3.4",
+    "vuedraggable": "^4.1.0"
   }
 }
