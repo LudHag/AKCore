@@ -3,7 +3,7 @@
 </template>
 <script>
 export default {
-  props: ["value"],
+  props: ["modelValue"],
 };
 </script>
 <style lang="scss"></style>

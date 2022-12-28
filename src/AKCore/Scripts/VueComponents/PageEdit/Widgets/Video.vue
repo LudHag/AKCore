@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="col-sm-12" v-if="value.videos">
+    <div class="col-sm-12" v-if="modelValue.videos">
       <div class="row">
         <div class="col-sm-6">
           <label>Video</label>
@@ -9,10 +9,10 @@
           <label>Namn</label>
         </div>
       </div>
-      <draggable v-model="value.videos" handle=".video-drag-area">
+      <draggable v-model="modelValue.videos" handle=".video-drag-area">
         <div
           class="form-group video-area row"
-          v-for="(video, index) in value.videos"
+          v-for="(video, index) in modelValue.videos"
           :key="index"
         >
           <div
@@ -43,15 +43,15 @@ import draggable from "vuedraggable";
 import TextEdit from "../WidgetParts/TextEdit.vue";
 export default {
   components: { TextEdit, draggable },
-  props: ["value"],
+  props: ["modelValue"],
   methods: {
     removeVideo(removeIndex) {
-      this.value.videos = this.value.videos.filter(
+      this.modelValue.videos = this.modelValue.videos.filter(
         (video, index) => removeIndex !== index
       );
     },
     addVideo() {
-      this.value.videos.push({ title: "", link: "" });
+      this.modelValue.videos.push({ title: "", link: "" });
     },
   },
 };
