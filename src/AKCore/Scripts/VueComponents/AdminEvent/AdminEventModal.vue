@@ -84,7 +84,7 @@
                 <div class="col-sm-3">
                   <label>Dag</label>
                   <datepicker
-                    input-class="form-control"
+                    class="form-control"
                     v-model="event.dayDate"
                     name="Day"
                     required
@@ -97,7 +97,6 @@
                     type="time"
                     v-model="event.halanTime"
                     name="Halan"
-                    value="00:00"
                   />
                 </div>
                 <div class="col-sm-3" v-if="spelningKarhus">
@@ -107,7 +106,6 @@
                     type="time"
                     v-model="event.thereTime"
                     name="There"
-                    value="00:00"
                   />
                 </div>
                 <div class="col-sm-3" v-if="eventType === 'Spelning'">
@@ -117,7 +115,6 @@
                     type="time"
                     name="Starts"
                     v-model="event.startsTime"
-                    value="00:00"
                     required
                   />
                 </div>
@@ -162,7 +159,7 @@
 </template>
 <script>
 import Constants from "../../constants";
-import Datepicker from "vuejs-datepicker";
+import Datepicker from "vue3-datepicker";
 import ApiService from "../../services/apiservice";
 import Modal from "../Modal.vue";
 
@@ -270,7 +267,7 @@ export default {
 };
 </script>
 <style lang="scss">
-.vdp-datepicker .form-control[readonly] {
+.v3dp__datepicker .form-control[readonly] {
   background-color: #fff;
 }
 </style>
