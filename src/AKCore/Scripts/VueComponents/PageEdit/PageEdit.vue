@@ -58,11 +58,11 @@ import PageMeta from "./PageMeta.vue";
 import AddWidget from "./AddWidget.vue";
 import Widget from "./Widget.vue";
 import ApiService from "../../services/apiservice";
-import { tinyMceOpts } from "./functions";
 import ImagePickerModal from "../ImagePickerModal.vue";
 import DocumentPickerModal from "../DocumentPickerModal.vue";
 import draggable from "vuedraggable";
 import PageVersions from "./PageVersions.vue";
+import { EventBus } from "../../utils/eventbus";
 
 export default {
   components: {
@@ -86,6 +86,15 @@ export default {
   },
   created() {
     const self = this;
+
+    EventBus.on("loadimage", (field) => {
+      self.selectImage(field);
+    });
+
+    EventBus.on("loadfile", (field) => {
+      self.selectfile(field);
+    });
+
     $.ajax({
       url: window.location.href + "/Model",
       type: "GET",
@@ -110,17 +119,6 @@ export default {
   },
 
   watch: {
-    drag(value) {
-      Array.from(document.querySelectorAll(".mce-content"))
-        .map((x) => x.id)
-        .forEach((id) => {
-          if (value) {
-            tinymce.execCommand("mceRemoveEditor", false, id);
-          } else {
-            tinymce.execCommand("mceAddEditor", true, id);
-          }
-        });
-    },
     selectedRevision(value) {
       if (value) {
         this.usedModel = value;

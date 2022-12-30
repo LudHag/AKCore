@@ -1,8 +1,14 @@
 <template>
   <div :class="fullwidth ? 'col-sm-12' : 'col-sm-6'">
-    <!-- <textarea ref="editor" class="mce-content" v-html="modelValue"></textarea> -->
+    <textarea
+      class="placeholder"
+      v-if="disabled"
+      v-html="modelValue"
+      disabled
+    ></textarea>
 
     <editor
+      v-if="!disabled"
       ref="editor"
       api-key="no-api-key"
       :initial-value="modelValue"
@@ -21,32 +27,12 @@ export default {
   },
   data() {
     return {
-      editorId: null,
+      disabled: false,
     };
   },
-  mounted() {
-    EventBus.on("editor-updated", this.update);
-  },
-  beforeDestroy() {
-    EventBus.off("editor-updated", this.update);
-  },
-  updated() {
-    tinymce.get(this.getEdId()).setContent(this.modelValue);
-  },
   methods: {
-    getEdId() {
-      if (!this.editorId) {
-        this.editorId = this.$refs.editor.id;
-      }
-      return this.editorId;
-    },
-    update(event) {
-      const editorId = this.getEdId();
-      if (editorId === event.id) {
-        this.$emit("update:modelValue", event.content);
-      }
-    },
     getConfig() {
+      const self = this;
       return {
         selector: ".widget-area .mce-content",
         theme: "modern",
@@ -77,15 +63,25 @@ export default {
         setup: function (ed) {
           ed.on("change", function (e) {
             const elcontent = ed.getContent();
-            EventBus.trigger("editor-updated", {
-              id: ed.id,
-              content: elcontent,
-            });
+            self.$emit("update:modelValue", elcontent);
           });
+        },
+        file_browser_callback: function (field_name, url, type, win) {
+          if (type === "image") {
+            EventBus.trigger("loadimage", $("#" + field_name));
+          }
+          if (type === "file") {
+            EventBus.trigger("loadfile", $("#" + field_name));
+          }
         },
       };
     },
   },
 };
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.placeholder {
+  width: 100%;
+  height: 288px;
+}
+</style>
