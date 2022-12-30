@@ -33,24 +33,26 @@ export default {
   props: ["modelValue", "albums"],
   computed: {
     selectableAlbums() {
-      if (!this.value.albums) {
+      if (!this.modelValue.albums) {
         return this.albums;
       }
-      return this.albums.filter((x) => !this.value.albums.includes(x.id));
+      return this.albums.filter((x) => !this.modelValue.albums.includes(x.id));
     },
     selectedAlbums() {
-      if (!this.value.albums) {
+      if (!this.modelValue.albums) {
         return [];
       }
-      return this.albums.filter((x) => this.value.albums.includes(x.id));
+      return this.albums.filter((x) => this.modelValue.albums.includes(x.id));
     },
   },
   methods: {
     addAlbum(album) {
-      this.value.albums.push(album.id);
+      this.modelValue.albums.push(album.id);
     },
     removeAlbum(album) {
-      this.value.albums = this.value.albums.filter((x) => x != album.id);
+      this.modelValue.albums = this.modelValue.albums.filter(
+        (x) => x != album.id
+      );
     },
   },
 };
