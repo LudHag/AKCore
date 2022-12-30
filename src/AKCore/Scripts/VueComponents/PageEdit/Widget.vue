@@ -15,7 +15,8 @@
       <div class="col-xs-12">
         <header-text
           v-if="modelValue.type === 'HeaderText'"
-          value="value"
+          :modelValue="modelValue"
+          @update:modelValue="modelValue = $event"
         ></header-text>
         <hire
           v-if="modelValue.type === 'Hire'"
