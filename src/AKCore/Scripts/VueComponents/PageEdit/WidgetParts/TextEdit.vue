@@ -30,6 +30,11 @@ export default {
       disabled: false,
     };
   },
+  created() {
+    EventBus.on("widgetDrag", (value) => {
+      this.disabled = value;
+    });
+  },
   methods: {
     getConfig() {
       const self = this;

@@ -119,6 +119,9 @@ export default {
   },
 
   watch: {
+    drag(value) {
+      EventBus.trigger("widgetDrag", value);
+    },
     selectedRevision(value) {
       if (value) {
         this.usedModel = value;
