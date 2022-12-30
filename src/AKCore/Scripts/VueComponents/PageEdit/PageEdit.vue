@@ -30,7 +30,6 @@
           <widget
             :modelValue="element"
             :albums="pageModel.albums"
-            @updated="loadTiny"
             @remove="removeWidget(element)"
           >
           </widget>
@@ -109,9 +108,7 @@ export default {
       false
     );
   },
-  updated() {
-    this.loadTiny();
-  },
+
   watch: {
     drag(value) {
       Array.from(document.querySelectorAll(".mce-content"))
@@ -144,9 +141,6 @@ export default {
 
       this.pageModel.widgets.push({ id: newId, type: type, albums: [] });
     },
-    loadTiny() {
-      tinymce.init(tinyMceOpts(this.selectImage, this.selectfile));
-    },
     removeWidget(widget) {
       this.pageModel.widgets = this.pageModel.widgets.filter(
         (x) => x.id != widget.id
@@ -168,7 +162,6 @@ export default {
           return;
         }
       }
-      const self = this;
       const success = $(".alert-success");
       const error = $(".alert-danger");
       ApiService.postByObject(
