@@ -30,7 +30,6 @@
           <widget
             :modelValue="element"
             :albums="pageModel.albums"
-            @updated="loadTiny"
             @remove="removeWidget(element)"
           >
           </widget>
@@ -59,11 +58,11 @@ import PageMeta from "./PageMeta.vue";
 import AddWidget from "./AddWidget.vue";
 import Widget from "./Widget.vue";
 import ApiService from "../../services/apiservice";
-import { tinyMceOpts } from "./functions";
 import ImagePickerModal from "../ImagePickerModal.vue";
 import DocumentPickerModal from "../DocumentPickerModal.vue";
 import draggable from "vuedraggable";
 import PageVersions from "./PageVersions.vue";
+import { EventBus } from "../../utils/eventbus";
 
 export default {
   components: {
@@ -87,6 +86,15 @@ export default {
   },
   created() {
     const self = this;
+
+    EventBus.on("loadimage", (field) => {
+      self.selectImage(field);
+    });
+
+    EventBus.on("loadfile", (field) => {
+      self.selectfile(field);
+    });
+
     $.ajax({
       url: window.location.href + "/Model",
       type: "GET",
@@ -109,20 +117,10 @@ export default {
       false
     );
   },
-  updated() {
-    this.loadTiny();
-  },
+
   watch: {
     drag(value) {
-      Array.from(document.querySelectorAll(".mce-content"))
-        .map((x) => x.id)
-        .forEach((id) => {
-          if (value) {
-            tinymce.execCommand("mceRemoveEditor", false, id);
-          } else {
-            tinymce.execCommand("mceAddEditor", true, id);
-          }
-        });
+      EventBus.trigger("widgetDrag", value);
     },
     selectedRevision(value) {
       if (value) {
@@ -143,9 +141,6 @@ export default {
       }
 
       this.pageModel.widgets.push({ id: newId, type: type, albums: [] });
-    },
-    loadTiny() {
-      tinymce.init(tinyMceOpts(this.selectImage, this.selectfile));
     },
     removeWidget(widget) {
       this.pageModel.widgets = this.pageModel.widgets.filter(
@@ -168,7 +163,6 @@ export default {
           return;
         }
       }
-      const self = this;
       const success = $(".alert-success");
       const error = $(".alert-danger");
       ApiService.postByObject(
