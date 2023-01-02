@@ -72,7 +72,7 @@ const next = () => {
   const currentIndex = tracks.value.findIndex(
     (track) => track.key === trackPlaying.value?.key
   );
-  if (replay) {
+  if (replay.value) {
     return nextIfReplay(currentIndex);
   }
 
@@ -122,7 +122,7 @@ const selectTrack = (track: Track) => {
     }
     if (playList.length > 0) {
       const index = playList.indexOf(track);
-      if (!replay) {
+      if (!replay.value) {
         emit("remove-before", index);
       }
     }
