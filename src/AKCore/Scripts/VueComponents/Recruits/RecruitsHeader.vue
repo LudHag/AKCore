@@ -31,7 +31,10 @@
           />
         </div>
         <div class="form-group">
-          <select class="form-control" id="select-instrument">
+          <select
+            class="form-control"
+            @change="$emit('instrumentchange', $event.target.value)"
+          >
             <option value="">Sök efter instrument</option>
             <option v-for="instr in instruments" :key="instr">
               {{ instr }}
@@ -52,7 +55,7 @@ export default {
       localArchived: false,
     };
   },
-  props: ["searchText", "archived"],
+  props: ["archived"],
   computed: {
     instruments() {
       return Constants.INSTRUMENTS;
@@ -60,7 +63,6 @@ export default {
   },
   created() {
     this.localArchived = this.archived;
-    this.localSearchText = this.searchText;
   },
 };
 </script>

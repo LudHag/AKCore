@@ -1,10 +1,11 @@
 <template>
   <div>
     <recruits-header
-      :searchText="searchText"
       :archived="archived"
+      v-model="instrument"
       @searchchange="searchText = $event"
       @archivechange="archived = $event"
+      @instrumentchange="instrument = $event"
       @export="showModal = true"
     ></recruits-header>
     <recruits-list
@@ -42,6 +43,7 @@ export default {
   data: function () {
     return {
       searchText: "",
+      instrument: "",
       archived: false,
       recruits: [],
       showModal: false,
@@ -58,7 +60,11 @@ export default {
     },
     filteredRecruits() {
       return this.recruits.filter((recruit) => {
-        return recruit.archived === this.archived;
+        return (
+          recruit.archived === this.archived &&
+          this.hasSearchterm(recruit) &&
+          this.hasInstrument(recruit)
+        );
       });
     },
     exportedText() {
@@ -70,6 +76,16 @@ export default {
     },
   },
   methods: {
+    hasInstrument(recruit) {
+      return this.instrument === "" || recruit.instrument === this.instrument;
+    },
+    hasSearchterm(recruit) {
+      return (
+        this.searchText === "" ||
+        recruit.fname.toLowerCase().includes(this.searchText.toLowerCase()) ||
+        recruit.lname.toLowerCase().includes(this.searchText.toLowerCase())
+      );
+    },
     close() {
       this.showModal = false;
     },
