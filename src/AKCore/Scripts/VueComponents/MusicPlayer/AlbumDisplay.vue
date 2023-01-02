@@ -13,21 +13,20 @@
     </div>
   </div>
 </template>
-<script>
-import { nameCompare } from '../../utils/functions';
-import PlayListItem from './PlayListItem.vue';
-export default {
-  props: ['album', 'showTracks'],
-  components: {
-    PlayListItem,
-  },
-  computed: {
-    tracks() {
-      const trackKeys = Object.keys(this.album.tracks);
-      return trackKeys.map((key) => this.album.tracks[key]).sort(nameCompare);
-    },
-  },
-};
+<script setup lang="ts">
+import { computed } from "vue";
+import PlayListItem from "./PlayListItem.vue";
+import { Album } from "./models";
+import { nameCompare } from "../../utils/functions";
+
+const { album } = defineProps<{ album: Album; showTracks: boolean }>();
+
+const tracks = computed(() => {
+  const trackKeys = Object.keys(album.tracks);
+  return trackKeys
+    .map((key: string) => album.tracks[parseInt(key)])
+    .sort(nameCompare);
+});
 </script>
 <style lang="scss" scoped>
 .album-display {
