@@ -9,14 +9,17 @@
         }
         @: widgetAlbums['@a.Id'].name = '@Html.Raw(a.Name)';
         @: widgetAlbums['@a.Id'].image = '@a.Image';
-        @: widgetAlbums['@a.Id'].tracks = {};
+        @: widgetAlbums['@a.Id'].tracks = [];
         foreach (var track in a.Tracks)
         {
-            @: widgetAlbums['@a.Id'].tracks['@track.Number'] = {};
-            @: widgetAlbums['@a.Id'].tracks['@track.Number'].filepath = "/albums/@(a.Id)/@(Html.Raw(track.FileName))";
-            @: widgetAlbums['@a.Id'].tracks['@track.Number'].name = '@track.GetDisplayName()';
-            @: widgetAlbums['@a.Id'].tracks['@track.Number'].id = '@track.Id';
+            @: var albumTrack = {};
+            @: albumTrack.filepath = "/albums/@(a.Id)/@(Html.Raw(track.FileName))";
+            @: albumTrack.name = '@track.GetDisplayName()';
+            @: albumTrack.id = '@track.Id';
+            @: widgetAlbums['@a.Id'].tracks.push(albumTrack);
+
         }
+
     }
 
 </script>

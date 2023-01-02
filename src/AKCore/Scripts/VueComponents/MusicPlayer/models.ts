@@ -6,8 +6,13 @@ export interface Track {
 }
 
 export interface Album {
+  id: number;
   category: string;
   image: string;
   name: string;
-  tracks: { [key: number]: Track };
+  tracks: Track[];
+}
+
+export interface Albums {
+  [key: string]: Album;
 }
