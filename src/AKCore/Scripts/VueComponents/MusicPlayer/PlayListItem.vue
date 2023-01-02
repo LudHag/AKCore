@@ -27,7 +27,7 @@ import { Track } from "./models";
 
 const { track } = defineProps<{
   track: Track;
-  active?: boolean;
+  active?: boolean | null;
   noAdd?: boolean;
   small?: boolean;
   remove?: boolean;
