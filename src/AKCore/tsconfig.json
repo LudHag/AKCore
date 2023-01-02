@@ -11,8 +11,15 @@
     "esModuleInterop": true,
     "lib": ["ESNext", "DOM"],
     "skipLibCheck": true,
-    "noEmit": true
+    "noEmit": true,
+    "allowJs": true
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
+  "include": [
+    "Scripts/**/*.ts",
+    "Scripts/**/*.d.ts",
+    "Scripts/**/*.tsx",
+    "Scripts/**/*.vue",
+    "Scripts/VueComponents/AdminEvent/AdminEventApp.vue"
+  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
