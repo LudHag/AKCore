@@ -8,6 +8,14 @@ import MusicApp from "./VueComponents/MusicPlayer/MusicApp.vue";
 import MailBoxApp from "./VueComponents/MailBox/MailBoxApp.vue";
 import LoginApp from "./VueComponents/Login/LoginApp.vue";
 
+declare var videos: Record<
+  number,
+  Array<{
+    link: string;
+    title: string;
+  }>
+>;
+
 $(".videos-app").each(function () {
   const widgetId = $(this).data("id");
   createApp(VideoBar, { videos: videos[widgetId] }).mount(
@@ -15,12 +23,25 @@ $(".videos-app").each(function () {
   );
 });
 
+declare var memberList: Record<
+  string,
+  Array<{
+    name: string;
+    email: string;
+    phone: string;
+    instrument: string;
+  }>
+>;
+declare var instruments: string[];
+
 if ($("#search-widget").length > 0) {
   createApp(MembersList, {
     members: memberList,
     instruments: instruments,
   }).mount("#search-widget");
 }
+
+declare var eventId: number;
 if ($("#upcoming-app").length > 0) {
   createApp(UpcomingApp, {
     "event-id": eventId,
