@@ -38,14 +38,14 @@
     </ul>
     <image-picker-modal
       v-if="saveImageDest"
-      :show-modal="saveImageDest"
+      :show-modal="!!saveImageDest"
       :destination="saveImageDest"
       :notransition="true"
       @close="saveImageDest = null"
     ></image-picker-modal>
     <document-picker-modal
       v-if="saveDocumentDest"
-      :show-modal="saveDocumentDest"
+      :show-modal="!!saveDocumentDest"
       :destination="saveDocumentDest"
       :notransition="true"
       @close="saveDocumentDest = null"

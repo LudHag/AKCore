@@ -60,7 +60,7 @@ import { ref, computed, onMounted } from "vue";
 
 const emit = defineEmits<{
   (e: "close"): void;
-  (e: "image", image: any): void;
+  (e: "image", image: Image): void;
 }>();
 
 const { destination } = defineProps<{

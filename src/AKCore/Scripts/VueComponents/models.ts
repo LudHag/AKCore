@@ -24,10 +24,14 @@ export interface Video {
   title: string;
 }
 
-export interface Image {
+interface Uploadable {
   id: number;
   name: string;
   type: string;
   tag: string;
   created: string;
 }
+
+export interface Image extends Uploadable {}
+
+export interface Document extends Uploadable {}
