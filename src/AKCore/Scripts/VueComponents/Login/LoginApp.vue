@@ -56,7 +56,7 @@ const close = () => {
 
 const submitForm = (e: Event) => {
   e.preventDefault();
-  const form = $(e.target as HTMLFormElement);
+  const form = $(e.target as HTMLFormElement) as JQuery<HTMLElement>;
   const error = form.find(".alert-danger");
   ApiService.defaultFormSend(form, error, null, () => {
     window.location.reload();

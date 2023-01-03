@@ -7,15 +7,9 @@ import MediaApp from "./VueComponents/Media/MediaApp.vue";
 import MusicApp from "./VueComponents/MusicPlayer/MusicApp.vue";
 import MailBoxApp from "./VueComponents/MailBox/MailBoxApp.vue";
 import LoginApp from "./VueComponents/Login/LoginApp.vue";
-import { Member } from "./VueComponents/models";
+import { Member, Video } from "./VueComponents/models";
 
-declare var videos: Record<
-  number,
-  Array<{
-    link: string;
-    title: string;
-  }>
->;
+declare var videos: Record<number, Array<Video>>;
 
 $(".videos-app").each(function () {
   const widgetId = $(this).data("id");

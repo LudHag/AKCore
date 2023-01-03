@@ -23,3 +23,11 @@ export interface Video {
   link: string;
   title: string;
 }
+
+export interface Image {
+  id: number;
+  name: string;
+  type: string;
+  tag: string;
+  created: string;
+}
