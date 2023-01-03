@@ -110,13 +110,7 @@ const monthEvents = computed(() => {
 });
 
 const thisMonthName = computed(() => {
-  if (monthEvents.value && monthEvents.value.length === 0) return "";
-  try {
-    return Constants.MONTHS[monthEvents.value[0].month - 1];
-  } catch (e) {
-    console.log(monthEvents);
-    throw e;
-  }
+  return Constants.MONTHS[month.value];
 });
 
 const firstWeekDays = computed(() => {
