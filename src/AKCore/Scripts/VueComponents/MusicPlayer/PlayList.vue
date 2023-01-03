@@ -51,7 +51,7 @@ export default defineComponent({
   },
   data() {
     return {
-      trackPlaying: null as Track | null,
+      trackPlaying: undefined as Track | undefined,
       reset: false,
       replay: false,
     };
@@ -93,7 +93,7 @@ export default defineComponent({
           dontRemove = true;
         } else {
           this.$emit("stop");
-          this.trackPlaying = null;
+          this.trackPlaying = undefined;
         }
       } else {
         this.trackPlaying = this.tracks[currentIndex + 1];
