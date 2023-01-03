@@ -1,5 +1,5 @@
 ﻿<template>
-  <modal :show-modal="event" :header="header" @close="close">
+  <modal :show-modal="!!event" :header="header" @close="close">
     <template v-slot:body>
       <div class="modal-body" v-if="event">
         <div class="row">
@@ -59,41 +59,38 @@
     </template>
   </modal>
 </template>
-<script>
+<script setup lang="ts">
+import { computed } from "vue";
 import Modal from "../Modal.vue";
-export default {
-  props: ["event", "member"],
-  components: {
-    Modal,
-  },
-  methods: {
-    close() {
-      this.$emit("close");
-    },
-    openSignup() {
-      this.$emit("signup", this.event.id);
-    },
-  },
-  computed: {
-    signupUrl() {
-      return "/upcoming/Event/" + this.event.id;
-    },
-    signupable() {
-      return (
-        this.member &&
-        (this.event.type === "Spelning" ||
-          this.event.type === "Kårhusrep" ||
-          this.event.type === "Athenrep")
-      );
-    },
-    header() {
-      if (!event) {
-        return "";
-      }
-      return event.name;
-    },
-  },
-};
+import { UpcomingEvent } from "./models";
+
+const emit = defineEmits<{
+  (e: "close"): void;
+  (e: "signup", id: number): void;
+}>();
+
+const props = defineProps<{
+  event: UpcomingEvent;
+  member: boolean;
+}>();
+
+const close = () => emit("close");
+const openSignup = () => emit("signup", props.event.id);
+
+const signupUrl = "/upcoming/Event/" + props.event.id;
+
+const signupable =
+  props.member &&
+  (props.event.type === "Spelning" ||
+    props.event.type === "Kårhusrep" ||
+    props.event.type === "Athenrep");
+
+const header = computed(() => {
+  if (!props.event) {
+    return "";
+  }
+  return props.event.name;
+});
 </script>
 <style lang="scss" scoped>
 .green {

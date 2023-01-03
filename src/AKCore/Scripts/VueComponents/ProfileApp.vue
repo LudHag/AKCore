@@ -160,99 +160,91 @@
     </div>
   </div>
 </template>
-<script>
+<script setup lang="ts">
 import Constants from "../constants";
+// @ts-ignore
 import vSelect from "vue-select";
+import { ref, computed, onMounted } from "vue";
+import { ProfileData } from "./models";
 
-export default {
-  components: {
-    vSelect,
-  },
-  data() {
-    return {
-      profileData: null,
-      password: "",
-      confirmPass: "",
-    };
-  },
-  computed: {
-    instruments() {
-      return Constants.INSTRUMENTS;
-    },
-    othInstruments() {
-      return Constants.INSTRUMENTS.filter((instr) => {
-        return instr !== this.profileData.instrument;
-      });
-    },
-  },
-  methods: {
-    updateProfile(event) {
-      const form = $(event.target);
-      const success = form.find(".alert-success");
-      const error = form.find(".alert-danger");
-      $.ajax({
-        url: form.attr("action"),
-        type: form.attr("method"),
-        contentType: "application/json",
-        data: JSON.stringify(this.profileData),
-        success: function (res) {
-          if (res.success) {
-            form.parent().get(0).scrollIntoView();
-            success.text("Din profil uppdaterades");
-            success.slideDown().delay(3000).slideUp();
-          } else {
-            error.text(res.message);
-            error.slideDown().delay(3500).slideUp();
-          }
-        },
-        error: function (err) {
-          error.text("Uppdateringen misslyckades");
-          error.slideDown().delay(3500).slideUp();
-        },
-      });
-    },
-    changePassword(event) {
-      const self = this;
-      const form = $(event.target);
-      const error = form.find(".alert-danger");
-      const success = form.find(".alert-success");
-      if (this.password !== this.confirmPass) {
-        error.text("Lösenord matchar ej");
+const profileData = ref<ProfileData | null>(null);
+const password = ref("");
+const confirmPass = ref("");
+
+const instruments = Constants.INSTRUMENTS;
+
+const othInstruments = computed(() => {
+  return Constants.INSTRUMENTS.filter((instr) => {
+    return instr !== profileData.value?.instrument;
+  });
+});
+
+const updateProfile = async (event: Event) => {
+  const form = $(event.target as HTMLFormElement);
+  const success = form.find(".alert-success");
+  const error = form.find(".alert-danger");
+  $.ajax({
+    url: form.attr("action"),
+    type: form.attr("method"),
+    contentType: "application/json",
+    data: JSON.stringify(profileData.value),
+    success: function (res) {
+      if (res.success) {
+        //@ts-ignore
+        form.parent().get(0).scrollIntoView();
+        success.text("Din profil uppdaterades");
+        success.slideDown().delay(3000).slideUp();
+      } else {
+        error.text(res.message);
         error.slideDown().delay(3500).slideUp();
-        return;
       }
-
-      $.ajax({
-        url: form.attr("action"),
-        type: form.attr("method"),
-        data: form.serialize(),
-        success: function (res) {
-          if (res.success) {
-            success.slideDown().delay(3000).slideUp();
-            self.password = "";
-            self.confirmPass = "";
-          } else {
-            error.text(res.message);
-            error.slideDown().delay(3500).slideUp();
-          }
-        },
-        error: function (err) {
-          error.text("Misslyckades med att ändra lösenord");
-          error.slideDown().delay(3500).slideUp();
-        },
-      });
     },
-  },
-  created() {
-    const self = this;
-    $.ajax({
-      url: "/Profile/ProfileData",
-      type: "GET",
-      success: function (res) {
-        self.profileData = res;
-      },
-    });
-  },
+    error: function (err) {
+      error.text("Något gick fel");
+      error.slideDown().delay(3500).slideUp();
+    },
+  });
 };
+
+const changePassword = async (event: Event) => {
+  const form = $(event.target as HTMLFormElement);
+  const error = form.find(".alert-danger");
+  const success = form.find(".alert-success");
+  if (password.value !== confirmPass.value) {
+    error.text("Lösenord matchar ej");
+    error.slideDown().delay(3500).slideUp();
+    return;
+  }
+
+  $.ajax({
+    url: form.attr("action"),
+    type: form.attr("method"),
+    data: form.serialize(),
+    success: function (res) {
+      if (res.success) {
+        success.slideDown().delay(3000).slideUp();
+        password.value = "";
+        confirmPass.value = "";
+      } else {
+        error.text(res.message);
+        error.slideDown().delay(3500).slideUp();
+      }
+    },
+    error: function (err) {
+      error.text("Något gick fel");
+      error.slideDown().delay(3500).slideUp();
+    },
+  });
+};
+
+onMounted(() => {
+  $.ajax({
+    url: "/Profile/ProfileData",
+    type: "GET",
+    success: function (res) {
+      profileData.value = res;
+    },
+  });
+});
 </script>
 <style lang="scss"></style>

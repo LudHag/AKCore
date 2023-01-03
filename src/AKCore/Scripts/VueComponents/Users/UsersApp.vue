@@ -53,9 +53,9 @@
   </div>
 </template>
 <script>
-import UserList from './UserList.vue';
-import EditUserModal from './EditUserModal.vue';
-import Spinner from '../Spinner.vue';
+import UserList from "./UserList.vue";
+import EditUserModal from "./EditUserModal.vue";
+import Spinner from "../Spinner.vue";
 
 export default {
   components: {
@@ -65,7 +65,7 @@ export default {
   },
   data() {
     return {
-      searchPhrase: '',
+      searchPhrase: "",
       inactive: false,
       users: [],
       allUsersCollected: false,
@@ -81,7 +81,7 @@ export default {
         : this.users.filter((user) => {
             return user.active != this.inactive;
           });
-      if (this.searchPhrase !== '') {
+      if (this.searchPhrase !== "") {
         filtered = filtered.filter((user) => {
           const lowerPhrase = this.searchPhrase.toLowerCase();
           return (
@@ -105,15 +105,15 @@ export default {
       const self = this;
       this.loading = true;
       $.ajax({
-        url: '/User/UserListData',
-        type: 'POST',
+        url: "/User/UserListData",
+        type: "POST",
         data: { inactive },
         success: function (res) {
           self.users = res.users;
           self.loading = false;
         },
         error: function () {
-          console.log('fel');
+          console.log("fel");
           self.loading = false;
         },
       });
@@ -134,18 +134,18 @@ export default {
       const index = this.users.map((u) => u.id).indexOf(user.id);
       this.users = Object.assign([], this.users, { [index]: user });
       this.closeModal();
-      $('.alert-edit-user')
-        .text('Användare uppdaterad')
+      $(".alert-edit-user")
+        .text("Användare uppdaterad")
         .slideDown()
         .delay(4000)
         .slideUp();
     },
     userCreated(user) {
-      user.fullName = user.firstName + ' ' + user.lastName;
+      user.fullName = user.firstName + " " + user.lastName;
       this.users.push(user);
       this.closeModal();
-      $('.alert-edit-user')
-        .text('Användare skapad')
+      $(".alert-edit-user")
+        .text("Användare skapad")
         .slideDown()
         .delay(4000)
         .slideUp();

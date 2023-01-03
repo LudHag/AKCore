@@ -23,19 +23,27 @@
     </div>
   </transition>
 </template>
-<script>
-export default {
-  props: ["showModal", "header", "notransition"],
-  methods: {
-    modalClose() {
-      if (event.target.classList.contains("modal")) {
-        this.$emit("close");
-      }
-    },
-    close() {
-      this.$emit("close");
-    }
+<script setup lang="ts">
+const emit = defineEmits<{
+  (e: "close"): void;
+}>();
+
+defineProps<{
+  showModal: boolean;
+  header?: string;
+  notransition?: boolean;
+}>();
+
+const modalClose = (event: Event) => {
+  const eventTarget = event?.target as HTMLElement | undefined;
+
+  if (eventTarget?.classList.contains("modal")) {
+    emit("close");
   }
+};
+
+const close = () => {
+  emit("close");
 };
 </script>
 

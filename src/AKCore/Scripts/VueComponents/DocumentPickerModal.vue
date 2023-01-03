@@ -1,8 +1,8 @@
 ﻿<template>
   <modal
-    :show-modal="showModal"
+    :show-modal="showModal ?? false"
     :header="'Välj Dokument'"
-    :notransition="notransition"
+    :notransition="notransition ?? false"
     @close="close"
   >
     <template v-slot:body>
@@ -35,70 +35,75 @@
     </template>
   </modal>
 </template>
-<script>
+<script setup lang="ts">
 import Modal from "./Modal.vue";
 import ApiService from "../services/apiservice";
+import { Document } from "./models";
+import { ref, computed, onMounted } from "vue";
 
-export default {
-  components: {
-    Modal,
-  },
-  data() {
-    return {
-      documents: [],
-      page: 0,
-      type: "",
-      search: "",
-    };
-  },
-  props: ["showModal", "notransition", "destination"],
-  methods: {
-    close() {
-      this.$emit("close");
-    },
-    loadDocuments() {
-      ApiService.get("/Media/DocumentListData", null, (res) => {
-        this.documents = res;
-      });
-    },
-    selectDocument(document) {
-      if (this.destination) {
-        this.destination.val("/media/" + document.name);
-        this.$emit("close");
-      } else {
-        this.$emit("document", document);
-      }
-    },
-    toPage(n) {
-      this.page = n;
-    },
-  },
-  computed: {
-    filteredDocuments() {
-      return this.documents.filter((document) => {
-        return (
-          (!this.type || this.type === document.tag) &&
-          (!this.search ||
-            document.name.toLowerCase().indexOf(this.search.toLowerCase()) > -1)
-        );
-      });
-    },
-    shownDocuments() {
-      const take = this.page * 16;
-      return this.filteredDocuments.slice(take, take + 16);
-    },
-    pagesLength() {
-      const nbrPages = Math.ceil(this.filteredDocuments.length / 16);
-      if (this.page + 1 > nbrPages && nbrPages - 1 > -1) {
-        this.page = nbrPages - 1;
-      }
-      return nbrPages;
-    },
-  },
-  created() {
-    this.loadDocuments();
-  },
+const emit = defineEmits<{
+  (e: "close"): void;
+  (e: "document", image: Document): void;
+}>();
+
+const { destination } = defineProps<{
+  showModal: boolean;
+  notransition?: boolean;
+  destination?: JQuery<HTMLElement> | null;
+}>();
+
+const documents = ref<Document[]>([]);
+const page = ref(0);
+const type = ref("");
+const search = ref("");
+
+const close = () => emit("close");
+
+const loadDocuments = () => {
+  ApiService.get("/Media/DocumentListData", null, (res: Document[]) => {
+    documents.value = res;
+  });
 };
+
+const selectDocument = (document: Document) => {
+  if (destination) {
+    destination.val("/media/" + document.name);
+    emit("close");
+  } else {
+    emit("document", document);
+  }
+};
+
+const toPage = (n: number) => {
+  page.value = n;
+};
+
+const filteredDocuments = computed(() =>
+  documents.value.filter((document) => {
+    return (
+      (!type.value || type.value === document.tag) &&
+      (!search.value ||
+        document.name.toLowerCase().indexOf(search.value.toLowerCase()) > -1)
+    );
+  })
+);
+
+const shownDocuments = computed(() => {
+  const take = page.value * 16;
+  return filteredDocuments.value.slice(take, take + 16);
+});
+
+const pagesLength = computed(() => {
+  const nbrPages = Math.ceil(filteredDocuments.value.length / 16);
+  if (page.value + 1 > nbrPages && nbrPages - 1 > -1) {
+    page.value = nbrPages - 1;
+  }
+  return nbrPages;
+});
+
+onMounted(() => {
+  loadDocuments();
+});
 </script>
 <style lang="scss" scoped>
 .document-item {

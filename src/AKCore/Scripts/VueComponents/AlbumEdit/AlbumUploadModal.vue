@@ -1,5 +1,5 @@
 ﻿<template>
-  <modal :show-modal="album" :header="header" @close="close">
+  <modal :show-modal="album ?? false" :header="header" @close="close">
     <template v-slot:body>
       <div class="modal-body" v-if="album">
         <file-uploader :button-text="'Ladda upp spår'" @upload="uploadFiles">

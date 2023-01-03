@@ -1,5 +1,10 @@
 ﻿export default {
-  defaultFormSend(form: any, error: any, success: any, callback: Function) {
+  defaultFormSend(
+    form: JQuery<HTMLElement>,
+    error: JQuery<HTMLElement> | null,
+    success: JQuery<HTMLElement> | null,
+    callback: Function
+  ) {
     $.ajax({
       url: form.attr("action"),
       type: form.attr("method"),
@@ -28,7 +33,12 @@
       },
     });
   },
-  postByUrl(url: string, error: any, success: any, callback: Function) {
+  postByUrl(
+    url: string,
+    error: JQuery<HTMLElement> | null,
+    success: JQuery<HTMLElement> | null,
+    callback: Function
+  ) {
     $.ajax({
       url,
       type: "POST",
@@ -59,8 +69,8 @@
   postByObjectAsForm(
     url: string,
     obj: any,
-    error: any,
-    success: any,
+    error: JQuery<HTMLElement> | null,
+    success: JQuery<HTMLElement> | null,
     callback: Function
   ) {
     $.ajax({
@@ -95,8 +105,8 @@
   postByObject(
     url: string,
     obj: any,
-    error: any,
-    success: any,
+    error: JQuery<HTMLElement> | null,
+    success: JQuery<HTMLElement> | null,
     callback: Function
   ) {
     $.ajax({
@@ -132,8 +142,8 @@
   postFormData(
     url: string,
     obj: any,
-    error: any,
-    success: any,
+    error: JQuery<HTMLElement> | null,
+    success: JQuery<HTMLElement> | null,
     callback: Function
   ) {
     $.ajax({
@@ -167,7 +177,7 @@
       },
     });
   },
-  get(url: string, error: any, callback: Function) {
+  get(url: string, error: JQuery<HTMLElement> | null, callback: Function) {
     $.ajax({
       url: url,
       type: "GET",
