@@ -18,3 +18,8 @@ export interface ProfileData {
   roles: string[];
   posts: string[];
 }
+
+export interface Video {
+  link: string;
+  title: string;
+}
