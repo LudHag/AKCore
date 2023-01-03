@@ -7,6 +7,7 @@ import MediaApp from "./VueComponents/Media/MediaApp.vue";
 import MusicApp from "./VueComponents/MusicPlayer/MusicApp.vue";
 import MailBoxApp from "./VueComponents/MailBox/MailBoxApp.vue";
 import LoginApp from "./VueComponents/Login/LoginApp.vue";
+import { Member } from "./VueComponents/models";
 
 declare var videos: Record<
   number,
@@ -23,15 +24,7 @@ $(".videos-app").each(function () {
   );
 });
 
-declare var memberList: Record<
-  string,
-  Array<{
-    name: string;
-    email: string;
-    phone: string;
-    instrument: string;
-  }>
->;
+declare var memberList: Record<string, Array<Member>>;
 declare var instruments: string[];
 
 if ($("#search-widget").length > 0) {

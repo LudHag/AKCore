@@ -43,41 +43,34 @@
     </template>
   </modal>
 </template>
-<script>
+<script setup lang="ts">
 import Modal from "../Modal.vue";
 import ApiService from "../../services/apiservice";
+import { ref, onMounted } from "vue";
 
-export default {
-  data: function () {
-    return {
-      showModal: false,
-    };
-  },
-  components: {
-    Modal,
-  },
-  methods: {
-    close() {
-      this.showModal = false;
-    },
-    submitForm(e) {
-      e.preventDefault();
-      const form = $(e.target);
-      const error = form.find(".alert-danger");
-      ApiService.defaultFormSend(form, error, null, () => {
-        window.location.reload();
-      });
-    },
-  },
-  created() {
-    const loginButtons = document.querySelectorAll(".login");
-    loginButtons.forEach((button) => {
-      button.addEventListener("click", (e) => {
-        e.preventDefault();
-        this.showModal = true;
-      });
-    });
-  },
+const showModal = ref(false);
+
+const close = () => {
+  showModal.value = false;
 };
+
+const submitForm = (e: Event) => {
+  e.preventDefault();
+  const form = $(e.target as HTMLFormElement);
+  const error = form.find(".alert-danger");
+  ApiService.defaultFormSend(form, error, null, () => {
+    window.location.reload();
+  });
+};
+
+onMounted(() => {
+  const loginButtons = document.querySelectorAll(".login");
+  loginButtons.forEach((button) => {
+    button.addEventListener("click", (e) => {
+      e.preventDefault();
+      showModal.value = true;
+    });
+  });
+});
 </script>
 <style lang="scss" scoped></style>

@@ -45,53 +45,48 @@
     </div>
   </div>
 </template>
-<script>
-export default {
-  props: ['members', 'instruments'],
-  data: function () {
-    return {
-      selectedInstrument: '',
-      searchPhrase: '',
-    };
-  },
-  methods: {
-    instrumentMembers: function (instr) {
-      return this.members[instr];
-    },
-  },
-  computed: {
-    filteredMembers: function () {
-      if (this.selectedInstrument === '' && this.searchPhrase === '') {
-        return this.members;
-      }
-      const filteredList = {};
-      const lsearch = this.searchPhrase.toLowerCase();
-      this.instruments.forEach((instr) => {
-        if (
-          !this.members[instr] ||
-          (this.selectedInstrument !== '' && this.selectedInstrument !== instr)
-        ) {
-          filteredList[instr] = [];
-        } else if (lsearch === '') {
-          filteredList[instr] = this.members[instr];
-        } else {
-          filteredList[instr] = this.members[instr].filter((el) => {
-            return (
-              el.name.toLowerCase().indexOf(lsearch) >= 0 ||
-              el.email.toLowerCase().indexOf(lsearch) >= 0 ||
-              el.phone.indexOf(lsearch) >= 0 ||
-              el.instrument.toLowerCase().indexOf(lsearch) >= 0
-            );
-          });
-        }
+<script setup lang="ts">
+import { ref, computed } from "vue";
+import { Member } from "./models";
+
+const { members, instruments } = defineProps<{
+  members: Record<string, Array<Member>>;
+  instruments: string[];
+}>();
+
+const selectedInstrument = ref("");
+const searchPhrase = ref("");
+
+const filteredMembers = computed(() => {
+  if (selectedInstrument.value === "" && searchPhrase.value === "") {
+    return members;
+  }
+  const filteredList: Record<string, Array<Member>> = {};
+  const lsearch = searchPhrase.value.toLowerCase();
+  instruments.forEach((instr) => {
+    if (
+      !members[instr] ||
+      (selectedInstrument.value !== "" && selectedInstrument.value !== instr)
+    ) {
+      filteredList[instr] = [];
+    } else if (lsearch === "") {
+      filteredList[instr] = members[instr];
+    } else {
+      filteredList[instr] = members[instr].filter((el) => {
+        return (
+          el.name.toLowerCase().indexOf(lsearch) >= 0 ||
+          el.email.toLowerCase().indexOf(lsearch) >= 0 ||
+          el.phone.indexOf(lsearch) >= 0 ||
+          el.instrument.toLowerCase().indexOf(lsearch) >= 0
+        );
       });
-      return filteredList;
-    },
-  },
-};
+    }
+  });
+  return filteredList;
+});
 </script>
 <style lang="scss" scoped>
-@import 'bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss';
+@import "bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss";
 #adress-register .kamerer {
   padding-bottom: 4px;
 }
