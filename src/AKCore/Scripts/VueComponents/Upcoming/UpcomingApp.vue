@@ -67,108 +67,95 @@
     </keep-alive>
   </div>
 </template>
-<script>
+<script setup lang="ts">
 import Spinner from "../Spinner.vue";
 import UpcomingList from "./UpcomingList.vue";
 import UpcomingCalendar from "./UpcomingCalendar.vue";
 import EventApp from "../Event/EventApp.vue";
+import { UpcomingYears } from "./models";
+import { ref, nextTick, onMounted } from "vue";
 
-export default {
-  components: {
-    Spinner,
-    UpcomingList,
-    UpcomingCalendar,
-    EventApp,
-  },
-  props: ["eventId"],
-  data() {
-    return {
-      years: null,
-      loading: false,
-      loggedIn: false,
-      member: false,
-      calendarView: false,
-      icalLink: "",
-      showIcal: false,
-      showEvent: false,
-      selectedEventId: -1,
-      latestTop: 0,
-    };
-  },
-  methods: {
-    copyIcal() {
-      const copyText = document.querySelector("#ical-link");
-      copyText.select();
-      document.execCommand("copy");
-    },
-    signup(id) {
-      this.latestTop = window.pageYOffset;
-      this.selectedEventId = id;
-      this.showEvent = true;
-      history.pushState(
-        { showEvent: true, selectedEventId: id },
-        "",
-        "/upcoming/Event/" + id
-      );
-    },
-    closeEvent() {
-      this.showEvent = false;
-      history.pushState(
-        { showEvent: false, selectedEventId: -1 },
-        "",
-        "/upcoming"
-      );
-      this.$nextTick(() => {
-        window.scrollTo(0, this.latestTop);
-      });
-    },
-    loadEvents() {
-      const self = this;
-      this.loading = true;
+const props = defineProps<{
+  eventId: number;
+}>();
 
-      $.ajax({
-        url: "/Upcoming/UpcomingListData",
-        type: "GET",
-        success: function (res) {
-          self.years = res.years;
-          self.loggedIn = res.loggedIn;
-          self.member = res.member;
-          self.icalLink = res.icalLink;
-          self.loading = false;
-        },
-        error: function () {
-          console.log("fel");
-          self.loading = false;
-        },
-      });
-    },
-  },
-  created() {
-    const self = this;
-    if (this.eventId > -1) {
-      this.selectedEventId = this.eventId;
-      this.showEvent = true;
-      history.replaceState(
-        { showEvent: true, selectedEventId: this.eventId },
-        "",
-        "/upcoming/Event/" + this.eventId
-      );
-    } else {
-      history.replaceState(
-        { showEvent: false, selectedEventId: -1 },
-        "",
-        "/upcoming"
-      );
-    }
-    this.loadEvents();
+const years = ref<UpcomingYears | null>(null);
+const loading = ref(false);
+const loggedIn = ref(false);
+const member = ref(false);
+const calendarView = ref(false);
+const icalLink = ref("");
+const showIcal = ref(false);
+const showEvent = ref(false);
+const selectedEventId = ref(-1);
+const latestTop = ref(0);
 
-    window.onpopstate = function (event) {
-      if (event.state) {
-        self.showEvent = event.state.showEvent;
-        self.selectedEventId = event.state.selectedEventId;
-      }
-    };
-  },
+const copyIcal = () => {
+  const copyText = document.querySelector("#ical-link") as HTMLInputElement;
+  copyText.select();
+  document.execCommand("copy");
 };
+
+const signup = (id: number) => {
+  latestTop.value = window.pageYOffset;
+  selectedEventId.value = id;
+  showEvent.value = true;
+  history.pushState(
+    { showEvent: true, selectedEventId: id },
+    "",
+    "/upcoming/Event/" + id
+  );
+};
+
+const closeEvent = () => {
+  showEvent.value = false;
+  history.pushState({ showEvent: false, selectedEventId: -1 }, "", "/upcoming");
+  nextTick(() => {
+    window.scrollTo(0, latestTop.value);
+  });
+};
+
+const loadEvents = () => {
+  loading.value = true;
+
+  fetch("/Upcoming/UpcomingListData")
+    .then((res) => res.json())
+    .then((res) => {
+      years.value = res.years;
+      loggedIn.value = res.loggedIn;
+      member.value = res.member;
+      icalLink.value = res.icalLink;
+      loading.value = false;
+    })
+    .catch(() => {
+      console.log("fel");
+      loading.value = false;
+    });
+};
+
+onMounted(() => {
+  if (props.eventId > -1) {
+    selectedEventId.value = props.eventId;
+    showEvent.value = true;
+    history.replaceState(
+      { showEvent: true, selectedEventId: props.eventId },
+      "",
+      "/upcoming/Event/" + props.eventId
+    );
+  } else {
+    history.replaceState(
+      { showEvent: false, selectedEventId: -1 },
+      "",
+      "/upcoming"
+    );
+  }
+  loadEvents();
+  window.onpopstate = function (event) {
+    if (event.state) {
+      showEvent.value = event.state.showEvent;
+      selectedEventId.value = event.state.selectedEventId;
+    }
+  };
+});
 </script>
 <style lang="scss"></style>
