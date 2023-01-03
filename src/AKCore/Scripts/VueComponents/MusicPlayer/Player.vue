@@ -91,8 +91,6 @@ export default {
     reset(val) {
       if (val) {
         const player = this.$refs.player;
-        const decimalProgress = 0;
-        const time = 0;
         this.trackLength = player ? player.duration : 0;
         this.timePlayed = 0;
         if (player) {

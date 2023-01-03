@@ -32,20 +32,20 @@
 import AlbumList from "./AlbumList.vue";
 import AlbumDisplay from "./AlbumDisplay.vue";
 import PlayList from "./PlayList.vue";
-import { Albums, Album, Track } from "./models";
+import { Album, Track } from "./models";
 import { ref, onMounted } from "vue";
 
-const albums = ref<Albums | null>(null);
+const albums = ref<Album[]>([]);
 const currentAlbum = ref<Album | null>(null);
 const playList = ref<Track[]>([]);
 const playing = ref(false);
 
-const setCurrentAlbum = (currentAlbumId: number) => {
-  if (!albums.value || currentAlbumId < 1) {
+const setCurrentAlbum = (currentAlbumId: string) => {
+  if (!albums.value || parseInt(currentAlbumId) < 1) {
     return null;
   }
-  currentAlbum.value = albums.value[currentAlbumId];
-  currentAlbum.value.tracks = [...albums.value[currentAlbumId].tracks];
+  currentAlbum.value =
+    albums.value.find((x) => x.id === currentAlbumId) ?? null;
 };
 
 const selectAlbum = (album: Album) => {
@@ -84,10 +84,8 @@ onMounted(() => {
   if (!albums.value) {
     return;
   }
-  const albumIds = Object.keys(albums.value);
-  setCurrentAlbum(
-    parseInt(albumIds[Math.floor(Math.random() * albumIds.length)])
-  );
+  const album = albums.value[Math.floor(Math.random() * albums.value.length)];
+  setCurrentAlbum(album.id);
 });
 </script>
 <style lang="scss" scoped>
