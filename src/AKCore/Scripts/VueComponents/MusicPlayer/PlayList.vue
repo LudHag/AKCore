@@ -124,7 +124,6 @@ const selectTrack = (track: Track) => {
     if (playList.value.length > 0) {
       const index = playList.value.indexOf(track);
       if (!replay.value) {
-        console.log(index);
         emit("remove-before", index);
       }
     }

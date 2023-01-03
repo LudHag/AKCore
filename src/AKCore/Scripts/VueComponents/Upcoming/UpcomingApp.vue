@@ -68,10 +68,10 @@
   </div>
 </template>
 <script>
-import Spinner from '../Spinner.vue';
-import UpcomingList from './UpcomingList.vue';
-import UpcomingCalendar from './UpcomingCalendar.vue';
-import EventApp from '../Event/EventApp.vue';
+import Spinner from "../Spinner.vue";
+import UpcomingList from "./UpcomingList.vue";
+import UpcomingCalendar from "./UpcomingCalendar.vue";
+import EventApp from "../Event/EventApp.vue";
 
 export default {
   components: {
@@ -80,7 +80,7 @@ export default {
     UpcomingCalendar,
     EventApp,
   },
-  props: ['eventId'],
+  props: ["eventId"],
   data() {
     return {
       years: null,
@@ -88,7 +88,7 @@ export default {
       loggedIn: false,
       member: false,
       calendarView: false,
-      icalLink: '',
+      icalLink: "",
       showIcal: false,
       showEvent: false,
       selectedEventId: -1,
@@ -97,9 +97,9 @@ export default {
   },
   methods: {
     copyIcal() {
-      const copyText = document.querySelector('#ical-link');
+      const copyText = document.querySelector("#ical-link");
       copyText.select();
-      document.execCommand('copy');
+      document.execCommand("copy");
     },
     signup(id) {
       this.latestTop = window.pageYOffset;
@@ -107,16 +107,16 @@ export default {
       this.showEvent = true;
       history.pushState(
         { showEvent: true, selectedEventId: id },
-        '',
-        '/upcoming/Event/' + id
+        "",
+        "/upcoming/Event/" + id
       );
     },
     closeEvent() {
       this.showEvent = false;
       history.pushState(
         { showEvent: false, selectedEventId: -1 },
-        '',
-        '/upcoming'
+        "",
+        "/upcoming"
       );
       this.$nextTick(() => {
         window.scrollTo(0, this.latestTop);
@@ -127,8 +127,8 @@ export default {
       this.loading = true;
 
       $.ajax({
-        url: '/Upcoming/UpcomingListData',
-        type: 'GET',
+        url: "/Upcoming/UpcomingListData",
+        type: "GET",
         success: function (res) {
           self.years = res.years;
           self.loggedIn = res.loggedIn;
@@ -137,7 +137,7 @@ export default {
           self.loading = false;
         },
         error: function () {
-          console.log('fel');
+          console.log("fel");
           self.loading = false;
         },
       });
@@ -150,14 +150,14 @@ export default {
       this.showEvent = true;
       history.replaceState(
         { showEvent: true, selectedEventId: this.eventId },
-        '',
-        '/upcoming/Event/' + this.eventId
+        "",
+        "/upcoming/Event/" + this.eventId
       );
     } else {
       history.replaceState(
         { showEvent: false, selectedEventId: -1 },
-        '',
-        '/upcoming'
+        "",
+        "/upcoming"
       );
     }
     this.loadEvents();
