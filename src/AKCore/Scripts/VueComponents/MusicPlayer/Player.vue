@@ -16,7 +16,7 @@
       ></a>
       <div
         class="progress-container"
-        ref="progress"
+        ref="progressref"
         @click.prevent="clickProgress"
       >
         <div class="music-progress">
@@ -42,91 +42,129 @@
     ></audio>
   </div>
 </template>
-<script>
+<script setup lang="ts">
+import { ref, computed, watch, nextTick, toRefs } from "vue";
 import { fmtMSS } from "../../utils/functions";
-export default {
-  props: ["playing", "trackPlaying", "reset", "replay"],
-  data() {
-    return {
-      trackLength: 0,
-      timePlayed: 0,
-    };
-  },
-  computed: {
-    timeDisplay() {
-      return fmtMSS(this.timePlayed) + "/" + fmtMSS(this.trackLength);
-    },
-    progress() {
-      if (this.timePlayed === 0 || this.trackLength === 0) {
-        return 0;
+
+import { Track } from "./models";
+
+const emit = defineEmits<{
+  (e: "next"): void;
+  (e: "replay"): void;
+  (e: "playpause"): void;
+}>();
+
+const props = defineProps<{
+  playing: boolean;
+  trackPlaying?: Track;
+  reset: boolean;
+  replay: boolean;
+}>();
+
+const { playing, trackPlaying, reset } = toRefs(props);
+
+const trackLength = ref(0);
+const timePlayed = ref(0);
+const player = ref<HTMLAudioElement>();
+const progressref = ref<HTMLDivElement>();
+
+const timeDisplay = computed(() => {
+  return fmtMSS(timePlayed.value) + "/" + fmtMSS(trackLength.value);
+});
+
+const progress = computed(() => {
+  if (timePlayed.value === 0 || trackLength.value === 0) {
+    return 0;
+  }
+  return (timePlayed.value / trackLength.value) * 100;
+});
+
+const nowPlayingText = computed(() => {
+  return "Spelar nu: " + trackPlaying?.value?.name;
+});
+
+watch(
+  () => playing.value,
+  (val) => {
+    const playerValue = player.value;
+    if (!playerValue) {
+      return;
+    }
+    if (val) {
+      playerValue.play();
+      playerValue.addEventListener("timeupdate", timeUpdate);
+      playerValue.addEventListener("ended", endedListener);
+    } else {
+      playerValue.pause();
+      playerValue.removeEventListener("timeupdate", timeUpdate);
+      playerValue.removeEventListener("ended", endedListener);
+    }
+  }
+);
+
+watch(
+  () => trackPlaying?.value,
+  (val) => {
+    const playerValue = player.value;
+    if (!playerValue) {
+      return;
+    }
+    if (playing.value) {
+      nextTick(() => {
+        playerValue.load();
+        playerValue.play();
+      });
+    }
+  }
+);
+
+watch(
+  () => reset.value,
+  (val) => {
+    const playerValue = player.value;
+    if (!playerValue) {
+      return;
+    }
+    if (val) {
+      trackLength.value = playerValue ? playerValue.duration : 0;
+      timePlayed.value = 0;
+      if (playerValue) {
+        playerValue.currentTime = 0;
       }
-      return (this.timePlayed / this.trackLength) * 100;
-    },
-    nowPlayingText() {
-      return "Spelar nu: " + this.trackPlaying.name;
-    },
-  },
-  watch: {
-    playing(val) {
-      const player = this.$refs.player;
-      if (val) {
-        player.play();
-        player.addEventListener("timeupdate", this.timeUpdate);
-        player.addEventListener("ended", this.endedListener);
-      } else {
-        player.pause();
-        player.removeEventListener("timeupdate", this.timeUpdate);
-        player.removeEventListener("ended", this.endedListener);
-      }
-    },
-    trackPlaying() {
-      if (this.playing) {
-        const player = this.$refs.player;
-        this.$nextTick(() => {
-          player.load();
-          player.play();
-        });
-      }
-    },
-    reset(val) {
-      if (val) {
-        const player = this.$refs.player;
-        const decimalProgress = 0;
-        const time = 0;
-        this.trackLength = player ? player.duration : 0;
-        this.timePlayed = 0;
-        if (player) {
-          player.currentTime = 0;
-        }
-      }
-    },
-  },
-  methods: {
-    timeUpdate(event) {
-      const player = this.$refs.player;
-      if (player) {
-        this.trackLength = player.duration;
-        this.timePlayed = event.target.currentTime;
-      }
-    },
-    endedListener() {
-      this.trackLength = 0;
-      this.timePlayed = 0;
-      this.next();
-    },
-    next() {
-      this.$emit("next");
-    },
-    clickProgress(event) {
-      const progressContainer = this.$refs.progress;
-      const player = this.$refs.player;
-      const decimalProgress = event.offsetX / progressContainer.offsetWidth;
-      const time = decimalProgress * player.duration;
-      this.trackLength = player.duration;
-      this.timePlayed = time;
-      player.currentTime = time;
-    },
-  },
+    }
+  }
+);
+
+const timeUpdate = (event: any) => {
+  const playerValue = player.value;
+  if (!playerValue) {
+    return;
+  }
+  trackLength.value = playerValue.duration;
+  timePlayed.value = event.target.currentTime;
+};
+
+const endedListener = () => {
+  trackLength.value = 0;
+  timePlayed.value = 0;
+  next();
+};
+
+const next = () => {
+  emit("next");
+};
+
+const clickProgress = (event: any) => {
+  const playerValue = player.value;
+  const progressContainer = progressref.value;
+  if (!playerValue) {
+    return;
+  }
+  const decimalProgress = event.offsetX / progressContainer!.offsetWidth;
+  const time = decimalProgress * playerValue.duration;
+  trackLength.value = playerValue.duration;
+  timePlayed.value = time;
+  playerValue.currentTime = time;
 };
 </script>
 <style lang="scss" scoped>

@@ -1,4 +1,8 @@
-﻿Date.prototype.addDays = function (days) {
+﻿interface Date {
+  addDays(days: number): Date;
+}
+
+Date.prototype.addDays = function (days: number) {
   const dat = new Date(this.valueOf());
   dat.setDate(dat.getDate() + days);
   return dat;
@@ -57,6 +61,7 @@ $(function () {
     code = ["f", "l", "ö", "j", "t"];
   let pos = 0;
   document.addEventListener("keydown", function (a) {
+    //@ts-ignore
     let b = allowedKeys[a.keyCode],
       c = code[pos];
     b == c ? (pos++, pos == code.length && flojt()) : (pos = 0);
@@ -66,6 +71,7 @@ $(function () {
 function flojt() {
   const a = document;
   let b = a.getElementById("__cornify_nodes");
+  //@ts-ignore
   if (b) cornify_add();
   else {
     let c = null;
@@ -77,6 +83,7 @@ function flojt() {
       "https://cornify.com/js/cornify_run.js",
     ];
     for (let e = 0; e < d.length; e++)
+      //@ts-ignore
       (b = a.createElement("script")), (b.src = d[e]), c.appendChild(b);
   }
 }

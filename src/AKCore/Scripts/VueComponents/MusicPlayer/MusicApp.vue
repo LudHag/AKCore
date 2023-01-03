@@ -1,14 +1,13 @@
 ﻿<template>
   <div id="music-app">
     <h2 class="album-title" v-if="currentAlbum">
-      {{ this.currentAlbum.name }}
+      {{ currentAlbum.name }}
     </h2>
     <div class="player-container" v-if="currentAlbum">
       <AlbumDisplay
         :album="currentAlbum"
         @add-track="addTrack"
         :show-tracks="playList.length > 0"
-        @playall="playAll"
       ></AlbumDisplay>
       <PlayList
         :play-list="playList"
@@ -29,72 +28,69 @@
     ></album-list>
   </div>
 </template>
-<script>
-import AlbumList from './AlbumList.vue';
-import AlbumDisplay from './AlbumDisplay.vue';
-import PlayList from './PlayList.vue';
+<script setup lang="ts">
+import AlbumList from "./AlbumList.vue";
+import AlbumDisplay from "./AlbumDisplay.vue";
+import PlayList from "./PlayList.vue";
+import { Album, Track } from "./models";
+import { ref, onMounted } from "vue";
 
-export default {
-  data() {
-    return {
-      albums: null,
-      currentAlbumId: -1,
-      playList: [],
-      playing: false,
-    };
-  },
-  components: {
-    AlbumList,
-    AlbumDisplay,
-    PlayList,
-  },
-  computed: {
-    currentAlbum() {
-      if (!this.albums || this.currentAlbumId < 1) {
-        return null;
-      }
-      return this.albums[this.currentAlbumId];
-    },
-  },
-  methods: {
-    selectAlbum(album) {
-      this.currentAlbumId = album.id;
-    },
-    playAll() {
-      console.log('play all');
-    },
-    playPause() {
-      this.playing = !this.playing;
-    },
-    stop() {
-      this.playing = false;
-    },
-    addTrack(track) {
-      const newTrack = { ...track, key: track.id + this.playList.length };
-      this.playList.push(newTrack);
-    },
-    removeTrack(track) {
-      const index = this.playList.indexOf(track);
-      if (index > -1) {
-        this.playList.splice(index, 1);
-      }
-    },
-    removeBefore(index) {
-      if (this.playList.length > index) {
-        this.playList.splice(0, index);
-      }
-    },
-  },
-  created() {
-    this.albums = widgetAlbums;
-    const albumIds = Object.keys(widgetAlbums);
-    this.currentAlbumId = albumIds[Math.floor(Math.random() * albumIds.length)];
-  },
+const albums = ref<Album[]>([]);
+const currentAlbum = ref<Album | null>(null);
+const playList = ref<Track[]>([]);
+const playing = ref(false);
+
+const setCurrentAlbum = (currentAlbumId: string) => {
+  if (!albums.value || parseInt(currentAlbumId) < 1) {
+    return null;
+  }
+  currentAlbum.value =
+    albums.value.find((x) => x.id === currentAlbumId) ?? null;
 };
+
+const selectAlbum = (album: Album) => {
+  setCurrentAlbum(album.id);
+};
+
+const playPause = () => {
+  playing.value = !playing.value;
+};
+
+const stop = () => {
+  playing.value = false;
+};
+
+const addTrack = (track: Track) => {
+  const newTrack = { ...track, key: track.id + playList.value.length };
+  playList.value.push(newTrack);
+};
+
+const removeTrack = (track: Track) => {
+  const index = playList.value.indexOf(track);
+  if (index > -1) {
+    playList.value.splice(index, 1);
+  }
+};
+
+const removeBefore = (index: number) => {
+  if (playList.value.length > index) {
+    playList.value.splice(0, index);
+  }
+};
+
+onMounted(() => {
+  //@ts-ignore
+  albums.value = widgetAlbums;
+  if (!albums.value) {
+    return;
+  }
+  const album = albums.value[Math.floor(Math.random() * albums.value.length)];
+  setCurrentAlbum(album.id);
+});
 </script>
 <style lang="scss" scoped>
-@import 'bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss';
-@import '../../../Styles/variables.scss';
+@import "bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss";
+@import "../../../Styles/variables.scss";
 .album-title {
   background-color: #111111;
   border-radius: 5px;

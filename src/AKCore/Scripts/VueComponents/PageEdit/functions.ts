@@ -1,4 +1,4 @@
-export const getHeader = (type) => {
+export const getHeader = (type: string): string => {
   switch (type) {
     case "Text":
       return "Text-widget";

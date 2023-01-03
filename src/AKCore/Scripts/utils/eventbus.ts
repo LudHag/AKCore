@@ -1,14 +1,12 @@
 class Event {
-  constructor() {
-    this.events = {};
-  }
+  constructor(private events: any = {}) {}
 
-  on(eventName, fn) {
+  on(eventName: string, fn: Function) {
     this.events[eventName] = this.events[eventName] || [];
     this.events[eventName].push(fn);
   }
 
-  off(eventName, fn) {
+  off(eventName: string, fn: Function) {
     if (this.events[eventName]) {
       for (var i = 0; i < this.events[eventName].length; i++) {
         if (this.events[eventName][i] === fn) {
@@ -19,9 +17,9 @@ class Event {
     }
   }
 
-  trigger(eventName, data) {
+  trigger(eventName: string, data: any) {
     if (this.events[eventName]) {
-      this.events[eventName].forEach(function (fn) {
+      this.events[eventName].forEach(function (fn: Function) {
         fn(data);
       });
     }

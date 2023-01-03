@@ -1,22 +1,26 @@
 ﻿@model IList<AKCore.DataModel.Album>
 <script>
-    var widgetAlbums = {};
+    var widgetAlbums = [];
     @foreach (var a in Model)
     {
-        @: widgetAlbums['@a.Id'] = {};
+        @: var widgetAlbum = {};
         if(!string.IsNullOrEmpty(a.Category)) {
-            @: widgetAlbums['@a.Id'].category = '@Html.Raw(a.Category)';
+            @: widgetAlbum.category = '@Html.Raw(a.Category)';
         }
-        @: widgetAlbums['@a.Id'].name = '@Html.Raw(a.Name)';
-        @: widgetAlbums['@a.Id'].image = '@a.Image';
-        @: widgetAlbums['@a.Id'].tracks = {};
+        @: widgetAlbum.name = '@Html.Raw(a.Name)';
+        @: widgetAlbum.image = '@a.Image';
+        @: widgetAlbum.id = '@a.Id';
+        @: widgetAlbum.tracks =[];
         foreach (var track in a.Tracks)
         {
-            @: widgetAlbums['@a.Id'].tracks['@track.Number'] = {};
-            @: widgetAlbums['@a.Id'].tracks['@track.Number'].filepath = "/albums/@(a.Id)/@(Html.Raw(track.FileName))";
-            @: widgetAlbums['@a.Id'].tracks['@track.Number'].name = '@track.GetDisplayName()';
-            @: widgetAlbums['@a.Id'].tracks['@track.Number'].id = '@track.Id';
+            @: var albumTrack = {};
+            @: albumTrack.filepath = "/albums/@(a.Id)/@(Html.Raw(track.FileName))";
+            @: albumTrack.name = '@track.GetDisplayName()';
+            @: albumTrack.id = '@track.Id';
+            @: widgetAlbum.tracks.push(albumTrack);
         }
+        @: widgetAlbums.push(widgetAlbum);
+
     }
 
 </script>

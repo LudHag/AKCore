@@ -1,5 +1,5 @@
 ﻿export default {
-  defaultFormSend(form, error, success, callback) {
+  defaultFormSend(form: any, error: any, success: any, callback: Function) {
     $.ajax({
       url: form.attr("action"),
       type: form.attr("method"),
@@ -28,7 +28,7 @@
       },
     });
   },
-  postByUrl(url, error, success, callback) {
+  postByUrl(url: string, error: any, success: any, callback: Function) {
     $.ajax({
       url,
       type: "POST",
@@ -56,7 +56,13 @@
       },
     });
   },
-  postByObjectAsForm(url, obj, error, success, callback) {
+  postByObjectAsForm(
+    url: string,
+    obj: any,
+    error: any,
+    success: any,
+    callback: Function
+  ) {
     $.ajax({
       url: url,
       dataType: "json",
@@ -86,7 +92,13 @@
       },
     });
   },
-  postByObject(url, obj, error, success, callback) {
+  postByObject(
+    url: string,
+    obj: any,
+    error: any,
+    success: any,
+    callback: Function
+  ) {
     $.ajax({
       url: url,
       dataType: "json",
@@ -117,7 +129,13 @@
       },
     });
   },
-  postFormData(url, obj, error, success, callback) {
+  postFormData(
+    url: string,
+    obj: any,
+    error: any,
+    success: any,
+    callback: Function
+  ) {
     $.ajax({
       url: url,
       dataType: "json",
@@ -149,7 +167,7 @@
       },
     });
   },
-  get(url, error, callback) {
+  get(url: string, error: any, callback: Function) {
     $.ajax({
       url: url,
       type: "GET",
