@@ -37,6 +37,7 @@
       </tbody>
     </table>
     <event-info-modal
+      v-if="modalEvent"
       :event="modalEvent"
       member="member"
       @signup="signup"
@@ -45,15 +46,15 @@
   </div>
 </template>
 <script>
-import Constants from '../../constants';
-import CalendarDay from './CalendarDay.vue';
-import EventInfoModal from './EventInfoModal.vue';
+import Constants from "../../constants";
+import CalendarDay from "./CalendarDay.vue";
+import EventInfoModal from "./EventInfoModal.vue";
 
 const timeDay = 24 * 60 * 60 * 1000;
 const today = new Date();
 
 export default {
-  props: ['years', 'loggedIn', 'member'],
+  props: ["years", "loggedIn", "member"],
   components: {
     CalendarDay,
     EventInfoModal,
@@ -71,7 +72,7 @@ export default {
     },
     signup(id) {
       this.closeModal();
-      this.$emit('signup', id);
+      this.$emit("signup", id);
     },
     nextMonth() {
       this.month++;
