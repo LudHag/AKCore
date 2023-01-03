@@ -39,102 +39,112 @@
     <event-info-modal
       v-if="modalEvent"
       :event="modalEvent"
-      member="member"
+      :member="member"
       @signup="signup"
       @close="closeModal"
     ></event-info-modal>
   </div>
 </template>
-<script>
+<script setup lang="ts">
+import { computed, onMounted, ref } from "vue";
 import Constants from "../../constants";
 import CalendarDay from "./CalendarDay.vue";
 import EventInfoModal from "./EventInfoModal.vue";
+import { UpcomingYears, UpcomingEvent } from "./models";
 
 const timeDay = 24 * 60 * 60 * 1000;
 const today = new Date();
 
-export default {
-  props: ["years", "loggedIn", "member"],
-  components: {
-    CalendarDay,
-    EventInfoModal,
-  },
-  data() {
-    return {
-      month: 0,
-      year: 0,
-      modalEvent: null,
-    };
-  },
-  methods: {
-    getMonthName(month) {
-      return Constants.MONTHS[month];
-    },
-    signup(id) {
-      this.closeModal();
-      this.$emit("signup", id);
-    },
-    nextMonth() {
-      this.month++;
-      if (this.month > 11) {
-        this.month = 0;
-        this.year++;
-      }
-    },
-    prevMonth() {
-      this.month--;
-      if (this.month < 0) {
-        this.month = 11;
-        this.year--;
-      }
-    },
-    openEvent(e) {
-      this.modalEvent = e;
-    },
-    closeModal() {
-      this.modalEvent = null;
-    },
-  },
-  computed: {
-    days() {
-      return Constants.DAYS;
-    },
-    monthEvents() {
-      const yearEvents = this.years[this.year];
-      if (yearEvents) {
-        return yearEvents.months[this.month + 1];
-      }
-      return [];
-    },
-    thisMonthName() {
-      return this.getMonthName(this.month);
-    },
-    firstWeekDays() {
-      const firstDayOfMonth = new Date(this.year, this.month, 1);
-      const lastDayOfMonth = new Date(this.year, this.month + 1, 0);
-      let firstDayWeekDay = firstDayOfMonth.getDay() - 1;
-      if (firstDayWeekDay < 0) firstDayWeekDay = 7 + firstDayWeekDay;
-      const firstDayOfCalendar = new Date(
-        firstDayOfMonth.getTime() - firstDayWeekDay * timeDay
-      );
-      let monday = new Date(firstDayOfCalendar.getTime());
-      const weeks = [];
-      while (monday < lastDayOfMonth) {
-        weeks.push(monday);
-        monday = monday.addDays(7);
-      }
-      return weeks;
-    },
-    showPrevArrow() {
-      return (
-        this.month - 1 >= today.getMonth() || this.year > today.getFullYear()
-      );
-    },
-  },
-  created() {
-    this.year = today.getFullYear();
-    this.month = today.getMonth();
-  },
+const emit = defineEmits<{
+  (e: "signup", id: number): void;
+}>();
+
+const props = defineProps<{
+  years: UpcomingYears;
+  loggedIn: boolean;
+  member: boolean;
+}>();
+
+const month = ref(0);
+const year = ref(0);
+const modalEvent = ref<UpcomingEvent | null>(null);
+
+const signup = (id: number) => {
+  closeModal();
+  emit("signup", id);
 };
+
+const nextMonth = () => {
+  month.value++;
+  if (month.value > 11) {
+    month.value = 0;
+    year.value++;
+  }
+};
+
+const prevMonth = () => {
+  month.value--;
+  if (month.value < 0) {
+    month.value = 11;
+    year.value--;
+  }
+};
+
+const openEvent = (e: UpcomingEvent) => {
+  modalEvent.value = e;
+};
+
+const closeModal = () => {
+  modalEvent.value = null;
+};
+
+const days = Constants.DAYS;
+
+const monthEvents = computed(() => {
+  const yearEvents = props.years[year.value];
+  if (yearEvents && yearEvents.months) {
+    const events = yearEvents.months[month.value + 1];
+    if (events) return events;
+  }
+  return [];
+});
+
+const thisMonthName = computed(() => {
+  if (monthEvents.value && monthEvents.value.length === 0) return "";
+  try {
+    return Constants.MONTHS[monthEvents.value[0].month - 1];
+  } catch (e) {
+    console.log(monthEvents);
+    throw e;
+  }
+});
+
+const firstWeekDays = computed(() => {
+  const firstDayOfMonth = new Date(year.value, month.value, 1);
+  const lastDayOfMonth = new Date(year.value, month.value + 1, 0);
+  let firstDayWeekDay = firstDayOfMonth.getDay() - 1;
+  if (firstDayWeekDay < 0) firstDayWeekDay = 7 + firstDayWeekDay;
+  const firstDayOfCalendar = new Date(
+    firstDayOfMonth.getTime() - firstDayWeekDay * timeDay
+  );
+  let monday = new Date(firstDayOfCalendar.getTime());
+  const weeks = [];
+  while (monday < lastDayOfMonth) {
+    weeks.push(monday);
+    monday = monday.addDays(7);
+  }
+  return weeks;
+});
+
+const showPrevArrow = computed(() => {
+  return (
+    month.value - 1 >= today.getMonth() || year.value > today.getFullYear()
+  );
+});
+
+onMounted(() => {
+  year.value = today.getFullYear();
+  month.value = today.getMonth();
+});
 </script>
 <style lang="scss"></style>
