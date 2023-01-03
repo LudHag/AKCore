@@ -34,6 +34,7 @@ const emit = defineEmits<{
   (e: "playpause"): void;
   (e: "stop"): void;
   (e: "remove", track: Track): void;
+  (e: "remove-before", index: number): void;
   (e: "add-track", track: Track): void;
 }>();
 
@@ -123,7 +124,8 @@ const selectTrack = (track: Track) => {
     if (playList.value.length > 0) {
       const index = playList.value.indexOf(track);
       if (!replay.value) {
-        emit("remove", playList.value[index]);
+        console.log(index);
+        emit("remove-before", index);
       }
     }
   }
