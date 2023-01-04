@@ -33,79 +33,74 @@
     </modal>
   </div>
 </template>
-<script>
+<script setup lang="ts">
 import Modal from "../Modal.vue";
 import RecruitsHeader from "./RecruitsHeader.vue";
 import RecruitsList from "./RecruitsList.vue";
 import Constants from "../../constants";
+import { computed, onMounted, ref } from "vue";
+import { Recruit } from "./models";
 
-export default {
-  data: function () {
-    return {
-      searchText: "",
-      instrument: "",
-      archived: false,
-      recruits: [],
-      showModal: false,
-    };
-  },
-  components: {
-    Modal,
-    RecruitsHeader,
-    RecruitsList,
-  },
-  computed: {
-    instruments() {
-      return Constants.INSTRUMENTS;
-    },
-    filteredRecruits() {
-      return this.recruits.filter((recruit) => {
-        return (
-          recruit.archived === this.archived &&
-          this.hasSearchterm(recruit) &&
-          this.hasInstrument(recruit)
-        );
-      });
-    },
-    exportedText() {
-      return this.filteredRecruits
-        .map((recruit) => {
-          return `${recruit.fname}\t${recruit.lname}\t${recruit.instrument}\t${recruit.email}\t${recruit.phone}`;
-        })
-        .join("\n");
-    },
-  },
-  methods: {
-    hasInstrument(recruit) {
-      return this.instrument === "" || recruit.instrument === this.instrument;
-    },
-    hasSearchterm(recruit) {
-      return (
-        this.searchText === "" ||
-        recruit.fname.toLowerCase().includes(this.searchText.toLowerCase()) ||
-        recruit.lname.toLowerCase().includes(this.searchText.toLowerCase())
-      );
-    },
-    close() {
-      this.showModal = false;
-    },
-    updateRecruit({ id, arch }) {
-      this.recruits = this.recruits.map((recruit) => {
-        if (recruit.id === id) {
-          recruit.archived = arch;
-        }
-        return recruit;
-      });
-    },
-    removeRecruit(id) {
-      this.recruits = this.recruits.filter((recruit) => {
-        return recruit.id !== id;
-      });
-    },
-  },
-  created() {
-    this.recruits = recruitList;
-  },
+const searchText = ref("");
+const instrument = ref("");
+const archived = ref(false);
+const recruits = ref<Recruit[]>([]);
+const showModal = ref(false);
+
+const instruments = computed(() => Constants.INSTRUMENTS);
+
+const filteredRecruits = computed(() => {
+  return recruits.value.filter((recruit) => {
+    return (
+      recruit.archived === archived.value &&
+      hasSearchterm(recruit) &&
+      hasInstrument(recruit)
+    );
+  });
+});
+
+const exportedText = computed(() => {
+  return filteredRecruits.value
+    .map((recruit) => {
+      return `${recruit.fname}\t${recruit.lname}\t${recruit.instrument}\t${recruit.email}\t${recruit.phone}`;
+    })
+    .join("\n");
+});
+
+const hasInstrument = (recruit: Recruit) => {
+  return instrument.value === "" || recruit.instrument === instrument.value;
 };
+
+const hasSearchterm = (recruit: Recruit) => {
+  return (
+    searchText.value === "" ||
+    recruit.fname.toLowerCase().includes(searchText.value.toLowerCase()) ||
+    recruit.lname.toLowerCase().includes(searchText.value.toLowerCase())
+  );
+};
+
+const close = () => {
+  showModal.value = false;
+};
+
+const updateRecruit = ({ id, arch }: { id: number; arch: boolean }) => {
+  recruits.value = recruits.value.map((recruit) => {
+    if (recruit.id === id) {
+      recruit.archived = arch;
+    }
+    return recruit;
+  });
+};
+
+const removeRecruit = (id: number) => {
+  recruits.value = recruits.value.filter((recruit) => {
+    return recruit.id !== id;
+  });
+};
+
+onMounted(() => {
+  //@ts-ignore
+  recruits.value = recruitList;
+});
 </script>
 <style lang="scss" scoped></style>
