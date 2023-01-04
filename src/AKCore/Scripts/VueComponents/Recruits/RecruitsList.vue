@@ -34,63 +34,68 @@
     </div>
   </div>
 </template>
-<script>
+<script setup lang="ts">
 import ApiService from "../../services/apiservice";
+import { GenericApiResponse } from "../../services/models";
+import { Recruit, RecruitUpdate } from "./models";
 
-export default {
-  props: ["recruits"],
-  methods: {
-    getDate(recruit) {
-      return (
-        recruit.created.getFullYear() +
-        "-" +
-        ("0" + (recruit.created.getMonth() + 1)).slice(-2) +
-        "-" +
-        ("0" + recruit.created.getDate()).slice(-2)
-      );
-    },
-    geContactInfo(recruit) {
-      return (
-        recruit.email +
-        (recruit.email.length > 1 ? "<br />" : "") +
-        recruit.phone
-      );
-    },
-    archive(recruit) {
-      ApiService.postByObjectAsForm(
-        "/Signup/Archive",
-        { id: recruit.id, arch: !recruit.archived },
-        null,
-        null,
-        (response) => {
-          if (response.success) {
-            this.$emit("update", { id: recruit.id, arch: !recruit.archived });
-          }
-        }
-      );
-    },
-    remove(recruit) {
-      if (
-        !window.confirm(
-          "Är du säker att du vill ta bort den här intresseanmälan?"
-        )
-      ) {
-        return;
+const emit = defineEmits<{
+  (e: "update", value: RecruitUpdate): void;
+  (e: "remove", value: number): void;
+}>();
+
+defineProps<{
+  recruits: Recruit[];
+}>();
+
+const getDate = (recruit: Recruit) => {
+  return (
+    recruit.created.getFullYear() +
+    "-" +
+    ("0" + (recruit.created.getMonth() + 1)).slice(-2) +
+    "-" +
+    ("0" + recruit.created.getDate()).slice(-2)
+  );
+};
+
+const geContactInfo = (recruit: Recruit) => {
+  return (
+    recruit.email + (recruit.email.length > 1 ? "<br />" : "") + recruit.phone
+  );
+};
+
+const archive = (recruit: Recruit) => {
+  ApiService.postByObjectAsForm(
+    "/Signup/Archive",
+    { id: recruit.id, arch: !recruit.archived },
+    null,
+    null,
+    (response: GenericApiResponse) => {
+      if (response.success) {
+        emit("update", { id: recruit.id, arch: !recruit.archived });
       }
+    }
+  );
+};
 
-      ApiService.postByObjectAsForm(
-        "/Signup/Remove",
-        { id: recruit.id },
-        null,
-        null,
-        (response) => {
-          if (response.success) {
-            this.$emit("remove", recruit.id);
-          }
-        }
-      );
-    },
-  },
+const remove = (recruit: Recruit) => {
+  if (
+    !window.confirm("Är du säker att du vill ta bort den här intresseanmälan?")
+  ) {
+    return;
+  }
+
+  ApiService.postByObjectAsForm(
+    "/Signup/Remove",
+    { id: recruit.id },
+    null,
+    null,
+    (response: GenericApiResponse) => {
+      if (response.success) {
+        emit("remove", recruit.id);
+      }
+    }
+  );
 };
 </script>
 <style lang="scss" scoped>

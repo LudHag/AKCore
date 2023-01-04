@@ -9,3 +9,8 @@ export interface Recruit {
   other: string;
   id: number;
 }
+
+export interface RecruitUpdate {
+  id: number;
+  arch: boolean;
+}
