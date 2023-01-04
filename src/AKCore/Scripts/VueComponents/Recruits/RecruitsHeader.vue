@@ -31,10 +31,7 @@
           />
         </div>
         <div class="form-group">
-          <select
-            class="form-control"
-            @change="$emit('instrumentchange', $event.target.value)"
-          >
+          <select class="form-control" @change="instrumentChange($event)">
             <option value="">Sök efter instrument</option>
             <option v-for="instr in instruments" :key="instr">
               {{ instr }}
@@ -45,25 +42,33 @@
     </div>
   </div>
 </template>
-<script>
+<script setup lang="ts">
+import { onMounted, ref } from "vue";
 import Constants from "../../constants";
 
-export default {
-  data: function () {
-    return {
-      localSearchText: "",
-      localArchived: false,
-    };
-  },
-  props: ["archived"],
-  computed: {
-    instruments() {
-      return Constants.INSTRUMENTS;
-    },
-  },
-  created() {
-    this.localArchived = this.archived;
-  },
+const emit = defineEmits<{
+  (e: "export"): void;
+  (e: "archivechange", value: boolean): void;
+  (e: "searchchange", value: string): void;
+  (e: "instrumentchange", value: string): void;
+}>();
+
+const { archived } = defineProps<{
+  archived: boolean;
+}>();
+
+const localSearchText = ref("");
+const localArchived = ref(false);
+
+const instruments = Constants.INSTRUMENTS;
+
+const instrumentChange = (event: Event) => {
+  const target = event.target as HTMLSelectElement;
+  emit("instrumentchange", target.value);
 };
+
+onMounted(() => {
+  localArchived.value = archived;
+});
 </script>
 <style lang="scss" scoped></style>
