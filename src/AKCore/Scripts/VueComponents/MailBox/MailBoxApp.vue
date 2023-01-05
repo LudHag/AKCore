@@ -30,66 +30,55 @@
     </div>
   </div>
 </template>
-<script>
-import ApiService from '../../services/apiservice';
-import MailBoxForm from './MailBoxForm.vue';
-import MailBoxItem from './MailBoxItem.vue';
+<script setup lang="ts">
+import { onMounted, ref } from "vue";
+import ApiService from "../../services/apiservice";
+import MailBoxForm from "./MailBoxForm.vue";
+import MailBoxItem from "./MailBoxItem.vue";
+import { MailItem } from "./models";
 
-export default {
-  components: {
-    MailBoxForm,
-    MailBoxItem,
-  },
-  data() {
-    return {
-      mailBoxItems: [],
-      isArchived: false,
-    };
-  },
-  methods: {
-    isUserBoard() {
-      return isBoard;
-    },
-    loadMediaList() {
-      if (isBoard) {
-        ApiService.get(
-          '/MailBox/GetItems?archived=' + this.isArchived,
-          null,
-          (response) => {
-            this.mailBoxItems = response;
-          }
-        );
-      }
-    },
-    archive(id) {
-      ApiService.postByUrl(`/MailBox/${id}/Archive`, null, null, (response) => {
-        this.loadMediaList();
-      });
-    },
-    remove(id) {
-      if (window.confirm('är du säker på att du vill ta bort post?')) {
-        ApiService.postByUrl(
-          `/MailBox/${id}/Delete`,
-          null,
-          null,
-          (response) => {
-            this.loadMediaList();
-          }
-        );
-      }
-    },
+const mailBoxItems = ref<MailItem[]>([]);
+const isArchived = ref(false);
 
-    filterChange() {
-      this.loadMediaList();
-    },
-  },
-  created() {
-    this.loadMediaList();
-  },
+//@ts-ignore
+const isUserBoard = (): boolean => isBoard;
+
+const loadMediaList = () => {
+  if (isUserBoard()) {
+    ApiService.get(
+      "/MailBox/GetItems?archived=" + isArchived.value,
+      null,
+      (response: MailItem[]) => {
+        mailBoxItems.value = response;
+      }
+    );
+  }
 };
+
+const archive = (id: number) => {
+  ApiService.postByUrl(`/MailBox/${id}/Archive`, null, null, () => {
+    loadMediaList();
+  });
+};
+
+const remove = (id: number) => {
+  if (window.confirm("är du säker på att du vill ta bort post?")) {
+    ApiService.postByUrl(`/MailBox/${id}/Delete`, null, null, () => {
+      loadMediaList();
+    });
+  }
+};
+
+const filterChange = () => {
+  loadMediaList();
+};
+
+onMounted(() => {
+  loadMediaList();
+});
 </script>
 <style lang="scss" scoped>
-@import '../../../Styles/variables.scss';
+@import "../../../Styles/variables.scss";
 
 .list-header {
   position: relative;
