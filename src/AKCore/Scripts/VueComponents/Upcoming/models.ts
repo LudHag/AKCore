@@ -33,3 +33,35 @@ export interface UpcomingEvent {
   coming: number;
   notComing: number;
 }
+
+export interface UpcomingEventInfo {
+  where: UpcomingWhere;
+  car: boolean;
+  instrument: boolean;
+  comment: string;
+  isNintendo: boolean;
+  members: AvailableMember[];
+  event: UpcomingEvent;
+  signups: UpcomingSignup[];
+}
+
+export interface AvailableMember {
+  id: number;
+  fullName: string;
+}
+
+export interface UpcomingSignup {
+  id: number;
+  person: string;
+  personId: string;
+  personName: string;
+  where: UpcomingWhere;
+  car: boolean;
+  instrument: boolean;
+  instrumentName: string;
+  otherInstruments: string;
+  comment: string;
+  signupTime: string;
+}
+
+export type UpcomingWhere = "Hålan" | "Direkt" | "Kan inte komma" | null;
