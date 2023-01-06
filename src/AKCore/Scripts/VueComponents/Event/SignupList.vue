@@ -20,7 +20,7 @@
           <p>{{ signup.comment }}</p>
         </div>
         <div class="col-sm-3 signup-element" v-if="nintendo">
-          <p>{{ formatDateMethod(signup.signupTime) }}</p>
+          <p>{{ formatDate(signup.signupTime) }}</p>
         </div>
         <div class="col-sm-6 signup-element" v-if="!nintendo">
           <p>{{ signup.comment }}</p>
@@ -38,7 +38,7 @@
           <p>{{ signup.comment }}</p>
         </div>
         <div class="col-sm-3 signup-element" v-if="nintendo">
-          <p>{{ formatDateMethod(signup.signupTime) }}</p>
+          <p>{{ formatDate(signup.signupTime) }}</p>
         </div>
         <div class="col-sm-6 signup-element" v-if="!nintendo">
           <p>{{ signup.comment }}</p>
@@ -47,52 +47,56 @@
     </div>
   </div>
 </template>
-<script>
+<script setup lang="ts">
+import { toRefs, computed } from "vue";
 import { formatDate } from "../../utils/functions";
-export default {
-  props: ["signups", "nintendo"],
-  computed: {
-    coming() {
-      if (!this.signups) {
-        return [];
-      }
-      return this.signups.filter((signup) => {
-        return signup.where !== "Kan inte komma";
-      });
-    },
-    notComing() {
-      if (!this.signups) {
-        return [];
-      }
-      return this.signups.filter((signup) => {
-        return signup.where === "Kan inte komma";
-      });
-    },
-  },
-  methods: {
-    formatDateMethod(date) {
-      return formatDate(date);
-    },
-    otherInstrumentsList(signup) {
-      if (signup.otherInstruments) {
-        return ", " + signup.otherInstruments.replace(",", ", ");
-      }
-      return "";
-    },
-    getInfo(signup) {
-      let info = signup.where;
-      if (signup.instrument) {
-        info += ", har instrument";
-      }
-      if (signup.car) {
-        info += ", har bil";
-      }
-      return info;
-    },
-    cleanName(name) {
-      return name.replace(/\\/g, "");
-    },
-  },
+import { UpcomingSignup } from "../Upcoming/models";
+
+const props = defineProps<{
+  nintendo: boolean;
+  signups: UpcomingSignup[];
+}>();
+
+const { signups } = toRefs(props);
+
+const coming = computed(() => {
+  if (!signups.value) {
+    return [];
+  }
+  return signups.value.filter((signup) => {
+    return signup.where !== "Kan inte komma";
+  });
+});
+
+const notComing = computed(() => {
+  if (!signups.value) {
+    return [];
+  }
+  return signups.value.filter((signup) => {
+    return signup.where === "Kan inte komma";
+  });
+});
+
+const otherInstrumentsList = (signup: UpcomingSignup) => {
+  if (signup.otherInstruments) {
+    return ", " + signup.otherInstruments.replace(",", ", ");
+  }
+  return "";
+};
+
+const getInfo = (signup: UpcomingSignup) => {
+  let info = signup.where;
+  if (signup.instrument) {
+    info += ", har instrument";
+  }
+  if (signup.car) {
+    info += ", har bil";
+  }
+  return info;
+};
+
+const cleanName = (name: string) => {
+  return name.replace(/\\/g, "");
 };
 </script>
 <style lang="scss"></style>

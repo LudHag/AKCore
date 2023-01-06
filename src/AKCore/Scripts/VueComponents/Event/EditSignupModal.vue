@@ -44,52 +44,53 @@
     </template>
   </modal>
 </template>
-<script>
+<script setup lang="ts">
 import Constants from "../../constants";
 import Modal from "../Modal.vue";
+import { AvailableMember } from "../Upcoming/models";
 
-export default {
-  props: ["members", "eventId", "showModal"],
-  components: {
-    Modal,
-  },
-  computed: {
-    signupTypes() {
-      return Constants.SIGNUPTYPES;
+const emit = defineEmits<{
+  (e: "update"): void;
+  (e: "close"): void;
+}>();
+
+const props = defineProps<{
+  members: AvailableMember[];
+  eventId: number;
+  showModal: boolean;
+}>();
+
+const signupTypes = Constants.SIGNUPTYPES;
+
+const close = () => {
+  emit("close");
+};
+
+const submitForm = (event: Event) => {
+  const form = $(event.target as HTMLFormElement);
+  const error = form.find(".alert-danger");
+  const success = form.find(".alert-success");
+  $.ajax({
+    url: form.attr("action"),
+    type: "POST",
+    data: form.serialize(),
+    success: function (res) {
+      if (res.success) {
+        success.text("Anmälan uppdaterad");
+        success.slideDown().delay(3000).slideUp();
+        form.trigger("reset");
+        emit("update");
+        emit("close");
+      } else {
+        error.text(res.message);
+        error.slideDown().delay(4000).slideUp();
+      }
     },
-  },
-  methods: {
-    submitForm(event) {
-      const form = $(event.target);
-      const self = this;
-      const error = form.find(".alert-danger");
-      const success = $(".alert-success");
-      $.ajax({
-        url: form.attr("action"),
-        type: "POST",
-        data: form.serialize(),
-        success: function (res) {
-          if (res.success) {
-            success.text("Anmälan uppdaterad");
-            success.slideDown().delay(3000).slideUp();
-            form.trigger("reset");
-            self.$emit("update");
-            self.$emit("close");
-          } else {
-            error.text(res.message);
-            error.slideDown().delay(4000).slideUp();
-          }
-        },
-        error: function () {
-          error.text("Misslyckades med att anmäla dig");
-          error.slideDown().delay(4000).slideUp();
-        },
-      });
+    error: function () {
+      error.text("Misslyckades med att anmäla dig");
+      error.slideDown().delay(4000).slideUp();
     },
-    close(event) {
-      this.$emit("close");
-    },
-  },
+  });
 };
 </script>
 <style lang="scss"></style>
