@@ -2,28 +2,30 @@
   <div id="upcoming-app">
     <div v-if="!showEvent">
       <div class="calendar-actions" v-if="loggedIn">
-        <a
-          href="/upcoming/akevents.ics"
-          @click.prevent="showIcal = !showIcal"
-          class="fa fa-calendar"
-        >
-          Ical-länk</a
-        >
-        <div class="input-group ical-copy" v-if="showIcal">
-          <input
-            class="form-control"
-            id="ical-link"
-            type="text"
-            readonly
-            :value="icalLink"
-          />
-          <span class="input-group-btn">
-            <button
-              class="btn btn-default fa fa-files-o copy-btn"
-              @click.prevent="copyIcal"
-              type="button"
-            ></button>
-          </span>
+        <div class="ical-container">
+          <a
+            href="/upcoming/akevents.ics"
+            @click.prevent="showIcal = !showIcal"
+            class="fa fa-calendar"
+          >
+            Ical-länk</a
+          >
+          <div class="input-group ical-copy" v-if="showIcal">
+            <input
+              class="form-control"
+              id="ical-link"
+              type="text"
+              readonly
+              :value="icalLink"
+            />
+            <span class="input-group-btnp">
+              <button
+                class="btn btn-default fa fa-files-o copy-btn"
+                @click.prevent="copyIcal"
+                type="button"
+              ></button>
+            </span>
+          </div>
         </div>
         <div class="calendar-control hidden-xs">
           <a
@@ -158,4 +160,45 @@ onMounted(() => {
   };
 });
 </script>
-<style lang="scss"></style>
+<style lang="scss" scoped>
+.calendar-actions {
+  float: right;
+  text-align: right;
+  max-width: 360px;
+
+  .calendar-control {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    .calendar-toggle {
+      padding: 4px 10px;
+      color: #000;
+      display: inline-block;
+      background-color: #808080;
+
+      &.event {
+        border-radius: 7px 0 0 7px;
+      }
+
+      &.month {
+        border-radius: 0 7px 7px 0;
+      }
+
+      &.active {
+        background-color: #5f5f5f;
+      }
+    }
+  }
+}
+
+.ical-container {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  gap: 10px;
+
+  .input-group {
+    display: flex;
+    gap: 10px;
+  }
+}
+</style>
