@@ -27,42 +27,48 @@
     </div>
   </div>
 </template>
-<script>
+<script setup lang="ts">
+import { ref, computed } from "vue";
 import { formatDateNoTime } from "../../utils/functions";
+import { MailItem } from "./models";
 
-export default {
-  data() {
-    return {
-      expanded: false,
-    };
-  },
-  props: ["mailitem"],
-  computed: {
-    showExpand() {
-      return !this.expanded && this.mailitem.message.length > 200;
-    },
-    calculatedMessage() {
-      if (this.expanded || this.mailitem.message.length <= 200) {
-        return this.mailitem.message;
-      } else {
-        return this.mailitem.message.substring(0, 200) + "...";
-      }
-    },
-  },
-  methods: {
-    formatDateMethod(date) {
-      return formatDateNoTime(date);
-    },
-    expand() {
-      this.expanded = true;
-    },
-    archive() {
-      this.$emit("archive", this.mailitem);
-    },
-    remove() {
-      this.$emit("remove", this.mailitem);
-    },
-  },
+const emit = defineEmits<{
+  (e: "archive", mailItem: MailItem): void;
+  (e: "remove", mailItem: MailItem): void;
+}>();
+
+const { mailitem } = defineProps<{
+  mailitem: MailItem;
+}>();
+
+const expanded = ref(false);
+
+const showExpand = computed(() => {
+  return !expanded.value && mailitem.message.length > 200;
+});
+
+const calculatedMessage = computed(() => {
+  if (expanded.value || mailitem.message.length <= 200) {
+    return mailitem.message;
+  } else {
+    return mailitem.message.substring(0, 200) + "...";
+  }
+});
+
+const formatDateMethod = (date: string) => {
+  return formatDateNoTime(date);
+};
+
+const expand = () => {
+  expanded.value = true;
+};
+
+const archive = () => {
+  emit("archive", mailitem);
+};
+
+const remove = () => {
+  emit("remove", mailitem);
 };
 </script>
 <style lang="scss" scoped>

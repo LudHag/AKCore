@@ -1,5 +1,6 @@
 ﻿<template>
   <form
+    v-if="eventInfo"
     @submit.prevent="submitForm"
     :action="'/upcoming/Signup/' + eventInfo.event.id"
     method="POST"
@@ -75,61 +76,63 @@
     </div>
   </form>
 </template>
-<script>
-import Spinner from '../Spinner.vue';
+<script setup lang="ts">
+import { onMounted, ref, onActivated } from "vue";
+import { UpcomingEventInfo, UpcomingWhere } from "../Upcoming/models";
 
-export default {
-  components: {
-    Spinner,
-  },
-  data() {
-    return {
-      where: null,
-      car: false,
-      instrument: false,
-      comment: null,
-    };
-  },
-  props: ['eventInfo'],
-  methods: {
-    submitForm(event) {
-      const self = this;
-      const form = $(event.target);
-      const error = form.find('.alert-danger');
-      const success = form.find('.alert-success');
-      $.ajax({
-        url: form.attr('action'),
-        type: 'POST',
-        data: form.serialize(),
-        success: function (res) {
-          if (res.success) {
-            self.$emit('update');
-            success.text('Anmälan uppdaterad');
-            success.slideDown().delay(3000).slideUp();
-          } else {
-            error.text(res.message);
-            error.slideDown().delay(4000).slideUp();
-          }
-        },
-        error: function () {
-          error.text('Misslyckades med att anmäla dig');
-          error.slideDown().delay(4000).slideUp();
-        },
-      });
+const emit = defineEmits<{
+  (e: "update"): void;
+}>();
+
+const props = defineProps<{
+  eventInfo: UpcomingEventInfo | null;
+}>();
+
+const where = ref<UpcomingWhere>(null);
+const car = ref(false);
+const instrument = ref(false);
+const comment = ref<string | null>(null);
+
+const submitForm = (event: Event) => {
+  const form = $(event.target as HTMLFormElement);
+  const error = form.find(".alert-danger");
+  const success = form.find(".alert-success");
+  $.ajax({
+    url: form.attr("action"),
+    type: "POST",
+    data: form.serialize(),
+    success: function (res) {
+      if (res.success) {
+        emit("update");
+        success.text("Anmälan uppdaterad");
+        success.slideDown().delay(3000).slideUp();
+      } else {
+        error.text(res.message);
+        error.slideDown().delay(4000).slideUp();
+      }
     },
-    loadForm() {
-      this.where = this.eventInfo.where;
-      this.comment = this.eventInfo.comment;
-      this.instrument = this.eventInfo.instrument;
-      this.car = this.eventInfo.car;
+    error: function () {
+      error.text("Misslyckades med att anmäla dig");
+      error.slideDown().delay(4000).slideUp();
     },
-  },
-  activated() {
-    this.loadForm();
-  },
-  created() {
-    this.loadForm();
-  },
+  });
 };
+
+const loadForm = () => {
+  if (props.eventInfo) {
+    where.value = props.eventInfo.where;
+    comment.value = props.eventInfo.comment;
+    instrument.value = props.eventInfo.instrument;
+    car.value = props.eventInfo.car;
+  }
+};
+
+onMounted(() => {
+  loadForm();
+});
+
+onActivated(() => {
+  loadForm();
+});
 </script>
 <style lang="scss"></style>

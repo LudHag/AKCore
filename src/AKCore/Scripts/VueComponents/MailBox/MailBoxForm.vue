@@ -29,28 +29,26 @@
     </div>
   </form>
 </template>
-<script>
+<script setup lang="ts">
+import { ref } from "vue";
 import ApiService from "../../services/apiservice";
 
-export default {
-  data() {
-    return {
-      mailboxSubject: "",
-      mailBoxMessage: "",
-    };
-  },
-  methods: {
-    sendMailBox(event) {
-      const error = $($(".alert-danger")[0]);
-      const success = $($(".alert-success")[0]);
-      const form = $(event.target);
-      ApiService.defaultFormSend(form, error, success, () => {
-        this.mailboxSubject = "";
-        this.mailBoxMessage = "";
-        this.$emit("sent");
-      });
-    },
-  },
+const emit = defineEmits<{
+  (e: "sent"): void;
+}>();
+
+const mailboxSubject = ref("");
+const mailBoxMessage = ref("");
+
+const sendMailBox = (event: Event) => {
+  const error = $(".alert-danger");
+  const success = $(".alert-success");
+  const form = $(event.target as HTMLFormElement) as JQuery<HTMLFormElement>;
+  ApiService.defaultFormSend(form, error, success, () => {
+    mailboxSubject.value = "";
+    mailBoxMessage.value = "";
+    emit("sent");
+  });
 };
 </script>
 <style lang="scss" scoped></style>
