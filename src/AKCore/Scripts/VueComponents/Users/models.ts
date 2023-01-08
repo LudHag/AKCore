@@ -15,6 +15,7 @@ export interface User {
   givenMedal: string;
   hasKey: boolean;
   active: boolean;
+  password: string;
 }
 
 export interface UpdateInfo {
