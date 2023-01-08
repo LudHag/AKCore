@@ -52,121 +52,120 @@
     ></edit-user-modal>
   </div>
 </template>
-<script>
+<script setup lang="ts">
 import UserList from "./UserList.vue";
 import EditUserModal from "./EditUserModal.vue";
 import Spinner from "../Spinner.vue";
+import { User } from "./models";
+import { ref, computed, watch, onMounted } from "vue";
 
-export default {
-  components: {
-    UserList,
-    Spinner,
-    EditUserModal,
-  },
-  data() {
-    return {
-      searchPhrase: "",
-      inactive: false,
-      users: [],
-      allUsersCollected: false,
-      loading: false,
-      showUserModal: false,
-      updateUser: null,
-    };
-  },
-  computed: {
-    filteredUsers() {
-      var filtered = this.inactive
-        ? this.users
-        : this.users.filter((user) => {
-            return user.active != this.inactive;
-          });
-      if (this.searchPhrase !== "") {
-        filtered = filtered.filter((user) => {
-          const lowerPhrase = this.searchPhrase.toLowerCase();
-          return (
-            user.fullName.toLowerCase().indexOf(lowerPhrase) >= 0 ||
-            user.userName.toLowerCase().indexOf(lowerPhrase) >= 0
-          );
-        });
+const searchPhrase = ref("");
+const inactive = ref(false);
+const users = ref<User[]>([]);
+const allUsersCollected = ref(false);
+const loading = ref(false);
+const showUserModal = ref(false);
+const updateUser = ref<User | null>(null);
+
+const filteredUsers = computed(() => {
+  let filtered = inactive.value
+    ? users.value
+    : users.value.filter((user) => {
+        return user.active != inactive.value;
+      });
+  if (searchPhrase.value !== "") {
+    filtered = filtered.filter((user) => {
+      const lowerPhrase = searchPhrase.value.toLowerCase();
+      return (
+        user.fullName.toLowerCase().indexOf(lowerPhrase) >= 0 ||
+        user.userName.toLowerCase().indexOf(lowerPhrase) >= 0
+      );
+    });
+  }
+  return filtered;
+});
+
+watch(inactive, (newValue) => {
+  if (newValue && !allUsersCollected.value) {
+    getUsers(true);
+  }
+});
+
+const getUsers = (inactive: boolean) => {
+  loading.value = true;
+  $.ajax({
+    url: "/User/UserListData",
+    type: "POST",
+    data: { inactive },
+    success: function (res) {
+      users.value = res.users;
+      loading.value = false;
+      if (inactive) {
+        allUsersCollected.value = true;
       }
-      return filtered;
     },
-  },
-  watch: {
-    inactive() {
-      if (this.inactive && !this.allUsersCollected) {
-        this.getUsers(true);
-      }
+    error: function () {
+      console.log("fel");
+      loading.value = false;
     },
-  },
-  methods: {
-    getUsers(inactive) {
-      const self = this;
-      this.loading = true;
-      $.ajax({
-        url: "/User/UserListData",
-        type: "POST",
-        data: { inactive },
-        success: function (res) {
-          self.users = res.users;
-          self.loading = false;
-        },
-        error: function () {
-          console.log("fel");
-          self.loading = false;
-        },
-      });
-    },
-    updateUserProp(updateInfo) {
-      const user = this.users.find((user) => {
-        return user.userName === updateInfo.userName;
-      });
-      user[updateInfo.prop] = updateInfo.value;
-    },
-    removeUser(userName) {
-      const userIndex = this.users.findIndex((user) => {
-        return user.userName === userName;
-      });
-      this.users.splice(userIndex, 1);
-    },
-    userUpdated(user) {
-      const index = this.users.map((u) => u.id).indexOf(user.id);
-      this.users = Object.assign([], this.users, { [index]: user });
-      this.closeModal();
-      $(".alert-edit-user")
-        .text("Användare uppdaterad")
-        .slideDown()
-        .delay(4000)
-        .slideUp();
-    },
-    userCreated(user) {
-      user.fullName = user.firstName + " " + user.lastName;
-      this.users.push(user);
-      this.closeModal();
-      $(".alert-edit-user")
-        .text("Användare skapad")
-        .slideDown()
-        .delay(4000)
-        .slideUp();
-    },
-    closeModal() {
-      this.showUserModal = false;
-      this.updateUser = null;
-    },
-    editUser(user) {
-      this.showUserModal = true;
-      this.updateUser = user;
-    },
-    createNewUser() {
-      this.showUserModal = true;
-      this.updateUser = null;
-    },
-  },
-  created() {
-    this.getUsers(false);
-  },
+  });
 };
+
+const updateUserProp = (updateInfo: any) => {
+  const user = users.value.find((user) => {
+    return user.userName === updateInfo.userName;
+  });
+  // @ts-ignore
+  user[updateInfo.prop] = updateInfo.value;
+};
+
+const removeUser = (userName: string) => {
+  const userIndex = users.value.findIndex((user) => {
+    return user.userName === userName;
+  });
+  users.value.splice(userIndex, 1);
+};
+
+const userUpdated = (user: User) => {
+  const index = users.value.map((u) => u.id).indexOf(user.id);
+  users.value = Object.assign([], users.value, { [index]: user });
+  closeModal();
+  $(".alert-edit-user")
+    .text("Användare uppdaterad")
+    .slideDown()
+    .delay(4000)
+    .slideUp();
+};
+
+const userCreated = (user: User) => {
+  user.fullName = user.firstName + " " + user.lastName;
+  users.value.push(user);
+  closeModal();
+  $(".alert-edit-user")
+    .text("Användare skapad")
+    .slideDown()
+    .delay(4000)
+    .slideUp();
+};
+
+const closeModal = () => {
+  showUserModal.value = false;
+  updateUser.value = null;
+};
+
+const editUser = (user: User) => {
+  showUserModal.value = true;
+  updateUser.value = user;
+};
+
+const createNewUser = () => {
+  showUserModal.value = true;
+  updateUser.value = null;
+};
+
+onMounted(() => {
+  getUsers(false);
+});
 </script>
 <style lang="scss">
 .spinner-container {
