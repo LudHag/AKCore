@@ -179,7 +179,7 @@ const emit = defineEmits<{
 }>();
 
 const props = defineProps<{
-  user: User;
+  user: User | null;
   showModal: boolean;
 }>();
 
@@ -188,7 +188,7 @@ const editedUser = ref<User>({} as User);
 watch(
   () => props.showModal,
   (showModal) => {
-    const newUser = props.user || {};
+    const newUser = props.user || ({} as User);
     if (!props.user) {
       newUser.roles = ["Medlem"];
     }

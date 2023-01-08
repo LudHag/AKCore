@@ -54,7 +54,7 @@ const emit = defineEmits<{
 }>();
 
 defineProps<{
-  user: User;
+  user: User | null;
   showModal: boolean;
 }>();
 
