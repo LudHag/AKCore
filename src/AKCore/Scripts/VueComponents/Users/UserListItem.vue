@@ -67,7 +67,7 @@
                     >
                       <option value="">Ingen</option>
                       <option
-                        v-for="medal in medals"
+                        v-for="medal in MEDALS"
                         :key="medal"
                         :value="medal"
                       >
@@ -103,7 +103,7 @@
                     >
                       <option value="">Ingen</option>
                       <option
-                        v-for="medal in medals"
+                        v-for="medal in MEDALS"
                         :key="medal"
                         :value="medal"
                       >
@@ -187,7 +187,7 @@
                     multiple
                     :searchable="false"
                     v-model="selectedPosts"
-                    :options="posts"
+                    :options="POSTS"
                   ></v-select>
                   <div class="form-group">
                     <button
@@ -210,170 +210,183 @@
     </tr>
   </tbody>
 </template>
-<script>
-import Constants from "../../constants";
+<script setup lang="ts">
+import { MEDALS, POSTS, ROLES } from "../../constants";
+// @ts-ignore
 import vSelect from "vue-select";
 import ApiService from "../../services/apiservice";
+import { UpdateInfo, User } from "./models";
+import { computed, ref, watch } from "vue";
 
-export default {
-  props: ["user"],
-  components: {
-    vSelect,
-  },
-  data() {
-    return {
-      expanded: false,
-      selectedPosts: [],
-    };
-  },
-  watch: {
-    user() {
-      if (this.user && this.user.posts) {
-        this.selectedPosts = this.user.posts.slice();
-      }
-    },
-    expanded(val) {
-      if (val && this.user && this.user.posts) {
-        this.selectedPosts = this.user.posts.slice();
-      }
-    },
-  },
-  methods: {
-    roleInfo(role) {
-      switch (role) {
-        case "SuperNintendo":
-          return "Har rättigheter att redigera all information på webben";
-        case "Editor":
-          return "Kan redigera sidor, musikalbum, ladda upp filer samt titta på intresseanmälningar";
-        case "Medlem":
-          return "Kan anmäla sig till spelningar, syns i adressregistret samt kan redigera sin profil";
-        case "Balett":
-          return "Kan se balettsidor";
-      }
-      return "";
-    },
-    removeUser() {
-      if (confirm("Vill du verkligen ta bort " + this.user.fullName + "?")) {
-        const error = $($(".alert-danger")[0]);
-        const success = $($(".alert-success")[0]);
-        ApiService.postByUrl(
-          "/User/RemoveUser?userName=" + this.user.userName,
-          error,
-          success,
-          () => {
-            this.$emit("removeuser", this.user.userName);
-          }
-        );
-      }
-    },
-    saveLastEarned(event) {
-      const error = $($(".alert-danger")[0]);
-      const success = $($(".alert-success")[0]);
-      const form = $(event.target);
-      ApiService.defaultFormSend(form, error, success, () => {
-        this.$emit("updateuserprop", {
-          userName: this.user.userName,
-          prop: "medal",
-          value: event.target.elements.medal.value,
-        });
-      });
-    },
-    saveLastGiven(event) {
-      const error = $($(".alert-danger")[0]);
-      const success = $($(".alert-success")[0]);
-      const form = $(event.target);
-      ApiService.defaultFormSend(form, error, success, () => {
-        this.$emit("updateuserprop", {
-          userName: this.user.userName,
-          prop: "givenMedal",
-          value: event.target.elements.medal.value,
-        });
-      });
-    },
-    removeRole(role) {
-      const error = $($(".alert-danger")[0]);
-      const success = $($(".alert-success")[0]);
-      const roleIndex = this.user.roles.indexOf(role);
-      if (roleIndex === -1) {
-        return;
-      }
-      const newRoles = this.user.roles.slice();
-      newRoles.splice(roleIndex, 1);
+const emit = defineEmits<{
+  (e: "removeuser", userName: string): void;
+  (e: "updateuserprop", updateInfo: UpdateInfo): void;
+  (e: "newpassword", user: User): void;
+  (e: "edit"): void;
+}>();
 
-      ApiService.postByUrl(
-        "/User/RemoveRole?UserName=" + this.user.userName + "&Role=" + role,
-        error,
-        success,
-        () => {
-          this.$emit("updateuserprop", {
-            userName: this.user.userName,
-            prop: "roles",
-            value: newRoles,
-          });
-        }
-      );
-    },
-    addRole(event) {
-      const error = $($(".alert-danger")[0]);
-      const success = $($(".alert-success")[0]);
-      const form = $(event.target);
-      const role = event.target.elements.Role.value;
-      const roleIndex = this.user.roles.indexOf(role);
-      if (roleIndex !== -1) {
-        return;
-      }
-      const newRoles = this.user.roles.slice();
-      newRoles.push(role);
-      ApiService.defaultFormSend(form, error, success, () => {
-        this.$emit("updateuserprop", {
-          userName: this.user.userName,
-          prop: "roles",
-          value: newRoles,
-        });
-      });
-    },
-    resetPassword() {
-      this.$emit("newpassword", this.user);
-    },
-    addPost() {
-      const error = $($(".alert-danger")[0]);
-      const success = $($(".alert-success")[0]);
-      const postObj = {
-        post: this.selectedPosts,
-        userName: this.user.userName,
-      };
-      ApiService.postByObjectAsForm(
-        "/User/AddPost",
-        postObj,
-        error,
-        success,
-        () => {
-          this.$emit("updateuserprop", {
-            userName: this.user.userName,
-            prop: "posts",
-            value: this.selectedPosts.slice(),
-          });
-        }
-      );
-    },
-    clearPosts() {
-      this.selectedPosts = [];
-    },
-  },
-  computed: {
-    medals() {
-      return Constants.MEDALS;
-    },
-    roles() {
-      return Constants.ROLES.filter((role) => {
-        return this.user.roles.indexOf(role) == -1;
-      });
-    },
-    posts() {
-      return Constants.POSTS;
-    },
-  },
+const props = defineProps<{
+  user: User;
+}>();
+
+const expanded = ref(false);
+const selectedPosts = ref<string[]>([]);
+
+watch(
+  () => props.user,
+  (user) => {
+    if (user && user.posts) {
+      selectedPosts.value = user.posts.slice();
+    }
+  }
+);
+
+watch(
+  () => expanded.value,
+  (val) => {
+    if (val && props.user && props.user.posts) {
+      selectedPosts.value = props.user.posts.slice();
+    }
+  }
+);
+
+const roleInfo = (role: string) => {
+  switch (role) {
+    case "SuperNintendo":
+      return "Har rättigheter att redigera all information på webben";
+    case "Editor":
+      return "Kan redigera sidor, musikalbum, ladda upp filer samt titta på intresseanmälningar";
+    case "Medlem":
+      return "Kan anmäla sig till spelningar, syns i adressregistret samt kan redigera sin profil";
+    case "Balett":
+      return "Kan se balettsidor";
+  }
+  return "";
 };
+
+const removeUser = () => {
+  if (confirm("Vill du verkligen ta bort " + props.user.fullName + "?")) {
+    const error = $($(".alert-danger")[0]);
+    const success = $($(".alert-success")[0]);
+    ApiService.postByUrl(
+      "/User/RemoveUser?userName=" + props.user.userName,
+      error,
+      success,
+      () => {
+        emit("removeuser", props.user.userName);
+      }
+    );
+  }
+};
+
+const saveLastEarned = (event: Event) => {
+  const error = $($(".alert-danger")[0]);
+  const success = $($(".alert-success")[0]);
+  const form = $(event.target as HTMLFormElement) as JQuery<HTMLFormElement>;
+  ApiService.defaultFormSend(form, error, success, () => {
+    emit("updateuserprop", {
+      userName: props.user.userName,
+      prop: "medal",
+      // @ts-ignore
+      value: (event.target as HTMLFormElement).elements.medal.value,
+    });
+  });
+};
+
+const saveLastGiven = (event: Event) => {
+  const error = $($(".alert-danger")[0]);
+  const success = $($(".alert-success")[0]);
+  const form = $(event.target as HTMLFormElement) as JQuery<HTMLFormElement>;
+  ApiService.defaultFormSend(form, error, success, () => {
+    emit("updateuserprop", {
+      userName: props.user.userName,
+      prop: "givenMedal",
+      // @ts-ignore
+      value: (event.target as HTMLFormElement).elements.medal.value,
+    });
+  });
+};
+
+const removeRole = (role: string) => {
+  const error = $($(".alert-danger")[0]);
+  const success = $($(".alert-success")[0]);
+  const roleIndex = props.user.roles.indexOf(role);
+  if (roleIndex === -1) {
+    return;
+  }
+  const newRoles = props.user.roles.slice();
+  newRoles.splice(roleIndex, 1);
+
+  ApiService.postByUrl(
+    "/User/RemoveRole?UserName=" + props.user.userName + "&Role=" + role,
+    error,
+    success,
+    () => {
+      emit("updateuserprop", {
+        userName: props.user.userName,
+        prop: "roles",
+        value: newRoles,
+      });
+    }
+  );
+};
+
+const addRole = (event: Event) => {
+  const error = $($(".alert-danger")[0]);
+  const success = $($(".alert-success")[0]);
+  const form = $(event.target as HTMLFormElement) as JQuery<HTMLFormElement>;
+  // @ts-ignore
+  const role = (event.target as HTMLFormElement).elements.Role.value;
+  const roleIndex = props.user.roles.indexOf(role);
+  if (roleIndex !== -1) {
+    return;
+  }
+  const newRoles = props.user.roles.slice();
+  newRoles.push(role);
+  ApiService.defaultFormSend(form, error, success, () => {
+    emit("updateuserprop", {
+      userName: props.user.userName,
+      prop: "roles",
+      value: newRoles,
+    });
+  });
+};
+
+const resetPassword = () => {
+  emit("newpassword", props.user);
+};
+
+const addPost = () => {
+  const error = $($(".alert-danger")[0]);
+  const success = $($(".alert-success")[0]);
+  const postObj = {
+    post: selectedPosts.value,
+    userName: props.user.userName,
+  };
+  ApiService.postByObjectAsForm(
+    "/User/AddPost",
+    postObj,
+    error,
+    success,
+    () => {
+      emit("updateuserprop", {
+        userName: props.user.userName,
+        prop: "posts",
+        value: selectedPosts.value.slice(),
+      });
+    }
+  );
+};
+
+const clearPosts = () => {
+  selectedPosts.value = [];
+};
+
+const roles = computed(() => {
+  return ROLES.filter((role) => {
+    return props.user.roles.indexOf(role) == -1;
+  });
+});
 </script>
 <style lang="scss" scoped>
 @import "../../../Styles/variables.scss";

@@ -1,4 +1,4 @@
-﻿const POSTS = [
+﻿export const POSTS = [
   "Överkamerer",
   "Skrivkamerer",
   "Kamrerskamerer",
@@ -19,12 +19,19 @@
   "Sponsringskamerer",
   "Stämledare",
 ];
-const ROLES = ["SuperNintendo", "Medlem", "Editor", "Balett"];
-const MEDALS = ["Påsen", "Hornet", "Klövern", "Keruben", "Dollarn", "Gubben"];
+export const ROLES = ["SuperNintendo", "Medlem", "Editor", "Balett"];
+export const MEDALS = [
+  "Påsen",
+  "Hornet",
+  "Klövern",
+  "Keruben",
+  "Dollarn",
+  "Gubben",
+];
 
-const SIGNUPTYPES = ["Hålan", "Direkt", "Kan inte komma"];
+export const SIGNUPTYPES = ["Hålan", "Direkt", "Kan inte komma"];
 
-const INSTRUMENTS = [
+export const INSTRUMENTS = [
   "Altsax",
   "Balett",
   "Banjo",
@@ -41,7 +48,7 @@ const INSTRUMENTS = [
   "Tuba",
 ];
 
-const MONTHS = [
+export const MONTHS = [
   "Januari",
   "Februari",
   "Mars",
@@ -56,7 +63,7 @@ const MONTHS = [
   "December",
 ];
 
-const DAYS = [
+export const DAYS = [
   "Måndag",
   "Tisdag",
   "Onsdag",
@@ -66,7 +73,7 @@ const DAYS = [
   "Söndag",
 ];
 
-const EVENTTYPES = [
+export const EVENTTYPES = [
   "Spelning",
   "Rep",
   "Kårhusrep",
@@ -76,9 +83,9 @@ const EVENTTYPES = [
   "Evenemang",
 ];
 
-const SPELTYPER = ["Stå", "Gå", "Stå och gå"];
+export const SPELTYPER = ["Stå", "Gå", "Stå och gå"];
 
-const SEKTIONER = [
+export const SEKTIONER = [
   "Balett",
   "Flöjt",
   "Grovbrass",
@@ -88,7 +95,7 @@ const SEKTIONER = [
   "Trumpet",
 ];
 
-const IMAGETYPES = [
+export const IMAGETYPES = [
   "Albumomslag",
   "Allmän",
   "Balett",
@@ -98,7 +105,12 @@ const IMAGETYPES = [
   "Startsidebilder",
 ];
 
-const ALBUMCATEGORIES = ["Jubileum", "Balettjubileum", "Skivor", "Övrigt"];
+export const ALBUMCATEGORIES = [
+  "Jubileum",
+  "Balettjubileum",
+  "Skivor",
+  "Övrigt",
+];
 
 export default {
   POSTS,

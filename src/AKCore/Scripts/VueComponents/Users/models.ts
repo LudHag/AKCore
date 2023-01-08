@@ -16,3 +16,9 @@ export interface User {
   hasKey: boolean;
   active: boolean;
 }
+
+export interface UpdateInfo {
+  userName: string;
+  prop: string;
+  value: any;
+}
