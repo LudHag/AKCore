@@ -56,4 +56,22 @@ const openEvent = (e: UpcomingEvent) => {
   emit("open", e);
 };
 </script>
-<style lang="scss"></style>
+<style lang="scss" scoped>
+.day {
+  height: 90px;
+
+  &.outside {
+    color: #5f5f5f;
+  }
+
+  .dayEvent {
+    display: block;
+    font-size: 12px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .green {
+    color: #02c66f;
+  }
+}
+</style>

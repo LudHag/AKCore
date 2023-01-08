@@ -141,4 +141,17 @@ onMounted(() => {
   month.value = today.getMonth();
 });
 </script>
-<style lang="scss"></style>
+<style lang="scss" scoped>
+@import "../../../Styles/variables.scss";
+.controls {
+  .date {
+    min-width: 110px;
+    display: inline-block;
+    text-align: center;
+  }
+}
+
+.table-bordered {
+  border: 3px solid $akred;
+}
+</style>
