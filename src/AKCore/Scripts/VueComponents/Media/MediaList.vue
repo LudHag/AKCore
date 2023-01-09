@@ -43,81 +43,89 @@
     </div>
   </div>
 </template>
-<script>
-import ApiService from '../../services/apiservice';
+<script setup lang="ts">
+import { ref, computed } from "vue";
+import ApiService from "../../services/apiservice";
+import { MediaItem } from "./models";
 
-export default {
-  props: ['categories'],
-  data() {
-    return {
-      selectedCategory: 'Allmän',
-    };
-  },
-  methods: {
-    onFileDragStart(event, file) {
-      event.dataTransfer.setData('text', file.id);
-      event.dataTransfer.effectAllowed = 'all';
-    },
-    onFileDrop(event, name) {
-      if (event.target.classList.contains('selected')) {
-        return;
+const emit = defineEmits<{
+  (e: "update"): void;
+}>();
+
+const props = defineProps<{
+  categories: Record<string, MediaItem[]>;
+}>();
+
+const selectedCategory = ref("Allmän");
+
+const files = computed(() => {
+  if (selectedCategory.value === "Allmän") {
+    return props.categories.Allmän;
+  }
+  return props.categories[selectedCategory.value];
+});
+
+const onFileDragStart = (event: DragEvent, file: MediaItem) => {
+  event.dataTransfer!.setData("text", file.id.toString());
+  event.dataTransfer!.effectAllowed = "all";
+};
+
+const onFileDrop = (event: DragEvent, name: string) => {
+  const target = event.target as HTMLElement;
+
+  if (target!.classList.contains("selected")) {
+    return;
+  }
+  target!.classList.remove("drag");
+  const id = event.dataTransfer!.getData("text");
+  if (name && id) {
+    ApiService.postByObjectAsForm(
+      "/Media/EditFile",
+      { Tag: name, Id: id },
+      null,
+      null,
+      () => {
+        emit("update");
       }
-      event.target.classList.remove('drag');
-      const id = event.dataTransfer.getData('text');
-      if (name && id) {
-        ApiService.postByObjectAsForm(
-          '/Media/EditFile',
-          { Tag: name, Id: id },
-          null,
-          null,
-          (res) => {
-            this.$emit('update');
-          }
-        );
+    );
+  }
+};
+
+const onFileDragover = (event: DragEvent) => {
+  if ((event.target as HTMLElement).classList.contains("selected")) {
+    event.dataTransfer!.dropEffect = "none";
+    return;
+  }
+  event.dataTransfer!.dropEffect = "move";
+  (event.target as HTMLElement).classList.add("drag");
+};
+
+const onFileDragleave = (event: DragEvent) => {
+  (event.target as HTMLElement).classList.remove("drag");
+};
+
+const clickFile = (file: MediaItem) => {
+  window.open("/media/" + file.name);
+};
+
+const remove = (file: MediaItem) => {
+  if (
+    window.confirm("Är du säker på att du vill ta bort filen: " + file.name)
+  ) {
+    ApiService.postByUrl(
+      "/Media/RemoveFile?filename=" + file.name,
+      null,
+      null,
+      () => {
+        emit("update");
       }
-    },
-    onFileDragover(event) {
-      if (event.target.classList.contains('selected')) {
-        event.dataTransfer.dropEffect = 'none';
-        return;
-      }
-      event.dataTransfer.dropEffect = 'move';
-      event.target.classList.add('drag');
-    },
-    onFileDragleave(event) {
-      event.target.classList.remove('drag');
-    },
-    clickFile(file) {
-      window.open('/media/' + file.name);
-    },
-    remove(file) {
-      if (
-        window.confirm('Är du säker på att du vill ta bort filen: ' + file.name)
-      ) {
-        ApiService.postByUrl(
-          '/Media/RemoveFile?filename=' + file.name,
-          null,
-          null,
-          (res) => {
-            this.$emit('update');
-          }
-        );
-      }
-    },
-  },
-  computed: {
-    files() {
-      if (!this.categories || !this.selectedCategory) {
-        return null;
-      }
-      return this.categories[this.selectedCategory];
-    },
-  },
+    );
+  }
 };
 </script>
 <style lang="scss" scoped>
-@import 'bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss';
-@import '../../../Styles/variables.scss';
+@import "bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss";
+@import "../../../Styles/variables.scss";
 .tags {
   border: 3px solid $akred;
   padding: 8px;

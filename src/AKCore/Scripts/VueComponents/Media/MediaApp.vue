@@ -17,7 +17,7 @@
             up fil(er).
           </p>
           <select class="form-control" v-model="selectedTag" required>
-            <option v-for="cat in imageTypes" :key="cat">{{ cat }}</option>
+            <option v-for="cat in IMAGETYPES" :key="cat">{{ cat }}</option>
           </select>
         </div>
       </template>
@@ -30,67 +30,54 @@
     ></media-list>
   </div>
 </template>
-<script>
+<script setup lang="ts">
 import ApiService from "../../services/apiservice";
 import FileUploader from "../FileUploader.vue";
 import MediaList from "./MediaList.vue";
-import Constants from "../../constants";
+import { IMAGETYPES } from "../../constants";
+import { ref, onMounted } from "vue";
+import { MediaItem } from "./models";
 
-export default {
-  components: {
-    MediaList,
-    FileUploader,
-  },
-  data() {
-    return {
-      categories: null,
-      selectedTag: "Allmän",
-    };
-  },
-  computed: {
-    categoryNames() {
-      if (!this.categories) {
-        return [];
-      }
-      return Object.keys(this.categories);
-    },
-    imageTypes() {
-      return Constants.IMAGETYPES;
-    },
-  },
-  methods: {
-    loadMediaList() {
-      ApiService.get("/Media/MediaData", null, (res) => {
-        this.categories = res;
-        this.imageTypes.forEach((type) => {
-          if (!(type in this.categories)) {
-            this.categories[type] = [];
-          }
-        });
-      });
-    },
-    uploadFiles(files) {
-      const mediaData = new FormData();
-      for (var i = 0; i < files.length; i++) {
-        mediaData.append("UploadFiles", files[i]);
-      }
-      mediaData.append("Tag", this.selectedTag);
-      const error = $(this.$refs.error);
-      ApiService.postFormData(
-        "/media/UploadFiles",
-        mediaData,
-        error,
-        null,
-        () => {
-          this.loadMediaList();
+const categories = ref<Record<string, MediaItem[]> | null>(null);
+const selectedTag = ref("Allmän");
+const error = ref<HTMLElement | null>(null);
+
+const loadMediaList = () => {
+  ApiService.get(
+    "/Media/MediaData",
+    null,
+    (res: Record<string, MediaItem[]>) => {
+      categories.value = res;
+      IMAGETYPES.forEach((type) => {
+        if (!(type in categories.value!)) {
+          categories.value![type] = [];
         }
-      );
-    },
-  },
-  created() {
-    this.loadMediaList();
-  },
+      });
+    }
+  );
 };
+
+const uploadFiles = (files: FileList) => {
+  const mediaData = new FormData();
+  for (var i = 0; i < files.length; i++) {
+    mediaData.append("UploadFiles", files[i]);
+  }
+  mediaData.append("Tag", selectedTag.value);
+  const errorField = $(error.value!);
+  ApiService.postFormData(
+    "/media/UploadFiles",
+    mediaData,
+    errorField,
+    null,
+    () => {
+      loadMediaList();
+    }
+  );
+};
+
+onMounted(() => {
+  loadMediaList();
+});
 </script>
 <style lang="scss" scoped>
 .media-upload-area {

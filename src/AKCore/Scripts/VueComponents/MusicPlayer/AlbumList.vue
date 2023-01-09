@@ -173,6 +173,16 @@ h2 {
 }
 
 @media screen and (max-width: $screen-xs-max) {
+  h2 {
+    text-align: center;
+  }
+  .album-list {
+    padding-top: 35px;
+  }
+
+  .category-list {
+    justify-content: space-evenly;
+  }
   .album-element {
     width: 125px;
   }

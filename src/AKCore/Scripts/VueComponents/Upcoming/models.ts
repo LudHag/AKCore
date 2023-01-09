@@ -22,7 +22,7 @@ export interface UpcomingEvent {
   year: number;
   month: number;
   day: string;
-  dayDate: string;
+  dayDate: string | Date;
   dayInMonth: number;
   halanTime: string;
   thereTime: string;

@@ -2,6 +2,8 @@
 
 Utvecklat med VS 2022 (Visual studio code fungerar bra också).
 
+Utveckling av frontend görs bäst med Visual studio code samt pluginet Volar som är bäst för att hantera senaste versionen av vue.
+
 Rekomenderas inte att installera med äldre verktyg.
 
 När du sätter upp en lokal utvecklingsmiljö så behöver du sätta upp en lokal mysql databas samt lägga till en initial användare med /account/initnintendo . Då skapas bla användaren nintendo med lösen 123456.
@@ -24,9 +26,9 @@ https://docs.asp.net/en/latest/security/authentication/identity.html
 
 Sidan använder Bootstrap 3. Läs mer om dess standardanvändning [här](http://getbootstrap.com/css/) och dess komponenter [här](http://getbootstrap.com/components/).
 
-# Vite, CSS och JS:
+# Vite, CSS, JS och TS:
 
-JS och scssfiler byggs med vite. Vill du lägga till en javascriptfil lägg till i main.js under scripts. Vill du lägga till en scssfil lägg till i /Styles/akstyle.scss. I developmentmiljö så byggs statiska filer om automatiskt.
+JS, TS och scssfiler byggs med vite. Vill du lägga till en javascriptfil lägg till i main.ts under scripts. Vill du lägga till en scssfil lägg till i /Styles/akstyle.scss. I developmentmiljö så byggs statiska filer om automatiskt.
 
 ## Installation
 
@@ -38,4 +40,4 @@ För att få frontendresurser att bygga krävs NPM (Node package manager). Insta
 
 ## Vue.js
 
-[Vue 2](https://vuejs.org/) används för vissa inloggade sidor för att hantera dynamiska element och liknar mycket react i funktionalitet.
+[Vue 3](https://vuejs.org/) används för vissa inloggade sidor för att hantera dynamiska element och liknar mycket react i funktionalitet. Vi använder Vues composition api samt typescript numera.

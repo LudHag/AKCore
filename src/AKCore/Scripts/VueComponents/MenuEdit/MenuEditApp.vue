@@ -66,61 +66,57 @@
     ></menu-edit-modal>
   </div>
 </template>
-<script>
-import ApiService from '../../services/apiservice';
-import MenuList from './MenuList.vue';
-import MenuEditModal from './MenuEditModal.vue';
+<script setup lang="ts">
+import ApiService from "../../services/apiservice";
+import MenuList from "./MenuList.vue";
+import MenuEditModal from "./MenuEditModal.vue";
+import { MenuEditModel, PageEditModel } from "./models";
+import { onMounted, ref } from "vue";
 
-export default {
-  components: {
-    MenuList,
-    MenuEditModal,
-  },
-  data() {
-    return {
-      menus: null,
-      showAddMenu: false,
-      pages: null,
-      showEditModal: false,
-      editedMenu: null,
-      parentId: null,
-    };
-  },
-  methods: {
-    editMenu(menu, parent) {
-      this.showEditModal = true;
-      this.editedMenu = menu;
-      if (parent) {
-        this.parentId = parent.id;
-      }
-    },
-    loadMenus() {
-      ApiService.get('/MenuEdit/MenuListData', null, (res) => {
-        this.menus = res.menus;
-        this.pages = res.pages;
-      });
-    },
-    toggleCreateMenu() {
-      this.showAddMenu = !this.showAddMenu;
-    },
-    createMenu(event) {
-      const form = $(event.target);
-      ApiService.defaultFormSend(form, null, null, () => {
-        this.loadMenus();
-        this.showAddMenu = false;
-        form.trigger('reset');
-      });
-    },
-    closeEditMenu() {
-      this.showEditModal = false;
-      this.editedMenu = null;
-      this.parentId = null;
-    },
-  },
-  created() {
-    this.loadMenus();
-  },
+const menus = ref<MenuEditModel[] | null>(null);
+const showAddMenu = ref(false);
+const pages = ref<PageEditModel[] | null>(null);
+const showEditModal = ref(false);
+const editedMenu = ref<MenuEditModel | null>(null);
+const parentId = ref<number | null>(null);
+
+const editMenu = (menu: MenuEditModel | null, parent?: MenuEditModel) => {
+  showEditModal.value = true;
+  editedMenu.value = menu;
+  if (parent) {
+    parentId.value = parent.id;
+  }
 };
+
+const loadMenus = () => {
+  ApiService.get("/MenuEdit/MenuListData", null, (res: any) => {
+    menus.value = res.menus;
+    pages.value = res.pages;
+  });
+};
+
+const toggleCreateMenu = () => {
+  showAddMenu.value = !showAddMenu.value;
+};
+
+const createMenu = (event: Event) => {
+  const form = $(event.target as HTMLFormElement) as JQuery<HTMLFormElement>;
+  ApiService.defaultFormSend(form, null, null, () => {
+    loadMenus();
+    showAddMenu.value = false;
+    form.trigger("reset");
+  });
+};
+
+const closeEditMenu = () => {
+  showEditModal.value = false;
+  editedMenu.value = null;
+  parentId.value = null;
+};
+
+onMounted(() => {
+  loadMenus();
+});
 </script>
 <style lang="scss" scoped>
 .edit-form {
