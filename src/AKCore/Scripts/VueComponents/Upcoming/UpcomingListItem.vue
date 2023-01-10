@@ -91,36 +91,42 @@
     </div>
   </div>
 </template>
-<script>
-export default {
-  props: ["event", "loggedIn", "member"],
-  data() {
-    return {
-      expanded: false,
-    };
-  },
-  methods: {
-    openSignup() {
-      this.$emit("signup", this.event.id);
-    },
-  },
-  computed: {
-    expandable() {
-      return this.event.description || this.event.internalDescription;
-    },
-    isRep() {
-      return (
-        this.event.type === "Rep" ||
-        this.event.type === "Kårhusrep" ||
-        this.event.type === "Athenrep" ||
-        this.event.type === "Fikarep"
-      );
-    },
-    signupUrl() {
-      return "/upcoming/Event/" + this.event.id;
-    },
-  },
+<script setup lang="ts">
+import { computed, ref } from "vue";
+import { UpcomingEvent } from "./models";
+
+const emit = defineEmits<{
+  (e: "signup", id: number): void;
+}>();
+
+const props = defineProps<{
+  event: UpcomingEvent;
+  loggedIn: boolean;
+  member: boolean;
+}>();
+
+const expanded = ref(false);
+
+const openSignup = () => {
+  emit("signup", props.event.id);
 };
+
+const expandable = computed(() => {
+  return props.event.description || props.event.internalDescription;
+});
+
+const isRep = computed(() => {
+  return (
+    props.event.type === "Rep" ||
+    props.event.type === "Kårhusrep" ||
+    props.event.type === "Athenrep" ||
+    props.event.type === "Fikarep"
+  );
+});
+
+const signupUrl = computed(() => {
+  return "/upcoming/Event/" + props.event.id;
+});
 </script>
 <style lang="scss">
 @import "../../../Styles/variables.scss";
