@@ -23,9 +23,9 @@ export interface AlbumEditModel {
 export interface WidgetEditModel {
   id: number;
   type: string;
-  text: string;
-  image: string;
-  videos: Array<{
+  text?: string;
+  image?: string;
+  videos?: Array<{
     link: string;
     title: string;
   }>;
