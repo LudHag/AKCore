@@ -10,7 +10,7 @@
     <editor
       v-if="!disabled"
       api-key="no-api-key"
-      :initial-value="modelValue"
+      :initial-value="modelValue || ''"
       :init="getConfig()"
     ></editor>
   </div>
@@ -25,7 +25,7 @@ const emit = defineEmits<{
 }>();
 
 const props = defineProps<{
-  modelValue: string;
+  modelValue: string | undefined;
   fullwidth?: boolean;
 }>();
 
@@ -45,7 +45,7 @@ watch(
       // @ts-ignore
       if (value !== editorRef.value.getContent()) {
         // @ts-ignore
-        editorRef.value.setContent(value);
+        editorRef.value.setContent(value || "");
       }
     }
   }

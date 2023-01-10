@@ -84,10 +84,15 @@ import {
   PostList,
 } from "./Widgets/widgets";
 
+const woops = (ev: any) => {
+  console.log(JSON.stringify(ev));
+};
+
 const emit = defineEmits<{
   (e: "updated"): void;
   (e: "remove"): void;
   (e: "remove"): void;
+  (e: "update:modelValue", value: WidgetEditModel): void;
 }>();
 
 defineProps<{

@@ -25,11 +25,14 @@ export interface WidgetEditModel {
   type: string;
   text?: string;
   image?: string;
-  videos?: Array<{
-    link: string;
-    title: string;
-  }>;
+  videos?: EditVideoModel[];
   albums: number[];
+}
+
+export interface EditVideoModel {
+  link: string;
+  title: string;
+  index?: number;
 }
 
 export interface PageEditModel {

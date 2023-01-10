@@ -10,7 +10,7 @@
         </div>
       </div>
       <draggable
-        :modelValue="indexedVideos"
+        v-model="videoList"
         @update:modelValue="sortValues($event)"
         item-key="index"
         handle=".video-drag-area"
@@ -21,12 +21,17 @@
               class="col-sm-1 glyphicon glyphicon-align-justify video-drag-area"
             ></div>
             <div class="col-sm-5">
-              <input class="form-control video-link" v-model="element.link" />
+              <input
+                class="form-control video-link"
+                :modelValue="element.link"
+                @keyup="updateLink($event, element)"
+              />
             </div>
             <div class="col-sm-6">
               <input
                 class="form-control video-title"
-                v-model="element.title"
+                :modelValue="element.title"
+                @keyup="updateTitle($event, element)"
               /><a
                 href="#"
                 class="btn glyphicon glyphicon-remove remove-video"
@@ -44,34 +49,80 @@
     </div>
   </div>
 </template>
-<script>
+<script setup lang="ts">
+import { onMounted, ref } from "vue";
 import draggable from "vuedraggable";
-import TextEdit from "../WidgetParts/TextEdit.vue";
-export default {
-  components: { TextEdit, draggable },
-  props: ["modelValue"],
-  computed: {
-    indexedVideos() {
-      return this.modelValue.videos.map((video, index) => {
-        return { ...video, index };
-      });
-    },
-  },
-  methods: {
-    removeVideo(removeIndex) {
-      this.modelValue.videos = this.modelValue.videos.filter(
-        (video, index) => removeIndex !== index
-      );
-    },
-    addVideo() {
-      this.modelValue.videos.push({ title: "", link: "" });
-    },
-    sortValues(event) {
-      this.modelValue.videos = event.map((x) => {
-        return { title: x.title, link: x.link };
-      });
-    },
-  },
+import { WidgetEditModel, EditVideoModel } from "../models";
+
+const emit = defineEmits<{
+  (e: "update:modelValue", value: WidgetEditModel): void;
+}>();
+
+const prop = defineProps<{
+  modelValue: WidgetEditModel;
+}>();
+
+const videoList = ref<EditVideoModel[]>([]);
+
+onMounted(() => {
+  videoList.value =
+    prop.modelValue.videos?.map((video, index) => {
+      return { ...video, index };
+    }) ?? [];
+});
+
+const updateLink = (event: Event, element: EditVideoModel) => {
+  const value = (event.target as HTMLInputElement).value;
+
+  videoList.value = videoList.value.map((video) => {
+    if (video.index === element.index) {
+      return { ...video, link: value };
+    }
+    return video;
+  });
+
+  const updatedValue: WidgetEditModel = {
+    ...prop.modelValue,
+    videos: videoList.value,
+  };
+  emit("update:modelValue", updatedValue);
+};
+
+const updateTitle = (event: Event, element: EditVideoModel) => {
+  const value = (event.target as HTMLInputElement).value;
+  videoList.value = videoList.value.map((video) => {
+    if (video.index === element.index) {
+      return { ...video, title: value };
+    }
+    return video;
+  });
+
+  const updatedValue: WidgetEditModel = {
+    ...prop.modelValue,
+    videos: videoList.value,
+  };
+  emit("update:modelValue", updatedValue);
+};
+
+const removeVideo = (removeIndex: number) => {
+  prop.modelValue.videos?.filter((video, index) => removeIndex !== index);
+  emit("update:modelValue", prop.modelValue);
+};
+
+const addVideo = () => {
+  if (!prop.modelValue.videos) {
+    prop.modelValue.videos = [];
+  }
+
+  prop.modelValue.videos.push({ title: "", link: "" });
+  emit("update:modelValue", prop.modelValue);
+};
+
+const sortValues = (event: any) => {
+  prop.modelValue.videos = event.map((x: any) => {
+    return { title: x.title, link: x.link };
+  });
+  emit("update:modelValue", prop.modelValue);
 };
 </script>
 <style lang="scss" scoped>

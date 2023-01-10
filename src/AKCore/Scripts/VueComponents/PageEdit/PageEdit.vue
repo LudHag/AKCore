@@ -126,7 +126,12 @@ const widgetAdd = (type: string) => {
     newId++;
   }
 
-  pageModel.value!.widgets.push({ id: newId, type: type, albums: [] });
+  pageModel.value!.widgets.push({
+    id: newId,
+    type: type,
+    albums: [],
+    text: "",
+  });
 };
 
 const removeWidget = (widget: WidgetEditModel) => {
@@ -182,6 +187,13 @@ watch(
     } else {
       usedModel.value = pageModel.value;
     }
+  }
+);
+
+watch(
+  () => usedWidgets.value,
+  (value) => {
+    console.log(JSON.stringify(value));
   }
 );
 </script>
