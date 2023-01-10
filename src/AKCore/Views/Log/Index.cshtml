@@ -29,8 +29,8 @@
     </div>
 </div>
 
-<div class="row">
-    <div class="log-item-menu">
+<div>
+    <div class="log-item-menu hidden-xs row">
         <div class="col-sm-2">
             Tid
         </div>
@@ -46,17 +46,17 @@
     </div>
     @foreach (var logItem in Model.Log)
     {
-        <div class="log-item">
-            <div class="col-sm-2">
+        <div class="log-item row">
+            <div class="col-sm-2 col-xs-6">
                 @logItem.Modified.ToString("yy-MM-dd HH:mm")
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-2 col-xs-6">
                 @logItem.Type
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-2 col-xs-6">
                 @logItem.ModifiedBy.UserName
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-6 col-xs-6">
                 @logItem.Comment
             </div>
         </div>
