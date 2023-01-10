@@ -9,7 +9,6 @@
 
     <editor
       v-if="!disabled"
-      ref="editor"
       api-key="no-api-key"
       :initial-value="modelValue"
       :init="getConfig()"
@@ -19,24 +18,38 @@
 <script setup lang="ts">
 import { EventBus } from "../../../utils/eventbus";
 import Editor from "@tinymce/tinymce-vue";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 
 const emit = defineEmits<{
   (e: "update:modelValue", value: string): void;
 }>();
 
-defineProps<{
+const props = defineProps<{
   modelValue: string;
   fullwidth?: boolean;
 }>();
 
 const disabled = ref(false);
+const editorRef = ref(null);
 
 onMounted(() => {
   EventBus.on("widgetDrag", (value: boolean) => {
     disabled.value = value;
   });
 });
+
+watch(
+  () => props.modelValue,
+  (value) => {
+    if (editorRef.value) {
+      // @ts-ignore
+      if (value !== editorRef.value.getContent()) {
+        // @ts-ignore
+        editorRef.value.setContent(value);
+      }
+    }
+  }
+);
 
 const getConfig = () => {
   return {
@@ -67,6 +80,7 @@ const getConfig = () => {
     content_css: "/dist/main.css",
     body_class: "body-content",
     setup: function (ed: any) {
+      editorRef.value = ed;
       ed.on("change", function () {
         const elcontent = ed.getContent();
         emit("update:modelValue", elcontent);
