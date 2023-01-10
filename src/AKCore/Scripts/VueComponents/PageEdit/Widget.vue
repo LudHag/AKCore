@@ -90,7 +90,7 @@ const emit = defineEmits<{
   (e: "remove"): void;
 }>();
 
-const props = defineProps<{
+defineProps<{
   modelValue: WidgetEditModel;
   albums: AlbumEditModel[];
 }>();
