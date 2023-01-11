@@ -10,7 +10,7 @@
         </div>
       </div>
       <draggable
-        v-model="videoList"
+        v-model="modelValue.videos"
         @update:modelValue="sortValues($event)"
         item-key="index"
         handle=".video-drag-area"
@@ -50,7 +50,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { onMounted, watch } from "vue";
 import draggable from "vuedraggable";
 import { WidgetEditModel, EditVideoModel } from "../models";
 
@@ -62,10 +62,8 @@ const prop = defineProps<{
   modelValue: WidgetEditModel;
 }>();
 
-const videoList = ref<EditVideoModel[]>([]);
-
 onMounted(() => {
-  videoList.value =
+  prop.modelValue.videos =
     prop.modelValue.videos?.map((video, index) => {
       return { ...video, index };
     }) ?? [];
@@ -73,7 +71,7 @@ onMounted(() => {
 
 const updateLink = (event: Event, element: EditVideoModel) => {
   const value = (event.target as HTMLInputElement).value;
-  videoList.value = videoList.value.map((video) => {
+  prop.modelValue.videos = prop.modelValue.videos!.map((video) => {
     if (video.index === element.index) {
       return { ...video, link: value };
     }
@@ -81,7 +79,7 @@ const updateLink = (event: Event, element: EditVideoModel) => {
   });
   const updatedValue: WidgetEditModel = {
     ...prop.modelValue,
-    videos: videoList.value,
+    videos: prop.modelValue.videos,
   };
 
   emit("update:modelValue", updatedValue);
@@ -89,7 +87,7 @@ const updateLink = (event: Event, element: EditVideoModel) => {
 
 const updateTitle = (event: Event, element: EditVideoModel) => {
   const value = (event.target as HTMLInputElement).value;
-  videoList.value = videoList.value.map((video) => {
+  prop.modelValue.videos = prop.modelValue.videos!.map((video) => {
     if (video.index === element.index) {
       return { ...video, title: value };
     }
@@ -100,7 +98,7 @@ const updateTitle = (event: Event, element: EditVideoModel) => {
 };
 
 const removeVideo = (removeIndex: number) => {
-  videoList.value = videoList.value.filter(
+  prop.modelValue.videos = prop.modelValue.videos!.filter(
     (video) => video.index !== removeIndex
   );
 
@@ -108,29 +106,29 @@ const removeVideo = (removeIndex: number) => {
 };
 
 const addVideo = () => {
-  if (!videoList.value) {
-    videoList.value = [];
+  if (!prop.modelValue.videos) {
+    prop.modelValue.videos = [];
   }
 
   const newIndex =
-    videoList.value.reduce(
+    prop.modelValue.videos.reduce(
       (prev, current) => (prev > current.index! ? prev : current.index!),
       0
     ) + 1;
 
-  videoList.value.push({ title: "", link: "", index: newIndex });
+  prop.modelValue.videos.push({ title: "", link: "", index: newIndex });
   updateVideos();
 };
 
 const sortValues = (event: EditVideoModel[]) => {
-  videoList.value = event;
+  prop.modelValue.videos = event;
   updateVideos();
 };
 
 const updateVideos = () => {
   const updatedValue: WidgetEditModel = {
     ...prop.modelValue,
-    videos: videoList.value,
+    videos: prop.modelValue.videos,
   };
   emit("update:modelValue", updatedValue);
 };
