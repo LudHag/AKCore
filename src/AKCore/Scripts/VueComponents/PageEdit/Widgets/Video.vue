@@ -23,14 +23,14 @@
             <div class="col-sm-5">
               <input
                 class="form-control video-link"
-                :modelValue="element.link"
+                :value="element.link"
                 @keyup="updateLink($event, element)"
               />
             </div>
             <div class="col-sm-6">
               <input
                 class="form-control video-title"
-                :modelValue="element.title"
+                :value="element.title"
                 @keyup="updateTitle($event, element)"
               /><a
                 href="#"
@@ -73,18 +73,17 @@ onMounted(() => {
 
 const updateLink = (event: Event, element: EditVideoModel) => {
   const value = (event.target as HTMLInputElement).value;
-
   videoList.value = videoList.value.map((video) => {
     if (video.index === element.index) {
       return { ...video, link: value };
     }
     return video;
   });
-
   const updatedValue: WidgetEditModel = {
     ...prop.modelValue,
     videos: videoList.value,
   };
+
   emit("update:modelValue", updatedValue);
 };
 
@@ -97,32 +96,43 @@ const updateTitle = (event: Event, element: EditVideoModel) => {
     return video;
   });
 
+  updateVideos();
+};
+
+const removeVideo = (removeIndex: number) => {
+  videoList.value = videoList.value.filter(
+    (video) => video.index !== removeIndex
+  );
+
+  updateVideos();
+};
+
+const addVideo = () => {
+  if (!videoList.value) {
+    videoList.value = [];
+  }
+
+  const newIndex =
+    videoList.value.reduce(
+      (prev, current) => (prev > current.index! ? prev : current.index!),
+      0
+    ) + 1;
+
+  videoList.value.push({ title: "", link: "", index: newIndex });
+  updateVideos();
+};
+
+const sortValues = (event: EditVideoModel[]) => {
+  videoList.value = event;
+  updateVideos();
+};
+
+const updateVideos = () => {
   const updatedValue: WidgetEditModel = {
     ...prop.modelValue,
     videos: videoList.value,
   };
   emit("update:modelValue", updatedValue);
-};
-
-const removeVideo = (removeIndex: number) => {
-  prop.modelValue.videos?.filter((video, index) => removeIndex !== index);
-  emit("update:modelValue", prop.modelValue);
-};
-
-const addVideo = () => {
-  if (!prop.modelValue.videos) {
-    prop.modelValue.videos = [];
-  }
-
-  prop.modelValue.videos.push({ title: "", link: "" });
-  emit("update:modelValue", prop.modelValue);
-};
-
-const sortValues = (event: any) => {
-  prop.modelValue.videos = event.map((x: any) => {
-    return { title: x.title, link: x.link };
-  });
-  emit("update:modelValue", prop.modelValue);
 };
 </script>
 <style lang="scss" scoped>

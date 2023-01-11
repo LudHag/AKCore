@@ -31,6 +31,7 @@
             :modelValue="element"
             :albums="pageModel.albums"
             @remove="removeWidget(element)"
+            @update:modelValue="updateWidget($event)"
           >
           </widget>
         </template>
@@ -108,6 +109,18 @@ onMounted(() => {
     false
   );
 });
+
+const updateWidget = (newWidget: WidgetEditModel) => {
+  if (!usedModel.value) {
+    return;
+  }
+  usedModel.value.widgets = usedModel.value.widgets.map((x) => {
+    if (x.id === newWidget.id) {
+      return newWidget;
+    }
+    return x;
+  });
+};
 
 const usedWidgets = computed(() => {
   if (usedModel.value) {
@@ -187,13 +200,6 @@ watch(
     } else {
       usedModel.value = pageModel.value;
     }
-  }
-);
-
-watch(
-  () => usedWidgets.value,
-  (value) => {
-    console.log(JSON.stringify(value));
   }
 );
 </script>
