@@ -7,6 +7,7 @@ namespace AKCore.DataModel
     {
         public string Link { get; set; }
         public string Title { get; set; }
+        public int? Index{ get; set; }
     }
     public class Widget
     {

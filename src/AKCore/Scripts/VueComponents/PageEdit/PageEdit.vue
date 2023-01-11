@@ -20,7 +20,7 @@
     <add-widget @add="widgetAdd"></add-widget>
     <ul class="widget-area">
       <draggable
-        v-model="usedModel.widgets"
+        v-model="usedWidgets"
         @start="drag = true"
         @end="drag = false"
         handle=".widget-header"
@@ -31,6 +31,7 @@
             :modelValue="element"
             :albums="pageModel.albums"
             @remove="removeWidget(element)"
+            @update:modelValue="updateWidget($event)"
           >
           </widget>
         </template>
@@ -53,7 +54,7 @@
     </document-picker-modal>
   </div>
 </template>
-<script>
+<script setup lang="ts">
 import PageMeta from "./PageMeta.vue";
 import AddWidget from "./AddWidget.vue";
 import Widget from "./Widget.vue";
@@ -63,121 +64,144 @@ import DocumentPickerModal from "../DocumentPickerModal.vue";
 import draggable from "vuedraggable";
 import PageVersions from "./PageVersions.vue";
 import { EventBus } from "../../utils/eventbus";
+import { onMounted, ref, watch, computed } from "vue";
+import {
+  PageEditModel,
+  PageRevisionEditModel,
+  WidgetEditModel,
+} from "./models";
 
-export default {
-  components: {
-    PageMeta,
-    AddWidget,
-    Widget,
-    ImagePickerModal,
-    DocumentPickerModal,
-    draggable,
-    PageVersions,
-  },
-  data() {
-    return {
-      pageModel: null,
-      saveImageDest: null,
-      saveDocumentDest: null,
-      drag: false,
-      selectedRevision: null,
-      usedModel: null,
-    };
-  },
-  created() {
-    const self = this;
+const pageModel = ref<PageEditModel | null>(null);
+const saveImageDest = ref<JQuery<HTMLElement> | null>(null);
+const saveDocumentDest = ref<JQuery<HTMLElement> | null>(null);
+const drag = ref(false);
+const selectedRevision = ref<PageRevisionEditModel | null>(null);
+const usedModel = ref<PageEditModel | PageRevisionEditModel | null>(null);
 
-    EventBus.on("loadimage", (field) => {
-      self.selectImage(field);
-    });
+onMounted(() => {
+  EventBus.on("loadimage", (field: any) => {
+    selectImage(field);
+  });
 
-    EventBus.on("loadfile", (field) => {
-      self.selectfile(field);
-    });
+  EventBus.on("loadfile", (field: any) => {
+    selectfile(field);
+  });
 
-    $.ajax({
-      url: window.location.href + "/Model",
-      type: "GET",
-      success: function (res) {
-        self.pageModel = res;
-        self.usedModel = self.pageModel;
-      },
-    });
-    document.addEventListener(
-      "keydown",
-      (e) => {
-        if (
-          (window.navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey) &&
-          e.keyCode == 83
-        ) {
-          e.preventDefault();
-          this.save();
-        }
-      },
-      false
-    );
-  },
-
-  watch: {
-    drag(value) {
-      EventBus.trigger("widgetDrag", value);
+  $.ajax({
+    url: window.location.href + "/Model",
+    type: "GET",
+    success: function (res: PageEditModel) {
+      pageModel.value = res;
+      usedModel.value = pageModel.value;
     },
-    selectedRevision(value) {
-      if (value) {
-        this.usedModel = value;
-      } else {
-        this.usedModel = this.pageModel;
+  });
+  document.addEventListener(
+    "keydown",
+    (e) => {
+      if (
+        (window.navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey) &&
+        e.keyCode == 83
+      ) {
+        e.preventDefault();
+        save();
       }
     },
-  },
-  methods: {
-    selectRevision(revision) {
-      this.selectedRevision = revision;
-    },
-    widgetAdd(type) {
-      let newId = this.pageModel.widgets.length;
-      while (this.pageModel.widgets.some((x) => x.id === newId)) {
-        newId++;
-      }
+    false
+  );
+});
 
-      this.pageModel.widgets.push({ id: newId, type: type, albums: [] });
-    },
-    removeWidget(widget) {
-      this.pageModel.widgets = this.pageModel.widgets.filter(
-        (x) => x.id != widget.id
-      );
-    },
-    selectImage(destination) {
-      this.saveImageDest = destination;
-    },
-    selectfile(destination) {
-      this.saveDocumentDest = destination;
-    },
-    save() {
-      if (this.selectedRevision) {
-        if (
-          !window.confirm(
-            "Är du säker på att du vill ersätta sidan med denna version?"
-          )
-        ) {
-          return;
-        }
-      }
-      const success = $(".alert-success");
-      const error = $(".alert-danger");
-      ApiService.postByObject(
-        window.location.href,
-        this.usedModel,
-        error,
-        success,
-        (res) => {
-          this.selectedRevision = null;
-          this.pageModel = res.newModel;
-        }
-      );
-    },
-  },
+const updateWidget = (newWidget: WidgetEditModel) => {
+  if (!usedModel.value) {
+    return;
+  }
+  usedModel.value.widgets = usedModel.value.widgets.map((x) => {
+    if (x.id === newWidget.id) {
+      return newWidget;
+    }
+    return x;
+  });
 };
+
+const usedWidgets = computed(() => {
+  if (usedModel.value) {
+    return usedModel.value.widgets;
+  }
+  return [];
+});
+
+const selectRevision = (revision: PageRevisionEditModel | null) => {
+  selectedRevision.value = revision;
+};
+
+const widgetAdd = (type: string) => {
+  let newId = pageModel.value!.widgets.length;
+  while (pageModel.value!.widgets.some((x) => x.id === newId)) {
+    newId++;
+  }
+
+  pageModel.value!.widgets.push({
+    id: newId,
+    type: type,
+    albums: [],
+    text: "",
+  });
+};
+
+const removeWidget = (widget: WidgetEditModel) => {
+  pageModel.value!.widgets = pageModel.value!.widgets.filter(
+    (x) => x.id != widget.id
+  );
+};
+
+const selectImage = (destination: JQuery<HTMLElement> | null) => {
+  saveImageDest.value = destination;
+};
+
+const selectfile = (destination: JQuery<HTMLElement> | null) => {
+  saveDocumentDest.value = destination;
+};
+
+const save = () => {
+  if (selectedRevision.value) {
+    if (
+      !window.confirm(
+        "Är du säker på att du vill ersätta sidan med denna version?"
+      )
+    ) {
+      return;
+    }
+  }
+  const success = $(".alert-success");
+  const error = $(".alert-danger");
+  ApiService.postByObject(
+    window.location.href,
+    usedModel.value,
+    error,
+    success,
+    (res: any) => {
+      selectedRevision.value = null;
+      pageModel.value = res.newModel;
+    }
+  );
+};
+
+watch(
+  () => drag.value,
+  (value) => {
+    EventBus.trigger("widgetDrag", value);
+  }
+);
+
+watch(
+  () => selectedRevision.value,
+  (value) => {
+    if (value) {
+      usedModel.value = value;
+    } else {
+      usedModel.value = pageModel.value;
+    }
+  }
+);
 </script>
 <style lang="scss" scoped>
 .widget-area {

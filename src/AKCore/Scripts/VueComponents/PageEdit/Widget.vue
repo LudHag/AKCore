@@ -16,58 +16,60 @@
         <header-text
           v-if="modelValue.type === 'HeaderText'"
           :modelValue="modelValue"
-          @update:modelValue="modelValue = $event"
+          @update:modelValue="$emit('update:modelValue', $event)"
         ></header-text>
         <hire
           v-if="modelValue.type === 'Hire'"
           :modelValue="modelValue"
-          @update:modelValue="modelValue = $event"
+          @update:modelValue="$emit('update:modelValue', $event)"
         ></hire>
         <image-widget
           v-if="modelValue.type === 'Image'"
           :modelValue="modelValue"
-          @update:modelValue="modelValue = $event"
+          @update:modelValue="$emit('update:modelValue', $event)"
         ></image-widget>
         <join
           v-if="modelValue.type === 'Join'"
           :modelValue="modelValue"
-          @update:modelValue="modelValue = $event"
+          @update:modelValue="$emit('update:modelValue', $event)"
         ></join>
         <member-list v-if="modelValue.type === 'MemberList'"></member-list>
         <music
           v-if="modelValue.type === 'Music'"
           :modelValue="modelValue"
-          @update:modelValue="modelValue = $event"
+          @update:modelValue="$emit('update:modelValue', $event)"
           :albums="albums"
         ></music>
         <post-list v-if="modelValue.type === 'PostList'"></post-list>
         <text-widget
           v-if="modelValue.type === 'Text'"
           :modelValue="modelValue"
-          @update:modelValue="modelValue = $event"
+          @update:modelValue="$emit('update:modelValue', $event)"
         ></text-widget>
         <text-image
           v-if="modelValue.type === 'TextImage'"
           :modelValue="modelValue"
-          @update:modelValue="modelValue = $event"
+          @update:modelValue="$emit('update:modelValue', $event)"
         ></text-image>
         <three-puffs
           v-if="modelValue.type === 'ThreePuffs'"
           :modelValue="modelValue"
-          @update:modelValue="modelValue = $event"
+          @update:modelValue="$emit('update:modelValue', $event)"
         >
         </three-puffs>
         <video-widget
           v-if="modelValue.type === 'Video'"
           :modelValue="modelValue"
-          @update:modelValue="modelValue = $event"
+          @update:modelValue="$emit('update:modelValue', $event)"
         ></video-widget>
       </div>
     </div>
   </li>
 </template>
-<script>
+<script setup lang="ts">
+import { onUpdated, ref } from "vue";
 import { getHeader } from "./functions";
+import { AlbumEditModel, WidgetEditModel } from "./models";
 import {
   TextImage,
   ThreePuffs,
@@ -82,40 +84,36 @@ import {
   PostList,
 } from "./Widgets/widgets";
 
-export default {
-  components: {
-    TextImage,
-    ThreePuffs,
-    HeaderText,
-    TextWidget,
-    Hire,
-    Join,
-    MemberList,
-    ImageWidget,
-    Music,
-    VideoWidget,
-    PostList,
-  },
-  props: ["modelValue", "albums"],
-  data() {
-    return {
-      minimized: false,
-    };
-  },
-  updated() {
-    this.$emit("updated");
-  },
-  methods: {
-    getHeader,
-    minimize() {
-      this.minimized = !this.minimized;
-    },
-    remove() {
-      if (window.confirm("Är du säker att du vill ta bort den här widgeten?")) {
-        this.$emit("remove");
-      }
-    },
-  },
+const woops = (ev: any) => {
+  console.log(JSON.stringify(ev));
+};
+
+const emit = defineEmits<{
+  (e: "updated"): void;
+  (e: "remove"): void;
+  (e: "remove"): void;
+  (e: "update:modelValue", value: WidgetEditModel): void;
+}>();
+
+defineProps<{
+  modelValue: WidgetEditModel;
+  albums: AlbumEditModel[];
+}>();
+
+const minimized = ref(false);
+
+onUpdated(() => {
+  emit("updated");
+});
+
+const minimize = () => {
+  minimized.value = !minimized.value;
+};
+
+const remove = () => {
+  if (window.confirm("Är du säker att du vill ta bort den här widgeten?")) {
+    emit("remove");
+  }
 };
 </script>
 <style lang="scss" scoped>
