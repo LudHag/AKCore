@@ -107,31 +107,33 @@
     </div>
   </div>
 </template>
-<script>
-export default {
-  data() {
-    return {
-      widgetExanded: false,
-      specialWidgetExpanded: false,
-    };
-  },
-  methods: {
-    click(type) {
-      this.$emit("add", type);
-      this.specialWidgetExpanded = false;
-      this.widgetExanded = false;
-    },
-  },
-  created() {
-    document.addEventListener("click", (e) => {
-      if (!e.target.closest(".dropdown-normal")) {
-        this.widgetExanded = false;
-      }
-      if (!e.target.closest(".dropdown-special")) {
-        this.specialWidgetExpanded = false;
-      }
-    });
-  },
+<script setup lang="ts">
+import { onMounted, ref } from "vue";
+
+const emit = defineEmits<{
+  (e: "add", type: string): void;
+}>();
+
+const widgetExanded = ref(false);
+const specialWidgetExpanded = ref(false);
+
+const click = (type: string) => {
+  emit("add", type);
+  specialWidgetExpanded.value = false;
+  widgetExanded.value = false;
 };
+
+onMounted(() => {
+  document.addEventListener("click", (e: Event) => {
+    const target = e.target as HTMLElement;
+
+    if (!target.closest(".dropdown-normal")) {
+      widgetExanded.value = false;
+    }
+    if (!target.closest(".dropdown-special")) {
+      specialWidgetExpanded.value = false;
+    }
+  });
+});
 </script>
 <style lang="scss"></style>
