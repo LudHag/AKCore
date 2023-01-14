@@ -1,11 +1,5 @@
 <template>
   <div></div>
 </template>
-<script setup lang="ts">
-import { WidgetEditModel } from "../models";
-
-defineProps<{
-  modelValue: WidgetEditModel;
-}>();
-</script>
+<script setup lang="ts"></script>
 <style lang="scss"></style>
