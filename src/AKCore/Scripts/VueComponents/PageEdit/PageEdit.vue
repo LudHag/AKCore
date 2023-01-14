@@ -1,5 +1,5 @@
 ﻿<template>
-  <div id="pageedit-app" v-if="pageModel">
+  <div id="pageedit-app" v-if="pageModel && usedModel">
     <div class="row">
       <form method="post" @submit.prevent="save">
         <div class="alert alert-danger" style="display: none"></div>
