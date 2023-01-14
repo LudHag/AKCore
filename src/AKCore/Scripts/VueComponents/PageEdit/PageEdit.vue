@@ -148,7 +148,7 @@ const widgetAdd = (type: string) => {
 };
 
 const removeWidget = (widget: WidgetEditModel) => {
-  pageModel.value!.widgets = pageModel.value!.widgets.filter(
+  usedModel.value!.widgets = usedModel.value!.widgets.filter(
     (x) => x.id != widget.id
   );
 };
