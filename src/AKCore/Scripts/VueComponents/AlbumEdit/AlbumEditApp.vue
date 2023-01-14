@@ -100,9 +100,11 @@ const tracksAlbum = computed(() => {
   if (!albums.value || tracksAlbumId.value == -1) {
     return null;
   }
-  return albums.value.find((album) => {
-    return album.id === tracksAlbumId.value;
-  });
+  return (
+    albums.value.find((album) => {
+      return album.id === tracksAlbumId.value;
+    }) ?? null
+  );
 });
 
 const filteredAlbums = computed(() => {
