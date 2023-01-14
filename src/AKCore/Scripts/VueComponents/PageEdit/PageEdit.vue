@@ -20,7 +20,8 @@
     <add-widget @add="widgetAdd"></add-widget>
     <ul class="widget-area">
       <draggable
-        v-model="usedWidgets"
+        :modelValue="usedWidgets"
+        @update:modelValue="sortWidgets($event)"
         @start="drag = true"
         @end="drag = false"
         handle=".widget-header"
@@ -128,6 +129,13 @@ const usedWidgets = computed(() => {
   }
   return [];
 });
+
+const sortWidgets = (updatedWidgets: WidgetEditModel[]) => {
+  if (!usedModel.value) {
+    return;
+  }
+  usedModel.value.widgets = updatedWidgets;
+};
 
 const selectRevision = (revision: PageRevisionEditModel | null) => {
   selectedRevision.value = revision;
