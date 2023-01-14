@@ -28,8 +28,8 @@
 </template>
 <script setup lang="ts">
 import { computed } from "vue";
-import { AlbumEditModel, WidgetEditModel } from "../models";
-import TextEdit from "../WidgetParts/TextEdit.vue";
+import { AlbumEditModel } from "../../AlbumEdit/models";
+import { WidgetEditModel } from "../models";
 
 const props = defineProps<{
   modelValue: WidgetEditModel;
