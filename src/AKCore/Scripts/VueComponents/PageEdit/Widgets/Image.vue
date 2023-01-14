@@ -3,11 +3,11 @@
     <image-edit v-model="modelValue.image"></image-edit>
   </div>
 </template>
-<script>
+<script setup lang="ts">
+import { WidgetEditModel } from "../models";
 import ImageEdit from "../WidgetParts/ImageEdit.vue";
-export default {
-  components: { ImageEdit },
-  props: ["modelValue"],
-};
+defineProps<{
+  modelValue: WidgetEditModel;
+}>();
 </script>
 <style lang="scss"></style>

@@ -84,10 +84,6 @@ import {
   PostList,
 } from "./Widgets/widgets";
 
-const woops = (ev: any) => {
-  console.log(JSON.stringify(ev));
-};
-
 const emit = defineEmits<{
   (e: "updated"): void;
   (e: "remove"): void;

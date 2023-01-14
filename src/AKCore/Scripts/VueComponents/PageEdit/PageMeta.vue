@@ -6,7 +6,7 @@
         <input
           type="text"
           class="form-control"
-          required="required"
+          required
           name="Name"
           placeholder="Namn"
           v-model="modelValue.name"
@@ -17,7 +17,7 @@
         <input
           type="text"
           class="form-control"
-          required="required"
+          required
           name="Slug"
           placeholder="Sidlänk"
           v-model="modelValue.slug"
@@ -62,9 +62,11 @@
     </div>
   </div>
 </template>
-<script>
-export default {
-  props: ["modelValue"],
-};
+<script setup lang="ts">
+import { PageEditModel, PageRevisionEditModel } from "./models";
+
+defineProps<{
+  modelValue: PageEditModel | PageRevisionEditModel;
+}>();
 </script>
 <style lang="scss"></style>

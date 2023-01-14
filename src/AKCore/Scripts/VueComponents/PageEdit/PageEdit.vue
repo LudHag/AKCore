@@ -1,5 +1,5 @@
 ﻿<template>
-  <div id="pageedit-app" v-if="pageModel">
+  <div id="pageedit-app" v-if="pageModel && usedModel">
     <div class="row">
       <form method="post" @submit.prevent="save">
         <div class="alert alert-danger" style="display: none"></div>
@@ -20,7 +20,8 @@
     <add-widget @add="widgetAdd"></add-widget>
     <ul class="widget-area">
       <draggable
-        v-model="usedWidgets"
+        :modelValue="usedWidgets"
+        @update:modelValue="sortWidgets($event)"
         @start="drag = true"
         @end="drag = false"
         handle=".widget-header"
@@ -129,6 +130,13 @@ const usedWidgets = computed(() => {
   return [];
 });
 
+const sortWidgets = (updatedWidgets: WidgetEditModel[]) => {
+  if (!usedModel.value) {
+    return;
+  }
+  usedModel.value.widgets = updatedWidgets;
+};
+
 const selectRevision = (revision: PageRevisionEditModel | null) => {
   selectedRevision.value = revision;
 };
@@ -148,7 +156,7 @@ const widgetAdd = (type: string) => {
 };
 
 const removeWidget = (widget: WidgetEditModel) => {
-  pageModel.value!.widgets = pageModel.value!.widgets.filter(
+  usedModel.value!.widgets = usedModel.value!.widgets.filter(
     (x) => x.id != widget.id
   );
 };
