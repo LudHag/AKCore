@@ -68,8 +68,9 @@
 </template>
 <script setup lang="ts">
 import { onUpdated, ref } from "vue";
+import { AlbumEditModel } from "../AlbumEdit/models";
 import { getHeader } from "./functions";
-import { AlbumEditModel, WidgetEditModel } from "./models";
+import { WidgetEditModel } from "./models";
 import {
   TextImage,
   ThreePuffs,

@@ -1,3 +1,5 @@
+import { AlbumEditModel } from "../AlbumEdit/models";
+
 export interface PageRevisionEditModel {
   id: number;
   name: string;
@@ -8,16 +10,6 @@ export interface PageRevisionEditModel {
   balettOnly: boolean;
   modified: string;
   modifiedBy: string;
-}
-
-export interface AlbumEditModel {
-  id: number;
-  name: string;
-  image: string;
-  year: number;
-  category: string;
-  created: string;
-  released: string;
 }
 
 export interface WidgetEditModel {
