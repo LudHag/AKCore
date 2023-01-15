@@ -44,14 +44,11 @@ const isArchived = ref(false);
 // eslint-disable-next-line no-undef
 const isUserBoard = (): boolean => isBoard;
 
-const loadMediaList = () => {
+const loadMediaList = async () => {
   if (isUserBoard()) {
-    getFromApi(
+    mailBoxItems.value = await getFromApi<MailItem[]>(
       "/MailBox/GetItems?archived=" + isArchived.value,
-      null,
-      (response: MailItem[]) => {
-        mailBoxItems.value = response;
-      }
+      null
     );
   }
 };

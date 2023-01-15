@@ -78,10 +78,8 @@ const close = () => {
   emit("close");
 };
 
-const loadImages = () => {
-  getFromApi("/Media/ImageListData", null, (res: Image[]) => {
-    images.value = res;
-  });
+const loadImages = async () => {
+  images.value = await getFromApi<Image[]>("/Media/ImageListData", null);
 };
 
 const selectImage = (image: Image) => {

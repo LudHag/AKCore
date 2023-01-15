@@ -42,14 +42,16 @@ const categories = ref<Record<string, MediaItem[]> | null>(null);
 const selectedTag = ref("Allmän");
 const error = ref<HTMLElement | null>(null);
 
-const loadMediaList = () => {
-  getFromApi("/Media/MediaData", null, (res: Record<string, MediaItem[]>) => {
-    categories.value = res;
-    IMAGETYPES.forEach((type) => {
-      if (!(type in categories.value!)) {
-        categories.value![type] = [];
-      }
-    });
+const loadMediaList = async () => {
+  const result = await getFromApi<Record<string, MediaItem[]>>(
+    "/Media/MediaData",
+    null
+  );
+  categories.value = result;
+  IMAGETYPES.forEach((type) => {
+    if (!(type in categories.value!)) {
+      categories.value![type] = [];
+    }
   });
 };
 

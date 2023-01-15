@@ -59,10 +59,11 @@ const search = ref("");
 
 const close = () => emit("close");
 
-const loadDocuments = () => {
-  getFromApi("/Media/DocumentListData", null, (res: Document[]) => {
-    documents.value = res;
-  });
+const loadDocuments = async () => {
+  documents.value = await getFromApi<Document[]>(
+    "/Media/DocumentListData",
+    null
+  );
 };
 
 const selectDocument = (document: Document) => {

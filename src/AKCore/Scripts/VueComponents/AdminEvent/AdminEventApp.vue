@@ -121,13 +121,10 @@ const removeEvent = (e: UpcomingEvent) => {
   }
 };
 
-const loadEvents = (old: boolean, page: number) => {
-  getFromApi(
+const loadEvents = async (old: boolean, page: number) => {
+  adminEventData.value = await getFromApi<AdminEventModel>(
     "/AdminEvent/EventData?old=" + old + "&page=" + page,
-    null,
-    (res: any) => {
-      adminEventData.value = res;
-    }
+    null
   );
 };
 

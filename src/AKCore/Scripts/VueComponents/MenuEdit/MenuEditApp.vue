@@ -88,11 +88,10 @@ const editMenu = (menu: MenuEditModel | null, parent?: MenuEditModel) => {
   }
 };
 
-const loadMenus = () => {
-  getFromApi("/MenuEdit/MenuListData", null, (res: any) => {
-    menus.value = res.menus;
-    pages.value = res.pages;
-  });
+const loadMenus = async () => {
+  const response = await getFromApi<any>("/MenuEdit/MenuListData", null);
+  menus.value = response.menus;
+  pages.value = response.pages;
 };
 
 const toggleCreateMenu = () => {

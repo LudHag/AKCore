@@ -1,4 +1,28 @@
-﻿export const defaultFormSend = async (
+﻿const handleResponse = async (
+  response: Response,
+  error: JQuery<HTMLElement> | null,
+  success: JQuery<HTMLElement> | null,
+  callback: (data: any) => void
+) => {
+  const res = await response.json();
+
+  if (res.success) {
+    if (success) {
+      success.text(res.message);
+      success.slideDown().delay(4000).slideUp();
+    }
+    if (callback) {
+      callback(res);
+    }
+  } else {
+    if (error) {
+      error.text(res.message);
+      error.slideDown().delay(4000).slideUp();
+    }
+  }
+};
+
+export const defaultFormSend = async (
   formElement: HTMLFormElement,
   error: JQuery<HTMLElement> | null,
   success: JQuery<HTMLElement> | null,
@@ -10,22 +34,7 @@
       body: new FormData(formElement),
     });
 
-    const res = await response.json();
-
-    if (res.success) {
-      if (success) {
-        success.text(res.message);
-        success.slideDown().delay(4000).slideUp();
-      }
-      if (callback) {
-        callback(res);
-      }
-    } else {
-      if (error) {
-        error.text(res.message);
-        error.slideDown().delay(4000).slideUp();
-      }
-    }
+    await handleResponse(response, error, success, callback);
   } catch (e) {
     if (error) {
       error.text("Server error");
@@ -49,22 +58,7 @@ export const postToApi = async (
       body: data,
     });
 
-    const res = await response.json();
-
-    if (res.success) {
-      if (success) {
-        success.text(res.message);
-        success.slideDown().delay(4000).slideUp();
-      }
-      if (callback) {
-        callback(res);
-      }
-    } else {
-      if (error) {
-        error.text(res.message);
-        error.slideDown().delay(4000).slideUp();
-      }
-    }
+    await handleResponse(response, error, success, callback);
   } catch (e) {
     if (error) {
       error.text("Server error");
@@ -73,99 +67,64 @@ export const postToApi = async (
   }
 };
 
-export const postByObject = (
+export const postByObject = async (
   url: string,
   obj: any,
   error: JQuery<HTMLElement> | null,
   success: JQuery<HTMLElement> | null,
   callback: (data: any) => void
 ) => {
-  $.ajax({
-    url: url,
-    dataType: "json",
-    data: JSON.stringify(obj),
-    contentType: "application/json; charset=utf-8",
-    type: "POST",
-    success: function (res) {
-      if (res.success) {
-        if (success) {
-          success.text(res.message);
-          success.slideDown().delay(4000).slideUp();
-        }
-        if (callback) {
-          callback(res);
-        }
-      } else {
-        if (error) {
-          error.text(res.message);
-          error.slideDown().delay(4000).slideUp();
-        }
-      }
-    },
-    error: function () {
-      if (error) {
-        error.text("Server error");
-        error.slideDown().delay(4000).slideUp();
-      }
-    },
-  });
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      body: JSON.stringify(obj),
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+      },
+    });
+
+    handleResponse(response, error, success, callback);
+  } catch (e) {
+    if (error) {
+      error.text("Server error");
+      error.slideDown().delay(4000).slideUp();
+    }
+  }
 };
 
-export const postFormData = (
+export const postFormData = async (
   url: string,
-  obj: any,
+  obj: FormData,
   error: JQuery<HTMLElement> | null,
   success: JQuery<HTMLElement> | null,
   callback: (data: any) => void
 ) => {
-  $.ajax({
-    url: url,
-    dataType: "json",
-    data: obj,
-    contentType: false,
-    processData: false,
-    type: "POST",
-    success: function (res) {
-      if (res.success) {
-        if (success) {
-          success.text(res.message);
-          success.slideDown().delay(4000).slideUp();
-        }
-        if (callback) {
-          callback(res);
-        }
-      } else {
-        if (error) {
-          error.text(res.message);
-          error.slideDown().delay(4000).slideUp();
-        }
-      }
-    },
-    error: function () {
-      if (error) {
-        error.text("Server error");
-        error.slideDown().delay(4000).slideUp();
-      }
-    },
-  });
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      body: obj,
+    });
+
+    handleResponse(response, error, success, callback);
+  } catch (e) {
+    if (error) {
+      error.text("Server error");
+      error.slideDown().delay(4000).slideUp();
+    }
+  }
 };
 
-export const getFromApi = (
+export const getFromApi = async <T>(
   url: string,
-  error: JQuery<HTMLElement> | null,
-  callback: (data: any) => void
-) => {
-  $.ajax({
-    url: url,
-    type: "GET",
-    success: function (res) {
-      callback(res);
-    },
-    error: function () {
-      if (error) {
-        error.text("Server error");
-        error.slideDown().delay(4000).slideUp();
-      }
-    },
-  });
+  error: JQuery<HTMLElement> | null
+): Promise<T> => {
+  try {
+    return fetch(url) as T;
+  } catch (e) {
+    if (error) {
+      error.text("Server error");
+      error.slideDown().delay(4000).slideUp();
+    }
+    throw e;
+  }
 };
