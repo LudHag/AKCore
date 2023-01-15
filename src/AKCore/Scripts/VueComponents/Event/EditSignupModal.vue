@@ -1,6 +1,6 @@
 ﻿<template>
   <modal :show-modal="showModal" header="'Lägg till anmälan'" @close="close">
-    <template v-slot:body>
+    <template #body>
       <form
         action="/upcoming/EditSignup"
         method="POST"

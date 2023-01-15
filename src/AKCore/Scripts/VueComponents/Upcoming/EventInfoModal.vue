@@ -1,6 +1,6 @@
 ﻿<template>
   <modal :show-modal="!!event" :header="header" @close="close">
-    <template v-slot:body>
+    <template #body>
       <div class="modal-body" v-if="event">
         <div class="row">
           <div class="col-sm-4" style="font-weight: 500">
@@ -26,14 +26,16 @@
               v-if="signupable && event.signupState"
               @click.prevent.stop="openSignup"
               :href="signupUrl"
-              >Anmäld ({{ event.signupState }})</a
             >
+              Anmäld ({{ event.signupState }})
+            </a>
             <a
               v-if="signupable && !event.signupState"
               @click.prevent.stop="openSignup"
               :href="signupUrl"
-              >Anmäl</a
             >
+              Anmäl
+            </a>
             <p class="modal-comming" v-if="signupable">
               {{ event.coming }} Kommer - {{ event.notComing }} Kommer inte
             </p>

@@ -1,6 +1,6 @@
 ﻿<template>
   <modal :show-modal="showModal" :header="'Redigera meny'" @close="close">
-    <template v-slot:body>
+    <template #body>
       <div class="modal-body">
         <form
           :action="formEndpoint"

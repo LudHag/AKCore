@@ -1,6 +1,6 @@
 ﻿<template>
   <modal :show-modal="!!album" :header="header" @close="close">
-    <template v-slot:body>
+    <template #body>
       <div class="modal-body" v-if="album">
         <file-uploader :button-text="'Ladda upp spår'" @upload="uploadFiles">
           <template v-slot:content>
@@ -62,7 +62,7 @@ const close = () => {
 
 const uploadFiles = (files: FileList) => {
   const mediaData = new FormData();
-  for (var i = 0; i < files.length; i++) {
+  for (let i = 0; i < files.length; i++) {
     mediaData.append("TrackFiles", files[i]);
   }
   const albumId = props.album?.id!;

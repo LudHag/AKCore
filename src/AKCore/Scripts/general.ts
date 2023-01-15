@@ -1,4 +1,5 @@
-﻿interface Date {
+﻿// eslint-disable-next-line @typescript-eslint/no-unused-vars
+interface Date {
   addDays(days: number): Date;
 }
 
@@ -50,7 +51,7 @@ $(function () {
           error.slideDown().delay(5000).slideUp();
         }
       },
-      error: function (err) {
+      error: function () {
         error.text("Ett fel uppstod när ansökan skickades");
         error.slideDown().delay(5000).slideUp();
       },

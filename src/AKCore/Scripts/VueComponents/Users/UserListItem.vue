@@ -44,8 +44,9 @@
                     class="listed-items"
                     :key="post"
                     v-for="post in user.posts"
-                    >{{ post }}</span
                   >
+                    {{ post }}
+                  </span>
                 </p>
                 <form
                   class="form-inline save-medal"
@@ -88,9 +89,9 @@
                   @submit.prevent="saveLastGiven"
                 >
                   <div class="form-group">
-                    <strong
-                      >Senast utdelad medalj: {{ user.givenMedal }}</strong
-                    >
+                    <strong>
+                      Senast utdelad medalj: {{ user.givenMedal }}
+                    </strong>
                     <input
                       type="hidden"
                       name="userName"
@@ -121,8 +122,9 @@
                   href="#"
                   class="btn btn-default edit-user-info"
                   @click.prevent="$emit('edit')"
-                  >Redigera användarinfo</a
                 >
+                  Redigera användarinfo
+                </a>
               </div>
             </div>
             <div class="col-sm-6">
@@ -172,8 +174,9 @@
                   href="#"
                   class="btn btn-primary reset-pass-btn"
                   @click.prevent="resetPassword"
-                  >Nytt lösenord</a
                 >
+                  Nytt lösenord
+                </a>
               </div>
               <div class="edit-group">
                 <label>Lägg till post(er): </label>

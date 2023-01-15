@@ -14,7 +14,7 @@
       @remove="removeRecruit"
     ></recruits-list>
     <modal :show-modal="showModal" header="Export" @close="close">
-      <template v-slot:body>
+      <template #body>
         <div>
           <div class="modal-body">
             <textarea
@@ -37,7 +37,6 @@
 import Modal from "../Modal.vue";
 import RecruitsHeader from "./RecruitsHeader.vue";
 import RecruitsList from "./RecruitsList.vue";
-import Constants from "../../constants";
 import { computed, onMounted, ref } from "vue";
 import { Recruit } from "./models";
 
@@ -46,8 +45,6 @@ const instrument = ref("");
 const archived = ref(false);
 const recruits = ref<Recruit[]>([]);
 const showModal = ref(false);
-
-const instruments = computed(() => Constants.INSTRUMENTS);
 
 const filteredRecruits = computed(() => {
   return recruits.value.filter((recruit) => {

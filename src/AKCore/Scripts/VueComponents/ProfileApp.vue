@@ -199,7 +199,7 @@ const updateProfile = async (event: Event) => {
         error.slideDown().delay(3500).slideUp();
       }
     },
-    error: function (err) {
+    error: function () {
       error.text("Något gick fel");
       error.slideDown().delay(3500).slideUp();
     },
@@ -230,7 +230,7 @@ const changePassword = async (event: Event) => {
         error.slideDown().delay(3500).slideUp();
       }
     },
-    error: function (err) {
+    error: function () {
       error.text("Något gick fel");
       error.slideDown().delay(3500).slideUp();
     },

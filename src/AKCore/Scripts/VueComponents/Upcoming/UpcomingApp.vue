@@ -8,8 +8,8 @@
             @click.prevent="showIcal = !showIcal"
             class="fa fa-calendar"
           >
-            Ical-länk</a
-          >
+            Ical-länk
+          </a>
           <div class="input-group ical-copy" v-if="showIcal">
             <input
               class="form-control"
@@ -32,15 +32,18 @@
             href="#"
             class="event calendar-toggle"
             @click.prevent="calendarView = false"
-            v-bind:class="{ active: !calendarView }"
-            >Lista</a
-          ><a
+            :class="{ active: !calendarView }"
+          >
+            Lista
+          </a>
+          <a
             href="#"
             class="month calendar-toggle"
             @click.prevent="calendarView = true"
-            v-bind:class="{ active: calendarView }"
-            >Månad</a
+            :class="{ active: calendarView }"
           >
+            Månad
+          </a>
         </div>
       </div>
       <spinner :size="'medium'" v-if="!years"></spinner>

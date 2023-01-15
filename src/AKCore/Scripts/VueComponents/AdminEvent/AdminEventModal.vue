@@ -1,6 +1,6 @@
 ﻿<template>
   <modal :show-modal="showModal" header="Redigera händelse" @close="close">
-    <template v-slot:body>
+    <template #body>
       <form
         action="/AdminEvent/Edit"
         method="post"

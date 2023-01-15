@@ -5,8 +5,9 @@
       <a
         class="btn btn-default choose-picture-btn"
         @click.prevent="showModal = true"
-        >Välj bild</a
       >
+        Välj bild
+      </a>
     </div>
     <image-picker-modal
       v-if="showModal"

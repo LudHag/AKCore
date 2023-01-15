@@ -1,6 +1,6 @@
 ﻿<template>
   <modal :show-modal="showModal" :header="'Logga in'" @close="close">
-    <template v-slot:body>
+    <template #body>
       <form
         action="/Account/Login"
         id="loginForm"

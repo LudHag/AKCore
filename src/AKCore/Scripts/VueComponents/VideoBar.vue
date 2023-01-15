@@ -2,18 +2,18 @@
   <div class="videos-app">
     <div
       class="videos-container"
-      v-bind:class="{ showleft: showLeft, showright: showRight }"
+      :class="{ showleft: showLeft, showright: showRight }"
       ref="container"
     >
       <div
         class="videos"
-        v-bind:style="{ transform: 'translateX(-' + offset + 'px)' }"
+        :style="{ transform: 'translateX(-' + offset + 'px)' }"
       >
         <div
           class="video"
-          v-on:click="onVideoClick(video)"
+          @:click="onVideoClick(video)"
           v-for="video in videos"
-          v-bind:key="video.title"
+          :key="video.title"
         >
           <img :src="'https://img.youtube.com/vi/' + video.link + '/0.jpg'" />
           <span class="title" v-html="video.title"></span>
@@ -24,7 +24,7 @@
     <a
       href="#"
       v-if="showLeft"
-      v-on:click.prevent="leftClick"
+      @:click.prevent="leftClick"
       class="arrow-container-left"
     >
       <span class="glyphicon glyphicon-menu-left"></span>
@@ -32,12 +32,12 @@
     <a
       href="#"
       v-if="showRight"
-      v-on:click.prevent="rightClick"
+      @:click.prevent="rightClick"
       class="arrow-container-right"
     >
       <span class="glyphicon glyphicon-menu-right"></span>
     </a>
-    <div v-if="showVideo" class="video-mask" v-on:click="closeVideo">
+    <div v-if="showVideo" class="video-mask" @:click="closeVideo">
       <div class="youtube-container">
         <iframe
           id="videoplayer"

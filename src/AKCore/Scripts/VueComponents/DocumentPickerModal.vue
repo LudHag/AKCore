@@ -5,7 +5,7 @@
     :notransition="notransition ?? false"
     @close="close"
   >
-    <template v-slot:body>
+    <template #body>
       <div class="modal-body">
         <form class="form-inline ak-search" @submit.prevent>
           <div class="form-group">
@@ -23,7 +23,7 @@
           </a>
           <ul class="pagination">
             <li
-              v-bind:class="{ active: page + 1 === n }"
+              :class="{ active: page + 1 === n }"
               v-for="n in pagesLength"
               :key="n"
             >
@@ -39,14 +39,14 @@
 import Modal from "./Modal.vue";
 import ApiService from "../services/apiservice";
 import { Document } from "./models";
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, watch } from "vue";
 
 const emit = defineEmits<{
   (e: "close"): void;
   (e: "document", image: Document): void;
 }>();
 
-const { destination } = defineProps<{
+const props = defineProps<{
   showModal: boolean;
   notransition?: boolean;
   destination?: JQuery<HTMLElement> | null;
@@ -66,8 +66,8 @@ const loadDocuments = () => {
 };
 
 const selectDocument = (document: Document) => {
-  if (destination) {
-    destination.val("/media/" + document.name);
+  if (props.destination) {
+    props.destination.val("/media/" + document.name);
     emit("close");
   } else {
     emit("document", document);
@@ -95,11 +95,18 @@ const shownDocuments = computed(() => {
 
 const pagesLength = computed(() => {
   const nbrPages = Math.ceil(filteredDocuments.value.length / 16);
-  if (page.value + 1 > nbrPages && nbrPages - 1 > -1) {
-    page.value = nbrPages - 1;
-  }
+
   return nbrPages;
 });
+
+watch(
+  () => filteredDocuments.value,
+  () => {
+    if (page.value + 1 > pagesLength.value && pagesLength.value - 1 > -1) {
+      page.value = pagesLength.value - 1;
+    }
+  }
+);
 
 onMounted(() => {
   loadDocuments();

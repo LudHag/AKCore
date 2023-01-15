@@ -40,8 +40,9 @@
         @click.prevent="createNewUser"
         href="#"
         role="button"
-        >Lägg till ny användare</a
       >
+        Lägg till ny användare
+      </a>
     </div>
     <edit-user-modal
       :show-modal="showUserModal"

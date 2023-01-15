@@ -7,7 +7,7 @@
     "clear": "rm -f ./wwwroot/dist/*",
     "dev": "vite",
     "build": "vue-tsc && vite build",
-    "lint": "eslint --ext .ts,.vue Scripts --quiet"
+    "lint": "eslint --ext .ts,.vue Scripts"
   },
   "browserslist": {
     "development": [

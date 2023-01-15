@@ -59,7 +59,7 @@ const loadMediaList = () => {
 
 const uploadFiles = (files: FileList) => {
   const mediaData = new FormData();
-  for (var i = 0; i < files.length; i++) {
+  for (let i = 0; i < files.length; i++) {
     mediaData.append("UploadFiles", files[i]);
   }
   mediaData.append("Tag", selectedTag.value);
