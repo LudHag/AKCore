@@ -100,6 +100,7 @@ const removeRecruit = (id: number) => {
 
 onMounted(() => {
   //@ts-ignore
+  // eslint-disable-next-line no-undef
   recruits.value = recruitList;
 });
 </script>

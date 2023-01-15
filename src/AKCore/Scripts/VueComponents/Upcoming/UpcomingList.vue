@@ -44,10 +44,8 @@ const signup = (id: number) => {
   emit("signup", id);
 };
 
-const months = computed(() => Constants.MONTHS);
-
 const noYears = computed(() => {
-  for (var key in props.years) {
+  for (const key in props.years) {
     if (props.years.hasOwnProperty(key)) return false;
   }
   return true;

@@ -4,6 +4,7 @@
     <a
       href="#"
       v-for="e in events"
+      v-bind:key="e.id"
       @click.prevent="openEvent(e)"
       class="dayEvent"
       :class="{ green: e.signupState }"

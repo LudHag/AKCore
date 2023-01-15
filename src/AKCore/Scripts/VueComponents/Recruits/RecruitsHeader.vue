@@ -53,7 +53,7 @@ const emit = defineEmits<{
   (e: "instrumentchange", value: string): void;
 }>();
 
-const { archived } = defineProps<{
+const props = defineProps<{
   archived: boolean;
 }>();
 
@@ -68,7 +68,7 @@ const instrumentChange = (event: Event) => {
 };
 
 onMounted(() => {
-  localArchived.value = archived;
+  localArchived.value = props.archived;
 });
 </script>
 <style lang="scss" scoped></style>
