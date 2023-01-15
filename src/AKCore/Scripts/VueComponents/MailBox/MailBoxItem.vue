@@ -21,9 +21,9 @@
     </div>
     <div class="message col-xs-12">{{ calculatedMessage }}</div>
     <div v-if="showExpand" class="expand-container col-xs-12">
-      <a href="#" @click.prevent="expand" class="expand btn btn-primary"
-        >Expandera</a
-      >
+      <a href="#" @click.prevent="expand" class="expand btn btn-primary">
+        Expandera
+      </a>
     </div>
   </div>
 </template>

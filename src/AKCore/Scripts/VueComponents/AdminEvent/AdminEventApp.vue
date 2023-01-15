@@ -2,9 +2,9 @@
   <div id="admin-event-app">
     <div class="row">
       <div class="col-sm-6">
-        <a href="#" class="btn btn-primary" @click.prevent="openNewEvent"
-          >Lägg till händelse</a
-        >
+        <a href="#" class="btn btn-primary" @click.prevent="openNewEvent">
+          Lägg till händelse
+        </a>
       </div>
       <div class="col-sm-6">
         <select class="form-control" @change="newSort">

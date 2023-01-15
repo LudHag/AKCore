@@ -5,7 +5,7 @@
       class="media-upload-area"
       @upload="uploadFiles"
     >
-      <template v-slot:content>
+      <template #content>
         <div>
           <div
             class="alert alert-danger"

@@ -2,14 +2,14 @@
   <form
     class="file-upload-area"
     :class="{ 'drag-hover': formDragHover }"
-    v-on:submit.prevent
-    v-on:drag.stop.prevent
-    v-on:dragstart.stop.prevent
-    v-on:dragover.stop.prevent="enterDrag"
-    v-on:dragenter.stop.prevent="enterDrag"
-    v-on:dragleave.stop.prevent="leaveDrag"
-    v-on:dragend.stop.prevent="leaveDrag"
-    v-on:drop.stop.prevent="onDrop"
+    @submit.prevent
+    @drag.stop.prevent
+    @dragstart.stop.prevent
+    @dragover.stop.prevent="enterDrag"
+    @dragenter.stop.prevent="enterDrag"
+    @dragleave.stop.prevent="leaveDrag"
+    @dragend.stop.prevent="leaveDrag"
+    @drop.stop.prevent="onDrop"
   >
     <slot name="content"></slot>
     <label class="btn btn-default btn-file">
@@ -49,7 +49,7 @@ const enterDrag = () => {
   formDragHover.value = true;
 };
 
-const leaveDrag = (e: DragEvent) => {
+const leaveDrag = () => {
   formDragHover.value = false;
 };
 

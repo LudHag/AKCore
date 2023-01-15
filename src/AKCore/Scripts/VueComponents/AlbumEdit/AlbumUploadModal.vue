@@ -3,7 +3,7 @@
     <template #body>
       <div class="modal-body" v-if="album">
         <file-uploader :button-text="'Ladda upp spår'" @upload="uploadFiles">
-          <template v-slot:content>
+          <template #content>
             <div class="tracks">
               <div
                 class="alert alert-danger"

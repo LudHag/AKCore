@@ -7,8 +7,9 @@
           href="#"
           @click.prevent="searchQuery = ''"
           class="show-albums"
-          >Visa album</a
         >
+          Visa album
+        </a>
         Sök låtar:
         <input
           type="text"

@@ -65,7 +65,7 @@
         </form>
       </div>
     </template>
-    <template v-slot:footer>
+    <template #footer>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" @click.prevent="close">
           Stäng

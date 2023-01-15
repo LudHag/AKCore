@@ -26,7 +26,7 @@ $("#new-page-form").on("submit", "form", function (e) {
         error.slideDown().delay(4000).slideUp();
       }
     },
-    error: function (err) {
+    error: function () {
       error.text("Misslyckades med att skapa sida");
       error.slideDown().delay(4000).slideUp();
     },

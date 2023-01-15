@@ -54,7 +54,7 @@ const emit = defineEmits<{
   (e: "close"): void;
 }>();
 
-const props = defineProps<{
+defineProps<{
   members: AvailableMember[];
   eventId: number;
   showModal: boolean;

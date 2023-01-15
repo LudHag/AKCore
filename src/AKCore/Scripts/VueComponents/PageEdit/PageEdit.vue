@@ -11,8 +11,8 @@
         </div>
         <page-meta v-model="usedModel"></page-meta>
         <page-versions
-          :modelValue="pageModel"
-          :selectedRevision="selectedRevision"
+          :model-value="pageModel"
+          :selected-revision="selectedRevision"
           @select="selectRevision"
         ></page-versions>
       </form>
@@ -20,7 +20,7 @@
     <add-widget @add="widgetAdd"></add-widget>
     <ul class="widget-area">
       <draggable
-        :modelValue="usedWidgets"
+        :model-value="usedWidgets"
         @update:modelValue="sortWidgets($event)"
         @start="drag = true"
         @end="drag = false"
@@ -29,7 +29,7 @@
       >
         <template #item="{ element }">
           <widget
-            :modelValue="element"
+            :model-value="element"
             :albums="pageModel.albums"
             @remove="removeWidget(element)"
             @update:modelValue="updateWidget($event)"
