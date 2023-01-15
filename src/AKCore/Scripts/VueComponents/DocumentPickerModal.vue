@@ -37,7 +37,7 @@
 </template>
 <script setup lang="ts">
 import Modal from "./Modal.vue";
-import ApiService from "../services/apiservice";
+import { getFromApi } from "../services/apiservice";
 import { Document } from "./models";
 import { ref, computed, onMounted, watch } from "vue";
 
@@ -59,10 +59,11 @@ const search = ref("");
 
 const close = () => emit("close");
 
-const loadDocuments = () => {
-  ApiService.get("/Media/DocumentListData", null, (res: Document[]) => {
-    documents.value = res;
-  });
+const loadDocuments = async () => {
+  documents.value = await getFromApi<Document[]>(
+    "/Media/DocumentListData",
+    null
+  );
 };
 
 const selectDocument = (document: Document) => {

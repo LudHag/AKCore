@@ -44,7 +44,7 @@
 </template>
 <script setup lang="ts">
 import { ref } from "vue";
-import ApiService from "../../services/apiservice";
+import { defaultFormSend } from "../../services/apiservice";
 import Modal from "../Modal.vue";
 import { User } from "./models";
 
@@ -67,8 +67,7 @@ const close = () => {
 const submitForm = () => {
   if (changepassform.value === null) return;
   const error = $(".change-password-error");
-  const form = $(changepassform.value) as JQuery<HTMLFormElement>;
-  ApiService.defaultFormSend(form, error, null, () => {
+  defaultFormSend(changepassform.value, error, null, () => {
     emit("success");
     close();
   });

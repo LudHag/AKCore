@@ -31,7 +31,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import ApiService from "../../services/apiservice";
+import { getFromApi, postFormData } from "../../services/apiservice";
 import FileUploader from "../FileUploader.vue";
 import MediaList from "./MediaList.vue";
 import { IMAGETYPES } from "../../constants";
@@ -42,19 +42,17 @@ const categories = ref<Record<string, MediaItem[]> | null>(null);
 const selectedTag = ref("Allmän");
 const error = ref<HTMLElement | null>(null);
 
-const loadMediaList = () => {
-  ApiService.get(
+const loadMediaList = async () => {
+  const result = await getFromApi<Record<string, MediaItem[]>>(
     "/Media/MediaData",
-    null,
-    (res: Record<string, MediaItem[]>) => {
-      categories.value = res;
-      IMAGETYPES.forEach((type) => {
-        if (!(type in categories.value!)) {
-          categories.value![type] = [];
-        }
-      });
-    }
+    null
   );
+  categories.value = result;
+  IMAGETYPES.forEach((type) => {
+    if (!(type in categories.value!)) {
+      categories.value![type] = [];
+    }
+  });
 };
 
 const uploadFiles = (files: FileList) => {
@@ -64,15 +62,9 @@ const uploadFiles = (files: FileList) => {
   }
   mediaData.append("Tag", selectedTag.value);
   const errorField = $(error.value!);
-  ApiService.postFormData(
-    "/media/UploadFiles",
-    mediaData,
-    errorField,
-    null,
-    () => {
-      loadMediaList();
-    }
-  );
+  postFormData("/media/UploadFiles", mediaData, errorField, null, () => {
+    loadMediaList();
+  });
 };
 
 onMounted(() => {

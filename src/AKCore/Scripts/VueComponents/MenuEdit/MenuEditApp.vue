@@ -67,7 +67,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import ApiService from "../../services/apiservice";
+import { defaultFormSend, getFromApi } from "../../services/apiservice";
 import MenuList from "./MenuList.vue";
 import MenuEditModal from "./MenuEditModal.vue";
 import { MenuEditModel, PageEditModel } from "./models";
@@ -88,11 +88,10 @@ const editMenu = (menu: MenuEditModel | null, parent?: MenuEditModel) => {
   }
 };
 
-const loadMenus = () => {
-  ApiService.get("/MenuEdit/MenuListData", null, (res: any) => {
-    menus.value = res.menus;
-    pages.value = res.pages;
-  });
+const loadMenus = async () => {
+  const response = await getFromApi<any>("/MenuEdit/MenuListData", null);
+  menus.value = response.menus;
+  pages.value = response.pages;
 };
 
 const toggleCreateMenu = () => {
@@ -101,7 +100,7 @@ const toggleCreateMenu = () => {
 
 const createMenu = (event: Event) => {
   const form = $(event.target as HTMLFormElement) as JQuery<HTMLFormElement>;
-  ApiService.defaultFormSend(form, null, null, () => {
+  defaultFormSend(event.target as HTMLFormElement, null, null, () => {
     loadMenus();
     showAddMenu.value = false;
     form.trigger("reset");

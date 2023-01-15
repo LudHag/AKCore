@@ -59,6 +59,7 @@ import EditUserModal from "./EditUserModal.vue";
 import Spinner from "../Spinner.vue";
 import { User } from "./models";
 import { ref, computed, watch, onMounted } from "vue";
+import { getFromApi } from "../../services/apiservice";
 
 const searchPhrase = ref("");
 const inactive = ref(false);
@@ -94,22 +95,16 @@ watch(inactive, (newValue) => {
 
 const getUsers = (inactive: boolean) => {
   loading.value = true;
-  $.ajax({
-    url: "/User/UserListData",
-    type: "POST",
-    data: { inactive },
-    success: function (res) {
+  getFromApi<any>(`/User/UserListData?inactive=${inactive}`, null)
+    .then((res) => {
       users.value = res.users;
-      loading.value = false;
       if (inactive) {
         allUsersCollected.value = true;
       }
-    },
-    error: function () {
-      console.log("fel");
+    })
+    .finally(() => {
       loading.value = false;
-    },
-  });
+    });
 };
 
 const updateUserProp = (updateInfo: any) => {

@@ -1,3 +1,5 @@
+import { defaultFormSend } from "../services/apiservice";
+
 $("#new-page-button").on("click", function (e) {
   e.preventDefault();
   $("#new-page-form").toggle();
@@ -14,21 +16,8 @@ $("#new-page-form").on("submit", "form", function (e) {
   e.preventDefault();
   const form = $(this);
   const error = form.find(".alert-danger");
-  $.ajax({
-    url: form.attr("action"),
-    type: "POST",
-    data: form.serialize(),
-    success: function (res) {
-      if (res.success) {
-        window.location.reload();
-      } else {
-        error.text(res.message);
-        error.slideDown().delay(4000).slideUp();
-      }
-    },
-    error: function () {
-      error.text("Misslyckades med att skapa sida");
-      error.slideDown().delay(4000).slideUp();
-    },
+
+  defaultFormSend(this as HTMLFormElement, error, null, () => {
+    window.location.reload();
   });
 });

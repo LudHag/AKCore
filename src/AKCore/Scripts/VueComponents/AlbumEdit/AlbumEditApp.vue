@@ -80,7 +80,11 @@
   </div>
 </template>
 <script setup lang="ts">
-import ApiService from "../../services/apiservice";
+import {
+  postToApi,
+  defaultFormSend,
+  getFromApi,
+} from "../../services/apiservice";
 import AlbumEditItem from "./AlbumEditItem.vue";
 import ImagePickerModal from "../ImagePickerModal.vue";
 import AlbumUploadModal from "./AlbumUploadModal.vue";
@@ -123,7 +127,7 @@ const filteredAlbums = computed(() => {
 
 const changeName = (name: string, id: number) => {
   const error = $(".alert-danger");
-  ApiService.postByObjectAsForm(
+  postToApi(
     "/AlbumEdit/ChangeName",
     { id: id, name: name },
     error,
@@ -142,26 +146,20 @@ const changeName = (name: string, id: number) => {
 
 const changeCategory = (category: string, id: number) => {
   const error = $(".alert-danger");
-  ApiService.postByObjectAsForm(
-    "/AlbumEdit/ChangeCategory",
-    { id, category },
-    error,
-    null,
-    () => {
-      albums.value = albums.value.map((item) => {
-        if (item.id === id) {
-          return Object.assign({}, item, { category });
-        } else {
-          return item;
-        }
-      });
-    }
-  );
+  postToApi("/AlbumEdit/ChangeCategory", { id, category }, error, null, () => {
+    albums.value = albums.value.map((item) => {
+      if (item.id === id) {
+        return Object.assign({}, item, { category });
+      } else {
+        return item;
+      }
+    });
+  });
 };
 
 const deleteAlbum = (id: number) => {
   const error = $(".alert-danger");
-  ApiService.postByUrl("/AlbumEdit/DeleteAlbum/" + id, error, null, () => {
+  postToApi("/AlbumEdit/DeleteAlbum/" + id, null, error, null, () => {
     albums.value = albums.value.filter((album) => {
       return album.id !== id;
     });
@@ -181,17 +179,17 @@ const openCreate = () => {
 const createAlbum = (event: Event) => {
   const error = $(".alert-danger");
   const success = $(".alert-success");
-  const form = $(event.target as HTMLElement);
-  ApiService.defaultFormSend(form, error, success, () => {
+  defaultFormSend(event.target as HTMLFormElement, error, success, () => {
     loadAlbumData();
     createOpened.value = false;
   });
 };
 
-const loadAlbumData = () => {
-  ApiService.get("/AlbumEdit/AlbumData", null, (res: AlbumEditModel[]) => {
-    albums.value = res;
-  });
+const loadAlbumData = async () => {
+  albums.value = await getFromApi<AlbumEditModel[]>(
+    "/AlbumEdit/AlbumData",
+    null
+  );
 };
 
 const pickImage = (id: number) => {
@@ -206,7 +204,7 @@ const closeImagePicker = () => {
 
 const imageSelected = (image: { name: string }) => {
   const error = $(".alert-danger");
-  ApiService.postByObjectAsForm(
+  postToApi(
     "/AlbumEdit/UpdateImage",
     { id: selectedAlbum.value, src: "/media/" + image.name },
     error,

@@ -74,6 +74,7 @@ import SignupList from "./SignupList.vue";
 import EditSignupModal from "./EditSignupModal.vue";
 import { ref, computed, toRefs, watch, onMounted } from "vue";
 import { UpcomingEventInfo } from "../Upcoming/models";
+import { getFromApi } from "../../services/apiservice";
 
 const emit = defineEmits<{
   (e: "close"): void;
@@ -110,22 +111,16 @@ const loadEvents = () => {
   emit("update");
 };
 
-const loadEvent = () => {
+const loadEvent = async () => {
   loading.value = true;
-  $.ajax({
-    url: "/upcoming/Event/EventData/" + eventId.value,
-    type: "GET",
-    success: function (res: UpcomingEventInfo) {
-      events.value = Object.assign({}, events.value, {
-        [eventId.value]: res,
-      });
-      loading.value = false;
-    },
-    error: function () {
-      console.log("fel");
-      loading.value = false;
-    },
+  const result = await getFromApi(
+    "/upcoming/Event/EventData/" + eventId.value,
+    null
+  );
+  events.value = Object.assign({}, events.value, {
+    [eventId.value]: result,
   });
+  loading.value = false;
 };
 
 const close = () => {

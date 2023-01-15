@@ -59,7 +59,7 @@
 import PageMeta from "./PageMeta.vue";
 import AddWidget from "./AddWidget.vue";
 import Widget from "./Widget.vue";
-import ApiService from "../../services/apiservice";
+import { getFromApi, postByObject } from "../../services/apiservice";
 import ImagePickerModal from "../ImagePickerModal.vue";
 import DocumentPickerModal from "../DocumentPickerModal.vue";
 import draggable from "vuedraggable";
@@ -88,14 +88,13 @@ onMounted(() => {
     selectfile(field);
   });
 
-  $.ajax({
-    url: window.location.href + "/Model",
-    type: "GET",
-    success: function (res: PageEditModel) {
+  getFromApi<PageEditModel>(window.location.href + "/Model", null).then(
+    (res) => {
       pageModel.value = res;
       usedModel.value = pageModel.value;
-    },
-  });
+    }
+  );
+
   document.addEventListener(
     "keydown",
     (e) => {
@@ -181,7 +180,7 @@ const save = () => {
   }
   const success = $(".alert-success");
   const error = $(".alert-danger");
-  ApiService.postByObject(
+  postByObject(
     window.location.href,
     usedModel.value,
     error,

@@ -45,7 +45,7 @@
 </template>
 <script setup lang="ts">
 import Modal from "../Modal.vue";
-import ApiService from "../../services/apiservice";
+import { defaultFormSend } from "../../services/apiservice";
 import { ref, onMounted } from "vue";
 
 const showModal = ref(false);
@@ -58,7 +58,7 @@ const submitForm = (e: Event) => {
   e.preventDefault();
   const form = $(e.target as HTMLFormElement) as JQuery<HTMLElement>;
   const error = form.find(".alert-danger");
-  ApiService.defaultFormSend(form, error, null, () => {
+  defaultFormSend(e.target as HTMLFormElement, error, null, () => {
     window.location.reload();
   });
 };

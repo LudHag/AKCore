@@ -217,7 +217,7 @@
 import { MEDALS, POSTS, ROLES } from "../../constants";
 // @ts-ignore
 import vSelect from "vue-select";
-import ApiService from "../../services/apiservice";
+import { defaultFormSend, postToApi } from "../../services/apiservice";
 import { UpdateInfo, User } from "./models";
 import { computed, ref, watch } from "vue";
 
@@ -271,8 +271,9 @@ const removeUser = () => {
   if (confirm("Vill du verkligen ta bort " + props.user.fullName + "?")) {
     const error = $($(".alert-danger")[0]);
     const success = $($(".alert-success")[0]);
-    ApiService.postByUrl(
+    postToApi(
       "/User/RemoveUser?userName=" + props.user.userName,
+      null,
       error,
       success,
       () => {
@@ -285,8 +286,7 @@ const removeUser = () => {
 const saveLastEarned = (event: Event) => {
   const error = $($(".alert-danger")[0]);
   const success = $($(".alert-success")[0]);
-  const form = $(event.target as HTMLFormElement) as JQuery<HTMLFormElement>;
-  ApiService.defaultFormSend(form, error, success, () => {
+  defaultFormSend(event.target as HTMLFormElement, error, success, () => {
     emit("updateuserprop", {
       userName: props.user.userName,
       prop: "medal",
@@ -299,8 +299,7 @@ const saveLastEarned = (event: Event) => {
 const saveLastGiven = (event: Event) => {
   const error = $($(".alert-danger")[0]);
   const success = $($(".alert-success")[0]);
-  const form = $(event.target as HTMLFormElement) as JQuery<HTMLFormElement>;
-  ApiService.defaultFormSend(form, error, success, () => {
+  defaultFormSend(event.target as HTMLFormElement, error, success, () => {
     emit("updateuserprop", {
       userName: props.user.userName,
       prop: "givenMedal",
@@ -320,8 +319,9 @@ const removeRole = (role: string) => {
   const newRoles = props.user.roles.slice();
   newRoles.splice(roleIndex, 1);
 
-  ApiService.postByUrl(
+  postToApi(
     "/User/RemoveRole?UserName=" + props.user.userName + "&Role=" + role,
+    null,
     error,
     success,
     () => {
@@ -337,7 +337,6 @@ const removeRole = (role: string) => {
 const addRole = (event: Event) => {
   const error = $($(".alert-danger")[0]);
   const success = $($(".alert-success")[0]);
-  const form = $(event.target as HTMLFormElement) as JQuery<HTMLFormElement>;
   // @ts-ignore
   const role = (event.target as HTMLFormElement).elements.Role.value;
   const roleIndex = props.user.roles.indexOf(role);
@@ -346,7 +345,7 @@ const addRole = (event: Event) => {
   }
   const newRoles = props.user.roles.slice();
   newRoles.push(role);
-  ApiService.defaultFormSend(form, error, success, () => {
+  defaultFormSend(event.target as HTMLFormElement, error, success, () => {
     emit("updateuserprop", {
       userName: props.user.userName,
       prop: "roles",
@@ -366,19 +365,13 @@ const addPost = () => {
     post: selectedPosts.value,
     userName: props.user.userName,
   };
-  ApiService.postByObjectAsForm(
-    "/User/AddPost",
-    postObj,
-    error,
-    success,
-    () => {
-      emit("updateuserprop", {
-        userName: props.user.userName,
-        prop: "posts",
-        value: selectedPosts.value.slice(),
-      });
-    }
-  );
+  postToApi("/User/AddPost", postObj, error, success, () => {
+    emit("updateuserprop", {
+      userName: props.user.userName,
+      prop: "posts",
+      value: selectedPosts.value.slice(),
+    });
+  });
 };
 
 const clearPosts = () => {

@@ -1,5 +1,5 @@
 ﻿<template>
-  <modal :show-modal="showModal" header="'Lägg till anmälan'" @close="close">
+  <modal :show-modal="showModal" header="Lägg till anmälan" @close="close">
     <template #body>
       <form
         action="/upcoming/EditSignup"
@@ -28,7 +28,7 @@
                 <label>Status</label>
                 <select class="form-control" name="type" required>
                   <option value="">Välj anmälningstyp</option>
-                  <option v-for="signupType in signupTypes" :key="signupType">
+                  <option v-for="signupType in SIGNUPTYPES" :key="signupType">
                     {{ signupType }}
                   </option>
                 </select>
@@ -45,7 +45,8 @@
   </modal>
 </template>
 <script setup lang="ts">
-import Constants from "../../constants";
+import { SIGNUPTYPES } from "../../constants";
+import { defaultFormSend } from "../../services/apiservice";
 import Modal from "../Modal.vue";
 import { AvailableMember } from "../Upcoming/models";
 
@@ -60,8 +61,6 @@ defineProps<{
   showModal: boolean;
 }>();
 
-const signupTypes = Constants.SIGNUPTYPES;
-
 const close = () => {
   emit("close");
 };
@@ -70,26 +69,11 @@ const submitForm = (event: Event) => {
   const form = $(event.target as HTMLFormElement);
   const error = form.find(".alert-danger");
   const success = form.find(".alert-success");
-  $.ajax({
-    url: form.attr("action"),
-    type: "POST",
-    data: form.serialize(),
-    success: function (res) {
-      if (res.success) {
-        success.text("Anmälan uppdaterad");
-        success.slideDown().delay(3000).slideUp();
-        form.trigger("reset");
-        emit("update");
-        emit("close");
-      } else {
-        error.text(res.message);
-        error.slideDown().delay(4000).slideUp();
-      }
-    },
-    error: function () {
-      error.text("Misslyckades med att anmäla dig");
-      error.slideDown().delay(4000).slideUp();
-    },
+
+  defaultFormSend(event.target as HTMLFormElement, error, success, () => {
+    form.trigger("reset");
+    emit("update");
+    emit("close");
   });
 };
 </script>

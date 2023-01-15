@@ -31,7 +31,7 @@
 </template>
 <script setup lang="ts">
 import { ref } from "vue";
-import ApiService from "../../services/apiservice";
+import { defaultFormSend } from "../../services/apiservice";
 
 const emit = defineEmits<{
   (e: "sent"): void;
@@ -43,8 +43,7 @@ const mailBoxMessage = ref("");
 const sendMailBox = (event: Event) => {
   const error = $(".alert-danger");
   const success = $(".alert-success");
-  const form = $(event.target as HTMLFormElement) as JQuery<HTMLFormElement>;
-  ApiService.defaultFormSend(form, error, success, () => {
+  defaultFormSend(event.target as HTMLFormElement, error, success, () => {
     mailboxSubject.value = "";
     mailBoxMessage.value = "";
     emit("sent");

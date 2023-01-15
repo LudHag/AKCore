@@ -28,7 +28,7 @@
 import Modal from "../Modal.vue";
 import FileUploader from "../FileUploader.vue";
 import AlbumUploadTrackItem from "./AlbumUploadTrackItem.vue";
-import ApiService from "../../services/apiservice";
+import { postToApi, postFormData } from "../../services/apiservice";
 import { AlbumEditModel } from "./models";
 import { computed, ref } from "vue";
 
@@ -68,20 +68,14 @@ const uploadFiles = (files: FileList) => {
   const albumId = props.album?.id!;
   mediaData.append("AlbumId", albumId.toString());
   const error = $(errorElement.value!);
-  ApiService.postFormData(
-    "/AlbumEdit/UploadTracks/",
-    mediaData,
-    error,
-    null,
-    () => {
-      emit("update");
-    }
-  );
+  postFormData("/AlbumEdit/UploadTracks/", mediaData, error, null, () => {
+    emit("update");
+  });
 };
 
 const removeTrack = (id: number) => {
   const error = $(errorElement.value!);
-  ApiService.postByObjectAsForm(
+  postToApi(
     "/AlbumEdit/DeleteTrack",
     { id, album: props.album?.id },
     error,
