@@ -9,7 +9,7 @@ import MailBoxApp from "./VueComponents/MailBox/MailBoxApp.vue";
 import LoginApp from "./VueComponents/Login/LoginApp.vue";
 import { Member, Video } from "./VueComponents/models";
 
-declare var videos: Record<number, Array<Video>>;
+declare const videos: Record<number, Array<Video>>;
 
 $(".videos-app").each(function () {
   const widgetId = $(this).data("id");
@@ -18,8 +18,8 @@ $(".videos-app").each(function () {
   );
 });
 
-declare var memberList: Record<string, Array<Member>>;
-declare var instruments: string[];
+declare const memberList: Record<string, Array<Member>>;
+declare const instruments: string[];
 
 if ($("#search-widget").length > 0) {
   createApp(MembersList, {
@@ -28,7 +28,7 @@ if ($("#search-widget").length > 0) {
   }).mount("#search-widget");
 }
 
-declare var eventId: number;
+declare const eventId: number;
 if ($("#upcoming-app").length > 0) {
   createApp(UpcomingApp, {
     "event-id": eventId,
