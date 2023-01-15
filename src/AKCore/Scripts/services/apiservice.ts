@@ -119,7 +119,9 @@ export const getFromApi = async <T>(
   error: JQuery<HTMLElement> | null
 ): Promise<T> => {
   try {
-    return fetch(url) as T;
+    const response = await fetch(url);
+
+    return (await response.json()) as T;
   } catch (e) {
     if (error) {
       error.text("Server error");

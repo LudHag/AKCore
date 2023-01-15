@@ -71,7 +71,7 @@
               required
             >
               <option value="">Välj instrument</option>
-              <option v-for="instr in instruments" :key="instr">
+              <option v-for="instr in INSTRUMENTS" :key="instr">
                 {{ instr }}
               </option>
             </select>
@@ -161,20 +161,23 @@
   </div>
 </template>
 <script setup lang="ts">
-import Constants from "../constants";
+import { INSTRUMENTS } from "../constants";
 // @ts-ignore
 import vSelect from "vue-select";
 import { ref, computed, onMounted } from "vue";
 import { ProfileData } from "./models";
+import {
+  defaultFormSend,
+  getFromApi,
+  postByObject,
+} from "../services/apiservice";
 
 const profileData = ref<ProfileData | null>(null);
 const password = ref("");
 const confirmPass = ref("");
 
-const instruments = Constants.INSTRUMENTS;
-
 const othInstruments = computed(() => {
-  return Constants.INSTRUMENTS.filter((instr) => {
+  return INSTRUMENTS.filter((instr) => {
     return instr !== profileData.value?.instrument;
   });
 });
@@ -183,27 +186,17 @@ const updateProfile = async (event: Event) => {
   const form = $(event.target as HTMLFormElement);
   const success = form.find(".alert-success");
   const error = form.find(".alert-danger");
-  $.ajax({
-    url: form.attr("action"),
-    type: form.attr("method"),
-    contentType: "application/json",
-    data: JSON.stringify(profileData.value),
-    success: function (res) {
-      if (res.success) {
-        //@ts-ignore
-        form.parent().get(0).scrollIntoView();
-        success.text("Din profil uppdaterades");
-        success.slideDown().delay(3000).slideUp();
-      } else {
-        error.text(res.message);
-        error.slideDown().delay(3500).slideUp();
-      }
-    },
-    error: function () {
-      error.text("Något gick fel");
-      error.slideDown().delay(3500).slideUp();
-    },
-  });
+
+  postByObject(
+    "/Profile/EditProfile",
+    profileData.value,
+    error,
+    success,
+    () => {
+      //@ts-ignore
+      form.parent().get(0).scrollIntoView();
+    }
+  );
 };
 
 const changePassword = async (event: Event) => {
@@ -216,35 +209,21 @@ const changePassword = async (event: Event) => {
     return;
   }
 
-  $.ajax({
-    url: form.attr("action"),
-    type: form.attr("method"),
-    data: form.serialize(),
-    success: function (res) {
-      if (res.success) {
-        success.slideDown().delay(3000).slideUp();
-        password.value = "";
-        confirmPass.value = "";
-      } else {
-        error.text(res.message);
-        error.slideDown().delay(3500).slideUp();
-      }
-    },
-    error: function () {
-      error.text("Något gick fel");
-      error.slideDown().delay(3500).slideUp();
-    },
+  defaultFormSend(event.target as HTMLFormElement, error, success, () => {
+    password.value = "";
+    confirmPass.value = "";
   });
 };
 
+const loadData = async () => {
+  profileData.value = await getFromApi<ProfileData>(
+    "/Profile/ProfileData",
+    null
+  );
+};
+
 onMounted(() => {
-  $.ajax({
-    url: "/Profile/ProfileData",
-    type: "GET",
-    success: function (res) {
-      profileData.value = res;
-    },
-  });
+  loadData();
 });
 </script>
 <style lang="scss"></style>

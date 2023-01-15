@@ -84,8 +84,8 @@ namespace AKCore.Controllers
             {
                 await _signInManager.SignInAsync(user, true);
             }
-            return Json(new {success = result.Succeeded, message = result.ToString()});
-        }
+            return Json(new {success = result.Succeeded, message = "Din profil uppdaterades"});
+            }
 
         [Route("ChangePassword")]
         public async Task<ActionResult> ChangePassword(string password)
