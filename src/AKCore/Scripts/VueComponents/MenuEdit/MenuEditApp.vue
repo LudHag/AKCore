@@ -67,7 +67,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import ApiService from "../../services/apiservice";
+import { defaultFormSend, getFromApi } from "../../services/apiservice";
 import MenuList from "./MenuList.vue";
 import MenuEditModal from "./MenuEditModal.vue";
 import { MenuEditModel, PageEditModel } from "./models";
@@ -89,7 +89,7 @@ const editMenu = (menu: MenuEditModel | null, parent?: MenuEditModel) => {
 };
 
 const loadMenus = () => {
-  ApiService.get("/MenuEdit/MenuListData", null, (res: any) => {
+  getFromApi("/MenuEdit/MenuListData", null, (res: any) => {
     menus.value = res.menus;
     pages.value = res.pages;
   });
@@ -101,16 +101,11 @@ const toggleCreateMenu = () => {
 
 const createMenu = (event: Event) => {
   const form = $(event.target as HTMLFormElement) as JQuery<HTMLFormElement>;
-  ApiService.defaultFormSend(
-    event.target as HTMLFormElement,
-    null,
-    null,
-    () => {
-      loadMenus();
-      showAddMenu.value = false;
-      form.trigger("reset");
-    }
-  );
+  defaultFormSend(event.target as HTMLFormElement, null, null, () => {
+    loadMenus();
+    showAddMenu.value = false;
+    form.trigger("reset");
+  });
 };
 
 const closeEditMenu = () => {

@@ -59,7 +59,7 @@
 import PageMeta from "./PageMeta.vue";
 import AddWidget from "./AddWidget.vue";
 import Widget from "./Widget.vue";
-import ApiService from "../../services/apiservice";
+import { postByObject } from "../../services/apiservice";
 import ImagePickerModal from "../ImagePickerModal.vue";
 import DocumentPickerModal from "../DocumentPickerModal.vue";
 import draggable from "vuedraggable";
@@ -181,7 +181,7 @@ const save = () => {
   }
   const success = $(".alert-success");
   const error = $(".alert-danger");
-  ApiService.postByObject(
+  postByObject(
     window.location.href,
     usedModel.value,
     error,

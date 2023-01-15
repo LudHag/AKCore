@@ -58,7 +58,7 @@
 </template>
 <script setup lang="ts">
 import { ref } from "vue";
-import ApiService from "../../services/apiservice";
+import { postByObjectAsForm } from "../../services/apiservice";
 import { MenuEditModel } from "./models";
 
 defineProps<{
@@ -85,7 +85,7 @@ const editSubMenu = (child: MenuEditModel, menu: MenuEditModel) => {
 };
 
 const menuUp = (menu: MenuEditModel) => {
-  ApiService.postByObjectAsForm(
+  postByObjectAsForm(
     "/MenuEdit/MoveLeft",
     { id: menu.id },
     $(error.value as HTMLElement),
@@ -97,7 +97,7 @@ const menuUp = (menu: MenuEditModel) => {
 };
 
 const menuDown = (menu: MenuEditModel) => {
-  ApiService.postByObjectAsForm(
+  postByObjectAsForm(
     "/MenuEdit/MoveRight",
     { id: menu.id },
     $(error.value as HTMLElement),
@@ -109,7 +109,7 @@ const menuDown = (menu: MenuEditModel) => {
 };
 
 const subMenuUp = (menu: MenuEditModel, child: MenuEditModel) => {
-  ApiService.postByObjectAsForm(
+  postByObjectAsForm(
     "/MenuEdit/MoveUp",
     { id: child.id, parent: menu.id },
     $(error.value as HTMLElement),
@@ -121,7 +121,7 @@ const subMenuUp = (menu: MenuEditModel, child: MenuEditModel) => {
 };
 
 const subMenuDown = (menu: MenuEditModel, child: MenuEditModel) => {
-  ApiService.postByObjectAsForm(
+  postByObjectAsForm(
     "/MenuEdit/MoveDown",
     { id: child.id, parent: menu.id },
     $(error.value as HTMLElement),
@@ -133,7 +133,7 @@ const subMenuDown = (menu: MenuEditModel, child: MenuEditModel) => {
 };
 
 const deleteMenu = (menu: MenuEditModel) => {
-  ApiService.postByObjectAsForm(
+  postByObjectAsForm(
     "/MenuEdit/RemoveTopMenu",
     { id: menu.id },
     $(error.value as HTMLElement),
@@ -145,7 +145,7 @@ const deleteMenu = (menu: MenuEditModel) => {
 };
 
 const deleteSubMenu = (menu: MenuEditModel) => {
-  ApiService.postByObjectAsForm(
+  postByObjectAsForm(
     "/MenuEdit/RemoveSubMenu",
     { id: menu.id },
     $(error.value as HTMLElement),

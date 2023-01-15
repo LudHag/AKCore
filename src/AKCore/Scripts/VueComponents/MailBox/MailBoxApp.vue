@@ -32,7 +32,7 @@
 </template>
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
-import ApiService from "../../services/apiservice";
+import { getFromApi, postByUrl } from "../../services/apiservice";
 import MailBoxForm from "./MailBoxForm.vue";
 import MailBoxItem from "./MailBoxItem.vue";
 import { MailItem } from "./models";
@@ -46,7 +46,7 @@ const isUserBoard = (): boolean => isBoard;
 
 const loadMediaList = () => {
   if (isUserBoard()) {
-    ApiService.get(
+    getFromApi(
       "/MailBox/GetItems?archived=" + isArchived.value,
       null,
       (response: MailItem[]) => {
@@ -57,14 +57,14 @@ const loadMediaList = () => {
 };
 
 const archive = (id: number) => {
-  ApiService.postByUrl(`/MailBox/${id}/Archive`, null, null, () => {
+  postByUrl(`/MailBox/${id}/Archive`, null, null, () => {
     loadMediaList();
   });
 };
 
 const remove = (id: number) => {
   if (window.confirm("är du säker på att du vill ta bort post?")) {
-    ApiService.postByUrl(`/MailBox/${id}/Delete`, null, null, () => {
+    postByUrl(`/MailBox/${id}/Delete`, null, null, () => {
       loadMediaList();
     });
   }

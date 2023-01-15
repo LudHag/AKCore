@@ -217,7 +217,11 @@
 import { MEDALS, POSTS, ROLES } from "../../constants";
 // @ts-ignore
 import vSelect from "vue-select";
-import ApiService from "../../services/apiservice";
+import {
+  defaultFormSend,
+  postByObjectAsForm,
+  postByUrl,
+} from "../../services/apiservice";
 import { UpdateInfo, User } from "./models";
 import { computed, ref, watch } from "vue";
 
@@ -271,7 +275,7 @@ const removeUser = () => {
   if (confirm("Vill du verkligen ta bort " + props.user.fullName + "?")) {
     const error = $($(".alert-danger")[0]);
     const success = $($(".alert-success")[0]);
-    ApiService.postByUrl(
+    postByUrl(
       "/User/RemoveUser?userName=" + props.user.userName,
       error,
       success,
@@ -285,37 +289,27 @@ const removeUser = () => {
 const saveLastEarned = (event: Event) => {
   const error = $($(".alert-danger")[0]);
   const success = $($(".alert-success")[0]);
-  ApiService.defaultFormSend(
-    event.target as HTMLFormElement,
-    error,
-    success,
-    () => {
-      emit("updateuserprop", {
-        userName: props.user.userName,
-        prop: "medal",
-        // @ts-ignore
-        value: (event.target as HTMLFormElement).elements.medal.value,
-      });
-    }
-  );
+  defaultFormSend(event.target as HTMLFormElement, error, success, () => {
+    emit("updateuserprop", {
+      userName: props.user.userName,
+      prop: "medal",
+      // @ts-ignore
+      value: (event.target as HTMLFormElement).elements.medal.value,
+    });
+  });
 };
 
 const saveLastGiven = (event: Event) => {
   const error = $($(".alert-danger")[0]);
   const success = $($(".alert-success")[0]);
-  ApiService.defaultFormSend(
-    event.target as HTMLFormElement,
-    error,
-    success,
-    () => {
-      emit("updateuserprop", {
-        userName: props.user.userName,
-        prop: "givenMedal",
-        // @ts-ignore
-        value: (event.target as HTMLFormElement).elements.medal.value,
-      });
-    }
-  );
+  defaultFormSend(event.target as HTMLFormElement, error, success, () => {
+    emit("updateuserprop", {
+      userName: props.user.userName,
+      prop: "givenMedal",
+      // @ts-ignore
+      value: (event.target as HTMLFormElement).elements.medal.value,
+    });
+  });
 };
 
 const removeRole = (role: string) => {
@@ -328,7 +322,7 @@ const removeRole = (role: string) => {
   const newRoles = props.user.roles.slice();
   newRoles.splice(roleIndex, 1);
 
-  ApiService.postByUrl(
+  postByUrl(
     "/User/RemoveRole?UserName=" + props.user.userName + "&Role=" + role,
     error,
     success,
@@ -353,18 +347,13 @@ const addRole = (event: Event) => {
   }
   const newRoles = props.user.roles.slice();
   newRoles.push(role);
-  ApiService.defaultFormSend(
-    event.target as HTMLFormElement,
-    error,
-    success,
-    () => {
-      emit("updateuserprop", {
-        userName: props.user.userName,
-        prop: "roles",
-        value: newRoles,
-      });
-    }
-  );
+  defaultFormSend(event.target as HTMLFormElement, error, success, () => {
+    emit("updateuserprop", {
+      userName: props.user.userName,
+      prop: "roles",
+      value: newRoles,
+    });
+  });
 };
 
 const resetPassword = () => {
@@ -378,19 +367,13 @@ const addPost = () => {
     post: selectedPosts.value,
     userName: props.user.userName,
   };
-  ApiService.postByObjectAsForm(
-    "/User/AddPost",
-    postObj,
-    error,
-    success,
-    () => {
-      emit("updateuserprop", {
-        userName: props.user.userName,
-        prop: "posts",
-        value: selectedPosts.value.slice(),
-      });
-    }
-  );
+  postByObjectAsForm("/User/AddPost", postObj, error, success, () => {
+    emit("updateuserprop", {
+      userName: props.user.userName,
+      prop: "posts",
+      value: selectedPosts.value.slice(),
+    });
+  });
 };
 
 const clearPosts = () => {

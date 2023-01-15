@@ -53,7 +53,7 @@
 
 <script setup lang="ts">
 import Modal from "./Modal.vue";
-import ApiService from "../services/apiservice";
+import { getFromApi } from "../services/apiservice";
 import { IMAGETYPES } from "../constants";
 import { Image } from "./models";
 import { ref, computed, onMounted, watch } from "vue";
@@ -79,7 +79,7 @@ const close = () => {
 };
 
 const loadImages = () => {
-  ApiService.get("/Media/ImageListData", null, (res: Image[]) => {
+  getFromApi("/Media/ImageListData", null, (res: Image[]) => {
     images.value = res;
   });
 };

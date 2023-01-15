@@ -164,7 +164,7 @@
   </modal>
 </template>
 <script setup lang="ts">
-import ApiService from "../../services/apiservice";
+import { postByObjectAsForm } from "../../services/apiservice";
 import Modal from "../Modal.vue";
 import { INSTRUMENTS, ROLES, POSTS, MEDALS } from "../../constants";
 // @ts-ignore
@@ -209,17 +209,11 @@ const close = () => {
 const submitForm = () => {
   const error = $(".update-user-error");
   if (props.user) {
-    ApiService.postByObjectAsForm(
-      "/User/EditUser",
-      editedUser.value,
-      error,
-      null,
-      () => {
-        emit("updated", editedUser.value);
-      }
-    );
+    postByObjectAsForm("/User/EditUser", editedUser.value, error, null, () => {
+      emit("updated", editedUser.value);
+    });
   } else {
-    ApiService.postByObjectAsForm(
+    postByObjectAsForm(
       "/User/CreateUser",
       editedUser.value,
       error,

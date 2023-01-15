@@ -14,7 +14,7 @@
 </template>
 <script setup lang="ts">
 import { computed, nextTick, onMounted, ref } from "vue";
-import ApiService from "../../services/apiservice";
+import { postByObjectAsForm } from "../../services/apiservice";
 import { TrackEditModel } from "./models";
 
 const emit = defineEmits<{
@@ -49,7 +49,7 @@ const nameClick = () => {
 
 const onInputBlur = () => {
   showEditName.value = false;
-  ApiService.postByObjectAsForm(
+  postByObjectAsForm(
     "/AlbumEdit/ChangeTrackName",
     { id: props.track.id, name: editName.value },
     null,

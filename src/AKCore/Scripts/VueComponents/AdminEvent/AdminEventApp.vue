@@ -74,7 +74,7 @@
 <script setup lang="ts">
 import Spinner from "../Spinner.vue";
 import AdminEventModal from "./AdminEventModal.vue";
-import ApiService from "../../services/apiservice";
+import { getFromApi, postByUrl } from "../../services/apiservice";
 import { ref, computed, onMounted } from "vue";
 import { AdminEventModel } from "./models";
 import { UpcomingEvent } from "../Upcoming/models";
@@ -112,7 +112,7 @@ const removeEvent = (e: UpcomingEvent) => {
   ) {
     const error = $(".alert-danger");
     const success = $(".alert-success");
-    ApiService.postByUrl("/AdminEvent/Remove/" + e.id, error, success, () => {
+    postByUrl("/AdminEvent/Remove/" + e.id, error, success, () => {
       loadEvents(
         adminEventData.value?.old ?? false,
         adminEventData.value?.currentPage ?? 1
@@ -122,7 +122,7 @@ const removeEvent = (e: UpcomingEvent) => {
 };
 
 const loadEvents = (old: boolean, page: number) => {
-  ApiService.get(
+  getFromApi(
     "/AdminEvent/EventData?old=" + old + "&page=" + page,
     null,
     (res: any) => {

@@ -35,7 +35,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import ApiService from "../../services/apiservice";
+import { postByObjectAsForm } from "../../services/apiservice";
 import { GenericApiResponse } from "../../services/models";
 import { Recruit, RecruitUpdate } from "./models";
 
@@ -65,7 +65,7 @@ const geContactInfo = (recruit: Recruit) => {
 };
 
 const archive = (recruit: Recruit) => {
-  ApiService.postByObjectAsForm(
+  postByObjectAsForm(
     "/Signup/Archive",
     { id: recruit.id, arch: !recruit.archived },
     null,
@@ -85,7 +85,7 @@ const remove = (recruit: Recruit) => {
     return;
   }
 
-  ApiService.postByObjectAsForm(
+  postByObjectAsForm(
     "/Signup/Remove",
     { id: recruit.id },
     null,

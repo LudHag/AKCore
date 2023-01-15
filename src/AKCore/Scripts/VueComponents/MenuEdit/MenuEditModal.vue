@@ -83,7 +83,7 @@
 </template>
 <script setup lang="ts">
 import { ref, computed, watch, onMounted } from "vue";
-import ApiService from "../../services/apiservice";
+import { defaultFormSend } from "../../services/apiservice";
 import Modal from "../Modal.vue";
 import { MenuEditModel, PageEditModel } from "./models";
 
@@ -139,7 +139,7 @@ const submitForm = () => {
   if (!editform.value) return;
   const error = $(".alert-danger");
 
-  ApiService.defaultFormSend(editform.value, error, null, () => {
+  defaultFormSend(editform.value, error, null, () => {
     emit("update");
     close();
   });
