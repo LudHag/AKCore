@@ -42,12 +42,11 @@ export const postToApi = async (
   callback: (data: any) => void
 ) => {
   try {
+    const data = obj !== null ? new URLSearchParams(obj) : null;
+
     const response = await fetch(url, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: obj !== null ? JSON.stringify(obj) : null,
+      body: data,
     });
 
     const res = await response.json();
