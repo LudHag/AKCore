@@ -1,112 +1,77 @@
-﻿export const defaultFormSend = (
+﻿export const defaultFormSend = async (
   formElement: HTMLFormElement,
   error: JQuery<HTMLElement> | null,
   success: JQuery<HTMLElement> | null,
   callback: (data: any) => void
 ) => {
-  fetch(formElement.getAttribute("action") as string, {
-    method: formElement.getAttribute("method") as string,
-    body: new FormData(formElement),
-  })
-    .then(function (response) {
-      if (response.ok) {
-        return response.json();
-      }
-      return;
-    })
-    .then(function (res: any) {
-      if (res.success) {
-        if (success) {
-          success.text(res.message);
-          success.slideDown().delay(4000).slideUp();
-        }
-        if (callback) {
-          callback(res);
-        }
-      } else {
-        if (error) {
-          error.text(res.message);
-          error.slideDown().delay(4000).slideUp();
-        }
-      }
-    })
-    .catch(function (error) {
-      if (error) {
-        error.text("Server error");
-        error.slideDown().delay(4000).slideUp();
-      }
+  try {
+    const response = await fetch(formElement.getAttribute("action") as string, {
+      method: formElement.getAttribute("method") as string,
+      body: new FormData(formElement),
     });
+
+    const res = await response.json();
+
+    if (res.success) {
+      if (success) {
+        success.text(res.message);
+        success.slideDown().delay(4000).slideUp();
+      }
+      if (callback) {
+        callback(res);
+      }
+    } else {
+      if (error) {
+        error.text(res.message);
+        error.slideDown().delay(4000).slideUp();
+      }
+    }
+  } catch (e) {
+    if (error) {
+      error.text("Server error");
+      error.slideDown().delay(4000).slideUp();
+    }
+  }
 };
 
-export const postByUrl = (
+export const postToApi = async (
   url: string,
+  obj: any | null,
   error: JQuery<HTMLElement> | null,
   success: JQuery<HTMLElement> | null,
   callback: (data: any) => void
 ) => {
-  $.ajax({
-    url,
-    type: "POST",
-    success: function (res) {
-      if (res.success) {
-        if (success) {
-          success.text(res.message);
-          success.slideDown().delay(4000).slideUp();
-        }
-        if (callback) {
-          callback(res);
-        }
-      } else {
-        if (error) {
-          error.text(res.message);
-          error.slideDown().delay(4000).slideUp();
-        }
-      }
-    },
-    error: function () {
-      if (error) {
-        error.text("Server error");
-        error.slideDown().delay(4000).slideUp();
-      }
-    },
-  });
-};
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: obj !== null ? JSON.stringify(obj) : null,
+    });
 
-export const postByObjectAsForm = (
-  url: string,
-  obj: any,
-  error: JQuery<HTMLElement> | null,
-  success: JQuery<HTMLElement> | null,
-  callback: (data: any) => void
-) => {
-  $.ajax({
-    url: url,
-    dataType: "json",
-    data: obj,
-    type: "POST",
-    success: function (res) {
-      if (res.success) {
-        if (success) {
-          success.text(res.message);
-          success.slideDown().delay(4000).slideUp();
-        }
-        if (callback) {
-          callback(res);
-        }
-      } else {
-        if (error) {
-          error.text(res.message);
-          error.slideDown().delay(4000).slideUp();
-        }
+    const res = await response.json();
+
+    if (res.success) {
+      if (success) {
+        success.text(res.message);
+        success.slideDown().delay(4000).slideUp();
       }
-    },
-    error: function () {
+      if (callback) {
+        callback(res);
+      }
+    } else {
       if (error) {
-        error.text("Server error");
+        error.text(res.message);
         error.slideDown().delay(4000).slideUp();
       }
-    },
-  });
+    }
+  } catch (e) {
+    if (error) {
+      error.text("Server error");
+      error.slideDown().delay(4000).slideUp();
+    }
+  }
 };
 
 export const postByObject = (

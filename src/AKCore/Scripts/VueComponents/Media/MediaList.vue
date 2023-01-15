@@ -45,7 +45,7 @@
 </template>
 <script setup lang="ts">
 import { ref, computed } from "vue";
-import { postByObjectAsForm, postByUrl } from "../../services/apiservice";
+import { postToApi } from "../../services/apiservice";
 import { MediaItem } from "./models";
 
 const emit = defineEmits<{
@@ -79,15 +79,9 @@ const onFileDrop = (event: DragEvent, name: string) => {
   target!.classList.remove("drag");
   const id = event.dataTransfer!.getData("text");
   if (name && id) {
-    postByObjectAsForm(
-      "/Media/EditFile",
-      { Tag: name, Id: id },
-      null,
-      null,
-      () => {
-        emit("update");
-      }
-    );
+    postToApi("/Media/EditFile", { Tag: name, Id: id }, null, null, () => {
+      emit("update");
+    });
   }
 };
 
@@ -112,9 +106,15 @@ const remove = (file: MediaItem) => {
   if (
     window.confirm("Är du säker på att du vill ta bort filen: " + file.name)
   ) {
-    postByUrl("/Media/RemoveFile?filename=" + file.name, null, null, () => {
-      emit("update");
-    });
+    postToApi(
+      "/Media/RemoveFile?filename=" + file.name,
+      null,
+      null,
+      null,
+      () => {
+        emit("update");
+      }
+    );
   }
 };
 </script>

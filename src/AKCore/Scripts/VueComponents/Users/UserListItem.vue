@@ -217,11 +217,7 @@
 import { MEDALS, POSTS, ROLES } from "../../constants";
 // @ts-ignore
 import vSelect from "vue-select";
-import {
-  defaultFormSend,
-  postByObjectAsForm,
-  postByUrl,
-} from "../../services/apiservice";
+import { defaultFormSend, postToApi } from "../../services/apiservice";
 import { UpdateInfo, User } from "./models";
 import { computed, ref, watch } from "vue";
 
@@ -275,8 +271,9 @@ const removeUser = () => {
   if (confirm("Vill du verkligen ta bort " + props.user.fullName + "?")) {
     const error = $($(".alert-danger")[0]);
     const success = $($(".alert-success")[0]);
-    postByUrl(
+    postToApi(
       "/User/RemoveUser?userName=" + props.user.userName,
+      null,
       error,
       success,
       () => {
@@ -322,8 +319,9 @@ const removeRole = (role: string) => {
   const newRoles = props.user.roles.slice();
   newRoles.splice(roleIndex, 1);
 
-  postByUrl(
+  postToApi(
     "/User/RemoveRole?UserName=" + props.user.userName + "&Role=" + role,
+    null,
     error,
     success,
     () => {
@@ -367,7 +365,7 @@ const addPost = () => {
     post: selectedPosts.value,
     userName: props.user.userName,
   };
-  postByObjectAsForm("/User/AddPost", postObj, error, success, () => {
+  postToApi("/User/AddPost", postObj, error, success, () => {
     emit("updateuserprop", {
       userName: props.user.userName,
       prop: "posts",

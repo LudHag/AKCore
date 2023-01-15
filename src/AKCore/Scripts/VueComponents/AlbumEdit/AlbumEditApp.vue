@@ -81,9 +81,8 @@
 </template>
 <script setup lang="ts">
 import {
-  postByObjectAsForm,
+  postToApi,
   defaultFormSend,
-  postByUrl,
   getFromApi,
 } from "../../services/apiservice";
 import AlbumEditItem from "./AlbumEditItem.vue";
@@ -128,7 +127,7 @@ const filteredAlbums = computed(() => {
 
 const changeName = (name: string, id: number) => {
   const error = $(".alert-danger");
-  postByObjectAsForm(
+  postToApi(
     "/AlbumEdit/ChangeName",
     { id: id, name: name },
     error,
@@ -147,26 +146,20 @@ const changeName = (name: string, id: number) => {
 
 const changeCategory = (category: string, id: number) => {
   const error = $(".alert-danger");
-  postByObjectAsForm(
-    "/AlbumEdit/ChangeCategory",
-    { id, category },
-    error,
-    null,
-    () => {
-      albums.value = albums.value.map((item) => {
-        if (item.id === id) {
-          return Object.assign({}, item, { category });
-        } else {
-          return item;
-        }
-      });
-    }
-  );
+  postToApi("/AlbumEdit/ChangeCategory", { id, category }, error, null, () => {
+    albums.value = albums.value.map((item) => {
+      if (item.id === id) {
+        return Object.assign({}, item, { category });
+      } else {
+        return item;
+      }
+    });
+  });
 };
 
 const deleteAlbum = (id: number) => {
   const error = $(".alert-danger");
-  postByUrl("/AlbumEdit/DeleteAlbum/" + id, error, null, () => {
+  postToApi("/AlbumEdit/DeleteAlbum/" + id, null, error, null, () => {
     albums.value = albums.value.filter((album) => {
       return album.id !== id;
     });
@@ -210,7 +203,7 @@ const closeImagePicker = () => {
 
 const imageSelected = (image: { name: string }) => {
   const error = $(".alert-danger");
-  postByObjectAsForm(
+  postToApi(
     "/AlbumEdit/UpdateImage",
     { id: selectedAlbum.value, src: "/media/" + image.name },
     error,

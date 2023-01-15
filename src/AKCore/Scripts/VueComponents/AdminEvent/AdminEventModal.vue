@@ -165,7 +165,7 @@
 <script setup lang="ts">
 import { EVENTTYPES, SPELTYPER, SEKTIONER } from "../../constants";
 import Datepicker from "vue3-datepicker";
-import { postByObjectAsForm } from "../../services/apiservice";
+import { postToApi } from "../../services/apiservice";
 import Modal from "../Modal.vue";
 import { UpcomingEvent } from "../Upcoming/models";
 import { computed, onMounted, ref, watch } from "vue";
@@ -195,7 +195,7 @@ const formSubmit = (event: Event) => {
 
   eventValue.type = eventType.value;
   eventValue.day = new Date(eventValue.dayDate).toUTCString();
-  postByObjectAsForm("/AdminEvent/Edit", eventValue, error, success, () => {
+  postToApi("/AdminEvent/Edit", eventValue, error, success, () => {
     emit("update");
   });
 };

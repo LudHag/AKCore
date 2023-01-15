@@ -32,7 +32,7 @@
 </template>
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
-import { getFromApi, postByUrl } from "../../services/apiservice";
+import { getFromApi, postToApi } from "../../services/apiservice";
 import MailBoxForm from "./MailBoxForm.vue";
 import MailBoxItem from "./MailBoxItem.vue";
 import { MailItem } from "./models";
@@ -57,14 +57,14 @@ const loadMediaList = () => {
 };
 
 const archive = (id: number) => {
-  postByUrl(`/MailBox/${id}/Archive`, null, null, () => {
+  postToApi(`/MailBox/${id}/Archive`, null, null, null, () => {
     loadMediaList();
   });
 };
 
 const remove = (id: number) => {
   if (window.confirm("är du säker på att du vill ta bort post?")) {
-    postByUrl(`/MailBox/${id}/Delete`, null, null, () => {
+    postToApi(`/MailBox/${id}/Delete`, null, null, null, () => {
       loadMediaList();
     });
   }
