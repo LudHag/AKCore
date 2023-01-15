@@ -4,7 +4,7 @@
     :header="user ? 'Redigera användare' : 'Skapa användare'"
     @close="close"
   >
-    <template v-slot:body>
+    <template #body>
       <div class="modal-body">
         <form autocomplete="off" @submit.prevent="submitForm">
           <div class="row">
@@ -187,7 +187,7 @@ const editedUser = ref<User>({} as User);
 
 watch(
   () => props.showModal,
-  (showModal) => {
+  () => {
     const newUser = props.user || ({} as User);
     if (!props.user) {
       newUser.roles = ["Medlem"];

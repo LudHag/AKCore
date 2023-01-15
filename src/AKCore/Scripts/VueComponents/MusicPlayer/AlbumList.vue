@@ -7,8 +7,9 @@
           href="#"
           @click.prevent="searchQuery = ''"
           class="show-albums"
-          >Visa album</a
         >
+          Visa album
+        </a>
         Sök låtar:
         <input
           type="text"
@@ -62,7 +63,7 @@ import { ref, computed } from "vue";
 import { groupBy, nameCompare } from "../../utils/functions";
 import { Album, Track } from "./models";
 
-const { albums } = defineProps<{ albums: Album[] }>();
+const props = defineProps<{ albums: Album[] }>();
 
 defineEmits<{
   (e: "select", album: Album): void;
@@ -73,7 +74,7 @@ const categoriesEnabled = ref(true);
 const searchQuery = ref("");
 
 const categoryList = computed(() => {
-  const enrichedAlbums = albums
+  const enrichedAlbums = props.albums
     .map((album) => {
       if (album.category) {
         return album;
@@ -81,8 +82,8 @@ const categoryList = computed(() => {
       return { ...album, category: "Övrigt" };
     })
     .sort(nameCompare);
-  if (!categoriesEnabled.value || albums.length < 6) {
-    return [albums];
+  if (!categoriesEnabled.value || props.albums.length < 6) {
+    return [props.albums];
   }
   const categories = groupBy(enrichedAlbums, "category");
   return Object.keys(categories)
@@ -95,7 +96,7 @@ const filteredAlbums = computed(() => {
     return null;
   }
   const lowerQuery = searchQuery.value.toLowerCase();
-  const filteredAlbums = albums
+  const filteredAlbums = props.albums
     .map((album) => {
       const filteredTracks = album.tracks.filter(
         (track) => track.name.toLowerCase().indexOf(lowerQuery) > -1

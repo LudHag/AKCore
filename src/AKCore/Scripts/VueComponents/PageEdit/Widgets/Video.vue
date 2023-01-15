@@ -43,14 +43,14 @@
       </draggable>
     </div>
     <div class="col-sm-6">
-      <a href="#" class="btn btn-default" @click.prevent="addVideo"
-        >Lägg till video</a
-      >
+      <a href="#" class="btn btn-default" @click.prevent="addVideo">
+        Lägg till video
+      </a>
     </div>
   </div>
 </template>
 <script setup lang="ts">
-import { onMounted, watch } from "vue";
+import { onMounted } from "vue";
 import draggable from "vuedraggable";
 import { WidgetEditModel, EditVideoModel } from "../models";
 

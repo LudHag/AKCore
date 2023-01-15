@@ -41,6 +41,7 @@ const mailBoxItems = ref<MailItem[]>([]);
 const isArchived = ref(false);
 
 //@ts-ignore
+// eslint-disable-next-line no-undef
 const isUserBoard = (): boolean => isBoard;
 
 const loadMediaList = () => {

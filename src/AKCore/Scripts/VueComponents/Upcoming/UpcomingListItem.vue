@@ -2,7 +2,7 @@
   <div
     class="row event-row"
     @click.prevent="expanded = !expanded"
-    v-bind:class="{ expandable, expanded }"
+    :class="{ expandable, expanded }"
   >
     <div class="col-sm-4 col-xs-6" style="font-weight: 500">
       <p style="text-transform: capitalize">{{ event.day }}</p>
@@ -54,15 +54,17 @@
           v-if="member && event.signupState"
           @click.prevent.stop="openSignup"
           :href="signupUrl"
-          >Anmäld ({{ event.signupState }})</a
         >
+          Anmäld ({{ event.signupState }})
+        </a>
         <a
           class="signup-link"
           v-if="member && !event.signupState"
           @click.prevent.stop="openSignup"
           :href="signupUrl"
-          >Anmäl</a
         >
+          Anmäl
+        </a>
         <p class="hidden-xs">
           {{ event.coming }} Kommer - {{ event.notComing }} Kommer inte
         </p>

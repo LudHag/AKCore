@@ -35,11 +35,12 @@
               class="btn btn-default"
               v-if="eventInfo.isNintendo"
               @click.prevent="showAdminEdit"
-              >Lägg till anmälningar</a
             >
-            <a href="#" class="btn btn-default" @click.prevent="toggleInfo"
-              >Visa information</a
-            >
+              Lägg till anmälningar
+            </a>
+            <a href="#" class="btn btn-default" @click.prevent="toggleInfo">
+              Visa information
+            </a>
           </div>
         </div>
         <div class="col-xs-12" v-if="showInfo">

@@ -1,6 +1,6 @@
 ﻿<template>
   <modal :show-modal="showModal" :header="'Redigera meny'" @close="close">
-    <template v-slot:body>
+    <template #body>
       <div class="modal-body">
         <form
           :action="formEndpoint"
@@ -65,7 +65,7 @@
         </form>
       </div>
     </template>
-    <template v-slot:footer>
+    <template #footer>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" @click.prevent="close">
           Stäng

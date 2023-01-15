@@ -88,9 +88,10 @@ const getConfig = () => {
     },
     file_browser_callback: function (
       field_name: string,
-      url: any,
+      _url: any,
       type: any,
-      win: any
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      _win: any
     ) {
       if (type === "image") {
         EventBus.trigger("loadimage", $("#" + field_name));

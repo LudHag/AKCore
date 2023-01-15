@@ -15,51 +15,51 @@
       <div class="col-xs-12">
         <header-text
           v-if="modelValue.type === 'HeaderText'"
-          :modelValue="modelValue"
+          :model-value="modelValue"
           @update:modelValue="$emit('update:modelValue', $event)"
         ></header-text>
         <hire
           v-if="modelValue.type === 'Hire'"
-          :modelValue="modelValue"
+          :model-value="modelValue"
           @update:modelValue="$emit('update:modelValue', $event)"
         ></hire>
         <image-widget
           v-if="modelValue.type === 'Image'"
-          :modelValue="modelValue"
+          :model-value="modelValue"
           @update:modelValue="$emit('update:modelValue', $event)"
         ></image-widget>
         <join
           v-if="modelValue.type === 'Join'"
-          :modelValue="modelValue"
+          :model-value="modelValue"
           @update:modelValue="$emit('update:modelValue', $event)"
         ></join>
         <member-list v-if="modelValue.type === 'MemberList'"></member-list>
         <music
           v-if="modelValue.type === 'Music'"
-          :modelValue="modelValue"
+          :model-value="modelValue"
           @update:modelValue="$emit('update:modelValue', $event)"
           :albums="albums"
         ></music>
         <post-list v-if="modelValue.type === 'PostList'"></post-list>
         <text-widget
           v-if="modelValue.type === 'Text'"
-          :modelValue="modelValue"
+          :model-value="modelValue"
           @update:modelValue="$emit('update:modelValue', $event)"
         ></text-widget>
         <text-image
           v-if="modelValue.type === 'TextImage'"
-          :modelValue="modelValue"
+          :model-value="modelValue"
           @update:modelValue="$emit('update:modelValue', $event)"
         ></text-image>
         <three-puffs
           v-if="modelValue.type === 'ThreePuffs'"
-          :modelValue="modelValue"
+          :model-value="modelValue"
           @update:modelValue="$emit('update:modelValue', $event)"
         >
         </three-puffs>
         <video-widget
           v-if="modelValue.type === 'Video'"
-          :modelValue="modelValue"
+          :model-value="modelValue"
           @update:modelValue="$emit('update:modelValue', $event)"
         ></video-widget>
       </div>

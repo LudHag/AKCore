@@ -1,6 +1,6 @@
 ﻿<template>
   <modal :show-modal="showModal" header="'Lägg till anmälan'" @close="close">
-    <template v-slot:body>
+    <template #body>
       <form
         action="/upcoming/EditSignup"
         method="POST"
@@ -54,7 +54,7 @@ const emit = defineEmits<{
   (e: "close"): void;
 }>();
 
-const props = defineProps<{
+defineProps<{
   members: AvailableMember[];
   eventId: number;
   showModal: boolean;

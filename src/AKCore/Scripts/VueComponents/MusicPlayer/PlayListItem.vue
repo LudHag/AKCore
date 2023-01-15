@@ -25,7 +25,7 @@
 <script setup lang="ts">
 import { Track } from "./models";
 
-const { track } = defineProps<{
+const props = defineProps<{
   track: Track;
   active?: boolean | null;
   noAdd?: boolean;
@@ -35,9 +35,9 @@ const { track } = defineProps<{
 
 const downloadUri = () => {
   const link = document.createElement("a");
-  const trackPathParts = track.filepath.split("/");
+  const trackPathParts = props.track.filepath.split("/");
   link.download = trackPathParts[trackPathParts.length - 1];
-  link.href = track.filepath;
+  link.href = props.track.filepath;
   link.click();
 };
 </script>

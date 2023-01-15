@@ -49,7 +49,7 @@
 import { ref, computed } from "vue";
 import { Member } from "./models";
 
-const { members, instruments } = defineProps<{
+const props = defineProps<{
   members: Record<string, Array<Member>>;
   instruments: string[];
 }>();
@@ -59,20 +59,20 @@ const searchPhrase = ref("");
 
 const filteredMembers = computed(() => {
   if (selectedInstrument.value === "" && searchPhrase.value === "") {
-    return members;
+    return props.members;
   }
   const filteredList: Record<string, Array<Member>> = {};
   const lsearch = searchPhrase.value.toLowerCase();
-  instruments.forEach((instr) => {
+  props.instruments.forEach((instr) => {
     if (
-      !members[instr] ||
+      !props.members[instr] ||
       (selectedInstrument.value !== "" && selectedInstrument.value !== instr)
     ) {
       filteredList[instr] = [];
     } else if (lsearch === "") {
-      filteredList[instr] = members[instr];
+      filteredList[instr] = props.members[instr];
     } else {
-      filteredList[instr] = members[instr].filter((el) => {
+      filteredList[instr] = props.members[instr].filter((el) => {
         return (
           el.name.toLowerCase().indexOf(lsearch) >= 0 ||
           el.email.toLowerCase().indexOf(lsearch) >= 0 ||

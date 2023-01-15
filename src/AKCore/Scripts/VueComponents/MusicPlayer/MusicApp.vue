@@ -80,6 +80,7 @@ const removeBefore = (index: number) => {
 
 onMounted(() => {
   //@ts-ignore
+  // eslint-disable-next-line no-undef
   albums.value = widgetAlbums;
   if (!albums.value) {
     return;

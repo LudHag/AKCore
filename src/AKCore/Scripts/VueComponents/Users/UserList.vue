@@ -53,7 +53,9 @@ const showUpdatePasswordModal = ref(false);
 const updatePasswordUser = ref<User | null>(null);
 
 const sortedUsers = computed(() => {
-  return props.users.sort((a, b) => a.firstName.localeCompare(b.firstName));
+  return [...props.users].sort((a, b) =>
+    a.firstName.localeCompare(b.firstName)
+  );
 });
 
 const updateUserProp = (updateInfo: UpdateInfo) => {

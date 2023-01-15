@@ -1,15 +1,16 @@
 ﻿<template>
-  <td class="day" v-bind:class="{ outside: outside }">
+  <td class="day" :class="{ outside: outside }">
     <span class="date">{{ day.getDate() }}</span>
     <a
       href="#"
       v-for="e in events"
+      :key="e.id"
       @click.prevent="openEvent(e)"
       class="dayEvent"
       :class="{ green: e.signupState }"
     >
-      {{ e.halanTime }} {{ e.signupState }} {{ e.name }}</a
-    >
+      {{ e.halanTime }} {{ e.signupState }} {{ e.name }}
+    </a>
   </td>
 </template>
 <script setup lang="ts">

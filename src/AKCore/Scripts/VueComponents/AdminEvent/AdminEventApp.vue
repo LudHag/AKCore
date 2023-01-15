@@ -2,9 +2,9 @@
   <div id="admin-event-app">
     <div class="row">
       <div class="col-sm-6">
-        <a href="#" class="btn btn-primary" @click.prevent="openNewEvent"
-          >Lägg till händelse</a
-        >
+        <a href="#" class="btn btn-primary" @click.prevent="openNewEvent">
+          Lägg till händelse
+        </a>
       </div>
       <div class="col-sm-6">
         <select class="form-control" @change="newSort">
@@ -25,6 +25,7 @@
       <div
         class="row event-row"
         v-for="e in adminEventData.events"
+        :key="e.id"
         @click="openEvent(e)"
       >
         <div class="col-sm-2">
@@ -49,7 +50,8 @@
           <ul class="pagination">
             <li
               v-for="i in paginationPages"
-              v-bind:class="{ active: adminEventData.currentPage === i }"
+              :key="i"
+              :class="{ active: adminEventData.currentPage === i }"
             >
               <a v-if="i !== 0" href="#" @click.prevent="toPage(i)">{{ i }}</a>
               <span v-if="i === 0" class="dots">...</span>

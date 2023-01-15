@@ -33,7 +33,6 @@
         </div>
         <div
           class="menu-row sub-row"
-          v-if="menu.children"
           v-for="child in menu.children"
           :key="child.id"
         >

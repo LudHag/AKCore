@@ -104,7 +104,7 @@ watch(
 
 watch(
   () => trackPlaying?.value,
-  (val) => {
+  () => {
     const playerValue = player.value;
     if (!playerValue) {
       return;

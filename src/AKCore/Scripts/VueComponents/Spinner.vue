@@ -4,10 +4,10 @@
   </div>
 </template>
 <script setup lang="ts">
-const { size } = defineProps<{
+const props = defineProps<{
   size: "small" | "medium" | "large";
 }>();
-const sizeClass = `spinner-${size}`;
+const sizeClass = `spinner-${props.size}`;
 </script>
 <style lang="scss" scoped>
 @import "../../Styles/variables.scss";

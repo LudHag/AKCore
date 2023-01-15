@@ -5,7 +5,7 @@
     :notransition="notransition ?? false"
     @close="close"
   >
-    <template v-slot:body>
+    <template #body>
       <div class="modal-body">
         <form class="form-inline ak-search">
           <div class="form-group">
@@ -16,7 +16,7 @@
               <option value="">Alla bilder</option>
               <option
                 :value="imageType"
-                v-for="imageType in imageTypes"
+                v-for="imageType in IMAGETYPES"
                 :key="imageType"
               >
                 {{ imageType }}
@@ -37,7 +37,7 @@
           <div class="col-xs-12">
             <ul class="pagination">
               <li
-                v-bind:class="{ active: page + 1 === n }"
+                :class="{ active: page + 1 === n }"
                 v-for="n in pagesLength"
                 :key="n"
               >
@@ -54,16 +54,16 @@
 <script setup lang="ts">
 import Modal from "./Modal.vue";
 import ApiService from "../services/apiservice";
-import Constants from "../constants";
+import { IMAGETYPES } from "../constants";
 import { Image } from "./models";
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, watch } from "vue";
 
 const emit = defineEmits<{
   (e: "close"): void;
   (e: "image", image: Image): void;
 }>();
 
-const { destination } = defineProps<{
+const props = defineProps<{
   showModal: boolean | null;
   notransition?: boolean | null;
   destination?: JQuery<HTMLElement> | null;
@@ -85,8 +85,8 @@ const loadImages = () => {
 };
 
 const selectImage = (image: Image) => {
-  if (destination) {
-    destination.val("/media/" + image.name);
+  if (props.destination) {
+    props.destination.val("/media/" + image.name);
     emit("close");
   } else {
     emit("image", image);
@@ -114,15 +114,17 @@ const shownImages = computed(() => {
 
 const pagesLength = computed(() => {
   const nbrPages = Math.ceil(filteredImages.value.length / 8);
-  if (page.value + 1 > nbrPages && nbrPages - 1 > -1) {
-    page.value = nbrPages - 1;
-  }
   return nbrPages;
 });
 
-const imageTypes = computed(() => {
-  return Constants.IMAGETYPES;
-});
+watch(
+  () => filteredImages.value,
+  () => {
+    if (page.value + 1 > pagesLength.value && pagesLength.value - 1 > -1) {
+      page.value = pagesLength.value - 1;
+    }
+  }
+);
 
 onMounted(() => {
   loadImages();

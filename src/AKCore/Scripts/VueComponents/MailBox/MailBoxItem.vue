@@ -21,9 +21,9 @@
     </div>
     <div class="message col-xs-12">{{ calculatedMessage }}</div>
     <div v-if="showExpand" class="expand-container col-xs-12">
-      <a href="#" @click.prevent="expand" class="expand btn btn-primary"
-        >Expandera</a
-      >
+      <a href="#" @click.prevent="expand" class="expand btn btn-primary">
+        Expandera
+      </a>
     </div>
   </div>
 </template>
@@ -37,21 +37,21 @@ const emit = defineEmits<{
   (e: "remove", mailItem: MailItem): void;
 }>();
 
-const { mailitem } = defineProps<{
+const props = defineProps<{
   mailitem: MailItem;
 }>();
 
 const expanded = ref(false);
 
 const showExpand = computed(() => {
-  return !expanded.value && mailitem.message.length > 200;
+  return !expanded.value && props.mailitem.message.length > 200;
 });
 
 const calculatedMessage = computed(() => {
-  if (expanded.value || mailitem.message.length <= 200) {
-    return mailitem.message;
+  if (expanded.value || props.mailitem.message.length <= 200) {
+    return props.mailitem.message;
   } else {
-    return mailitem.message.substring(0, 200) + "...";
+    return props.mailitem.message.substring(0, 200) + "...";
   }
 });
 
@@ -64,11 +64,11 @@ const expand = () => {
 };
 
 const archive = () => {
-  emit("archive", mailitem);
+  emit("archive", props.mailitem);
 };
 
 const remove = () => {
-  emit("remove", mailitem);
+  emit("remove", props.mailitem);
 };
 </script>
 <style lang="scss" scoped>

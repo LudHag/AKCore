@@ -23,8 +23,9 @@
       class="revision"
       href="#"
       @click.prevent="selectRevision(null)"
-      >Nuvarande</a
     >
+      Nuvarande
+    </a>
   </div>
 </template>
 <script setup lang="ts">
