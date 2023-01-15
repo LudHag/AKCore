@@ -62,7 +62,7 @@ $(function () {
   let pos = 0;
   document.addEventListener("keydown", function (a) {
     //@ts-ignore
-    let b = allowedKeys[a.keyCode],
+    const b = allowedKeys[a.keyCode],
       c = code[pos];
     b == c ? (pos++, pos == code.length && flojt()) : (pos = 0);
   });
@@ -78,7 +78,7 @@ function flojt() {
     (c = a.createElement("div")),
       (c.id = "__cornify_nodes"),
       a.getElementsByTagName("body")[0].appendChild(c);
-    let d = [
+    const d = [
       "https://cornify.com/js/cornify.js",
       "https://cornify.com/js/cornify_run.js",
     ];

@@ -55,7 +55,7 @@
 import { ref, computed, onMounted } from "vue";
 import { Video } from "./models";
 
-const { videos } = defineProps<{
+defineProps<{
   videos: Array<Video>;
 }>();
 

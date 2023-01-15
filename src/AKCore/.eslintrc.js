@@ -10,4 +10,13 @@ module.exports = {
     "@vue/typescript/recommended",
   ],
   plugins: ["@typescript-eslint"],
+  rules: {
+    "@typescript-eslint/ban-ts-comment": "off",
+    "@typescript-eslint/no-empty-interface": "off",
+    "vue/no-mutating-props": "off",
+  },
+  globals: {
+    $: "readonly",
+    JQuery: "readonly",
+  },
 };

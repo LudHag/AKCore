@@ -3,7 +3,7 @@
     form: JQuery<HTMLElement>,
     error: JQuery<HTMLElement> | null,
     success: JQuery<HTMLElement> | null,
-    callback: Function
+    callback: (data: any) => void
   ) {
     $.ajax({
       url: form.attr("action"),
@@ -37,7 +37,7 @@
     url: string,
     error: JQuery<HTMLElement> | null,
     success: JQuery<HTMLElement> | null,
-    callback: Function
+    callback: (data: any) => void
   ) {
     $.ajax({
       url,
@@ -71,7 +71,7 @@
     obj: any,
     error: JQuery<HTMLElement> | null,
     success: JQuery<HTMLElement> | null,
-    callback: Function
+    callback: (data: any) => void
   ) {
     $.ajax({
       url: url,
@@ -107,7 +107,7 @@
     obj: any,
     error: JQuery<HTMLElement> | null,
     success: JQuery<HTMLElement> | null,
-    callback: Function
+    callback: (data: any) => void
   ) {
     $.ajax({
       url: url,
@@ -144,7 +144,7 @@
     obj: any,
     error: JQuery<HTMLElement> | null,
     success: JQuery<HTMLElement> | null,
-    callback: Function
+    callback: (data: any) => void
   ) {
     $.ajax({
       url: url,
@@ -177,7 +177,11 @@
       },
     });
   },
-  get(url: string, error: JQuery<HTMLElement> | null, callback: Function) {
+  get(
+    url: string,
+    error: JQuery<HTMLElement> | null,
+    callback: (data: any) => void
+  ) {
     $.ajax({
       url: url,
       type: "GET",
