@@ -321,7 +321,7 @@ namespace AKCore.Controllers
             signup.OtherInstruments = user.OtherInstruments;
             spelning.SignUps.Add(signup);
             _db.SaveChanges();
-            return Json(new { success = true });
+            return Json(new { success = true, message= "Anmälan uppdaterad" });
         }
     }
 }
