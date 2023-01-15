@@ -1,15 +1,21 @@
 ﻿export default {
   defaultFormSend(
-    form: JQuery<HTMLElement>,
+    formElement: HTMLFormElement,
     error: JQuery<HTMLElement> | null,
     success: JQuery<HTMLElement> | null,
     callback: (data: any) => void
   ) {
-    $.ajax({
-      url: form.attr("action"),
-      type: form.attr("method"),
-      data: form.serialize(),
-      success: function (res) {
+    fetch(formElement.getAttribute("action") as string, {
+      method: formElement.getAttribute("method") as string,
+      body: new FormData(formElement),
+    })
+      .then(function (response) {
+        if (response.ok) {
+          return response.json();
+        }
+        return;
+      })
+      .then(function (res: any) {
         if (res.success) {
           if (success) {
             success.text(res.message);
@@ -24,14 +30,13 @@
             error.slideDown().delay(4000).slideUp();
           }
         }
-      },
-      error: function () {
+      })
+      .catch(function (error) {
         if (error) {
           error.text("Server error");
           error.slideDown().delay(4000).slideUp();
         }
-      },
-    });
+      });
   },
   postByUrl(
     url: string,

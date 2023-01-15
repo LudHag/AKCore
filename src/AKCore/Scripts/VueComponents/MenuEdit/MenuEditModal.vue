@@ -139,8 +139,7 @@ const submitForm = () => {
   if (!editform.value) return;
   const error = $(".alert-danger");
 
-  const form = $(editform.value as HTMLFormElement) as JQuery<HTMLFormElement>;
-  ApiService.defaultFormSend(form, error, null, () => {
+  ApiService.defaultFormSend(editform.value, error, null, () => {
     emit("update");
     close();
   });

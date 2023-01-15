@@ -43,12 +43,16 @@ const mailBoxMessage = ref("");
 const sendMailBox = (event: Event) => {
   const error = $(".alert-danger");
   const success = $(".alert-success");
-  const form = $(event.target as HTMLFormElement) as JQuery<HTMLFormElement>;
-  ApiService.defaultFormSend(form, error, success, () => {
-    mailboxSubject.value = "";
-    mailBoxMessage.value = "";
-    emit("sent");
-  });
+  ApiService.defaultFormSend(
+    event.target as HTMLFormElement,
+    error,
+    success,
+    () => {
+      mailboxSubject.value = "";
+      mailBoxMessage.value = "";
+      emit("sent");
+    }
+  );
 };
 </script>
 <style lang="scss" scoped></style>

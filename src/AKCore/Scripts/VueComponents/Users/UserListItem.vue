@@ -285,29 +285,37 @@ const removeUser = () => {
 const saveLastEarned = (event: Event) => {
   const error = $($(".alert-danger")[0]);
   const success = $($(".alert-success")[0]);
-  const form = $(event.target as HTMLFormElement) as JQuery<HTMLFormElement>;
-  ApiService.defaultFormSend(form, error, success, () => {
-    emit("updateuserprop", {
-      userName: props.user.userName,
-      prop: "medal",
-      // @ts-ignore
-      value: (event.target as HTMLFormElement).elements.medal.value,
-    });
-  });
+  ApiService.defaultFormSend(
+    event.target as HTMLFormElement,
+    error,
+    success,
+    () => {
+      emit("updateuserprop", {
+        userName: props.user.userName,
+        prop: "medal",
+        // @ts-ignore
+        value: (event.target as HTMLFormElement).elements.medal.value,
+      });
+    }
+  );
 };
 
 const saveLastGiven = (event: Event) => {
   const error = $($(".alert-danger")[0]);
   const success = $($(".alert-success")[0]);
-  const form = $(event.target as HTMLFormElement) as JQuery<HTMLFormElement>;
-  ApiService.defaultFormSend(form, error, success, () => {
-    emit("updateuserprop", {
-      userName: props.user.userName,
-      prop: "givenMedal",
-      // @ts-ignore
-      value: (event.target as HTMLFormElement).elements.medal.value,
-    });
-  });
+  ApiService.defaultFormSend(
+    event.target as HTMLFormElement,
+    error,
+    success,
+    () => {
+      emit("updateuserprop", {
+        userName: props.user.userName,
+        prop: "givenMedal",
+        // @ts-ignore
+        value: (event.target as HTMLFormElement).elements.medal.value,
+      });
+    }
+  );
 };
 
 const removeRole = (role: string) => {
@@ -337,7 +345,6 @@ const removeRole = (role: string) => {
 const addRole = (event: Event) => {
   const error = $($(".alert-danger")[0]);
   const success = $($(".alert-success")[0]);
-  const form = $(event.target as HTMLFormElement) as JQuery<HTMLFormElement>;
   // @ts-ignore
   const role = (event.target as HTMLFormElement).elements.Role.value;
   const roleIndex = props.user.roles.indexOf(role);
@@ -346,13 +353,18 @@ const addRole = (event: Event) => {
   }
   const newRoles = props.user.roles.slice();
   newRoles.push(role);
-  ApiService.defaultFormSend(form, error, success, () => {
-    emit("updateuserprop", {
-      userName: props.user.userName,
-      prop: "roles",
-      value: newRoles,
-    });
-  });
+  ApiService.defaultFormSend(
+    event.target as HTMLFormElement,
+    error,
+    success,
+    () => {
+      emit("updateuserprop", {
+        userName: props.user.userName,
+        prop: "roles",
+        value: newRoles,
+      });
+    }
+  );
 };
 
 const resetPassword = () => {

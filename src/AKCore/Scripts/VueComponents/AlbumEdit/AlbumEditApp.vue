@@ -181,11 +181,15 @@ const openCreate = () => {
 const createAlbum = (event: Event) => {
   const error = $(".alert-danger");
   const success = $(".alert-success");
-  const form = $(event.target as HTMLElement);
-  ApiService.defaultFormSend(form, error, success, () => {
-    loadAlbumData();
-    createOpened.value = false;
-  });
+  ApiService.defaultFormSend(
+    event.target as HTMLFormElement,
+    error,
+    success,
+    () => {
+      loadAlbumData();
+      createOpened.value = false;
+    }
+  );
 };
 
 const loadAlbumData = () => {

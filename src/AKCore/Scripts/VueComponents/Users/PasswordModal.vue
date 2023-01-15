@@ -67,8 +67,7 @@ const close = () => {
 const submitForm = () => {
   if (changepassform.value === null) return;
   const error = $(".change-password-error");
-  const form = $(changepassform.value) as JQuery<HTMLFormElement>;
-  ApiService.defaultFormSend(form, error, null, () => {
+  ApiService.defaultFormSend(changepassform.value, error, null, () => {
     emit("success");
     close();
   });

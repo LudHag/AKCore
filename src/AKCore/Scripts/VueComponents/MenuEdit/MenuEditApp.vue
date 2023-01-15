@@ -101,11 +101,16 @@ const toggleCreateMenu = () => {
 
 const createMenu = (event: Event) => {
   const form = $(event.target as HTMLFormElement) as JQuery<HTMLFormElement>;
-  ApiService.defaultFormSend(form, null, null, () => {
-    loadMenus();
-    showAddMenu.value = false;
-    form.trigger("reset");
-  });
+  ApiService.defaultFormSend(
+    event.target as HTMLFormElement,
+    null,
+    null,
+    () => {
+      loadMenus();
+      showAddMenu.value = false;
+      form.trigger("reset");
+    }
+  );
 };
 
 const closeEditMenu = () => {
