@@ -44,8 +44,7 @@ const error = ref<HTMLElement | null>(null);
 
 const loadMediaList = async () => {
   const result = await getFromApi<Record<string, MediaItem[]>>(
-    "/Media/MediaData",
-    null
+    "/Media/MediaData"
   );
   categories.value = result;
   IMAGETYPES.forEach((type) => {
@@ -61,8 +60,7 @@ const uploadFiles = (files: FileList) => {
     mediaData.append("UploadFiles", files[i]);
   }
   mediaData.append("Tag", selectedTag.value);
-  const errorField = $(error.value!);
-  postFormData("/media/UploadFiles", mediaData, errorField, null, () => {
+  postFormData("/media/UploadFiles", mediaData, error.value, null, () => {
     loadMediaList();
   });
 };

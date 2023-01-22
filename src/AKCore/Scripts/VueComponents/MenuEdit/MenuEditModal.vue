@@ -8,7 +8,11 @@
           @submit.prevent="submitForm"
           ref="editform"
         >
-          <div class="alert alert-danger" style="display: none"></div>
+          <div
+            class="alert alert-danger"
+            ref="error"
+            style="display: none"
+          ></div>
           <input
             type="hidden"
             name="parentId"
@@ -102,6 +106,7 @@ const props = defineProps<{
 const menuLoggedIn = ref(false);
 const menuBalett = ref(false);
 const editform = ref<HTMLFormElement | null>(null);
+const error = ref<HTMLDivElement | null>(null);
 
 const menuName = computed(() => {
   if (props.menu) {
@@ -137,9 +142,8 @@ const close = () => {
 
 const submitForm = () => {
   if (!editform.value) return;
-  const error = $(".alert-danger");
 
-  defaultFormSend(editform.value, error, null, () => {
+  defaultFormSend(editform.value, error.value, null, () => {
     emit("update");
     close();
   });

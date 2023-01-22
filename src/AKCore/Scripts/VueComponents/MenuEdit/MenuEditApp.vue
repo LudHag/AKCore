@@ -89,7 +89,7 @@ const editMenu = (menu: MenuEditModel | null, parent?: MenuEditModel) => {
 };
 
 const loadMenus = async () => {
-  const response = await getFromApi<any>("/MenuEdit/MenuListData", null);
+  const response = await getFromApi<any>("/MenuEdit/MenuListData");
   menus.value = response.menus;
   pages.value = response.pages;
 };

@@ -234,6 +234,10 @@ const props = defineProps<{
 
 const expanded = ref(false);
 const selectedPosts = ref<string[]>([]);
+const error = document.getElementsByClassName("alert-danger")[0] as HTMLElement;
+const success = document.getElementsByClassName(
+  "alert-success"
+)[0] as HTMLElement;
 
 watch(
   () => props.user,
@@ -269,8 +273,6 @@ const roleInfo = (role: string) => {
 
 const removeUser = () => {
   if (confirm("Vill du verkligen ta bort " + props.user.fullName + "?")) {
-    const error = $($(".alert-danger")[0]);
-    const success = $($(".alert-success")[0]);
     postToApi(
       "/User/RemoveUser?userName=" + props.user.userName,
       null,
@@ -284,8 +286,6 @@ const removeUser = () => {
 };
 
 const saveLastEarned = (event: Event) => {
-  const error = $($(".alert-danger")[0]);
-  const success = $($(".alert-success")[0]);
   defaultFormSend(event.target as HTMLFormElement, error, success, () => {
     emit("updateuserprop", {
       userName: props.user.userName,
@@ -297,8 +297,6 @@ const saveLastEarned = (event: Event) => {
 };
 
 const saveLastGiven = (event: Event) => {
-  const error = $($(".alert-danger")[0]);
-  const success = $($(".alert-success")[0]);
   defaultFormSend(event.target as HTMLFormElement, error, success, () => {
     emit("updateuserprop", {
       userName: props.user.userName,
@@ -310,8 +308,6 @@ const saveLastGiven = (event: Event) => {
 };
 
 const removeRole = (role: string) => {
-  const error = $($(".alert-danger")[0]);
-  const success = $($(".alert-success")[0]);
   const roleIndex = props.user.roles.indexOf(role);
   if (roleIndex === -1) {
     return;
@@ -335,8 +331,6 @@ const removeRole = (role: string) => {
 };
 
 const addRole = (event: Event) => {
-  const error = $($(".alert-danger")[0]);
-  const success = $($(".alert-success")[0]);
   // @ts-ignore
   const role = (event.target as HTMLFormElement).elements.Role.value;
   const roleIndex = props.user.roles.indexOf(role);
@@ -359,8 +353,6 @@ const resetPassword = () => {
 };
 
 const addPost = () => {
-  const error = $($(".alert-danger")[0]);
-  const success = $($(".alert-success")[0]);
   const postObj = {
     post: selectedPosts.value,
     userName: props.user.userName,

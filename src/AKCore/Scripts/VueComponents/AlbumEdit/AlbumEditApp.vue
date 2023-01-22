@@ -31,8 +31,12 @@
           </div>
         </div>
       </div>
-      <div class="alert alert-danger" style="display: none"></div>
-      <div class="alert alert-success" style="display: none"></div>
+      <div class="alert alert-danger" ref="error" style="display: none"></div>
+      <div
+        class="alert alert-success"
+        ref="success"
+        style="display: none"
+      ></div>
       <div class="row edit-form" id="add-album-container" v-if="createOpened">
         <div class="col-md-6">
           <form
@@ -99,6 +103,8 @@ const selectedAlbum = ref(-1);
 const tracksAlbumId = ref(-1);
 const search = ref("");
 const albumCategory = ref("");
+const error = ref<HTMLElement | null>(null);
+const success = ref<HTMLElement | null>(null);
 
 const tracksAlbum = computed(() => {
   if (!albums.value || tracksAlbumId.value == -1) {
@@ -126,11 +132,10 @@ const filteredAlbums = computed(() => {
 });
 
 const changeName = (name: string, id: number) => {
-  const error = $(".alert-danger");
   postToApi(
     "/AlbumEdit/ChangeName",
     { id: id, name: name },
-    error,
+    error.value,
     null,
     () => {
       albums.value = albums.value.map((item) => {
@@ -145,21 +150,25 @@ const changeName = (name: string, id: number) => {
 };
 
 const changeCategory = (category: string, id: number) => {
-  const error = $(".alert-danger");
-  postToApi("/AlbumEdit/ChangeCategory", { id, category }, error, null, () => {
-    albums.value = albums.value.map((item) => {
-      if (item.id === id) {
-        return Object.assign({}, item, { category });
-      } else {
-        return item;
-      }
-    });
-  });
+  postToApi(
+    "/AlbumEdit/ChangeCategory",
+    { id, category },
+    error.value,
+    null,
+    () => {
+      albums.value = albums.value.map((item) => {
+        if (item.id === id) {
+          return Object.assign({}, item, { category });
+        } else {
+          return item;
+        }
+      });
+    }
+  );
 };
 
 const deleteAlbum = (id: number) => {
-  const error = $(".alert-danger");
-  postToApi("/AlbumEdit/DeleteAlbum/" + id, null, error, null, () => {
+  postToApi("/AlbumEdit/DeleteAlbum/" + id, null, error.value, null, () => {
     albums.value = albums.value.filter((album) => {
       return album.id !== id;
     });
@@ -177,19 +186,19 @@ const openCreate = () => {
 };
 
 const createAlbum = (event: Event) => {
-  const error = $(".alert-danger");
-  const success = $(".alert-success");
-  defaultFormSend(event.target as HTMLFormElement, error, success, () => {
-    loadAlbumData();
-    createOpened.value = false;
-  });
+  defaultFormSend(
+    event.target as HTMLFormElement,
+    error.value,
+    success.value,
+    () => {
+      loadAlbumData();
+      createOpened.value = false;
+    }
+  );
 };
 
 const loadAlbumData = async () => {
-  albums.value = await getFromApi<AlbumEditModel[]>(
-    "/AlbumEdit/AlbumData",
-    null
-  );
+  albums.value = await getFromApi<AlbumEditModel[]>("/AlbumEdit/AlbumData");
 };
 
 const pickImage = (id: number) => {
@@ -203,11 +212,10 @@ const closeImagePicker = () => {
 };
 
 const imageSelected = (image: { name: string }) => {
-  const error = $(".alert-danger");
   postToApi(
     "/AlbumEdit/UpdateImage",
     { id: selectedAlbum.value, src: "/media/" + image.name },
-    error,
+    error.value,
     null,
     () => {
       loadAlbumData();

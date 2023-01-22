@@ -10,7 +10,8 @@
           <div class="row">
             <div class="col-sm-6">
               <div
-                class="alert alert-danger update-user-error"
+                class="alert alert-danger"
+                ref="error"
                 style="display: none"
               ></div>
               <div class="form-group">
@@ -184,6 +185,7 @@ const props = defineProps<{
 }>();
 
 const editedUser = ref<User>({} as User);
+const error = ref<HTMLElement | null>(null);
 
 watch(
   () => props.showModal,
@@ -207,13 +209,12 @@ const close = () => {
 };
 
 const submitForm = () => {
-  const error = $(".update-user-error");
   if (props.user) {
-    postToApi("/User/EditUser", editedUser.value, error, null, () => {
+    postToApi("/User/EditUser", editedUser.value, error.value, null, () => {
       emit("updated", editedUser.value);
     });
   } else {
-    postToApi("/User/CreateUser", editedUser.value, error, null, () => {
+    postToApi("/User/CreateUser", editedUser.value, error.value, null, () => {
       emit("created", Object.assign({}, editedUser.value));
     });
   }

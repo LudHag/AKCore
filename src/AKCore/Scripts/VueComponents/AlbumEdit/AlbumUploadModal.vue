@@ -67,18 +67,22 @@ const uploadFiles = (files: FileList) => {
   }
   const albumId = props.album?.id!;
   mediaData.append("AlbumId", albumId.toString());
-  const error = $(errorElement.value!);
-  postFormData("/AlbumEdit/UploadTracks/", mediaData, error, null, () => {
-    emit("update");
-  });
+  postFormData(
+    "/AlbumEdit/UploadTracks/",
+    mediaData,
+    errorElement.value,
+    null,
+    () => {
+      emit("update");
+    }
+  );
 };
 
 const removeTrack = (id: number) => {
-  const error = $(errorElement.value!);
   postToApi(
     "/AlbumEdit/DeleteTrack",
     { id, album: props.album?.id },
-    error,
+    errorElement.value,
     null,
     () => {
       emit("update");

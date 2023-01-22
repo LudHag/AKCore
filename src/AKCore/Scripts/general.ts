@@ -28,7 +28,7 @@ $(function () {
     const success = form.find(".alert-success");
     const error = form.find(".alert-danger");
 
-    defaultFormSend(this as HTMLFormElement, error, success, () => {
+    defaultFormSend(this as HTMLFormElement, error[0], success[0], () => {
       form.trigger("reset");
     });
   });

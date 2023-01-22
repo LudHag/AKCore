@@ -8,7 +8,11 @@
         v-if="upcomingEvent"
       >
         <div class="modal-body">
-          <div class="alert alert-danger" style="display: none"></div>
+          <div
+            class="alert alert-danger"
+            ref="error"
+            style="display: none"
+          ></div>
           <input type="hidden" name="Id" :value="eventId" />
           <div class="form-group">
             <label>Typ</label>
@@ -183,19 +187,21 @@ const props = defineProps<{
 
 const eventType = ref("");
 const upcomingEvent = ref<UpcomingEvent | null>(null);
+const error = ref<HTMLElement | null>(null);
 
 const close = () => {
   emit("close");
 };
 
 const formSubmit = (event: Event) => {
-  const error = $(event.target as HTMLElement).find(".alert-danger");
-  const success = $(".alert-success");
+  const success = document.getElementsByClassName(
+    "alert-success"
+  )[0] as HTMLElement;
   const eventValue = upcomingEvent.value!;
 
   eventValue.type = eventType.value;
   eventValue.day = new Date(eventValue.dayDate).toUTCString();
-  postToApi("/AdminEvent/Edit", eventValue, error, success, () => {
+  postToApi("/AdminEvent/Edit", eventValue, error.value, success, () => {
     emit("update");
   });
 };

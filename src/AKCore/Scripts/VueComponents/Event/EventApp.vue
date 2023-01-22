@@ -113,10 +113,7 @@ const loadEvents = () => {
 
 const loadEvent = async () => {
   loading.value = true;
-  const result = await getFromApi(
-    "/upcoming/Event/EventData/" + eventId.value,
-    null
-  );
+  const result = await getFromApi("/upcoming/Event/EventData/" + eventId.value);
   events.value = Object.assign({}, events.value, {
     [eventId.value]: result,
   });

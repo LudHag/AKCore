@@ -12,6 +12,7 @@
         >
           <div
             class="alert alert-danger change-password-error"
+            ref="changepasserror"
             style="display: none"
           ></div>
           <input
@@ -59,6 +60,7 @@ defineProps<{
 }>();
 
 const changepassform = ref<HTMLFormElement | null>(null);
+const changepasserror = ref<HTMLElement | null>(null);
 
 const close = () => {
   emit("close");
@@ -66,8 +68,7 @@ const close = () => {
 
 const submitForm = () => {
   if (changepassform.value === null) return;
-  const error = $(".change-password-error");
-  defaultFormSend(changepassform.value, error, null, () => {
+  defaultFormSend(changepassform.value, changepasserror.value, null, () => {
     emit("success");
     close();
   });

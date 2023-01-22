@@ -1,31 +1,31 @@
-﻿const handleResponse = async (
+﻿import { slideUpAndDown } from "./slidehandler";
+
+const handleResponse = async (
   response: Response,
-  error: JQuery<HTMLElement> | null,
-  success: JQuery<HTMLElement> | null,
+  error: HTMLElement | null,
+  success: HTMLElement | null,
   callback: (data: any) => void
 ) => {
   const res = await response.json();
 
   if (res.success) {
     if (success) {
-      success.text(res.message);
-      success.slideDown().delay(4000).slideUp();
+      slideUpAndDown(success, 4000, res.message);
     }
     if (callback) {
       callback(res);
     }
   } else {
     if (error) {
-      error.text(res.message);
-      error.slideDown().delay(4000).slideUp();
+      slideUpAndDown(error, 4000, res.message);
     }
   }
 };
 
 export const defaultFormSend = async (
   formElement: HTMLFormElement,
-  error: JQuery<HTMLElement> | null,
-  success: JQuery<HTMLElement> | null,
+  error: HTMLElement | null,
+  success: HTMLElement | null,
   callback: (data: any) => void
 ) => {
   try {
@@ -37,8 +37,7 @@ export const defaultFormSend = async (
     await handleResponse(response, error, success, callback);
   } catch (e) {
     if (error) {
-      error.text("Server error");
-      error.slideDown().delay(4000).slideUp();
+      slideUpAndDown(error, 4000, "Server error");
     }
   }
 };
@@ -46,12 +45,12 @@ export const defaultFormSend = async (
 export const postToApi = async (
   url: string,
   obj: any | null,
-  error: JQuery<HTMLElement> | null,
-  success: JQuery<HTMLElement> | null,
+  error: HTMLElement | null,
+  success: HTMLElement | null,
   callback: (data: any) => void
 ) => {
   try {
-    const data = obj !== null ? new URLSearchParams(obj) : null;
+    const data = getSearchParams(obj);
 
     const response = await fetch(url, {
       method: "POST",
@@ -61,17 +60,30 @@ export const postToApi = async (
     await handleResponse(response, error, success, callback);
   } catch (e) {
     if (error) {
-      error.text("Server error");
-      error.slideDown().delay(4000).slideUp();
+      slideUpAndDown(error, 4000, "Server error");
     }
   }
+};
+
+const getSearchParams = (obj: any): URLSearchParams | null => {
+  if (!obj) {
+    return null;
+  }
+  const cleanedObject = { ...obj };
+  Object.keys(cleanedObject).forEach((key) => {
+    if (cleanedObject[key] === null || cleanedObject[key] === undefined) {
+      delete cleanedObject[key];
+    }
+  });
+
+  return new URLSearchParams(cleanedObject);
 };
 
 export const postByObject = async (
   url: string,
   obj: any,
-  error: JQuery<HTMLElement> | null,
-  success: JQuery<HTMLElement> | null,
+  error: HTMLElement | null,
+  success: HTMLElement | null,
   callback: (data: any) => void
 ) => {
   try {
@@ -86,8 +98,7 @@ export const postByObject = async (
     handleResponse(response, error, success, callback);
   } catch (e) {
     if (error) {
-      error.text("Server error");
-      error.slideDown().delay(4000).slideUp();
+      slideUpAndDown(error, 4000, "Server error");
     }
   }
 };
@@ -95,8 +106,8 @@ export const postByObject = async (
 export const postFormData = async (
   url: string,
   obj: FormData,
-  error: JQuery<HTMLElement> | null,
-  success: JQuery<HTMLElement> | null,
+  error: HTMLElement | null,
+  success: HTMLElement | null,
   callback: (data: any) => void
 ) => {
   try {
@@ -108,15 +119,14 @@ export const postFormData = async (
     handleResponse(response, error, success, callback);
   } catch (e) {
     if (error) {
-      error.text("Server error");
-      error.slideDown().delay(4000).slideUp();
+      slideUpAndDown(error, 4000, "Server error");
     }
   }
 };
 
 export const getFromApi = async <T>(
   url: string,
-  error: JQuery<HTMLElement> | null
+  error?: HTMLElement
 ): Promise<T> => {
   try {
     const response = await fetch(url);
@@ -124,8 +134,7 @@ export const getFromApi = async <T>(
     return (await response.json()) as T;
   } catch (e) {
     if (error) {
-      error.text("Server error");
-      error.slideDown().delay(4000).slideUp();
+      slideUpAndDown(error, 4000, "Server error");
     }
     throw e;
   }

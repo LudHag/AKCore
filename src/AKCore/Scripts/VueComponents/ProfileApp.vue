@@ -3,7 +3,7 @@
     id="profile-app"
     v-if="profileData && profileData.userName !== 'nintendo'"
   >
-    <div class="row">
+    <div class="row" ref="formcontainer">
       <div class="col-md-6">
         <h3>Användarinfo</h3>
         <form
@@ -11,8 +11,16 @@
           action="/Profile/EditProfile"
           @submit.prevent="updateProfile"
         >
-          <div class="alert alert-danger" style="display: none"></div>
-          <div class="alert alert-success" style="display: none">
+          <div
+            class="alert alert-danger"
+            ref="formerror"
+            style="display: none"
+          ></div>
+          <div
+            class="alert alert-success"
+            ref="formsuccess"
+            style="display: none"
+          >
             Profil uppdaterad
           </div>
           <div class="form-group">
@@ -99,8 +107,16 @@
           action="/Profile/ChangePassword"
           @submit.prevent="changePassword"
         >
-          <div class="alert alert-danger" style="display: none"></div>
-          <div class="alert alert-success" style="display: none">
+          <div
+            class="alert alert-danger"
+            ref="passworderror"
+            style="display: none"
+          ></div>
+          <div
+            class="alert alert-success"
+            ref="passwordsuccess"
+            style="display: none"
+          >
             Lösenord uppdaterat
           </div>
           <div class="form-group">
@@ -171,10 +187,16 @@ import {
   getFromApi,
   postByObject,
 } from "../services/apiservice";
+import { slideUpAndDown } from "../services/slidehandler";
 
 const profileData = ref<ProfileData | null>(null);
 const password = ref("");
 const confirmPass = ref("");
+const formerror = ref<HTMLElement | null>(null);
+const formsuccess = ref<HTMLElement | null>(null);
+const formcontainer = ref<HTMLElement | null>(null);
+const passworderror = ref<HTMLElement | null>(null);
+const passwordsuccess = ref<HTMLElement | null>(null);
 
 const othInstruments = computed(() => {
   return INSTRUMENTS.filter((instr) => {
@@ -182,44 +204,37 @@ const othInstruments = computed(() => {
   });
 });
 
-const updateProfile = async (event: Event) => {
-  const form = $(event.target as HTMLFormElement);
-  const success = form.find(".alert-success");
-  const error = form.find(".alert-danger");
-
+const updateProfile = async () => {
   postByObject(
     "/Profile/EditProfile",
     profileData.value,
-    error,
-    success,
+    formerror.value,
+    formsuccess.value,
     () => {
-      //@ts-ignore
-      form.parent().get(0).scrollIntoView();
+      formcontainer.value!.scrollIntoView();
     }
   );
 };
 
 const changePassword = async (event: Event) => {
-  const form = $(event.target as HTMLFormElement);
-  const error = form.find(".alert-danger");
-  const success = form.find(".alert-success");
   if (password.value !== confirmPass.value) {
-    error.text("Lösenord matchar ej");
-    error.slideDown().delay(3500).slideUp();
+    slideUpAndDown(passworderror.value!, 4000, "Lösenord matchar ej");
     return;
   }
 
-  defaultFormSend(event.target as HTMLFormElement, error, success, () => {
-    password.value = "";
-    confirmPass.value = "";
-  });
+  defaultFormSend(
+    event.target as HTMLFormElement,
+    passworderror.value,
+    passwordsuccess.value,
+    () => {
+      password.value = "";
+      confirmPass.value = "";
+    }
+  );
 };
 
 const loadData = async () => {
-  profileData.value = await getFromApi<ProfileData>(
-    "/Profile/ProfileData",
-    null
-  );
+  profileData.value = await getFromApi<ProfileData>("/Profile/ProfileData");
 };
 
 onMounted(() => {

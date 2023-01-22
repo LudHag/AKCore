@@ -26,7 +26,7 @@
             :year="year"
             :month="month"
             :monthevents="monthEvents"
-            :day="day.addDays(i)"
+            :day="addDays(day, i)"
             v-for="i in [0, 1, 2, 3, 4, 5, 6]"
             :key="month + '' + i"
             @open="openEvent"
@@ -98,6 +98,12 @@ const closeModal = () => {
   modalEvent.value = null;
 };
 
+const addDays = (date: Date, days: number): Date => {
+  const dat = new Date(date.valueOf());
+  dat.setDate(dat.getDate() + days);
+  return dat;
+};
+
 const days = Constants.DAYS;
 
 const monthEvents = computed(() => {
@@ -125,7 +131,7 @@ const firstWeekDays = computed(() => {
   const weeks = [];
   while (monday < lastDayOfMonth) {
     weeks.push(monday);
-    monday = monday.addDays(7);
+    monday = addDays(monday, 7);
   }
   return weeks;
 });

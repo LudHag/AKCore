@@ -7,7 +7,11 @@
         @submit.prevent="submitForm"
       >
         <div class="modal-body">
-          <div class="alert alert-danger" style="display: none"></div>
+          <div
+            class="alert alert-danger"
+            ref="error"
+            style="display: none"
+          ></div>
           <div class="row">
             <div class="col-sm-12">
               <input type="hidden" name="eventId" :value="eventId" />
@@ -45,6 +49,7 @@
   </modal>
 </template>
 <script setup lang="ts">
+import { ref } from "vue";
 import { SIGNUPTYPES } from "../../constants";
 import { defaultFormSend } from "../../services/apiservice";
 import Modal from "../Modal.vue";
@@ -65,13 +70,10 @@ const close = () => {
   emit("close");
 };
 
-const submitForm = (event: Event) => {
-  const form = $(event.target as HTMLFormElement);
-  const error = form.find(".alert-danger");
-  const success = form.find(".alert-success");
+const error = ref<HTMLElement | null>(null);
 
-  defaultFormSend(event.target as HTMLFormElement, error, success, () => {
-    form.trigger("reset");
+const submitForm = (event: Event) => {
+  defaultFormSend(event.target as HTMLFormElement, error.value, null, () => {
     emit("update");
     emit("close");
   });
