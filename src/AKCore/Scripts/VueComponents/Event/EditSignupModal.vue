@@ -73,11 +73,7 @@ const close = () => {
 const error = ref<HTMLElement | null>(null);
 
 const submitForm = (event: Event) => {
-  const form = $(event.target as HTMLFormElement);
-  const success = form.find(".alert-success");
-
-  defaultFormSend(event.target as HTMLFormElement, error.value, success, () => {
-    form.trigger("reset");
+  defaultFormSend(event.target as HTMLFormElement, error.value, null, () => {
     emit("update");
     emit("close");
   });

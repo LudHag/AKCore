@@ -1,7 +1,7 @@
 ﻿<template>
   <form method="POST" action="/MailBox" @submit.prevent="sendMailBox">
-    <div class="alert alert-danger" style="display: none"></div>
-    <div class="alert alert-success" style="display: none">
+    <div class="alert alert-danger" ref="error" style="display: none"></div>
+    <div class="alert alert-success" ref="success" style="display: none">
       Meddelande skickat
     </div>
     <div class="form-group">
@@ -39,15 +39,20 @@ const emit = defineEmits<{
 
 const mailboxSubject = ref("");
 const mailBoxMessage = ref("");
+const error = ref<HTMLElement | null>(null);
+const success = ref<HTMLElement | null>(null);
 
 const sendMailBox = (event: Event) => {
-  const error = $(".alert-danger");
-  const success = $(".alert-success");
-  defaultFormSend(event.target as HTMLFormElement, error, success, () => {
-    mailboxSubject.value = "";
-    mailBoxMessage.value = "";
-    emit("sent");
-  });
+  defaultFormSend(
+    event.target as HTMLFormElement,
+    error.value,
+    success.value,
+    () => {
+      mailboxSubject.value = "";
+      mailBoxMessage.value = "";
+      emit("sent");
+    }
+  );
 };
 </script>
 <style lang="scss" scoped></style>

@@ -204,7 +204,7 @@ const othInstruments = computed(() => {
   });
 });
 
-const updateProfile = async (event: Event) => {
+const updateProfile = async () => {
   postByObject(
     "/Profile/EditProfile",
     profileData.value,

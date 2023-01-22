@@ -8,8 +8,11 @@
         method="post"
       >
         <div class="modal-body">
-          <div class="alert alert-success" style="display: none"></div>
-          <div class="alert alert-danger" style="display: none"></div>
+          <div
+            class="alert alert-danger"
+            ref="error"
+            style="display: none"
+          ></div>
           <div class="form-group">
             <label for="username">Användarnamn</label>
             <input
@@ -49,6 +52,7 @@ import { defaultFormSend } from "../../services/apiservice";
 import { ref, onMounted } from "vue";
 
 const showModal = ref(false);
+const error = ref<HTMLElement | null>(null);
 
 const close = () => {
   showModal.value = false;
@@ -56,9 +60,7 @@ const close = () => {
 
 const submitForm = (e: Event) => {
   e.preventDefault();
-  const form = $(e.target as HTMLFormElement) as JQuery<HTMLElement>;
-  const error = form.find(".alert-danger");
-  defaultFormSend(e.target as HTMLFormElement, error, null, () => {
+  defaultFormSend(e.target as HTMLFormElement, error.value, null, () => {
     window.location.reload();
   });
 };
