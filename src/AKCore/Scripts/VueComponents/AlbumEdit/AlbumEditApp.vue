@@ -186,10 +186,7 @@ const createAlbum = (event: Event) => {
 };
 
 const loadAlbumData = async () => {
-  albums.value = await getFromApi<AlbumEditModel[]>(
-    "/AlbumEdit/AlbumData",
-    null
-  );
+  albums.value = await getFromApi<AlbumEditModel[]>("/AlbumEdit/AlbumData");
 };
 
 const pickImage = (id: number) => {

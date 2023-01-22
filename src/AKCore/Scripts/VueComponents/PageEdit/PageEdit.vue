@@ -88,12 +88,10 @@ onMounted(() => {
     selectfile(field);
   });
 
-  getFromApi<PageEditModel>(window.location.href + "/Model", null).then(
-    (res) => {
-      pageModel.value = res;
-      usedModel.value = pageModel.value;
-    }
-  );
+  getFromApi<PageEditModel>(window.location.href + "/Model").then((res) => {
+    pageModel.value = res;
+    usedModel.value = pageModel.value;
+  });
 
   document.addEventListener(
     "keydown",
@@ -178,8 +176,12 @@ const save = () => {
       return;
     }
   }
-  const success = $(".alert-success");
-  const error = $(".alert-danger");
+  const success = document.getElementsByClassName(
+    "alert-success"
+  )[0] as HTMLElement;
+  const error = document.getElementsByClassName(
+    "alert-danger"
+  )[0] as HTMLElement;
   postByObject(
     window.location.href,
     usedModel.value,

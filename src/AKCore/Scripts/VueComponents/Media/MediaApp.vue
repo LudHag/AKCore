@@ -44,8 +44,7 @@ const error = ref<HTMLElement | null>(null);
 
 const loadMediaList = async () => {
   const result = await getFromApi<Record<string, MediaItem[]>>(
-    "/Media/MediaData",
-    null
+    "/Media/MediaData"
   );
   categories.value = result;
   IMAGETYPES.forEach((type) => {

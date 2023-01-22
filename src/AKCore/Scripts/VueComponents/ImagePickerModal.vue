@@ -79,7 +79,7 @@ const close = () => {
 };
 
 const loadImages = async () => {
-  images.value = await getFromApi<Image[]>("/Media/ImageListData", null);
+  images.value = await getFromApi<Image[]>("/Media/ImageListData");
 };
 
 const selectImage = (image: Image) => {

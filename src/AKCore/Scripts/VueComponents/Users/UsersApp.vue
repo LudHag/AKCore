@@ -95,7 +95,7 @@ watch(inactive, (newValue) => {
 
 const getUsers = (inactive: boolean) => {
   loading.value = true;
-  getFromApi<any>(`/User/UserListData?inactive=${inactive}`, null)
+  getFromApi<any>(`/User/UserListData?inactive=${inactive}`)
     .then((res) => {
       users.value = res.users;
       if (inactive) {

@@ -47,8 +47,7 @@ const isUserBoard = (): boolean => isBoard;
 const loadMediaList = async () => {
   if (isUserBoard()) {
     mailBoxItems.value = await getFromApi<MailItem[]>(
-      "/MailBox/GetItems?archived=" + isArchived.value,
-      null
+      "/MailBox/GetItems?archived=" + isArchived.value
     );
   }
 };
