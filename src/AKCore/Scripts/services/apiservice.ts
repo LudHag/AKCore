@@ -118,8 +118,8 @@ export const postByObject = async (
 export const postFormData = async (
   url: string,
   obj: FormData,
-  error: JQuery<HTMLElement> | null,
-  success: JQuery<HTMLElement> | null,
+  error: HTMLElement | null,
+  success: HTMLElement | null,
   callback: (data: any) => void
 ) => {
   try {
@@ -128,11 +128,10 @@ export const postFormData = async (
       body: obj,
     });
 
-    handleResponse(response, error, success, callback);
+    handleResponse2(response, error, success, callback);
   } catch (e) {
     if (error) {
-      error.text("Server error");
-      error.slideDown().delay(4000).slideUp();
+      slideUpAndDown(error, 4000, "Server error");
     }
   }
 };

@@ -60,8 +60,7 @@ const uploadFiles = (files: FileList) => {
     mediaData.append("UploadFiles", files[i]);
   }
   mediaData.append("Tag", selectedTag.value);
-  const errorField = $(error.value!);
-  postFormData("/media/UploadFiles", mediaData, errorField, null, () => {
+  postFormData("/media/UploadFiles", mediaData, error.value, null, () => {
     loadMediaList();
   });
 };
