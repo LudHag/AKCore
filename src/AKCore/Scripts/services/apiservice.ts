@@ -2,30 +2,6 @@
 
 const handleResponse = async (
   response: Response,
-  error: JQuery<HTMLElement> | null,
-  success: JQuery<HTMLElement> | null,
-  callback: (data: any) => void
-) => {
-  const res = await response.json();
-
-  if (res.success) {
-    if (success) {
-      success.text(res.message);
-      success.slideDown().delay(4000).slideUp();
-    }
-    if (callback) {
-      callback(res);
-    }
-  } else {
-    if (error) {
-      error.text(res.message);
-      error.slideDown().delay(4000).slideUp();
-    }
-  }
-};
-
-const handleResponse2 = async (
-  response: Response,
   error: HTMLElement | null,
   success: HTMLElement | null,
   callback: (data: any) => void
@@ -58,7 +34,7 @@ export const defaultFormSend = async (
       body: new FormData(formElement),
     });
 
-    await handleResponse2(response, error, success, callback);
+    await handleResponse(response, error, success, callback);
   } catch (e) {
     if (error) {
       slideUpAndDown(error, 4000, "Server error");
@@ -69,8 +45,8 @@ export const defaultFormSend = async (
 export const postToApi = async (
   url: string,
   obj: any | null,
-  error: JQuery<HTMLElement> | null,
-  success: JQuery<HTMLElement> | null,
+  error: HTMLElement | null,
+  success: HTMLElement | null,
   callback: (data: any) => void
 ) => {
   try {
@@ -84,8 +60,7 @@ export const postToApi = async (
     await handleResponse(response, error, success, callback);
   } catch (e) {
     if (error) {
-      error.text("Server error");
-      error.slideDown().delay(4000).slideUp();
+      slideUpAndDown(error, 4000, "Server error");
     }
   }
 };
@@ -106,7 +81,7 @@ export const postByObject = async (
       },
     });
 
-    handleResponse2(response, error, success, callback);
+    handleResponse(response, error, success, callback);
   } catch (e) {
     if (error) {
       slideUpAndDown(error, 4000, "Server error");
@@ -127,7 +102,7 @@ export const postFormData = async (
       body: obj,
     });
 
-    handleResponse2(response, error, success, callback);
+    handleResponse(response, error, success, callback);
   } catch (e) {
     if (error) {
       slideUpAndDown(error, 4000, "Server error");
