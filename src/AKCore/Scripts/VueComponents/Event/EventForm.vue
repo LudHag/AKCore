@@ -5,8 +5,8 @@
     :action="'/upcoming/Signup/' + eventInfo.event.id"
     method="POST"
   >
-    <div class="alert alert-danger" style="display: none"></div>
-    <div class="alert alert-success" style="display: none"></div>
+    <div class="alert alert-danger" ref="error" style="display: none"></div>
+    <div class="alert alert-success" ref="success" style="display: none"></div>
     <div class="form-group">
       <label>Kommer till:</label>
       <div class="indent">
@@ -93,15 +93,18 @@ const where = ref<UpcomingWhere>(null);
 const car = ref(false);
 const instrument = ref(false);
 const comment = ref<string | null>(null);
+const error = ref<HTMLElement | null>(null);
+const success = ref<HTMLElement | null>(null);
 
 const submitForm = (event: Event) => {
-  const form = $(event.target as HTMLFormElement);
-  const error = form.find(".alert-danger");
-  const success = form.find(".alert-success");
-
-  defaultFormSend(event.target as HTMLFormElement, error, success, () => {
-    emit("update");
-  });
+  defaultFormSend(
+    event.target as HTMLFormElement,
+    error.value,
+    success.value,
+    () => {
+      emit("update");
+    }
+  );
 };
 
 const loadForm = () => {

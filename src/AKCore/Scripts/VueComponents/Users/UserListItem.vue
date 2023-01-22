@@ -284,8 +284,12 @@ const removeUser = () => {
 };
 
 const saveLastEarned = (event: Event) => {
-  const error = $($(".alert-danger")[0]);
-  const success = $($(".alert-success")[0]);
+  const error = document.getElementsByClassName(
+    "alert-danger"
+  )[0] as HTMLElement;
+  const success = document.getElementsByClassName(
+    "alert-success"
+  )[0] as HTMLElement;
   defaultFormSend(event.target as HTMLFormElement, error, success, () => {
     emit("updateuserprop", {
       userName: props.user.userName,
@@ -297,8 +301,12 @@ const saveLastEarned = (event: Event) => {
 };
 
 const saveLastGiven = (event: Event) => {
-  const error = $($(".alert-danger")[0]);
-  const success = $($(".alert-success")[0]);
+  const error = document.getElementsByClassName(
+    "alert-danger"
+  )[0] as HTMLElement;
+  const success = document.getElementsByClassName(
+    "alert-success"
+  )[0] as HTMLElement;
   defaultFormSend(event.target as HTMLFormElement, error, success, () => {
     emit("updateuserprop", {
       userName: props.user.userName,
@@ -335,8 +343,12 @@ const removeRole = (role: string) => {
 };
 
 const addRole = (event: Event) => {
-  const error = $($(".alert-danger")[0]);
-  const success = $($(".alert-success")[0]);
+  const error = document.getElementsByClassName(
+    "alert-danger"
+  )[0] as HTMLElement;
+  const success = document.getElementsByClassName(
+    "alert-success"
+  )[0] as HTMLElement;
   // @ts-ignore
   const role = (event.target as HTMLFormElement).elements.Role.value;
   const roleIndex = props.user.roles.indexOf(role);

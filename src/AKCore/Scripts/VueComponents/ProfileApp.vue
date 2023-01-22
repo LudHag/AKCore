@@ -187,6 +187,7 @@ import {
   getFromApi,
   postByObject,
 } from "../services/apiservice";
+import { slideUpAndDown } from "../services/slidehandler";
 
 const profileData = ref<ProfileData | null>(null);
 const password = ref("");
@@ -194,6 +195,8 @@ const confirmPass = ref("");
 const formerror = ref<HTMLElement | null>(null);
 const formsuccess = ref<HTMLElement | null>(null);
 const formcontainer = ref<HTMLElement | null>(null);
+const passworderror = ref<HTMLElement | null>(null);
+const passwordsuccess = ref<HTMLElement | null>(null);
 
 const othInstruments = computed(() => {
   return INSTRUMENTS.filter((instr) => {
@@ -214,19 +217,20 @@ const updateProfile = async (event: Event) => {
 };
 
 const changePassword = async (event: Event) => {
-  const form = $(event.target as HTMLFormElement);
-  const error = form.find(".alert-danger");
-  const success = form.find(".alert-success");
   if (password.value !== confirmPass.value) {
-    error.text("Lösenord matchar ej");
-    error.slideDown().delay(3500).slideUp();
+    slideUpAndDown(passworderror.value!, 4000, "Lösenord matchar ej");
     return;
   }
 
-  defaultFormSend(event.target as HTMLFormElement, error, success, () => {
-    password.value = "";
-    confirmPass.value = "";
-  });
+  defaultFormSend(
+    event.target as HTMLFormElement,
+    passworderror.value,
+    passwordsuccess.value,
+    () => {
+      password.value = "";
+      confirmPass.value = "";
+    }
+  );
 };
 
 const loadData = async () => {

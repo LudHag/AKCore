@@ -17,7 +17,7 @@ $("#new-page-form").on("submit", "form", function (e) {
   const form = $(this);
   const error = form.find(".alert-danger");
 
-  defaultFormSend(this as HTMLFormElement, error, null, () => {
+  defaultFormSend(this as HTMLFormElement, error[0], null, () => {
     window.location.reload();
   });
 });

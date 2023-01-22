@@ -31,8 +31,12 @@
           </div>
         </div>
       </div>
-      <div class="alert alert-danger" style="display: none"></div>
-      <div class="alert alert-success" style="display: none"></div>
+      <div class="alert alert-danger" ref="error" style="display: none"></div>
+      <div
+        class="alert alert-success"
+        ref="success"
+        style="display: none"
+      ></div>
       <div class="row edit-form" id="add-album-container" v-if="createOpened">
         <div class="col-md-6">
           <form
@@ -99,6 +103,8 @@ const selectedAlbum = ref(-1);
 const tracksAlbumId = ref(-1);
 const search = ref("");
 const albumCategory = ref("");
+const error = ref<HTMLElement | null>(null);
+const success = ref<HTMLElement | null>(null);
 
 const tracksAlbum = computed(() => {
   if (!albums.value || tracksAlbumId.value == -1) {
@@ -177,12 +183,15 @@ const openCreate = () => {
 };
 
 const createAlbum = (event: Event) => {
-  const error = $(".alert-danger");
-  const success = $(".alert-success");
-  defaultFormSend(event.target as HTMLFormElement, error, success, () => {
-    loadAlbumData();
-    createOpened.value = false;
-  });
+  defaultFormSend(
+    event.target as HTMLFormElement,
+    error.value,
+    success.value,
+    () => {
+      loadAlbumData();
+      createOpened.value = false;
+    }
+  );
 };
 
 const loadAlbumData = async () => {
