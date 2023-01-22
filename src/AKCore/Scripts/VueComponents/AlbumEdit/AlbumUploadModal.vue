@@ -79,11 +79,10 @@ const uploadFiles = (files: FileList) => {
 };
 
 const removeTrack = (id: number) => {
-  const error = $(errorElement.value!);
   postToApi(
     "/AlbumEdit/DeleteTrack",
     { id, album: props.album?.id },
-    error,
+    errorElement.value,
     null,
     () => {
       emit("update");

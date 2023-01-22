@@ -15,8 +15,12 @@
     </div>
     <div class="row">
       <div class="col-xs-12">
-        <div class="alert alert-success" style="display: none"></div>
-        <div class="alert alert-error" style="display: none"></div>
+        <div
+          class="alert alert-success"
+          ref="success"
+          style="display: none"
+        ></div>
+        <div class="alert alert-error" ref="error" style="display: none"></div>
       </div>
     </div>
     <spinner :size="'medium'" v-if="!adminEventData"></spinner>
@@ -82,6 +86,8 @@ import { UpcomingEvent } from "../Upcoming/models";
 const adminEventData = ref<AdminEventModel | null>(null);
 const eventModalOpened = ref(false);
 const modalEvent = ref<UpcomingEvent | null>(null);
+const success = ref<HTMLElement | null>(null);
+const error = ref<HTMLElement | null>(null);
 
 const paginationPages = computed(() => {
   const total = adminEventData.value?.totalPages ?? 0;
@@ -110,14 +116,18 @@ const removeEvent = (e: UpcomingEvent) => {
   if (
     confirm("Är du säker på att du vill ta bort event: " + e.day + " " + e.name)
   ) {
-    const error = $(".alert-danger");
-    const success = $(".alert-success");
-    postToApi("/AdminEvent/Remove/" + e.id, null, error, success, () => {
-      loadEvents(
-        adminEventData.value?.old ?? false,
-        adminEventData.value?.currentPage ?? 1
-      );
-    });
+    postToApi(
+      "/AdminEvent/Remove/" + e.id,
+      null,
+      error.value,
+      success.value,
+      () => {
+        loadEvents(
+          adminEventData.value?.old ?? false,
+          adminEventData.value?.currentPage ?? 1
+        );
+      }
+    );
   }
 };
 

@@ -88,7 +88,7 @@ const menuUp = (menu: MenuEditModel) => {
   postToApi(
     "/MenuEdit/MoveLeft",
     { id: menu.id },
-    $(error.value as HTMLElement),
+    error.value as HTMLElement,
     null,
     () => {
       emit("update");
@@ -97,22 +97,16 @@ const menuUp = (menu: MenuEditModel) => {
 };
 
 const menuDown = (menu: MenuEditModel) => {
-  postToApi(
-    "/MenuEdit/MoveRight",
-    { id: menu.id },
-    $(error.value as HTMLElement),
-    null,
-    () => {
-      emit("update");
-    }
-  );
+  postToApi("/MenuEdit/MoveRight", { id: menu.id }, error.value, null, () => {
+    emit("update");
+  });
 };
 
 const subMenuUp = (menu: MenuEditModel, child: MenuEditModel) => {
   postToApi(
     "/MenuEdit/MoveUp",
     { id: child.id, parent: menu.id },
-    $(error.value as HTMLElement),
+    error.value,
     null,
     () => {
       emit("update");
@@ -124,7 +118,7 @@ const subMenuDown = (menu: MenuEditModel, child: MenuEditModel) => {
   postToApi(
     "/MenuEdit/MoveDown",
     { id: child.id, parent: menu.id },
-    $(error.value as HTMLElement),
+    error.value as HTMLElement,
     null,
     () => {
       emit("update");
@@ -136,7 +130,7 @@ const deleteMenu = (menu: MenuEditModel) => {
   postToApi(
     "/MenuEdit/RemoveTopMenu",
     { id: menu.id },
-    $(error.value as HTMLElement),
+    error.value as HTMLElement,
     null,
     () => {
       emit("update");
@@ -148,7 +142,7 @@ const deleteSubMenu = (menu: MenuEditModel) => {
   postToApi(
     "/MenuEdit/RemoveSubMenu",
     { id: menu.id },
-    $(error.value as HTMLElement),
+    error.value as HTMLElement,
     null,
     () => {
       emit("update");

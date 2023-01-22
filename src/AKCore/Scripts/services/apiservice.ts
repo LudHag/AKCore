@@ -50,7 +50,7 @@ export const postToApi = async (
   callback: (data: any) => void
 ) => {
   try {
-    const data = obj !== null ? new URLSearchParams(obj) : null;
+    const data = getSearchParams(obj);
 
     const response = await fetch(url, {
       method: "POST",
@@ -63,6 +63,20 @@ export const postToApi = async (
       slideUpAndDown(error, 4000, "Server error");
     }
   }
+};
+
+const getSearchParams = (obj: any): URLSearchParams | null => {
+  if (!obj) {
+    return null;
+  }
+  const cleanedObject = { ...obj };
+  Object.keys(cleanedObject).forEach((key) => {
+    if (cleanedObject[key] === null || cleanedObject[key] === undefined) {
+      delete cleanedObject[key];
+    }
+  });
+
+  return new URLSearchParams(cleanedObject);
 };
 
 export const postByObject = async (

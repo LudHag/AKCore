@@ -132,11 +132,10 @@ const filteredAlbums = computed(() => {
 });
 
 const changeName = (name: string, id: number) => {
-  const error = $(".alert-danger");
   postToApi(
     "/AlbumEdit/ChangeName",
     { id: id, name: name },
-    error,
+    error.value,
     null,
     () => {
       albums.value = albums.value.map((item) => {
@@ -151,21 +150,25 @@ const changeName = (name: string, id: number) => {
 };
 
 const changeCategory = (category: string, id: number) => {
-  const error = $(".alert-danger");
-  postToApi("/AlbumEdit/ChangeCategory", { id, category }, error, null, () => {
-    albums.value = albums.value.map((item) => {
-      if (item.id === id) {
-        return Object.assign({}, item, { category });
-      } else {
-        return item;
-      }
-    });
-  });
+  postToApi(
+    "/AlbumEdit/ChangeCategory",
+    { id, category },
+    error.value,
+    null,
+    () => {
+      albums.value = albums.value.map((item) => {
+        if (item.id === id) {
+          return Object.assign({}, item, { category });
+        } else {
+          return item;
+        }
+      });
+    }
+  );
 };
 
 const deleteAlbum = (id: number) => {
-  const error = $(".alert-danger");
-  postToApi("/AlbumEdit/DeleteAlbum/" + id, null, error, null, () => {
+  postToApi("/AlbumEdit/DeleteAlbum/" + id, null, error.value, null, () => {
     albums.value = albums.value.filter((album) => {
       return album.id !== id;
     });
@@ -209,11 +212,10 @@ const closeImagePicker = () => {
 };
 
 const imageSelected = (image: { name: string }) => {
-  const error = $(".alert-danger");
   postToApi(
     "/AlbumEdit/UpdateImage",
     { id: selectedAlbum.value, src: "/media/" + image.name },
-    error,
+    error.value,
     null,
     () => {
       loadAlbumData();

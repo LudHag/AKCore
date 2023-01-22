@@ -172,7 +172,7 @@ namespace AKCore.Controllers
             return Json(new { success = false, message = "Misslyckades med att spara ändringen" });
         }
 
-        private TimeSpan ParseTime(string stringTime)
+        private static TimeSpan ParseTime(string stringTime)
         {
             return stringTime == null ? default : TimeSpan.Parse(stringTime);
         }
