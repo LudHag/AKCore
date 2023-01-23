@@ -2,6 +2,7 @@
   <div id="user-list">
     <div
       class="alert alert-success update-password-success"
+      ref="updatePasswordSuccess"
       style="display: none"
     >
       Lösenord uppdaterat
@@ -38,6 +39,7 @@ import UserListItem from "./UserListItem.vue";
 import PasswordModal from "./PasswordModal.vue";
 import { UpdateInfo, User } from "./models";
 import { ref, computed } from "vue";
+import { slideUpAndDown } from "../../services/slidehandler";
 
 const emit = defineEmits<{
   (e: "updateuserprop", updateInfo: UpdateInfo): void;
@@ -51,6 +53,7 @@ const props = defineProps<{
 
 const showUpdatePasswordModal = ref(false);
 const updatePasswordUser = ref<User | null>(null);
+const updatePasswordSuccess = ref<HTMLElement | null>(null);
 
 const sortedUsers = computed(() => {
   return [...props.users].sort((a, b) =>
@@ -77,7 +80,7 @@ const closeModal = () => {
 };
 
 const newPasswordSuccess = () => {
-  $(".update-password-success").slideDown().delay(4000).slideUp();
+  slideUpAndDown(updatePasswordSuccess.value!, 4000);
 };
 </script>
 <style lang="scss" scoped>
