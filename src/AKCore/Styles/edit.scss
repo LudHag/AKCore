@@ -4,6 +4,9 @@
 
 #new-page-form {
   display: none;
+  &.open {
+    display: block;
+  }
 }
 
 .top-row {
