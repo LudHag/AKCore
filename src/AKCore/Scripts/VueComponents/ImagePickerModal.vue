@@ -66,7 +66,7 @@ const emit = defineEmits<{
 const props = defineProps<{
   showModal: boolean | null;
   notransition?: boolean | null;
-  destination?: JQuery<HTMLElement> | null;
+  destination?: HTMLInputElement | null;
 }>();
 
 const images = ref<Image[]>([]);
@@ -84,7 +84,7 @@ const loadImages = async () => {
 
 const selectImage = (image: Image) => {
   if (props.destination) {
-    props.destination.val("/media/" + image.name);
+    props.destination.value = "/media/" + image.name;
     emit("close");
   } else {
     emit("image", image);

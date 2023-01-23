@@ -49,7 +49,7 @@ const emit = defineEmits<{
 const props = defineProps<{
   showModal: boolean;
   notransition?: boolean;
-  destination?: JQuery<HTMLElement> | null;
+  destination?: HTMLInputElement | null;
 }>();
 
 const documents = ref<Document[]>([]);
@@ -65,7 +65,7 @@ const loadDocuments = async () => {
 
 const selectDocument = (document: Document) => {
   if (props.destination) {
-    props.destination.val("/media/" + document.name);
+    props.destination.value = "/media/" + document.name;
     emit("close");
   } else {
     emit("document", document);

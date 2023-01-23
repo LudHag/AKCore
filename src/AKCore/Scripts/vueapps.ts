@@ -11,8 +11,12 @@ import { Member, Video } from "./VueComponents/models";
 
 declare const videos: Record<number, Array<Video>>;
 
-$(".videos-app").each(function () {
-  const widgetId = $(this).data("id");
+const videoApps = Array.from(
+  document.getElementsByClassName("videos-app") as HTMLCollectionOf<HTMLElement>
+);
+
+videoApps.forEach((app) => {
+  const widgetId = parseInt(app.dataset.id as string);
   createApp(VideoBar, { videos: videos[widgetId] }).mount(
     `#videos-app-${widgetId}`
   );
@@ -21,7 +25,7 @@ $(".videos-app").each(function () {
 declare const memberList: Record<string, Array<Member>>;
 declare const instruments: string[];
 
-if ($("#search-widget").length > 0) {
+if (document.getElementById("search-widget")) {
   createApp(MembersList, {
     members: memberList,
     instruments: instruments,
@@ -29,28 +33,28 @@ if ($("#search-widget").length > 0) {
 }
 
 declare const eventId: number;
-if ($("#upcoming-app").length > 0) {
+if (document.getElementById("upcoming-app")) {
   createApp(UpcomingApp, {
     "event-id": eventId,
   }).mount("#upcoming-app");
 }
 
-if ($("#profile-app").length > 0) {
+if (document.getElementById("profile-app")) {
   createApp(ProfileApp).mount("#profile-app");
 }
 
-if ($("#media-app").length > 0) {
+if (document.getElementById("media-app")) {
   createApp(MediaApp).mount("#media-app");
 }
 
-if ($("#music-app").length > 0) {
+if (document.getElementById("music-app")) {
   createApp(MusicApp).mount("#music-app");
 }
 
-if ($("#mailbox").length > 0) {
+if (document.getElementById("mailbox")) {
   createApp(MailBoxApp).mount("#mailbox");
 }
 
-if ($("#loginapp").length > 0) {
+if (document.getElementById("loginapp")) {
   createApp(LoginApp).mount("#loginapp");
 }

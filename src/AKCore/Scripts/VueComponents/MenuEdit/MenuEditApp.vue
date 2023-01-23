@@ -99,11 +99,11 @@ const toggleCreateMenu = () => {
 };
 
 const createMenu = (event: Event) => {
-  const form = $(event.target as HTMLFormElement) as JQuery<HTMLFormElement>;
-  defaultFormSend(event.target as HTMLFormElement, null, null, () => {
+  const form = event.target as HTMLFormElement;
+  defaultFormSend(form, null, null, () => {
     loadMenus();
     showAddMenu.value = false;
-    form.trigger("reset");
+    form.reset();
   });
 };
 
