@@ -193,7 +193,7 @@ const close = () => {
   emit("close");
 };
 
-const formSubmit = (event: Event) => {
+const formSubmit = () => {
   const success = document.getElementsByClassName(
     "alert-success"
   )[0] as HTMLElement;
