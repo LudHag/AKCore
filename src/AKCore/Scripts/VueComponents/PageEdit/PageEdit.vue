@@ -73,8 +73,8 @@ import {
 } from "./models";
 
 const pageModel = ref<PageEditModel | null>(null);
-const saveImageDest = ref<JQuery<HTMLElement> | null>(null);
-const saveDocumentDest = ref<JQuery<HTMLElement> | null>(null);
+const saveImageDest = ref<HTMLInputElement | null>(null);
+const saveDocumentDest = ref<HTMLInputElement | null>(null);
 const drag = ref(false);
 const selectedRevision = ref<PageRevisionEditModel | null>(null);
 const usedModel = ref<PageEditModel | PageRevisionEditModel | null>(null);
@@ -158,11 +158,11 @@ const removeWidget = (widget: WidgetEditModel) => {
   );
 };
 
-const selectImage = (destination: JQuery<HTMLElement> | null) => {
+const selectImage = (destination: HTMLInputElement | null) => {
   saveImageDest.value = destination;
 };
 
-const selectfile = (destination: JQuery<HTMLElement> | null) => {
+const selectfile = (destination: HTMLInputElement | null) => {
   saveDocumentDest.value = destination;
 };
 

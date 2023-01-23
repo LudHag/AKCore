@@ -94,10 +94,10 @@ const getConfig = () => {
       _win: any
     ) {
       if (type === "image") {
-        EventBus.trigger("loadimage", $("#" + field_name));
+        EventBus.trigger("loadimage", document.getElementById(field_name));
       }
       if (type === "file") {
-        EventBus.trigger("loadfile", $("#" + field_name));
+        EventBus.trigger("loadfile", document.getElementById(field_name));
       }
     },
   };
