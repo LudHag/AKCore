@@ -1,24 +1,41 @@
 ﻿import { defaultFormSend } from "./services/apiservice";
 
+const menu = document.getElementById("mobile-menu")!;
+
 $(function () {
   $("#open-mobile-menu").on("click", function (e) {
     e.preventDefault();
-    $("#mobile-menu").slideToggle();
+
+    if (menu.style.height === "0px" || menu.style.height === "") {
+      menu.style.height = menu.scrollHeight + "px";
+    } else {
+      menu.style.height = menu.scrollHeight + "px";
+
+      setTimeout(() => (menu.style.height = "0px"), 0);
+    }
   });
 
   $("#mobile-menu").on("click", "a", function (e) {
-    const target = $(e.target);
-    if (target.hasClass("exp-submenu")) {
+    const targetElement = e.target as HTMLElement;
+
+    if (targetElement.classList.contains("exp-submenu")) {
       e.preventDefault();
-      if (target.hasClass("glyphicon-plus")) {
-        target.addClass("glyphicon-minus");
-        target.removeClass("glyphicon-plus");
+      if (targetElement.classList.contains("glyphicon-plus")) {
+        targetElement.classList.add("glyphicon-minus");
+        targetElement.classList.remove("glyphicon-plus");
       } else {
-        target.addClass("glyphicon-plus");
-        target.removeClass("glyphicon-minus");
+        targetElement.classList.add("glyphicon-plus");
+        targetElement.classList.remove("glyphicon-minus");
       }
 
-      $(target.data("id")).slideToggle();
+      const subMenu = document.getElementById(targetElement.dataset.id!)!;
+
+      if (subMenu.style.height === "0px" || subMenu.style.height === "") {
+        menu.style.height = "auto";
+        subMenu.style.height = subMenu.scrollHeight + "px";
+      } else {
+        subMenu.style.height = "0px";
+      }
     }
   });
 
