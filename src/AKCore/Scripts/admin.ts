@@ -7,8 +7,6 @@ import UsersApp from "./VueComponents/Users/UsersApp.vue";
 import PageEdit from "./VueComponents/PageEdit/PageEdit.vue";
 import "./Admin/pageedit.js";
 
-document.getElementById("pageedit-app");
-
 if (document.getElementById("pageedit-app")) {
   createApp(PageEdit).mount("#pageedit-app");
 }
