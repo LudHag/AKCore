@@ -2,21 +2,26 @@
 
 const menu = document.getElementById("mobile-menu")!;
 
-$(function () {
-  $("#open-mobile-menu").on("click", function (e) {
-    e.preventDefault();
+const openMobileMenu = document.getElementById("open-mobile-menu")!;
+const subMenusButtons = document.getElementsByClassName(
+  "exp-submenu"
+) as HTMLCollectionOf<HTMLElement>;
 
-    if (menu.style.height === "0px" || menu.style.height === "") {
-      menu.style.height = menu.scrollHeight + "px";
-    } else {
-      menu.style.height = menu.scrollHeight + "px";
+openMobileMenu.addEventListener("click", (e) => {
+  e.preventDefault();
 
-      setTimeout(() => (menu.style.height = "0px"), 0);
-    }
-  });
+  if (menu.style.height === "0px" || menu.style.height === "") {
+    menu.style.height = menu.scrollHeight + "px";
+  } else {
+    menu.style.height = menu.scrollHeight + "px";
 
-  $("#mobile-menu").on("click", "a", function (e) {
-    const targetElement = e.target as HTMLElement;
+    setTimeout(() => (menu.style.height = "0px"), 0);
+  }
+});
+
+Array.from(subMenusButtons).forEach((subMenuButton) => {
+  subMenuButton.addEventListener("click", (e) => {
+    const targetElement = subMenuButton;
 
     if (targetElement.classList.contains("exp-submenu")) {
       e.preventDefault();
@@ -38,27 +43,31 @@ $(function () {
       }
     }
   });
+});
 
-  $("#recruit-form").on("submit", function (e) {
+const recruitForm = document.getElementById("recruit-form");
+
+if (recruitForm) {
+  recruitForm.addEventListener("submit", (e) => {
     e.preventDefault();
-    const form = $(this);
-    const success = form.find(".alert-success");
-    const error = form.find(".alert-danger");
+    const form = recruitForm as HTMLFormElement;
+    const success = form.querySelector(".alert-success")! as HTMLElement;
+    const error = form.querySelector(".alert-danger")! as HTMLElement;
 
-    defaultFormSend(this as HTMLFormElement, error[0], success[0], () => {
-      form.trigger("reset");
+    defaultFormSend(form, error, success, () => {
+      form.reset();
     });
   });
+}
 
-  const allowedKeys = { 70: "f", 76: "l", 192: "ö", 74: "j", 84: "t" },
-    code = ["f", "l", "ö", "j", "t"];
-  let pos = 0;
-  document.addEventListener("keydown", function (a) {
-    //@ts-ignore
-    const b = allowedKeys[a.keyCode],
-      c = code[pos];
-    b == c ? (pos++, pos == code.length && flojt()) : (pos = 0);
-  });
+const allowedKeys = { 70: "f", 76: "l", 192: "ö", 74: "j", 84: "t" },
+  code = ["f", "l", "ö", "j", "t"];
+let pos = 0;
+document.addEventListener("keydown", function (a) {
+  //@ts-ignore
+  const b = allowedKeys[a.keyCode],
+    c = code[pos];
+  b == c ? (pos++, pos == code.length && flojt()) : (pos = 0);
 });
 
 function flojt() {
