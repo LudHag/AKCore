@@ -25,6 +25,7 @@
       <div class="alert alert-danger" style="display: none"></div>
       <div
         class="alert alert-success alert-edit-user"
+        ref="alertEditUser"
         style="display: none"
       ></div>
       <user-list
@@ -60,6 +61,7 @@ import Spinner from "../Spinner.vue";
 import { User } from "./models";
 import { ref, computed, watch, onMounted } from "vue";
 import { getFromApi } from "../../services/apiservice";
+import { slideUpAndDown } from "../../services/slidehandler";
 
 const searchPhrase = ref("");
 const inactive = ref(false);
@@ -68,6 +70,7 @@ const allUsersCollected = ref(false);
 const loading = ref(false);
 const showUserModal = ref(false);
 const updateUser = ref<User | null>(null);
+const alertEditUser = ref<HTMLElement | null>(null);
 
 const filteredUsers = computed(() => {
   let filtered = inactive.value
@@ -126,22 +129,14 @@ const userUpdated = (user: User) => {
   const index = users.value.map((u) => u.id).indexOf(user.id);
   users.value = Object.assign([], users.value, { [index]: user });
   closeModal();
-  $(".alert-edit-user")
-    .text("Användare uppdaterad")
-    .slideDown()
-    .delay(4000)
-    .slideUp();
+  slideUpAndDown(alertEditUser.value!, 4000, "Användare uppdaterad");
 };
 
 const userCreated = (user: User) => {
   user.fullName = user.firstName + " " + user.lastName;
   users.value.push(user);
   closeModal();
-  $(".alert-edit-user")
-    .text("Användare skapad")
-    .slideDown()
-    .delay(4000)
-    .slideUp();
+  slideUpAndDown(alertEditUser.value!, 4000, "Användare skapad");
 };
 
 const closeModal = () => {
