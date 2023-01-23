@@ -26,8 +26,4 @@ module.exports = {
     "vue/html-indent": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
   },
-  globals: {
-    $: "readonly",
-    JQuery: "readonly",
-  },
 };

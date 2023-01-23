@@ -7,26 +7,28 @@ import UsersApp from "./VueComponents/Users/UsersApp.vue";
 import PageEdit from "./VueComponents/PageEdit/PageEdit.vue";
 import "./Admin/pageedit.js";
 
-if ($("#pageedit-app").length > 0) {
+document.getElementById("pageedit-app");
+
+if (document.getElementById("pageedit-app")) {
   createApp(PageEdit).mount("#pageedit-app");
 }
 
-if ($("#admin-event-app").length > 0) {
+if (document.getElementById("admin-event-app")) {
   createApp(AdminEventApp).mount("#admin-event-app");
 }
 
-if ($("#album-edit-app").length > 0) {
+if (document.getElementById("album-edit-app")) {
   createApp(AlbumEditApp).mount("#album-edit-app");
 }
 
-if ($("#menu-edit-app").length > 0) {
+if (document.getElementById("menu-edit-app")) {
   createApp(MenuEditApp).mount("#menu-edit-app");
 }
 
-if ($("#recruits-app").length > 0) {
+if (document.getElementById("recruits-app")) {
   createApp(RecruitsApp).mount("#recruits-app");
 }
 
-if ($("#user-app").length > 0) {
+if (document.getElementById("user-app")) {
   createApp(UsersApp).mount("#user-app");
 }
