@@ -5,6 +5,7 @@ export interface PageRevisionEditModel {
   name: string;
   slug: string;
   widgets: WidgetEditModel[];
+  metaDescription: string;
   loggedIn: boolean;
   loggedOut: boolean;
   balettOnly: boolean;
@@ -35,6 +36,7 @@ export interface PageEditModel {
   balettOnly: boolean;
   template: string;
   pageId: number;
+  metaDescription: string;
   selectedRevision: number;
   lastModified: string;
   widgets: WidgetEditModel[];
