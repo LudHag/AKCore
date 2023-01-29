@@ -11,7 +11,7 @@
       <thead>
         <tr>
           <th>Namn</th>
-          <th>Email</th>
+          <th>Användarnamn</th>
           <th>Roller</th>
           <th></th>
         </tr>

@@ -44,9 +44,13 @@ namespace AKCore
             services.AddControllersWithViews().AddNewtonsoftJson();
             services.AddSession();
             services.AddTransient<PageService>();
+            services.AddTransient<AdminLogService>();
+
             services.AddIdentity<AkUser, IdentityRole>()
                 .AddEntityFrameworkStores<AKContext>()
                 .AddDefaultTokenProviders();
+
+            services.ConfigureApplicationCookie(options => options.LoginPath = "/");
 
             services.Configure<IdentityOptions>(options =>
             {
@@ -78,6 +82,7 @@ namespace AKCore
             app.UseSession();
             app.UseRouting();
             app.UseAuthentication();
+
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {

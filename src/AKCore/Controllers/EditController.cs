@@ -1,15 +1,9 @@
 ﻿using AKCore.DataModel;
-using AKCore.Extensions;
 using AKCore.Models;
 using AKCore.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace AKCore.Controllers;
@@ -18,13 +12,11 @@ namespace AKCore.Controllers;
 [Authorize(Roles = "SuperNintendo,Editor")]
 public class EditController : Controller
 {
-    private readonly AKContext _db;
     private readonly UserManager<AkUser> _userManager;
     private readonly PageService _pageService;
 
-    public EditController(AKContext db, UserManager<AkUser> userManager, PageService pageService)
+    public EditController(UserManager<AkUser> userManager, PageService pageService)
     {
-        _db = db;
         _userManager = userManager;
         _pageService = pageService;
     }
@@ -57,9 +49,9 @@ public class EditController : Controller
 
         try
         {
-            var pageLink = _pageService.CreatePage(name, slug, loggedIn, User.Identity.Name);
+            await _pageService.CreatePage(name, slug, loggedIn, User.Identity.Name);
 
-            return Json(new { success = true, redirect = pageLink });
+            return Json(new { success = true });
         }
         catch (AkValidationError error)
         {
@@ -70,9 +62,9 @@ public class EditController : Controller
 
     [Route("Page/{id:int}")]
     [Authorize(Roles = "SuperNintendo,Editor")]
-    public ActionResult Page(int id)
+    public async Task<ActionResult> Page(int id)
     {
-        var page = _db.Pages.Include(x => x.Revisions).ThenInclude(x => x.ModifiedBy).FirstOrDefault(x => x.Id == id);
+        var page = await _pageService.GetPageEditModel(id);
         if (page == null)
         {
             return Redirect("/Edit");
@@ -82,33 +74,12 @@ public class EditController : Controller
         return View("EditPage");
     }
 
-    private PageEditModel GetPageModel(int id)
-    {
-        var page = _db.Pages.Include(x => x.Revisions).ThenInclude(x => x.ModifiedBy).FirstOrDefault(x => x.Id == id);
-        if (page == null)
-        {
-            return null;
-        }
-        return new PageEditModel
-        {
-            Name = page.Name,
-            Slug = page.Slug,
-            PageId = page.Id,
-            LastModified = page.LastModified,
-            LoggedIn = page.LoggedIn,
-            LoggedOut = page.LoggedOut,
-            BalettOnly = page.BalettOnly,
-            Albums = _db.Albums.ToList(),
-            Widgets = page.WidgetsJson.GetWidgetsFromString(),
-            Revisions = page.Revisions?.SkipLast(1).Map()
-        };
-    }
 
     [HttpGet("Page/{id:int}/model")]
     [Authorize(Roles = "SuperNintendo,Editor")]
-    public ActionResult PageEditModel(int id)
+    public async Task<ActionResult> PageEditModel(int id)
     {
-        var model = GetPageModel(id);
+        var model = await _pageService.GetPageEditModel(id);
         if (model == null)
         {
             return NotFound();
@@ -130,55 +101,16 @@ public class EditController : Controller
         {
             return Json(new { success = false, message = "Felaktigt ifyllda fällt" });
         }
-
-        var page = _db.Pages.Include(x => x.Revisions).ThenInclude(x => x.ModifiedBy).FirstOrDefault(x => x.Id == id);
-        if (page == null)
+        try
         {
-            return Json(new { success = false, message = "Could not find page with id id" });
+            await _pageService.UpdatePage(model, id, User.Identity.Name);
+            var newModel = await _pageService.GetPageEditModel(id);
+            return Json(new { success = true, message = "Uppdaterade sidan framgångsrikt", newModel });
         }
-        var user = await _userManager.FindByNameAsync(User.Identity.Name);
-
-        if (page.Revisions == null)
+        catch (AkValidationError error)
         {
-            page.Revisions = new List<Revision>();
+            return Json(new { success = false, message = error.Message });
         }
-        else if (page.Revisions.Count > 5)
-        {
-            var oldestRevision = page.Revisions.OrderBy(x => x.Modified).FirstOrDefault();
-            if (oldestRevision != null) _db.Revisions.Remove(oldestRevision);
-        }
-
-        page.Revisions.Add(new Revision()
-        {
-            BalettOnly = model.BalettOnly,
-            LoggedIn = model.LoggedIn,
-            LoggedOut = model.LoggedOut,
-            Modified = DateTime.Now.ConvertToSwedishTime(),
-            ModifiedBy = user,
-            Name = model.Name,
-            Slug = model.Slug,
-            WidgetsJson = JsonConvert.SerializeObject(model.Widgets)
-        });
-
-        page.Name = model.Name;
-        page.Slug = model.Slug;
-        page.WidgetsJson = JsonConvert.SerializeObject(model.Widgets);
-        page.LoggedIn = model.LoggedIn;
-        page.LoggedOut = model.LoggedOut;
-        page.BalettOnly = model.BalettOnly;
-        page.LastModified = DateTime.Now.ConvertToSwedishTime();
-
-        _db.Log.Add(new LogItem()
-        {
-            Type = AkLogTypes.Page,
-            Modified = DateTime.Now.ConvertToSwedishTime(),
-            ModifiedBy = user,
-            Comment = "Sida med namn " + model.Name + " uppdaterad"
-        });
-
-        _db.SaveChanges();
-        var newModel = GetPageModel(id);
-        return Json(new { success = true, message = "Uppdaterade sidan framgångsrikt", newModel });
     }
 
     [Route("RemovePage/{id:int}")]
@@ -189,45 +121,7 @@ public class EditController : Controller
         {
             return Redirect("/Edit");
         }
-        var page = _db.Pages.Include(x => x.Revisions).FirstOrDefault(x => x.Id == pId);
-
-        if (page?.Revisions != null)
-        {
-            foreach (var rev in page.Revisions)
-            {
-                _db.Revisions.Remove(rev);
-            }
-        }
-
-        var topmenus = _db.Menus.Where(x => x.Link == page).ToList();
-        foreach (var m in topmenus)
-        {
-            m.Link = null;
-        }
-        var subMenus = _db.SubMenus.Where(x => x.Link == page).ToList();
-        foreach (var m in subMenus)
-        {
-            _db.SubMenus.Remove(m);
-        }
-
-        if (page == null)
-        {
-            return Redirect("/Edit");
-        }
-        var pageName = page.Name;
-
-        _db.Pages.Remove(page);
-
-        var user = await _userManager.FindByNameAsync(User.Identity.Name);
-        _db.Log.Add(new LogItem()
-        {
-            Type = AkLogTypes.Page,
-            Modified = DateTime.Now.ConvertToSwedishTime(),
-            ModifiedBy = user,
-            Comment = "Sida med namn " + pageName + " borttagen"
-        });
-
-        _db.SaveChanges();
+        await _pageService.RemovePage(pId, User.Identity.Name);
 
         return Redirect("/Edit");
     }
