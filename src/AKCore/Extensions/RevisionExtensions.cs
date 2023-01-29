@@ -20,7 +20,7 @@ namespace AKCore.Extensions
                 Name = revision.Name,
                 Slug = revision.Slug,
                 Widgets = revision.WidgetsJson.GetWidgetsFromString(),
-                MetaDescription = revision.MetaDescription,
+                MetaDescription = revision.MetaDescription ?? "",
                 LoggedIn = revision.LoggedIn,
                 LoggedOut = revision.LoggedOut,
                 BalettOnly = revision.BalettOnly,
