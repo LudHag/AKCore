@@ -1,4 +1,5 @@
 ﻿using AKCore.DataModel;
+using AKCore.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -42,6 +43,7 @@ namespace AKCore
 #endif
             services.AddControllersWithViews().AddNewtonsoftJson();
             services.AddSession();
+            services.AddTransient<PageService>();
             services.AddIdentity<AkUser, IdentityRole>()
                 .AddEntityFrameworkStores<AKContext>()
                 .AddDefaultTokenProviders();
