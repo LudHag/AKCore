@@ -3,6 +3,7 @@ using System;
 using AKCore.DataModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AKCore.Migrations
 {
     [DbContext(typeof(AKContext))]
-    partial class AKContextModelSnapshot : ModelSnapshot
+    [Migration("20230129221648_metadescrev")]
+    partial class metadescrev
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

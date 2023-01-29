@@ -159,6 +159,7 @@ public class PageService
             LoggedIn = model.LoggedIn,
             LoggedOut = model.LoggedOut,
             Modified = DateTime.Now.ConvertToSwedishTime(),
+            MetaDescription = model.MetaDescription,
             ModifiedBy = user,
             Name = model.Name,
             Slug = model.Slug,
