@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -18,12 +19,22 @@ namespace AKCore.DataModel
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+            builder.HasCharSet("utf8mb4");
             builder.Entity<AkUser>()
                 .HasMany(e => e.Roles)
                 .WithOne()
                 .HasForeignKey(e => e.UserId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<AkUser>()
+                .Property(x => x.Id)
+                .HasMaxLength(255);
+
+            builder.Entity<IdentityRole>()
+              .Property(x => x.Id)
+              .HasMaxLength(255);
+
         }
 
         public DbSet<Page> Pages { get; set; }
