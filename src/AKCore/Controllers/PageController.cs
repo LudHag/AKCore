@@ -1,90 +1,60 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using AKCore.DataModel;
-using AKCore.Models;
+﻿using AKCore.DataModel;
+using AKCore.Services;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using Microsoft.AspNetCore.Hosting;
+using System.Threading.Tasks;
 
-namespace AKCore.Controllers
+namespace AKCore.Controllers;
+
+public class PageController : Controller
 {
-    public class PageController : Controller
+    private readonly PageService _pageService;
+
+    public PageController(PageService pageService)
     {
-        private readonly AKContext _db;
+        _pageService = pageService;
+    }
 
-        public PageController(AKContext db)
+    public async Task<ActionResult> Page(string slug)
+    {
+        var loggedIn = User.Identity.IsAuthenticated;
+        var redirectLink = "/";
+        if (loggedIn) redirectLink = "/upcoming";
+
+        var page = await _pageService.GetPage(slug);
+
+        if (slug == "teapot")
         {
-            _db = db;
+            Response.StatusCode = 418;
+            return View("Teapot");
         }
-
-        public ActionResult Index()
+        else if (page == null)
         {
-            ViewData["Title"] = "Home";
-            var model = new PageRenderModel();
-
-            return View(model);
+            Response.StatusCode = 404;
+            return View("Error");
         }
-
-        public ActionResult Page(string slug)
+        if (page.LoggedIn && !loggedIn)
         {
-            var loggedIn = User.Identity.IsAuthenticated;
-            var redirectLink = "/";
-            if (loggedIn) redirectLink = "/upcoming";
-
-            Page page;
-            if (string.IsNullOrWhiteSpace(slug))
-            {
-                if (loggedIn)
-                {
-                    return Redirect(redirectLink);
-                }
-                page = _db.Pages.FirstOrDefault(x => x.Slug == "/");
-            }
-            else
-            {
-                page = _db.Pages.FirstOrDefault(x => x.Slug == ("/" + slug));
-            }
-            if (slug == "teapot")
-            {
-                Response.StatusCode = 418;
-                return View("Teapot");
-            }
-            else if (page == null)
-            {
-                Response.StatusCode = 404;
-                return View("Error");
-            }
-            if (page.LoggedIn && !loggedIn)
+            return Redirect(redirectLink);
+        }
+        if (page.LoggedOut && loggedIn)
+        {
+            return Redirect(redirectLink);
+        }
+        if (page.BalettOnly)
+        {
+            if (!(User.IsInRole(AkRoles.Balett) || User.IsInRole(AkRoles.SuperNintendo)))
             {
                 return Redirect(redirectLink);
             }
-            if (page.LoggedOut && loggedIn)
-            {
-                return Redirect(redirectLink);
-            }
-            if (page.BalettOnly)
-            {
-                if (!(User.IsInRole(AkRoles.Balett) || User.IsInRole(AkRoles.SuperNintendo)))
-                {
-                    return Redirect(redirectLink);
-                }
-            }
-            ViewData["Title"] = page.Name;
-            if(!string.IsNullOrWhiteSpace(page.MetaDescription))
-            {
-                ViewData["Description"] = page.MetaDescription;
-            }
-
-            var model = new PageRenderModel()
-            {
-                Widgets = page.WidgetsJson != null ? JsonConvert.DeserializeObject<List<Widget>>(page.WidgetsJson) : new List<Widget>()
-            };
-            for (var i = 0; i < model.Widgets.Count; i++)
-            {
-                model.Widgets[i].Id = i;
-            }
-
-            return View("Index", model);
         }
+        ViewData["Title"] = page.Name;
+        if (!string.IsNullOrWhiteSpace(page.MetaDescription))
+        {
+            ViewData["Description"] = page.MetaDescription;
+        }
+
+        var model = _pageService.GetRenderModel(page);
+
+        return View("Index", model);
     }
 }
