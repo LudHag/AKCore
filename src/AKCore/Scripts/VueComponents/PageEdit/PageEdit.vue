@@ -182,6 +182,7 @@ const save = () => {
   const error = document.getElementsByClassName(
     "alert-danger"
   )[0] as HTMLElement;
+
   postByObject(
     window.location.href,
     usedModel.value,

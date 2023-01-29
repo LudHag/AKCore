@@ -52,6 +52,7 @@ public class PageService
             BalettOnly = page.BalettOnly,
             Albums = _db.Albums.ToList(),
             Widgets = page.WidgetsJson.GetWidgetsFromString(),
+            MetaDescription = page.MetaDescription ?? "",
             Revisions = page.Revisions?.SkipLast(1).Map()
         };
     }
@@ -167,6 +168,7 @@ public class PageService
         page.Name = model.Name;
         page.Slug = model.Slug;
         page.WidgetsJson = JsonConvert.SerializeObject(model.Widgets);
+        page.MetaDescription = model.MetaDescription;
         page.LoggedIn = model.LoggedIn;
         page.LoggedOut = model.LoggedOut;
         page.BalettOnly = model.BalettOnly;

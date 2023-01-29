@@ -1,20 +1,19 @@
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using System;
 using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.Extensions.Hosting;
-using Microsoft.EntityFrameworkCore.Infrastructure;
+using System.Linq;
 
 namespace AKCore.DataModel
 {
     public class AKContext : IdentityDbContext<AkUser>
     {
         public AKContext(DbContextOptions<AKContext> options)
-          :base(options)
-        {}
+          : base(options)
+        { }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -74,6 +73,7 @@ namespace AKCore.DataModel
         [StringLength(450)]
         public string Slug { get; set; }
         public string WidgetsJson { get; set; }
+        public string MetaDescription { get; set; }
         public bool LoggedIn { get; set; }
         public bool LoggedOut { get; set; }
         public bool BalettOnly { get; set; }
@@ -274,5 +274,5 @@ namespace AKCore.DataModel
         public bool Archived { get; set; }
     }
 
-  
+
 }
