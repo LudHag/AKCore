@@ -60,32 +60,51 @@ if (recruitForm) {
   });
 }
 
-const allowedKeys = { 70: "f", 76: "l", 192: "ö", 74: "j", 84: "t" },
+const allowedKeys: { [key: number]: string } = {
+    70: "f",
+    76: "l",
+    192: "ö",
+    74: "j",
+    84: "t",
+  },
   code = ["f", "l", "ö", "j", "t"];
 let pos = 0;
-document.addEventListener("keydown", function (a) {
-  //@ts-ignore
-  const b = allowedKeys[a.keyCode],
-    c = code[pos];
-  b == c ? (pos++, pos == code.length && flojt()) : (pos = 0);
+
+document.addEventListener("keydown", function (event: KeyboardEvent) {
+  const key = allowedKeys[event.keyCode],
+    expectedKey = code[pos];
+  if (key === expectedKey) {
+    pos++;
+    if (pos === code.length) {
+      flojt();
+    }
+  } else {
+    pos = 0;
+  }
 });
 
 function flojt() {
-  const a = document;
-  let b = a.getElementById("__cornify_nodes");
-  //@ts-ignore
-  if (b) cornify_add();
-  else {
-    let c = null;
-    (c = a.createElement("div")),
-      (c.id = "__cornify_nodes"),
-      a.getElementsByTagName("body")[0].appendChild(c);
-    const d = [
+  const document: Document = window.document;
+  let nodesContainer: HTMLDivElement | null = document.getElementById(
+    "__cornify_nodes"
+  ) as HTMLDivElement;
+
+  if (nodesContainer) {
+    (window as any).cornify_add();
+  } else {
+    nodesContainer = document.createElement("div");
+    nodesContainer.id = "__cornify_nodes";
+    document.body.appendChild(nodesContainer);
+
+    const scriptUrls = [
       "https://cornify.com/js/cornify.js",
       "https://cornify.com/js/cornify_run.js",
     ];
-    for (let e = 0; e < d.length; e++)
-      //@ts-ignore
-      (b = a.createElement("script")), (b.src = d[e]), c.appendChild(b);
+
+    scriptUrls.forEach((url) => {
+      const script = document.createElement("script") as HTMLScriptElement;
+      script.src = url;
+      nodesContainer?.appendChild(script);
+    });
   }
 }
