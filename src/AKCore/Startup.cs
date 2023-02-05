@@ -44,6 +44,7 @@ namespace AKCore
             services.AddControllersWithViews().AddNewtonsoftJson();
             services.AddSession();
             services.AddTransient<PageService>();
+            services.AddTransient<AlbumService>();
             services.AddTransient<AdminLogService>();
 
             services.AddIdentity<AkUser, IdentityRole>()
