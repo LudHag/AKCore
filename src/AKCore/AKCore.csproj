@@ -7,6 +7,7 @@
     <AssemblyName>AKCore</AssemblyName>
     <PackageId>AKCore</PackageId>
     <RuntimeIdentifiers>win10-x64</RuntimeIdentifiers>
+	<TypeScriptCompileBlocked>True</TypeScriptCompileBlocked>
   </PropertyGroup>
 
   <ItemGroup>
