@@ -92,6 +92,7 @@ namespace AKCore.DataModel
         public const string Busskamerer = "Busskamerer";
         public const string Instrumentkamerer = "Instrumentkamerer";
         public const string Kamerakamerer = "Kamerakamerer";
+        public const string Kramkamerer = "Kramkamerer";
         public const string Myskamerer = "Myskamerer";
         public const string Musikkamerer = "Musikkamerer";
         public const string Nintendokamerer = "Nintendokamerer";
@@ -113,6 +114,7 @@ namespace AKCore.DataModel
             Busskamerer,
             Instrumentkamerer,
             Kamerakamerer,
+            Kramkamerer,
             Myskamerer,
             Musikkamerer,
             Nintendokamerer,
