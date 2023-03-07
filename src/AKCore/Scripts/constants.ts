@@ -6,6 +6,7 @@
   "Busskamerer",
   "Instrumentkamerer",
   "Kamerakamerer",
+  "Kramkamerer",
   "Myskamerer",
   "Musikkamerer",
   "Nintendokamerer",
