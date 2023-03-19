@@ -1,4 +1,5 @@
-﻿using AKCore.DataModel;
+﻿using AKCore.Clients;
+using AKCore.DataModel;
 using AKCore.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -47,6 +48,9 @@ namespace AKCore
             services.AddTransient<PageService>();
             services.AddTransient<AlbumService>();
             services.AddTransient<AdminLogService>();
+
+            var apiSecret = Configuration["OpenApiSecret"];
+            services.AddTransient(x => new OpenApiClient(apiSecret ?? ""));
 
             services.AddIdentity<AkUser, IdentityRole>()
                 .AddEntityFrameworkStores<AKContext>()
