@@ -54,7 +54,7 @@ public class AlbumService
         return album;
     }
 
-    private async Task<Album> GetAlbum(int albumId)
+    public async Task<Album> GetAlbum(int albumId)
     {
         var album = await _db.Albums.Include(x => x.Tracks).FirstOrDefaultAsync(x => x.Id == albumId);
         if (album == null)
