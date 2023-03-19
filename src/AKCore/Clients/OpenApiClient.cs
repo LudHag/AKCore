@@ -64,10 +64,3 @@ public class OpenApiClient
         return serializer.Deserialize<T>(jsonTextReader);
     }
 }
-
-
-//{
-//     "model": "gpt-3.5-turbo",
-//     "messages": [{"role": "user", "content": "Write a short description in swedish for an album with these songs: 01 Eye of the Tiger och Svenskt flyg\r\n02 Copacabana\r\n03 S\u00E4llskapsresan I\r\n04 Dance Ten Looks Three\r\n05 S\u00E4llskapsresan II\r\n06 Tivolivisan\r\n07 Det b\u00F6rjar verka k\u00E4rlek banne mig\r\n08 S\u00E4llskapsresan III\r\n09 Stray cat\r\n10 S\u00E4llskapsresan IV\r\n11 Bondj\u00E4vel\r\n12 Willie the weeper\r\n13 Cantina band\r\n14 What a feeling och Fame\r\n15 Charlestone\r\n16 Balettfobi\r\n17 La Cumparasita\r\n18 Var ska vi sova i natt\r\n19 Fiesta\r\n20 The stripper\r\n21 Tiger rag"}],
-//     "temperature": 0.7
-//   }
