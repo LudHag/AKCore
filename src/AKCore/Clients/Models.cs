@@ -7,17 +7,14 @@ public class OpenApiRequestModel
 {
     [JsonProperty("model")]
     public string Model { get; set; }
-    [JsonProperty("messages")]
-    public IEnumerable<OpenApiMessageModel> Messages { get; set; }
+    [JsonProperty("prompt")]
+    public string Prompt { get; set; }
     [JsonProperty("temperature")]
     public double Temperature { get; set; }
-}
-public class OpenApiMessageModel
-{
-    [JsonProperty("role")]
-    public string Role { get; set; }
-    [JsonProperty("content")]
-    public string Content { get; set; }
+    [JsonProperty("n")]
+    public int Number { get; set; }
+    [JsonProperty("max_tokens")]
+    public int MaxTokens { get; set; }
 }
 
 
@@ -28,7 +25,7 @@ public class OpenApiResponseModel
 }
 public class OpenApiChoiseModel
 {
-    [JsonProperty("message")]
-    public OpenApiMessageModel Message { get; set; }
+    [JsonProperty("text")]
+    public string Text { get; set; }
 }
 

@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -18,35 +17,33 @@ public class OpenApiClient
         _token = token;
     }
 
-    public async Task<string> GetText(IEnumerable<string> queries)
+    public async Task<string> GetText(string query)
     {
         using var client = new HttpClient();
-        client.BaseAddress = new Uri("https://api.openai.com/v1/chat/completions");
+        client.BaseAddress = new Uri("https://api.openai.com/v1/completions");
         client.DefaultRequestHeaders.Accept.Clear();
         client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
 
-        var requestBody = GetRequest(queries);
+        var requestBody = GetRequest(query);
 
         var result = await client.PostAsync("", requestBody);
         var errorBody = await result.Content.ReadAsStringAsync();
         var parsedResponse = await GetResponse<OpenApiResponseModel>(result);
 
-        return parsedResponse.Choices.First().Message.Content.Trim();
+        return parsedResponse.Choices.First().Text.Trim();
     }
 
-    private static StringContent GetRequest(IEnumerable<string> queries)
+    private static StringContent GetRequest(string query)
     {
 
         var request = new OpenApiRequestModel
         {
-            Model = "gpt-3.5-turbo",
-            Messages = queries.Select(query => new OpenApiMessageModel
-            {
-                Role = "user",
-                Content = query
-            }),
-            Temperature = 0.7
+            Model = "text-davinci-003",
+            Prompt = query,
+            Temperature = 0.7,
+            Number = 1,
+            MaxTokens = 240,
         };
 
         var json = JsonConvert.SerializeObject(request);

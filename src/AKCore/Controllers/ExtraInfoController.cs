@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -41,17 +40,13 @@ public class ExtraInfoController : Controller
 
         var album = await _albumService.GetAlbum(id);
 
-        var trackNames = string.Join(" ,", album.Tracks.Select(x => x.Name));
+        var trackNames = string.Join("\\n", album.Tracks.Select(x => x.Number + ". " + (x.FileName ?? x.Name)));
 
-        var albumData = @$"Album has name {album.Name} with tracknames: {trackNames}.";
-        var query = "How can you describe the album and the type of music genres featured on its tracks for the listener in swedish?";
+        var query = $@"Please provide a short description in swedish describing notable tracks and themes for the album titled {album.Name} with the following tracklist:
+                        {trackNames}";
 
 
-        albumInfo = await _openApiClient.GetText(new List<string>()
-        {
-            albumData,
-            query
-        });
+        albumInfo = await _openApiClient.GetText(query);
 
         _memoryCache.Set($"albuminfo-{id}", albumInfo, TimeSpan.FromDays(5));
 
