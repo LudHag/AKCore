@@ -2,6 +2,17 @@
 
 @if (Model.Albums != null)
 {
+    <script>
+    @if (User.Identity.IsAuthenticated)
+    {
+        @: var loggedIn = true;
+    }
+    else
+    {
+        @: var loggedIn = false;
+    }
+    </script>
+
     <div class="row">
         <div class="col-sm-12">
             <div id="music-app"></div>

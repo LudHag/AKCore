@@ -47,8 +47,11 @@ if (document.getElementById("media-app")) {
   createApp(MediaApp).mount("#media-app");
 }
 
+declare const loggedIn: boolean;
 if (document.getElementById("music-app")) {
-  createApp(MusicApp).mount("#music-app");
+  createApp(MusicApp, {
+    loggedIn: loggedIn,
+  }).mount("#music-app");
 }
 
 if (document.getElementById("mailbox")) {
