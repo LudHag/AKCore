@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
+using System.Threading.Tasks;
 
 namespace AKCore.Controllers;
 
@@ -22,9 +23,9 @@ public class ExtraInfoController : Controller
 
     [HttpGet]
     [Route("ProfileData")]
-    public string GetInfo()
+    public async Task<string> GetInfo()
     {
 
-        return _openApiClient.GetText();
+        return await _openApiClient.GetText();
     }
 }
