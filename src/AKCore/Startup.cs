@@ -43,6 +43,7 @@ namespace AKCore
 #endif
             services.AddControllersWithViews().AddNewtonsoftJson();
             services.AddSession();
+            services.AddMemoryCache();
             services.AddTransient<PageService>();
             services.AddTransient<AlbumService>();
             services.AddTransient<AdminLogService>();
