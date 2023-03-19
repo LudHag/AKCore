@@ -110,6 +110,20 @@
         <h2>Slavkamererer</h2>
         <div class="row">
             <div class="col-sm-4">
+                Arsenalkamerer
+            </div>
+            <div class="col-sm-4">
+                @foreach (var user in Model.Users[AkPoster.Arsenalkamerer])
+                {
+                    <p>@user.GetName()</p>
+                }
+            </div>
+            <div class="col-sm-4">
+                Ansvarig för orkesterns instrument och reparation av dessa
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
                 Busskamerer
             </div>
             <div class="col-sm-4">
@@ -162,20 +176,6 @@
             </div>
             <div class="col-sm-4">
                 Ansvarig för att det ska vara mysigt i hålan(dvs toapapper och sånt)
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-4">
-                Instrumentkamerer
-            </div>
-            <div class="col-sm-4">
-                @foreach (var user in Model.Users[AkPoster.Instrumentkamerer])
-                {
-                    <p>@user.GetName()</p>
-                }
-            </div>
-            <div class="col-sm-4">
-                Ansvarig för orkesterns instrument
             </div>
         </div>
         <div class="row">
