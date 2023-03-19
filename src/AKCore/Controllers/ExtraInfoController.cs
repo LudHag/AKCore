@@ -30,12 +30,12 @@ public class ExtraInfoController : Controller
 
     [HttpGet]
     [Route("GetAlbumInfo")]
-    public async Task<string> GetAlbumInfo(int id)
+    public async Task<ActionResult> GetAlbumInfo(int id)
     {
         var hasCache = _memoryCache.TryGetValue<string>($"albuminfo-{id}", out var albumInfo);
         if (hasCache)
         {
-            return albumInfo;
+            return Json(new { albumInfo });
         }
 
 
@@ -44,7 +44,7 @@ public class ExtraInfoController : Controller
         var trackNames = string.Join(" ,", album.Tracks.Select(x => x.Name));
 
         var albumData = @$"Album has name {album.Name} with tracknames: {trackNames}.";
-        var query = "How can you describe the album and the type of music featured on its tracks for the listener in swedish?";
+        var query = "How can you describe the album and the type of music genres featured on its tracks for the listener in swedish?";
 
 
         albumInfo = await _openApiClient.GetText(new List<string>()
@@ -56,6 +56,6 @@ public class ExtraInfoController : Controller
         _memoryCache.Set($"albuminfo-{id}", albumInfo, TimeSpan.FromDays(5));
 
 
-        return albumInfo;
+        return Json(new { albumInfo });
     }
 }
