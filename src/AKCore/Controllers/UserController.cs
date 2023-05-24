@@ -73,7 +73,7 @@ namespace AKCore.Controllers
                     Roles = roles,
                     Posts = model.Posts[user.UserName],
                     Active = roles.Any(),
-                    LastSignedIn = user.LastSignedIn.ToShortDateString()
+                    LastSignedIn = (user.LastSignedIn != DateTime.MinValue) ? user.LastSignedIn.ToString("d") : ""
                 });
             }
 
