@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using AKCore.DataModel;
 
@@ -27,5 +28,6 @@ namespace AKCore.Models
         public bool Active { get; set; }
         public IEnumerable<string> Roles;
         public IEnumerable<string> Posts;
+        public string LastSignedIn { get; set; }
     }
 }

@@ -1,7 +1,9 @@
 ﻿using AKCore.DataModel;
+using AKCore.Extensions;
 using AKCore.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace AKCore.Controllers;
@@ -33,6 +35,9 @@ public class AccountController : Controller
 
             if (result.Succeeded)
             {
+                var user = await _userManager.FindByNameAsync(model.Username);
+                user.LastSignedIn = DateTime.Now.ConvertToSwedishTime();
+                await _userManager.UpdateAsync(user);
                 return Json(new { success = true });
             }
             if (result.IsLockedOut)

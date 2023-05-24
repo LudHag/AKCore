@@ -72,7 +72,8 @@ namespace AKCore.Controllers
                     SlavPoster = user.SlavPoster,
                     Roles = roles,
                     Posts = model.Posts[user.UserName],
-                    Active = roles.Any()
+                    Active = roles.Any(),
+                    LastSignedIn = user.LastSignedIn.ToShortDateString()
                 });
             }
 
