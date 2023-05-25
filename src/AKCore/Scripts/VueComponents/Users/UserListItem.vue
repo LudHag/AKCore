@@ -18,6 +18,7 @@
           ></a>
         </span>
       </td>
+      <td> <p :class="{ inactive: userInactive }">{{ user.lastSignedIn }} </p></td>
       <td class="item-actions">
         <a
           class="btn remove-user glyphicon glyphicon-remove"
@@ -239,6 +240,12 @@ const success = document.getElementsByClassName(
   "alert-success"
 )[0] as HTMLElement;
 
+//logic for setting last signed in to red if older than one year
+const userInactive = ref(false);
+const date = new Date();
+date.setFullYear(date.getFullYear() - 1);
+userInactive.value = Date.parse(props.user.lastSignedIn) - date.valueOf() < 0;
+
 watch(
   () => props.user,
   (user) => {
@@ -392,6 +399,10 @@ const roles = computed(() => {
 }
 .item-actions {
   text-align: right;
+}
+
+.inactive { 
+  color: orangered;
 }
 
 .hover-tooltip {

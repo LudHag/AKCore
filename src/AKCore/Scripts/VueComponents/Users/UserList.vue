@@ -13,6 +13,7 @@
           <th>Namn</th>
           <th>Användarnamn</th>
           <th>Roller</th>
+          <th>Senast inloggad</th>
           <th></th>
         </tr>
       </thead>
