@@ -1,5 +1,5 @@
 ﻿<template>
-  <div id="user-list">
+  <div id="user-list" class="user-list-scroll">
     <div
       class="alert alert-success update-password-success"
       ref="updatePasswordSuccess"
@@ -90,6 +90,11 @@ const newPasswordSuccess = () => {
 table {
   table-layout: auto;
 }
+
+.user-list-scroll { 
+  overflow-x: auto;
+}
+
 table .role {
   cursor: pointer;
 }

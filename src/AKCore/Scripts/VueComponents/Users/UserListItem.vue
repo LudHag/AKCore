@@ -18,7 +18,7 @@
           ></a>
         </span>
       </td>
-      <td> <p :class="{ inactive: userInactive }">{{ user.lastSignedIn }} </p></td>
+      <td> <span :class="{ inactive: userInactive }">{{ user.lastSignedIn }} </span></td>
       <td class="item-actions">
         <a
           class="btn remove-user glyphicon glyphicon-remove"

@@ -1,6 +1,6 @@
 ﻿<template>
-  <div class="row" id="user-app">
-    <div class="col-md-9">
+  <div id="user-app">
+    <div class="col-md-12">
       <div class="form-inline ak-search">
         <div class="form-group">
           <input
@@ -10,12 +10,24 @@
             v-model="searchPhrase"
           />
         </div>
-        <div class="form-group">
+        <div class="form-group indent">
           <div class="checkbox">
             <label>
               <input type="checkbox" v-model="inactive" /> Visa inaktiva
               medlemmar
             </label>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-md-3">
+            <a
+              class="btn btn-default"
+              @click.prevent="createNewUser"
+              href="#"
+              role="button"
+            >
+              Lägg till ny användare
+            </a>
           </div>
         </div>
         <div class="spinner-container" v-if="loading">
@@ -34,16 +46,6 @@
         @updateuserprop="updateUserProp"
         @removeuser="removeUser"
       />
-    </div>
-    <div class="col-md-3">
-      <a
-        class="btn btn-default"
-        @click.prevent="createNewUser"
-        href="#"
-        role="button"
-      >
-        Lägg till ny användare
-      </a>
     </div>
     <edit-user-modal
       :show-modal="showUserModal"
