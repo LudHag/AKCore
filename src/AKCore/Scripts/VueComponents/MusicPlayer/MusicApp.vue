@@ -56,7 +56,7 @@ const playing = ref(false);
 const aiDesc = ref<string | null>(null);
 const showingDesc = ref(false);
 
-const prop = defineProps<{
+defineProps<{
   loggedIn: boolean;
 }>();
 
