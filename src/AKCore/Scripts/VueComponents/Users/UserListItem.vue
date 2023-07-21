@@ -3,7 +3,8 @@
     <tr class="clickable hover-grey" @click.prevent="expanded = !expanded">
       <td>{{ user.fullName }}</td>
       <td>{{ user.userName }}</td>
-      <td class="roles">
+      <td>
+        <div class="roles"> 
         <span
           v-for="role in user.roles"
           :key="role"
@@ -17,8 +18,9 @@
             @click.prevent.stop="removeRole(role)"
           ></a>
         </span>
+      </div>
       </td>
-      <td> <p :class="{ inactive: userInactive }">{{ user.lastSignedIn }} </p></td>
+      <td> <span :class="{ inactive: userInactive }">{{ user.lastSignedIn }} </span></td>
       <td class="item-actions">
         <a
           class="btn remove-user glyphicon glyphicon-remove"
@@ -56,14 +58,14 @@
                   @submit.prevent="saveLastEarned"
                 >
                   <div class="form-group">
-                    <strong>Senast förtjänade medalj: {{ user.medal }}</strong>
+                    <strong class="spacing-right">Senast förtjänade medalj: {{ user.medal }}</strong>
                     <input
                       type="hidden"
                       name="userName"
                       :value="user.userName"
                     />
                     <select
-                      class="form-control input-sm"
+                      class="form-control input-sm spacing-right"
                       name="medal"
                       :value="user.medal"
                     >
@@ -90,7 +92,7 @@
                   @submit.prevent="saveLastGiven"
                 >
                   <div class="form-group">
-                    <strong>
+                    <strong class="spacing-right">
                       Senast utdelad medalj: {{ user.givenMedal }}
                     </strong>
                     <input
@@ -99,7 +101,7 @@
                       :value="user.userName"
                     />
                     <select
-                      class="form-control input-sm"
+                      class="form-control input-sm spacing-right"
                       name="medal"
                       :value="user.givenMedal"
                     >
@@ -155,8 +157,8 @@
                       name="UserName"
                       :value="user.userName"
                     />
-                    <label>Lägg till roll: </label>
-                    <select class="form-control input-sm" name="Role">
+                    <label class="spacing-right">Lägg till roll: </label>
+                    <select class="form-control input-sm spacing-right" name="Role">
                       <option value="">Välj roll</option>
                       <option v-for="role in roles" :key="role" :value="role">
                         {{ role }}
@@ -197,7 +199,7 @@
                     <button
                       type="reset"
                       @click.prevent="clearPosts"
-                      class="btn btn-primary input-sm"
+                      class="btn btn-primary input-sm spacing-right"
                     >
                       Rensa
                     </button>
