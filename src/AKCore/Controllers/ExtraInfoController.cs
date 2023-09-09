@@ -56,4 +56,24 @@ public class ExtraInfoController : Controller
 
         return Json(new { albumInfo });
     }
+
+    [HttpPost]
+    [Route("Translate")]
+    public async Task<ActionResult> GetTranslatedText(string text)
+    {
+
+        var query = $@"Please translate the following text from swedish to english:
+                    ***
+                    {text}
+                    ***";
+
+        var data = await _openApiClient.GetText(new List<string>()
+        {
+            query
+        });
+
+
+
+        return Json(new { data });
+    }
 }

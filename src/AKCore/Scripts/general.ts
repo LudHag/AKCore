@@ -108,3 +108,14 @@ function flojt() {
     });
   }
 }
+
+const languageButton = document.getElementById("language-change");
+
+if (languageButton) {
+  languageButton.addEventListener("click", (e) => {
+    e.preventDefault();
+    const lang = (e.target as HTMLElement).classList[0];
+    document.cookie = `language=${lang};path=/`;
+    window.location.reload();
+  });
+}
