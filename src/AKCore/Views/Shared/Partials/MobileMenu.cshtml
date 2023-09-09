@@ -4,7 +4,7 @@
     {
         <li>
             @if (string.IsNullOrWhiteSpace(m.Link))
-                {
+            {
                 <a>
                     @m.Name
                     @if (m.Children.Count > 0)
@@ -27,7 +27,7 @@
                 </a>
             }
             @if (m.Children.Count > 0)
-                {
+            {
                 <ul class="mob-subnav" id="subnav-@m.Id">
                     @foreach (var c in m.Children)
                     {
@@ -54,7 +54,7 @@
     {
         <li>
             <a href="#" class="login">
-                Logga in
+                @t.Get(TranslationDomains.Header, "LogIn")
             </a>
         </li>
     }
@@ -63,8 +63,8 @@
         <li>
             <a href="/Profile">@Model.UserName</a>
         </li>
-            <li>
-                <a href="/Account/Logout" class="logout">Logga ut</a>
-            </li>
+        <li>
+            <a href="/Account/Logout" class="logout">@t.Get(TranslationDomains.Header, "LogOut")</a>
+        </li>
     }
 </ul>
