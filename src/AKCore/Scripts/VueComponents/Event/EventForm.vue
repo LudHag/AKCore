@@ -8,7 +8,7 @@
     <div class="alert alert-danger" ref="error" style="display: none"></div>
     <div class="alert alert-success" ref="success" style="display: none"></div>
     <div class="form-group">
-      <label>{{ t("comming-to") }}:</label>
+      <label>{{ t("coming-to") }}:</label>
       <div class="indent">
         <div class="radio">
           <label>

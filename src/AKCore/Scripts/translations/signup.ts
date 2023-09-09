@@ -7,9 +7,9 @@ export const signupTranslations: Record<string, Translation> = {
     english: "Has instrument",
   },
   "has-car": { swedish: "Har bil", english: "Has car" },
-  "comming-to": {
+  "coming-to": {
     swedish: "Kommer till",
-    english: "Comming to",
+    english: "Coming to",
   },
   direct: {
     swedish: "Direkt",

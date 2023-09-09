@@ -2,10 +2,10 @@
   <div>
     <div id="signup-list">
       <p class="can-come">
-        {{ t("comming", "common") }}: {{ coming.length }} -
-        {{ t("not-comming", "common") }}: {{ notComing.length }}
+        {{ t("coming", "common") }}: {{ coming.length }} -
+        {{ t("not-coming", "common") }}: {{ notComing.length }}
       </p>
-      <h2>{{ t("comming", "common") }}</h2>
+      <h2>{{ t("coming", "common") }}</h2>
 
       <div class="row signup-row" :key="signup.id" v-for="signup in coming">
         <div class="col-sm-2 signup-element">
@@ -27,7 +27,7 @@
           <p>{{ signup.comment }}</p>
         </div>
       </div>
-      <h2>{{ t("not-comming", "common") }}</h2>
+      <h2>{{ t("not-coming", "common") }}</h2>
       <div class="row signup-row" :key="signup.id" v-for="signup in notComing">
         <div class="col-sm-3 signup-element">
           <p>{{ cleanName(signup.personName) }}</p>

@@ -37,9 +37,9 @@
               {{ t("sign-up") }}
             </a>
             <p class="modal-comming" v-if="signupable">
-              {{ event.coming }} {{ t("comming", "common") }} -
+              {{ event.coming }} {{ t("coming", "common") }} -
               {{ event.notComing }}
-              {{ t("not-comming", "common") }}
+              {{ t("not-coming", "common") }}
             </p>
             <p class="modal-stand" v-if="event.stand">
               {{ t("type-of-play") }}: {{ event.stand }}

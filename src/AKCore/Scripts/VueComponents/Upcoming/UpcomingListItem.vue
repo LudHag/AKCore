@@ -68,9 +68,9 @@
           {{ t("sign-up") }}
         </a>
         <p class="hidden-xs">
-          {{ event.coming }} {{ t("comming", "common") }} -
+          {{ event.coming }} {{ t("coming", "common") }} -
           {{ event.notComing }}
-          {{ t("not-comming", "common") }}
+          {{ t("not-coming", "common") }}
         </p>
       </template>
       <p v-if="loggedIn && event.type === 'Spelning' && event.stand">
