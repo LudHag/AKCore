@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AKCore.DataModel;
+using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 
 namespace AKCore.Services;
@@ -6,17 +7,19 @@ namespace AKCore.Services;
 
 public enum TranslationDomains
 {
+    Common,
     Header,
-    Hire,
+    Widgets,
     ErrorPages,
-    Posts
+    Posts,
+    Instruments
 }
 public record Translation(string Swedish, string English);
 public record DomainTranslations(Dictionary<string, string> translations);
 
 public class TranslationsService
 {
-    private bool isEnglish;
+    private readonly bool isEnglish;
     public TranslationsService(IHttpContextAccessor httpContextAccessor)
     {
         var languageCookie = httpContextAccessor.HttpContext.Request.Cookies["language"];
@@ -33,8 +36,20 @@ public class TranslationsService
         return isEnglish;
     }
 
-    private static readonly Dictionary<string, Translation> hireTranslations = new() {
-        { "HireUs", new Translation("Vill du anlita oss?", "Do you want to hire us?") }
+    private static readonly Dictionary<string, Translation> commonTranslations = new() {
+        { "FirstName", new Translation("Förnamn", "First name") },
+        { "LastName", new Translation("Efternamn", "Last name") },
+        { "Email", new Translation("Epost", "Email") },
+        { "Phone", new Translation("Telefonnummer", "Telephone number") },
+        { "SelectInstrument", new Translation("Välj instrument", "Select instrument") },
+    };
+
+    private static readonly Dictionary<string, Translation> widgetsTranslations = new() {
+        { "HireUs", new Translation("Vill du anlita oss?", "Do you want to hire us?") },
+        { "JoinUs", new Translation("Vill du spela eller dansa med oss?", "Do you want to play or dance with us?") },
+        { "AnswerWithNumber", new Translation("Svara med siffra", "Answer with a number") },
+        { "BotQuestion", new Translation("Vad är 1 + 2?", "What is 1 + 2?") },
+        { "Join", new Translation("Gå med", "Join") },
     };
     private static readonly Dictionary<string, Translation> headerTranslations = new() {
         { "LogIn", new Translation("Logga in", "Log in") },
@@ -46,6 +61,25 @@ public class TranslationsService
         { "WrongPage", new Translation("Hallå, det här är fel sida dumbom", "Hello, this is the wrong page you nitwit") },
         { "NothingToSee", new Translation("Inget att se här...", "Nothing to see here...") },
     };
+
+
+    private static readonly Dictionary<string, Translation> instrumentTranslations = new() {
+        { AkInstruments.Altsax, new Translation("Altsax", "Alto sax") },
+        { AkInstruments.Balett, new Translation("Balett", "Ballet") },
+        { AkInstruments.Banjo, new Translation("Banjo", "Banjo") },
+        { AkInstruments.Barytonsax, new Translation("Barytonsax", "Baritone sax") },
+        { AkInstruments.Euphonium, new Translation("Euphonium", "Euphonium") },
+        { AkInstruments.Flute, new Translation("Flöjt", "Flute") },
+        { AkInstruments.Horn, new Translation("Horn", "Horn") },
+        { AkInstruments.Klarinett, new Translation("Klarinett", "Clarinet") },
+        { AkInstruments.Oboe, new Translation("Oboe", "Oboe") },
+        { AkInstruments.Slagverk, new Translation("Slagverk", "Drums") },
+        { AkInstruments.Tenorsax, new Translation("Tenorsax", "Tenor sax") },
+        { AkInstruments.Trombon, new Translation("Trombon", "Trombone") },
+        { AkInstruments.Trumpet, new Translation("Trumpet", "Trumpet") },
+        { AkInstruments.Tuba, new Translation("Tuba", "Tuba") },
+    };
+
 
     private static readonly Dictionary<string, Translation> postsTranslations = new() {
         { "ÖK", new Translation("Ordförande", "Chairman") },
@@ -69,11 +103,15 @@ public class TranslationsService
         { "Sponsor", new Translation("Ansvarar för att hitta sponsorer", "Responsible for finding sponsors") },
     };
 
+
+
     private static readonly Dictionary<TranslationDomains, Dictionary<string, Translation>> translations = new() {
-       { TranslationDomains.Hire, hireTranslations },
-       { TranslationDomains.Header, headerTranslations },
-       { TranslationDomains.ErrorPages, errorTranslations },
-       { TranslationDomains.Posts, postsTranslations },
+        { TranslationDomains.Common, commonTranslations},
+        { TranslationDomains.Widgets, widgetsTranslations },
+        { TranslationDomains.Header, headerTranslations },
+        { TranslationDomains.ErrorPages, errorTranslations },
+        { TranslationDomains.Posts, postsTranslations },
+        { TranslationDomains.Instruments, instrumentTranslations },
     };
 
 }
