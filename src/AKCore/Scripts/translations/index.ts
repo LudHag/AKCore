@@ -4,13 +4,15 @@ import { loginTranslations } from "./login";
 import { memberlistTranslations } from "./memberlist";
 import { Translation } from "./models";
 import { profileTranslations } from "./profile";
+import { upcomingTranslations } from "./upcoming";
 
 export type TranslationDomain =
   | "login"
   | "common"
   | "profile"
   | "memberlist"
-  | "instruments";
+  | "instruments"
+  | "upcoming";
 
 const translations: Record<TranslationDomain, Record<string, Translation>> = {
   login: loginTranslations,
@@ -18,6 +20,7 @@ const translations: Record<TranslationDomain, Record<string, Translation>> = {
   profile: profileTranslations,
   memberlist: memberlistTranslations,
   instruments: instrumentsTranslations,
+  upcoming: upcomingTranslations,
 };
 
 const getCookie = (name: string) => {
@@ -28,9 +31,12 @@ const getCookie = (name: string) => {
   }
 };
 
-const isEnglish = getCookie("language") === "EN";
+export const isEnglish = getCookie("language") === "EN";
 
 export const translate = (domain: TranslationDomain, key: string) => {
   const translation = translations[domain][key];
+  if (!translation) {
+    throw new Error(`No translation found for ${domain}.${key}`);
+  }
   return isEnglish ? translation?.english : translation?.swedish;
 };

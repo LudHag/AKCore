@@ -8,7 +8,7 @@
             @click.prevent="showIcal = !showIcal"
             class="fa fa-calendar"
           >
-            Ical-länk
+            {{ t("ical-link") }}
           </a>
           <div class="input-group ical-copy" v-if="showIcal">
             <input
@@ -34,7 +34,7 @@
             @click.prevent="calendarView = false"
             :class="{ active: !calendarView }"
           >
-            Lista
+            {{ t("list") }}
           </a>
           <a
             href="#"
@@ -42,7 +42,7 @@
             @click.prevent="calendarView = true"
             :class="{ active: calendarView }"
           >
-            Månad
+            {{ t("month") }}
           </a>
         </div>
       </div>
@@ -79,6 +79,7 @@ import UpcomingCalendar from "./UpcomingCalendar.vue";
 import EventApp from "../Event/EventApp.vue";
 import { UpcomingYears } from "./models";
 import { ref, nextTick, onMounted } from "vue";
+import { TranslationDomain, translate } from "../../translations";
 
 const props = defineProps<{
   eventId: number;
@@ -162,6 +163,9 @@ onMounted(() => {
     }
   };
 });
+const t = (key: string, domain: TranslationDomain = "upcoming") => {
+  return translate(domain, key);
+};
 </script>
 <style lang="scss" scoped>
 .calendar-actions {

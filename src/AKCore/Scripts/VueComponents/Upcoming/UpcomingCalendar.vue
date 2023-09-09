@@ -51,6 +51,7 @@ import Constants from "../../constants";
 import CalendarDay from "./CalendarDay.vue";
 import EventInfoModal from "./EventInfoModal.vue";
 import { UpcomingYears, UpcomingEvent } from "./models";
+import { isEnglish } from "../../translations";
 
 const timeDay = 24 * 60 * 60 * 1000;
 const today = new Date();
@@ -104,7 +105,9 @@ const addDays = (date: Date, days: number): Date => {
   return dat;
 };
 
-const days = Constants.DAYS;
+const days = computed(() => {
+  return isEnglish ? Constants.DAYS_ENG : Constants.DAYS;
+});
 
 const monthEvents = computed(() => {
   const yearEvents = props.years[year.value];
@@ -116,7 +119,9 @@ const monthEvents = computed(() => {
 });
 
 const thisMonthName = computed(() => {
-  return Constants.MONTHS[month.value];
+  return isEnglish
+    ? Constants.MONTHS_ENG[month.value]
+    : Constants.MONTHS[month.value];
 });
 
 const firstWeekDays = computed(() => {

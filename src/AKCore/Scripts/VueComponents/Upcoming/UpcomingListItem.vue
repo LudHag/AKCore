@@ -15,7 +15,9 @@
     </div>
     <div class="col-sm-4 col-xs-6">
       <template v-if="loggedIn">
-        <p v-if="event.halanTime">Samling i hålan: {{ event.halanTime }}</p>
+        <p v-if="event.halanTime">
+          {{ t("gather-in-hole") }}: {{ event.halanTime }}
+        </p>
         <p
           v-if="
             event.thereTime &&
@@ -24,10 +26,10 @@
               event.type === 'Athenrep')
           "
         >
-          Samling på plats: {{ event.thereTime }}
+          {{ t("gather-there") }}: {{ event.thereTime }}
         </p>
         <p v-if="event.startsTime && event.type === 'Spelning'">
-          Spelning startar: {{ event.startsTime }}
+          {{ t("concert-starts") }}: {{ event.startsTime }}
         </p>
       </template>
       <template v-if="!loggedIn">
@@ -38,7 +40,7 @@
     <div class="col-sm-4 col-xs-12">
       <template v-if="!loggedIn">
         <p v-if="event.startsTime && !loggedIn">
-          Spelning startar: {{ event.startsTime }}
+          {{ t("concert-starts") }}: {{ event.startsTime }}
         </p>
       </template>
       <template
@@ -55,7 +57,7 @@
           @click.prevent.stop="openSignup"
           :href="signupUrl"
         >
-          Anmäld ({{ event.signupState }})
+          {{ t("signed-up") }} ({{ event.signupState }})
         </a>
         <a
           class="signup-link"
@@ -63,14 +65,15 @@
           @click.prevent.stop="openSignup"
           :href="signupUrl"
         >
-          Anmäl
+          {{ t("sign-up") }}
         </a>
         <p class="hidden-xs">
-          {{ event.coming }} Kommer - {{ event.notComing }} Kommer inte
+          {{ event.coming }} {{ t("comming") }} - {{ event.notComing }}
+          {{ t("not-comming") }}
         </p>
       </template>
       <p v-if="loggedIn && event.type === 'Spelning' && event.stand">
-        Speltyp: {{ event.stand }}
+        {{ t("type-of-play") }}: {{ event.stand }}
       </p>
       <p
         v-if="
@@ -80,7 +83,7 @@
             event.type === 'Athenrep')
         "
       >
-        Fika och städning: {{ event.fika }}
+        {{ t("fika-and-clean") }}: {{ event.fika }}
       </p>
     </div>
     <div class="extra">
@@ -96,6 +99,7 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import { UpcomingEvent } from "./models";
+import { TranslationDomain, translate } from "../../translations";
 
 const emit = defineEmits<{
   (e: "signup", id: number): void;
@@ -129,6 +133,9 @@ const isRep = computed(() => {
 const signupUrl = computed(() => {
   return "/upcoming/Event/" + props.event.id;
 });
+const t = (key: string, domain: TranslationDomain = "upcoming") => {
+  return translate(domain, key);
+};
 </script>
 <style lang="scss">
 @import "../../../Styles/variables.scss";
