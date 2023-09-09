@@ -24,6 +24,11 @@
     @await Component.InvokeAsync("Header")
     <div class="container body-content">
         <div class="content-wrapper">
+            <span class="mobile-language-change visible-xs">
+                <a id="language-change-mob" class="@(t.IsEnglish() ? "SV" : "EN")" href="#">
+                    @(t.IsEnglish() ? "SV" : "EN")
+                </a>
+            </span>
             @RenderBody()
         </div>
     </div>
