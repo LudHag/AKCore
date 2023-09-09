@@ -62,18 +62,16 @@ public class ExtraInfoController : Controller
     public async Task<ActionResult> GetTranslatedText(string text)
     {
 
-        var query = $@"Please translate the following text from swedish to english:
-                    ***
-                    {text}
-                    ***";
+        var query = $@"Please translate the following html from swedish to english:
+                    {text}";
 
-        var data = await _openApiClient.GetText(new List<string>()
+        var data = (await _openApiClient.GetText(new List<string>()
         {
             query
-        });
+        })).Trim();
 
 
 
-        return Json(new { data });
+        return Json(new { success = true, data });
     }
 }

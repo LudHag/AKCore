@@ -8,7 +8,7 @@
             @click.prevent="showIcal = !showIcal"
             class="fa fa-calendar"
           >
-            {{ t("ical-link") }}
+            {{ " " + t("ical-link") }}
           </a>
           <div class="input-group ical-copy" v-if="showIcal">
             <input

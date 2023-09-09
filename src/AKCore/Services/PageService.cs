@@ -17,12 +17,14 @@ public class PageService
     private readonly AKContext _db;
     private readonly UserManager<AkUser> _userManager;
     private readonly AdminLogService _adminLogService;
+    private readonly TranslationsService _translationsService;
 
-    public PageService(AKContext db, UserManager<AkUser> userManager, AdminLogService adminLogService)
+    public PageService(AKContext db, UserManager<AkUser> userManager, AdminLogService adminLogService, TranslationsService translationsService)
     {
         _db = db;
         _userManager = userManager;
         _adminLogService = adminLogService;
+        _translationsService = translationsService;
     }
 
     public async Task<Page> GetPage(string slug)
@@ -41,6 +43,7 @@ public class PageService
         {
             return null;
         }
+
         return new PageEditModel
         {
             Name = page.Name,
@@ -59,13 +62,20 @@ public class PageService
 
     public PageRenderModel GetRenderModel(Page page)
     {
+        var isEnglish = _translationsService.IsEnglish();
         var model = new PageRenderModel()
         {
             Widgets = page.WidgetsJson != null ? JsonConvert.DeserializeObject<List<Widget>>(page.WidgetsJson) : new List<Widget>()
         };
         for (var i = 0; i < model.Widgets.Count; i++)
         {
-            model.Widgets[i].Id = i;
+            var widget = model.Widgets[i];
+            widget.Id = i;
+            if (isEnglish && !string.IsNullOrEmpty(widget.TextEng))
+            {
+                widget.Text = widget.TextEng;
+            }
+
         }
 
         return model;

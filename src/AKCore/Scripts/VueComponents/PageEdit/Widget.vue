@@ -17,11 +17,13 @@
           v-if="modelValue.type === 'HeaderText'"
           :model-value="modelValue"
           @update:modelValue="$emit('update:modelValue', $event)"
+          :translate="translate"
         ></header-text>
         <hire
           v-if="modelValue.type === 'Hire'"
           :model-value="modelValue"
           @update:modelValue="$emit('update:modelValue', $event)"
+          :translate="translate"
         ></hire>
         <image-widget
           v-if="modelValue.type === 'Image'"
@@ -32,6 +34,7 @@
           v-if="modelValue.type === 'Join'"
           :model-value="modelValue"
           @update:modelValue="$emit('update:modelValue', $event)"
+          :translate="translate"
         ></join>
         <member-list v-if="modelValue.type === 'MemberList'"></member-list>
         <music
@@ -45,9 +48,11 @@
           v-if="modelValue.type === 'Text'"
           :model-value="modelValue"
           @update:modelValue="$emit('update:modelValue', $event)"
+          :translate="translate"
         ></text-widget>
         <text-image
           v-if="modelValue.type === 'TextImage'"
+          :translate="translate"
           :model-value="modelValue"
           @update:modelValue="$emit('update:modelValue', $event)"
         ></text-image>
@@ -55,6 +60,7 @@
           v-if="modelValue.type === 'ThreePuffs'"
           :model-value="modelValue"
           @update:modelValue="$emit('update:modelValue', $event)"
+          :translate="translate"
         >
         </three-puffs>
         <video-widget
@@ -62,6 +68,23 @@
           :model-value="modelValue"
           @update:modelValue="$emit('update:modelValue', $event)"
         ></video-widget>
+      </div>
+      <div class="col-xs-12">
+        <a
+          class="btn btn-default translate-btn"
+          v-if="!translate && modelValue.text"
+          @click.prevent="translate = true"
+        >
+          Översätt
+        </a>
+
+        <a
+          class="btn btn-default translate-btn"
+          v-if="translate && modelValue.text"
+          @click.prevent="translate = false"
+        >
+          Minimera översättning
+        </a>
       </div>
     </div>
   </li>
@@ -98,6 +121,7 @@ defineProps<{
 }>();
 
 const minimized = ref(false);
+const translate = ref(false);
 
 onUpdated(() => {
   emit("updated");
@@ -142,5 +166,13 @@ const remove = () => {
 .min-widget,
 .remove-widget {
   font-size: 22px;
+}
+
+.translate-btn {
+  margin-top: 40px;
+  display: block;
+  width: max-content;
+  margin-left: auto;
+  margin-right: auto;
 }
 </style>

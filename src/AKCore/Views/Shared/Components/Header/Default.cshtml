@@ -7,7 +7,7 @@
             <img class="visible-xs" src="~/images/mobillogo.png" alt="Alte Kamereren & Kamrérbaletten" />
         </a>
            <div class="account hidden-xs">
-            <span class="notice-box hidden-sm">
+            <span class="notice-box hidden-sm@(Model.LoggedIn ? "" : " logged-out")">
                 @if (Model.LoggedIn && Model.Recruits > 0)
                 {
                     <a class="interested-notice" title="@Model.Recruits @t.Get(TranslationDomains.Header, "UnreadInterested")" href="/Signup/Recruits">

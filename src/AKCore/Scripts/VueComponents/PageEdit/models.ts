@@ -17,6 +17,7 @@ export interface WidgetEditModel {
   id: number;
   type: string;
   text?: string;
+  textEng?: string;
   image?: string;
   videos?: EditVideoModel[];
   albums: number[];
