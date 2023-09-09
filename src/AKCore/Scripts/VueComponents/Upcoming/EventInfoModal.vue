@@ -11,13 +11,13 @@
           </div>
           <div class="col-sm-4">
             <p class="modal-halan" v-if="event.halanTime">
-              {{ t("gather-in-hole") }}: {{ event.halanTime }}
+              {{ t("gather-in-hole", "common") }}: {{ event.halanTime }}
             </p>
             <p class="modal-there" v-if="event.thereTime">
-              {{ t("gather-there") }}: {{ event.thereTime }}
+              {{ t("gather-there", "common") }}: {{ event.thereTime }}
             </p>
             <p class="modal-start" v-if="event.startsTime">
-              {{ t("concert-starts") }}: {{ event.startsTime }}
+              {{ t("concert-starts", "common") }}: {{ event.startsTime }}
             </p>
           </div>
           <div class="col-sm-4">
@@ -37,8 +37,9 @@
               {{ t("sign-up") }}
             </a>
             <p class="modal-comming" v-if="signupable">
-              {{ event.coming }} {{ t("comming") }} - {{ event.notComing }}
-              {{ t("not-comming") }}
+              {{ event.coming }} {{ t("comming", "common") }} -
+              {{ event.notComing }}
+              {{ t("not-comming", "common") }}
             </p>
             <p class="modal-stand" v-if="event.stand">
               {{ t("type-of-play") }}: {{ event.stand }}

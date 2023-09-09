@@ -1,9 +1,12 @@
 import { commonTranslations } from "./common";
 import { instrumentsTranslations } from "./instruments";
 import { loginTranslations } from "./login";
+import { mailboxTranslations } from "./mailbox";
 import { memberlistTranslations } from "./memberlist";
 import { Translation } from "./models";
+import { musicTranslations } from "./music";
 import { profileTranslations } from "./profile";
+import { signupTranslations } from "./signup";
 import { upcomingTranslations } from "./upcoming";
 
 export type TranslationDomain =
@@ -12,7 +15,10 @@ export type TranslationDomain =
   | "profile"
   | "memberlist"
   | "instruments"
-  | "upcoming";
+  | "upcoming"
+  | "music"
+  | "mailbox"
+  | "signup";
 
 const translations: Record<TranslationDomain, Record<string, Translation>> = {
   login: loginTranslations,
@@ -21,6 +27,9 @@ const translations: Record<TranslationDomain, Record<string, Translation>> = {
   memberlist: memberlistTranslations,
   instruments: instrumentsTranslations,
   upcoming: upcomingTranslations,
+  music: musicTranslations,
+  mailbox: mailboxTranslations,
+  signup: signupTranslations,
 };
 
 const getCookie = (name: string) => {

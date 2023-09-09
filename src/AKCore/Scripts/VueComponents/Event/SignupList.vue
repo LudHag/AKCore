@@ -2,9 +2,10 @@
   <div>
     <div id="signup-list">
       <p class="can-come">
-        Kommer: {{ coming.length }} - Kommer inte: {{ notComing.length }}
+        {{ t("comming", "common") }}: {{ coming.length }} -
+        {{ t("not-comming", "common") }}: {{ notComing.length }}
       </p>
-      <h2>Kommer</h2>
+      <h2>{{ t("comming", "common") }}</h2>
 
       <div class="row signup-row" :key="signup.id" v-for="signup in coming">
         <div class="col-sm-2 signup-element">
@@ -26,7 +27,7 @@
           <p>{{ signup.comment }}</p>
         </div>
       </div>
-      <h2>Kommer inte</h2>
+      <h2>{{ t("not-comming", "common") }}</h2>
       <div class="row signup-row" :key="signup.id" v-for="signup in notComing">
         <div class="col-sm-3 signup-element">
           <p>{{ cleanName(signup.personName) }}</p>
@@ -51,6 +52,7 @@
 import { toRefs, computed } from "vue";
 import { formatDate } from "../../utils/functions";
 import { UpcomingSignup } from "../Upcoming/models";
+import { TranslationDomain, translate } from "../../translations";
 
 const props = defineProps<{
   nintendo: boolean;
@@ -87,16 +89,19 @@ const otherInstrumentsList = (signup: UpcomingSignup) => {
 const getInfo = (signup: UpcomingSignup) => {
   let info = signup.where;
   if (signup.instrument) {
-    info += ", har instrument";
+    info += ", " + t("has-instrument").toLowerCase();
   }
   if (signup.car) {
-    info += ", har bil";
+    info += ", " + t("has-car").toLowerCase();
   }
   return info;
 };
 
 const cleanName = (name: string) => {
   return name.replace(/\\/g, "");
+};
+const t = (key: string, domain: TranslationDomain = "signup") => {
+  return translate(domain, key);
 };
 </script>
 <style lang="scss"></style>

@@ -53,4 +53,5 @@ export const profileTranslations: Record<string, Translation> = {
     swedish: "Senaste medalj utdelad",
     english: "Latest medal given",
   },
+  "user-info": { swedish: "Användarinfo", english: "User info" },
 };

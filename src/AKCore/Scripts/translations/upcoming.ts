@@ -1,13 +1,8 @@
 import { Translation } from "./models";
 
 export const upcomingTranslations: Record<string, Translation> = {
-  "gather-in-hole": { swedish: "Samling i hålan", english: "Gather at hålan" },
-  "gather-there": { swedish: "Samling på plats", english: "Gather there" },
-  "concert-starts": { swedish: "Spelning startar", english: "Concert starts" },
   "sign-up": { swedish: "Anmäl", english: "Sign up" },
   "signed-up": { swedish: "Anmäld", english: "Signed up" },
-  comming: { swedish: "Kommer", english: "Comming" },
-  "not-comming": { swedish: "Kommer inte", english: "Not comming" },
   "type-of-play": { swedish: "Speltyp", english: "Type of concert" },
   "fika-and-clean": {
     swedish: "Fika och städning",

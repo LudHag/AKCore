@@ -16,7 +16,7 @@
     <div class="col-sm-4 col-xs-6">
       <template v-if="loggedIn">
         <p v-if="event.halanTime">
-          {{ t("gather-in-hole") }}: {{ event.halanTime }}
+          {{ t("gather-in-hole", "common") }}: {{ event.halanTime }}
         </p>
         <p
           v-if="
@@ -26,10 +26,10 @@
               event.type === 'Athenrep')
           "
         >
-          {{ t("gather-there") }}: {{ event.thereTime }}
+          {{ t("gather-there", "common") }}: {{ event.thereTime }}
         </p>
         <p v-if="event.startsTime && event.type === 'Spelning'">
-          {{ t("concert-starts") }}: {{ event.startsTime }}
+          {{ t("concert-starts", "common") }}: {{ event.startsTime }}
         </p>
       </template>
       <template v-if="!loggedIn">
@@ -40,7 +40,7 @@
     <div class="col-sm-4 col-xs-12">
       <template v-if="!loggedIn">
         <p v-if="event.startsTime && !loggedIn">
-          {{ t("concert-starts") }}: {{ event.startsTime }}
+          {{ t("concert-starts", "common") }}: {{ event.startsTime }}
         </p>
       </template>
       <template
@@ -68,8 +68,9 @@
           {{ t("sign-up") }}
         </a>
         <p class="hidden-xs">
-          {{ event.coming }} {{ t("comming") }} - {{ event.notComing }}
-          {{ t("not-comming") }}
+          {{ event.coming }} {{ t("comming", "common") }} -
+          {{ event.notComing }}
+          {{ t("not-comming", "common") }}
         </p>
       </template>
       <p v-if="loggedIn && event.type === 'Spelning' && event.stand">
