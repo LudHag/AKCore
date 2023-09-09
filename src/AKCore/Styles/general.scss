@@ -105,6 +105,12 @@ a {
   position: relative;
 }
 
+.language-change-container a {
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
 .mobile-language-change {
   position: absolute;
   top: 0;

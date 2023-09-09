@@ -7,10 +7,26 @@
             <img class="visible-xs" src="~/images/mobillogo.png" alt="Alte Kamereren & Kamrérbaletten" />
         </a>
            <div class="account hidden-xs">
-            <span class="language-change-container">
-                <a id="language-change" class="@(t.IsEnglish() ? "SV" : "EN")" href="#">
-                    @(t.IsEnglish() ? "SV" : "EN")
-                </a>
+            <span class="notice-box hidden-sm">
+                @if (Model.LoggedIn && Model.Recruits > 0)
+                {
+                    <a class="interested-notice" title="@Model.Recruits @t.Get(TranslationDomains.Header, "UnreadInterested")" href="/Signup/Recruits">
+                        <span class="fa fa-exclamation-circle" aria-hidden="true"></span>
+                        <span class="text">@Model.Recruits</span>
+                    </a>
+                }
+                @if (Model.LoggedIn && Model.Mails > 0)
+                {
+                    <a class="mail-notice" title="@Model.Mails olästa brevlådeposter" href="/MailBox">
+                        <span class="fa fa-envelope" aria-hidden="true"></span>
+                        <span class="text">@Model.Mails</span>
+                    </a>
+                }
+                <span class="language-change-container">
+                    <a id="language-change" class="@(t.IsEnglish() ? "SV" : "EN")" href="#">
+                        @(t.IsEnglish() ? "SV" : "EN")
+                    </a>
+                </span>
             </span>
             @if (!Model.LoggedIn)
             {
@@ -18,20 +34,7 @@
             }
             else
             {
-                <span class="notice-box hidden-sm">
-                    @if (Model.Recruits > 0) {
-                        <a class="interested-notice" title="@Model.Recruits @t.Get(TranslationDomains.Header, "UnreadInterested")" href="/Signup/Recruits">
-                            <span class="fa fa-exclamation-circle" aria-hidden="true"></span>
-                            <span class="text">@Model.Recruits</span>
-                        </a>
-                    }
-                     @if (Model.Mails > 0) { 
-                        <a class="mail-notice" title="@Model.Mails olästa brevlådeposter" href="/MailBox">
-                            <span class="fa fa-envelope" aria-hidden="true"></span>
-                            <span class="text">@Model.Mails</span>
-                        </a>
-                    }
-                </span>
+                
           
                 <p>
                     Inloggad som
