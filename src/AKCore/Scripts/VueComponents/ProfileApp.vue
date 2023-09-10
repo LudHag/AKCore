@@ -5,7 +5,7 @@
   >
     <div class="row" ref="formcontainer">
       <div class="col-md-6">
-        <h3>Användarinfo</h3>
+        <h3>{{ t("user-info") }}</h3>
         <form
           method="POST"
           action="/Profile/EditProfile"
@@ -21,71 +21,71 @@
             ref="formsuccess"
             style="display: none"
           >
-            Profil uppdaterad
+            {{ t("profile-updated") }}
           </div>
           <div class="form-group">
-            <label>Användarnamn</label>
+            <label>{{ t("user-name", "common") }}</label>
             <input
               v-model="profileData.userName"
               type="text"
               class="form-control"
-              placeholder="Användarnamn"
+              :placeholder="t('user-name')"
               name="UserName"
             />
           </div>
           <div class="form-group">
-            <label>Epost</label>
+            <label>{{ t("email") }}</label>
             <input
               v-model="profileData.email"
               class="form-control"
-              placeholder="Epost"
+              :placeholder="t('email')"
               type="email"
               name="Email"
             />
           </div>
           <div class="form-group">
-            <label>Förnamn</label>
+            <label>{{ t("first-name") }}</label>
             <input
               v-model="profileData.firstName"
               class="form-control"
-              placeholder="Förnamn"
+              :placeholder="t('first-name')"
               name="FirstName"
             />
           </div>
           <div class="form-group">
-            <label>Efternamn</label>
+            <label>{{ t("last-name") }}</label>
             <input
               v-model="profileData.lastName"
               class="form-control"
-              placeholder="Efternamn"
+              :placeholder="t('last-name')"
               name="LastName"
             />
           </div>
           <div class="form-group">
-            <label>Telefonnummer</label>
+            <label>{{ t("phone-number") }}</label>
             <input
               v-model="profileData.phone"
               class="form-control"
-              placeholder="Telefonnummer"
+              :placeholder="t('phone-number')"
               name="Phone"
             />
           </div>
           <div class="form-group">
-            <label>Instrument</label>
+            <label>{{ t("instrument") }}</label>
             <select
               v-model="profileData.instrument"
               class="form-control"
               name="Instrument"
               required
             >
-              <option value="">Välj instrument</option>
-              <option v-for="instr in INSTRUMENTS" :key="instr">
-                {{ instr }}
+              <option value="">{{ t("select-instrument") }}</option>
+              <option v-for="instr in INSTRUMENTS" :key="instr" :value="instr">
+                {{ t(instr, "instruments") }}
               </option>
             </select>
           </div>
           <div class="form-group">
-            <label>Andra instrument</label>
+            <label>{{ t("other-instruments") }}</label>
             <v-select
               multiple
               :searchable="false"
@@ -95,13 +95,13 @@
           </div>
           <div class="form-group">
             <button type="submit" class="btn btn-default">
-              Uppdatera profil
+              {{ t("update-profile") }}
             </button>
           </div>
         </form>
       </div>
       <div class="col-md-6">
-        <h3>Byt lösenord:</h3>
+        <h3>{{ t("change-password") }}:</h3>
         <form
           method="POST"
           action="/Profile/ChangePassword"
@@ -117,38 +117,38 @@
             ref="passwordsuccess"
             style="display: none"
           >
-            Lösenord uppdaterat
+            {{ t("password-updated") }}
           </div>
           <div class="form-group">
-            <label for="newpass">Nytt lösenord:</label>
+            <label for="newpass">{{ t("new-password") }}:</label>
             <input
               v-model="password"
               type="password"
               class="form-control"
               name="password"
-              placeholder="Lösenord"
+              :placeholder="t('new-password')"
               required
             />
           </div>
           <div class="form-group">
-            <label for="confirmpass">Bekräfta lösenord:</label>
+            <label for="confirmpass">{{ t("confirm-password") }}:</label>
             <input
               v-model="confirmPass"
               type="password"
               class="form-control"
-              placeholder="Bekräfta lösenord"
+              :placeholder="t('confirm-password')"
               required
             />
           </div>
           <div class="form-group">
             <button type="submit" class="btn btn-default">
-              Uppdatera lösenord
+              {{ t("update-password") }}
             </button>
           </div>
         </form>
         <div>
           <div v-if="profileData.roles && profileData.roles.length > 0">
-            <h3>Roller</h3>
+            <h3>{{ t("roles") }}</h3>
             <div class="roles">
               <span class="role" :key="role" v-for="role in profileData.roles">
                 {{ role }}
@@ -156,7 +156,7 @@
             </div>
           </div>
           <div v-if="profileData.posts && profileData.posts.length > 0">
-            <h3>Slavposter</h3>
+            <h3>{{ t("posts") }}</h3>
             <div class="roles">
               <span class="role" :key="post" v-for="post in profileData.posts">
                 {{ post }}
@@ -164,11 +164,11 @@
             </div>
           </div>
           <div v-if="profileData.medal">
-            <h3>Senaste terminsmedalj</h3>
+            <h3>{{ t("latest-medal") }}</h3>
             <p>{{ profileData.medal }}</p>
           </div>
           <div v-if="profileData.givenMedal">
-            <h3>Senaste utdelade terminsmedalj</h3>
+            <h3>{{ t("latest-medal-given") }}</h3>
             <p>{{ profileData.givenMedal }}</p>
           </div>
         </div>
@@ -188,6 +188,7 @@ import {
   postByObject,
 } from "../services/apiservice";
 import { slideUpAndDown } from "../services/slidehandler";
+import { TranslationDomain, translate } from "../translations";
 
 const profileData = ref<ProfileData | null>(null);
 const password = ref("");
@@ -235,6 +236,10 @@ const changePassword = async (event: Event) => {
 
 const loadData = async () => {
   profileData.value = await getFromApi<ProfileData>("/Profile/ProfileData");
+};
+
+const t = (key: string, domain: TranslationDomain = "profile") => {
+  return translate(domain, key);
 };
 
 onMounted(() => {

@@ -16,7 +16,7 @@
       </div>
     </div>
     <p v-if="noYears">
-      Vi har tyvärr inga spelningar inplanerade närmaste tiden.
+      {{ t("no-concerts") }}
     </p>
   </div>
 </template>
@@ -25,6 +25,7 @@ import { computed } from "vue";
 import Constants from "../../constants";
 import { UpcomingYears, UpcomingEvent } from "./models";
 import UpcomingListItem from "./UpcomingListItem.vue";
+import { TranslationDomain, isEnglish, translate } from "../../translations";
 
 const emit = defineEmits<{
   (e: "signup", id: number): void;
@@ -37,7 +38,9 @@ const props = defineProps<{
 }>();
 
 const getMonthName = (monthEvents: UpcomingEvent[]) => {
-  return Constants.MONTHS[monthEvents[0].month - 1];
+  return isEnglish
+    ? Constants.MONTHS_ENG[monthEvents[0].month - 1]
+    : Constants.MONTHS[monthEvents[0].month - 1];
 };
 
 const signup = (id: number) => {
@@ -50,5 +53,8 @@ const noYears = computed(() => {
   }
   return true;
 });
+const t = (key: string, domain: TranslationDomain = "upcoming") => {
+  return translate(domain, key);
+};
 </script>
 <style lang="scss"></style>

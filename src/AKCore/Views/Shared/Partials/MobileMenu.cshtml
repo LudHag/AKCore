@@ -1,12 +1,19 @@
 ﻿@model AKCore.Models.HeaderModel
+
+@{
+    var isEnglish = t.IsEnglish();
+}
+
 <ul class="mob-navigation">
     @foreach (var m in Model.Menus)
     {
+        var name = (isEnglish && !string.IsNullOrWhiteSpace(m.NameEng)) ? m.NameEng : m.Name;
+
         <li>
             @if (string.IsNullOrWhiteSpace(m.Link))
-                {
+            {
                 <a>
-                    @m.Name
+                    @name
                     @if (m.Children.Count > 0)
                     {
                         <span class="exp-submenu glyphicon glyphicon-plus" data-id="subnav-@m.Id">
@@ -17,7 +24,7 @@
             else
             {
                 <a href="@m.Link">
-                    @m.Name
+                    @name
                     @if (m.Children.Count > 0)
                     {
                         <span class="exp-submenu glyphicon glyphicon-plus" data-id="subnav-@m.Id">
@@ -27,21 +34,22 @@
                 </a>
             }
             @if (m.Children.Count > 0)
-                {
+            {
                 <ul class="mob-subnav" id="subnav-@m.Id">
                     @foreach (var c in m.Children)
                     {
+                        var childName = (isEnglish && !string.IsNullOrWhiteSpace(c.NameEng)) ? c.NameEng : c.Name;
                         <li>
                             @if (c.Link == null)
                             {
                                 <span class="submenu-item">
-                                    @c.Name
+                                    @childName
                                 </span>
                             }
                             else
                             {
                                 <a class="submenu-item" href="@c.Link">
-                                    @c.Name
+                                    @childName
                                 </a>
                             }
                         </li>
@@ -54,7 +62,7 @@
     {
         <li>
             <a href="#" class="login">
-                Logga in
+                @t.Get(TranslationDomains.Header, "LogIn")
             </a>
         </li>
     }
@@ -63,8 +71,8 @@
         <li>
             <a href="/Profile">@Model.UserName</a>
         </li>
-            <li>
-                <a href="/Account/Logout" class="logout">Logga ut</a>
-            </li>
+        <li>
+            <a href="/Account/Logout" class="logout">@t.Get(TranslationDomains.Header, "LogOut")</a>
+        </li>
     }
 </ul>

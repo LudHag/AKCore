@@ -32,6 +32,17 @@
             />
           </div>
           <div class="form-group">
+            <label>Namn engelska</label>
+            <input
+              type="text"
+              class="form-control name"
+              name="textEng"
+              placeholder="Namn på engelska"
+              :value="menuNameEng"
+              required
+            />
+          </div>
+          <div class="form-group">
             <select
               name="pageId"
               class="form-control"
@@ -111,6 +122,14 @@ const error = ref<HTMLDivElement | null>(null);
 const menuName = computed(() => {
   if (props.menu) {
     return props.menu.name;
+  } else {
+    return "";
+  }
+});
+
+const menuNameEng = computed(() => {
+  if (props.menu) {
+    return props.menu.nameEng;
   } else {
     return "";
   }

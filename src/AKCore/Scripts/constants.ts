@@ -64,6 +64,21 @@ export const MONTHS = [
   "December",
 ];
 
+export const MONTHS_ENG = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
 export const DAYS = [
   "Måndag",
   "Tisdag",
@@ -72,6 +87,16 @@ export const DAYS = [
   "Fredag",
   "Lördag",
   "Söndag",
+];
+
+export const DAYS_ENG = [
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday",
 ];
 
 export const EVENTTYPES = [
@@ -118,8 +143,10 @@ export default {
   ROLES,
   MEDALS,
   MONTHS,
+  MONTHS_ENG,
   SIGNUPTYPES,
   DAYS,
+  DAYS_ENG,
   INSTRUMENTS,
   EVENTTYPES,
   SPELTYPER,

@@ -11,7 +11,7 @@
       ></a>
     </h2>
     <div v-if="showingDesc" class="aidesc">
-      <p v-if="aiDesc">Albumbeskrivning genererad av ChatGPT:</p>
+      <p v-if="aiDesc">{{ t("album-from-gpt") }}:</p>
       <p v-if="aiDesc">{{ aiDesc }}</p>
       <spinner :size="'medium'" v-else></spinner>
     </div>
@@ -48,6 +48,7 @@ import Spinner from "../Spinner.vue";
 import { Album, Track } from "./models";
 import { ref, onMounted } from "vue";
 import { getFromApi } from "../../services/apiservice";
+import { TranslationDomain, translate } from "../../translations";
 
 const albums = ref<Album[]>([]);
 const currentAlbum = ref<Album | null>(null);
@@ -130,6 +131,9 @@ onMounted(() => {
   const album = albums.value[Math.floor(Math.random() * albums.value.length)];
   setCurrentAlbum(album.id);
 });
+const t = (key: string, domain: TranslationDomain = "music") => {
+  return translate(domain, key);
+};
 </script>
 <style lang="scss" scoped>
 @import "bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss";

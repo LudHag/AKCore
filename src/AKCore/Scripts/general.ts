@@ -108,3 +108,23 @@ function flojt() {
     });
   }
 }
+
+const languageButton = document.getElementById("language-change");
+const languageButtonMobile = document.getElementById("language-change-mob");
+
+if (languageButton) {
+  languageButton.addEventListener("click", (e) => {
+    e.preventDefault();
+    const lang = (e.target as HTMLElement).classList[0];
+    document.cookie = `language=${lang};path=/`;
+    window.location.reload();
+  });
+}
+if (languageButtonMobile) {
+  languageButtonMobile.addEventListener("click", (e) => {
+    e.preventDefault();
+    const lang = (e.target as HTMLElement).classList[0];
+    document.cookie = `language=${lang};path=/`;
+    window.location.reload();
+  });
+}

@@ -11,13 +11,13 @@
           </div>
           <div class="col-sm-4">
             <p class="modal-halan" v-if="event.halanTime">
-              Samling i hålan: {{ event.halanTime }}
+              {{ t("gather-in-hole", "common") }}: {{ event.halanTime }}
             </p>
             <p class="modal-there" v-if="event.thereTime">
-              Samling på plats: {{ event.thereTime }}
+              {{ t("gather-there", "common") }}: {{ event.thereTime }}
             </p>
             <p class="modal-start" v-if="event.startsTime">
-              Spelning startar: {{ event.startsTime }}
+              {{ t("concert-starts", "common") }}: {{ event.startsTime }}
             </p>
           </div>
           <div class="col-sm-4">
@@ -27,23 +27,25 @@
               @click.prevent.stop="openSignup"
               :href="signupUrl"
             >
-              Anmäld ({{ event.signupState }})
+              {{ t("signed-up") }} ({{ event.signupState }})
             </a>
             <a
               v-if="signupable && !event.signupState"
               @click.prevent.stop="openSignup"
               :href="signupUrl"
             >
-              Anmäl
+              {{ t("sign-up") }}
             </a>
             <p class="modal-comming" v-if="signupable">
-              {{ event.coming }} Kommer - {{ event.notComing }} Kommer inte
+              {{ event.coming }} {{ t("coming", "common") }} -
+              {{ event.notComing }}
+              {{ t("not-coming", "common") }}
             </p>
             <p class="modal-stand" v-if="event.stand">
-              Speltyp: {{ event.stand }}
+              {{ t("type-of-play") }}: {{ event.stand }}
             </p>
             <p class="modal-fika" v-if="event.fika">
-              Fika och städning: {{ event.fika }}
+              {{ t("fika-and-clean") }}: {{ event.fika }}
             </p>
           </div>
           <div class="extra">
@@ -65,6 +67,7 @@
 import { computed } from "vue";
 import Modal from "../Modal.vue";
 import { UpcomingEvent } from "./models";
+import { TranslationDomain, translate } from "../../translations";
 
 const emit = defineEmits<{
   (e: "close"): void;
@@ -93,6 +96,10 @@ const header = computed(() => {
   }
   return props.event.name;
 });
+
+const t = (key: string, domain: TranslationDomain = "upcoming") => {
+  return translate(domain, key);
+};
 </script>
 <style lang="scss" scoped>
 .green {

@@ -45,9 +45,11 @@ namespace AKCore
             services.AddControllersWithViews().AddNewtonsoftJson();
             services.AddSession();
             services.AddMemoryCache();
+            services.AddHttpContextAccessor();
             services.AddTransient<PageService>();
             services.AddTransient<AlbumService>();
             services.AddTransient<AdminLogService>();
+            services.AddScoped<TranslationsService>();
 
             var apiSecret = Configuration["OpenApiSecret"];
             services.AddTransient(x => new OpenApiClient(apiSecret ?? ""));

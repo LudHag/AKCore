@@ -7,18 +7,20 @@
             type="text"
             v-model="searchPhrase"
             class="form-control"
-            placeholder="Sök här"
+            :placeholder="t('search-here')"
           />
         </div>
         <div class="form-group">
           <select class="form-control" v-model="selectedInstrument">
-            <option value>Sök efter instrument</option>
-            <option v-for="i in instruments" :key="i">{{ i }}</option>
+            <option value>{{ t("search-for-instruments") }}</option>
+            <option v-for="i in instruments" :key="i" :value="i">
+              {{ t(i, "instruments") }}
+            </option>
           </select>
         </div>
       </div>
       <div id="adress-register">
-        <h1>Adressregister</h1>
+        <h1>{{ t("adress-register") }}</h1>
         <div class="adress-list">
           <div v-for="instr in instruments" :key="instr">
             <h2
@@ -48,6 +50,7 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
 import { Member } from "./models";
+import { TranslationDomain, translate } from "../translations";
 
 const props = defineProps<{
   members: Record<string, Array<Member>>;
@@ -84,6 +87,10 @@ const filteredMembers = computed(() => {
   });
   return filteredList;
 });
+
+const t = (key: string, domain: TranslationDomain = "memberlist") => {
+  return translate(domain, key);
+};
 </script>
 <style lang="scss" scoped>
 @import "bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss";

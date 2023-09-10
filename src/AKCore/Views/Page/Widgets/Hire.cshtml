@@ -1,13 +1,10 @@
-﻿@using AKCore.DataModel
-@model AKCore.DataModel.Widget
-
-
+﻿@model AKCore.DataModel.Widget
 
 <div class="row">
     <div class="col-md-12">
         <div class="video-bg">
             <div class="video-bg-content">
-                <h1>Vill du anlita oss?</h1>
+                <h1>@t.Get(TranslationDomains.Widgets, "HireUs")</h1>
             </div>
             <video autoplay muted loop class="video">
                 <source src="/videos/akslowmo.mp4" type="video/mp4">

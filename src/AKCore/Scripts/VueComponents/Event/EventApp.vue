@@ -20,13 +20,15 @@
           </div>
           <div class="col-sm-12">
             <p v-if="eventInfo.event.halanTime">
-              Samling i hålan: {{ eventInfo.event.halanTime }}
+              {{ t("gather-in-hole", "common") }}:
+              {{ eventInfo.event.halanTime }}
             </p>
             <p v-if="eventInfo.event.thereTime">
-              Samling på plats: {{ eventInfo.event.thereTime }}
+              {{ t("gather-there", "common") }}: {{ eventInfo.event.thereTime }}
             </p>
             <p v-if="eventInfo.event.startsTime">
-              Spelning startar: {{ eventInfo.event.startsTime }}
+              {{ t("concert-starts", "common") }}:
+              {{ eventInfo.event.startsTime }}
             </p>
           </div>
           <div class="col-sm-12">
@@ -39,7 +41,7 @@
               Lägg till anmälningar
             </a>
             <a href="#" class="btn btn-default" @click.prevent="toggleInfo">
-              Visa information
+              {{ t("show-info") }}
             </a>
           </div>
         </div>
@@ -75,6 +77,7 @@ import EditSignupModal from "./EditSignupModal.vue";
 import { ref, computed, toRefs, watch, onMounted } from "vue";
 import { UpcomingEventInfo } from "../Upcoming/models";
 import { getFromApi } from "../../services/apiservice";
+import { TranslationDomain, translate } from "../../translations";
 
 const emit = defineEmits<{
   (e: "close"): void;
@@ -141,6 +144,9 @@ onMounted(() => {
     loadEvent();
   }
 });
+const t = (key: string, domain: TranslationDomain = "signup") => {
+  return translate(domain, key);
+};
 </script>
 <style lang="scss">
 .close-event {

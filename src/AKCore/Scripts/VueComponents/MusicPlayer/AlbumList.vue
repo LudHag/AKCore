@@ -8,14 +8,14 @@
           @click.prevent="searchQuery = ''"
           class="show-albums"
         >
-          Visa album
+          {{ t("show-albums") }}
         </a>
-        Sök låtar:
+        {{ t("search-songs") }}:
         <input
           type="text"
           v-model="searchQuery"
           class="form-control"
-          placeholder="Sök här"
+          :placeholder="t('search-here')"
         />
       </div>
     </div>
@@ -62,6 +62,7 @@
 import { ref, computed } from "vue";
 import { groupBy, nameCompare } from "../../utils/functions";
 import { Album, Track } from "./models";
+import { TranslationDomain, translate } from "../../translations";
 
 const props = defineProps<{ albums: Album[] }>();
 
@@ -106,6 +107,9 @@ const filteredAlbums = computed(() => {
     .filter((album) => album.tracks.length > 0);
   return filteredAlbums;
 });
+const t = (key: string, domain: TranslationDomain = "music") => {
+  return translate(domain, key);
+};
 </script>
 <style lang="scss" scoped>
 @import "bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss";

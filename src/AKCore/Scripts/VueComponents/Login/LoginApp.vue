@@ -1,5 +1,5 @@
 ﻿<template>
-  <modal :show-modal="showModal" :header="'Logga in'" @close="close">
+  <modal :show-modal="showModal" :header="t('log-in')" @close="close">
     <template #body>
       <form
         action="/Account/Login"
@@ -14,32 +14,32 @@
             style="display: none"
           ></div>
           <div class="form-group">
-            <label for="username">Användarnamn</label>
+            <label for="username">{{ t("user-name", "common") }}</label>
             <input
               type="text"
               class="form-control"
               id="username"
               name="Username"
-              placeholder="Användarnamn"
+              :placeholder="t('user-name', 'common')"
             />
           </div>
           <div class="form-group">
-            <label for="password">Lösenord</label>
+            <label for="password">{{ t("password", "common") }}</label>
             <input
               type="password"
               class="form-control"
               id="password"
               name="Password"
-              placeholder="Lösenord"
+              :placeholder="t('password', 'common')"
             />
           </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" @click="close">
-            Stäng
+            {{ t("close", "common") }}
           </button>
           <button type="submit" class="btn btn-primary submit-login">
-            Logga in
+            {{ t("log-in") }}
           </button>
         </div>
       </form>
@@ -49,6 +49,7 @@
 <script setup lang="ts">
 import Modal from "../Modal.vue";
 import { defaultFormSend } from "../../services/apiservice";
+import { TranslationDomain, translate } from "../../translations";
 import { ref, onMounted } from "vue";
 
 const showModal = ref(false);
@@ -63,6 +64,10 @@ const submitForm = (e: Event) => {
   defaultFormSend(e.target as HTMLFormElement, error.value, null, () => {
     window.location.reload();
   });
+};
+
+const t = (key: string, domain: TranslationDomain = "login") => {
+  return translate(domain, key);
 };
 
 onMounted(() => {
