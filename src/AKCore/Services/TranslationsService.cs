@@ -42,6 +42,8 @@ public class TranslationsService
         { "Email", new Translation("Epost", "Email") },
         { "Phone", new Translation("Telefonnummer", "Telephone number") },
         { "SelectInstrument", new Translation("Välj instrument", "Select instrument") },
+        { "Gigs", new Translation("Spelningar", "Upcoming gigs") },
+        { "Upcoming", new Translation("På gång", "Upcoming") },
     };
 
     private static readonly Dictionary<string, Translation> widgetsTranslations = new() {

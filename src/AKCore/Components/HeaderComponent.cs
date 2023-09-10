@@ -1,5 +1,6 @@
 ﻿using AKCore.DataModel;
 using AKCore.Models;
+using AKCore.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,17 +13,21 @@ namespace AKCore.Components
     {
         private readonly UserManager<AkUser> _userManager;
         private readonly AKContext _db;
+        private readonly TranslationsService _translationsService;
 
-        public HeaderViewComponent(UserManager<AkUser> userManager, AKContext db)
+        public HeaderViewComponent(UserManager<AkUser> userManager, AKContext db, TranslationsService translationsService)
         {
             _userManager = userManager;
             _db = db;
+            _translationsService = translationsService;
         }
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
             var loggedIn = User.Identity.IsAuthenticated;
             var balett = loggedIn && User.IsInRole(AkRoles.Balett);
+            var gigsName = _translationsService.Get(TranslationDomains.Common, "Gigs");
+            var upcomingName = _translationsService.Get(TranslationDomains.Common, "Upcoming");
             var menus = _db.Menus.OrderBy(x => x.PosIndex)
                 .Include(b => b.Link)
                 .Include(x => x.Children)
@@ -34,7 +39,7 @@ namespace AKCore.Components
                 .Where(x => x.Link == null || !loggedIn || !x.Link.LoggedOut)
                 .Where(x => x.Link == null || !x.Link.BalettOnly || (loggedIn && balett));
             var modelMenus = menus.Select(m => new ModelMenu(m, loggedIn)).ToList();
-            var upcoming = new ModelMenu(loggedIn ? "På gång" : "Spelningar", "/upcoming", true) { Id = 10003 };
+            var upcoming = new ModelMenu(loggedIn ? upcomingName : gigsName, "/upcoming", true) { Id = 10003 };
             modelMenus.Add(upcoming);
             var member = false;
             var numberUnreadRecruits = 0;
