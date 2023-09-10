@@ -17,7 +17,9 @@ export interface UpcomingEvent {
   name: string;
   place: string;
   description: string;
+  descriptionEng: string;
   internalDescription: string;
+  internalDescriptionEng: string;
   fika: string;
   year: number;
   month: number;

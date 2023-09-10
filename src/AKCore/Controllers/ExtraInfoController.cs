@@ -58,11 +58,29 @@ public class ExtraInfoController : Controller
     }
 
     [HttpPost]
-    [Route("Translate")]
-    public async Task<ActionResult> GetTranslatedText(string text)
+    [Route("TranslateHtml")]
+    public async Task<ActionResult> GetTranslatedHtml(string text)
     {
 
         var query = $@"Please translate the following html from swedish to english:
+                    {text}";
+
+        var data = (await _openApiClient.GetText(new List<string>()
+        {
+            query
+        })).Trim();
+
+
+
+        return Json(new { success = true, data });
+    }
+
+    [HttpPost]
+    [Route("TranslateText")]
+    public async Task<ActionResult> GetTranslatedText(string text)
+    {
+
+        var query = $@"Please translate the following text from swedish to english:
                     {text}";
 
         var data = (await _openApiClient.GetText(new List<string>()

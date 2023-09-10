@@ -41,7 +41,7 @@ const fetchingData = ref(false);
 const translateText = () => {
   fetchingData.value = true;
   postToApi(
-    "/ExtraInfo/Translate",
+    "/ExtraInfo/TranslateHtml",
     {
       text: props.modelValue.text,
     },

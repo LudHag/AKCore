@@ -136,18 +136,26 @@
                 </div>
               </div>
             </div>
-
-            <div
-              class="form-group"
+            <template
               v-if="eventType === 'Spelning' || eventType === 'Evenemang'"
             >
-              <label>Beskrivning</label>
-              <textarea
-                class="form-control"
-                v-model="upcomingEvent.description"
-                name="Description"
-              ></textarea>
-            </div>
+              <div class="form-group">
+                <label>Beskrivning</label>
+                <textarea
+                  class="form-control"
+                  v-model="upcomingEvent.description"
+                  name="Description"
+                ></textarea>
+              </div>
+              <div class="form-group">
+                <label>Engelsk beskrivning</label>
+                <textarea
+                  class="form-control"
+                  v-model="upcomingEvent.descriptionEng"
+                  name="Description"
+                ></textarea>
+              </div>
+            </template>
             <div class="form-group">
               <label>Intern beskrivning</label>
               <textarea
@@ -156,9 +164,34 @@
                 name="InternalDescription"
               ></textarea>
             </div>
+            <div class="form-group">
+              <label>Intern beskrivning på engelska</label>
+              <textarea
+                class="form-control"
+                v-model="upcomingEvent.internalDescriptionEng"
+                name="InternalDescription"
+              ></textarea>
+            </div>
           </div>
         </div>
         <div class="modal-footer">
+          <button
+            v-if="
+              (upcomingEvent.description ||
+                upcomingEvent.internalDescription) &&
+              !loadingDescTrans &&
+              !loadingIntDescTrans
+            "
+            class="btn btn-default translate-event-btn"
+            @click.prevent="translateDescs"
+          >
+            Översätt beskrivningar med ChatGpt
+          </button>
+          <spinner
+            class="translate-event-spinner"
+            size="medium"
+            v-if="loadingDescTrans || loadingIntDescTrans"
+          ></spinner>
           <button class="btn btn-default" @click.prevent="close">Stäng</button>
           <button type="submit" class="btn btn-primary">Spara</button>
         </div>
@@ -171,6 +204,7 @@ import { EVENTTYPES, SPELTYPER, SEKTIONER } from "../../constants";
 import Datepicker from "vue3-datepicker";
 import { postToApi } from "../../services/apiservice";
 import Modal from "../Modal.vue";
+import Spinner from "../Spinner.vue";
 import { UpcomingEvent } from "../Upcoming/models";
 import { computed, onMounted, ref, watch } from "vue";
 
@@ -188,9 +222,48 @@ const props = defineProps<{
 const eventType = ref("");
 const upcomingEvent = ref<UpcomingEvent | null>(null);
 const error = ref<HTMLElement | null>(null);
+const loadingDescTrans = ref(false);
+const loadingIntDescTrans = ref(false);
 
 const close = () => {
   emit("close");
+};
+
+const translateDescs = () => {
+  if (upcomingEvent.value?.description) {
+    loadingDescTrans.value = true;
+    postToApi(
+      "/ExtraInfo/TranslateText",
+      {
+        text: upcomingEvent.value.description,
+      },
+      null,
+      null,
+      (response) => {
+        if (upcomingEvent.value) {
+          upcomingEvent.value.descriptionEng = response.data;
+        }
+        loadingDescTrans.value = false;
+      }
+    );
+  }
+  if (upcomingEvent.value?.internalDescription) {
+    loadingIntDescTrans.value = true;
+    postToApi(
+      "/ExtraInfo/TranslateText",
+      {
+        text: upcomingEvent.value.internalDescription,
+      },
+      null,
+      null,
+      (response) => {
+        if (upcomingEvent.value) {
+          upcomingEvent.value.internalDescriptionEng = response.data;
+        }
+        loadingIntDescTrans.value = false;
+      }
+    );
+  }
 };
 
 const formSubmit = () => {
@@ -222,7 +295,9 @@ const resetEvent = () => {
         name: "",
         place: "",
         description: "",
+        descriptionEng: "",
         internalDescription: "",
+        internalDescriptionEng: "",
         year: today.getFullYear(),
         month: today.getMonth() + 1,
         dayDate: today,
@@ -280,5 +355,11 @@ onMounted(() => {
 <style lang="scss">
 .v3dp__datepicker .form-control[readonly] {
   background-color: #fff;
+}
+.translate-event-btn {
+  float: left;
+}
+.translate-event-spinner {
+  float: left;
 }
 </style>

@@ -206,7 +206,9 @@ namespace AKCore.DataModel
         public string Name { get; set; }
         public string Place { get; set; }
         public string Description { get; set; }
+        public string DescriptionEng { get; set; }
         public string InternalDescription { get; set; }
+        public string InternalDescriptionEng { get; set; }
         public string Fika { get; set; }
         public DateTime Day { get; set; }
         public TimeSpan HalanTime { get; set; }

@@ -1,4 +1,5 @@
 ﻿using AKCore.DataModel;
+using AKCore.Extensions;
 using AKCore.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -9,7 +10,6 @@ using System;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
-using AKCore.Extensions;
 
 namespace AKCore.Controllers
 {
@@ -69,7 +69,9 @@ namespace AKCore.Controllers
                 Name = e.Name,
                 Place = e.Place,
                 Description = e.Description,
+                DescriptionEng = e.DescriptionEng,
                 InternalDescription = e.InternalDescription,
+                InternalDescriptionEng = e.InternalDescriptionEng,
                 Fika = e.Fika,
                 DayDate = e.Day,
                 Day = e.Day.ToString("dd MMM - yyyy", Culture),
@@ -118,7 +120,9 @@ namespace AKCore.Controllers
                     changeEvent.StartsTime = ParseTime(model.StartsTime);
                     changeEvent.Fika = model.Fika;
                     changeEvent.Description = model.Description;
+                    changeEvent.DescriptionEng = model.DescriptionEng;
                     changeEvent.InternalDescription = model.InternalDescription;
+                    changeEvent.InternalDescriptionEng = model.InternalDescriptionEng;
                     changeEvent.Type = model.Type;
                     changeEvent.Secret = model.Secret;
                     var user = await _userManager.FindByNameAsync(User.Identity.Name);
@@ -145,7 +149,9 @@ namespace AKCore.Controllers
                         Name = model.Name,
                         Place = model.Place ?? "",
                         Description = model.Description,
+                        DescriptionEng = model.DescriptionEng,
                         InternalDescription = model.InternalDescription,
+                        InternalDescriptionEng = model.InternalDescriptionEng,
                         Day = DateTime.Parse(model.Day).ConvertToSwedishTime(),
                         Type = model.Type,
                         Fika = model.Fika,

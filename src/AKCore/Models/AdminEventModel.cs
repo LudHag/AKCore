@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using AKCore.DataModel;
 
 namespace AKCore.Models
 {
@@ -22,8 +19,10 @@ namespace AKCore.Models
         public string Fika { get; set; }
         [Display(Name = "Beskrivning")]
         public string Description { get; set; }
+        public string DescriptionEng { get; set; }
         [Display(Name = "Intern beskrivning")]
         public string InternalDescription { get; set; }
+        public string InternalDescriptionEng { get; set; }
         [Display(Name = "Dag")]
         public DateTime Day { get; set; }
         [Display(Name = "Vid hålan")]
