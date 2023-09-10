@@ -1,6 +1,7 @@
 export interface MenuEditModel {
   id: number;
   name: string;
+  nameEng: string;
   link: string;
   linkId: number;
   children: MenuEditModel[];
