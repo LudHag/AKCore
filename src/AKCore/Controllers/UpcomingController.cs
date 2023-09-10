@@ -83,6 +83,9 @@ namespace AKCore.Controllers
         {
             var cultureToUse = isEnglish ? CultureEn : Culture;
 
+            var description = (isEnglish && !string.IsNullOrWhiteSpace(e.DescriptionEng)) ? e.DescriptionEng : e.Description;
+            var internalDescription = (isEnglish && !string.IsNullOrWhiteSpace(e.InternalDescriptionEng)) ? e.InternalDescriptionEng : e.InternalDescription;
+
             var model = loggedIn
                 ? new EventViewModel()
                 {
@@ -90,8 +93,8 @@ namespace AKCore.Controllers
                     Type = e.Type,
                     Name = e.Name,
                     Place = e.Place,
-                    Description = e.Description,
-                    InternalDescription = e.InternalDescription,
+                    Description = description,
+                    InternalDescription = internalDescription,
                     Fika = e.Fika,
                     Day = e.Day.ToString("dddd dd", cultureToUse) + "/" + e.Day.ToString("MM", cultureToUse),
                     DayInMonth = e.Day.Day,

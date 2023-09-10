@@ -100,6 +100,8 @@ namespace AKCore.DataModel
         [Required]
         [StringLength(450)]
         public string Name { get; set; }
+        [StringLength(450)]
+        public string NameEng { get; set; }
         public Page Link { get; set; }
         public List<SubMenu> Children { get; set; }
         public int PosIndex { get; set; }
@@ -115,6 +117,8 @@ namespace AKCore.DataModel
         [Required]
         [StringLength(450)]
         public string Name { get; set; }
+        [StringLength(450)]
+        public string NameEng { get; set; }
         public Page Link { get; set; }
         public int SubPosIndex { get; set; }
     }
