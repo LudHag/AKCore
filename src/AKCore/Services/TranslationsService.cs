@@ -52,6 +52,7 @@ public class TranslationsService
         { "AnswerWithNumber", new Translation("Svara med siffra", "Answer with a number") },
         { "BotQuestion", new Translation("Vad är 1 + 2?", "What is 1 + 2?") },
         { "Join", new Translation("Gå med", "Join") },
+        { "Hire", new Translation("Anlita oss", "Hire us") },
     };
     private static readonly Dictionary<string, Translation> headerTranslations = new() {
         { "LogIn", new Translation("Logga in", "Log in") },

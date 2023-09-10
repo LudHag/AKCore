@@ -115,7 +115,7 @@ namespace AKCore.Controllers
                     Place = e.Place,
                     Type = e.Type,
                     Description = e.Description,
-                    Day = e.Day.ToString("dddd dd", Culture) + "/" + e.Day.ToString("MM", Culture),
+                    Day = e.Day.ToString("dddd dd", cultureToUse) + "/" + e.Day.ToString("MM", cultureToUse),
                     StartsTime = ParseTime(e.StartsTime),
                     Year = e.Day.Year,
                     Month = e.Day.Month
