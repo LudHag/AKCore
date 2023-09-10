@@ -289,10 +289,7 @@ p.infobox {
 }
 .notice-box {
   position: absolute;
-  right: 180px;
-  &.logged-out {
-    right: 100px;
-  }
+  left: -50px;
 }
 .interested-notice,
 .mail-notice {

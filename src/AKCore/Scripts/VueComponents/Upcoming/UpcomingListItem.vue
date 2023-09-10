@@ -6,7 +6,7 @@
   >
     <div class="col-sm-4 col-xs-6" style="font-weight: 500">
       <p style="text-transform: capitalize">{{ event.day }}</p>
-      <p v-if="isRep">{{ event.type }}</p>
+      <p v-if="isRep">{{ t(event.type) }}</p>
       <p v-if="event.type === 'Rep'">{{ event.place }}</p>
       <template v-if="!isRep && loggedIn">
         <p>{{ event.name }}</p>

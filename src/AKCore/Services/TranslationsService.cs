@@ -57,7 +57,8 @@ public class TranslationsService
     private static readonly Dictionary<string, Translation> headerTranslations = new() {
         { "LogIn", new Translation("Logga in", "Log in") },
         { "LogOut", new Translation("Logga ut", "Log out") },
-        { "UnreadInterested", new Translation("olästa intresseanmälningar", "unread interested") }
+        { "UnreadInterested", new Translation("olästa intresseanmälningar", "unread interested") },
+        { "LoggedInAs", new Translation("Inloggad som", "Logged in as") }
     };
 
     private static readonly Dictionary<string, Translation> errorTranslations = new() {
