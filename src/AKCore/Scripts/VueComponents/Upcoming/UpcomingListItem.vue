@@ -101,6 +101,7 @@
 import { computed, ref } from "vue";
 import { UpcomingEvent } from "./models";
 import { TranslationDomain, translate } from "../../translations";
+import { eventIsRep } from "./functions";
 
 const emit = defineEmits<{
   (e: "signup", id: number): void;
@@ -123,12 +124,7 @@ const expandable = computed(() => {
 });
 
 const isRep = computed(() => {
-  return (
-    props.event.type === "Rep" ||
-    props.event.type === "Kårhusrep" ||
-    props.event.type === "Athenrep" ||
-    props.event.type === "Fikarep"
-  );
+  return eventIsRep(props.event);
 });
 
 const signupUrl = computed(() => {

@@ -9,13 +9,15 @@
       class="dayEvent"
       :class="{ green: e.signupState }"
     >
-      {{ e.halanTime }} {{ e.signupState }} {{ e.name }}
+      {{ e.halanTime }} {{ e.signupState }} {{ eventName(e) }}
     </a>
   </td>
 </template>
 <script setup lang="ts">
 import { computed } from "vue";
 import { UpcomingEvent } from "./models";
+import { eventIsRep } from "./functions";
+import { TranslationDomain, translate } from "../../translations";
 
 const today = new Date();
 const emit = defineEmits<{
@@ -55,6 +57,17 @@ const events = computed(() => {
 
 const openEvent = (e: UpcomingEvent) => {
   emit("open", e);
+};
+
+const t = (key: string, domain: TranslationDomain = "upcoming") => {
+  return translate(domain, key);
+};
+
+const eventName = (e: UpcomingEvent) => {
+  if (eventIsRep(e)) {
+    return t(e.type);
+  }
+  return e.name;
 };
 </script>
 <style lang="scss" scoped>

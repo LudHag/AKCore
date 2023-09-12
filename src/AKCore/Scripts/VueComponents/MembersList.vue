@@ -1,8 +1,8 @@
 ﻿<template>
-  <div class="row" id="search-widget">
+  <div id="search-widget">
     <div class="col-md-12">
       <div class="form-inline ak-search">
-        <div class="form-group">
+        <div class="form-group search-group">
           <input
             type="text"
             v-model="searchPhrase"
@@ -24,9 +24,10 @@
         <div class="adress-list">
           <div v-for="instr in instruments" :key="instr">
             <h2
-              v-html="instr"
               v-if="filteredMembers[instr] && filteredMembers[instr].length > 0"
-            ></h2>
+            >
+              {{ t(instr, "instruments") }}
+            </h2>
             <div
               class="kamerer"
               v-for="member in filteredMembers[instr]"
@@ -124,6 +125,10 @@ const t = (key: string, domain: TranslationDomain = "memberlist") => {
   white-space: nowrap;
 }
 
+.search-group {
+  margin-right: 20px;
+}
+
 @media screen and (max-width: $screen-xs-max) {
   #adress-register .kamerer > div {
     &.name-email {
@@ -137,6 +142,9 @@ const t = (key: string, domain: TranslationDomain = "memberlist") => {
       float: right;
       overflow: hidden;
     }
+  }
+  .search-group {
+    margin-right: 0;
   }
 }
 </style>

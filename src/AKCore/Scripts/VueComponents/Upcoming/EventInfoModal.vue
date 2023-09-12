@@ -68,6 +68,7 @@ import { computed } from "vue";
 import Modal from "../Modal.vue";
 import { UpcomingEvent } from "./models";
 import { TranslationDomain, translate } from "../../translations";
+import { eventIsRep } from "./functions";
 
 const emit = defineEmits<{
   (e: "close"): void;
@@ -90,11 +91,18 @@ const signupable =
     props.event.type === "Kårhusrep" ||
     props.event.type === "Athenrep");
 
+const eventName = (e: UpcomingEvent) => {
+  if (eventIsRep(e)) {
+    return t(e.type);
+  }
+  return e.name;
+};
+
 const header = computed(() => {
   if (!props.event) {
     return "";
   }
-  return props.event.name;
+  return eventName(props.event);
 });
 
 const t = (key: string, domain: TranslationDomain = "upcoming") => {

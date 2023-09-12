@@ -11,6 +11,6 @@ export const memberlistTranslations: Record<string, Translation> = {
   },
   "adress-register": {
     swedish: "Adressregister",
-    english: "address register",
+    english: "Address register",
   },
 };

@@ -3,7 +3,9 @@
 
 <div id="kamerersposter">
     <div class="kategori">
-        <h2>Styrelse</h2>
+        <h2>
+            @t.Get(TranslationDomains.Posts, "Board")
+        </h2>
         <div class="row">
             <div class="col-sm-4">
                 Överkamerer
@@ -48,7 +50,7 @@
         </div>
     </div>
     <div class="kategori">
-        <h2>Funktionärer</h2>
+        <h2>@t.Get(TranslationDomains.Posts, "Functionaries")</h2>
         <div class="row">
             <div class="col-sm-4">
                 Balettkamerer
@@ -107,7 +109,7 @@
         </div>
     </div>
     <div class="kategori">
-        <h2>Slavkamererer</h2>
+        <h2>@t.Get(TranslationDomains.Posts, "OtherPosts")</h2>
         <div class="row">
             <div class="col-sm-4">
                 Arsenalkamerer
