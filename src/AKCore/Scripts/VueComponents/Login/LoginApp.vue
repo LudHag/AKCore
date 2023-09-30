@@ -20,6 +20,7 @@
               class="form-control"
               id="username"
               name="Username"
+              ref="username"
               :placeholder="t('user-name', 'common')"
             />
           </div>
@@ -50,10 +51,11 @@
 import Modal from "../Modal.vue";
 import { defaultFormSend } from "../../services/apiservice";
 import { TranslationDomain, translate } from "../../translations";
-import { ref, onMounted } from "vue";
+import { ref, onMounted, nextTick } from "vue";
 
 const showModal = ref(false);
 const error = ref<HTMLElement | null>(null);
+const username = ref<HTMLElement | null>(null);
 
 const close = () => {
   showModal.value = false;
@@ -76,6 +78,9 @@ onMounted(() => {
     button.addEventListener("click", (e) => {
       e.preventDefault();
       showModal.value = true;
+      nextTick(() => {
+        username.value?.focus();
+      });
     });
   });
 });
