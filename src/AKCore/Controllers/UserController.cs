@@ -18,17 +18,20 @@ namespace AKCore.Controllers
     public class UserController : Controller
     {
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly SignInManager<AkUser> _signInManager;
         private readonly UserManager<AkUser> _userManager;
         private readonly AKContext _db;
 
         public UserController(
             UserManager<AkUser> userManager,
             RoleManager<IdentityRole> roleManager,
+            SignInManager<AkUser> signInManager,
             AKContext db
         )
         {
             _roleManager = roleManager;
             _userManager = userManager;
+            _signInManager = signInManager;
             _db = db;
         }
 
@@ -122,11 +125,14 @@ namespace AKCore.Controllers
         public async Task<ActionResult> EditUser(ProfileModel model)
         {
             var user = await _userManager.FindByIdAsync(model.Id);
+            var editingUser = await _userManager.FindByNameAsync(User.Identity.Name);
+
             if (user == null)
             {
                 return Json(new { success = false, message = "Användare finns ej" });
             }
 
+            var updateUName = user.UserName != model.UserName;
             user.UserName = model.UserName;
             user.Email = model.Email;
             user.FirstName = model.FirstName;
@@ -137,9 +143,14 @@ namespace AKCore.Controllers
             user.OtherInstruments = model.OtherInstruments == null ? "" : string.Join(",", model.OtherInstruments);
             user.Medal = model.Medal;
             user.GivenMedal = model.GivenMedal;
-            var editingUser = await _userManager.FindByNameAsync(User.Identity.Name);
 
             var result = await _userManager.UpdateAsync(user);
+
+            if (result.Succeeded && user.Id == editingUser.Id && updateUName)
+            {
+                await _signInManager.SignInAsync(editingUser, true);
+            }
+
             if (result.Succeeded)
             {
                 _db.Log.Add(new LogItem()
