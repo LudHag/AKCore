@@ -54,7 +54,7 @@
                 @logItem.Type
             </div>
             <div class="col-sm-2 col-xs-6">
-                @logItem.ModifiedBy.UserName
+                @(logItem.ModifiedBy != null ? logItem.ModifiedBy.UserName : "Borttagen")
             </div>
             <div class="col-sm-6 col-xs-6">
                 @logItem.Comment
