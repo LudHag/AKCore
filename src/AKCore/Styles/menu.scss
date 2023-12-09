@@ -1,142 +1,149 @@
 ﻿nav {
-    display: block;
-    position: relative;
-    width: 100%;
-    margin-top: 15px;
-    height: 35px;
-    background: $akgrey;
+  display: block;
+  position: relative;
+  width: 100%;
+  margin-top: 15px;
+  height: 35px;
+  background: $akgrey;
 }
 .login {
-    font-size: 16px;
-    font-weight: 500;
+  font-size: 16px;
+  font-weight: 500;
 }
 .navigation {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-flow: row wrap;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: row wrap;
 
-    li {
-        position: relative;
+  li {
+    position: relative;
 
-        a {
-            cursor: default;
+    a {
+      cursor: default;
 
-            &:link {
-                cursor: pointer;
-            }
+      &:link {
+        cursor: pointer;
+      }
 
-            font-weight: 500;
-            display: block;
-            color: $akwhite;
-            line-height: 34px;
-            font-size: 16px;
-            padding: 0 20px;
+      font-weight: 500;
+      display: block;
+      color: $akwhite;
+      line-height: 34px;
+      font-size: 16px;
+      padding: 0 20px;
 
-            &.active,
-            &:hover {
-                display: block;
-                color: #999;
-                text-decoration: none;
-            }
-        }
+      &.active,
+      &:hover {
+        display: block;
+        color: #999;
+        text-decoration: none;
+      }
     }
+  }
 }
 .subnav {
-    display: none;
-    position: absolute;
-    list-style: none;
-    padding: 5px 0;
-    z-index: 5000;
-    background-color: $akgrey;
-    white-space: nowrap;
+  display: none;
+  position: absolute;
+  list-style: none;
+  padding: 5px 0;
+  z-index: 5000;
+  background-color: $akgrey;
+  white-space: nowrap;
 
-    li {
-        padding-right: 5px;
-        padding-bottom: 5px;
-    }
+  li {
+    padding-right: 5px;
+    padding-bottom: 5px;
+  }
 }
 
 .navigation > * {
-    display: inline-block;
+  display: inline-block;
 }
-.mob-navigation{
+.mob-navigation {
+  list-style: none;
+  padding-left: 0;
+  ul {
     list-style: none;
     padding-left: 0;
-    ul{
-        list-style: none;
-        padding-left: 0;
+  }
+  & > li {
+    display: block;
+    border-bottom: 1px solid #eee8e5;
+    & > a,
+    & > span {
+      font-size: 16px;
+      padding: 10px;
+      display: block;
+      position: relative;
+      &:hover {
+        background-color: #1a0000;
+      }
     }
-    &>li{
-        display: block;
-        border-bottom: 1px solid #eee8e5;
-        &>a,&>span{
-            font-size: 16px;
-            padding: 10px;
-            display: block;
-            position:relative;
-            &:hover{
-                background-color: #1a0000;
-            }
-        }
+  }
+  a,
+  span {
+    color: #999999;
+    font-weight: 500;
+    text-align: center;
+  }
+  .submenu-item {
+    padding: 10px;
+    display: block;
+    &:hover {
+      background-color: #1a0000;
     }
-    a,span{
-        color: #999999;
-        font-weight: 500;
-        text-align: center;
-    }
-    .submenu-item{
-        padding: 10px;
-        display: block;
-        &:hover{
-            background-color: #1a0000;
-        }
-    }
+  }
 }
-.mob-navigation span.exp-submenu{
-    position:absolute;
-    right: 4px;
-    top: 50%;
-    transform: translateY(-50%);
-    padding: 12px;
+.mob-navigation span.exp-submenu {
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 12px;
 }
-.mob-subnav{
-    display:none;
-}
-#mobile-menu{
-    display:none;
+.mob-subnav {
+  height: 0px;
+  overflow: hidden;
+  transition: height 0.5s ease-in-out;
 }
 #open-mobile-menu {
-    display: none;
-    position: absolute;
-    font-size: 50px;
-    right: 17px;
-    top: -42px;
+  display: none;
+  position: absolute;
+  font-size: 50px;
+  right: 17px;
+  top: -42px;
 }
+.mobile-menu {
+  height: 0px;
+  overflow: hidden;
+  transition: height 0.5s ease-in-out;
+}
+
 @media screen and (max-width: $screen-xs-max) {
-    .logo img {
-        width: 388px;
-        max-width: 80%;
-    }
+  .logo img {
+    width: 388px;
+    max-width: 80%;
+  }
 
-    .account {
-        right: inherit;
-        top: 82px;
+  .account {
+    right: inherit;
+    top: 82px;
 
-        p {
-            display: inline-block;
-        }
+    p {
+      display: inline-block;
     }
+  }
 
-    .navigation {
-        display: none;
-    }
+  .navigation {
+    display: none;
+  }
 
-    #open-mobile-menu {
-        display: block;
-    }
+  #open-mobile-menu {
+    display: block;
+  }
 
-    nav {
-        background: $akred;
-    }
+  nav {
+    background: $akred;
+  }
 }

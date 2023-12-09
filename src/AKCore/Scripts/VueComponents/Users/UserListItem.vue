@@ -3,7 +3,8 @@
     <tr class="clickable hover-grey" @click.prevent="expanded = !expanded">
       <td>{{ user.fullName }}</td>
       <td>{{ user.userName }}</td>
-      <td class="roles">
+      <td>
+        <div class="roles"> 
         <span
           v-for="role in user.roles"
           :key="role"
@@ -17,7 +18,9 @@
             @click.prevent.stop="removeRole(role)"
           ></a>
         </span>
+      </div>
       </td>
+      <td> <span :class="{ inactive: userInactive }">{{ user.lastSignedIn }} </span></td>
       <td class="item-actions">
         <a
           class="btn remove-user glyphicon glyphicon-remove"
@@ -44,8 +47,9 @@
                     class="listed-items"
                     :key="post"
                     v-for="post in user.posts"
-                    >{{ post }}</span
                   >
+                    {{ post }}
+                  </span>
                 </p>
                 <form
                   class="form-inline save-medal"
@@ -54,20 +58,20 @@
                   @submit.prevent="saveLastEarned"
                 >
                   <div class="form-group">
-                    <strong>Senast förtjänade medalj: {{ user.medal }}</strong>
+                    <strong class="spacing-right">Senast förtjänade medalj: {{ user.medal }}</strong>
                     <input
                       type="hidden"
                       name="userName"
                       :value="user.userName"
                     />
                     <select
-                      class="form-control input-sm"
+                      class="form-control input-sm spacing-right"
                       name="medal"
                       :value="user.medal"
                     >
                       <option value="">Ingen</option>
                       <option
-                        v-for="medal in medals"
+                        v-for="medal in MEDALS"
                         :key="medal"
                         :value="medal"
                       >
@@ -88,22 +92,22 @@
                   @submit.prevent="saveLastGiven"
                 >
                   <div class="form-group">
-                    <strong
-                      >Senast utdelad medalj: {{ user.givenMedal }}</strong
-                    >
+                    <strong class="spacing-right">
+                      Senast utdelad medalj: {{ user.givenMedal }}
+                    </strong>
                     <input
                       type="hidden"
                       name="userName"
                       :value="user.userName"
                     />
                     <select
-                      class="form-control input-sm"
+                      class="form-control input-sm spacing-right"
                       name="medal"
                       :value="user.givenMedal"
                     >
                       <option value="">Ingen</option>
                       <option
-                        v-for="medal in medals"
+                        v-for="medal in MEDALS"
                         :key="medal"
                         :value="medal"
                       >
@@ -121,8 +125,9 @@
                   href="#"
                   class="btn btn-default edit-user-info"
                   @click.prevent="$emit('edit')"
-                  >Redigera användarinfo</a
                 >
+                  Redigera användarinfo
+                </a>
               </div>
             </div>
             <div class="col-sm-6">
@@ -152,8 +157,8 @@
                       name="UserName"
                       :value="user.userName"
                     />
-                    <label>Lägg till roll: </label>
-                    <select class="form-control input-sm" name="Role">
+                    <label class="spacing-right">Lägg till roll: </label>
+                    <select class="form-control input-sm spacing-right" name="Role">
                       <option value="">Välj roll</option>
                       <option v-for="role in roles" :key="role" :value="role">
                         {{ role }}
@@ -172,8 +177,9 @@
                   href="#"
                   class="btn btn-primary reset-pass-btn"
                   @click.prevent="resetPassword"
-                  >Nytt lösenord</a
                 >
+                  Nytt lösenord
+                </a>
               </div>
               <div class="edit-group">
                 <label>Lägg till post(er): </label>
@@ -187,13 +193,13 @@
                     multiple
                     :searchable="false"
                     v-model="selectedPosts"
-                    :options="posts"
+                    :options="POSTS"
                   ></v-select>
                   <div class="form-group">
                     <button
                       type="reset"
                       @click.prevent="clearPosts"
-                      class="btn btn-primary input-sm"
+                      class="btn btn-primary input-sm spacing-right"
                     >
                       Rensa
                     </button>
@@ -210,170 +216,174 @@
     </tr>
   </tbody>
 </template>
-<script>
-import Constants from "../../constants";
+<script setup lang="ts">
+import { MEDALS, POSTS, ROLES } from "../../constants";
+// @ts-ignore
 import vSelect from "vue-select";
-import ApiService from "../../services/apiservice";
+import { defaultFormSend, postToApi } from "../../services/apiservice";
+import { UpdateInfo, User } from "./models";
+import { computed, ref, watch } from "vue";
 
-export default {
-  props: ["user"],
-  components: {
-    vSelect,
-  },
-  data() {
-    return {
-      expanded: false,
-      selectedPosts: [],
-    };
-  },
-  watch: {
-    user() {
-      if (this.user && this.user.posts) {
-        this.selectedPosts = this.user.posts.slice();
-      }
-    },
-    expanded(val) {
-      if (val && this.user && this.user.posts) {
-        this.selectedPosts = this.user.posts.slice();
-      }
-    },
-  },
-  methods: {
-    roleInfo(role) {
-      switch (role) {
-        case "SuperNintendo":
-          return "Har rättigheter att redigera all information på webben";
-        case "Editor":
-          return "Kan redigera sidor, musikalbum, ladda upp filer samt titta på intresseanmälningar";
-        case "Medlem":
-          return "Kan anmäla sig till spelningar, syns i adressregistret samt kan redigera sin profil";
-        case "Balett":
-          return "Kan se balettsidor";
-      }
-      return "";
-    },
-    removeUser() {
-      if (confirm("Vill du verkligen ta bort " + this.user.fullName + "?")) {
-        const error = $($(".alert-danger")[0]);
-        const success = $($(".alert-success")[0]);
-        ApiService.postByUrl(
-          "/User/RemoveUser?userName=" + this.user.userName,
-          error,
-          success,
-          () => {
-            this.$emit("removeuser", this.user.userName);
-          }
-        );
-      }
-    },
-    saveLastEarned(event) {
-      const error = $($(".alert-danger")[0]);
-      const success = $($(".alert-success")[0]);
-      const form = $(event.target);
-      ApiService.defaultFormSend(form, error, success, () => {
-        this.$emit("updateuserprop", {
-          userName: this.user.userName,
-          prop: "medal",
-          value: event.target.elements.medal.value,
-        });
-      });
-    },
-    saveLastGiven(event) {
-      const error = $($(".alert-danger")[0]);
-      const success = $($(".alert-success")[0]);
-      const form = $(event.target);
-      ApiService.defaultFormSend(form, error, success, () => {
-        this.$emit("updateuserprop", {
-          userName: this.user.userName,
-          prop: "givenMedal",
-          value: event.target.elements.medal.value,
-        });
-      });
-    },
-    removeRole(role) {
-      const error = $($(".alert-danger")[0]);
-      const success = $($(".alert-success")[0]);
-      const roleIndex = this.user.roles.indexOf(role);
-      if (roleIndex === -1) {
-        return;
-      }
-      const newRoles = this.user.roles.slice();
-      newRoles.splice(roleIndex, 1);
+const emit = defineEmits<{
+  (e: "removeuser", userName: string): void;
+  (e: "updateuserprop", updateInfo: UpdateInfo): void;
+  (e: "newpassword", user: User): void;
+  (e: "edit"): void;
+}>();
 
-      ApiService.postByUrl(
-        "/User/RemoveRole?UserName=" + this.user.userName + "&Role=" + role,
-        error,
-        success,
-        () => {
-          this.$emit("updateuserprop", {
-            userName: this.user.userName,
-            prop: "roles",
-            value: newRoles,
-          });
-        }
-      );
-    },
-    addRole(event) {
-      const error = $($(".alert-danger")[0]);
-      const success = $($(".alert-success")[0]);
-      const form = $(event.target);
-      const role = event.target.elements.Role.value;
-      const roleIndex = this.user.roles.indexOf(role);
-      if (roleIndex !== -1) {
-        return;
-      }
-      const newRoles = this.user.roles.slice();
-      newRoles.push(role);
-      ApiService.defaultFormSend(form, error, success, () => {
-        this.$emit("updateuserprop", {
-          userName: this.user.userName,
-          prop: "roles",
-          value: newRoles,
-        });
-      });
-    },
-    resetPassword() {
-      this.$emit("newpassword", this.user);
-    },
-    addPost() {
-      const error = $($(".alert-danger")[0]);
-      const success = $($(".alert-success")[0]);
-      const postObj = {
-        post: this.selectedPosts,
-        userName: this.user.userName,
-      };
-      ApiService.postByObjectAsForm(
-        "/User/AddPost",
-        postObj,
-        error,
-        success,
-        () => {
-          this.$emit("updateuserprop", {
-            userName: this.user.userName,
-            prop: "posts",
-            value: this.selectedPosts.slice(),
-          });
-        }
-      );
-    },
-    clearPosts() {
-      this.selectedPosts = [];
-    },
-  },
-  computed: {
-    medals() {
-      return Constants.MEDALS;
-    },
-    roles() {
-      return Constants.ROLES.filter((role) => {
-        return this.user.roles.indexOf(role) == -1;
-      });
-    },
-    posts() {
-      return Constants.POSTS;
-    },
-  },
+const props = defineProps<{
+  user: User;
+}>();
+
+const expanded = ref(false);
+const selectedPosts = ref<string[]>([]);
+const error = document.getElementsByClassName("alert-danger")[0] as HTMLElement;
+const success = document.getElementsByClassName(
+  "alert-success"
+)[0] as HTMLElement;
+
+//logic for setting last signed in to red if older than one year
+const userInactive = ref(false);
+const date = new Date();
+date.setFullYear(date.getFullYear() - 1);
+userInactive.value = Date.parse(props.user.lastSignedIn) - date.valueOf() < 0;
+
+watch(
+  () => props.user,
+  (user) => {
+    if (user && user.posts) {
+      selectedPosts.value = user.posts.slice();
+    }
+  }
+);
+
+watch(
+  () => expanded.value,
+  (val) => {
+    if (val && props.user && props.user.posts) {
+      selectedPosts.value = props.user.posts.slice();
+    }
+  }
+);
+
+const roleInfo = (role: string) => {
+  switch (role) {
+    case "SuperNintendo":
+      return "Har rättigheter att redigera all information på webben";
+    case "Editor":
+      return "Kan redigera sidor, musikalbum, ladda upp filer samt titta på intresseanmälningar";
+    case "Medlem":
+      return "Kan anmäla sig till spelningar, syns i adressregistret samt kan redigera sin profil";
+    case "Balett":
+      return "Kan se balettsidor";
+  }
+  return "";
 };
+
+const removeUser = () => {
+  if (confirm("Vill du verkligen ta bort " + props.user.fullName + "?")) {
+    postToApi(
+      "/User/RemoveUser?userName=" + props.user.userName,
+      null,
+      error,
+      success,
+      () => {
+        emit("removeuser", props.user.userName);
+      }
+    );
+  }
+};
+
+const saveLastEarned = (event: Event) => {
+  defaultFormSend(event.target as HTMLFormElement, error, success, () => {
+    emit("updateuserprop", {
+      userName: props.user.userName,
+      prop: "medal",
+      // @ts-ignore
+      value: (event.target as HTMLFormElement).elements.medal.value,
+    });
+  });
+};
+
+const saveLastGiven = (event: Event) => {
+  defaultFormSend(event.target as HTMLFormElement, error, success, () => {
+    emit("updateuserprop", {
+      userName: props.user.userName,
+      prop: "givenMedal",
+      // @ts-ignore
+      value: (event.target as HTMLFormElement).elements.medal.value,
+    });
+  });
+};
+
+const removeRole = (role: string) => {
+  const roleIndex = props.user.roles.indexOf(role);
+  if (roleIndex === -1) {
+    return;
+  }
+  const newRoles = props.user.roles.slice();
+  newRoles.splice(roleIndex, 1);
+
+  postToApi(
+    "/User/RemoveRole?UserName=" + props.user.userName + "&Role=" + role,
+    null,
+    error,
+    success,
+    () => {
+      emit("updateuserprop", {
+        userName: props.user.userName,
+        prop: "roles",
+        value: newRoles,
+      });
+    }
+  );
+};
+
+const addRole = (event: Event) => {
+  // @ts-ignore
+  const role = (event.target as HTMLFormElement).elements.Role.value;
+  const roleIndex = props.user.roles.indexOf(role);
+  if (roleIndex !== -1) {
+    return;
+  }
+  const newRoles = props.user.roles.slice();
+  newRoles.push(role);
+  defaultFormSend(event.target as HTMLFormElement, error, success, () => {
+    emit("updateuserprop", {
+      userName: props.user.userName,
+      prop: "roles",
+      value: newRoles,
+    });
+  });
+};
+
+const resetPassword = () => {
+  emit("newpassword", props.user);
+};
+
+const addPost = () => {
+  const postObj = {
+    post: selectedPosts.value,
+    userName: props.user.userName,
+  };
+  postToApi("/User/AddPost", postObj, error, success, () => {
+    emit("updateuserprop", {
+      userName: props.user.userName,
+      prop: "posts",
+      value: selectedPosts.value.slice(),
+    });
+  });
+};
+
+const clearPosts = () => {
+  selectedPosts.value = [];
+};
+
+const roles = computed(() => {
+  return ROLES.filter((role) => {
+    return props.user.roles.indexOf(role) == -1;
+  });
+});
 </script>
 <style lang="scss" scoped>
 @import "../../../Styles/variables.scss";
@@ -391,6 +401,10 @@ export default {
 }
 .item-actions {
   text-align: right;
+}
+
+.inactive { 
+  color: orangered;
 }
 
 .hover-tooltip {

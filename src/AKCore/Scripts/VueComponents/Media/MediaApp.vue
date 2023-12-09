@@ -5,7 +5,7 @@
       class="media-upload-area"
       @upload="uploadFiles"
     >
-      <template v-slot:content>
+      <template #content>
         <div>
           <div
             class="alert alert-danger"
@@ -17,7 +17,7 @@
             up fil(er).
           </p>
           <select class="form-control" v-model="selectedTag" required>
-            <option v-for="cat in imageTypes" :key="cat">{{ cat }}</option>
+            <option v-for="cat in IMAGETYPES" :key="cat">{{ cat }}</option>
           </select>
         </div>
       </template>
@@ -30,67 +30,44 @@
     ></media-list>
   </div>
 </template>
-<script>
-import ApiService from "../../services/apiservice";
+<script setup lang="ts">
+import { getFromApi, postFormData } from "../../services/apiservice";
 import FileUploader from "../FileUploader.vue";
 import MediaList from "./MediaList.vue";
-import Constants from "../../constants";
+import { IMAGETYPES } from "../../constants";
+import { ref, onMounted } from "vue";
+import { MediaItem } from "./models";
 
-export default {
-  components: {
-    MediaList,
-    FileUploader,
-  },
-  data() {
-    return {
-      categories: null,
-      selectedTag: "Allmän",
-    };
-  },
-  computed: {
-    categoryNames() {
-      if (!this.categories) {
-        return [];
-      }
-      return Object.keys(this.categories);
-    },
-    imageTypes() {
-      return Constants.IMAGETYPES;
-    },
-  },
-  methods: {
-    loadMediaList() {
-      ApiService.get("/Media/MediaData", null, (res) => {
-        this.categories = res;
-        this.imageTypes.forEach((type) => {
-          if (!(type in this.categories)) {
-            this.categories[type] = [];
-          }
-        });
-      });
-    },
-    uploadFiles(files) {
-      const mediaData = new FormData();
-      for (var i = 0; i < files.length; i++) {
-        mediaData.append("UploadFiles", files[i]);
-      }
-      mediaData.append("Tag", this.selectedTag);
-      const error = $(this.$refs.error);
-      ApiService.postFormData(
-        "/media/UploadFiles",
-        mediaData,
-        error,
-        null,
-        () => {
-          this.loadMediaList();
-        }
-      );
-    },
-  },
-  created() {
-    this.loadMediaList();
-  },
+const categories = ref<Record<string, MediaItem[]> | null>(null);
+const selectedTag = ref("Allmän");
+const error = ref<HTMLElement | null>(null);
+
+const loadMediaList = async () => {
+  const result = await getFromApi<Record<string, MediaItem[]>>(
+    "/Media/MediaData"
+  );
+  categories.value = result;
+  IMAGETYPES.forEach((type) => {
+    if (!(type in categories.value!)) {
+      categories.value![type] = [];
+    }
+  });
 };
+
+const uploadFiles = (files: FileList) => {
+  const mediaData = new FormData();
+  for (let i = 0; i < files.length; i++) {
+    mediaData.append("UploadFiles", files[i]);
+  }
+  mediaData.append("Tag", selectedTag.value);
+  postFormData("/media/UploadFiles", mediaData, error.value, null, () => {
+    loadMediaList();
+  });
+};
+
+onMounted(() => {
+  loadMediaList();
+});
 </script>
 <style lang="scss" scoped>
 .media-upload-area {

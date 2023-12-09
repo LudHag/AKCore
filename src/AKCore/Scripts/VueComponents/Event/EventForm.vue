@@ -1,13 +1,14 @@
 ﻿<template>
   <form
+    v-if="eventInfo"
     @submit.prevent="submitForm"
     :action="'/upcoming/Signup/' + eventInfo.event.id"
     method="POST"
   >
-    <div class="alert alert-danger" style="display: none"></div>
-    <div class="alert alert-success" style="display: none"></div>
+    <div class="alert alert-danger" ref="error" style="display: none"></div>
+    <div class="alert alert-success" ref="success" style="display: none"></div>
     <div class="form-group">
-      <label>Kommer till:</label>
+      <label>{{ t("coming-to") }}:</label>
       <div class="indent">
         <div class="radio">
           <label>
@@ -30,7 +31,7 @@
               value="Direkt"
               required
             />
-            Direkt
+            {{ t("direct") }}
           </label>
         </div>
         <div class="radio">
@@ -42,7 +43,7 @@
               value="Kan inte komma"
               required
             />
-            Kan inte komma
+            {{ t("cant-come") }}
           </label>
         </div>
       </div>
@@ -51,18 +52,18 @@
       <label>
         <input type="checkbox" v-model="car" />
         <input type="hidden" name="Car" v-model="car" />
-        Har bil
+        {{ t("has-car") }}
       </label>
     </div>
     <div class="checkbox">
       <label>
         <input type="checkbox" v-model="instrument" />
         <input type="hidden" name="Instrument" v-model="instrument" />
-        Tar med instrument själv
+        {{ t("brings-instrument") }}
       </label>
     </div>
     <div class="form-group">
-      <label>Kommentar</label>
+      <label>{{ t("comment") }}</label>
       <input
         class="form-control"
         name="Comment"
@@ -71,65 +72,61 @@
       />
     </div>
     <div class="form-group">
-      <button type="submit" class="btn btn-default">Anmäl</button>
+      <button type="submit" class="btn btn-default">{{ t("sign-up") }}</button>
     </div>
   </form>
 </template>
-<script>
-import Spinner from '../Spinner.vue';
+<script setup lang="ts">
+import { onMounted, ref, onActivated } from "vue";
+import { defaultFormSend } from "../../services/apiservice";
+import { UpcomingEventInfo, UpcomingWhere } from "../Upcoming/models";
+import { TranslationDomain, translate } from "../../translations";
 
-export default {
-  components: {
-    Spinner,
-  },
-  data() {
-    return {
-      where: null,
-      car: false,
-      instrument: false,
-      comment: null,
-    };
-  },
-  props: ['eventInfo'],
-  methods: {
-    submitForm(event) {
-      const self = this;
-      const form = $(event.target);
-      const error = form.find('.alert-danger');
-      const success = form.find('.alert-success');
-      $.ajax({
-        url: form.attr('action'),
-        type: 'POST',
-        data: form.serialize(),
-        success: function (res) {
-          if (res.success) {
-            self.$emit('update');
-            success.text('Anmälan uppdaterad');
-            success.slideDown().delay(3000).slideUp();
-          } else {
-            error.text(res.message);
-            error.slideDown().delay(4000).slideUp();
-          }
-        },
-        error: function () {
-          error.text('Misslyckades med att anmäla dig');
-          error.slideDown().delay(4000).slideUp();
-        },
-      });
-    },
-    loadForm() {
-      this.where = this.eventInfo.where;
-      this.comment = this.eventInfo.comment;
-      this.instrument = this.eventInfo.instrument;
-      this.car = this.eventInfo.car;
-    },
-  },
-  activated() {
-    this.loadForm();
-  },
-  created() {
-    this.loadForm();
-  },
+const emit = defineEmits<{
+  (e: "update"): void;
+}>();
+
+const props = defineProps<{
+  eventInfo: UpcomingEventInfo | null;
+}>();
+
+const where = ref<UpcomingWhere>(null);
+const car = ref(false);
+const instrument = ref(false);
+const comment = ref<string | null>(null);
+const error = ref<HTMLElement | null>(null);
+const success = ref<HTMLElement | null>(null);
+
+const submitForm = (event: Event) => {
+  defaultFormSend(
+    event.target as HTMLFormElement,
+    error.value,
+    success.value,
+    () => {
+      emit("update");
+    }
+  );
+};
+
+const loadForm = () => {
+  if (props.eventInfo) {
+    where.value = props.eventInfo.where;
+    comment.value = props.eventInfo.comment;
+    instrument.value = props.eventInfo.instrument;
+    car.value = props.eventInfo.car;
+  }
+};
+
+onMounted(() => {
+  loadForm();
+});
+
+onActivated(() => {
+  loadForm();
+});
+
+const t = (key: string, domain: TranslationDomain = "signup") => {
+  return translate(domain, key);
 };
 </script>
 <style lang="scss"></style>

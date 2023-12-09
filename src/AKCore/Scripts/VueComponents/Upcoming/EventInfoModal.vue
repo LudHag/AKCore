@@ -1,6 +1,6 @@
 ﻿<template>
-  <modal :show-modal="event" :header="header" @close="close">
-    <template v-slot:body>
+  <modal :show-modal="!!event" :header="header" @close="close">
+    <template #body>
       <div class="modal-body" v-if="event">
         <div class="row">
           <div class="col-sm-4" style="font-weight: 500">
@@ -11,13 +11,13 @@
           </div>
           <div class="col-sm-4">
             <p class="modal-halan" v-if="event.halanTime">
-              Samling i hålan: {{ event.halanTime }}
+              {{ t("gather-in-hole", "common") }}: {{ event.halanTime }}
             </p>
             <p class="modal-there" v-if="event.thereTime">
-              Samling på plats: {{ event.thereTime }}
+              {{ t("gather-there", "common") }}: {{ event.thereTime }}
             </p>
             <p class="modal-start" v-if="event.startsTime">
-              Spelning startar: {{ event.startsTime }}
+              {{ t("concert-starts", "common") }}: {{ event.startsTime }}
             </p>
           </div>
           <div class="col-sm-4">
@@ -26,22 +26,26 @@
               v-if="signupable && event.signupState"
               @click.prevent.stop="openSignup"
               :href="signupUrl"
-              >Anmäld ({{ event.signupState }})</a
             >
+              {{ t("signed-up") }} ({{ event.signupState }})
+            </a>
             <a
               v-if="signupable && !event.signupState"
               @click.prevent.stop="openSignup"
               :href="signupUrl"
-              >Anmäl</a
             >
+              {{ t("sign-up") }}
+            </a>
             <p class="modal-comming" v-if="signupable">
-              {{ event.coming }} Kommer - {{ event.notComing }} Kommer inte
+              {{ event.coming }} {{ t("coming", "common") }} -
+              {{ event.notComing }}
+              {{ t("not-coming", "common") }}
             </p>
             <p class="modal-stand" v-if="event.stand">
-              Speltyp: {{ event.stand }}
+              {{ t("type-of-play") }}: {{ event.stand }}
             </p>
             <p class="modal-fika" v-if="event.fika">
-              Fika och städning: {{ event.fika }}
+              {{ t("fika-and-clean") }}: {{ event.fika }}
             </p>
           </div>
           <div class="extra">
@@ -59,40 +63,50 @@
     </template>
   </modal>
 </template>
-<script>
+<script setup lang="ts">
+import { computed } from "vue";
 import Modal from "../Modal.vue";
-export default {
-  props: ["event", "member"],
-  components: {
-    Modal,
-  },
-  methods: {
-    close() {
-      this.$emit("close");
-    },
-    openSignup() {
-      this.$emit("signup", this.event.id);
-    },
-  },
-  computed: {
-    signupUrl() {
-      return "/upcoming/Event/" + this.event.id;
-    },
-    signupable() {
-      return (
-        this.member &&
-        (this.event.type === "Spelning" ||
-          this.event.type === "Kårhusrep" ||
-          this.event.type === "Athenrep")
-      );
-    },
-    header() {
-      if (!event) {
-        return "";
-      }
-      return event.name;
-    },
-  },
+import { UpcomingEvent } from "./models";
+import { TranslationDomain, translate } from "../../translations";
+import { eventIsRep } from "./functions";
+
+const emit = defineEmits<{
+  (e: "close"): void;
+  (e: "signup", id: number): void;
+}>();
+
+const props = defineProps<{
+  event: UpcomingEvent;
+  member: boolean;
+}>();
+
+const close = () => emit("close");
+const openSignup = () => emit("signup", props.event.id);
+
+const signupUrl = "/upcoming/Event/" + props.event.id;
+
+const signupable =
+  props.member &&
+  (props.event.type === "Spelning" ||
+    props.event.type === "Kårhusrep" ||
+    props.event.type === "Athenrep");
+
+const eventName = (e: UpcomingEvent) => {
+  if (eventIsRep(e)) {
+    return t(e.type);
+  }
+  return e.name;
+};
+
+const header = computed(() => {
+  if (!props.event) {
+    return "";
+  }
+  return eventName(props.event);
+});
+
+const t = (key: string, domain: TranslationDomain = "upcoming") => {
+  return translate(domain, key);
 };
 </script>
 <style lang="scss" scoped>

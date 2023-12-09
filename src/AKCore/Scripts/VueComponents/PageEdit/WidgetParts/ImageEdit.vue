@@ -5,8 +5,9 @@
       <a
         class="btn btn-default choose-picture-btn"
         @click.prevent="showModal = true"
-        >Välj bild</a
       >
+        Välj bild
+      </a>
     </div>
     <image-picker-modal
       v-if="showModal"
@@ -17,22 +18,25 @@
     ></image-picker-modal>
   </div>
 </template>
-<script>
+<script setup lang="ts">
+import { ref } from "vue";
 import ImagePickerModal from "../../ImagePickerModal.vue";
-export default {
-  components: { ImagePickerModal },
-  props: ["modelValue", "fullwidth"],
-  data() {
-    return {
-      showModal: false,
-    };
-  },
-  methods: {
-    selectImage(image) {
-      this.$emit("update:modelValue", "/media/" + image.name);
-      this.showModal = false;
-    },
-  },
+import { Image } from "../../models";
+
+const emit = defineEmits<{
+  (e: "update:modelValue", value: string): void;
+}>();
+
+defineProps<{
+  modelValue?: string;
+  fullwidth?: boolean;
+}>();
+
+const showModal = ref(false);
+
+const selectImage = (image: Image) => {
+  emit("update:modelValue", "/media/" + image.name);
+  showModal.value = false;
 };
 </script>
 <style lang="scss"></style>

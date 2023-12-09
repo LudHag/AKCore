@@ -4,6 +4,9 @@
 
 #new-page-form {
   display: none;
+  &.open {
+    display: block;
+  }
 }
 
 .top-row {
@@ -271,8 +274,4 @@ table {
   td {
     vertical-align: top;
   }
-}
-
-.log-item-menu {
-  font-weight: 500;
 }

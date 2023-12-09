@@ -1,9 +1,15 @@
 ﻿@model AKCore.Models.HeaderModel
 
+@{
+    var isEnglish = t.IsEnglish();
+}
+
 <ul class="navigation hidden-print">
     @foreach (var m in Model.Menus)
             {
                 var active = "";
+                var name = (isEnglish && !string.IsNullOrWhiteSpace(m.NameEng)) ? m.NameEng : m.Name;
+
                 if (m.Link == Model.CurrentUrl)
                 {
                     active = "active";
@@ -19,13 +25,13 @@
                     @if (string.IsNullOrWhiteSpace(m.Link))
                     {
                         <a class="@active">
-                            @m.Name
+                            @name
                         </a>
                     }
                     else
                     {
                         <a href="@m.Link" class="@active">
-                            @m.Name
+                            @name
                         </a>
                     }
                     @if (m.Children.Count > 0)
@@ -34,6 +40,7 @@
                             @foreach (var c in m.Children)
                             {
                                 var cactive = "";
+                                var childName = (isEnglish && !string.IsNullOrWhiteSpace(c.NameEng)) ?c.NameEng : c.Name;
                                 if (c.Link == Model.CurrentUrl)
                                 {
                                     cactive = "active";
@@ -49,13 +56,13 @@
                                     @if (c.Link == null)
                                     {
                                         <a class="@cactive">
-                                            @c.Name
+                                            @childName
                                         </a>
                                     }
                                     else
                                     {
                                         <a href="@c.Link" class="@cactive">
-                                            @c.Name
+                                            @childName
                                         </a>
                                     }
                                 </li>

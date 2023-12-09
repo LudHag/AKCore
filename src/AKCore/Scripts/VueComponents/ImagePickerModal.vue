@@ -1,11 +1,11 @@
 ﻿<template>
-  <modal
-    :show-modal="showModal"
+  <Modal
+    :show-modal="showModal ?? false"
     :header="'Välj bild'"
-    :notransition="notransition"
+    :notransition="notransition ?? false"
     @close="close"
   >
-    <template v-slot:body>
+    <template #body>
       <div class="modal-body">
         <form class="form-inline ak-search">
           <div class="form-group">
@@ -14,8 +14,12 @@
           <div class="form-group">
             <select name="Tag" v-model="type" class="form-control">
               <option value="">Alla bilder</option>
-              <option :value="type" v-for="type in imageTypes" :key="type">
-                {{ type }}
+              <option
+                :value="imageType"
+                v-for="imageType in IMAGETYPES"
+                :key="imageType"
+              >
+                {{ imageType }}
               </option>
             </select>
           </div>
@@ -33,7 +37,7 @@
           <div class="col-xs-12">
             <ul class="pagination">
               <li
-                v-bind:class="{ active: page + 1 === n }"
+                :class="{ active: page + 1 === n }"
                 v-for="n in pagesLength"
                 :key="n"
               >
@@ -44,77 +48,87 @@
         </div>
       </div>
     </template>
-  </modal>
+  </Modal>
 </template>
-<script>
-import Modal from "./Modal.vue";
-import ApiService from "../services/apiservice";
-import Constants from "../constants";
 
-export default {
-  components: {
-    Modal,
-  },
-  data() {
-    return {
-      images: [],
-      page: 0,
-      type: "",
-      search: "",
-    };
-  },
-  props: ["showModal", "notransition", "destination"],
-  methods: {
-    close() {
-      this.$emit("close");
-    },
-    loadImages() {
-      ApiService.get("/Media/ImageListData", null, (res) => {
-        this.images = res;
-      });
-    },
-    selectImage(image) {
-      if (this.destination) {
-        this.destination.val("/media/" + image.name);
-        this.$emit("close");
-      } else {
-        this.$emit("image", image);
-      }
-    },
-    toPage(n) {
-      this.page = n;
-    },
-  },
-  computed: {
-    filteredImages() {
-      return this.images.filter((image) => {
-        return (
-          (!this.type || this.type === image.tag) &&
-          (!this.search ||
-            image.name.toLowerCase().indexOf(this.search.toLowerCase()) > -1)
-        );
-      });
-    },
-    shownImages() {
-      const take = this.page * 8;
-      return this.filteredImages.slice(take, take + 8);
-    },
-    pagesLength() {
-      const nbrPages = Math.ceil(this.filteredImages.length / 8);
-      if (this.page + 1 > nbrPages && nbrPages - 1 > -1) {
-        this.page = nbrPages - 1;
-      }
-      return nbrPages;
-    },
-    imageTypes() {
-      return Constants.IMAGETYPES;
-    },
-  },
-  created() {
-    this.loadImages();
-  },
+<script setup lang="ts">
+import Modal from "./Modal.vue";
+import { getFromApi } from "../services/apiservice";
+import { IMAGETYPES } from "../constants";
+import { Image } from "./models";
+import { ref, computed, onMounted, watch } from "vue";
+
+const emit = defineEmits<{
+  (e: "close"): void;
+  (e: "image", image: Image): void;
+}>();
+
+const props = defineProps<{
+  showModal: boolean | null;
+  notransition?: boolean | null;
+  destination?: HTMLInputElement | null;
+}>();
+
+const images = ref<Image[]>([]);
+const page = ref(0);
+const type = ref("");
+const search = ref("");
+
+const close = () => {
+  emit("close");
 };
+
+const loadImages = async () => {
+  images.value = await getFromApi<Image[]>("/Media/ImageListData");
+};
+
+const selectImage = (image: Image) => {
+  if (props.destination) {
+    props.destination.value = "/media/" + image.name;
+    emit("close");
+  } else {
+    emit("image", image);
+  }
+};
+
+const toPage = (n: number) => {
+  page.value = n;
+};
+
+const filteredImages = computed(() => {
+  return images.value.filter((image) => {
+    return (
+      (!type.value || type.value === image.tag) &&
+      (!search.value ||
+        image.name.toLowerCase().indexOf(search.value.toLowerCase()) > -1)
+    );
+  });
+});
+
+const shownImages = computed(() => {
+  const take = page.value * 8;
+  return filteredImages.value.slice(take, take + 8);
+});
+
+const pagesLength = computed(() => {
+  const nbrPages = Math.ceil(filteredImages.value.length / 8);
+  return nbrPages;
+});
+
+watch(
+  () => filteredImages.value,
+  () => {
+    if (page.value + 1 > pagesLength.value && pagesLength.value - 1 > -1) {
+      page.value = pagesLength.value - 1;
+    }
+  }
+);
+
+onMounted(() => {
+  loadImages();
+});
 </script>
+
 <style lang="scss" scoped>
 .image-box {
   cursor: pointer;

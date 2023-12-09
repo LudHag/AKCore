@@ -4,8 +4,8 @@
 }
 
 :root {
-    --vs-border-width: 0;
-    --vs-dropdown-option-color: #000;
+  --vs-border-width: 0;
+  --vs-dropdown-option-color: #000;
 }
 
 html,
@@ -102,6 +102,21 @@ a {
 .body-content {
   background: #000;
   color: $akwhite;
+  position: relative;
+}
+
+.language-change-container a {
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.mobile-language-change {
+  position: absolute;
+  top: 0;
+  right: 10px;
+  padding: 10px;
+  font-size: 2rem;
 }
 
 .modal {
@@ -193,11 +208,16 @@ a {
   display: block;
 }
 
+.spacing-right {
+  margin-right: 5px;
+}
+
 .roles {
+  display: flex;
+  gap: 5px;
   .role {
     background-color: $akred;
     border-radius: 5px;
-    margin-right: 10px;
     padding: 2px;
   }
 }
@@ -267,12 +287,12 @@ p.infobox {
 .signup-element {
   overflow: hidden;
 }
-.notice-box{
+.notice-box {
   position: absolute;
-  right: 180px;
+  left: -50px;
 }
-.interested-notice, .mail-notice {
-
+.interested-notice,
+.mail-notice {
   margin-bottom: 8px;
   display: block;
 

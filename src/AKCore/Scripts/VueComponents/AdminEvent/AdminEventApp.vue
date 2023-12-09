@@ -2,9 +2,9 @@
   <div id="admin-event-app">
     <div class="row">
       <div class="col-sm-6">
-        <a href="#" class="btn btn-primary" @click.prevent="openNewEvent"
-          >Lägg till händelse</a
-        >
+        <a href="#" class="btn btn-primary" @click.prevent="openNewEvent">
+          Lägg till händelse
+        </a>
       </div>
       <div class="col-sm-6">
         <select class="form-control" @change="newSort">
@@ -15,8 +15,12 @@
     </div>
     <div class="row">
       <div class="col-xs-12">
-        <div class="alert alert-success" style="display: none"></div>
-        <div class="alert alert-error" style="display: none"></div>
+        <div
+          class="alert alert-success"
+          ref="success"
+          style="display: none"
+        ></div>
+        <div class="alert alert-error" ref="error" style="display: none"></div>
       </div>
     </div>
     <spinner :size="'medium'" v-if="!adminEventData"></spinner>
@@ -25,6 +29,7 @@
       <div
         class="row event-row"
         v-for="e in adminEventData.events"
+        :key="e.id"
         @click="openEvent(e)"
       >
         <div class="col-sm-2">
@@ -49,7 +54,8 @@
           <ul class="pagination">
             <li
               v-for="i in paginationPages"
-              v-bind:class="{ active: adminEventData.currentPage === i }"
+              :key="i"
+              :class="{ active: adminEventData.currentPage === i }"
             >
               <a v-if="i !== 0" href="#" @click.prevent="toPage(i)">{{ i }}</a>
               <span v-if="i === 0" class="dots">...</span>
@@ -69,104 +75,96 @@
     </admin-event-modal>
   </div>
 </template>
-<script>
-import Spinner from '../Spinner.vue';
-import AdminEventModal from './AdminEventModal.vue';
-import ApiService from '../../services/apiservice';
+<script setup lang="ts">
+import Spinner from "../Spinner.vue";
+import AdminEventModal from "./AdminEventModal.vue";
+import { getFromApi, postToApi } from "../../services/apiservice";
+import { ref, computed, onMounted } from "vue";
+import { AdminEventModel } from "./models";
+import { UpcomingEvent } from "../Upcoming/models";
 
-export default {
-  components: {
-    Spinner,
-    AdminEventModal,
-  },
-  data() {
-    return {
-      adminEventData: null,
-      eventModalOpened: false,
-      modalEvent: null,
-    };
-  },
-  computed: {
-    paginationPages() {
-      const total = this.adminEventData.totalPages;
-      const current = this.adminEventData.currentPage;
+const adminEventData = ref<AdminEventModel | null>(null);
+const eventModalOpened = ref(false);
+const modalEvent = ref<UpcomingEvent | null>(null);
+const success = ref<HTMLElement | null>(null);
+const error = ref<HTMLElement | null>(null);
 
-      const pages = [];
-      let gap = false;
-      for (let i = 1; i <= total; i++) {
-        if (
-          i <= 2 ||
-          (i >= current - 1 && i <= current + 1) ||
-          i >= total - 1
-        ) {
-          pages.push(i);
-          gap = false;
-        } else if (!gap) {
-          pages.push(0);
-          gap = true;
-        }
-      }
+const paginationPages = computed(() => {
+  const total = adminEventData.value?.totalPages ?? 0;
+  const current = adminEventData.value?.currentPage ?? 0;
 
-      return pages;
-    },
-  },
-  methods: {
-    newSort(e) {
-      this.loadEvents(e.target.value === 'Gamla', 1);
-    },
-    removeEvent(e) {
-      if (
-        confirm(
-          'Är du säker på att du vill ta bort event: ' + e.day + ' ' + e.name
-        )
-      ) {
-        const error = $('.alert-danger');
-        const success = $('.alert-success');
-        ApiService.postByUrl(
-          '/AdminEvent/Remove/' + e.id,
-          error,
-          success,
-          () => {
-            this.loadEvents(
-              this.adminEventData.old,
-              this.adminEventData.currentPage
-            );
-          }
+  const pages = [];
+  let gap = false;
+  for (let i = 1; i <= total; i++) {
+    if (i <= 2 || (i >= current - 1 && i <= current + 1) || i >= total - 1) {
+      pages.push(i);
+      gap = false;
+    } else if (!gap) {
+      pages.push(0);
+      gap = true;
+    }
+  }
+
+  return pages;
+});
+
+const newSort = (e: Event) => {
+  loadEvents((e.target as HTMLSelectElement).value === "Gamla", 1);
+};
+
+const removeEvent = (e: UpcomingEvent) => {
+  if (
+    confirm("Är du säker på att du vill ta bort event: " + e.day + " " + e.name)
+  ) {
+    postToApi(
+      "/AdminEvent/Remove/" + e.id,
+      null,
+      error.value,
+      success.value,
+      () => {
+        loadEvents(
+          adminEventData.value?.old ?? false,
+          adminEventData.value?.currentPage ?? 1
         );
       }
-    },
-    openEvent(e) {
-      this.modalEvent = e;
-      this.eventModalOpened = true;
-    },
-    openNewEvent() {
-      this.modalEvent = null;
-      this.eventModalOpened = true;
-    },
-    closeModal() {
-      this.eventModalOpened = false;
-    },
-    eventUpdated() {
-      this.closeModal();
-      this.loadEvents(this.adminEventData.old, this.adminEventData.currentPage);
-    },
-    toPage(i) {
-      this.loadEvents(this.adminEventData.old, i);
-    },
-    loadEvents(old, page) {
-      const self = this;
-      ApiService.get(
-        '/AdminEvent/EventData?old=' + old + '&page=' + page,
-        null,
-        (res) => {
-          self.adminEventData = res;
-        }
-      );
-    },
-  },
-  created() {
-    this.loadEvents(false, 1);
-  },
+    );
+  }
 };
+
+const loadEvents = async (old: boolean, page: number) => {
+  adminEventData.value = await getFromApi<AdminEventModel>(
+    "/AdminEvent/EventData?old=" + old + "&page=" + page
+  );
+};
+
+const openEvent = (e: UpcomingEvent) => {
+  modalEvent.value = e;
+  eventModalOpened.value = true;
+};
+
+const openNewEvent = () => {
+  modalEvent.value = null;
+  eventModalOpened.value = true;
+};
+
+const closeModal = () => {
+  eventModalOpened.value = false;
+};
+
+const eventUpdated = () => {
+  closeModal();
+  loadEvents(
+    adminEventData.value?.old ?? false,
+    adminEventData.value?.currentPage ?? 1
+  );
+};
+
+const toPage = (i: number) => {
+  loadEvents(adminEventData.value?.old ?? false, i);
+};
+
+onMounted(() => {
+  loadEvents(false, 1);
+});
 </script>
 <style lang="scss"></style>

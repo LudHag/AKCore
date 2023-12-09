@@ -1,4 +1,6 @@
-﻿using AKCore.DataModel;
+﻿using AKCore.Clients;
+using AKCore.DataModel;
+using AKCore.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -42,9 +44,21 @@ namespace AKCore
 #endif
             services.AddControllersWithViews().AddNewtonsoftJson();
             services.AddSession();
+            services.AddMemoryCache();
+            services.AddHttpContextAccessor();
+            services.AddTransient<PageService>();
+            services.AddTransient<AlbumService>();
+            services.AddTransient<AdminLogService>();
+            services.AddScoped<TranslationsService>();
+
+            var apiSecret = Configuration["OpenApiSecret"];
+            services.AddTransient(x => new OpenApiClient(apiSecret ?? ""));
+
             services.AddIdentity<AkUser, IdentityRole>()
                 .AddEntityFrameworkStores<AKContext>()
                 .AddDefaultTokenProviders();
+
+            services.ConfigureApplicationCookie(options => options.LoginPath = "/");
 
             services.Configure<IdentityOptions>(options =>
             {
@@ -76,6 +90,7 @@ namespace AKCore
             app.UseSession();
             app.UseRouting();
             app.UseAuthentication();
+
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {

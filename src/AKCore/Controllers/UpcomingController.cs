@@ -1,6 +1,7 @@
 ﻿using AKCore.DataModel;
 using AKCore.Extensions;
 using AKCore.Models;
+using AKCore.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -20,13 +21,16 @@ namespace AKCore.Controllers
     {
         private readonly UserManager<AkUser> _userManager;
         private readonly AKContext _db;
+        private readonly TranslationsService _translationsService;
         private static readonly CultureInfo Culture = new CultureInfo("sv");
+        private static readonly CultureInfo CultureEn = new CultureInfo("en-US");
 
         public UpcomingController(
-            UserManager<AkUser> userManager, AKContext db)
+            UserManager<AkUser> userManager, AKContext db, TranslationsService translationsService)
         {
             _userManager = userManager;
             _db = db;
+            _translationsService = translationsService;
         }
 
         public ActionResult Index()
@@ -49,6 +53,8 @@ namespace AKCore.Controllers
                 userId = user.Id;
             }
 
+            var isEnglish = _translationsService.IsEnglish();
+
             var model = new UpcomingViewModel
             {
                 Years = _db.Events
@@ -62,7 +68,7 @@ namespace AKCore.Controllers
                     .ToDictionary(x => x.Key, x => new YearList
                     {
                         Year = x.Key,
-                        Months = x.Select(y => MapEventModel(y, loggedIn, userId)).GroupBy(z => z.Month).
+                        Months = x.Select(y => MapEventModel(y, loggedIn, userId, isEnglish)).GroupBy(z => z.Month).
                             ToDictionary(xx => xx.Key, xx => xx.ToList())
                     }),
                 LoggedIn = loggedIn,
@@ -73,8 +79,13 @@ namespace AKCore.Controllers
             return Json(model);
         }
 
-        private static EventViewModel MapEventModel(Event e, bool loggedIn, string userId)
+        private static EventViewModel MapEventModel(Event e, bool loggedIn, string userId, bool isEnglish)
         {
+            var cultureToUse = isEnglish ? CultureEn : Culture;
+
+            var description = (isEnglish && !string.IsNullOrWhiteSpace(e.DescriptionEng)) ? e.DescriptionEng : e.Description;
+            var internalDescription = (isEnglish && !string.IsNullOrWhiteSpace(e.InternalDescriptionEng)) ? e.InternalDescriptionEng : e.InternalDescription;
+
             var model = loggedIn
                 ? new EventViewModel()
                 {
@@ -82,10 +93,10 @@ namespace AKCore.Controllers
                     Type = e.Type,
                     Name = e.Name,
                     Place = e.Place,
-                    Description = e.Description,
-                    InternalDescription = e.InternalDescription,
+                    Description = description,
+                    InternalDescription = internalDescription,
                     Fika = e.Fika,
-                    Day = e.Day.ToString("dddd dd", Culture) + "/" + e.Day.ToString("MM", Culture),
+                    Day = e.Day.ToString("dddd dd", cultureToUse) + "/" + e.Day.ToString("MM", cultureToUse),
                     DayInMonth = e.Day.Day,
                     HalanTime = ParseTime(e.HalanTime),
                     ThereTime = ParseTime(e.ThereTime),
@@ -103,8 +114,8 @@ namespace AKCore.Controllers
                     Name = e.Name,
                     Place = e.Place,
                     Type = e.Type,
-                    Description = e.Description,
-                    Day = e.Day.ToString("dddd dd", Culture) + "/" + e.Day.ToString("MM", Culture),
+                    Description = description,
+                    Day = e.Day.ToString("dddd dd", cultureToUse) + "/" + e.Day.ToString("MM", cultureToUse),
                     StartsTime = ParseTime(e.StartsTime),
                     Year = e.Day.Year,
                     Month = e.Day.Month
@@ -254,7 +265,8 @@ namespace AKCore.Controllers
             }
 
             model.IsNintendo = nintendo;
-            model.Event = MapEventModel(spelning, true, user.Id);
+            var isEnglish = _translationsService.IsEnglish();
+            model.Event = MapEventModel(spelning, true, user.Id, isEnglish);
             var signups = spelning.SignUps.OrderBy(x => x.InstrumentName).ThenBy(x => x.PersonName);
             model.Signups = await RemoveDoubles(signups, eId);
 
@@ -343,7 +355,7 @@ namespace AKCore.Controllers
             signup.OtherInstruments = user.OtherInstruments;
             spelning.SignUps.Add(signup);
             _db.SaveChanges();
-            return Json(new { success = true });
+            return Json(new { success = true, message = "Anmälan uppdaterad" });
         }
     }
 }

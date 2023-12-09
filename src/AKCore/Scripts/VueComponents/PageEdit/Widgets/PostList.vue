@@ -1,9 +1,5 @@
 <template>
   <div></div>
 </template>
-<script>
-export default {
-  props: ["modelValue"],
-};
-</script>
+<script setup lang="ts"></script>
 <style lang="scss"></style>

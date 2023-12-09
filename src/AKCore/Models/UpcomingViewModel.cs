@@ -18,7 +18,9 @@ namespace AKCore.Models
         public string Name { get; set; }
         public string Place { get; set; }
         public string Description { get; set; }
+        public string DescriptionEng { get; set; }
         public string InternalDescription { get; set; }
+        public string InternalDescriptionEng { get; set; }
         public string Fika { get; set; }
         public int Year { get; set; }
         public int Month { get; set; }

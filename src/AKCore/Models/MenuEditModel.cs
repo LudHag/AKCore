@@ -13,6 +13,7 @@ namespace AKCore.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public string NameEng { get; set; }
         public string Link { get; set; }
         public int LinkId { get; set; }
         public List<ModelMenu> Children { get; set; }
@@ -26,21 +27,14 @@ namespace AKCore.Models
             Children = new List<ModelMenu>();
             Id = menu.Id;
             Name = menu.Name;
+            NameEng = menu.NameEng;
             MenuLoggedIn = menu.LoggedIn;
             MenuBalett = menu.Balett;
             Link = menu.Link?.Slug ?? "";
             LinkId = menu.Link?.Id ?? 0;
-            if (menu.Link != null)
-            {
-                LoggedIn = menu.Link.LoggedIn;
-            }
-
+            if (menu.Link != null) LoggedIn = menu.Link.LoggedIn;
             PosIndex = menu.PosIndex;
-            if (menu.Children == null)
-            {
-                return;
-            }
-
+            if (menu.Children == null) return;
             foreach (var m in menu.Children.Where(x => userLoggedIn || !x.Link.LoggedIn).OrderBy(x => x.SubPosIndex).ToList())
             {
                 Children.Add(new ModelMenu(m));
@@ -49,18 +43,11 @@ namespace AKCore.Models
         public ModelMenu(SubMenu menu)
         {
             Id = menu.Id;
-            if (menu.Link != null)
-            {
-                LoggedIn = menu.Link.LoggedIn;
-            }
-
+            if (menu.Link != null) LoggedIn = menu.Link.LoggedIn;
             LinkId = menu.Link?.Id ?? 0;
             Name = menu.Name;
-            if (menu.Link != null)
-            {
-                Link = menu.Link.Slug;
-            }
-
+            NameEng = menu.NameEng;
+            if (menu.Link != null) Link = menu.Link.Slug;
             PosIndex = menu.SubPosIndex;
         }
 

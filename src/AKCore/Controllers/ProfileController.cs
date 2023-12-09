@@ -53,12 +53,27 @@ namespace AKCore.Controllers
                 Phone = user.Phone,
                 Instrument = user.Instrument,
                 OtherInstruments = string.IsNullOrWhiteSpace(user.OtherInstruments) ? null : user.OtherInstruments.Split(',').ToList(),
-                Posts = !string.IsNullOrWhiteSpace(user.SlavPoster) ? JsonConvert.DeserializeObject<List<string>>(user.SlavPoster) : new List<string>(),
+                Posts = GetPosts(user.SlavPoster),
                 Roles = await _userManager.GetRolesAsync(user),
                 Medal = user.Medal,
                 GivenMedal = user.GivenMedal
             };
             return Json(model);
+        }
+
+        private static List<string> GetPosts(string slavPoster)
+        {
+            if (string.IsNullOrWhiteSpace(slavPoster))
+            {
+                return new List<string>();
+            }
+            var deserialized = JsonConvert.DeserializeObject<List<string>>(slavPoster);
+
+            if (deserialized.Count() == 0)
+            {
+                return new List<string>();
+            }
+            return deserialized.FirstOrDefault().Split(",").ToList();
         }
 
         [Route("EditProfile")]
@@ -83,7 +98,7 @@ namespace AKCore.Controllers
             {
                 await _signInManager.SignInAsync(user, true);
             }
-            return Json(new { success = result.Succeeded, message = result.ToString() });
+            return Json(new { success = result.Succeeded, message = "Din profil uppdaterades" });
         }
 
         [Route("ChangePassword")]

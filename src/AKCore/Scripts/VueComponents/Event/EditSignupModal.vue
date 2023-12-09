@@ -1,13 +1,17 @@
 ﻿<template>
-  <modal :show-modal="showModal" header="'Lägg till anmälan'" @close="close">
-    <template v-slot:body>
+  <modal :show-modal="showModal" header="Lägg till anmälan" @close="close">
+    <template #body>
       <form
         action="/upcoming/EditSignup"
         method="POST"
         @submit.prevent="submitForm"
       >
         <div class="modal-body">
-          <div class="alert alert-danger" style="display: none"></div>
+          <div
+            class="alert alert-danger"
+            ref="error"
+            style="display: none"
+          ></div>
           <div class="row">
             <div class="col-sm-12">
               <input type="hidden" name="eventId" :value="eventId" />
@@ -28,7 +32,7 @@
                 <label>Status</label>
                 <select class="form-control" name="type" required>
                   <option value="">Välj anmälningstyp</option>
-                  <option v-for="signupType in signupTypes" :key="signupType">
+                  <option v-for="signupType in SIGNUPTYPES" :key="signupType">
                     {{ signupType }}
                   </option>
                 </select>
@@ -44,52 +48,35 @@
     </template>
   </modal>
 </template>
-<script>
-import Constants from "../../constants";
+<script setup lang="ts">
+import { ref } from "vue";
+import { SIGNUPTYPES } from "../../constants";
+import { defaultFormSend } from "../../services/apiservice";
 import Modal from "../Modal.vue";
+import { AvailableMember } from "../Upcoming/models";
 
-export default {
-  props: ["members", "eventId", "showModal"],
-  components: {
-    Modal,
-  },
-  computed: {
-    signupTypes() {
-      return Constants.SIGNUPTYPES;
-    },
-  },
-  methods: {
-    submitForm(event) {
-      const form = $(event.target);
-      const self = this;
-      const error = form.find(".alert-danger");
-      const success = $(".alert-success");
-      $.ajax({
-        url: form.attr("action"),
-        type: "POST",
-        data: form.serialize(),
-        success: function (res) {
-          if (res.success) {
-            success.text("Anmälan uppdaterad");
-            success.slideDown().delay(3000).slideUp();
-            form.trigger("reset");
-            self.$emit("update");
-            self.$emit("close");
-          } else {
-            error.text(res.message);
-            error.slideDown().delay(4000).slideUp();
-          }
-        },
-        error: function () {
-          error.text("Misslyckades med att anmäla dig");
-          error.slideDown().delay(4000).slideUp();
-        },
-      });
-    },
-    close(event) {
-      this.$emit("close");
-    },
-  },
+const emit = defineEmits<{
+  (e: "update"): void;
+  (e: "close"): void;
+}>();
+
+defineProps<{
+  members: AvailableMember[];
+  eventId: number;
+  showModal: boolean;
+}>();
+
+const close = () => {
+  emit("close");
+};
+
+const error = ref<HTMLElement | null>(null);
+
+const submitForm = (event: Event) => {
+  defaultFormSend(event.target as HTMLFormElement, error.value, null, () => {
+    emit("update");
+    emit("close");
+  });
 };
 </script>
 <style lang="scss"></style>

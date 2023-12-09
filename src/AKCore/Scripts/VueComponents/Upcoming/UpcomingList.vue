@@ -16,36 +16,45 @@
       </div>
     </div>
     <p v-if="noYears">
-      Vi har tyvärr inga spelningar inplanerade närmaste tiden.
+      {{ t("no-concerts") }}
     </p>
   </div>
 </template>
-<script>
-import Constants from '../../constants';
-import UpcomingListItem from './UpcomingListItem.vue';
+<script setup lang="ts">
+import { computed } from "vue";
+import Constants from "../../constants";
+import { UpcomingYears, UpcomingEvent } from "./models";
+import UpcomingListItem from "./UpcomingListItem.vue";
+import { TranslationDomain, isEnglish, translate } from "../../translations";
 
-export default {
-  components: { UpcomingListItem },
-  props: ['years', 'loggedIn', 'member'],
-  methods: {
-    getMonthName(month) {
-      return Constants.MONTHS[month[0].month - 1];
-    },
-    signup(id) {
-      this.$emit('signup', id);
-    },
-  },
-  computed: {
-    months() {
-      return Constants.MONTHS;
-    },
-    noYears() {
-      for (var key in this.years) {
-        if (this.years.hasOwnProperty(key)) return false;
-      }
-      return true;
-    },
-  },
+const emit = defineEmits<{
+  (e: "signup", id: number): void;
+}>();
+
+const props = defineProps<{
+  years: UpcomingYears;
+  loggedIn: boolean;
+  member: boolean;
+}>();
+
+const getMonthName = (monthEvents: UpcomingEvent[]) => {
+  return isEnglish
+    ? Constants.MONTHS_ENG[monthEvents[0].month - 1]
+    : Constants.MONTHS[monthEvents[0].month - 1];
+};
+
+const signup = (id: number) => {
+  emit("signup", id);
+};
+
+const noYears = computed(() => {
+  for (const key in props.years) {
+    if (props.years.hasOwnProperty(key)) return false;
+  }
+  return true;
+});
+const t = (key: string, domain: TranslationDomain = "upcoming") => {
+  return translate(domain, key);
 };
 </script>
 <style lang="scss"></style>

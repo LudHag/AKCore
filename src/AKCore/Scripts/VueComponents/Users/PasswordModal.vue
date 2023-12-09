@@ -1,6 +1,6 @@
 ﻿<template>
   <modal :show-modal="showModal" :header="'Byt lösenord'" @close="close">
-    <template v-slot:body>
+    <template #body>
       <div class="modal-body">
         <form
           action="/User/ChangePassword"
@@ -12,6 +12,7 @@
         >
           <div
             class="alert alert-danger change-password-error"
+            ref="changepasserror"
             style="display: none"
           ></div>
           <input
@@ -42,32 +43,35 @@
     </template>
   </modal>
 </template>
-<script>
-import ApiService from "../../services/apiservice";
+<script setup lang="ts">
+import { ref } from "vue";
+import { defaultFormSend } from "../../services/apiservice";
 import Modal from "../Modal.vue";
+import { User } from "./models";
 
-export default {
-  props: ["user", "showModal"],
-  components: {
-    Modal,
-  },
-  methods: {
-    close() {
-      this.$emit("close");
-    },
-    submitButton() {
-      const form = $(this.$refs.changepassform);
-      form.submit();
-    },
-    submitForm(event) {
-      const error = $(".change-password-error");
-      const form = $(this.$refs.changepassform);
-      ApiService.defaultFormSend(form, error, null, () => {
-        this.$emit("success");
-        this.close();
-      });
-    },
-  },
+const emit = defineEmits<{
+  (e: "close"): void;
+  (e: "success"): void;
+}>();
+
+defineProps<{
+  user: User | null;
+  showModal: boolean;
+}>();
+
+const changepassform = ref<HTMLFormElement | null>(null);
+const changepasserror = ref<HTMLElement | null>(null);
+
+const close = () => {
+  emit("close");
+};
+
+const submitForm = () => {
+  if (changepassform.value === null) return;
+  defaultFormSend(changepassform.value, changepasserror.value, null, () => {
+    emit("success");
+    close();
+  });
 };
 </script>
 <style lang="scss" scoped></style>

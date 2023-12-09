@@ -16,6 +16,7 @@ namespace AKCore.Models
         public bool LoggedOut { get; set; }
         public bool BalettOnly { get; set; }
         public string Template { get; set; }
+        public string MetaDescription { get; set; }
         public int PageId { get; set; }
         public Revision SelectedRevision { get; set; }
         public DateTime LastModified { get; set; }
@@ -29,6 +30,7 @@ namespace AKCore.Models
         public string Name { get; set; }
         public string Slug { get; set; }
         public IList<Widget> Widgets { get; set; }
+        public string MetaDescription { get; set; }
         public bool LoggedIn { get; set; }
         public bool LoggedOut { get; set; }
         public bool BalettOnly { get; set; }

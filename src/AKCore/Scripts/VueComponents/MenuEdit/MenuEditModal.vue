@@ -1,6 +1,6 @@
 ﻿<template>
   <modal :show-modal="showModal" :header="'Redigera meny'" @close="close">
-    <template v-slot:body>
+    <template #body>
       <div class="modal-body">
         <form
           :action="formEndpoint"
@@ -8,7 +8,11 @@
           @submit.prevent="submitForm"
           ref="editform"
         >
-          <div class="alert alert-danger" style="display: none"></div>
+          <div
+            class="alert alert-danger"
+            ref="error"
+            style="display: none"
+          ></div>
           <input
             type="hidden"
             name="parentId"
@@ -28,12 +32,22 @@
             />
           </div>
           <div class="form-group">
+            <label>Namn engelska</label>
+            <input
+              type="text"
+              class="form-control name"
+              name="textEng"
+              placeholder="Namn på engelska"
+              :value="menuNameEng"
+              required
+            />
+          </div>
+          <div class="form-group">
             <select
               name="pageId"
               class="form-control"
               :value="linkId"
               placeholder="Sida"
-              required
             >
               <option value>Välj en sida</option>
               <option :value="page.id" v-for="page in pages" :key="page.id">
@@ -66,7 +80,7 @@
         </form>
       </div>
     </template>
-    <template v-slot:footer>
+    <template #footer>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" @click.prevent="close">
           Stäng
@@ -82,74 +96,94 @@
     </template>
   </modal>
 </template>
-<script>
-import ApiService from "../../services/apiservice";
+<script setup lang="ts">
+import { ref, computed, watch, onMounted } from "vue";
+import { defaultFormSend } from "../../services/apiservice";
 import Modal from "../Modal.vue";
+import { MenuEditModel, PageEditModel } from "./models";
 
-export default {
-  props: ["menu", "parentId", "showModal", "pages"],
-  components: {
-    Modal,
-  },
-  data() {
-    return {
-      menuLoggedIn: false,
-      menuBalett: false,
-    };
-  },
-  computed: {
-    menuName() {
-      if (this.menu) {
-        return this.menu.name;
-      } else {
-        return "";
-      }
-    },
-    linkId() {
-      if (this.menu && this.menu.linkId > 0) {
-        return this.menu.linkId;
-      } else {
-        return "";
-      }
-    },
-    menuId() {
-      if (this.menu && this.menu.id > 0) {
-        return this.menu.id;
-      } else {
-        return "";
-      }
-    },
-    formEndpoint() {
-      return this.menu ? "/MenuEdit/EditMenu" : "/MenuEdit/AddSubMenu";
-    },
-  },
-  methods: {
-    close() {
-      this.$emit("close");
-    },
-    submitForm(event) {
-      const error = $(".alert-danger");
-      const form = $(this.$refs.editform);
-      ApiService.defaultFormSend(form, error, null, () => {
-        this.$emit("update");
-        this.close();
-      });
-    },
-    updateValues() {
-      if (this.menu) {
-        this.menuLoggedIn = this.menu.menuLoggedIn;
-        this.menuBalett = this.menu.menuBalett;
-      }
-    },
-  },
-  watch: {
-    menu() {
-      this.updateValues();
-    },
-  },
-  created() {
-    this.updateValues();
-  },
+const emit = defineEmits<{
+  (e: "close"): void;
+  (e: "update"): void;
+}>();
+
+const props = defineProps<{
+  menu: MenuEditModel | null;
+  parentId: number | null;
+  showModal: boolean;
+  pages: PageEditModel[] | null;
+}>();
+
+const menuLoggedIn = ref(false);
+const menuBalett = ref(false);
+const editform = ref<HTMLFormElement | null>(null);
+const error = ref<HTMLDivElement | null>(null);
+
+const menuName = computed(() => {
+  if (props.menu) {
+    return props.menu.name;
+  } else {
+    return "";
+  }
+});
+
+const menuNameEng = computed(() => {
+  if (props.menu) {
+    return props.menu.nameEng;
+  } else {
+    return "";
+  }
+});
+
+const linkId = computed(() => {
+  if (props.menu && props.menu.linkId > 0) {
+    return props.menu.linkId;
+  } else {
+    return "";
+  }
+});
+
+const menuId = computed(() => {
+  if (props.menu && props.menu.id > 0) {
+    return props.menu.id;
+  } else {
+    return "";
+  }
+});
+
+const formEndpoint = computed(() => {
+  return props.menu ? "/MenuEdit/EditMenu" : "/MenuEdit/AddSubMenu";
+});
+
+const close = () => {
+  emit("close");
 };
+
+const submitForm = () => {
+  if (!editform.value) return;
+
+  defaultFormSend(editform.value, error.value, null, () => {
+    emit("update");
+    close();
+  });
+};
+
+const updateValues = () => {
+  if (props.menu) {
+    menuLoggedIn.value = props.menu.menuLoggedIn;
+    menuBalett.value = props.menu.menuBalett;
+  }
+};
+
+watch(
+  () => props.menu,
+  () => {
+    updateValues();
+  }
+);
+
+onMounted(() => {
+  updateValues();
+});
 </script>
 <style lang="scss" scoped></style>

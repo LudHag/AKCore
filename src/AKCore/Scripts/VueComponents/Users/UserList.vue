@@ -1,7 +1,8 @@
 ﻿<template>
-  <div id="user-list">
+  <div id="user-list" class="user-list-scroll">
     <div
       class="alert alert-success update-password-success"
+      ref="updatePasswordSuccess"
       style="display: none"
     >
       Lösenord uppdaterat
@@ -10,8 +11,9 @@
       <thead>
         <tr>
           <th>Namn</th>
-          <th>Email</th>
+          <th>Användarnamn</th>
           <th>Roller</th>
+          <th>Senast inloggad</th>
           <th></th>
         </tr>
       </thead>
@@ -33,54 +35,66 @@
     ></password-modal>
   </div>
 </template>
-<script>
-import UserListItem from './UserListItem.vue';
-import PasswordModal from './PasswordModal.vue';
+<script setup lang="ts">
+import UserListItem from "./UserListItem.vue";
+import PasswordModal from "./PasswordModal.vue";
+import { UpdateInfo, User } from "./models";
+import { ref, computed } from "vue";
+import { slideUpAndDown } from "../../services/slidehandler";
 
-export default {
-  props: ['users'],
-  components: {
-    UserListItem,
-    PasswordModal,
-  },
-  data() {
-    return {
-      showUpdatePasswordModal: false,
-      updatePasswordUser: null,
-    };
-  },
-  computed: {
-    sortedUsers() {
-      return this.users.sort((a, b) => a.firstName.localeCompare(b.firstName));
-    },
-  },
-  methods: {
-    updateUserProp(updateInfo) {
-      this.$emit('updateuserprop', updateInfo);
-    },
-    removeUser(userName) {
-      this.$emit('removeuser', userName);
-    },
-    updatePassword(user) {
-      this.showUpdatePasswordModal = true;
-      this.updatePasswordUser = user;
-    },
-    closeModal() {
-      this.showUpdatePasswordModal = false;
-      this.updatePasswordUser = null;
-    },
-    newPasswordSuccess() {
-      $('.update-password-success').slideDown().delay(4000).slideUp();
-    },
-  },
+const emit = defineEmits<{
+  (e: "updateuserprop", updateInfo: UpdateInfo): void;
+  (e: "removeuser", userName: string): void;
+  (e: "edit", user: User): void;
+}>();
+
+const props = defineProps<{
+  users: User[];
+}>();
+
+const showUpdatePasswordModal = ref(false);
+const updatePasswordUser = ref<User | null>(null);
+const updatePasswordSuccess = ref<HTMLElement | null>(null);
+
+const sortedUsers = computed(() => {
+  return [...props.users].sort((a, b) =>
+    a.firstName.localeCompare(b.firstName)
+  );
+});
+
+const updateUserProp = (updateInfo: UpdateInfo) => {
+  emit("updateuserprop", updateInfo);
+};
+
+const removeUser = (userName: string) => {
+  emit("removeuser", userName);
+};
+
+const updatePassword = (user: User) => {
+  showUpdatePasswordModal.value = true;
+  updatePasswordUser.value = user;
+};
+
+const closeModal = () => {
+  showUpdatePasswordModal.value = false;
+  updatePasswordUser.value = null;
+};
+
+const newPasswordSuccess = () => {
+  slideUpAndDown(updatePasswordSuccess.value!, 4000);
 };
 </script>
 <style lang="scss" scoped>
-@import '../../../Styles/variables.scss';
+@import "../../../Styles/variables.scss";
 
 table {
   table-layout: auto;
 }
+
+.user-list-scroll { 
+  overflow-x: auto;
+}
+
 table .role {
   cursor: pointer;
 }

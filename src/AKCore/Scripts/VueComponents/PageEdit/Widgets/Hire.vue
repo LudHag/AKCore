@@ -1,22 +1,23 @@
 <template>
   <div>
-    <text-edit
-      :modelValue="modelValue.text"
-      @update:modelValue="update($event)"
-      :fullwidth="true"
-    ></text-edit>
+    <div>
+      <text-edit v-model="modelValue.text" :fullwidth="true"></text-edit>
+    </div>
+    <translation-edit
+      :model-value="modelValue"
+      @update:modelValue="$emit('update:modelValue', $event)"
+      :translate="translate"
+    ></translation-edit>
   </div>
 </template>
-<script>
+<script setup lang="ts">
+import { WidgetEditModel } from "../models";
 import TextEdit from "../WidgetParts/TextEdit.vue";
-export default {
-  components: { TextEdit },
-  props: ["modelValue"],
-  methods: {
-    update(event) {
-      this.$emit("update:modelValue", { ...this.modelValue, text: event });
-    },
-  },
-};
+import TranslationEdit from "../WidgetParts/TranslationEdit.vue";
+
+defineProps<{
+  modelValue: WidgetEditModel;
+  translate: boolean;
+}>();
 </script>
 <style lang="scss"></style>

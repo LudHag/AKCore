@@ -20,13 +20,15 @@
           </div>
           <div class="col-sm-12">
             <p v-if="eventInfo.event.halanTime">
-              Samling i hålan: {{ eventInfo.event.halanTime }}
+              {{ t("gather-in-hole", "common") }}:
+              {{ eventInfo.event.halanTime }}
             </p>
             <p v-if="eventInfo.event.thereTime">
-              Samling på plats: {{ eventInfo.event.thereTime }}
+              {{ t("gather-there", "common") }}: {{ eventInfo.event.thereTime }}
             </p>
             <p v-if="eventInfo.event.startsTime">
-              Spelning startar: {{ eventInfo.event.startsTime }}
+              {{ t("concert-starts", "common") }}:
+              {{ eventInfo.event.startsTime }}
             </p>
           </div>
           <div class="col-sm-12">
@@ -35,11 +37,12 @@
               class="btn btn-default"
               v-if="eventInfo.isNintendo"
               @click.prevent="showAdminEdit"
-              >Lägg till anmälningar</a
             >
-            <a href="#" class="btn btn-default" @click.prevent="toggleInfo"
-              >Visa information</a
-            >
+              Lägg till anmälningar
+            </a>
+            <a href="#" class="btn btn-default" @click.prevent="toggleInfo">
+              {{ t("show-info") }}
+            </a>
           </div>
         </div>
         <div class="col-xs-12" v-if="showInfo">
@@ -66,83 +69,83 @@
     </div>
   </div>
 </template>
-<script>
-import Spinner from '../Spinner.vue';
-import EventForm from './EventForm.vue';
-import SignupList from './SignupList.vue';
-import EditSignupModal from './EditSignupModal.vue';
+<script setup lang="ts">
+import Spinner from "../Spinner.vue";
+import EventForm from "./EventForm.vue";
+import SignupList from "./SignupList.vue";
+import EditSignupModal from "./EditSignupModal.vue";
+import { ref, computed, toRefs, watch, onMounted } from "vue";
+import { UpcomingEventInfo } from "../Upcoming/models";
+import { getFromApi } from "../../services/apiservice";
+import { TranslationDomain, translate } from "../../translations";
 
-export default {
-  components: {
-    Spinner,
-    EventForm,
-    SignupList,
-    EditSignupModal,
-  },
-  props: ['eventId'],
-  data() {
-    return {
-      events: {},
-      loading: false,
-      showEditForm: false,
-      showInfo: false,
-    };
-  },
-  computed: {
-    eventInfo() {
-      if (this.eventId < 0 || !this.events) {
-        return false;
-      }
-      const eInfo = this.events[this.eventId];
-      return eInfo;
-    },
-  },
-  watch: {
-    eventId() {
-      if (!this.events[this.eventId]) {
-        this.loadEvent();
-      }
-    },
-  },
-  methods: {
-    loadEvents() {
-      this.loadEvent();
-      this.$emit('update');
-    },
-    loadEvent() {
-      const self = this;
-      this.loading = true;
-      $.ajax({
-        url: '/upcoming/Event/EventData/' + self.eventId,
-        type: 'GET',
-        success: function (res) {
-          self.events = Object.assign({}, self.events, { [self.eventId]: res });
-          self.loading = false;
-        },
-        error: function () {
-          console.log('fel');
-          self.loading = false;
-        },
-      });
-    },
-    close() {
-      this.$emit('close');
-    },
-    showAdminEdit() {
-      this.showEditForm = true;
-    },
-    closeModal() {
-      this.showEditForm = false;
-    },
-    toggleInfo() {
-      this.showInfo = !this.showInfo;
-    },
-  },
-  created() {
-    if (this.eventId > -1) {
-      this.loadEvent();
-    }
-  },
+const emit = defineEmits<{
+  (e: "close"): void;
+  (e: "update"): void;
+}>();
+
+const props = defineProps<{
+  eventId: number;
+}>();
+
+const { eventId } = toRefs(props);
+
+const events = ref<{ [eventId: number]: UpcomingEventInfo }>({});
+const loading = ref(false);
+const showEditForm = ref(false);
+const showInfo = ref(false);
+
+const eventInfo = computed(() => {
+  if (eventId.value < 0 || !events.value) {
+    return null;
+  }
+  const eInfo = events.value[eventId.value];
+  return eInfo;
+});
+
+watch(eventId, () => {
+  if (!events.value[eventId.value]) {
+    loadEvent();
+  }
+});
+
+const loadEvents = () => {
+  loadEvent();
+  emit("update");
+};
+
+const loadEvent = async () => {
+  loading.value = true;
+  const result = await getFromApi("/upcoming/Event/EventData/" + eventId.value);
+  events.value = Object.assign({}, events.value, {
+    [eventId.value]: result,
+  });
+  loading.value = false;
+};
+
+const close = () => {
+  emit("close");
+};
+
+const showAdminEdit = () => {
+  showEditForm.value = true;
+};
+
+const closeModal = () => {
+  showEditForm.value = false;
+};
+
+const toggleInfo = () => {
+  showInfo.value = !showInfo.value;
+};
+
+onMounted(() => {
+  if (eventId.value > -1) {
+    loadEvent();
+  }
+});
+const t = (key: string, domain: TranslationDomain = "signup") => {
+  return translate(domain, key);
 };
 </script>
 <style lang="scss">
