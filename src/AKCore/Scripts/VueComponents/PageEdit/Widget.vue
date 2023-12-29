@@ -15,59 +15,85 @@
       <div class="col-xs-12">
         <header-text
           v-if="modelValue.type === 'HeaderText'"
-          :modelValue="modelValue"
-          @update:modelValue="modelValue = $event"
+          :model-value="modelValue"
+          @update:modelValue="$emit('update:modelValue', $event)"
+          :translate="translate"
         ></header-text>
         <hire
           v-if="modelValue.type === 'Hire'"
-          :modelValue="modelValue"
-          @update:modelValue="modelValue = $event"
+          :model-value="modelValue"
+          @update:modelValue="$emit('update:modelValue', $event)"
+          :translate="translate"
         ></hire>
         <image-widget
           v-if="modelValue.type === 'Image'"
-          :modelValue="modelValue"
-          @update:modelValue="modelValue = $event"
+          :model-value="modelValue"
+          @update:modelValue="$emit('update:modelValue', $event)"
         ></image-widget>
         <join
           v-if="modelValue.type === 'Join'"
-          :modelValue="modelValue"
-          @update:modelValue="modelValue = $event"
+          :model-value="modelValue"
+          @update:modelValue="$emit('update:modelValue', $event)"
+          :translate="translate"
         ></join>
         <member-list v-if="modelValue.type === 'MemberList'"></member-list>
         <music
           v-if="modelValue.type === 'Music'"
-          :modelValue="modelValue"
-          @update:modelValue="modelValue = $event"
+          :model-value="modelValue"
+          @update:modelValue="$emit('update:modelValue', $event)"
           :albums="albums"
         ></music>
         <post-list v-if="modelValue.type === 'PostList'"></post-list>
         <text-widget
           v-if="modelValue.type === 'Text'"
-          :modelValue="modelValue"
-          @update:modelValue="modelValue = $event"
+          :model-value="modelValue"
+          @update:modelValue="$emit('update:modelValue', $event)"
+          :translate="translate"
         ></text-widget>
         <text-image
           v-if="modelValue.type === 'TextImage'"
-          :modelValue="modelValue"
-          @update:modelValue="modelValue = $event"
+          :translate="translate"
+          :model-value="modelValue"
+          @update:modelValue="$emit('update:modelValue', $event)"
         ></text-image>
         <three-puffs
           v-if="modelValue.type === 'ThreePuffs'"
-          :modelValue="modelValue"
-          @update:modelValue="modelValue = $event"
+          :model-value="modelValue"
+          @update:modelValue="$emit('update:modelValue', $event)"
+          :translate="translate"
         >
         </three-puffs>
         <video-widget
           v-if="modelValue.type === 'Video'"
-          :modelValue="modelValue"
-          @update:modelValue="modelValue = $event"
+          :model-value="modelValue"
+          @update:modelValue="$emit('update:modelValue', $event)"
         ></video-widget>
+      </div>
+      <div class="col-xs-12">
+        <a
+          class="btn btn-default translate-btn"
+          v-if="!translate && modelValue.text"
+          @click.prevent="translate = true"
+        >
+          Översätt
+        </a>
+
+        <a
+          class="btn btn-default translate-btn"
+          v-if="translate && modelValue.text"
+          @click.prevent="translate = false"
+        >
+          Minimera översättning
+        </a>
       </div>
     </div>
   </li>
 </template>
-<script>
+<script setup lang="ts">
+import { onUpdated, ref } from "vue";
+import { AlbumEditModel } from "../AlbumEdit/models";
 import { getHeader } from "./functions";
+import { WidgetEditModel } from "./models";
 import {
   TextImage,
   ThreePuffs,
@@ -82,40 +108,33 @@ import {
   PostList,
 } from "./Widgets/widgets";
 
-export default {
-  components: {
-    TextImage,
-    ThreePuffs,
-    HeaderText,
-    TextWidget,
-    Hire,
-    Join,
-    MemberList,
-    ImageWidget,
-    Music,
-    VideoWidget,
-    PostList,
-  },
-  props: ["modelValue", "albums"],
-  data() {
-    return {
-      minimized: false,
-    };
-  },
-  updated() {
-    this.$emit("updated");
-  },
-  methods: {
-    getHeader,
-    minimize() {
-      this.minimized = !this.minimized;
-    },
-    remove() {
-      if (window.confirm("Är du säker att du vill ta bort den här widgeten?")) {
-        this.$emit("remove");
-      }
-    },
-  },
+const emit = defineEmits<{
+  (e: "updated"): void;
+  (e: "remove"): void;
+  (e: "remove"): void;
+  (e: "update:modelValue", value: WidgetEditModel): void;
+}>();
+
+defineProps<{
+  modelValue: WidgetEditModel;
+  albums: AlbumEditModel[];
+}>();
+
+const minimized = ref(false);
+const translate = ref(false);
+
+onUpdated(() => {
+  emit("updated");
+});
+
+const minimize = () => {
+  minimized.value = !minimized.value;
+};
+
+const remove = () => {
+  if (window.confirm("Är du säker att du vill ta bort den här widgeten?")) {
+    emit("remove");
+  }
 };
 </script>
 <style lang="scss" scoped>
@@ -147,5 +166,13 @@ export default {
 .min-widget,
 .remove-widget {
   font-size: 22px;
+}
+
+.translate-btn {
+  margin-top: 40px;
+  display: block;
+  width: max-content;
+  margin-left: auto;
+  margin-right: auto;
 }
 </style>

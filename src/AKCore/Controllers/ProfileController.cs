@@ -1,13 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AKCore.DataModel;
+﻿using AKCore.DataModel;
 using AKCore.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using Microsoft.AspNetCore.Hosting;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace AKCore.Controllers
 {
@@ -40,7 +39,7 @@ namespace AKCore.Controllers
         {
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
             var logins = _db.UserLogins.Where(x => x.ProviderDisplayName == user.UserName).ToList();
-            if(user.SlavPoster == "[null]")
+            if (user.SlavPoster == "[null]")
             {
                 user.SlavPoster = null;
             }
@@ -54,12 +53,27 @@ namespace AKCore.Controllers
                 Phone = user.Phone,
                 Instrument = user.Instrument,
                 OtherInstruments = string.IsNullOrWhiteSpace(user.OtherInstruments) ? null : user.OtherInstruments.Split(',').ToList(),
-                Posts = !string.IsNullOrWhiteSpace(user.SlavPoster) ? JsonConvert.DeserializeObject<List<string>>(user.SlavPoster) : new List<string>(),
+                Posts = GetPosts(user.SlavPoster),
                 Roles = await _userManager.GetRolesAsync(user),
                 Medal = user.Medal,
                 GivenMedal = user.GivenMedal
             };
             return Json(model);
+        }
+
+        private static List<string> GetPosts(string slavPoster)
+        {
+            if (string.IsNullOrWhiteSpace(slavPoster))
+            {
+                return new List<string>();
+            }
+            var deserialized = JsonConvert.DeserializeObject<List<string>>(slavPoster);
+
+            if (deserialized.Count() == 0)
+            {
+                return new List<string>();
+            }
+            return deserialized.FirstOrDefault().Split(",").ToList();
         }
 
         [Route("EditProfile")]
@@ -78,13 +92,13 @@ namespace AKCore.Controllers
             user.LastName = model.LastName;
             user.Phone = model.Phone;
             user.Instrument = model.Instrument;
-            user.OtherInstruments = model.OtherInstruments == null ? "" : string.Join(",",model.OtherInstruments);
+            user.OtherInstruments = model.OtherInstruments == null ? "" : string.Join(",", model.OtherInstruments);
             var result = await _userManager.UpdateAsync(user);
             if (result.Succeeded && updateUName)
             {
                 await _signInManager.SignInAsync(user, true);
             }
-            return Json(new {success = result.Succeeded, message = result.ToString()});
+            return Json(new { success = result.Succeeded, message = "Din profil uppdaterades" });
         }
 
         [Route("ChangePassword")]
@@ -96,10 +110,10 @@ namespace AKCore.Controllers
             var result = await _userManager.ResetPasswordAsync(user, token, password);
             if (!result.Succeeded)
             {
-                return Json(new {success = result.Succeeded, message = result.ToString()});
+                return Json(new { success = result.Succeeded, message = result.ToString() });
             }
 
-            return Json(new {success = result.Succeeded, message = "Lösenord ändrat"});
+            return Json(new { success = result.Succeeded, message = "Lösenord ändrat" });
         }
     }
 }

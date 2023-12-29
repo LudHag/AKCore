@@ -2,52 +2,60 @@
   <form
     class="file-upload-area"
     :class="{ 'drag-hover': formDragHover }"
-    v-on:submit.prevent
-    v-on:drag.stop.prevent
-    v-on:dragstart.stop.prevent
-    v-on:dragover.stop.prevent="enterDrag"
-    v-on:dragenter.stop.prevent="enterDrag"
-    v-on:dragleave.stop.prevent="leaveDrag"
-    v-on:dragend.stop.prevent="leaveDrag"
-    v-on:drop.stop.prevent="onDrop"
+    @submit.prevent
+    @drag.stop.prevent
+    @dragstart.stop.prevent
+    @dragover.stop.prevent="enterDrag"
+    @dragenter.stop.prevent="enterDrag"
+    @dragleave.stop.prevent="leaveDrag"
+    @dragend.stop.prevent="leaveDrag"
+    @drop.stop.prevent="onDrop"
   >
     <slot name="content"></slot>
     <label class="btn btn-default btn-file">
-      <span>{{buttonText}}</span>
-      <input class="input-file" @change="onChange" multiple type="file">
+      <span>{{ buttonText }}</span>
+      <input class="input-file" @change="onChange" multiple type="file" />
     </label>
   </form>
 </template>
-<script>
-export default {
-  props: ["buttonText"],
-  data() {
-    return {
-      formDragHover: false
-    };
-  },
-  methods: {
-    onDrop(e) {
-      this.formDragHover = false;
-      this.processFiles(e.dataTransfer.files);
-    },
-    onChange(e) {
-      const target = event.target;
-      if (target.files.length > 0) {
-        const files = target.files;
-        this.processFiles(files);
-        target.value = "";
-      }
-    },
-    enterDrag() {
-      this.formDragHover = true;
-    },
-    leaveDrag(e) {
-      this.formDragHover = false;
-    },
-    processFiles(files) {
-      this.$emit("upload", files);
-    }
+<script setup lang="ts">
+import { ref } from "vue";
+
+const emit = defineEmits<{
+  (e: "upload", files: FileList): void;
+}>();
+
+defineProps<{
+  buttonText: string;
+}>();
+
+const formDragHover = ref(false);
+
+const onDrop = (e: DragEvent) => {
+  formDragHover.value = false;
+  processFiles(e.dataTransfer?.files);
+};
+
+const onChange = (e: Event) => {
+  const target = e.target as HTMLInputElement;
+  if (target.files && target.files.length > 0) {
+    const files = target.files;
+    processFiles(files);
+    target.value = "";
+  }
+};
+
+const enterDrag = () => {
+  formDragHover.value = true;
+};
+
+const leaveDrag = () => {
+  formDragHover.value = false;
+};
+
+const processFiles = (files?: FileList) => {
+  if (files) {
+    emit("upload", files);
   }
 };
 </script>

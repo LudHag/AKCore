@@ -4,13 +4,14 @@
     :header="user ? 'Redigera användare' : 'Skapa användare'"
     @close="close"
   >
-    <template v-slot:body>
+    <template #body>
       <div class="modal-body">
         <form autocomplete="off" @submit.prevent="submitForm">
           <div class="row">
             <div class="col-sm-6">
               <div
-                class="alert alert-danger update-user-error"
+                class="alert alert-danger"
+                ref="error"
                 style="display: none"
               ></div>
               <div class="form-group">
@@ -65,7 +66,7 @@
                   v-model="editedUser.instrument"
                 >
                   <option value>Välj instrument</option>
-                  <option :key="instr" v-for="instr in instruments">
+                  <option :key="instr" v-for="instr in INSTRUMENTS">
                     {{ instr }}
                   </option>
                 </select>
@@ -113,7 +114,7 @@
                   multiple
                   :searchable="false"
                   name="Roles"
-                  :options="roles"
+                  :options="ROLES"
                   v-model="editedUser.roles"
                 ></v-select>
               </div>
@@ -123,7 +124,7 @@
                   multiple
                   :searchable="false"
                   name="Poster"
-                  :options="posts"
+                  :options="POSTS"
                   v-model="editedUser.posts"
                 ></v-select>
               </div>
@@ -135,7 +136,7 @@
                   v-model="editedUser.medal"
                 >
                   <option value>Ingen medalj</option>
-                  <option :key="medal" v-for="medal in medals">
+                  <option :key="medal" v-for="medal in MEDALS">
                     {{ medal }}
                   </option>
                 </select>
@@ -148,7 +149,7 @@
                   v-model="editedUser.givenMedal"
                 >
                   <option value>Ingen medalj</option>
-                  <option :key="medal" v-for="medal in medals">
+                  <option :key="medal" v-for="medal in MEDALS">
                     {{ medal }}
                   </option>
                 </select>
@@ -163,80 +164,60 @@
     </template>
   </modal>
 </template>
-<script>
-import ApiService from "../../services/apiservice";
+<script setup lang="ts">
+import { postToApi } from "../../services/apiservice";
 import Modal from "../Modal.vue";
-import Constants from "../../constants";
+import { INSTRUMENTS, ROLES, POSTS, MEDALS } from "../../constants";
+// @ts-ignore
 import vSelect from "vue-select";
+import { User } from "./models";
+import { ref, watch, computed } from "vue";
 
-export default {
-  props: ["user", "showModal"],
-  components: {
-    Modal,
-    vSelect,
-  },
-  data() {
-    return {
-      editedUser: {},
-    };
-  },
-  watch: {
-    showModal() {
-      const newUser = this.user || {};
-      if (!this.user) {
-        newUser.roles = ["Medlem"];
-      }
-      this.editedUser = Object.assign({}, newUser);
-    },
-  },
-  computed: {
-    instruments() {
-      return Constants.INSTRUMENTS;
-    },
-    roles() {
-      return Constants.ROLES;
-    },
-    posts() {
-      return Constants.POSTS;
-    },
-    medals() {
-      return Constants.MEDALS;
-    },
-    othInstruments() {
-      return Constants.INSTRUMENTS.filter((instr) => {
-        return instr !== this.editedUser.instrument;
-      });
-    },
-  },
-  methods: {
-    close() {
-      this.$emit("close");
-    },
-    submitForm() {
-      const error = $(".update-user-error");
-      if (this.user) {
-        ApiService.postByObjectAsForm(
-          "/User/EditUser",
-          this.editedUser,
-          error,
-          null,
-          () => {
-            this.$emit("updated", this.editedUser);
-          }
-        );
-      } else {
-        ApiService.postByObjectAsForm(
-          "/User/CreateUser",
-          this.editedUser,
-          error,
-          null,
-          () => {
-            this.$emit("created", Object.assign({}, this.editedUser));
-          }
-        );
-      }
-    },
-  },
+const emit = defineEmits<{
+  (e: "close"): void;
+  (e: "updated", user: User): void;
+  (e: "created", user: User): void;
+}>();
+
+const props = defineProps<{
+  user: User | null;
+  showModal: boolean;
+}>();
+
+const editedUser = ref<User>({} as User);
+const error = ref<HTMLElement | null>(null);
+
+watch(
+  () => props.showModal,
+  () => {
+    const newUser = props.user || ({} as User);
+    if (!props.user) {
+      newUser.roles = ["Medlem"];
+    }
+    editedUser.value = Object.assign({}, newUser);
+  }
+);
+
+const othInstruments = computed(() => {
+  return INSTRUMENTS.filter((instr) => {
+    return instr !== editedUser.value.instrument;
+  });
+});
+
+const close = () => {
+  emit("close");
+};
+
+const submitForm = () => {
+  if (props.user) {
+    postToApi("/User/EditUser", editedUser.value, error.value, null, () => {
+      emit("updated", editedUser.value);
+    });
+  } else {
+    postToApi("/User/CreateUser", editedUser.value, error.value, null, () => {
+      emit("created", Object.assign({}, editedUser.value));
+    });
+  }
 };
 </script>
 <style lang="scss" scoped></style>

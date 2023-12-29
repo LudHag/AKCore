@@ -3,7 +3,9 @@
 
 <div id="kamerersposter">
     <div class="kategori">
-        <h2>Styrelse</h2>
+        <h2>
+            @t.Get(TranslationDomains.Posts, "Board")
+        </h2>
         <div class="row">
             <div class="col-sm-4">
                 Överkamerer
@@ -15,7 +17,7 @@
                 }
             </div>
             <div class="col-sm-4">
-                ÖK - Ordförande
+                ÖK - @t.Get(TranslationDomains.Posts,"ÖK")
             </div>
         </div>
         <div class="row">
@@ -29,7 +31,7 @@
                 }
             </div>
             <div class="col-sm-4">
-                KK - kassör
+                KK - @t.Get(TranslationDomains.Posts,"KK")
             </div>
         </div>
         <div class="row">
@@ -43,12 +45,12 @@
                 }
             </div>
             <div class="col-sm-4">
-                SK - sekreterare
+                SK - @t.Get(TranslationDomains.Posts,"SK")
             </div>
         </div>
     </div>
     <div class="kategori">
-        <h2>Funktionärer</h2>
+        <h2>@t.Get(TranslationDomains.Posts, "Functionaries")</h2>
         <div class="row">
             <div class="col-sm-4">
                 Balettkamerer
@@ -60,7 +62,7 @@
                 }
             </div>
             <div class="col-sm-4">
-                Ansvariga för baletten (2 st)
+                @t.Get(TranslationDomains.Posts,"Ballet") (2 st)
             </div>
         </div>
         <div class="row">
@@ -74,7 +76,7 @@
                 }
             </div>
             <div class="col-sm-4">
-                Ansvarig för det konstnärliga - dirigent (2/3 st)
+                @t.Get(TranslationDomains.Posts,"Music") (2/3 st)
             </div>
         </div>
         <div class="row">
@@ -88,7 +90,7 @@
                 }
             </div>
             <div class="col-sm-4">
-                Ansvarig för puben (1 ord, 1 stf)
+                @t.Get(TranslationDomains.Posts,"Pub") (1 ord, 1 stf)
             </div>
         </div>
         <div class="row">
@@ -102,12 +104,26 @@
                 }
             </div>
             <div class="col-sm-4">
-                Ansvarig för allt vad fest heter (2 st)
+                @t.Get(TranslationDomains.Posts,"Sex") (2 st)
             </div>
         </div>
     </div>
     <div class="kategori">
-        <h2>Slavkamererer</h2>
+        <h2>@t.Get(TranslationDomains.Posts, "OtherPosts")</h2>
+        <div class="row">
+            <div class="col-sm-4">
+                Arsenalkamerer
+            </div>
+            <div class="col-sm-4">
+                @foreach (var user in Model.Users[AkPoster.Arsenalkamerer])
+                {
+                    <p>@user.GetName()</p>
+                }
+            </div>
+            <div class="col-sm-4">
+                @t.Get(TranslationDomains.Posts,"Arsenal")
+            </div>
+        </div>
         <div class="row">
             <div class="col-sm-4">
                 Busskamerer
@@ -119,7 +135,7 @@
                 }
             </div>
             <div class="col-sm-4">
-                Ansvariga för grisen (2 st)
+                @t.Get(TranslationDomains.Posts,"Bus") (2 st)
             </div>
         </div>
         <div class="row">
@@ -133,7 +149,21 @@
                 }
             </div>
             <div class="col-sm-4">
-                Ansvara för att dokumentera AKs frammarsch i form av foto och film
+                @t.Get(TranslationDomains.Posts,"Camera")
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                Kramkamerer
+            </div>
+            <div class="col-sm-4">
+                @foreach (var user in Model.Users[AkPoster.Kramkamerer])
+                {
+                    <p>@user.GetName()</p>
+                }
+            </div>
+            <div class="col-sm-4">
+                @t.Get(TranslationDomains.Posts,"Hug") (2-3 st)
             </div>
         </div>
         <div class="row">
@@ -147,21 +177,7 @@
                 }
             </div>
             <div class="col-sm-4">
-                Ansvarig för att det ska vara mysigt i hålan(dvs toapapper och sånt)
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-4">
-                Instrumentkamerer
-            </div>
-            <div class="col-sm-4">
-                @foreach (var user in Model.Users[AkPoster.Instrumentkamerer])
-                {
-                    <p>@user.GetName()</p>
-                }
-            </div>
-            <div class="col-sm-4">
-                Ansvarig för orkesterns instrument
+                @t.Get(TranslationDomains.Posts,"Cozy")
             </div>
         </div>
         <div class="row">
@@ -175,7 +191,7 @@
                 }
             </div>
             <div class="col-sm-4">
-                Ansvarig för Hålans dator, AKs hemsida samt för info- och snacklistan. (2 st)
+                @t.Get(TranslationDomains.Posts,"Nintendo") (2 st)
             </div>
         </div>
         <div class="row">
@@ -189,7 +205,7 @@
                 }
             </div>
             <div class="col-sm-4">
-                Ansvarig för orkesterns kollektiva minne
+                @t.Get(TranslationDomains.Posts,"Nostalgia")
             </div>
         </div>
         <div class="row">
@@ -203,7 +219,7 @@
                 }
             </div>
             <div class="col-sm-4">
-                Ansvarig för notarkivet
+                @t.Get(TranslationDomains.Posts,"Note")
             </div>
         </div>
         <div class="row">
@@ -217,7 +233,7 @@
                 }
             </div>
             <div class="col-sm-4">
-                Ansvarar för att vi hörs och syns via t.ex. affischer
+                @t.Get(TranslationDomains.Posts,"PR")
             </div>
         </div>
         <div class="row">
@@ -231,7 +247,7 @@
                 }
             </div>
             <div class="col-sm-4">
-                Ansvarig för medaljer, tröjor, märken och dylikt
+                @t.Get(TranslationDomains.Posts,"Gadget")
             </div>
         </div>
         <div class="row">
@@ -245,7 +261,7 @@
                 }
             </div>
             <div class="col-sm-4">
-                Ansvarig för Hålan, t.ex. glödlampor osv. (1 ord, 1 stf)
+                @t.Get(TranslationDomains.Posts,"Scrub")
             </div>
         </div>
         <div class="row">
@@ -259,7 +275,7 @@
                 }
             </div>
             <div class="col-sm-4">
-                Ansvarar för att hitta sponsorer
+                @t.Get(TranslationDomains.Posts,"Sponsor")
             </div>
         </div>
     </div>

@@ -23,18 +23,25 @@
       class="revision"
       href="#"
       @click.prevent="selectRevision(null)"
-      >Nuvarande</a
     >
+      Nuvarande
+    </a>
   </div>
 </template>
-<script>
-export default {
-  props: ["modelValue", "selectedRevision"],
-  methods: {
-    selectRevision(revision) {
-      this.$emit("select", revision);
-    },
-  },
+<script setup lang="ts">
+import { PageEditModel, PageRevisionEditModel } from "./models";
+
+const emit = defineEmits<{
+  (e: "select", revision: PageRevisionEditModel | null): void;
+}>();
+
+defineProps<{
+  modelValue: PageEditModel;
+  selectedRevision: PageRevisionEditModel | null;
+}>();
+
+const selectRevision = (revision: PageRevisionEditModel | null) => {
+  emit("select", revision);
 };
 </script>
 <style lang="scss" scoped>

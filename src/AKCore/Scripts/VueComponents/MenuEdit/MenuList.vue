@@ -33,7 +33,6 @@
         </div>
         <div
           class="menu-row sub-row"
-          v-if="menu.children"
           v-for="child in menu.children"
           :key="child.id"
         >
@@ -57,93 +56,103 @@
     </div>
   </div>
 </template>
-<script>
-import ApiService from '../../services/apiservice';
+<script setup lang="ts">
+import { ref } from "vue";
+import { postToApi } from "../../services/apiservice";
+import { MenuEditModel } from "./models";
 
-export default {
-  props: ['menus'],
-  methods: {
-    addSubMenu(menu) {
-      this.$emit('edit', null, menu);
-    },
-    editMenu(menu) {
-      this.$emit('edit', menu);
-    },
-    editSubMenu(child, menu) {
-      this.$emit('edit', child, menu);
-    },
-    menuUp(menu) {
-      ApiService.postByObjectAsForm(
-        '/MenuEdit/MoveLeft',
-        { id: menu.id },
-        $(this.$refs.error),
-        null,
-        () => {
-          this.$emit('update');
-        }
-      );
-    },
-    menuDown(menu) {
-      ApiService.postByObjectAsForm(
-        '/MenuEdit/MoveRight',
-        { id: menu.id },
-        $(this.$refs.error),
-        null,
-        () => {
-          this.$emit('update');
-        }
-      );
-    },
-    subMenuUp(menu, child) {
-      ApiService.postByObjectAsForm(
-        '/MenuEdit/MoveUp',
-        { id: child.id, parent: menu.id },
-        $(this.$refs.error),
-        null,
-        () => {
-          this.$emit('update');
-        }
-      );
-    },
-    subMenuDown(menu, child) {
-      ApiService.postByObjectAsForm(
-        '/MenuEdit/MoveDown',
-        { id: child.id, parent: menu.id },
-        $(this.$refs.error),
-        null,
-        () => {
-          this.$emit('update');
-        }
-      );
-    },
-    deleteMenu(menu) {
-      ApiService.postByObjectAsForm(
-        '/MenuEdit/RemoveTopMenu',
-        { id: menu.id },
-        $(this.$refs.error),
-        null,
-        () => {
-          this.$emit('update');
-        }
-      );
-    },
-    deleteSubMenu(menu) {
-      ApiService.postByObjectAsForm(
-        '/MenuEdit/RemoveSubMenu',
-        { id: menu.id },
-        $(this.$refs.error),
-        null,
-        () => {
-          this.$emit('update');
-        }
-      );
-    },
-  },
+defineProps<{
+  menus: MenuEditModel[] | null;
+}>();
+
+const error = ref<HTMLElement | null>(null);
+
+const emit = defineEmits<{
+  (e: "edit", menu: MenuEditModel | null, parent?: MenuEditModel): void;
+  (e: "update"): void;
+}>();
+
+const addSubMenu = (menu: MenuEditModel) => {
+  emit("edit", null, menu);
+};
+
+const editMenu = (menu: MenuEditModel) => {
+  emit("edit", menu);
+};
+
+const editSubMenu = (child: MenuEditModel, menu: MenuEditModel) => {
+  emit("edit", child, menu);
+};
+
+const menuUp = (menu: MenuEditModel) => {
+  postToApi(
+    "/MenuEdit/MoveLeft",
+    { id: menu.id },
+    error.value as HTMLElement,
+    null,
+    () => {
+      emit("update");
+    }
+  );
+};
+
+const menuDown = (menu: MenuEditModel) => {
+  postToApi("/MenuEdit/MoveRight", { id: menu.id }, error.value, null, () => {
+    emit("update");
+  });
+};
+
+const subMenuUp = (menu: MenuEditModel, child: MenuEditModel) => {
+  postToApi(
+    "/MenuEdit/MoveUp",
+    { id: child.id, parent: menu.id },
+    error.value,
+    null,
+    () => {
+      emit("update");
+    }
+  );
+};
+
+const subMenuDown = (menu: MenuEditModel, child: MenuEditModel) => {
+  postToApi(
+    "/MenuEdit/MoveDown",
+    { id: child.id, parent: menu.id },
+    error.value as HTMLElement,
+    null,
+    () => {
+      emit("update");
+    }
+  );
+};
+
+const deleteMenu = (menu: MenuEditModel) => {
+  postToApi(
+    "/MenuEdit/RemoveTopMenu",
+    { id: menu.id },
+    error.value as HTMLElement,
+    null,
+    () => {
+      emit("update");
+    }
+  );
+};
+
+const deleteSubMenu = (menu: MenuEditModel) => {
+  postToApi(
+    "/MenuEdit/RemoveSubMenu",
+    { id: menu.id },
+    error.value as HTMLElement,
+    null,
+    () => {
+      emit("update");
+    }
+  );
 };
 </script>
 <style lang="scss" scoped>
-@import 'bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss';
-@import '../../../Styles/variables.scss';
+@import "bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss";
+@import "../../../Styles/variables.scss";
 .menu-item {
   margin-bottom: 5px;
 }

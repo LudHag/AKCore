@@ -7,14 +7,15 @@
           href="#"
           @click.prevent="searchQuery = ''"
           class="show-albums"
-          >Visa album</a
         >
-        Sök låtar:
+          {{ t("show-albums") }}
+        </a>
+        {{ t("search-songs") }}:
         <input
           type="text"
           v-model="searchQuery"
           class="form-control"
-          placeholder="Sök här"
+          :placeholder="t('search-here')"
         />
       </div>
     </div>
@@ -57,63 +58,61 @@
     </div>
   </div>
 </template>
-<script>
-import { groupBy, nameCompare } from '../../utils/functions';
+<script setup lang="ts">
+import { ref, computed } from "vue";
+import { groupBy, nameCompare } from "../../utils/functions";
+import { Album, Track } from "./models";
+import { TranslationDomain, translate } from "../../translations";
 
-export default {
-  props: ['albums'],
-  data() {
-    return {
-      categoriesEnabled: true,
-      searchQuery: '',
-    };
-  },
-  computed: {
-    categoryList() {
-      const keys = Object.keys(this.albums);
-      const albums = keys
-        .map((key) => {
-          return Object.assign(
-            { id: key, category: 'Övrigt' },
-            this.albums[key]
-          );
-        })
-        .sort(nameCompare);
-      if (!this.categoriesEnabled || keys.length < 6) {
-        return [albums];
+const props = defineProps<{ albums: Album[] }>();
+
+defineEmits<{
+  (e: "select", album: Album): void;
+  (e: "add-track", track: Track): void;
+}>();
+
+const categoriesEnabled = ref(true);
+const searchQuery = ref("");
+
+const categoryList = computed(() => {
+  const enrichedAlbums = props.albums
+    .map((album) => {
+      if (album.category) {
+        return album;
       }
-      const categories = groupBy(albums, 'category');
-      return Object.keys(categories)
-        .sort()
-        .map((cat) => categories[cat]);
-    },
-    filteredAlbums() {
-      if (!this.searchQuery) {
-        return null;
-      }
-      const lowerQuery = this.searchQuery.toLowerCase();
-      let tracks = [];
-      const keys = Object.keys(this.albums);
-      const albums = keys
-        .map((key) => {
-          const trackKeys = Object.keys(this.albums[key].tracks);
-          const filteredTracks = trackKeys
-            .map((tKey) => this.albums[key].tracks[tKey])
-            .filter(
-              (track) => track.name.toLowerCase().indexOf(lowerQuery) > -1
-            );
-          return Object.assign({}, this.albums[key], {
-            tracks: filteredTracks,
-          });
-        })
-        .filter((album) => album.tracks.length > 0);
-      return albums;
-    },
-  },
+      return { ...album, category: "Övrigt" };
+    })
+    .sort(nameCompare);
+  if (!categoriesEnabled.value || props.albums.length < 6) {
+    return [props.albums];
+  }
+  const categories = groupBy(enrichedAlbums, "category");
+  return Object.keys(categories)
+    .sort()
+    .map((cat) => categories[cat]);
+});
+
+const filteredAlbums = computed(() => {
+  if (!searchQuery.value) {
+    return null;
+  }
+  const lowerQuery = searchQuery.value.toLowerCase();
+  const filteredAlbums = props.albums
+    .map((album) => {
+      const filteredTracks = album.tracks.filter(
+        (track) => track.name.toLowerCase().indexOf(lowerQuery) > -1
+      );
+      return { ...album, tracks: filteredTracks };
+    })
+    .filter((album) => album.tracks.length > 0);
+  return filteredAlbums;
+});
+const t = (key: string, domain: TranslationDomain = "music") => {
+  return translate(domain, key);
 };
 </script>
 <style lang="scss" scoped>
-@import 'bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss';
+@import "bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss";
 .album-list {
   margin-top: 10px;
   position: relative;
@@ -179,6 +178,16 @@ h2 {
 }
 
 @media screen and (max-width: $screen-xs-max) {
+  h2 {
+    text-align: center;
+  }
+  .album-list {
+    padding-top: 35px;
+  }
+
+  .category-list {
+    justify-content: space-evenly;
+  }
   .album-element {
     width: 125px;
   }

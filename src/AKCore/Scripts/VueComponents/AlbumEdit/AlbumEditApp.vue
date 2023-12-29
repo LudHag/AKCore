@@ -23,7 +23,7 @@
             <div class="form-group">
               <select class="form-control" v-model="albumCategory">
                 <option value>Filtrera på kategori</option>
-                <option v-for="cat in albumCategories" :key="cat">
+                <option v-for="cat in ALBUMCATEGORIES" :key="cat">
                   {{ cat }}
                 </option>
               </select>
@@ -31,8 +31,12 @@
           </div>
         </div>
       </div>
-      <div class="alert alert-danger" style="display: none"></div>
-      <div class="alert alert-success" style="display: none"></div>
+      <div class="alert alert-danger" ref="error" style="display: none"></div>
+      <div
+        class="alert alert-success"
+        ref="success"
+        style="display: none"
+      ></div>
       <div class="row edit-form" id="add-album-container" v-if="createOpened">
         <div class="col-md-6">
           <form
@@ -79,153 +83,158 @@
     ></album-upload-modal>
   </div>
 </template>
-<script>
-import ApiService from '../../services/apiservice';
-import AlbumEditItem from './AlbumEditItem.vue';
-import ImagePickerModal from '../ImagePickerModal.vue';
-import AlbumUploadModal from './AlbumUploadModal.vue';
-import Constants from '../../constants';
+<script setup lang="ts">
+import {
+  postToApi,
+  defaultFormSend,
+  getFromApi,
+} from "../../services/apiservice";
+import AlbumEditItem from "./AlbumEditItem.vue";
+import ImagePickerModal from "../ImagePickerModal.vue";
+import AlbumUploadModal from "./AlbumUploadModal.vue";
+import { ALBUMCATEGORIES } from "../../constants";
+import { computed, onMounted, ref } from "vue";
+import { AlbumEditModel } from "./models";
 
-export default {
-  components: {
-    AlbumEditItem,
-    ImagePickerModal,
-    AlbumUploadModal,
-  },
-  data() {
-    return {
-      albums: null,
-      createOpened: false,
-      showImagePicker: false,
-      selectedAlbum: -1,
-      tracksAlbumId: -1,
-      search: '',
-      albumCategory: '',
-    };
-  },
-  computed: {
-    tracksAlbum() {
-      if (!this.albums || this.tracksAlbumId == -1) {
-        return null;
-      }
-      return this.albums.find((album) => {
-        return album.id === this.tracksAlbumId;
-      });
-    },
-    filteredAlbums() {
-      if (!this.albums) {
-        return this.albums;
-      }
-      return this.albums.filter((album) => {
-        const albumCategory = album.category ? album.category : 'Övrigt';
-        return (
-          (!this.search ||
-            album.name.toLowerCase().indexOf(this.search.toLowerCase()) > -1) &&
-          (!this.albumCategory || albumCategory === this.albumCategory)
-        );
-      });
-    },
-    albumCategories() {
-      return Constants.ALBUMCATEGORIES;
-    },
-  },
-  methods: {
-    changeName(name, id) {
-      const error = $('.alert-danger');
-      ApiService.postByObjectAsForm(
-        '/AlbumEdit/ChangeName',
-        { id: id, name: name },
-        error,
-        null,
-        () => {
-          this.albums = this.albums.map((item) => {
-            if (item.id === id) {
-              return Object.assign({}, item, { name });
-            } else {
-              return item;
-            }
-          });
+const albums = ref<AlbumEditModel[]>([]);
+const createOpened = ref(false);
+const showImagePicker = ref(false);
+const selectedAlbum = ref(-1);
+const tracksAlbumId = ref(-1);
+const search = ref("");
+const albumCategory = ref("");
+const error = ref<HTMLElement | null>(null);
+const success = ref<HTMLElement | null>(null);
+
+const tracksAlbum = computed(() => {
+  if (!albums.value || tracksAlbumId.value == -1) {
+    return null;
+  }
+  return (
+    albums.value.find((album) => {
+      return album.id === tracksAlbumId.value;
+    }) ?? null
+  );
+});
+
+const filteredAlbums = computed(() => {
+  if (!albums.value) {
+    return albums.value;
+  }
+  return albums.value.filter((album: AlbumEditModel) => {
+    const currentCategory = album.category ? album.category : "Övrigt";
+    return (
+      (!search.value ||
+        album.name.toLowerCase().indexOf(search.value.toLowerCase()) > -1) &&
+      (!albumCategory.value || currentCategory === albumCategory.value)
+    );
+  });
+});
+
+const changeName = (name: string, id: number) => {
+  postToApi(
+    "/AlbumEdit/ChangeName",
+    { id: id, name: name },
+    error.value,
+    null,
+    () => {
+      albums.value = albums.value.map((item) => {
+        if (item.id === id) {
+          return Object.assign({}, item, { name });
+        } else {
+          return item;
         }
-      );
-    },
-    changeCategory(category, id) {
-      const error = $('.alert-danger');
-      ApiService.postByObjectAsForm(
-        '/AlbumEdit/ChangeCategory',
-        { id, category },
-        error,
-        null,
-        () => {
-          this.albums = this.albums.map((item) => {
-            if (item.id === id) {
-              return Object.assign({}, item, { category });
-            } else {
-              return item;
-            }
-          });
-        }
-      );
-    },
-    deleteAlbum(id) {
-      const error = $('.alert-danger');
-      ApiService.postByUrl('/AlbumEdit/DeleteAlbum/' + id, error, null, () => {
-        this.albums = this.albums.filter((album) => {
-          return album.id !== id;
-        });
       });
-    },
-    openCreate() {
-      this.createOpened = !this.createOpened;
-      if (this.createOpened) {
-        this.$nextTick(() => this.$refs.addalbuminput.focus());
-      }
-    },
-    createAlbum() {
-      const error = $('.alert-danger');
-      const success = $('.alert-success');
-      const form = $(event.target);
-      ApiService.defaultFormSend(form, error, success, () => {
-        this.loadAlbumData();
-        this.createOpened = false;
-      });
-    },
-    loadAlbumData() {
-      ApiService.get('/AlbumEdit/AlbumData', null, (res) => {
-        this.albums = res;
-      });
-    },
-    pickImage(id) {
-      this.showImagePicker = true;
-      this.selectedAlbum = id;
-    },
-    closeImagePicker() {
-      this.showImagePicker = false;
-      this.selectedAlbum = -1;
-    },
-    imageSelected(image) {
-      const error = $('.alert-danger');
-      ApiService.postByObjectAsForm(
-        '/AlbumEdit/UpdateImage',
-        { id: this.selectedAlbum, src: '/media/' + image.name },
-        error,
-        null,
-        () => {
-          this.loadAlbumData();
-        }
-      );
-      this.closeImagePicker();
-    },
-    uploadTracks(album) {
-      this.tracksAlbumId = album.id;
-    },
-    closeUploadModal() {
-      this.tracksAlbumId = -1;
-    },
-  },
-  created() {
-    this.loadAlbumData();
-  },
+    }
+  );
 };
+
+const changeCategory = (category: string, id: number) => {
+  postToApi(
+    "/AlbumEdit/ChangeCategory",
+    { id, category },
+    error.value,
+    null,
+    () => {
+      albums.value = albums.value.map((item) => {
+        if (item.id === id) {
+          return Object.assign({}, item, { category });
+        } else {
+          return item;
+        }
+      });
+    }
+  );
+};
+
+const deleteAlbum = (id: number) => {
+  postToApi("/AlbumEdit/DeleteAlbum/" + id, null, error.value, null, () => {
+    albums.value = albums.value.filter((album) => {
+      return album.id !== id;
+    });
+  });
+};
+
+const openCreate = () => {
+  createOpened.value = !createOpened.value;
+  if (createOpened.value) {
+    setTimeout(() => {
+      const input = document.getElementById("name") as HTMLInputElement;
+      input.focus();
+    }, 0);
+  }
+};
+
+const createAlbum = (event: Event) => {
+  defaultFormSend(
+    event.target as HTMLFormElement,
+    error.value,
+    success.value,
+    () => {
+      loadAlbumData();
+      createOpened.value = false;
+    }
+  );
+};
+
+const loadAlbumData = async () => {
+  albums.value = await getFromApi<AlbumEditModel[]>("/AlbumEdit/AlbumData");
+};
+
+const pickImage = (id: number) => {
+  showImagePicker.value = true;
+  selectedAlbum.value = id;
+};
+
+const closeImagePicker = () => {
+  showImagePicker.value = false;
+  selectedAlbum.value = -1;
+};
+
+const imageSelected = (image: { name: string }) => {
+  postToApi(
+    "/AlbumEdit/UpdateImage",
+    { id: selectedAlbum.value, src: "/media/" + image.name },
+    error.value,
+    null,
+    () => {
+      loadAlbumData();
+    }
+  );
+  closeImagePicker();
+};
+
+const uploadTracks = (album: AlbumEditModel) => {
+  tracksAlbumId.value = album.id;
+};
+
+const closeUploadModal = () => {
+  tracksAlbumId.value = -1;
+};
+
+onMounted(() => {
+  loadAlbumData();
+});
 </script>
 <style lang="scss" scoped>
 .edit-form {

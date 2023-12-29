@@ -5,6 +5,9 @@
 .modal-enter, .modal-leave-active {
     opacity: 0;
 }
+.modal-dialog {
+    overflow: auto;
+}
 
 .modal-enter .modal-dialog,
 .modal-leave-active .modal-dialog {

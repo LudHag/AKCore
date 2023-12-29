@@ -1,40 +1,91 @@
 ﻿<template>
-    <td class="day" v-bind:class="{ outside: outside }">
-        <span class="date">{{day.getDate()}}</span>
-        <a href="#" v-for="e in events" @click.prevent="openEvent(e)" :class="e.signupState ? 'dayEvent green' : 'dayEvent'"> {{e.halanTime}} {{e.signupState}} {{e.name}}</a>
-    </td>
+  <td class="day" :class="{ outside: outside }">
+    <span class="date">{{ day.getDate() }}</span>
+    <a
+      href="#"
+      v-for="e in events"
+      :key="e.id"
+      @click.prevent="openEvent(e)"
+      class="dayEvent"
+      :class="{ green: e.signupState }"
+    >
+      {{ e.halanTime }} {{ e.signupState }} {{ eventName(e) }}
+    </a>
+  </td>
 </template>
-<script>
-    const today = new Date();
+<script setup lang="ts">
+import { computed } from "vue";
+import { UpcomingEvent } from "./models";
+import { eventIsRep } from "./functions";
+import { TranslationDomain, translate } from "../../translations";
 
-    export default {
-        props: ['monthevents' ,'day', 'month', 'year'],
-        computed: {
-            outside() {
-                if (this.month == this.day.getMonth() && this.year == this.day.getFullYear()) {
-                    return this.year == today.getFullYear() &&
-                        this.month == today.getMonth() &&
-                        this.day.getDate() < today.getDate();
-                } else {
-                    return true;
-                }
-            },
-            events() {
-                if (!this.monthevents || this.outside) {
-                    return [];
-                }
-                return this.monthevents.filter((e) => {
-                    return e.dayInMonth === this.day.getDate();
-                });
-            }
-        },
-        methods: {
-            openEvent(e) {
-                this.$emit("open",e)
-            }
-        }
-    }
+const today = new Date();
+const emit = defineEmits<{
+  (e: "open", event: UpcomingEvent): void;
+}>();
+
+const props = defineProps<{
+  monthevents: UpcomingEvent[];
+  day: Date;
+  month: number;
+  year: number;
+}>();
+
+const outside = computed(() => {
+  if (
+    props.month == props.day.getMonth() &&
+    props.year == props.day.getFullYear()
+  ) {
+    return (
+      props.year == today.getFullYear() &&
+      props.month == today.getMonth() &&
+      props.day.getDate() < today.getDate()
+    );
+  } else {
+    return true;
+  }
+});
+
+const events = computed(() => {
+  if (!props.monthevents || outside.value) {
+    return [];
+  }
+  return props.monthevents.filter((e) => {
+    return e.dayInMonth === props.day.getDate();
+  });
+});
+
+const openEvent = (e: UpcomingEvent) => {
+  emit("open", e);
+};
+
+const t = (key: string, domain: TranslationDomain = "upcoming") => {
+  return translate(domain, key);
+};
+
+const eventName = (e: UpcomingEvent) => {
+  if (eventIsRep(e)) {
+    return t(e.type);
+  }
+  return e.name;
+};
 </script>
-<style lang="scss">
-  
+<style lang="scss" scoped>
+.day {
+  height: 90px;
+
+  &.outside {
+    color: #5f5f5f;
+  }
+
+  .dayEvent {
+    display: block;
+    font-size: 12px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .green {
+    color: #02c66f;
+  }
+}
 </style>

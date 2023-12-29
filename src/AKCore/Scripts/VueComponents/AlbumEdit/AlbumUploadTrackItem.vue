@@ -12,51 +12,57 @@
     <a class="rem-track" href="#" @click.prevent="remove">x</a>
   </div>
 </template>
-<script>
-import ApiService from "../../services/apiservice";
+<script setup lang="ts">
+import { computed, nextTick, onMounted, ref } from "vue";
+import { postToApi } from "../../services/apiservice";
+import { TrackEditModel } from "./models";
 
-export default {
-  props: ["track"],
-  data() {
-    return {
-      showEditName: false,
-      editName: ""
-    };
-  },
-  computed: {
-    name() {
-      if (this.track.name) {
-        return this.track.name;
-      }
-      const nameParts = this.track.fileName.split(".");
-      return nameParts[nameParts.length - 2].replace(/_/g, " ");
-    }
-  },
-  methods: {
-    remove() {
-      this.$emit("remove", this.track.id);
-    },
-    nameClick() {
-      this.showEditName = true;
-      this.$nextTick(() => this.$refs.inputelement.focus());
-    },
-    onInputBlur() {
-      this.showEditName = false;
-      ApiService.postByObjectAsForm(
-        "/AlbumEdit/ChangeTrackName",
-        { id: this.track.id, name: this.editName },
-        null,
-        null,
-        () => {
-          this.$emit("update");
-        }
-      );
-    }
-  },
-  created() {
-    this.editName = this.name;
+const emit = defineEmits<{
+  (e: "remove", id: number): void;
+  (e: "update"): void;
+}>();
+
+const props = defineProps<{
+  track: TrackEditModel;
+}>();
+
+const showEditName = ref(false);
+const editName = ref("");
+const inputelement = ref<HTMLInputElement | null>(null);
+
+const name = computed(() => {
+  if (props.track.name) {
+    return props.track.name;
   }
+  const nameParts = props.track.fileName.split(".");
+  return nameParts[nameParts.length - 2].replace(/_/g, " ");
+});
+
+const remove = () => {
+  emit("remove", props.track.id);
 };
+
+const nameClick = () => {
+  showEditName.value = true;
+  nextTick(() => inputelement.value!.focus());
+};
+
+const onInputBlur = () => {
+  showEditName.value = false;
+  postToApi(
+    "/AlbumEdit/ChangeTrackName",
+    { id: props.track.id, name: editName.value },
+    null,
+    null,
+    () => {
+      emit("update");
+    }
+  );
+};
+
+onMounted(() => {
+  editName.value = name.value;
+});
 </script>
 <style lang="scss" scoped>
 .track {

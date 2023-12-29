@@ -1,30 +1,33 @@
 ﻿<template>
-  <div class="row" id="search-widget">
+  <div id="search-widget">
     <div class="col-md-12">
       <div class="form-inline ak-search">
-        <div class="form-group">
+        <div class="form-group search-group">
           <input
             type="text"
             v-model="searchPhrase"
             class="form-control"
-            placeholder="Sök här"
+            :placeholder="t('search-here')"
           />
         </div>
         <div class="form-group">
           <select class="form-control" v-model="selectedInstrument">
-            <option value>Sök efter instrument</option>
-            <option v-for="i in instruments" :key="i">{{ i }}</option>
+            <option value>{{ t("search-for-instruments") }}</option>
+            <option v-for="i in instruments" :key="i" :value="i">
+              {{ t(i, "instruments") }}
+            </option>
           </select>
         </div>
       </div>
       <div id="adress-register">
-        <h1>Adressregister</h1>
+        <h1>{{ t("adress-register") }}</h1>
         <div class="adress-list">
           <div v-for="instr in instruments" :key="instr">
             <h2
-              v-html="instr"
               v-if="filteredMembers[instr] && filteredMembers[instr].length > 0"
-            ></h2>
+            >
+              {{ t(instr, "instruments") }}
+            </h2>
             <div
               class="kamerer"
               v-for="member in filteredMembers[instr]"
@@ -45,53 +48,53 @@
     </div>
   </div>
 </template>
-<script>
-export default {
-  props: ['members', 'instruments'],
-  data: function () {
-    return {
-      selectedInstrument: '',
-      searchPhrase: '',
-    };
-  },
-  methods: {
-    instrumentMembers: function (instr) {
-      return this.members[instr];
-    },
-  },
-  computed: {
-    filteredMembers: function () {
-      if (this.selectedInstrument === '' && this.searchPhrase === '') {
-        return this.members;
-      }
-      const filteredList = {};
-      const lsearch = this.searchPhrase.toLowerCase();
-      this.instruments.forEach((instr) => {
-        if (
-          !this.members[instr] ||
-          (this.selectedInstrument !== '' && this.selectedInstrument !== instr)
-        ) {
-          filteredList[instr] = [];
-        } else if (lsearch === '') {
-          filteredList[instr] = this.members[instr];
-        } else {
-          filteredList[instr] = this.members[instr].filter((el) => {
-            return (
-              el.name.toLowerCase().indexOf(lsearch) >= 0 ||
-              el.email.toLowerCase().indexOf(lsearch) >= 0 ||
-              el.phone.indexOf(lsearch) >= 0 ||
-              el.instrument.toLowerCase().indexOf(lsearch) >= 0
-            );
-          });
-        }
+<script setup lang="ts">
+import { ref, computed } from "vue";
+import { Member } from "./models";
+import { TranslationDomain, translate } from "../translations";
+
+const props = defineProps<{
+  members: Record<string, Array<Member>>;
+  instruments: string[];
+}>();
+
+const selectedInstrument = ref("");
+const searchPhrase = ref("");
+
+const filteredMembers = computed(() => {
+  if (selectedInstrument.value === "" && searchPhrase.value === "") {
+    return props.members;
+  }
+  const filteredList: Record<string, Array<Member>> = {};
+  const lsearch = searchPhrase.value.toLowerCase();
+  props.instruments.forEach((instr) => {
+    if (
+      !props.members[instr] ||
+      (selectedInstrument.value !== "" && selectedInstrument.value !== instr)
+    ) {
+      filteredList[instr] = [];
+    } else if (lsearch === "") {
+      filteredList[instr] = props.members[instr];
+    } else {
+      filteredList[instr] = props.members[instr].filter((el) => {
+        return (
+          el.name.toLowerCase().indexOf(lsearch) >= 0 ||
+          el.email.toLowerCase().indexOf(lsearch) >= 0 ||
+          el.phone.indexOf(lsearch) >= 0 ||
+          el.instrument.toLowerCase().indexOf(lsearch) >= 0
+        );
       });
-      return filteredList;
-    },
-  },
+    }
+  });
+  return filteredList;
+});
+
+const t = (key: string, domain: TranslationDomain = "memberlist") => {
+  return translate(domain, key);
 };
 </script>
 <style lang="scss" scoped>
-@import 'bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss';
+@import "bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss";
 #adress-register .kamerer {
   padding-bottom: 4px;
 }
@@ -122,6 +125,10 @@ export default {
   white-space: nowrap;
 }
 
+.search-group {
+  margin-right: 20px;
+}
+
 @media screen and (max-width: $screen-xs-max) {
   #adress-register .kamerer > div {
     &.name-email {
@@ -135,6 +142,9 @@ export default {
       float: right;
       overflow: hidden;
     }
+  }
+  .search-group {
+    margin-right: 0;
   }
 }
 </style>

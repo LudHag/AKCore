@@ -3,7 +3,7 @@
 <div class="row">
     <div class="col-md-12">
         <div class="halan-map"></div>
-        <h1 class="map-text">Vill du spela eller dansa med oss?</h1>
+        <h1 class="map-text">@t.Get(TranslationDomains.Widgets, "JoinUs")</h1>
     </div>
 </div>
 <div class="row">
@@ -15,37 +15,37 @@
             <div class="alert alert-danger" style="display: none;"></div>
             <div class="alert alert-success" style="display: none;"></div>
             <div class="form-group">
-                <label asp-for="JoinUsModel.FirstName"></label>
-                <input type="text" class="form-control" placeholder="Förnamn" name="FirstName">
+                <label asp-for="JoinUsModel.FirstName">@t.Get(TranslationDomains.Common, "FirstName")</label>
+                <input type="text" class="form-control" placeholder="@t.Get(TranslationDomains.Common, "FirstName")" name="FirstName">
             </div>
             <div class="form-group">
-                <label asp-for="JoinUsModel.LastName"></label>
-                <input type="text" class="form-control" placeholder="Efternamn" name="LastName">
+                <label asp-for="JoinUsModel.LastName">@t.Get(TranslationDomains.Common, "LastName")</label>
+                <input type="text" class="form-control" placeholder="@t.Get(TranslationDomains.Common, "LastName")" name="LastName">
             </div>
             <div class="form-group">
-                <label asp-for="JoinUsModel.Email"></label>
-                <input class="form-control" type="email" placeholder="Epost" name="Email">
+                <label asp-for="JoinUsModel.Email">@t.Get(TranslationDomains.Common, "Email")</label>
+                <input class="form-control" type="email" placeholder="@t.Get(TranslationDomains.Common, "Email")" name="Email">
             </div>
             <div class="form-group">
-                <label asp-for="JoinUsModel.Tel"></label>
-                <input class="form-control" type="tel" placeholder="Telefonnummer" name="Tel">
+                <label asp-for="JoinUsModel.Tel">@t.Get(TranslationDomains.Common, "Phone")</label>
+                <input class="form-control" type="tel" placeholder="@t.Get(TranslationDomains.Common, "Phone")" name="Tel">
             </div>
             <div class="form-group">
                 <label asp-for="JoinUsModel.Instrument"></label>
                 <select class="form-control" name="Instrument" required>
-                    <option value="">Välj instrument</option>
+                    <option value="">@t.Get(TranslationDomains.Common, "SelectInstrument")</option>
                     @foreach (var instr in AkInstruments.Instrument)
                     {
-                        <option>@instr</option>
+                        <option value="@instr">@t.Get(TranslationDomains.Instruments, instr)</option>
                     }
                 </select>
             </div>
             <div class="form-group">
-                <label asp-for="JoinUsModel.BotQuestion"></label>
-                <input class="form-control" type="text" placeholder="Svara med siffra" name="botquestion">
+                <label asp-for="JoinUsModel.BotQuestion">@t.Get(TranslationDomains.Widgets, "BotQuestion")</label>
+                <input class="form-control" type="text" placeholder="@t.Get(TranslationDomains.Widgets, "AnswerWithNumber")" name="botquestion">
             </div>
             <div class="form-group">
-                <button type="submit" class="btn btn-default">Gå med!</button>
+                <button type="submit" class="btn btn-default">@t.Get(TranslationDomains.Widgets, "Join")!</button>
             </div>
         </form>
     </div>

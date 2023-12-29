@@ -26,35 +26,38 @@
     </div>
   </div>
 </template>
-<script>
-import TextEdit from "../WidgetParts/TextEdit.vue";
-export default {
-  components: { TextEdit },
-  props: ["modelValue", "albums"],
-  computed: {
-    selectableAlbums() {
-      if (!this.modelValue.albums) {
-        return this.albums;
-      }
-      return this.albums.filter((x) => !this.modelValue.albums.includes(x.id));
-    },
-    selectedAlbums() {
-      if (!this.modelValue.albums) {
-        return [];
-      }
-      return this.albums.filter((x) => this.modelValue.albums.includes(x.id));
-    },
-  },
-  methods: {
-    addAlbum(album) {
-      this.modelValue.albums.push(album.id);
-    },
-    removeAlbum(album) {
-      this.modelValue.albums = this.modelValue.albums.filter(
-        (x) => x != album.id
-      );
-    },
-  },
+<script setup lang="ts">
+import { computed } from "vue";
+import { AlbumEditModel } from "../../AlbumEdit/models";
+import { WidgetEditModel } from "../models";
+
+const props = defineProps<{
+  modelValue: WidgetEditModel;
+  albums: AlbumEditModel[];
+}>();
+
+const selectableAlbums = computed(() => {
+  if (!props.modelValue.albums) {
+    return props.albums;
+  }
+  return props.albums.filter((x) => !props.modelValue.albums.includes(x.id));
+});
+
+const selectedAlbums = computed(() => {
+  if (!props.modelValue.albums) {
+    return [];
+  }
+  return props.albums.filter((x) => props.modelValue.albums.includes(x.id));
+});
+
+const addAlbum = (album: AlbumEditModel) => {
+  props.modelValue.albums.push(album.id);
+};
+
+const removeAlbum = (album: AlbumEditModel) => {
+  props.modelValue.albums = props.modelValue.albums.filter(
+    (x) => x != album.id
+  );
 };
 </script>
 <style lang="scss" scoped>
