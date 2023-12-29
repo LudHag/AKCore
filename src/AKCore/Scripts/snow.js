@@ -6,7 +6,7 @@ const init = () => {
   }
 
   const today = new Date();
-  let newYear = new Date(2023, 0, 1);
+  const newYear = new Date(2024, 0, 1);
   const msLeft = newYear - today;
   let hrLeft = msLeft / (1000 * 60 * 60);
 
@@ -19,9 +19,9 @@ const init = () => {
   }
   const intensity = Math.pow(40 - hrLeft, 1.89);
 
-  var gl = holder.getContext("webgl", { preserveDrawingBuffer: true }),
-    w = (holder.width = window.innerWidth),
-    h = (holder.height = window.innerHeight),
+  let w = (holder.width = window.innerWidth),
+    h = (holder.height = window.innerHeight);
+  const gl = holder.getContext("webgl", { preserveDrawingBuffer: true }),
     webgl = {},
     opts = {
       projectileAlpha: 0.8,
@@ -112,7 +112,7 @@ void main(){
 
   webgl.clear = function () {
     gl.uniform1i(webgl.modeUniformLoc, 1);
-    var a = 0.1;
+    const a = 0.1;
     webgl.data = [
       -1,
       -1,
@@ -152,15 +152,16 @@ void main(){
     gl.drawArrays(glType, 0, webgl.data.length / 4);
   };
 
-  var fireworks = [],
-    tick = 0,
+  let tick = 0;
+  const fireworks = [],
     sins = [],
     coss = [],
     maxShardsParFirework =
       opts.baseShardsParFirework + opts.addedShardsParFirework,
+    // eslint-disable-next-line @typescript-eslint/no-loss-of-precision
     tau = 6.283185307179586476925286766559;
 
-  for (var i = 0; i < maxShardsParFirework; ++i) {
+  for (let i = 0; i < maxShardsParFirework; ++i) {
     sins[i] = Math.sin((tau * i) / maxShardsParFirework);
     coss[i] = Math.cos((tau * i) / maxShardsParFirework);
   }
@@ -168,11 +169,11 @@ void main(){
   function Firework() {
     this.reset();
     this.shards = [];
-    for (var i = 0; i < maxShardsParFirework; ++i)
+    for (let i = 0; i < maxShardsParFirework; ++i)
       this.shards.push(new Shard(this));
   }
   Firework.prototype.reset = function () {
-    var angle = -Math.PI / 2 + (Math.random() - 0.5) * opts.fireworkAngleSpan,
+    const angle = -Math.PI / 2 + (Math.random() - 0.5) * opts.fireworkAngleSpan,
       vel = opts.baseFireworkVel + opts.addedFireworkVel * Math.random();
 
     this.mode = 0;
@@ -186,7 +187,7 @@ void main(){
   };
   Firework.prototype.step = function () {
     if (this.mode === 0) {
-      var ph = this.hue,
+      const ph = this.hue,
         px = this.x,
         py = this.y;
 
@@ -214,16 +215,16 @@ void main(){
             opts.addedShardsParFirework * Math.random()) |
           0;
 
-        var baseAngle = Math.random() * tau,
-          x = Math.cos(baseAngle),
-          y = Math.sin(baseAngle),
-          sin = sins[this.shardAmount],
-          cos = coss[this.shardAmount];
+        const baseAngle = Math.random() * tau;
+        let x = Math.cos(baseAngle);
+        let y = Math.sin(baseAngle);
+        const sin = sins[this.shardAmount];
+        const cos = coss[this.shardAmount];
 
-        for (var i = 0; i < this.shardAmount; ++i) {
-          var vel = opts.baseShardVel + opts.addedShardVel * Math.random();
+        for (let i = 0; i < this.shardAmount; ++i) {
+          const vel = opts.baseShardVel + opts.addedShardVel * Math.random();
           this.shards[i].reset(x * vel, y * vel);
-          var X = x;
+          const X = x;
           x = x * cos - y * sin;
           y = y * cos + X * sin;
         }
@@ -232,9 +233,9 @@ void main(){
       this.ph = this.hue;
       this.hue += opts.runHueAdder;
 
-      var allDead = true;
-      for (var i = 0; i < this.shardAmount; ++i) {
-        var shard = this.shards[i];
+      let allDead = true;
+      for (let i = 0; i < this.shardAmount; ++i) {
+        const shard = this.shards[i];
         if (!shard.dead) {
           shard.step();
           allDead = false;
@@ -259,13 +260,11 @@ void main(){
   Shard.prototype.step = function () {
     this.tick += 0.05;
 
-    var px = this.x,
+    const px = this.x,
       py = this.y;
 
     this.x += this.vx *= opts.xFriction;
     this.y += this.vy += opts.gravity;
-
-    var proportion = 1 - (this.y - this.starty) / (h - this.starty);
 
     webgl.data.push(
       px,
@@ -306,7 +305,7 @@ void main(){
     gl.uniform2f(webgl.resUniformLoc, w, h);
   });
   window.addEventListener("click", function (e) {
-    var firework = new Firework();
+    const firework = new Firework();
     firework.x = e.clientX;
     firework.y = e.clientY;
     firework.vx = 0;
@@ -314,6 +313,4 @@ void main(){
     fireworks.push(firework);
   });
 };
-$(function () {
-  init();
-});
+init();
