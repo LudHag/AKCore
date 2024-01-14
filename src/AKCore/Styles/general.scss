@@ -356,4 +356,11 @@ p.infobox {
   body {
     overflow: visible;
   }
+  p {
+    color: black
+  }
+  .no-print, .no-print *
+  {
+      display: none !important;
+  }
 }

@@ -58,7 +58,7 @@ const updatePasswordSuccess = ref<HTMLElement | null>(null);
 
 const sortedUsers = computed(() => {
   return [...props.users].sort((a, b) =>
-    a.firstName.localeCompare(b.firstName)
+    a.firstName?.localeCompare(b.firstName)
   );
 });
 
