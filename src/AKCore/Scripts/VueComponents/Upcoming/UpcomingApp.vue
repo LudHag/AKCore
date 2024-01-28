@@ -31,36 +31,51 @@
           <a
             href="#"
             class="event calendar-toggle"
-            @click.prevent="calendarView = false"
-            :class="{ active: !calendarView }"
+            @click.prevent="view = 'list'"
+            :class="{ active: view === 'list' }"
           >
             {{ t("list") }}
           </a>
           <a
             href="#"
             class="month calendar-toggle"
-            @click.prevent="calendarView = true"
-            :class="{ active: calendarView }"
+            @click.prevent="view = 'calendar'"
+            :class="{ active: view === 'calendar' }"
           >
             {{ t("month") }}
+          </a>
+          <a
+            href="#"
+            class="month calendar-toggle"
+            @click.prevent="view = 'booking'"
+            :class="{ active: view === 'booking' }"
+          >
+            {{ t("book") }}
           </a>
         </div>
       </div>
       <spinner :size="'medium'" v-if="!years"></spinner>
       <upcoming-list
-        v-if="!calendarView && years"
+        v-if="view === 'list' && years"
         :years="years"
         :logged-in="loggedIn"
         :member="member"
         @signup="signup"
       ></upcoming-list>
       <upcoming-calendar
-        v-if="calendarView && years"
+        v-if="view === 'calendar' && years"
         :years="years"
         :logged-in="loggedIn"
         :member="member"
         @signup="signup"
       ></upcoming-calendar>
+      <booking-calendar
+        v-if="view === 'booking' && years"
+        :years="years"
+        :logged-in="loggedIn"
+        :member="member"
+        @signup="signup"
+      ></booking-calendar>
     </div>
     <keep-alive>
       <event-app
@@ -80,6 +95,7 @@ import EventApp from "../Event/EventApp.vue";
 import { UpcomingYears } from "./models";
 import { ref, nextTick, onMounted } from "vue";
 import { TranslationDomain, translate } from "../../translations";
+import BookingCalendar from "./BookingCalendar.vue";
 
 const props = defineProps<{
   eventId: number;
@@ -89,7 +105,7 @@ const years = ref<UpcomingYears | null>(null);
 const loading = ref(false);
 const loggedIn = ref(false);
 const member = ref(false);
-const calendarView = ref(false);
+const view = ref<'list' | 'calendar' | 'booking'>('list');
 const icalLink = ref("");
 const showIcal = ref(false);
 const showEvent = ref(false);

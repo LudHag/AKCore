@@ -36,6 +36,14 @@ export interface UpcomingEvent {
   notComing: number;
 }
 
+export interface BookingEvent {
+  id: number;
+  person: string;
+  info: string
+  startsTime: string;
+  dayInMonth: number;
+}
+
 export interface UpcomingEventInfo {
   where: UpcomingWhere;
   car: boolean;

@@ -11,6 +11,7 @@ export const upcomingTranslations: Record<string, Translation> = {
   "ical-link": { swedish: "iCal-länk", english: "iCal-link" },
   list: { swedish: "Lista", english: "List" },
   month: { swedish: "Månad", english: "Month" },
+  book: { swedish: "Boka Hålan", english: "Book Hålan" },
   "no-concerts": {
     swedish: "Vi har tyvärr inga spelningar inplanerade närmaste tiden",
     english: "Unfortunately we have no planned concerts in the upcoming weeks",
