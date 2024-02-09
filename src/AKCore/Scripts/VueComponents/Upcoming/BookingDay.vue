@@ -1,7 +1,7 @@
 ﻿<template>
   <td class="day" 
   :class="{ outside: outside }"
-  @click="emit('callback',day)">
+  @click="openNewModal()">
     <span class="date">{{ day.getDate() }}</span>
     <a
       href="#"
@@ -10,9 +10,9 @@
       @click.prevent="openEvent(e)"
       class="dayEvent"
 
-      :class="{ green: e.info }"
+      :class="{ green: e.message }"
     >
-      {{ e.person }} {{ e.startsTime }}
+      {{ e.person }} {{ e.startsTime }} {{ e.message }}
     </a>
   </td>
 </template>
@@ -24,7 +24,7 @@ import { TranslationDomain, translate } from "../../translations";
 
 const today = new Date();
 const emit = defineEmits<{
-  (e: "open", event: BookingEvent): void;
+  (e: "open", day: Date, event?: BookingEvent): void;
   (e: 'callback', day: Date): void;
 }>();
 
@@ -62,6 +62,10 @@ const events = computed(() => {
 const openEvent = (e: BookingEvent) => {
   emit("open", e);
 };
+
+const openNewModal = () => {
+  emit("open", undefined);
+}
 
 const t = (key: string, domain: TranslationDomain = "upcoming") => {
   return translate(domain, key);

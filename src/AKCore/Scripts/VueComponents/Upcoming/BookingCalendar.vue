@@ -1,18 +1,10 @@
 ﻿<template>
   <div>
     <div class="controls">
-      <a
-        href=""
-        class="prev-month glyphicon glyphicon-chevron-left"
-        @click.prevent="prevMonth"
-        v-show="showPrevArrow"
-      ></a>
-      <span class="date"> Boka hålan</span>
-      <a
-        href=""
-        class="next-month glyphicon glyphicon-chevron-right"
-        @click.prevent="nextMonth"
-      ></a>
+      <a href="" class="prev-month glyphicon glyphicon-chevron-left" @click.prevent="prevMonth"
+        v-show="showPrevArrow"></a>
+      <span class="date"> {{ thisMonthName }}</span>
+      <a href="" class="next-month glyphicon glyphicon-chevron-right" @click.prevent="nextMonth"></a>
     </div>
     <table class="month table table-bordered">
       <thead>
@@ -22,37 +14,29 @@
       </thead>
       <tbody>
         <tr class="week" v-for="day of firstWeekDays" :key="day.toString()">
-          <booking-day
-            :year="year"
-            :month="month"
-            :bookingevents="monthEvents"
-            :day="addDays(day, i)"
-            @callback="bookEvent"
-            v-for="i in [0, 1, 2, 3, 4, 5, 6]"
-            :key="month + '' + i"
-          >
+          <booking-day :year="year" :month="month" :bookingevents="monthEvents" :day="addDays(day, i)"
+             @open="openEvent" v-for="i in [0, 1, 2, 3, 4, 5, 6]" :key="month + '' + i">
           </booking-day>
         </tr>
       </tbody>
     </table>
-    <!-- <event-info-modal
-      v-if="modalEvent"
+    <booking-info-modal
+      v-if="modalIsOpen"
       :event="modalEvent"
       :member="member"
-      @signup="signup"
+      :is-open="modalIsOpen"
+      @book="signup"
       @close="closeModal"
-    ></event-info-modal> -->
+    ></booking-info-modal>
   </div>
 </template>
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue";
 import Constants from "../../constants";
-import CalendarDay from "./CalendarDay.vue";
-import EventInfoModal from "./EventInfoModal.vue";
+import BookingInfoModal from "./BookingInfoModal.vue";
 import { UpcomingYears, UpcomingEvent, BookingEvent } from "./models";
 import { isEnglish } from "../../translations";
 import BookingDay from "./BookingDay.vue";
-
 const timeDay = 24 * 60 * 60 * 1000;
 const today = new Date();
 
@@ -68,12 +52,32 @@ const props = defineProps<{
 
 const month = ref(0);
 const year = ref(0);
+const modalIsOpen = ref(false);
 const modalEvent = ref<BookingEvent | null>(null);
-const monthEvents = ref<BookingEvent[]>([{id: 1,info: 'Banjofest', person: 'Emil', startsTime: '19:00', dayInMonth: 28}]);
+const totalEvents = ref<BookingEvent[]>([]);
+const monthEvents = ref<BookingEvent[]>([]);
 
 const signup = (id: number) => {
   closeModal();
   emit("signup", id);
+};
+const changeMonth = () => {
+  let newEvents = [] as BookingEvent[];
+  totalEvents.value.forEach(e => {
+    if (e.date.getMonth() === month.value) {
+      newEvents = newEvents.concat(e)
+    }
+  })
+
+  monthEvents.value = newEvents;
+  console.log(monthEvents.value);
+
+}
+
+const openEvent = (date: Date) => {
+  console.log('openmodal');
+  modalIsOpen.value = true;
+  modalEvent.value = monthEvents.value.find((event => { event.date === date})) ?? null;
 };
 
 const nextMonth = () => {
@@ -82,6 +86,7 @@ const nextMonth = () => {
     month.value = 0;
     year.value++;
   }
+  changeMonth();
 };
 
 const prevMonth = () => {
@@ -90,16 +95,67 @@ const prevMonth = () => {
     month.value = 11;
     year.value--;
   }
+  changeMonth();
 };
 
-const bookEvent = (date: Date) => {
-  console.log(date);
-  monthEvents.value = monthEvents.value.concat({dayInMonth: date.getDate(),id: 2,info: '2asda', person: 'Emil Jönsson', startsTime: '2'})
+interface BookingItem {
+  id: number;
+  person: string;
+  message: string;
+  bookedDate: Date;
+  approved: boolean;
+}
+
+const loadEvents = () => {
+
+  fetch("/Booking/GetItems")
+    .then((res) => res.json())
+    .then((res: BookingItem[]) => {
+      let newEvents = totalEvents.value;
+      res.forEach(r => {
+        const dateTime = new Date(r.bookedDate);
+
+        const newEvent = {
+          dayInMonth: dateTime.getDate(),
+          date: dateTime,
+          person: r.person,
+          startsTime: dateTime.toLocaleTimeString(),
+          message: r.message,
+
+        } as BookingEvent
+
+        newEvents = newEvents.concat(newEvent)
+      });
+      totalEvents.value = newEvents;
+      changeMonth();
+    })
+    .catch((e) => {
+      console.log("fel", e);
+    });
+
+
+};
+
+
+
+const bookEvent = async (date: Date, title: string, message: string, startsTime: string) => {
+
+  monthEvents.value = monthEvents.value.concat({ dayInMonth: date.getDate(), title, id: 2, message, person: 'Emil Jönsson', startsTime, date: date })
+  const dateUTC = date;
+  let formData = new FormData();
+  formData.append('message', 'jag vill ha banjofest');
+  formData.append('bookedDate', dateUTC.toUTCString());
+  const response = await fetch("/Booking/SaveBooking/", {
+    method: "POST",
+    body: formData,
+  });
+
 
 };
 
 const closeModal = () => {
   modalEvent.value = null;
+  modalIsOpen.value = false;
 };
 
 const addDays = (date: Date, days: number): Date => {
@@ -146,10 +202,12 @@ const showPrevArrow = computed(() => {
 onMounted(() => {
   year.value = today.getFullYear();
   month.value = today.getMonth();
+  loadEvents();
 });
 </script>
 <style lang="scss" scoped>
 @import "../../../Styles/variables.scss";
+
 .controls {
   .date {
     min-width: 110px;

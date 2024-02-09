@@ -50,6 +50,7 @@ namespace AKCore.DataModel
         public DbSet<Hire> Hires { get; set; }
         public DbSet<LogItem> Log { get; set; }
         public DbSet<MailBoxItem> MailBoxItems { get; set; }
+        public DbSet<BookingItem> BookingItems { get; set; }
         public DatabaseFacade DatabaseAccessor => Database;
     }
 
@@ -291,5 +292,14 @@ namespace AKCore.DataModel
         public bool Archived { get; set; }
     }
 
-
+    public class BookingItem
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+        public string Person { get; set; }
+        public string Message { get; set; }
+        public DateTime BookedDate { get; set; }
+        public bool Approved { get; set; }
+    }
 }

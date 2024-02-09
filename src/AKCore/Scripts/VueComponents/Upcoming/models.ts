@@ -38,10 +38,12 @@ export interface UpcomingEvent {
 
 export interface BookingEvent {
   id: number;
+  title: string;
   person: string;
-  info: string
+  message: string
   startsTime: string;
   dayInMonth: number;
+  date: Date;
 }
 
 export interface UpcomingEventInfo {
