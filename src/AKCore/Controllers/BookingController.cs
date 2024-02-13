@@ -1,10 +1,9 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using AKCore.DataModel;
-using AKCore.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
+using System.Threading.Tasks;
 
 namespace AKCore.Controllers
 {
@@ -20,18 +19,19 @@ namespace AKCore.Controllers
         }
 
         [HttpPost("SaveBooking")]
-        public ActionResult SaveBooking(BookingItem model)
+        public async Task<ActionResult> SaveBooking(BookingItem model)
         {
-
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
             var bookingItem = new BookingItem
             {
                BookedDate = model.BookedDate,
                Message = model.Message,
-               Person = User.Identity.Name ?? "Unknown",
+               Person = user.FirstName + ' ' + user.LastName ?? "Unknown",
             };
             _db.BookingItems.Add(bookingItem);
 
             _db.SaveChanges();
+
             return
                 Json(new { success = true, message = "Din bokning är skickad och kommer kunna ses av styrelsen" });
         }

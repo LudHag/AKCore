@@ -1,13 +1,13 @@
 ﻿<template>
   <td class="day" 
   :class="{ outside: outside }"
-  @click="openNewModal()">
+  @click="openEvent()">
     <span class="date">{{ day.getDate() }}</span>
     <a
       href="#"
       v-for="e in events"
       :key="e.id"
-      @click.prevent="openEvent(e)"
+      @click.prevent="openEvent()"
       class="dayEvent"
 
       :class="{ green: e.message }"
@@ -59,13 +59,12 @@ const events = computed(() => {
   });
 });
 
-const openEvent = (e: BookingEvent) => {
-  emit("open", e);
+const openEvent = () => {
+  console.log('open', props.day);
+  
+  emit("open", props.day);
 };
 
-const openNewModal = () => {
-  emit("open", undefined);
-}
 
 const t = (key: string, domain: TranslationDomain = "upcoming") => {
   return translate(domain, key);

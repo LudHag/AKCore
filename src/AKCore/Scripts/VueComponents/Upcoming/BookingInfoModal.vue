@@ -1,15 +1,14 @@
 ﻿<template>
   <modal :show-modal="isOpen" :header="header" @close="close">
     <template #body>
-      <div class="modal-body" v-if="event">
+      <div class="modal-body">
         <div class="row">
-          <div class="col-sm-4" style="font-weight: 500">
-           {{event.message  }}
-           {{event.person  }}
+          <div  style="font-weight: 500">
+
 
 
            <form autocomplete="off" @submit.prevent="onBookSubmit">
-            <div class="row">
+
               <div class="col-sm-6">
                 <div
                   class="alert alert-danger"
@@ -30,15 +29,13 @@
                 <div class="form-group">
                   <label>Starttid</label>
                   <input
-                    type="text"
-                    autocomplete="off"
-                    class="form-control"
-                    name="Starttid"
-                    placeholder="Starttid"
-                    v-model="booking.startsTime"
-                  />
+                  class="form-control"
+                  type="time"
+                  v-model="booking.startsTime"
+                  name="Halan"
+                />
                 </div>
-              </div>
+  
             </div>
             <div class="modal-footer">
               <button type="submit" class="btn btn-primary">Spara</button>
@@ -59,27 +56,27 @@ import { eventIsRep } from "./functions";
 
 const emit = defineEmits<{
   (e: "close"): void;
-  (e: "onBook", date: Date, title: string, message: string, startsTime: string): void;
+  (e: "onBook", bookingEvent: BookingEvent): void;
 }>();
 
 const props = defineProps<{
-  event: BookingEvent | null;
+  event: Date | null;
   isOpen: boolean;
 }>();
 
 const close = () => emit("close");
 
-const booking = ref<BookingEvent>({} as BookingEvent);
+const booking = ref<BookingEvent>({date: props.event} as BookingEvent);
 
 const onBookSubmit = () => {
-  onBook(booking)
+  emit("onBook", booking.value);
 }
 const header = computed(() => {
   if (!props.event) {
     return "New Booking";
   }
-  return props.event.message;
 });
+
 
 const t = (key: string, domain: TranslationDomain = "upcoming") => {
   return translate(domain, key);

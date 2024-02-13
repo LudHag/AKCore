@@ -25,7 +25,7 @@
       :event="modalEvent"
       :member="member"
       :is-open="modalIsOpen"
-      @book="signup"
+      @onBook="bookEvent"
       @close="closeModal"
     ></booking-info-modal>
   </div>
@@ -53,7 +53,7 @@ const props = defineProps<{
 const month = ref(0);
 const year = ref(0);
 const modalIsOpen = ref(false);
-const modalEvent = ref<BookingEvent | null>(null);
+const modalEvent = ref<Date | null>(null);
 const totalEvents = ref<BookingEvent[]>([]);
 const monthEvents = ref<BookingEvent[]>([]);
 
@@ -61,7 +61,7 @@ const signup = (id: number) => {
   closeModal();
   emit("signup", id);
 };
-const changeMonth = () => {
+const setShownEvents = () => {
   let newEvents = [] as BookingEvent[];
   totalEvents.value.forEach(e => {
     if (e.date.getMonth() === month.value) {
@@ -77,7 +77,7 @@ const changeMonth = () => {
 const openEvent = (date: Date) => {
   console.log('openmodal');
   modalIsOpen.value = true;
-  modalEvent.value = monthEvents.value.find((event => { event.date === date})) ?? null;
+  modalEvent.value = date;
 };
 
 const nextMonth = () => {
@@ -86,7 +86,7 @@ const nextMonth = () => {
     month.value = 0;
     year.value++;
   }
-  changeMonth();
+  setShownEvents();
 };
 
 const prevMonth = () => {
@@ -95,7 +95,7 @@ const prevMonth = () => {
     month.value = 11;
     year.value--;
   }
-  changeMonth();
+  setShownEvents();
 };
 
 interface BookingItem {
@@ -107,7 +107,7 @@ interface BookingItem {
 }
 
 const loadEvents = () => {
-
+  totalEvents.value = [];
   fetch("/Booking/GetItems")
     .then((res) => res.json())
     .then((res: BookingItem[]) => {
@@ -127,7 +127,7 @@ const loadEvents = () => {
         newEvents = newEvents.concat(newEvent)
       });
       totalEvents.value = newEvents;
-      changeMonth();
+      setShownEvents();
     })
     .catch((e) => {
       console.log("fel", e);
@@ -138,19 +138,27 @@ const loadEvents = () => {
 
 
 
-const bookEvent = async (date: Date, title: string, message: string, startsTime: string) => {
+const bookEvent = async (bookingEvent: BookingEvent) => {
 
-  monthEvents.value = monthEvents.value.concat({ dayInMonth: date.getDate(), title, id: 2, message, person: 'Emil Jönsson', startsTime, date: date })
+  const {date, title, message, startsTime} = bookingEvent;
+  //monthEvents.value = monthEvents.value.concat({ dayInMonth: date.getDate(), title, id: 2, message, , startsTime, date: date })
   const dateUTC = date;
+
+  const time = startsTime.replaceAll('0', '').split(':');
+  console.log('startsTime', time);
+  const newDate = new Date(date.getTime() + (60*60*1000* +time[0]) + (60*1000* +time[1]))
+
+
+  
   let formData = new FormData();
-  formData.append('message', 'jag vill ha banjofest');
-  formData.append('bookedDate', dateUTC.toUTCString());
+  formData.append('message', message);
+  formData.append('bookedDate', newDate.toJSON());
   const response = await fetch("/Booking/SaveBooking/", {
     method: "POST",
     body: formData,
   });
 
-
+  loadEvents();
 };
 
 const closeModal = () => {
