@@ -6,9 +6,7 @@
     <AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
     <AssemblyName>AKCore</AssemblyName>
     <PackageId>AKCore</PackageId>
-    <RuntimeIdentifiers>win10-x64</RuntimeIdentifiers>
-    <UseRidGraph>true</UseRidGraph>
-	<TypeScriptCompileBlocked>True</TypeScriptCompileBlocked>
+	  <TypeScriptCompileBlocked>True</TypeScriptCompileBlocked>
   </PropertyGroup>
 
   <ItemGroup>
