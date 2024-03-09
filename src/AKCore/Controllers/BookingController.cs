@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
+using AKCore.Extensions;
 
 namespace AKCore.Controllers
 {
@@ -24,7 +25,7 @@ namespace AKCore.Controllers
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
             var bookingItem = new BookingItem
             {
-               BookedDate = model.BookedDate,
+                BookedDate = model.BookedDate.ConvertToSwedishTime(),
                Message = model.Message,
                Person = user.FirstName + ' ' + user.LastName ?? "Unknown",
             };
