@@ -16,7 +16,7 @@ namespace AKCore.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.8")
+                .HasAnnotation("ProductVersion", "8.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             MySqlModelBuilderExtensions.HasCharSet(modelBuilder, "utf8mb4");
@@ -190,6 +190,9 @@ namespace AKCore.Migrations
                         .HasColumnType("varchar(450)");
 
                     b.Property<string>("Place")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("PlayDuration")
                         .HasColumnType("longtext");
 
                     b.Property<bool>("Secret")

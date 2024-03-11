@@ -29,6 +29,7 @@ export interface UpcomingEvent {
   halanTime: string;
   thereTime: string;
   startsTime: string;
+  playDuration: string;
   stand: string;
   secret: boolean;
   signupState: string;

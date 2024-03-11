@@ -123,6 +123,7 @@
                     required
                   />
                 </div>
+               
                 <div class="col-sm-6" v-if="repFika && eventType !== 'Fikarep'">
                   <label>Fika</label>
                   <select
@@ -133,6 +134,16 @@
                     <option value>Välj en sektion</option>
                     <option v-for="s in SEKTIONER" :key="s">{{ s }}</option>
                   </select>
+                </div>
+              </div>
+              <div class="row" v-if="eventType === 'Spelning'">
+                <div class="col-sm-6">
+                  <label>Total speltid</label>
+                  <input
+                    class="form-control"
+                    v-model="upcomingEvent.playDuration"
+                    name="Duration"
+                  />
                 </div>
               </div>
             </div>
@@ -305,6 +316,7 @@ const resetEvent = () => {
         halanTime: "00:00",
         thereTime: "00:00",
         startsTime: "00:00",
+        playDuration: '',
         stand: "",
         secret: false,
       };

@@ -79,6 +79,7 @@ namespace AKCore.Controllers
                 HalanTime = ParseTime(e.HalanTime),
                 ThereTime = ParseTime(e.ThereTime),
                 StartsTime = ParseTime(e.StartsTime),
+                PlayDuration = e.PlayDuration,
                 Secret = e.Secret,
                 Stand = e.Stand,
                 Year = e.Day.Year,
@@ -116,6 +117,7 @@ namespace AKCore.Controllers
                     changeEvent.Day = DateTime.Parse(model.Day).ConvertToSwedishTime();
                     changeEvent.HalanTime = ParseTime(model.HalanTime);
                     changeEvent.ThereTime = ParseTime(model.ThereTime);
+                    changeEvent.PlayDuration = model.PlayDuration;
                     changeEvent.Stand = model.Stand;
                     changeEvent.StartsTime = ParseTime(model.StartsTime);
                     changeEvent.Fika = model.Fika;
@@ -159,6 +161,7 @@ namespace AKCore.Controllers
                         ThereTime = ParseTime(model.ThereTime),
                         Stand = model.Stand,
                         StartsTime = ParseTime(model.StartsTime),
+                        PlayDuration = model.PlayDuration,
                         Secret = model.Secret
                     };
                     var user = await _userManager.FindByNameAsync(User.Identity.Name);

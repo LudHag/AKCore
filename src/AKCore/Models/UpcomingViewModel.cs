@@ -30,6 +30,7 @@ namespace AKCore.Models
         public string HalanTime { get; set; }
         public string ThereTime { get; set; }
         public string StartsTime { get; set; }
+        public string PlayDuration { get; set; }
         public string Stand { get; set; }
         public bool Secret { get; set; }
         public string SignupState { get; set; }
