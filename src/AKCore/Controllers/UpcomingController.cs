@@ -101,6 +101,7 @@ namespace AKCore.Controllers
                     HalanTime = ParseTime(e.HalanTime),
                     ThereTime = ParseTime(e.ThereTime),
                     StartsTime = ParseTime(e.StartsTime),
+                    PlayDuration = e.PlayDuration,
                     Stand = e.Stand,
                     Coming = e.CanCome(),
                     Year = e.Day.Year,
@@ -117,6 +118,7 @@ namespace AKCore.Controllers
                     Description = description,
                     Day = e.Day.ToString("dddd dd", cultureToUse) + "/" + e.Day.ToString("MM", cultureToUse),
                     StartsTime = ParseTime(e.StartsTime),
+                    PlayDuration = e.PlayDuration,
                     Year = e.Day.Year,
                     Month = e.Day.Month
                 };

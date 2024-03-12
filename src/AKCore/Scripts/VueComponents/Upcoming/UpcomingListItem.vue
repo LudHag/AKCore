@@ -31,6 +31,9 @@
         <p v-if="event.startsTime && event.type === 'Spelning'">
           {{ t("concert-starts", "common") }}: {{ event.startsTime }}
         </p>
+        <p v-if="event.playDuration && event.type === 'Spelning'">
+          {{ t("play-duration", "common") }}: {{ event.playDuration }}
+        </p>
       </template>
       <template v-if="!loggedIn">
         <p>{{ event.name }}</p>

@@ -19,6 +19,9 @@
             <p class="modal-start" v-if="event.startsTime">
               {{ t("concert-starts", "common") }}: {{ event.startsTime }}
             </p>
+            <p v-if="event.playDuration && event.type === 'Spelning'">
+              {{ t("play-duration", "common") }}: {{ event.playDuration }}
+            </p>
           </div>
           <div class="col-sm-4">
             <a

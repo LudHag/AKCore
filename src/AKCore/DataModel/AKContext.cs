@@ -218,6 +218,7 @@ namespace AKCore.DataModel
         public TimeSpan HalanTime { get; set; }
         public TimeSpan ThereTime { get; set; }
         public TimeSpan StartsTime { get; set; }
+        public string PlayDuration { get; set; }
         public string Stand { get; set; }
         public List<SignUp> SignUps { get; set; }
         public bool Secret { get; set; }

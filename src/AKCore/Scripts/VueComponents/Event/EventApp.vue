@@ -30,6 +30,10 @@
               {{ t("concert-starts", "common") }}:
               {{ eventInfo.event.startsTime }}
             </p>
+            <p v-if="eventInfo.event.playDuration">
+              {{ t("play-duration", "common") }}:
+              {{ eventInfo.event.playDuration }}
+            </p>
           </div>
           <div class="col-sm-12">
             <a
