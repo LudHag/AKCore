@@ -52,6 +52,7 @@ public class PageController : Controller
         {
             ViewData["Description"] = page.MetaDescription;
         }
+        ViewData["Canonical"] = "https://www.altekamereren.org" + (string.IsNullOrWhiteSpace(slug) ? "" : "/") + slug;
 
         var model = _pageService.GetRenderModel(page);
 

@@ -36,6 +36,7 @@ namespace AKCore.Controllers
         public ActionResult Index()
         {
             ViewBag.Title = "På gång";
+            ViewData["Canonical"] = "https://www.altekamereren.org/upcoming";
             return View();
         }
 
