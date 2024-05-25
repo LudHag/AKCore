@@ -105,7 +105,7 @@ import {
   ImageWidget,
   Music,
   VideoWidget,
-  PostList
+  PostList,
 } from "./Widgets/widgets";
 
 const emit = defineEmits<{

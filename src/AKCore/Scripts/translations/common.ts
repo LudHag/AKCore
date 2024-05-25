@@ -9,5 +9,5 @@ export const commonTranslations: Record<string, Translation> = {
   "gather-in-hole": { swedish: "Samling i hålan", english: "Gather at hålan" },
   "gather-there": { swedish: "Samling på plats", english: "Gather there" },
   "concert-starts": { swedish: "Spelning startar", english: "Concert starts" },
-  "play-duration": { swedish: "Total spelningstid", english: "Play duration" }
+  "play-duration": { swedish: "Total spelningstid", english: "Play duration" },
 };

@@ -29,7 +29,7 @@ const translations: Record<TranslationDomain, Record<string, Translation>> = {
   upcoming: upcomingTranslations,
   music: musicTranslations,
   mailbox: mailboxTranslations,
-  signup: signupTranslations
+  signup: signupTranslations,
 };
 
 const getCookie = (name: string) => {

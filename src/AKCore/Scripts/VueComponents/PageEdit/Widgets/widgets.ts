@@ -23,5 +23,5 @@ export {
   Music,
   VideoWidget,
   PostList,
-  MailBox
+  MailBox,
 };

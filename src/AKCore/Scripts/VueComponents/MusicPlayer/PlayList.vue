@@ -66,12 +66,12 @@ watch(
       trackPlaying.value = val[0];
       nextTick(() => emit("playpause"));
     }
-  }
+  },
 );
 
 const next = () => {
   const currentIndex = tracks.value.findIndex(
-    (track) => track.key === trackPlaying?.value?.key
+    (track) => track.key === trackPlaying?.value?.key,
   );
   if (replay.value) {
     return nextIfReplay(currentIndex);

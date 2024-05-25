@@ -246,7 +246,7 @@ const translateDescs = () => {
     postToApi(
       "/ExtraInfo/TranslateText",
       {
-        text: upcomingEvent.value.description
+        text: upcomingEvent.value.description,
       },
       null,
       null,
@@ -255,7 +255,7 @@ const translateDescs = () => {
           upcomingEvent.value.descriptionEng = response.data;
         }
         loadingDescTrans.value = false;
-      }
+      },
     );
   }
   if (upcomingEvent.value?.internalDescription) {
@@ -263,7 +263,7 @@ const translateDescs = () => {
     postToApi(
       "/ExtraInfo/TranslateText",
       {
-        text: upcomingEvent.value.internalDescription
+        text: upcomingEvent.value.internalDescription,
       },
       null,
       null,
@@ -272,14 +272,14 @@ const translateDescs = () => {
           upcomingEvent.value.internalDescriptionEng = response.data;
         }
         loadingIntDescTrans.value = false;
-      }
+      },
     );
   }
 };
 
 const formSubmit = () => {
   const success = document.getElementsByClassName(
-    "alert-success"
+    "alert-success",
   )[0] as HTMLElement;
   const eventValue = upcomingEvent.value!;
 
@@ -318,7 +318,7 @@ const resetEvent = () => {
         startsTime: "00:00",
         playDuration: "",
         stand: "",
-        secret: false
+        secret: false,
       };
   upcomingEvent.value!.dayDate = new Date(upcomingEvent.value!.dayDate);
 };
@@ -329,7 +329,7 @@ watch(
     if (props.showModal) {
       resetEvent();
     }
-  }
+  },
 );
 
 const eventId = computed(() => {

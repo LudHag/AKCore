@@ -17,7 +17,7 @@ const assetFileNames = (assetInfo) => {
 export default defineConfig({
   server: {
     port: 5173,
-    hmr: { clientPort: 5173 }
+    hmr: { clientPort: 5173 },
   },
   plugins: [vue()],
   build: {
@@ -26,13 +26,13 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(__dirname, "Scripts/main.html"),
-        admin: resolve(__dirname, "Scripts/admin.html")
+        admin: resolve(__dirname, "Scripts/admin.html"),
       },
       output: {
         entryFileNames: `dist/[name].js`,
         chunkFileNames: `dist/vendor.js`,
-        assetFileNames: assetFileNames
-      }
-    }
-  }
+        assetFileNames: assetFileNames,
+      },
+    },
+  },
 });

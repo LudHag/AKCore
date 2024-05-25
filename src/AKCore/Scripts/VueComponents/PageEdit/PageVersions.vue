@@ -10,7 +10,7 @@
       href="#"
       @click.prevent="selectRevision(revision)"
       :class="{
-        selected: selectedRevision && revision.id === selectedRevision.id
+        selected: selectedRevision && revision.id === selectedRevision.id,
       }"
       v-for="revision in modelValue.revisions"
       :key="revision.id"

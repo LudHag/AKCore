@@ -185,7 +185,7 @@ import { ProfileData } from "./models";
 import {
   defaultFormSend,
   getFromApi,
-  postByObject
+  postByObject,
 } from "../services/apiservice";
 import { slideUpAndDown } from "../services/slidehandler";
 import { TranslationDomain, translate } from "../translations";
@@ -213,7 +213,7 @@ const updateProfile = async () => {
     formsuccess.value,
     () => {
       formcontainer.value!.scrollIntoView();
-    }
+    },
   );
 };
 
@@ -230,7 +230,7 @@ const changePassword = async (event: Event) => {
     () => {
       password.value = "";
       confirmPass.value = "";
-    }
+    },
   );
 };
 

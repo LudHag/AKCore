@@ -113,7 +113,7 @@ const remove = (file: MediaItem) => {
       null,
       () => {
         emit("update");
-      }
+      },
     );
   }
 };

@@ -4,7 +4,7 @@ const menu = document.getElementById("mobile-menu")!;
 
 const openMobileMenu = document.getElementById("open-mobile-menu")!;
 const subMenusButtons = document.getElementsByClassName(
-  "exp-submenu"
+  "exp-submenu",
 ) as HTMLCollectionOf<HTMLElement>;
 
 openMobileMenu.addEventListener("click", (e) => {
@@ -65,7 +65,7 @@ const allowedKeys: { [key: number]: string } = {
     76: "l",
     192: "ö",
     74: "j",
-    84: "t"
+    84: "t",
   },
   code = ["f", "l", "ö", "j", "t"];
 let pos = 0;
@@ -86,7 +86,7 @@ document.addEventListener("keydown", function (event: KeyboardEvent) {
 function flojt() {
   const document: Document = window.document;
   let nodesContainer: HTMLDivElement | null = document.getElementById(
-    "__cornify_nodes"
+    "__cornify_nodes",
   ) as HTMLDivElement;
 
   if (nodesContainer) {
@@ -98,7 +98,7 @@ function flojt() {
 
     const scriptUrls = [
       "https://cornify.com/js/cornify.js",
-      "https://cornify.com/js/cornify_run.js"
+      "https://cornify.com/js/cornify_run.js",
     ];
 
     scriptUrls.forEach((url) => {
