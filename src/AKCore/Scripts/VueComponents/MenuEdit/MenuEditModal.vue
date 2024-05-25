@@ -179,7 +179,7 @@ watch(
   () => props.menu,
   () => {
     updateValues();
-  }
+  },
 );
 
 onMounted(() => {

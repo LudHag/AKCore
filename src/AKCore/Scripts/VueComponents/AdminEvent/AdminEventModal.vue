@@ -90,7 +90,7 @@
                   <label>Dag</label>
                   <datepicker
                     class="form-control"
-                    v-model="(upcomingEvent.dayDate as Date)"
+                    v-model="upcomingEvent.dayDate as Date"
                     name="Day"
                     required
                   ></datepicker>
@@ -123,7 +123,7 @@
                     required
                   />
                 </div>
-               
+
                 <div class="col-sm-6" v-if="repFika && eventType !== 'Fikarep'">
                   <label>Fika</label>
                   <select
@@ -255,7 +255,7 @@ const translateDescs = () => {
           upcomingEvent.value.descriptionEng = response.data;
         }
         loadingDescTrans.value = false;
-      }
+      },
     );
   }
   if (upcomingEvent.value?.internalDescription) {
@@ -272,14 +272,14 @@ const translateDescs = () => {
           upcomingEvent.value.internalDescriptionEng = response.data;
         }
         loadingIntDescTrans.value = false;
-      }
+      },
     );
   }
 };
 
 const formSubmit = () => {
   const success = document.getElementsByClassName(
-    "alert-success"
+    "alert-success",
   )[0] as HTMLElement;
   const eventValue = upcomingEvent.value!;
 
@@ -316,7 +316,7 @@ const resetEvent = () => {
         halanTime: "00:00",
         thereTime: "00:00",
         startsTime: "00:00",
-        playDuration: '',
+        playDuration: "",
         stand: "",
         secret: false,
       };
@@ -329,7 +329,7 @@ watch(
     if (props.showModal) {
       resetEvent();
     }
-  }
+  },
 );
 
 const eventId = computed(() => {

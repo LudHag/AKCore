@@ -50,7 +50,7 @@ const translateText = () => {
     (response) => {
       props.modelValue.textEng = response.data;
       fetchingData.value = false;
-    }
+    },
   );
 };
 </script>

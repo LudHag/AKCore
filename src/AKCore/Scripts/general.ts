@@ -4,7 +4,7 @@ const menu = document.getElementById("mobile-menu")!;
 
 const openMobileMenu = document.getElementById("open-mobile-menu")!;
 const subMenusButtons = document.getElementsByClassName(
-  "exp-submenu"
+  "exp-submenu",
 ) as HTMLCollectionOf<HTMLElement>;
 
 openMobileMenu.addEventListener("click", (e) => {
@@ -86,7 +86,7 @@ document.addEventListener("keydown", function (event: KeyboardEvent) {
 function flojt() {
   const document: Document = window.document;
   let nodesContainer: HTMLDivElement | null = document.getElementById(
-    "__cornify_nodes"
+    "__cornify_nodes",
   ) as HTMLDivElement;
 
   if (nodesContainer) {

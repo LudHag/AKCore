@@ -28,7 +28,11 @@
         </div>
       </div>
       <h2 class="no-print">{{ t("not-coming", "common") }}</h2>
-      <div class="row signup-row no-print" :key="signup.id" v-for="signup in notComing">
+      <div
+        class="row signup-row no-print"
+        :key="signup.id"
+        v-for="signup in notComing"
+      >
         <div class="col-sm-3 signup-element">
           <p>{{ cleanName(signup.personName) }}</p>
         </div>

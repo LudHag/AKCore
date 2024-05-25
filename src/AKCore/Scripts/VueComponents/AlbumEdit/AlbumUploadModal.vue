@@ -74,7 +74,7 @@ const uploadFiles = (files: FileList) => {
     null,
     () => {
       emit("update");
-    }
+    },
   );
 };
 
@@ -86,7 +86,7 @@ const removeTrack = (id: number) => {
     null,
     () => {
       emit("update");
-    }
+    },
   );
 };
 

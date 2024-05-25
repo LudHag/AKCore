@@ -145,7 +145,7 @@ const changeName = (name: string, id: number) => {
           return item;
         }
       });
-    }
+    },
   );
 };
 
@@ -163,7 +163,7 @@ const changeCategory = (category: string, id: number) => {
           return item;
         }
       });
-    }
+    },
   );
 };
 
@@ -193,7 +193,7 @@ const createAlbum = (event: Event) => {
     () => {
       loadAlbumData();
       createOpened.value = false;
-    }
+    },
   );
 };
 
@@ -219,7 +219,7 @@ const imageSelected = (image: { name: string }) => {
     null,
     () => {
       loadAlbumData();
-    }
+    },
   );
   closeImagePicker();
 };

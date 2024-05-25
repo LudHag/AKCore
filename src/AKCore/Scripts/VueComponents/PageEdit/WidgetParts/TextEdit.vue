@@ -48,7 +48,7 @@ watch(
         editorRef.value.setContent(value || "");
       }
     }
-  }
+  },
 );
 
 const getConfig = () => {
@@ -91,7 +91,7 @@ const getConfig = () => {
       _url: any,
       type: any,
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      _win: any
+      _win: any,
     ) {
       if (type === "image") {
         EventBus.trigger("loadimage", document.getElementById(field_name));

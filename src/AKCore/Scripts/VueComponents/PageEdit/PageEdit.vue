@@ -104,7 +104,7 @@ onMounted(() => {
         save();
       }
     },
-    false
+    false,
   );
 });
 
@@ -154,7 +154,7 @@ const widgetAdd = (type: string) => {
 
 const removeWidget = (widget: WidgetEditModel) => {
   usedModel.value!.widgets = usedModel.value!.widgets.filter(
-    (x) => x.id != widget.id
+    (x) => x.id != widget.id,
   );
 };
 
@@ -170,17 +170,17 @@ const save = () => {
   if (selectedRevision.value) {
     if (
       !window.confirm(
-        "Är du säker på att du vill ersätta sidan med denna version?"
+        "Är du säker på att du vill ersätta sidan med denna version?",
       )
     ) {
       return;
     }
   }
   const success = document.getElementsByClassName(
-    "alert-success"
+    "alert-success",
   )[0] as HTMLElement;
   const error = document.getElementsByClassName(
-    "alert-danger"
+    "alert-danger",
   )[0] as HTMLElement;
 
   postByObject(
@@ -191,7 +191,7 @@ const save = () => {
     (res: any) => {
       selectedRevision.value = null;
       pageModel.value = res.newModel;
-    }
+    },
   );
 };
 
@@ -199,7 +199,7 @@ watch(
   () => drag.value,
   (value) => {
     EventBus.trigger("widgetDrag", value);
-  }
+  },
 );
 
 watch(
@@ -210,7 +210,7 @@ watch(
     } else {
       usedModel.value = pageModel.value;
     }
-  }
+  },
 );
 </script>
 <style lang="scss" scoped>

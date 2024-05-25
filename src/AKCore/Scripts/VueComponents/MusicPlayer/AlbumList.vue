@@ -100,7 +100,7 @@ const filteredAlbums = computed(() => {
   const filteredAlbums = props.albums
     .map((album) => {
       const filteredTracks = album.tracks.filter(
-        (track) => track.name.toLowerCase().indexOf(lowerQuery) > -1
+        (track) => track.name.toLowerCase().indexOf(lowerQuery) > -1,
       );
       return { ...album, tracks: filteredTracks };
     })

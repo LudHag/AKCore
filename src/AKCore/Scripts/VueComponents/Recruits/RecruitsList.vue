@@ -74,7 +74,7 @@ const archive = (recruit: Recruit) => {
       if (response.success) {
         emit("update", { id: recruit.id, arch: !recruit.archived });
       }
-    }
+    },
   );
 };
 
@@ -94,7 +94,7 @@ const remove = (recruit: Recruit) => {
       if (response.success) {
         emit("remove", recruit.id);
       }
-    }
+    },
   );
 };
 </script>
