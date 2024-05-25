@@ -4,7 +4,7 @@ const handleResponse = async (
   response: Response,
   error: HTMLElement | null,
   success: HTMLElement | null,
-  callback: (data: any) => void
+  callback: (data: any) => void,
 ) => {
   const res = await response.json();
 
@@ -26,7 +26,7 @@ export const defaultFormSend = async (
   formElement: HTMLFormElement,
   error: HTMLElement | null,
   success: HTMLElement | null,
-  callback: (data: any) => void
+  callback: (data: any) => void,
 ) => {
   try {
     const response = await fetch(formElement.getAttribute("action") as string, {
@@ -47,7 +47,7 @@ export const postToApi = async (
   obj: any | null,
   error: HTMLElement | null,
   success: HTMLElement | null,
-  callback: (data: any) => void
+  callback: (data: any) => void,
 ) => {
   try {
     const data = getSearchParams(obj);
@@ -84,7 +84,7 @@ export const postByObject = async (
   obj: any,
   error: HTMLElement | null,
   success: HTMLElement | null,
-  callback: (data: any) => void
+  callback: (data: any) => void,
 ) => {
   try {
     const response = await fetch(url, {
@@ -108,7 +108,7 @@ export const postFormData = async (
   obj: FormData,
   error: HTMLElement | null,
   success: HTMLElement | null,
-  callback: (data: any) => void
+  callback: (data: any) => void,
 ) => {
   try {
     const response = await fetch(url, {
@@ -126,7 +126,7 @@ export const postFormData = async (
 
 export const getFromApi = async <T>(
   url: string,
-  error?: HTMLElement
+  error?: HTMLElement,
 ): Promise<T> => {
   try {
     const response = await fetch(url);

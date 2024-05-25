@@ -213,7 +213,7 @@ const updateProfile = async () => {
     formsuccess.value,
     () => {
       formcontainer.value!.scrollIntoView();
-    }
+    },
   );
 };
 
@@ -230,7 +230,7 @@ const changePassword = async (event: Event) => {
     () => {
       password.value = "";
       confirmPass.value = "";
-    }
+    },
   );
 };
 

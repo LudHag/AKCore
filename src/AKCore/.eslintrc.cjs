@@ -25,5 +25,6 @@ module.exports = {
     "vue/singleline-html-element-content-newline": "off",
     "vue/html-indent": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
+    "vue/html-closing-bracket-newline": "off",
   },
 };

@@ -1,7 +1,7 @@
 export const slideUpAndDown = (
   target: HTMLElement,
   duration: number,
-  message?: string
+  message?: string,
 ) => {
   if (message) {
     target.innerHTML = message;

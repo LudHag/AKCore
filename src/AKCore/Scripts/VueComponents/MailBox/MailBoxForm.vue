@@ -52,7 +52,7 @@ const sendMailBox = (event: Event) => {
       mailboxSubject.value = "";
       mailBoxMessage.value = "";
       emit("sent");
-    }
+    },
   );
 };
 const t = (key: string, domain: TranslationDomain = "mailbox") => {

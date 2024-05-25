@@ -3,7 +3,7 @@ import { defaultFormSend } from "../services/apiservice";
 const newPageButton = document.getElementById("new-page-button");
 const newPageForm = document.getElementById("new-page-form");
 const removePageButtons = document.getElementsByClassName(
-  "remove-page"
+  "remove-page",
 ) as HTMLCollectionOf<HTMLElement>;
 
 if (newPageButton) {
