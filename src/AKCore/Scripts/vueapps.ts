@@ -12,15 +12,13 @@ import { Member, Video } from "./VueComponents/models";
 declare const videos: Record<number, Array<Video>>;
 
 const videoApps = Array.from(
-  document.getElementsByClassName(
-    "videos-app",
-  ) as HTMLCollectionOf<HTMLElement>,
+  document.getElementsByClassName("videos-app") as HTMLCollectionOf<HTMLElement>
 );
 
 videoApps.forEach((app) => {
   const widgetId = parseInt(app.dataset.id as string);
   createApp(VideoBar, { videos: videos[widgetId] }).mount(
-    `#videos-app-${widgetId}`,
+    `#videos-app-${widgetId}`
   );
 });
 
@@ -30,14 +28,14 @@ declare const instruments: string[];
 if (document.getElementById("search-widget")) {
   createApp(MembersList, {
     members: memberList,
-    instruments: instruments,
+    instruments: instruments
   }).mount("#search-widget");
 }
 
 declare const eventId: number;
 if (document.getElementById("upcoming-app")) {
   createApp(UpcomingApp, {
-    "event-id": eventId,
+    "event-id": eventId
   }).mount("#upcoming-app");
 }
 
@@ -52,7 +50,7 @@ if (document.getElementById("media-app")) {
 declare const loggedIn: boolean;
 if (document.getElementById("music-app")) {
   createApp(MusicApp, {
-    loggedIn: loggedIn,
+    loggedIn: loggedIn
   }).mount("#music-app");
 }
 

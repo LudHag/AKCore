@@ -121,7 +121,7 @@ watch(
     if (page.value + 1 > pagesLength.value && pagesLength.value - 1 > -1) {
       page.value = pagesLength.value - 1;
     }
-  },
+  }
 );
 
 onMounted(() => {

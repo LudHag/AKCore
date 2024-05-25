@@ -92,7 +92,7 @@ const menuUp = (menu: MenuEditModel) => {
     null,
     () => {
       emit("update");
-    },
+    }
   );
 };
 
@@ -110,7 +110,7 @@ const subMenuUp = (menu: MenuEditModel, child: MenuEditModel) => {
     null,
     () => {
       emit("update");
-    },
+    }
   );
 };
 
@@ -122,7 +122,7 @@ const subMenuDown = (menu: MenuEditModel, child: MenuEditModel) => {
     null,
     () => {
       emit("update");
-    },
+    }
   );
 };
 
@@ -134,7 +134,7 @@ const deleteMenu = (menu: MenuEditModel) => {
     null,
     () => {
       emit("update");
-    },
+    }
   );
 };
 
@@ -146,7 +146,7 @@ const deleteSubMenu = (menu: MenuEditModel) => {
     null,
     () => {
       emit("update");
-    },
+    }
   );
 };
 </script>

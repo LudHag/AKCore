@@ -48,7 +48,7 @@ watch(
         editorRef.value.setContent(value || "");
       }
     }
-  },
+  }
 );
 
 const getConfig = () => {
@@ -57,7 +57,7 @@ const getConfig = () => {
     theme: "modern",
     plugins: [
       "advlist link image imagetools lists charmap print hr anchor spellchecker searchreplace wordcount code fullscreen media nonbreaking",
-      "table contextmenu directionality emoticons template textcolor paste textcolor colorpicker textpattern",
+      "table contextmenu directionality emoticons template textcolor paste textcolor colorpicker textpattern"
     ],
     height: 200,
     table_appearance_options: false,
@@ -75,7 +75,7 @@ const getConfig = () => {
       { title: "Rubrik 2", block: "h2" },
       { title: "Infobox", selector: "p", classes: "infobox" },
       { title: "3-delskolumn", block: "p", classes: "col-sm-4" },
-      { title: "Block med marginal", block: "p", classes: "col-xs-12" },
+      { title: "Block med marginal", block: "p", classes: "col-xs-12" }
     ],
     content_css: "/dist/main.css",
     body_class: "body-content",
@@ -91,7 +91,7 @@ const getConfig = () => {
       _url: any,
       type: any,
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      _win: any,
+      _win: any
     ) {
       if (type === "image") {
         EventBus.trigger("loadimage", document.getElementById(field_name));
@@ -99,7 +99,7 @@ const getConfig = () => {
       if (type === "file") {
         EventBus.trigger("loadfile", document.getElementById(field_name));
       }
-    },
+    }
   };
 };
 </script>

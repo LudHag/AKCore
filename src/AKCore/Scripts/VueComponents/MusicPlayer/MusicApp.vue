@@ -110,7 +110,7 @@ const showDesc = async () => {
     try {
       aiDesc.value = (
         await getFromApi<{ albumInfo: string }>(
-          `/ExtraInfo/GetAlbumInfo?id=${currentAlbum.value.id}`,
+          `/ExtraInfo/GetAlbumInfo?id=${currentAlbum.value.id}`
         )
       ).albumInfo;
     } catch (error) {

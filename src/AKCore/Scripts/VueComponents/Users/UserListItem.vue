@@ -248,7 +248,7 @@ const expanded = ref(false);
 const selectedPosts = ref<string[]>([]);
 const error = document.getElementsByClassName("alert-danger")[0] as HTMLElement;
 const success = document.getElementsByClassName(
-  "alert-success",
+  "alert-success"
 )[0] as HTMLElement;
 
 //logic for setting last signed in to red if older than one year
@@ -263,7 +263,7 @@ watch(
     if (user && user.posts) {
       selectedPosts.value = user.posts.slice();
     }
-  },
+  }
 );
 
 watch(
@@ -272,7 +272,7 @@ watch(
     if (val && props.user && props.user.posts) {
       selectedPosts.value = props.user.posts.slice();
     }
-  },
+  }
 );
 
 const roleInfo = (role: string) => {
@@ -298,7 +298,7 @@ const removeUser = () => {
       success,
       () => {
         emit("removeuser", props.user.userName);
-      },
+      }
     );
   }
 };
@@ -309,7 +309,7 @@ const saveLastEarned = (event: Event) => {
       userName: props.user.userName,
       prop: "medal",
       // @ts-ignore
-      value: (event.target as HTMLFormElement).elements.medal.value,
+      value: (event.target as HTMLFormElement).elements.medal.value
     });
   });
 };
@@ -320,7 +320,7 @@ const saveLastGiven = (event: Event) => {
       userName: props.user.userName,
       prop: "givenMedal",
       // @ts-ignore
-      value: (event.target as HTMLFormElement).elements.medal.value,
+      value: (event.target as HTMLFormElement).elements.medal.value
     });
   });
 };
@@ -342,9 +342,9 @@ const removeRole = (role: string) => {
       emit("updateuserprop", {
         userName: props.user.userName,
         prop: "roles",
-        value: newRoles,
+        value: newRoles
       });
-    },
+    }
   );
 };
 
@@ -361,7 +361,7 @@ const addRole = (event: Event) => {
     emit("updateuserprop", {
       userName: props.user.userName,
       prop: "roles",
-      value: newRoles,
+      value: newRoles
     });
   });
 };
@@ -373,13 +373,13 @@ const resetPassword = () => {
 const addPost = () => {
   const postObj = {
     post: selectedPosts.value,
-    userName: props.user.userName,
+    userName: props.user.userName
   };
   postToApi("/User/AddPost", postObj, error, success, () => {
     emit("updateuserprop", {
       userName: props.user.userName,
       prop: "posts",
-      value: selectedPosts.value.slice(),
+      value: selectedPosts.value.slice()
     });
   });
 };

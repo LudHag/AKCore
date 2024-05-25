@@ -56,7 +56,7 @@ const addAlbum = (album: AlbumEditModel) => {
 
 const removeAlbum = (album: AlbumEditModel) => {
   props.modelValue.albums = props.modelValue.albums.filter(
-    (x) => x != album.id,
+    (x) => x != album.id
   );
 };
 </script>

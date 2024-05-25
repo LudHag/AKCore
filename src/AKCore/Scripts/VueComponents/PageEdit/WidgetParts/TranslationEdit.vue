@@ -43,14 +43,14 @@ const translateText = () => {
   postToApi(
     "/ExtraInfo/TranslateHtml",
     {
-      text: props.modelValue.text,
+      text: props.modelValue.text
     },
     null,
     null,
     (response) => {
       props.modelValue.textEng = response.data;
       fetchingData.value = false;
-    },
+    }
   );
 };
 </script>

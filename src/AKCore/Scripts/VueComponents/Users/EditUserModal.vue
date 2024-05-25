@@ -195,7 +195,7 @@ watch(
       newUser.roles = ["Medlem"];
     }
     editedUser.value = Object.assign({}, newUser);
-  },
+  }
 );
 
 const othInstruments = computed(() => {

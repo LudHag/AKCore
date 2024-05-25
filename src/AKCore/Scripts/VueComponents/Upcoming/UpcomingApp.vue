@@ -109,7 +109,7 @@ const signup = (id: number) => {
   history.pushState(
     { showEvent: true, selectedEventId: id },
     "",
-    "/upcoming/Event/" + id,
+    "/upcoming/Event/" + id
   );
 };
 
@@ -146,13 +146,13 @@ onMounted(() => {
     history.replaceState(
       { showEvent: true, selectedEventId: props.eventId },
       "",
-      "/upcoming/Event/" + props.eventId,
+      "/upcoming/Event/" + props.eventId
     );
   } else {
     history.replaceState(
       { showEvent: false, selectedEventId: -1 },
       "",
-      "/upcoming",
+      "/upcoming"
     );
   }
   loadEvents();

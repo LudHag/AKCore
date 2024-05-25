@@ -90,7 +90,7 @@ const deleteAlbum = () => {
     window.confirm(
       "är du säker på att du vill ta bort album med namn " +
         props.album.name +
-        " ?",
+        " ?"
     )
   ) {
     emit("delete", props.album.id);

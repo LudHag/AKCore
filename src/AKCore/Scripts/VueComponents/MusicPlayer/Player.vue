@@ -99,7 +99,7 @@ watch(
       playerValue.removeEventListener("timeupdate", timeUpdate);
       playerValue.removeEventListener("ended", endedListener);
     }
-  },
+  }
 );
 
 watch(
@@ -115,7 +115,7 @@ watch(
         playerValue.play();
       });
     }
-  },
+  }
 );
 
 watch(
@@ -132,7 +132,7 @@ watch(
         playerValue.currentTime = 0;
       }
     }
-  },
+  }
 );
 
 const timeUpdate = (event: any) => {

@@ -18,7 +18,7 @@
   "Sexkamerer",
   "Skrubbkamerer",
   "Sponsringskamerer",
-  "Stämledare",
+  "Stämledare"
 ];
 export const ROLES = ["SuperNintendo", "Medlem", "Editor", "Balett"];
 export const MEDALS = [
@@ -27,7 +27,7 @@ export const MEDALS = [
   "Klövern",
   "Keruben",
   "Dollarn",
-  "Gubben",
+  "Gubben"
 ];
 
 export const SIGNUPTYPES = ["Hålan", "Direkt", "Kan inte komma"];
@@ -46,7 +46,7 @@ export const INSTRUMENTS = [
   "Tenorsax",
   "Trombon",
   "Trumpet",
-  "Tuba",
+  "Tuba"
 ];
 
 export const MONTHS = [
@@ -61,7 +61,7 @@ export const MONTHS = [
   "September",
   "Oktober",
   "November",
-  "December",
+  "December"
 ];
 
 export const MONTHS_ENG = [
@@ -76,7 +76,7 @@ export const MONTHS_ENG = [
   "September",
   "October",
   "November",
-  "December",
+  "December"
 ];
 
 export const DAYS = [
@@ -86,7 +86,7 @@ export const DAYS = [
   "Torsdag",
   "Fredag",
   "Lördag",
-  "Söndag",
+  "Söndag"
 ];
 
 export const DAYS_ENG = [
@@ -96,7 +96,7 @@ export const DAYS_ENG = [
   "Thursday",
   "Friday",
   "Saturday",
-  "Sunday",
+  "Sunday"
 ];
 
 export const EVENTTYPES = [
@@ -106,7 +106,7 @@ export const EVENTTYPES = [
   "Athenrep",
   "Fikarep",
   "Fest",
-  "Evenemang",
+  "Evenemang"
 ];
 
 export const SPELTYPER = ["Stå", "Gå", "Stå och gå"];
@@ -118,7 +118,7 @@ export const SEKTIONER = [
   "Klarinett",
   "Komp",
   "Sax",
-  "Trumpet",
+  "Trumpet"
 ];
 
 export const IMAGETYPES = [
@@ -128,14 +128,14 @@ export const IMAGETYPES = [
   "Dokument",
   "Ikoner",
   "Fotoalbumomslag",
-  "Startsidebilder",
+  "Startsidebilder"
 ];
 
 export const ALBUMCATEGORIES = [
   "Jubileum",
   "Balettjubileum",
   "Skivor",
-  "Övrigt",
+  "Övrigt"
 ];
 
 export default {
@@ -152,5 +152,5 @@ export default {
   SPELTYPER,
   SEKTIONER,
   IMAGETYPES,
-  ALBUMCATEGORIES,
+  ALBUMCATEGORIES
 };
