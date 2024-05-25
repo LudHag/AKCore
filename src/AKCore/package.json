@@ -29,7 +29,7 @@
     "eslint-plugin-vue": "^9.26.0",
     "prettier": "^3.2.5",
     "sass": "^1.62.0",
-    "typescript": "^5.2.2",
+    "typescript": "^5.4.5",
     "vite": "^5.2.11",
     "vue-eslint-parser": "^9.4.2",
     "vue-tsc": "^2.0.19"
@@ -37,7 +37,7 @@
   "dependencies": {
     "@tinymce/tinymce-vue": "^5.1.1",
     "bootstrap-sass": "^3.4.3",
-    "vue": "^3.3.27",
+    "vue": "^3.4.27",
     "vue-select": "^4.0.0-beta.6",
     "vue3-datepicker": "^0.4.0",
     "vuedraggable": "^4.1.0"
