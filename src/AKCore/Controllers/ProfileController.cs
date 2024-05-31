@@ -68,15 +68,21 @@ public class ProfileController : Controller
     {
         var user = await _userManager.FindByNameAsync(User.Identity.Name);
         var userId = user.Id;
-        var today = DateTime.UtcNow.AddMonths(-12);
+        var lastYear = DateTime.UtcNow.AddMonths(-12);
 
         var signups = await _db.SignUps
             .Where(x => x.PersonId == userId)
-            .Where(x => x.SignupTime > today)
+            .Where(x => x.SignupTime > lastYear)
             .ToListAsync();
+
+        var numberEvents = await _db.Events
+            .Where(x=> x.Type == "Spelning")
+            .Where(x=> x.Day > lastYear)
+            .CountAsync();
 
         var statistics = new
         {
+            TotalGigs = numberEvents,
             Halan = signups.Count(x => x.Where == "Hålan"),
             Direct = signups.Count(x => x.Where == "Direkt"),
             CantCome = signups.Count(x => x.Where == "Kan inte komma"),

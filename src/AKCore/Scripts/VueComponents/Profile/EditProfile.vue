@@ -97,7 +97,7 @@ import { INSTRUMENTS } from "../../constants";
 // @ts-ignore
 import vSelect from "vue-select";
 import { ref, computed } from "vue";
-import { ProfileData } from "./../models";
+import { ProfileData } from "./models";
 import { postByObject } from "../../services/apiservice";
 import { TranslationDomain, translate } from "../../translations";
 

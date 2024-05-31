@@ -4,58 +4,10 @@
     v-if="profileData && profileData.userName !== 'nintendo'"
   >
     <div class="row" ref="formcontainer">
-      <EditProfile
-        :profile-data="profileData"
-        v-if="profileData"
-        @update="updateProfile"
-      ></EditProfile>
+      <EditProfile :profile-data="profileData" @update="updateProfile" />
       <div class="col-md-6">
-        <h3>{{ t("change-password") }}:</h3>
-        <form
-          method="POST"
-          action="/Profile/ChangePassword"
-          @submit.prevent="changePassword"
-        >
-          <div
-            class="alert alert-danger"
-            ref="passworderror"
-            style="display: none"
-          ></div>
-          <div
-            class="alert alert-success"
-            ref="passwordsuccess"
-            style="display: none"
-          >
-            {{ t("password-updated") }}
-          </div>
-          <div class="form-group">
-            <label for="newpass">{{ t("new-password") }}:</label>
-            <input
-              v-model="password"
-              type="password"
-              class="form-control"
-              name="password"
-              :placeholder="t('new-password')"
-              required
-            />
-          </div>
-          <div class="form-group">
-            <label for="confirmpass">{{ t("confirm-password") }}:</label>
-            <input
-              v-model="confirmPass"
-              type="password"
-              class="form-control"
-              :placeholder="t('confirm-password')"
-              required
-            />
-          </div>
-          <div class="form-group">
-            <button type="submit" class="btn btn-default">
-              {{ t("update-password") }}
-            </button>
-          </div>
-        </form>
-        <div>
+        <ChangePassword />
+        <section>
           <div v-if="profileData.roles && profileData.roles.length > 0">
             <h3>{{ t("roles") }}</h3>
             <div class="roles">
@@ -80,49 +32,106 @@
             <h3>{{ t("latest-medal-given") }}</h3>
             <p>{{ profileData.givenMedal }}</p>
           </div>
-        </div>
+        </section>
+        <section v-if="profileStatistics">
+          <h3>{{ t("statisticsheader") }}</h3>
+          <p>{{ t("statisticspreamble") }}</p>
+          <ul>
+            <li>
+              {{ t("total-gigs") }}:
+              <span class="bold">{{ profileStatistics.totalGigs }}</span>
+            </li>
+            <li>
+              {{ t("halan") }}:
+              <span class="bold">{{ profileStatistics.halan }}</span> -
+              {{
+                getPercentage(
+                  profileStatistics.halan,
+                  profileStatistics.totalGigs,
+                )
+              }}%
+            </li>
+            <li>
+              {{ t("direct") }}:
+              <span class="bold">{{ profileStatistics.direct }}</span> -
+              {{
+                getPercentage(
+                  profileStatistics.direct,
+                  profileStatistics.totalGigs,
+                )
+              }}%
+            </li>
+            <li>
+              {{ t("cantCome") }}:
+              <span class="bold">{{ profileStatistics.cantCome }}</span> -
+              {{
+                getPercentage(
+                  profileStatistics.cantCome,
+                  profileStatistics.totalGigs,
+                )
+              }}%
+            </li>
+            <li>
+              {{ t("car") }}:
+              <span class="bold">{{ profileStatistics.car }}</span> -
+              {{
+                getPercentage(
+                  profileStatistics.car,
+                  profileStatistics.totalGigs,
+                )
+              }}%
+            </li>
+            <li>
+              {{ t("instrument-own") }}:
+              <span class="bold">{{ profileStatistics.instrument }}</span> -
+              {{
+                getPercentage(
+                  profileStatistics.instrument,
+                  profileStatistics.totalGigs,
+                )
+              }}%
+            </li>
+            <li>
+              {{ t("comment") }}:
+              <span class="bold">{{ profileStatistics.comment }}</span> -
+              {{
+                getPercentage(
+                  profileStatistics.comment,
+                  profileStatistics.totalGigs,
+                )
+              }}%
+            </li>
+          </ul>
+        </section>
       </div>
     </div>
   </div>
 </template>
 <script setup lang="ts">
 import EditProfile from "./EditProfile.vue";
+import ChangePassword from "./ChangePassword.vue";
 import { ref, onMounted } from "vue";
-import { ProfileData } from "./../models";
-import { defaultFormSend, getFromApi } from "../../services/apiservice";
-import { slideUpAndDown } from "../../services/slidehandler";
+import { ProfileData, ProfileStatistics } from "./models";
+import { getFromApi } from "../../services/apiservice";
 import { TranslationDomain, translate } from "../../translations";
 
 const profileData = ref<ProfileData | null>(null);
-const password = ref("");
-const confirmPass = ref("");
+const profileStatistics = ref<ProfileStatistics | null>(null);
 const formcontainer = ref<HTMLElement | null>(null);
-const passworderror = ref<HTMLElement | null>(null);
-const passwordsuccess = ref<HTMLElement | null>(null);
 
 const updateProfile = async () => {
   formcontainer.value!.scrollIntoView();
 };
 
-const changePassword = async (event: Event) => {
-  if (password.value !== confirmPass.value) {
-    slideUpAndDown(passworderror.value!, 4000, "Lösenord matchar ej");
-    return;
-  }
-
-  defaultFormSend(
-    event.target as HTMLFormElement,
-    passworderror.value,
-    passwordsuccess.value,
-    () => {
-      password.value = "";
-      confirmPass.value = "";
-    },
-  );
+const getPercentage = (value: number, total: number) => {
+  return ((value / total) * 100).toFixed(2);
 };
 
 const loadData = async () => {
   profileData.value = await getFromApi<ProfileData>("/Profile/ProfileData");
+  profileStatistics.value = await getFromApi<ProfileStatistics>(
+    "/Profile/Statistics",
+  );
 };
 
 const t = (key: string, domain: TranslationDomain = "profile") => {
@@ -133,4 +142,12 @@ onMounted(() => {
   loadData();
 });
 </script>
-<style lang="scss"></style>
+<style scoped lang="scss">
+section {
+  padding-bottom: 1rem;
+}
+.bold {
+  font-weight: bold;
+  color: #d74b4b;
+}
+</style>
