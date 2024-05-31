@@ -12,7 +12,7 @@ export interface ProfileData {
   posts: string[];
 }
 
-export interface ProfileStatistics {
+export interface ProfileStatisticsModel {
   totalGigs: number;
   halan: number;
   direct: number;

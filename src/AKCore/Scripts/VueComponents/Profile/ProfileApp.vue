@@ -33,76 +33,10 @@
             <p>{{ profileData.givenMedal }}</p>
           </div>
         </section>
-        <section v-if="profileStatistics">
-          <h3>{{ t("statisticsheader") }}</h3>
-          <p>{{ t("statisticspreamble") }}</p>
-          <ul>
-            <li>
-              {{ t("total-gigs") }}:
-              <span class="bold">{{ profileStatistics.totalGigs }}</span>
-            </li>
-            <li>
-              {{ t("halan") }}:
-              <span class="bold">{{ profileStatistics.halan }}</span> -
-              {{
-                getPercentage(
-                  profileStatistics.halan,
-                  profileStatistics.totalGigs,
-                )
-              }}%
-            </li>
-            <li>
-              {{ t("direct") }}:
-              <span class="bold">{{ profileStatistics.direct }}</span> -
-              {{
-                getPercentage(
-                  profileStatistics.direct,
-                  profileStatistics.totalGigs,
-                )
-              }}%
-            </li>
-            <li>
-              {{ t("cantCome") }}:
-              <span class="bold">{{ profileStatistics.cantCome }}</span> -
-              {{
-                getPercentage(
-                  profileStatistics.cantCome,
-                  profileStatistics.totalGigs,
-                )
-              }}%
-            </li>
-            <li>
-              {{ t("car") }}:
-              <span class="bold">{{ profileStatistics.car }}</span> -
-              {{
-                getPercentage(
-                  profileStatistics.car,
-                  profileStatistics.totalGigs,
-                )
-              }}%
-            </li>
-            <li>
-              {{ t("instrument-own") }}:
-              <span class="bold">{{ profileStatistics.instrument }}</span> -
-              {{
-                getPercentage(
-                  profileStatistics.instrument,
-                  profileStatistics.totalGigs,
-                )
-              }}%
-            </li>
-            <li>
-              {{ t("comment") }}:
-              <span class="bold">{{ profileStatistics.comment }}</span> -
-              {{
-                getPercentage(
-                  profileStatistics.comment,
-                  profileStatistics.totalGigs,
-                )
-              }}%
-            </li>
-          </ul>
-        </section>
+        <ProfileStatistics
+          :profile-statistics="profileStatistics"
+          v-if="profileStatistics"
+        />
       </div>
     </div>
   </div>
@@ -110,26 +44,23 @@
 <script setup lang="ts">
 import EditProfile from "./EditProfile.vue";
 import ChangePassword from "./ChangePassword.vue";
+import ProfileStatistics from "./ProfileStatistics.vue";
 import { ref, onMounted } from "vue";
-import { ProfileData, ProfileStatistics } from "./models";
+import { ProfileData, ProfileStatisticsModel } from "./models";
 import { getFromApi } from "../../services/apiservice";
 import { TranslationDomain, translate } from "../../translations";
 
 const profileData = ref<ProfileData | null>(null);
-const profileStatistics = ref<ProfileStatistics | null>(null);
+const profileStatistics = ref<ProfileStatisticsModel | null>(null);
 const formcontainer = ref<HTMLElement | null>(null);
 
 const updateProfile = async () => {
   formcontainer.value!.scrollIntoView();
 };
 
-const getPercentage = (value: number, total: number) => {
-  return ((value / total) * 100).toFixed(2);
-};
-
 const loadData = async () => {
   profileData.value = await getFromApi<ProfileData>("/Profile/ProfileData");
-  profileStatistics.value = await getFromApi<ProfileStatistics>(
+  profileStatistics.value = await getFromApi<ProfileStatisticsModel>(
     "/Profile/Statistics",
   );
 };
