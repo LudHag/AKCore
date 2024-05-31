@@ -237,6 +237,7 @@ public class Event
     }
 }
 
+[Index(nameof(PersonId), nameof(SignupTime))]
 public class SignUp
 {
     [Key]
