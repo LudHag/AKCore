@@ -1,7 +1,7 @@
 ﻿import { createApp } from "vue";
 import VideoBar from "./VueComponents/VideoBar.vue";
 import MembersList from "./VueComponents/MembersList.vue";
-import ProfileApp from "./VueComponents/ProfileApp.vue";
+import ProfileApp from "./VueComponents/Profile/ProfileApp.vue";
 import UpcomingApp from "./VueComponents/Upcoming/UpcomingApp.vue";
 import MediaApp from "./VueComponents/Media/MediaApp.vue";
 import MusicApp from "./VueComponents/MusicPlayer/MusicApp.vue";
