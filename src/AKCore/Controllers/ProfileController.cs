@@ -3,7 +3,9 @@ using AKCore.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -65,27 +67,25 @@ public class ProfileController : Controller
     public async Task<ActionResult> ProfileStatistics()
     {
         var user = await _userManager.FindByNameAsync(User.Identity.Name);
-        var logins = _db.UserLogins.Where(x => x.ProviderDisplayName == user.UserName).ToList();
-        if (user.SlavPoster == "[null]")
-        {
-            user.SlavPoster = null;
-        }
+        var userId = user.Id;
+        var today = DateTime.UtcNow.AddMonths(-12);
 
-        var model = new ProfileModel
+        var signups = await _db.SignUps
+            .Where(x => x.PersonId == userId)
+            .Where(x => x.SignupTime > today)
+            .ToListAsync();
+
+        var statistics = new
         {
-            UserName = user.UserName,
-            Email = user.Email,
-            FirstName = user.FirstName,
-            LastName = user.LastName,
-            Phone = user.Phone,
-            Instrument = user.Instrument,
-            OtherInstruments = string.IsNullOrWhiteSpace(user.OtherInstruments) ? null : user.OtherInstruments.Split(',').ToList(),
-            Posts = GetPosts(user.SlavPoster),
-            Roles = await _userManager.GetRolesAsync(user),
-            Medal = user.Medal,
-            GivenMedal = user.GivenMedal
+            Halan = signups.Count(x => x.Where == "Hålan"),
+            Direct = signups.Count(x => x.Where == "Direkt"),
+            CantCome = signups.Count(x => x.Where == "Kan inte komma"),
+            Car = signups.Count(x => x.Car),
+            Instrument = signups.Count(x => x.Instrument),
+            Comment = signups.Count(x => !string.IsNullOrWhiteSpace(x.Comment)),
         };
-        return Json(model);
+
+        return Json(statistics);
     }
 
     private static List<string> GetPosts(string slavPoster)
