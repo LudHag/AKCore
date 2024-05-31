@@ -34,12 +34,6 @@ public class AKContext : IdentityDbContext<AkUser>
         builder.Entity<IdentityRole>()
           .Property(x => x.Id)
           .HasMaxLength(255);
-
-        //builder.Entity<SignUp>()
-        //    .HasOne(x => x.User)
-        //    .WithMany()
-        //    .HasForeignKey(x => x.PersonId)
-        //    .OnDelete(DeleteBehavior.NoAction);
     }
 
     public DbSet<Page> Pages { get; set; }
@@ -250,9 +244,7 @@ public class SignUp
     public int Id { get; set; }
     [Required]
     public string Person { get; set; }
-    //public AkUser User { get; set; }
     [Required]
-    [StringLength(95)]
     public string PersonId { get; set; }
     public string PersonName { get; set; }
     public string Where { get; set; }
