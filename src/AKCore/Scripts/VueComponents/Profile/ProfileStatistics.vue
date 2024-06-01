@@ -52,6 +52,10 @@
           getPercentage(profileStatistics.comment, profileStatistics.totalGigs)
         }}%
       </li>
+      <li>
+        {{ t("nosignup") }}: <span class="bold">{{ noSignUps }}</span> -
+        {{ getPercentage(noSignUps, profileStatistics.totalGigs) }}%
+      </li>
     </ul>
   </section>
 </template>
@@ -69,6 +73,12 @@ const getPercentage = (value: number, total: number) => {
 const t = (key: string, domain: TranslationDomain = "profile") => {
   return translate(domain, key);
 };
+
+const noSignUps =
+  profileStatistics.totalGigs -
+  profileStatistics.halan -
+  profileStatistics.direct -
+  profileStatistics.cantCome;
 </script>
 <style scoped lang="scss">
 section {

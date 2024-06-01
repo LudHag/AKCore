@@ -59,10 +59,8 @@ export const profileTranslations: Record<string, Translation> = {
     english: "Statistics",
   },
   statisticspreamble: {
-    swedish:
-      "Statistik för dina spelningar det senaste året, inkluderar framtida spelningar",
-    english:
-      "Statistics for your performances the last year, including future performances",
+    swedish: "Statistik för dina spelningar det senaste året",
+    english: "Statistics for your performances the last year",
   },
   halan: {
     swedish: "Spelningar där du kommit via Hålan",
@@ -91,5 +89,9 @@ export const profileTranslations: Record<string, Translation> = {
   "total-gigs": {
     swedish: "Totalt antal spelningar",
     english: "Total number of performances",
+  },
+  nosignup: {
+    swedish: "Spelningar du ej anmält/anmält frånvaro till",
+    english: "Performances you haven't signed up for/signed up absence to",
   },
 };
