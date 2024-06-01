@@ -274,7 +274,6 @@ public class SignUp
 
     public SignUp CopySignupWithoutEvent()
     {
-
         return new SignUp
         {
             Id = Id,
