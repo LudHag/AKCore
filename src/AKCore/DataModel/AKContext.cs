@@ -235,6 +235,7 @@ public class Event
     {
         return SignUps?.Count(x => x.Where == AkSignupType.CantCome) ?? 0;
     }
+
 }
 
 [Index(nameof(PersonId), nameof(SignupTime))]
@@ -269,6 +270,25 @@ public class SignUp
             info += ", har bil";
         }
         return info;
+    }
+
+    public SignUp CopySignupWithoutEvent()
+    {
+
+        return new SignUp
+        {
+            Id = Id,
+            Person = Person,
+            PersonId = PersonId,
+            PersonName = PersonName,
+            Where = Where,
+            Car = Car,
+            Instrument = Instrument,
+            InstrumentName = InstrumentName,
+            OtherInstruments = OtherInstruments,
+            Comment = Comment,
+            SignupTime = SignupTime
+        }; 
     }
 }
 public class LogItem
