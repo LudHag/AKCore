@@ -182,7 +182,7 @@ namespace AKCore.Controllers
 
         private static string GetName(Event e)
         {
-            if (e.Type == AkEventTypes.Spelning || e.Type == AkEventTypes.Fest)
+            if (e.Type is AkEventTypes.Spelning or AkEventTypes.Fest)
             {
                 return e.Name;
             }
@@ -246,7 +246,7 @@ namespace AKCore.Controllers
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
             var roles = await _userManager.GetRolesAsync(user);
             var nintendo = roles.Contains("SuperNintendo");
-            var signup = spelning.SignUps.FirstOrDefault(x => x.PersonId == user.Id);
+            var signup = spelning.SignUps.Select(x=>x.CopySignupWithoutEvent()).FirstOrDefault(x => x.PersonId == user.Id);
             if (signup != null)
             {
                 model.Where = signup.Where;
@@ -258,7 +258,7 @@ namespace AKCore.Controllers
             model.IsNintendo = nintendo;
             var isEnglish = _translationsService.IsEnglish();
             model.Event = MapEventModel(spelning, true, user.Id, isEnglish);
-            var signups = spelning.SignUps.OrderBy(x => x.InstrumentName).ThenBy(x => x.PersonName);
+            var signups = spelning.SignUps.Select(x => x.CopySignupWithoutEvent()).OrderBy(x => x.InstrumentName).ThenBy(x => x.PersonName);
             model.Signups = await RemoveDoubles(signups, eId);
 
             if (nintendo)
@@ -296,7 +296,7 @@ namespace AKCore.Controllers
             var spelning = _db.Events.Include(x => x.SignUps).FirstOrDefault(x => x.Id == eventId);
 
 
-            return spelning.SignUps;
+            return spelning.SignUps.Select(x => x.CopySignupWithoutEvent());
         }
 
 
@@ -315,7 +315,7 @@ namespace AKCore.Controllers
             var spelning = _db.Events.Include(x => x.SignUps).FirstOrDefault(x => x.Id == eId);
             if (spelning == null) return Json(new { success = false, message = "Felaktigt id" });
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
-            var signup = spelning.SignUps.FirstOrDefault(x => x.PersonId == user.Id) ?? new SignUp();
+            var signup = spelning.SignUps.Select(x => x.CopySignupWithoutEvent()).FirstOrDefault(x => x.PersonId == user.Id) ?? new SignUp();
             if (signup.Where == AkSignupType.CantCome || model.Where == AkSignupType.CantCome)
             {
                 signup.SignupTime = DateTime.Now;
@@ -335,7 +335,7 @@ namespace AKCore.Controllers
             signup.InstrumentName = user.Instrument;
             signup.OtherInstruments = user.OtherInstruments;
             spelning.SignUps.Add(signup);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
             return Json(new { success = true, message = "Anmälan uppdaterad" });
         }
     }
