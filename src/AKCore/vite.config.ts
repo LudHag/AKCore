@@ -30,7 +30,7 @@ export default defineConfig({
       },
       output: {
         entryFileNames: `dist/[name].js`,
-        chunkFileNames: `dist/vendor.js`,
+        chunkFileNames: `dist/vendor.[hash].js`,
         assetFileNames: assetFileNames,
       },
     },
