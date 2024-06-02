@@ -315,7 +315,7 @@ namespace AKCore.Controllers
             var spelning = _db.Events.Include(x => x.SignUps).FirstOrDefault(x => x.Id == eId);
             if (spelning == null) return Json(new { success = false, message = "Felaktigt id" });
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
-            var signup = spelning.SignUps.Select(x => x.CopySignupWithoutEvent()).FirstOrDefault(x => x.PersonId == user.Id) ?? new SignUp();
+            var signup = spelning.SignUps.FirstOrDefault(x => x.PersonId == user.Id) ?? new SignUp();
             if (signup.Where == AkSignupType.CantCome || model.Where == AkSignupType.CantCome)
             {
                 signup.SignupTime = DateTime.Now;
