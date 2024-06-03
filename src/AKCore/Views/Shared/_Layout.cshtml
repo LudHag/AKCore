@@ -24,6 +24,24 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     @RenderSection("styles", required: false)
+    <script type="application/ld+json">
+        {
+            "@@context": "https://schema.org",
+            "@@type": "Organization",
+            "name": "Musikalliansen Alte Kamereren",
+            "description": "Musikalliansen Alte Kamereren best&#xE5;r av studenter fr&#xE5;n Lunds Universitet och Lunds Tekniska H&#xF6;gskola. I alliansen ing&#xE5;r den f&#xF6;rtr&#xE4;ffliga studentorkestern Alte Kamereren och den underbara Kamr&#xE9;rbaletten.",
+            "url": "https://www.altekamereren.org/",
+            "sameAs": [
+                "https://www.facebook.com/altekamereren",
+                "https://twitter.com/Alte_Kamereren",
+                "https://www.youtube.com/user/AlteKamereren",
+                "https://www.instagram.com/altekamereren/"
+            ],
+            "foundingDate": "1964"
+        }
+    </script>
+
+
 </head>
 <body>
     @await Component.InvokeAsync("Header")
