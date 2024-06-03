@@ -1,6 +1,33 @@
 import { defineConfig } from "vite";
 import { resolve } from "path";
 import vue from "@vitejs/plugin-vue";
+import { writeFile } from "fs";
+import { Plugin } from "vite";
+import { OutputBundle } from "rollup";
+
+function generateAssetList(): Plugin {
+  return {
+    name: "generate-asset-list",
+    generateBundle(_options, bundle: OutputBundle) {
+      const assets: string[] = [];
+
+      for (const fileName in bundle) {
+        const assetInfo = bundle[fileName];
+        if (
+          (assetInfo.type === "asset" || assetInfo.type === "chunk") &&
+          fileName.endsWith(".js")
+        ) {
+          assets.push(fileName.split("/")[1]);
+        }
+      }
+
+      writeFile("./assets.json", JSON.stringify(assets, null, 2), (err) => {
+        if (err) throw err;
+        console.log("Assets manifest has been created");
+      });
+    },
+  };
+}
 
 const assetFileNames = (assetInfo) => {
   if (
@@ -19,7 +46,7 @@ export default defineConfig({
     port: 5173,
     hmr: { clientPort: 5173 },
   },
-  plugins: [vue()],
+  plugins: [vue(), generateAssetList()],
   build: {
     emptyOutDir: false,
     outDir: "wwwroot",
