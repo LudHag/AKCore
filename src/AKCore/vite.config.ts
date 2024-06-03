@@ -13,18 +13,40 @@ function generateAssetList(): Plugin {
 
       for (const fileName in bundle) {
         const assetInfo = bundle[fileName];
-        if (
-          (assetInfo.type === "asset" || assetInfo.type === "chunk") &&
-          fileName.endsWith(".js")
-        ) {
+        if (assetInfo.type === "asset" || assetInfo.type === "chunk") {
           assets.push(fileName.split("/")[1]);
         }
       }
 
-      writeFile("./assets.json", JSON.stringify(assets, null, 2), (err) => {
-        if (err) throw err;
-        console.log("Assets manifest has been created");
-      });
+      const assetContainer = {
+        mainjs: assets.find(
+          (asset) => asset.includes("main") && asset.includes("js"),
+        ),
+        adminjs: assets.find(
+          (asset) => asset.includes("admin") && asset.includes("js"),
+        ),
+        vendorjs: assets.find(
+          (asset) => asset.includes("vendor") && asset.includes("js"),
+        ),
+        maincss: assets.find(
+          (asset) => asset.includes("main") && asset.includes("css"),
+        ),
+        admincss: assets.find(
+          (asset) => asset.includes("admin") && asset.includes("css"),
+        ),
+        vendorcss: assets.find(
+          (asset) => asset.includes("vendor") && asset.includes("css"),
+        ),
+      };
+
+      writeFile(
+        "./assets.json",
+        JSON.stringify(assetContainer, null, 2),
+        (err) => {
+          if (err) throw err;
+          console.log("Assets manifest has been created");
+        },
+      );
     },
   };
 }
@@ -34,9 +56,9 @@ const assetFileNames = (assetInfo) => {
     assetInfo.name.endsWith("css") &&
     (assetInfo.name.includes("admin") || assetInfo.name.includes("main"))
   ) {
-    return "dist/[name].[ext]";
+    return "dist/[name].[hash].[ext]";
   } else {
-    return "dist/vendor.[ext]";
+    return "dist/vendor.[hash].[ext]";
   }
 };
 
@@ -56,7 +78,7 @@ export default defineConfig({
         admin: resolve(__dirname, "Scripts/admin.html"),
       },
       output: {
-        entryFileNames: `dist/[name].js`,
+        entryFileNames: `dist/[name].[hash].js`,
         chunkFileNames: `dist/vendor.[hash].js`,
         assetFileNames: assetFileNames,
       },

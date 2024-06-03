@@ -1,5 +1,6 @@
 ﻿using AKCore.Clients;
 using AKCore.DataModel;
+using AKCore.Models;
 using AKCore.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -21,6 +22,7 @@ namespace AKCore
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", true, true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true)
+                .AddJsonFile("assets.json", true, true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
         }
@@ -53,6 +55,10 @@ namespace AKCore
 
             var apiSecret = Configuration["OpenApiSecret"];
             services.AddTransient(x => new OpenApiClient(apiSecret ?? ""));
+
+            var assetsModel = new AssetsModel(Configuration["mainjs"], Configuration["adminjs"], Configuration["vendorjs"], Configuration["maincss"], Configuration["admincss"], Configuration["vendorcss"]);
+
+            services.AddSingleton(assetsModel);
 
             services.AddIdentity<AkUser, IdentityRole>()
                 .AddEntityFrameworkStores<AKContext>()
