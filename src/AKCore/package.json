@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "start": "echo Starting the development server && vite",
-    "clear": "rm -f ./wwwroot/dist/*",
+    "clear": "rimraf ./wwwroot/dist/",
     "dev": "vite",
     "build": "vue-tsc && vite build",
     "lint": "eslint --ext .ts,.vue Scripts",
@@ -28,6 +28,7 @@
     "eslint": "^8.56.0",
     "eslint-plugin-vue": "^9.26.0",
     "prettier": "^3.2.5",
+    "rimraf": "^5.0.7",
     "sass": "^1.62.0",
     "typescript": "^5.4.5",
     "vite": "^5.2.11",

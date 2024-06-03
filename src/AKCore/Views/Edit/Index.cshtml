@@ -74,13 +74,14 @@
 
 @section styles {
     <environment exclude="Development">
-        <link rel="stylesheet" href="/dist/admin.css" asp-append-version="true">
+        <link rel="stylesheet" href="/dist/@assetsModel.CssAdmin">
     </environment>
 }
 
 @section scripts {
     <environment exclude="Development">
-        <script src="~/dist/admin.js" type="module" asp-append-version="true"></script>
+        <script src="~/dist/@assetsModel.JsAdmin" type="module">
+        </script>
     </environment>
     <environment include="Development">
         <script src="~/Scripts/admin.ts" type="module" asp-append-version="true">

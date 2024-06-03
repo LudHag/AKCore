@@ -11,10 +11,12 @@
         <meta name="description" content="@ViewData["Description"]">
     }
     <meta property="og:image" content="https://www.altekamereren.org/images/OG.png" />
-    <environment exclude="Development">
-        <link rel="stylesheet" href="~/dist/main.css" asp-append-version="true">
-        <link rel="stylesheet" href="~/dist/vendor.css" asp-append-version="true">
-    </environment>
+     <environment exclude="Development">
+        <link rel="modulepreload" href="/dist/@assetsModel.JsVendor">
+        <link rel="stylesheet" href="~/dist/@assetsModel.CssMain">
+        <link rel="stylesheet" href="~/dist/@assetsModel.CssVendor">
+    </environment> 
+
     @if (ViewData["Canonical"] != null)
     {
         <link rel="canonical" href="@ViewData["Canonical"]" />
@@ -37,13 +39,15 @@
     </div>
     <div id="loginapp"></div>
     <environment exclude="Development">
-        <script src="~/dist/main.js" type="module" asp-append-version="true">
+        <script src="~/dist/@assetsModel.JsMain" type="module">
         </script>
     </environment>
     <environment include="Development">
         <script src="~/Scripts/main.ts" type="module" asp-append-version="true">
         </script>
     </environment>
+
+
     @RenderSection("scripts", required: false)
 </body>
 </html>
