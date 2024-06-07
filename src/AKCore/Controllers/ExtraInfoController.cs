@@ -42,10 +42,10 @@ public class ExtraInfoController : Controller
 
         var trackNames = string.Join("\\n", album.Tracks.Select(x => x.Number + ". " + (x.FileName ?? x.Name)));
 
-        var query = $@"Please provide a short description in swedish describing notable tracks and themes for the album titled {album.Name} with the following tracklist:
+        var query = $@"Please provide a short description in swedish describing notable tracks and themes for the album titled {album.Name} with the following tracklist and with attached albumcover:
                         {trackNames}";
 
-        albumInfo = await _openApiClient.GetText(query);
+        albumInfo = await _openApiClient.GetText(query, "https://www.altekamereren.org/" + album.Image);
 
         _memoryCache.Set($"albuminfo-{id}", albumInfo, TimeSpan.FromDays(5));
 
