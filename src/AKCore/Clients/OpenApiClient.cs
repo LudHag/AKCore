@@ -13,11 +13,14 @@ public class OpenApiClient
         _apiClient =  new OpenAIClient(token);
     }
 
-    public async Task<string> GetText(IEnumerable<string> queries) { 
+    public async Task<string> GetText(string query) { 
 
-        var allMessages = new List<ChatRequestMessage> { new ChatRequestSystemMessage("Only return the response to the question, no additional words.") };
-        allMessages.AddRange(queries.Select(x => new ChatRequestUserMessage(x)));
-        var chatCompletionsOptions = new ChatCompletionsOptions("gpt-4o", allMessages);
+        var messages = new List<ChatRequestMessage> { 
+            new ChatRequestSystemMessage("Only return the response to the question, no additional words."), 
+            new ChatRequestUserMessage(query) 
+        };
+
+        var chatCompletionsOptions = new ChatCompletionsOptions("gpt-4o", messages);
 
         var response = await _apiClient.GetChatCompletionsAsync(chatCompletionsOptions);
 

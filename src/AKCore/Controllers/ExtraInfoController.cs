@@ -45,10 +45,7 @@ public class ExtraInfoController : Controller
         var query = $@"Please provide a short description in swedish describing notable tracks and themes for the album titled {album.Name} with the following tracklist:
                         {trackNames}";
 
-        albumInfo = await _openApiClient.GetText(
-        [
-            query
-        ]);
+        albumInfo = await _openApiClient.GetText(query);
 
         _memoryCache.Set($"albuminfo-{id}", albumInfo, TimeSpan.FromDays(5));
 
@@ -64,10 +61,7 @@ public class ExtraInfoController : Controller
         var query = $@"Please translate the following html from swedish to english:
                     {text}";
 
-        var data = (await _openApiClient.GetText(
-        [
-            query
-        ])).Trim();
+        var data = (await _openApiClient.GetText(query)).Trim();
 
 
 
@@ -82,12 +76,7 @@ public class ExtraInfoController : Controller
         var query = $@"Please translate the following text from swedish to english:
                     {text}";
 
-        var data = (await _openApiClient.GetText(
-        [
-            query
-        ])).Trim();
-
-
+        var data = (await _openApiClient.GetText(query)).Trim();
 
         return Json(new { success = true, data });
     }
