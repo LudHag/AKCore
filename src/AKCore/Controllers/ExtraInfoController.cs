@@ -42,13 +42,12 @@ public class ExtraInfoController : Controller
 
         var trackNames = string.Join("\\n", album.Tracks.Select(x => x.Number + ". " + (x.FileName ?? x.Name)));
 
-        var query = $@"Please provide a short description in swedish describing notable tracks and themes for the album titled {album.Name} with the following tracklist:
+        var query = $@"Please provide a short description in swedish describing about the following 
+                        album titled {album.Name} mentioning the attached albumcover and giving a 
+                        short description of a couple of its tracks(try to clean up track name so its not just filenames) metioned below with original artists metioned:
                         {trackNames}";
 
-        albumInfo = await _openApiClient.GetText(
-        [
-            query
-        ]);
+        albumInfo = await _openApiClient.GetText(query, "https://www.altekamereren.org/" + album.Image);
 
         _memoryCache.Set($"albuminfo-{id}", albumInfo, TimeSpan.FromDays(5));
 
@@ -64,10 +63,7 @@ public class ExtraInfoController : Controller
         var query = $@"Please translate the following html from swedish to english:
                     {text}";
 
-        var data = (await _openApiClient.GetText(
-        [
-            query
-        ])).Trim();
+        var data = (await _openApiClient.GetText(query)).Trim();
 
 
 
@@ -82,12 +78,7 @@ public class ExtraInfoController : Controller
         var query = $@"Please translate the following text from swedish to english:
                     {text}";
 
-        var data = (await _openApiClient.GetText(
-        [
-            query
-        ])).Trim();
-
-
+        var data = (await _openApiClient.GetText(query)).Trim();
 
         return Json(new { success = true, data });
     }
