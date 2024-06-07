@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -46,10 +45,10 @@ public class ExtraInfoController : Controller
         var query = $@"Please provide a short description in swedish describing notable tracks and themes for the album titled {album.Name} with the following tracklist:
                         {trackNames}";
 
-        albumInfo = await _openApiClient.GetText(new List<string>()
-        {
+        albumInfo = await _openApiClient.GetText(
+        [
             query
-        });
+        ]);
 
         _memoryCache.Set($"albuminfo-{id}", albumInfo, TimeSpan.FromDays(5));
 
@@ -65,10 +64,10 @@ public class ExtraInfoController : Controller
         var query = $@"Please translate the following html from swedish to english:
                     {text}";
 
-        var data = (await _openApiClient.GetText(new List<string>()
-        {
+        var data = (await _openApiClient.GetText(
+        [
             query
-        })).Trim();
+        ])).Trim();
 
 
 
@@ -83,10 +82,10 @@ public class ExtraInfoController : Controller
         var query = $@"Please translate the following text from swedish to english:
                     {text}";
 
-        var data = (await _openApiClient.GetText(new List<string>()
-        {
+        var data = (await _openApiClient.GetText(
+        [
             query
-        })).Trim();
+        ])).Trim();
 
 
 
