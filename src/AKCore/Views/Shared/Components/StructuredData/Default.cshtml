@@ -1,0 +1,39 @@
+﻿@model AKCore.Models.StructuredDataModel
+
+<script type="application/ld+json">
+    {
+        "@@context": "https://schema.org",
+        "@@type": "Organization",
+        "name": "Musikalliansen Alte Kamereren",
+        "description": "Musikalliansen Alte Kamereren best&#xE5;r av studenter fr&#xE5;n Lunds Universitet och Lunds Tekniska H&#xF6;gskola. I alliansen ing&#xE5;r den f&#xF6;rtr&#xE4;ffliga studentorkestern Alte Kamereren och den underbara Kamr&#xE9;rbaletten.",
+        "url": "https://www.altekamereren.org/",
+        "sameAs": [
+            "https://www.facebook.com/altekamereren",
+            "https://twitter.com/Alte_Kamereren",
+            "https://www.youtube.com/user/AlteKamereren",
+            "https://www.instagram.com/altekamereren/"
+        ],
+        "foundingDate": "1964"
+    }
+</script>
+<script type="application/ld+json">
+    {
+        "@@context": "https://schema.org",
+        "@@type": "PerformingGroup",
+        "name": "Musikalliansen Alte Kamereren",
+        "event": [
+        @foreach(var gig in Model.UpcomingGigs) {
+        @: {
+        @:   "@@type": "Event",
+        @:   "name": "@gig.Name",
+        @:   "description": "@gig.Description",
+        @:   "startDate": "@gig.StartsTime",
+        @:   "location": {
+        @:      "@@type": "Place",
+        @:      "name": "@gig.Place"
+        @:   }
+        @: }
+        }
+        ]
+    }
+</script>
