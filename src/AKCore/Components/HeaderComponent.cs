@@ -28,11 +28,11 @@ namespace AKCore.Components
             var balett = loggedIn && User.IsInRole(AkRoles.Balett);
             var gigsName = _translationsService.Get(TranslationDomains.Common, "Gigs");
             var upcomingName = _translationsService.Get(TranslationDomains.Common, "Upcoming");
-            var menus = _db.Menus.OrderBy(x => x.PosIndex)
+            var menus = (await _db.Menus.OrderBy(x => x.PosIndex)
                 .Include(b => b.Link)
                 .Include(x => x.Children)
                 .ThenInclude(x => x.Link)
-                .ToList()
+                .ToListAsync())
                 .Where(x => loggedIn || !x.LoggedIn)
                 .Where(x => balett || !x.Balett)
                 .Where(x => x.Link == null || loggedIn || !x.Link.LoggedIn)
