@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
 using AKCore.DataModel;
@@ -7,7 +8,6 @@ using AKCore.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace AKCore.Components;
 
@@ -15,6 +15,9 @@ public class StructuredDataViewComponent : ViewComponent
 {
     private readonly AKContext _db;
     private readonly IMemoryCache _memoryCache;
+    private static readonly ImmutableList<string> _akImages =
+       ["/images/eventimages/ak1.jpg", "/images/eventimages/ak2.jpg", "/images/eventimages/ak3.jpg", "/images/eventimages/ak4.jpg"];
+    private static readonly Random _random = new();
 
     public StructuredDataViewComponent(AKContext db, IMemoryCache memoryCache)
     {
@@ -38,6 +41,12 @@ public class StructuredDataViewComponent : ViewComponent
         return View(model);
     }
 
+    private string GetRandomAkImage()
+    {
+        int randomIndex = _random.Next(_akImages.Count);
+        return _akImages[randomIndex];
+    }
+
     private async Task<IEnumerable<StructuredDataEvent>> GetStructuredEvents()
     {
         var gigs = await _db.Events
@@ -49,7 +58,16 @@ public class StructuredDataViewComponent : ViewComponent
         var orderdGigs = gigs.OrderBy(x => x.Day.Date).ThenBy(x => x.StartsTime != default ? x.StartsTime : x.HalanTime);
         var lastItem = orderdGigs.LastOrDefault();
 
-        var structuredDataItems = orderdGigs.Select(x => new StructuredDataEvent(x.Name, x.Description, (x.Day + x.StartsTime).ToString("s", System.Globalization.CultureInfo.InvariantCulture), x.Place, x.Id == lastItem.Id));
+        var structuredDataItems = orderdGigs
+            .Select(x => 
+            new StructuredDataEvent(
+                x.Name, 
+                x.Description, 
+                (x.Day + x.StartsTime).ToString("s", System.Globalization.CultureInfo.InvariantCulture),
+                (x.Day + x.StartsTime + TimeSpan.FromHours(2)).ToString("s", System.Globalization.CultureInfo.InvariantCulture),
+                x.Place,
+                GetRandomAkImage(),
+                x.Id == lastItem.Id));
 
         return structuredDataItems;
     }

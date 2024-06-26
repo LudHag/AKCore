@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace AKCore.Models;
 
-public record StructuredDataEvent(string Name, string Description, string StartsTime, string Place, bool LastElement);
+public record StructuredDataEvent(string Name, string Description, string StartsTime, string EndDate, string Place, string Image, bool LastElement);
 
 public class StructuredDataModel
 {
