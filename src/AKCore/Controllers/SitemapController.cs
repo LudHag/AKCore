@@ -1,10 +1,7 @@
 ﻿using AKCore.DataModel;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 using System.Text;
-using System.Xml.Linq;
-using System.IO;
 using AKCore.Services;
 
 namespace AKCore.Controllers;
