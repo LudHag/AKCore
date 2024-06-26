@@ -41,10 +41,10 @@ public class StructuredDataViewComponent : ViewComponent
         return View(model);
     }
 
-    private string GetRandomAkImage()
+    private string GetRandomAkImage(int itemId)
     {
-        int randomIndex = _random.Next(_akImages.Count);
-        return _akImages[randomIndex];
+        int index = Math.Abs(itemId.GetHashCode()) % _akImages.Count;
+        return _akImages[index];
     }
 
     private async Task<IEnumerable<StructuredDataEvent>> GetStructuredEvents()
@@ -66,7 +66,7 @@ public class StructuredDataViewComponent : ViewComponent
                 (x.Day + x.StartsTime).ToString("s", System.Globalization.CultureInfo.InvariantCulture),
                 (x.Day + x.StartsTime + TimeSpan.FromHours(2)).ToString("s", System.Globalization.CultureInfo.InvariantCulture),
                 x.Place,
-                GetRandomAkImage(),
+                GetRandomAkImage(x.Id),
                 x.Id == lastItem.Id));
 
         return structuredDataItems;
