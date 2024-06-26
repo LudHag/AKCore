@@ -48,6 +48,7 @@ namespace AKCore
             services.AddSession();
             services.AddMemoryCache();
             services.AddHttpContextAccessor();
+            services.AddTransient<SitemapService>();
             services.AddTransient<PageService>();
             services.AddTransient<AlbumService>();
             services.AddTransient<AdminLogService>();
