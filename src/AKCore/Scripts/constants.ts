@@ -37,6 +37,7 @@ export const INSTRUMENTS = [
   "Balett",
   "Banjo",
   "Barytonsax",
+  "Dragspel",
   "Euphonium",
   "Flöjt",
   "Horn",
