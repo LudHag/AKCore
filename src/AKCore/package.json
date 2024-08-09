@@ -20,24 +20,23 @@
     ]
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^7.13.1",
-    "@typescript-eslint/parser": "^7.13.1",
-    "@vitejs/plugin-vue": "^5.0.5",
-    "@vue/eslint-config-typescript": "^13.0.0",
-    "eslint": "^9.5.0",
-    "eslint-plugin-vue": "^9.26.0",
-    "prettier": "^3.3.2",
-    "rimraf": "^5.0.7",
-    "sass": "^1.77.6",
-    "typescript": "^5.4.5",
-    "vite": "^5.3.1",
+    "@typescript-eslint/eslint-plugin": "^8.0.1",
+    "@typescript-eslint/parser": "^8.0.1",
+    "@vitejs/plugin-vue": "^5.1.2",
+    "eslint": "9.8.0",
+    "eslint-plugin-vue": "^9.27.0",
+    "prettier": "^3.3.3",
+    "rimraf": "^6.0.1",
+    "sass": "^1.77.8",
+    "typescript": "^5.5.4",
+    "vite": "^5.4.0",
     "vue-eslint-parser": "^9.4.3",
-    "vue-tsc": "^2.0.21"
+    "vue-tsc": "^2.0.29"
   },
   "dependencies": {
     "@tinymce/tinymce-vue": "^6.0.1",
     "bootstrap-sass": "^3.4.3",
-    "vue": "^3.4.29",
+    "vue": "^3.4.37",
     "vue-select": "^4.0.0-beta.6",
     "vue3-datepicker": "^0.4.0",
     "vuedraggable": "^4.1.0"
