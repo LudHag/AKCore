@@ -6,8 +6,11 @@
           <a
             href="/upcoming/akevents.ics"
             @click.prevent="showIcal = !showIcal"
-            class="fa fa-calendar"
           >
+            <img
+              style="max-width: 20px; vertical-align: baseline"
+              src="http://localhost:52727/images/calendar.svg"
+            />
             {{ " " + t("ical-link") }}
           </a>
           <div class="input-group ical-copy" v-if="showIcal">
@@ -20,10 +23,15 @@
             />
             <span class="input-group-btnp">
               <button
-                class="btn btn-default fa fa-files-o copy-btn"
+                class="btn btn-default copy-btn"
                 @click.prevent="copyIcal"
                 type="button"
-              ></button>
+              >
+                <img
+                  style="max-width: 20px; display: block"
+                  src="http://localhost:52727/images/copy.svg"
+                />
+              </button>
             </span>
           </div>
         </div>
