@@ -12,16 +12,16 @@
     }
     <meta property="og:image" content="https://www.altekamereren.org/images/OG.png" />
      <environment exclude="Development">
-        <link rel="modulepreload" href="/dist/@assetsModel.JsVendor">
-        <link rel="stylesheet" href="~/dist/@assetsModel.CssMain">
-        <link rel="stylesheet" href="~/dist/@assetsModel.CssVendor">
+        <link rel="modulepreload" href="@settings.CDN/dist/@assetsModel.JsVendor">
+        <link rel="stylesheet" href="@settings.CDN/dist/@assetsModel.CssMain">
+        <link rel="stylesheet" href="@settings.CDN/dist/@assetsModel.CssVendor">
     </environment>
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-192x192.png">
+    <link rel="icon" type="image/x-icon" href="@settings.CDN/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="@settings.CDN/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="@settings.CDN/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="@settings.CDN/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="@settings.CDN/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="@settings.CDN/android-chrome-192x192.png">
 
     @if (ViewData["Canonical"] != null)
     {
@@ -63,7 +63,7 @@
     </div>
     <div id="loginapp"></div>
     <environment exclude="Development">
-        <script src="~/dist/@assetsModel.JsMain" type="module">
+        <script src="@settings.CDN/dist/@assetsModel.JsMain" type="module">
         </script>
     </environment>
     <environment include="Development">
