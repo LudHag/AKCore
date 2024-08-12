@@ -128,3 +128,11 @@ if (languageButtonMobile) {
     window.location.reload();
   });
 }
+
+export const getImageLink = (image: string) => {
+  if (import.meta.env.MODE === "development") {
+    return `http://localhost:52727/images/${image}`;
+  } else if (import.meta.env.MODE === "production") {
+    return `https://cdn.altekamereren.org/images/${image}`;
+  }
+};

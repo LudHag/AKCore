@@ -157,8 +157,14 @@ a {
     transition: all 0.2s linear;
   }
 
-  a:hover {
-    color: $akwhite;
+  .social-icon {
+    display: inline-block;
+    height: 24px;
+    width: 24px;
+  }
+
+  a:hover svg g path {
+    fill: $akwhite;
   }
 }
 
@@ -357,10 +363,10 @@ p.infobox {
     overflow: visible;
   }
   p {
-    color: black
+    color: black;
   }
-  .no-print, .no-print *
-  {
-      display: none !important;
+  .no-print,
+  .no-print * {
+    display: none !important;
   }
 }
