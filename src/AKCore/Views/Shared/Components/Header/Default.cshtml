@@ -11,14 +11,14 @@
                 @if (Model.LoggedIn && Model.Recruits > 0)
                 {
                     <a class="interested-notice" title="@Model.Recruits @t.Get(TranslationDomains.Header, "UnreadInterested")" href="/Signup/Recruits">
-                        <span class="fa fa-exclamation-circle" aria-hidden="true"></span>
+                        <img src="@settings.CDN/images/info.svg" style="max-width: 20px;display: inline-block;" />
                         <span class="text">@Model.Recruits</span>
                     </a>
                 }
                 @if (Model.LoggedIn && Model.Mails > 0)
                 {
                     <a class="mail-notice" title="@Model.Mails olästa brevlådeposter" href="/MailBox">
-                        <span class="fa fa-envelope" aria-hidden="true"></span>
+                        <img src="@settings.CDN/images/mail.svg" style="max-width: 20px;display: inline-block;" />
                         <span class="text">@Model.Mails</span>
                     </a>
                 }

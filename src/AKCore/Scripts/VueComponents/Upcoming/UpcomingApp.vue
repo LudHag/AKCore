@@ -9,7 +9,7 @@
           >
             <img
               style="max-width: 20px; vertical-align: baseline"
-              src="http://localhost:52727/images/calendar.svg"
+              :src="calendarImage"
             />
             {{ " " + t("ical-link") }}
           </a>
@@ -27,10 +27,7 @@
                 @click.prevent="copyIcal"
                 type="button"
               >
-                <img
-                  style="max-width: 20px; display: block"
-                  src="http://localhost:52727/images/copy.svg"
-                />
+                <img style="max-width: 20px; display: block" :src="copyImage" />
               </button>
             </span>
           </div>
@@ -88,6 +85,7 @@ import EventApp from "../Event/EventApp.vue";
 import { UpcomingYears } from "./models";
 import { ref, nextTick, onMounted } from "vue";
 import { TranslationDomain, translate } from "../../translations";
+import { getImageLink } from "../../general";
 
 const props = defineProps<{
   eventId: number;
@@ -103,6 +101,9 @@ const showIcal = ref(false);
 const showEvent = ref(false);
 const selectedEventId = ref(-1);
 const latestTop = ref(0);
+
+const calendarImage = getImageLink("calendar.svg");
+const copyImage = getImageLink("copy.svg");
 
 const copyIcal = () => {
   const copyText = document.querySelector("#ical-link") as HTMLInputElement;
