@@ -1,4 +1,4 @@
-name: ESLint check
+name: Code validation
 
 on:
   pull_request:
@@ -36,3 +36,8 @@ jobs:
         run: |
           cd src/AKCore 
           npm run lint
+
+      - name: Typecheck
+        run: |
+          cd src/AKCore 
+          npm run typecheck
