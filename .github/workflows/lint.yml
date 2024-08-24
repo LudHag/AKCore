@@ -15,9 +15,9 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
-          node-version: "22.6.0"
+          node-version: "22"
 
       - name: Restore cached dependencies
         id: cache-restore
