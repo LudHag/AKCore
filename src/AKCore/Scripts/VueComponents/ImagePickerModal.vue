@@ -28,7 +28,6 @@
           <div
             class="col-sm-3 image-box"
             v-for="image in shownImages"
-            :key="image.id"
             @click.prevent="selectImage(image)"
           >
             <img :src="'/media/' + image.name" />
