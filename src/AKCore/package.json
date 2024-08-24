@@ -9,6 +9,7 @@
     "dev": "vite",
     "build": "vue-tsc && vite build",
     "lint": "eslint Scripts",
+    "typecheck": "vue-tsc",
     "prettier": "prettier --write \"**/*.{ts,vue}\""
   },
   "browserslist": {
