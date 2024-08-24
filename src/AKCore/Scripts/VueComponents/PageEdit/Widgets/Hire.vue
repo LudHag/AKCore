@@ -5,7 +5,7 @@
     </div>
     <translation-edit
       :model-value="modelValue"
-      @update:modelValue="$emit('update:modelValue', $event)"
+      @update:modelValue="emit('update:modelValue', $event)"
       :translate="translate"
     ></translation-edit>
   </div>
@@ -18,6 +18,9 @@ import TranslationEdit from "../WidgetParts/TranslationEdit.vue";
 defineProps<{
   modelValue: WidgetEditModel;
   translate: boolean;
+}>();
+const emit = defineEmits<{
+  (e: "update:modelValue", event: any): void;
 }>();
 </script>
 <style lang="scss"></style>
