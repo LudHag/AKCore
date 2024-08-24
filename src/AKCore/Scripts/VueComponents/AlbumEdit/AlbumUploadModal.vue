@@ -65,7 +65,10 @@ const uploadFiles = (files: FileList) => {
   for (let i = 0; i < files.length; i++) {
     mediaData.append("TrackFiles", files[i]);
   }
-  const albumId = props.album?.id!;
+  if (!props.album?.id) {
+    return;
+  }
+  const albumId = props.album?.id;
   mediaData.append("AlbumId", albumId.toString());
   postFormData(
     "/AlbumEdit/UploadTracks/",
