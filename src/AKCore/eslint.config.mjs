@@ -20,8 +20,6 @@ export default ts.config(
       "vue/no-mutating-props": "off",
       "no-prototype-builtins": "off",
       "vue/multi-word-component-names": "off",
-      "@typescript-eslint/no-non-null-asserted-optional-chain": "off",
-      "vue/valid-v-model": "off",
       "vue/one-component-per-file": "off",
       "@typescript-eslint/no-explicit-any": "off",
       "vue/html-self-closing": "off",
