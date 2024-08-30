@@ -1,51 +1,53 @@
 ﻿<template>
-  <modal :show-modal="showModal" :header="t('log-in')" @close="close">
-    <template #body>
-      <form
-        action="/Account/Login"
-        id="loginForm"
-        @submit.prevent="submitForm"
-        method="post"
-      >
-        <div class="modal-body">
-          <div
-            class="alert alert-danger"
-            ref="error"
-            style="display: none"
-          ></div>
-          <div class="form-group">
-            <label for="username">{{ t("user-name", "common") }}</label>
-            <input
-              type="text"
-              class="form-control"
-              id="username"
-              name="Username"
-              ref="username"
-              :placeholder="t('user-name', 'common')"
-            />
+  <div>
+    <modal :show-modal="showModal" :header="t('log-in')" @close="close">
+      <template #body>
+        <form
+          action="/Account/Login"
+          id="loginForm"
+          @submit.prevent="submitForm"
+          method="post"
+        >
+          <div class="modal-body">
+            <div
+              class="alert alert-danger"
+              ref="error"
+              style="display: none"
+            ></div>
+            <div class="form-group">
+              <label for="username">{{ t("user-name", "common") }}</label>
+              <input
+                type="text"
+                class="form-control"
+                id="username"
+                name="Username"
+                ref="username"
+                :placeholder="t('user-name', 'common')"
+              />
+            </div>
+            <div class="form-group">
+              <label for="password">{{ t("password", "common") }}</label>
+              <input
+                type="password"
+                class="form-control"
+                id="password"
+                name="Password"
+                :placeholder="t('password', 'common')"
+              />
+            </div>
           </div>
-          <div class="form-group">
-            <label for="password">{{ t("password", "common") }}</label>
-            <input
-              type="password"
-              class="form-control"
-              id="password"
-              name="Password"
-              :placeholder="t('password', 'common')"
-            />
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" @click="close">
+              {{ t("close", "common") }}
+            </button>
+            <button type="submit" class="btn btn-primary submit-login">
+              {{ t("log-in") }}
+            </button>
           </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" @click="close">
-            {{ t("close", "common") }}
-          </button>
-          <button type="submit" class="btn btn-primary submit-login">
-            {{ t("log-in") }}
-          </button>
-        </div>
-      </form>
-    </template>
-  </modal>
+        </form>
+      </template>
+    </modal>
+  </div>
 </template>
 <script setup lang="ts">
 import Modal from "../Modal.vue";

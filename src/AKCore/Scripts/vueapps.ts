@@ -8,6 +8,8 @@ import MusicApp from "./VueComponents/MusicPlayer/MusicApp.vue";
 import MailBoxApp from "./VueComponents/MailBox/MailBoxApp.vue";
 import LoginApp from "./VueComponents/Login/LoginApp.vue";
 import { Member, Video } from "./VueComponents/models";
+import NotificationApp from "./VueComponents/Notifications/NotificationApp.vue";
+import { getCookie } from "./general";
 
 declare const videos: Record<number, Array<Video>>;
 
@@ -62,4 +64,11 @@ if (document.getElementById("mailbox")) {
 
 if (document.getElementById("loginapp")) {
   createApp(LoginApp).mount("#loginapp");
+}
+
+// const isMobile =
+if (document.getElementById("notificationapp") && window.innerWidth < 760) {
+  createApp(NotificationApp, {
+    notificationInfoDisabled: getCookie("notificationPopup") === "hide",
+  }).mount("#notificationapp");
 }
