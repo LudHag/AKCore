@@ -23,13 +23,13 @@
   </div>
 </template>
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { onMounted, Ref, ref } from "vue";
 import { allowMovable } from "./utils";
 import { setCookie } from "../../general";
 
 const props = defineProps<{
   recruitsInfoDisabled: boolean;
-  mailboxInfoDisabled?: boolean;
+  mailboxInfoDisabled: boolean;
   recruits: number;
   mails: number;
 }>();
@@ -44,20 +44,49 @@ const mailboxInfo = ref<HTMLElement>();
 
 const saveHideRecruitsInfo = () => {
   setCookie("recruitsPopup", "hide", 15);
+  if (showMailboxInfo.value && mailboxInfo.value) {
+    activateNotification(
+      mailboxInfo.value,
+      appearMailbox,
+      showMailboxInfo,
+      saveHideMailboxInfo,
+    );
+  }
 };
 const saveHideMailboxInfo = () => {
-  setCookie("recruitsPopup", "hide", 15);
+  setCookie("mailboxPopup", "hide", 15);
+};
+
+const activateNotification = (
+  element: HTMLElement,
+  appearValue: Ref<boolean>,
+  showValue: Ref<boolean>,
+  saveHide: () => void,
+) => {
+  setTimeout(() => {
+    appearValue.value = true;
+  }, 100);
+  allowMovable(element, () => {
+    showValue.value = false;
+    saveHide();
+  });
 };
 
 onMounted(() => {
-  setTimeout(() => {
-    appearRecruits.value = true;
-  }, 100);
-  if (recruitsInfo.value) {
-    allowMovable(recruitsInfo.value, () => {
-      showRecruitsInfo.value = false;
-      saveHideRecruitsInfo();
-    });
+  if (showRecruitsInfo.value && recruitsInfo.value) {
+    activateNotification(
+      recruitsInfo.value,
+      appearRecruits,
+      showRecruitsInfo,
+      saveHideRecruitsInfo,
+    );
+  } else if (showMailboxInfo.value && mailboxInfo.value) {
+    activateNotification(
+      mailboxInfo.value,
+      appearMailbox,
+      showMailboxInfo,
+      saveHideMailboxInfo,
+    );
   }
 });
 </script>
