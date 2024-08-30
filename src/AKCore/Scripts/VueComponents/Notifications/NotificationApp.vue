@@ -2,12 +2,23 @@
   <div>
     <a
       href="/Signup/Recruits"
-      v-if="showNotificationInfo"
+      v-if="showRecruitsInfo"
       class="info-popup"
-      :class="{ appear }"
-      ref="info"
+      :class="{ appear: appearRecruits }"
+      ref="recruitsInfo"
+      @click="saveHideRecruitsInfo"
     >
-      Det finns 2 olästa intresseanmälningar
+      Det finns {{ recruits }} olästa intresseanmälningar
+    </a>
+    <a
+      href="/Mailbox"
+      v-if="showMailboxInfo"
+      class="info-popup"
+      :class="{ appear: appearMailbox }"
+      ref="mailboxInfo"
+      @click="saveHideMailboxInfo"
+    >
+      Det finns {{ mails }} olästa brevlådeposter
     </a>
   </div>
 </template>
@@ -17,31 +28,42 @@ import { allowMovable } from "./utils";
 import { setCookie } from "../../general";
 
 const props = defineProps<{
-  notificationInfoDisabled: boolean;
+  recruitsInfoDisabled: boolean;
+  mailboxInfoDisabled?: boolean;
+  recruits: number;
+  mails: number;
 }>();
 
-const appear = ref(false);
-const showNotificationInfo = ref(!props.notificationInfoDisabled);
-const info = ref<HTMLElement>();
+const appearRecruits = ref(false);
+const showRecruitsInfo = ref(!props.recruitsInfoDisabled && props.recruits > 0);
+const recruitsInfo = ref<HTMLElement>();
 
-const saveHideNotificationInfo = () => {
-  setCookie("notificationPopup", "hide", 15);
+const appearMailbox = ref(false);
+const showMailboxInfo = ref(!props.mailboxInfoDisabled && props.mails > 0);
+const mailboxInfo = ref<HTMLElement>();
+
+const saveHideRecruitsInfo = () => {
+  setCookie("recruitsPopup", "hide", 15);
+};
+const saveHideMailboxInfo = () => {
+  setCookie("recruitsPopup", "hide", 15);
 };
 
 onMounted(() => {
   setTimeout(() => {
-    appear.value = true;
+    appearRecruits.value = true;
   }, 100);
-  if (info.value) {
-    allowMovable(info.value, () => {
-      showNotificationInfo.value = false;
-      saveHideNotificationInfo();
+  if (recruitsInfo.value) {
+    allowMovable(recruitsInfo.value, () => {
+      showRecruitsInfo.value = false;
+      saveHideRecruitsInfo();
     });
   }
 });
 </script>
 <style lang="scss" scoped>
 .info-popup {
+  z-index: 1;
   position: fixed;
   bottom: 10px;
   width: 200px;

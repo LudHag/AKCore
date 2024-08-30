@@ -66,9 +66,12 @@ if (document.getElementById("loginapp")) {
   createApp(LoginApp).mount("#loginapp");
 }
 
-// const isMobile =
-if (document.getElementById("notificationapp") && window.innerWidth < 760) {
+const notificationElement = document.getElementById("notificationapp");
+if (notificationElement && window.innerWidth < 760) {
   createApp(NotificationApp, {
-    notificationInfoDisabled: getCookie("notificationPopup") === "hide",
+    recruitsInfoDisabled: getCookie("recruitsPopup") === "hide",
+    mailboxInfoDisabled: getCookie("mailboxPopup") === "hide",
+    recruits: Number(notificationElement.dataset.recruits),
+    mails: Number(notificationElement.dataset.mails),
   }).mount("#notificationapp");
 }
