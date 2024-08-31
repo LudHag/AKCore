@@ -70,3 +70,6 @@
 <div id="mobile-menu" class="mobile-menu">
     <partial name="Partials/MobileMenu" model="Model"/>
 </div>
+@if(Model.LoggedIn) {
+    <div id="notificationapp" data-recruits="@Model.Recruits" data-mails="@Model.Mails"></div>
+}
