@@ -91,6 +91,8 @@ onMounted(() => {
 });
 </script>
 <style lang="scss" scoped>
+@import "../../../Styles/variables.scss";
+
 .info-popup {
   z-index: 1;
   position: fixed;
@@ -105,6 +107,8 @@ onMounted(() => {
   justify-content: center;
   align-items: center;
   padding: 20px;
+  border-radius: 5px;
+  border: $akgrey 1px solid;
   &.appear {
     left: calc(50% - 100px);
   }
