@@ -48,7 +48,7 @@
       </template>
       <template
         v-if="
-          loggedIn &&
+          loggedIn && event.allowsSignUps &&
           (event.type === 'Spelning' ||
             event.type === 'Kårhusrep' ||
             event.type === 'Athenrep')

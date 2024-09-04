@@ -41,17 +41,15 @@
                   />
                 </div>
                 <div class="col-sm-6" v-if="eventType === 'Spelning'">
-                  <label></label>
-                  <div class="checkbox checkbox-center">
-                    <label>
-                      <input
-                        type="checkbox"
-                        v-model="upcomingEvent.secret"
-                        name="Secret"
-                      />
-                      Hemlig spelning
-                    </label>
-                  </div>
+                    <label></label>
+                    <div class="checkbox checkbox-center">
+                        <label>
+                            <input type="checkbox"
+                                   v-model="upcomingEvent.secret"
+                                   name="Secret" />
+                            Hemlig spelning
+                        </label>
+                    </div>
                 </div>
               </div>
             </div>
@@ -145,6 +143,15 @@
                     name="Duration"
                   />
                 </div>
+                <label></label>
+                    <div class="checkbox checkbox-center">
+                        <label>
+                            <input type="checkbox"
+                                   v-model="upcomingEvent.allowsSignUps"
+                                   name="AllowsSignUps" />
+                            Tillåter anmälan
+                        </label>
+                    </div>
               </div>
             </div>
             <template
@@ -319,6 +326,7 @@ const resetEvent = () => {
         playDuration: "",
         stand: "",
         secret: false,
+        allowsSignUps: true
       };
   upcomingEvent.value!.dayDate = new Date(upcomingEvent.value!.dayDate);
 };

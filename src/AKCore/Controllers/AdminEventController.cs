@@ -83,7 +83,8 @@ namespace AKCore.Controllers
                 Secret = e.Secret,
                 Stand = e.Stand,
                 Year = e.Day.Year,
-                Month = e.Day.Month
+                Month = e.Day.Month,
+                AllowsSignUps = e.AllowsSignUps,
             };
             return model;
         }
@@ -127,6 +128,7 @@ namespace AKCore.Controllers
                     changeEvent.InternalDescriptionEng = model.InternalDescriptionEng;
                     changeEvent.Type = model.Type;
                     changeEvent.Secret = model.Secret;
+                    changeEvent.AllowsSignUps = model.AllowsSignUps;
                     var user = await _userManager.FindByNameAsync(User.Identity.Name);
                     _db.Log.Add(new LogItem()
                     {
@@ -162,6 +164,7 @@ namespace AKCore.Controllers
                         Stand = model.Stand,
                         StartsTime = ParseTime(model.StartsTime),
                         PlayDuration = model.PlayDuration,
+                        AllowsSignUps = model.AllowsSignUps,
                         Secret = model.Secret
                     };
                     var user = await _userManager.FindByNameAsync(User.Identity.Name);

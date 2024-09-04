@@ -10,7 +10,12 @@
       <h1>{{ eventInfo.event.name }}</h1>
       <div class="row hidden-print">
         <div class="col-sm-6">
-          <event-form :event-info="eventInfo" @update="loadEvents"></event-form>
+          <div v-if="eventInfo.event.allowsSignUps" >
+            <event-form :event-info="eventInfo" @update="loadEvents"></event-form>
+          </div>
+        <div v-else>
+          det går inte anmäla sig
+        </div>
         </div>
         <div class="col-sm-6">
           <div class="col-sm-12" style="font-weight: 500">
@@ -58,14 +63,16 @@
           </p>
         </div>
       </div>
-      <edit-signup-modal
-        v-if="eventInfo"
-        :show-modal="showEditForm"
-        :event-id="eventId"
-        :members="eventInfo.members"
-        @update="loadEvent"
-        @close="closeModal"
-      ></edit-signup-modal>
+      <div v-if="eventInfo.event.allowsSignUps" >
+        <edit-signup-modal
+          v-if="eventInfo"
+          :show-modal="showEditForm"
+          :event-id="eventId"
+          :members="eventInfo.members"
+          @update="loadEvent"
+          @close="closeModal"
+        ></edit-signup-modal>
+    </div>
       <signup-list
         :signups="eventInfo.signups"
         :nintendo="eventInfo.isNintendo"

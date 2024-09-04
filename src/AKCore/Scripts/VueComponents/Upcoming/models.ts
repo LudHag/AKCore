@@ -35,6 +35,7 @@ export interface UpcomingEvent {
   signupState: string;
   coming: number;
   notComing: number;
+  allowsSignUps: boolean;
 }
 
 export interface UpcomingEventInfo {
