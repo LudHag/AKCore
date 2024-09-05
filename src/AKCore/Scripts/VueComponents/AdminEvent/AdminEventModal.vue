@@ -143,15 +143,17 @@
                     name="Duration"
                   />
                 </div>
+                <div class="col-sm-6">
                 <label></label>
-                    <div class="checkbox checkbox-center">
-                        <label>
-                            <input type="checkbox"
-                                   v-model="upcomingEvent.allowsSignUps"
-                                   name="AllowsSignUps" />
-                            Tillåter anmälan
-                        </label>
-                    </div>
+                  <div class="checkbox checkbox-center">
+                    <label>
+                      <input type="checkbox"
+                                v-model="upcomingEvent.allowsSignUps"
+                                name="AllowsSignUps" />
+                        Tillåter anmälan
+                    </label>
+                  </div>
+                </div>
               </div>
             </div>
             <template
