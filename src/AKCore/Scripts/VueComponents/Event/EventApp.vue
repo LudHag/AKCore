@@ -13,8 +13,8 @@
           <div v-if="eventInfo.event.allowsSignUps" >
             <event-form :event-info="eventInfo" @update="loadEvents"></event-form>
           </div>
-        <div v-else>
-          det går inte anmäla sig
+        <div v-else class="col-sm-12">
+          <span class="glyphicon glyphicon-warning-sign" style="color:red"></span>  {{ t("sign-up-not-allowed","common") }}
         </div>
         </div>
         <div class="col-sm-6">
