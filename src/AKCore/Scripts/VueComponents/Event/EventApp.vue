@@ -11,7 +11,11 @@
       <div class="row hidden-print">
         <div class="col-sm-6">
         <div v-if="eventInfo.event.disabled" class="col-sm-12">
-          <span class="glyphicon glyphicon-warning-sign" style="color:red"></span>  {{ t("sign-up-not-allowed","common") }}
+         
+          <p>    
+            <span class="glyphicon glyphicon-warning-sign" style="color:red"></span>
+            <span class="warning-text">{{ t("sign-up-not-allowed","common") }}</span> 
+          </p>
         </div>
         <div v-else>
           <event-form :event-info="eventInfo" @update="loadEvents"></event-form>
@@ -162,5 +166,8 @@ const t = (key: string, domain: TranslationDomain = "signup") => {
 <style lang="scss">
 .close-event {
   font-size: 26px;
+}
+.warning-text {
+  margin-left: 8px;
 }
 </style>

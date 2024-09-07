@@ -48,7 +48,7 @@
       </template>
       <template
         v-if="
-          loggedIn && !event.disabled &&
+          loggedIn &&
           (event.type === 'Spelning' ||
             event.type === 'Kårhusrep' ||
             event.type === 'Athenrep')
@@ -68,7 +68,7 @@
           @click.prevent.stop="openSignup"
           :href="signupUrl"
         >
-          {{ t("sign-up") }}
+          {{ event.disabled ? t("about-event") : t("sign-up") }}
         </a>
         <p class="hidden-xs">
           {{ event.coming }} {{ t("coming", "common") }} -
@@ -168,6 +168,7 @@ const t = (key: string, domain: TranslationDomain = "upcoming") => {
 .event-row .warning-text {
   margin-left: 8px;
 }
+
 @media screen and (max-width: 768px) {
   .event-row a.signup-link {
     display: inline-block;
@@ -202,7 +203,5 @@ const t = (key: string, domain: TranslationDomain = "upcoming") => {
     top: 0px;
     font-size: 50px;
   }
-
-
 }
 </style>
