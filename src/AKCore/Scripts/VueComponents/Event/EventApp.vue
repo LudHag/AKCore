@@ -11,7 +11,6 @@
       <div class="row hidden-print">
         <div class="col-sm-6">
         <div v-if="eventInfo.event.disabled" class="col-sm-12">
-         
           <p>    
             <span class="glyphicon glyphicon-warning-sign" style="color:red"></span>
             <span class="warning-text">{{ t("sign-up-not-allowed","common") }}</span> 
