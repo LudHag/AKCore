@@ -221,6 +221,7 @@ public class Event
     public string Stand { get; set; }
     public List<SignUp> SignUps { get; set; }
     public bool Secret { get; set; }
+    public bool Disabled { get; set; }
 
     public bool HasNoDescription()
     {

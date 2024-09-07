@@ -36,6 +36,7 @@ namespace AKCore.Models
         public string SignupState { get; set; }
         public int Coming { get; set; }
         public int NotComing { get; set; }
+        public bool Disabled { get; set; }
     }
 
     public class YearList

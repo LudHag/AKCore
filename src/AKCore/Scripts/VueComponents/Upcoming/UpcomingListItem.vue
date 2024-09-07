@@ -68,7 +68,7 @@
           @click.prevent.stop="openSignup"
           :href="signupUrl"
         >
-          {{ t("sign-up") }}
+          {{ event.disabled ? t("about-event") : t("sign-up") }}
         </a>
         <p class="hidden-xs">
           {{ event.coming }} {{ t("coming", "common") }} -
@@ -76,6 +76,12 @@
           {{ t("not-coming", "common") }}
         </p>
       </template>
+      <div v-if="event.disabled">   
+        <p>    
+          <span class="glyphicon glyphicon-warning-sign" style="color:red"></span>
+          <span class="warning-text">{{ t("sign-up-not-allowed","common") }}</span> 
+        </p>
+      </div>
       <p v-if="loggedIn && event.type === 'Spelning' && event.stand">
         {{ t("type-of-play") }}: {{ event.stand }}
       </p>
@@ -158,6 +164,11 @@ const t = (key: string, domain: TranslationDomain = "upcoming") => {
 .event-row .green {
   color: #02c66f;
 }
+
+.event-row .warning-text {
+  margin-left: 8px;
+}
+
 @media screen and (max-width: 768px) {
   .event-row a.signup-link {
     display: inline-block;

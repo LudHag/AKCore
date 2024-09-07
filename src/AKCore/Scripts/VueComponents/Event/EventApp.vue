@@ -10,7 +10,15 @@
       <h1>{{ eventInfo.event.name }}</h1>
       <div class="row hidden-print">
         <div class="col-sm-6">
+        <div v-if="eventInfo.event.disabled" class="col-sm-12">
+          <p>    
+            <span class="glyphicon glyphicon-warning-sign" style="color:red"></span>
+            <span class="warning-text">{{ t("sign-up-not-allowed","common") }}</span> 
+          </p>
+        </div>
+        <div v-else>
           <event-form :event-info="eventInfo" @update="loadEvents"></event-form>
+        </div>
         </div>
         <div class="col-sm-6">
           <div class="col-sm-12" style="font-weight: 500">
@@ -58,14 +66,16 @@
           </p>
         </div>
       </div>
-      <edit-signup-modal
-        v-if="eventInfo"
-        :show-modal="showEditForm"
-        :event-id="eventId"
-        :members="eventInfo.members"
-        @update="loadEvent"
-        @close="closeModal"
-      ></edit-signup-modal>
+      <div v-if="!eventInfo.event.disabled">
+        <edit-signup-modal
+          v-if="eventInfo"
+          :show-modal="showEditForm"
+          :event-id="eventId"
+          :members="eventInfo.members"
+          @update="loadEvent"
+          @close="closeModal"
+        ></edit-signup-modal>
+    </div>
       <signup-list
         :signups="eventInfo.signups"
         :nintendo="eventInfo.isNintendo"
@@ -155,5 +165,8 @@ const t = (key: string, domain: TranslationDomain = "signup") => {
 <style lang="scss">
 .close-event {
   font-size: 26px;
+}
+.warning-text {
+  margin-left: 8px;
 }
 </style>
