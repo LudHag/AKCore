@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AKCore.Migrations
 {
     [DbContext(typeof(AKContext))]
-    [Migration("20240904191112_AddAllowSignUps")]
-    partial class AddAllowSignUps
+    [Migration("20240907091451_disabled-event")]
+    partial class disabledevent
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -172,9 +172,6 @@ namespace AKCore.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<bool>("AllowsSignUps")
-                        .HasColumnType("tinyint(1)");
-
                     b.Property<DateTime>("Day")
                         .HasColumnType("datetime");
 
@@ -183,6 +180,9 @@ namespace AKCore.Migrations
 
                     b.Property<string>("DescriptionEng")
                         .HasColumnType("longtext");
+
+                    b.Property<bool>("Disabled")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Fika")
                         .HasColumnType("longtext");

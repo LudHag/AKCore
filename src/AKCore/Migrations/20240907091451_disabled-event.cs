@@ -5,13 +5,13 @@
 namespace AKCore.Migrations
 {
     /// <inheritdoc />
-    public partial class AddAllowSignUps : Migration
+    public partial class disabledevent : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<bool>(
-                name: "AllowsSignUps",
+                name: "Disabled",
                 table: "Events",
                 type: "tinyint(1)",
                 nullable: false,
@@ -22,7 +22,7 @@ namespace AKCore.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "AllowsSignUps",
+                name: "Disabled",
                 table: "Events");
         }
     }

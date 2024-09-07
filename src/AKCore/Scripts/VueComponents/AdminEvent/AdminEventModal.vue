@@ -148,9 +148,9 @@
                   <div class="checkbox checkbox-center">
                     <label>
                       <input type="checkbox"
-                                v-model="upcomingEvent.allowsSignUps"
+                                v-model="upcomingEvent.disabled"
                                 name="AllowsSignUps" />
-                        Tillåter anmälan
+                        Anmälan stängd
                     </label>
                   </div>
                 </div>
@@ -328,7 +328,7 @@ const resetEvent = () => {
         playDuration: "",
         stand: "",
         secret: false,
-        allowsSignUps: true
+        disabled: false
       };
   upcomingEvent.value!.dayDate = new Date(upcomingEvent.value!.dayDate);
 };

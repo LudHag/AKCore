@@ -10,11 +10,11 @@
       <h1>{{ eventInfo.event.name }}</h1>
       <div class="row hidden-print">
         <div class="col-sm-6">
-          <div v-if="eventInfo.event.allowsSignUps" >
-            <event-form :event-info="eventInfo" @update="loadEvents"></event-form>
-          </div>
-        <div v-else class="col-sm-12">
+        <div v-if="eventInfo.event.disabled" class="col-sm-12">
           <span class="glyphicon glyphicon-warning-sign" style="color:red"></span>  {{ t("sign-up-not-allowed","common") }}
+        </div>
+        <div v-else>
+          <event-form :event-info="eventInfo" @update="loadEvents"></event-form>
         </div>
         </div>
         <div class="col-sm-6">
@@ -63,7 +63,7 @@
           </p>
         </div>
       </div>
-      <div v-if="eventInfo.event.allowsSignUps" >
+      <div v-if="!eventInfo.event.disabled" >
         <edit-signup-modal
           v-if="eventInfo"
           :show-modal="showEditForm"
