@@ -76,7 +76,7 @@
           {{ t("not-coming", "common") }}
         </p>
       </template>
-      <div v-if="event.disabled" >   
+      <div v-if="event.disabled">   
         <p>    
           <span class="glyphicon glyphicon-warning-sign" style="color:red"></span>
           <span class="warning-text">{{ t("sign-up-not-allowed","common") }}</span> 

@@ -44,9 +44,10 @@
                     <label></label>
                     <div class="checkbox checkbox-center">
                         <label>
-                            <input type="checkbox"
-                                   v-model="upcomingEvent.secret"
-                                   name="Secret" />
+                            <input 
+                                  type="checkbox"
+                                  v-model="upcomingEvent.secret"
+                                  name="Secret" />
                             Hemlig spelning
                         </label>
                     </div>
@@ -147,7 +148,8 @@
                 <label></label>
                   <div class="checkbox checkbox-center">
                     <label>
-                      <input type="checkbox"
+                      <input 
+                                type="checkbox"
                                 v-model="upcomingEvent.disabled"
                                 name="AllowsSignUps" />
                         Anmälan stängd
