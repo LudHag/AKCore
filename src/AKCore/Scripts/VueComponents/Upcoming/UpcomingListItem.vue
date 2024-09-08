@@ -147,7 +147,7 @@ const t = (key: string, domain: TranslationDomain = "upcoming") => {
   return translate(domain, key);
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 @import "../../../Styles/variables.scss";
 
 .event-row.expandable a {
