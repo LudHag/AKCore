@@ -167,4 +167,16 @@ onMounted(() => {
   loadEvents(false, 1);
 });
 </script>
-<style lang="scss"></style>
+<style lang="scss" scoped>
+@import "../../../Styles/variables.scss";
+
+.event-row {
+  padding: 15px;
+  border: 3px solid $akred;
+  border-radius: 7px;
+  position: relative;
+}
+.event-row:hover {
+  background-color: #1a0000;
+}
+</style>
