@@ -135,4 +135,7 @@ const t = (key: string, domain: TranslationDomain = "upcoming") => {
 .glyphicon-warning-sign {
   color: $akred;
 }
+.warning-text {
+  margin-left: 8px;
+}
 </style>
