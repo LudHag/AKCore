@@ -76,10 +76,14 @@
           {{ t("not-coming", "common") }}
         </p>
       </template>
-      <div v-if="event.disabled">   
-        <p>    
-          <span class="glyphicon glyphicon-warning-sign" style="color:red"></span>
-          <span class="warning-text">{{ t("sign-up-not-allowed","common") }}</span> 
+      <div v-if="event.disabled">
+        <p>
+          <span
+            class="glyphicon glyphicon-warning-sign event-disabled-warning"
+          ></span>
+          <span class="warning-text">{{
+            t("sign-up-not-allowed", "common")
+          }}</span>
         </p>
       </div>
       <p v-if="loggedIn && event.type === 'Spelning' && event.stand">
@@ -163,6 +167,10 @@ const t = (key: string, domain: TranslationDomain = "upcoming") => {
 
 .event-row .green {
   color: #02c66f;
+}
+
+.event-disabled-warning {
+  color: $akred;
 }
 
 .event-row .warning-text {
