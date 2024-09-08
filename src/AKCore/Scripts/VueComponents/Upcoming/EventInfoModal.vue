@@ -26,19 +26,34 @@
           <div class="col-sm-4">
             <a
               class="green"
-              v-if="signupable && event.signupState"
+              v-if="signupable && event.signupState && !event.disabled"
               @click.prevent.stop="openSignup"
               :href="signupUrl"
             >
               {{ t("signed-up") }} ({{ event.signupState }})
             </a>
             <a
-              v-if="signupable && !event.signupState"
+              v-if="signupable && !event.signupState && !event.disabled"
               @click.prevent.stop="openSignup"
               :href="signupUrl"
             >
               {{ t("sign-up") }}
             </a>
+            <a
+              v-if="signupable && event.disabled"
+              @click.prevent.stop="openSignup"
+              :href="signupUrl"
+            >
+              {{ t("about-event") }}
+            </a>
+            <div v-if="event.disabled">
+              <p>
+                <span class="glyphicon glyphicon-warning-sign"></span>
+                <span class="warning-text">{{
+                  t("sign-up-not-allowed", "common")
+                }}</span>
+              </p>
+            </div>
             <p class="modal-comming" v-if="signupable">
               {{ event.coming }} {{ t("coming", "common") }} -
               {{ event.notComing }}
@@ -113,7 +128,11 @@ const t = (key: string, domain: TranslationDomain = "upcoming") => {
 };
 </script>
 <style lang="scss" scoped>
+@import "../../../Styles/variables.scss";
 .green {
   color: #02c66f;
+}
+.glyphicon-warning-sign {
+  color: $akred;
 }
 </style>
