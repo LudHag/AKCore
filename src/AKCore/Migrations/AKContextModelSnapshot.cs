@@ -3,6 +3,7 @@ using System;
 using AKCore.DataModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -16,10 +17,11 @@ namespace AKCore.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.8")
+                .HasAnnotation("ProductVersion", "8.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             MySqlModelBuilderExtensions.HasCharSet(modelBuilder, "utf8mb4");
+            MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
             modelBuilder.Entity("AKCore.DataModel.AkUser", b =>
                 {
@@ -134,6 +136,8 @@ namespace AKCore.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<string>("Category")
                         .HasColumnType("longtext");
 
@@ -186,6 +190,8 @@ namespace AKCore.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<DateTime>("Day")
                         .HasColumnType("datetime");
 
@@ -194,6 +200,9 @@ namespace AKCore.Migrations
 
                     b.Property<string>("DescriptionEng")
                         .HasColumnType("longtext");
+
+                    b.Property<bool>("Disabled")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Fika")
                         .HasColumnType("longtext");
@@ -213,6 +222,9 @@ namespace AKCore.Migrations
                         .HasColumnType("varchar(450)");
 
                     b.Property<string>("Place")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("PlayDuration")
                         .HasColumnType("longtext");
 
                     b.Property<bool>("Secret")
@@ -243,6 +255,8 @@ namespace AKCore.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<bool>("Archived")
                         .HasColumnType("tinyint(1)");
 
@@ -272,6 +286,8 @@ namespace AKCore.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<string>("Comment")
                         .HasColumnType("longtext");
 
@@ -297,6 +313,8 @@ namespace AKCore.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<bool>("Archived")
                         .HasColumnType("tinyint(1)");
 
@@ -320,6 +338,8 @@ namespace AKCore.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime");
 
@@ -342,6 +362,8 @@ namespace AKCore.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<bool>("Balett")
                         .HasColumnType("tinyint(1)");
@@ -376,6 +398,8 @@ namespace AKCore.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<bool>("BalettOnly")
                         .HasColumnType("tinyint(1)");
@@ -415,6 +439,8 @@ namespace AKCore.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<bool>("Archived")
                         .HasColumnType("tinyint(1)");
 
@@ -449,6 +475,8 @@ namespace AKCore.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<bool>("BalettOnly")
                         .HasColumnType("tinyint(1)");
@@ -498,6 +526,8 @@ namespace AKCore.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<bool>("Car")
                         .HasColumnType("tinyint(1)");
 
@@ -522,7 +552,7 @@ namespace AKCore.Migrations
 
                     b.Property<string>("PersonId")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("varchar(95)");
 
                     b.Property<string>("PersonName")
                         .HasColumnType("longtext");
@@ -537,6 +567,8 @@ namespace AKCore.Migrations
 
                     b.HasIndex("EventId");
 
+                    b.HasIndex("PersonId", "SignupTime");
+
                     b.ToTable("SignUps");
                 });
 
@@ -545,6 +577,8 @@ namespace AKCore.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int?>("LinkId")
                         .HasColumnType("int");
@@ -578,6 +612,8 @@ namespace AKCore.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int?>("AlbumId")
                         .HasColumnType("int");
@@ -634,6 +670,8 @@ namespace AKCore.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<string>("ClaimType")
                         .HasColumnType("longtext");
 
@@ -656,6 +694,8 @@ namespace AKCore.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("longtext");
@@ -763,9 +803,11 @@ namespace AKCore.Migrations
 
             modelBuilder.Entity("AKCore.DataModel.SignUp", b =>
                 {
-                    b.HasOne("AKCore.DataModel.Event", null)
+                    b.HasOne("AKCore.DataModel.Event", "Event")
                         .WithMany("SignUps")
                         .HasForeignKey("EventId");
+
+                    b.Navigation("Event");
                 });
 
             modelBuilder.Entity("AKCore.DataModel.SubMenu", b =>

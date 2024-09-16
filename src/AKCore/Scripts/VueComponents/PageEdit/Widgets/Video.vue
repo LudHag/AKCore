@@ -99,7 +99,7 @@ const updateTitle = (event: Event, element: EditVideoModel) => {
 
 const removeVideo = (removeIndex: number) => {
   prop.modelValue.videos = prop.modelValue.videos!.filter(
-    (video) => video.index !== removeIndex
+    (video) => video.index !== removeIndex,
   );
 
   updateVideos();
@@ -113,7 +113,7 @@ const addVideo = () => {
   const newIndex =
     prop.modelValue.videos.reduce(
       (prev, current) => (prev > current.index! ? prev : current.index!),
-      0
+      0,
     ) + 1;
 
   prop.modelValue.videos.push({ title: "", link: "", index: newIndex });

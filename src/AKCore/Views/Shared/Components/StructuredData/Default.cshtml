@@ -1,0 +1,32 @@
+﻿@model AKCore.Models.StructuredDataModel
+
+
+<script type="application/ld+json">
+    {
+        "@@context": "https://schema.org",
+        "@@type": "PerformingGroup",
+        "name": "Musikalliansen Alte Kamereren",
+        "event": [
+        @foreach(var gig in Model.UpcomingGigs) {
+        @: {
+        @:   "@@type": "Event",
+        @:   "name": "@gig.Name",
+        @:   "description": "@gig.Description",
+        @:   "startDate": "@gig.StartsTime",
+        @:   "endDate": "@gig.EndDate",
+        @:   "eventStatus": "EventScheduled",
+        @:   "location": {
+        @:      "@@type": "Place",
+        @:      "name": "@gig.Place"
+        @:   },
+        @:   "image": "https://www.altekamereren.org@(gig.Image)",
+        @:   "eventAttendanceMode": "OfflineEventAttendanceMode",
+        @:   "performer": {
+        @:      "@@type": "Organization",
+        @:      "@@id": "#organization"
+        @:   }
+        @: }@(gig.LastElement ? "" : ",")
+        }
+        ]
+    }
+</script>

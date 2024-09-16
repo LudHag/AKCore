@@ -43,9 +43,8 @@ const selectedTag = ref("Allmän");
 const error = ref<HTMLElement | null>(null);
 
 const loadMediaList = async () => {
-  const result = await getFromApi<Record<string, MediaItem[]>>(
-    "/Media/MediaData"
-  );
+  const result =
+    await getFromApi<Record<string, MediaItem[]>>("/Media/MediaData");
   categories.value = result;
   IMAGETYPES.forEach((type) => {
     if (!(type in categories.value!)) {

@@ -1,66 +1,35 @@
-﻿using Newtonsoft.Json;
+﻿using Azure.AI.OpenAI;
+using OpenAI;
+using OpenAI.Chat;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace AKCore.Clients;
 
 public class OpenApiClient
 {
-    private readonly string _token;
+    private readonly ChatClient _chatClient;
     public OpenApiClient(string token)
     {
-        _token = token;
+        var apiClient = new OpenAIClient(token);
+        _chatClient = apiClient.GetChatClient("gpt-4o");
     }
 
-    public async Task<string> GetText(IEnumerable<string> queries)
-    {
-        using var client = new HttpClient();
-        client.BaseAddress = new Uri("https://api.openai.com/v1/chat/completions");
-        client.DefaultRequestHeaders.Accept.Clear();
-        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
-
-        var requestBody = GetRequest(queries);
-
-        var result = await client.PostAsync("", requestBody);
-        var errorBody = await result.Content.ReadAsStringAsync();
-        var parsedResponse = await GetResponse<OpenApiResponseModel>(result);
-
-        return parsedResponse.Choices.First().Message.Content.Trim();
-    }
-
-    private static StringContent GetRequest(IEnumerable<string> queries)
+    public async Task<string> GetText(string query, string imageUrl = null)
     {
 
-        var request = new OpenApiRequestModel
-        {
-            Model = "gpt-3.5-turbo",
-            Messages = queries.Select(query => new OpenApiMessageModel
-            {
-                Role = "user",
-                Content = query
-            }),
-            Temperature = 0.7
+        var messages = new List<ChatMessage> {
+            ChatMessage.CreateSystemMessage("Only return the response to the question, no additional words."),
+            imageUrl == null ?
+             ChatMessage.CreateUserMessage(query) :
+             ChatMessage.CreateUserMessage(ChatMessageContentPart.CreateTextMessageContentPart(query), ChatMessageContentPart.CreateImageMessageContentPart(new Uri(imageUrl)))
         };
 
-        var json = JsonConvert.SerializeObject(request);
-        return new StringContent(json, Encoding.UTF8, "application/json");
+        var response = await _chatClient.CompleteChatAsync(messages);
+
+        return response.Value.Content[0].Text;
     }
 
-    private async Task<T> GetResponse<T>(HttpResponseMessage response)
-    {
-        await using var contentStream = await response.Content.ReadAsStreamAsync();
-        using var sr = new StreamReader(contentStream);
-        using var jsonTextReader = new JsonTextReader(sr);
-
-        var serializer = new JsonSerializer();
-
-        return serializer.Deserialize<T>(jsonTextReader);
-    }
 }

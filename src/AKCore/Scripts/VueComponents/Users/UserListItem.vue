@@ -4,23 +4,27 @@
       <td>{{ user.fullName }}</td>
       <td>{{ user.userName }}</td>
       <td>
-        <div class="roles"> 
-        <span
-          v-for="role in user.roles"
-          :key="role"
-          class="role hover-tooltip"
-          :data-tooltip="roleInfo(role)"
-        >
-          {{ role }}
-          <a
-            v-if="expanded"
-            class="remove-role glyphicon glyphicon-remove"
-            @click.prevent.stop="removeRole(role)"
-          ></a>
-        </span>
-      </div>
+        <div class="roles">
+          <span
+            v-for="role in user.roles"
+            :key="role"
+            class="role hover-tooltip"
+            :data-tooltip="roleInfo(role)"
+          >
+            {{ role }}
+            <a
+              v-if="expanded"
+              class="remove-role glyphicon glyphicon-remove"
+              @click.prevent.stop="removeRole(role)"
+            ></a>
+          </span>
+        </div>
       </td>
-      <td> <span :class="{ inactive: userInactive }">{{ user.lastSignedIn }} </span></td>
+      <td>
+        <span :class="{ inactive: userInactive }"
+          >{{ user.lastSignedIn }}
+        </span>
+      </td>
       <td class="item-actions">
         <a
           class="btn remove-user glyphicon glyphicon-remove"
@@ -58,7 +62,9 @@
                   @submit.prevent="saveLastEarned"
                 >
                   <div class="form-group">
-                    <strong class="spacing-right">Senast förtjänade medalj: {{ user.medal }}</strong>
+                    <strong class="spacing-right"
+                      >Senast förtjänade medalj: {{ user.medal }}</strong
+                    >
                     <input
                       type="hidden"
                       name="userName"
@@ -158,7 +164,10 @@
                       :value="user.userName"
                     />
                     <label class="spacing-right">Lägg till roll: </label>
-                    <select class="form-control input-sm spacing-right" name="Role">
+                    <select
+                      class="form-control input-sm spacing-right"
+                      name="Role"
+                    >
                       <option value="">Välj roll</option>
                       <option v-for="role in roles" :key="role" :value="role">
                         {{ role }}
@@ -239,7 +248,7 @@ const expanded = ref(false);
 const selectedPosts = ref<string[]>([]);
 const error = document.getElementsByClassName("alert-danger")[0] as HTMLElement;
 const success = document.getElementsByClassName(
-  "alert-success"
+  "alert-success",
 )[0] as HTMLElement;
 
 //logic for setting last signed in to red if older than one year
@@ -254,7 +263,7 @@ watch(
     if (user && user.posts) {
       selectedPosts.value = user.posts.slice();
     }
-  }
+  },
 );
 
 watch(
@@ -263,7 +272,7 @@ watch(
     if (val && props.user && props.user.posts) {
       selectedPosts.value = props.user.posts.slice();
     }
-  }
+  },
 );
 
 const roleInfo = (role: string) => {
@@ -289,7 +298,7 @@ const removeUser = () => {
       success,
       () => {
         emit("removeuser", props.user.userName);
-      }
+      },
     );
   }
 };
@@ -335,7 +344,7 @@ const removeRole = (role: string) => {
         prop: "roles",
         value: newRoles,
       });
-    }
+    },
   );
 };
 
@@ -403,7 +412,7 @@ const roles = computed(() => {
   text-align: right;
 }
 
-.inactive { 
+.inactive {
   color: orangered;
 }
 

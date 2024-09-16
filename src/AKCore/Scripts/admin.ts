@@ -5,7 +5,7 @@ import MenuEditApp from "./VueComponents/MenuEdit/MenuEditApp.vue";
 import RecruitsApp from "./VueComponents/Recruits/RecruitsApp.vue";
 import UsersApp from "./VueComponents/Users/UsersApp.vue";
 import PageEdit from "./VueComponents/PageEdit/PageEdit.vue";
-import "./Admin/pageedit.js";
+import "./Admin/pageedit";
 
 if (document.getElementById("pageedit-app")) {
   createApp(PageEdit).mount("#pageedit-app");

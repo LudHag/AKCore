@@ -83,7 +83,7 @@ const filteredDocuments = computed(() =>
       (!search.value ||
         document.name.toLowerCase().indexOf(search.value.toLowerCase()) > -1)
     );
-  })
+  }),
 );
 
 const shownDocuments = computed(() => {
@@ -103,7 +103,7 @@ watch(
     if (page.value + 1 > pagesLength.value && pagesLength.value - 1 > -1) {
       page.value = pagesLength.value - 1;
     }
-  }
+  },
 );
 
 onMounted(() => {

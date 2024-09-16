@@ -3,6 +3,7 @@ import { Translation } from "./models";
 export const upcomingTranslations: Record<string, Translation> = {
   "sign-up": { swedish: "Anmäl", english: "Sign up" },
   "signed-up": { swedish: "Anmäld", english: "Signed up" },
+  "about-event": { swedish: "Om spelningen", english: "More info" },
   "type-of-play": { swedish: "Speltyp", english: "Type of concert" },
   "fika-and-clean": {
     swedish: "Fika och städning",

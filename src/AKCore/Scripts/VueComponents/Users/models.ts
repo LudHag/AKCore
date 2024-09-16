@@ -16,7 +16,7 @@ export interface User {
   hasKey: boolean;
   active: boolean;
   password: string;
-  lastSignedIn: string
+  lastSignedIn: string;
 }
 
 export interface UpdateInfo {
