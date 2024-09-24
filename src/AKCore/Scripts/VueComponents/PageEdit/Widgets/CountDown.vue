@@ -1,6 +1,5 @@
 <template>
   <div>
-    <text-edit fullwidth v-model="modelValue.text"></text-edit>
     <div class="col-sm-12">
       <label>Inställt datum </label>
       <input class="form-control" type="date" v-model="modelValue.targetDate" name="Date" />
@@ -17,7 +16,6 @@
 </template>
 <script setup lang="ts">
 import { WidgetEditModel } from "../models";
-import TextEdit from "../WidgetParts/TextEdit.vue";
 import TranslationEdit from "../WidgetParts/TranslationEdit.vue";
 
 defineProps<{
