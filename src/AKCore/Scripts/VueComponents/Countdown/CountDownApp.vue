@@ -83,33 +83,34 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @import "../../../Styles/variables.scss";
+@import "bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss";
 
 .countdown-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 2rem;
+  padding: 16px;
   text-align: center;
   font-family: sans-serif;
 }
 
 .countdown-title,
 .countdown-over-title {
-  font-size: 2.5rem;
+  font-size: 32px;
   color: #333;
-  margin-bottom: 2rem;
+  margin-bottom: 32px;
   font-weight: 600;
 }
 
 .countdown {
   display: flex;
-  gap: 1.5rem;
+  gap: 16px;
 }
 
 .countdown-item {
   background-color: #e6e6e6;
-  padding: 1rem 2rem;
+  padding: 12px 24px;
   display: flex;
   flex-direction: column;
   border-radius: 12px;
@@ -141,14 +142,14 @@ export default defineComponent({
   font-weight: 600;
 }
 
-@media (max-width: 768px) {
+@media screen and (max-width: 400px) {
   .countdown {
-    flex-direction: column;
-    gap: 1rem;
+    flex-direction: row;
+    gap: 8px;
   }
 
   .countdown-item {
-    padding: 1rem 1.5rem;
+    padding: 10px;
   }
 
   .countdown-number {
