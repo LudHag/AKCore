@@ -63,6 +63,14 @@
           :translate="translate"
         >
         </three-puffs>
+
+        <count-down
+        v-if="modelValue.type === 'CountDown'"
+        :model-value="modelValue"
+        @update:modelValue="$emit('update:modelValue', $event)"
+        :translate="translate"
+        >
+        </count-down>
         <video-widget
           v-if="modelValue.type === 'Video'"
           :model-value="modelValue"
@@ -106,6 +114,7 @@ import {
   Music,
   VideoWidget,
   PostList,
+  CountDown
 } from "./Widgets/widgets";
 
 const emit = defineEmits<{

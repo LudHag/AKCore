@@ -10,6 +10,7 @@ import LoginApp from "./VueComponents/Login/LoginApp.vue";
 import { Member, Video } from "./VueComponents/models";
 import NotificationApp from "./VueComponents/Notifications/NotificationApp.vue";
 import { getCookie } from "./general";
+import CountDownApp from "./VueComponents/Countdown/CountDownApp.vue";
 
 declare const videos: Record<number, Array<Video>>;
 
@@ -60,6 +61,10 @@ if (document.getElementById("music-app")) {
 
 if (document.getElementById("mailbox")) {
   createApp(MailBoxApp).mount("#mailbox");
+}
+
+if (document.getElementById("countdown")) {
+  createApp(CountDownApp).mount("#countdown");
 }
 
 if (document.getElementById("loginapp")) {
