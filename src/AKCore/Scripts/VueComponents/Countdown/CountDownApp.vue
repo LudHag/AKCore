@@ -27,9 +27,6 @@ import { defineComponent, ref, computed, onMounted, onBeforeUnmount } from "vue"
 //@ts-ignore
 // eslint-disable-next-line no-undef
 const date = (): any => selectedDate;
-//@ts-ignore
-// eslint-disable-next-line no-undef
-
 
 export default defineComponent({
   setup() {
