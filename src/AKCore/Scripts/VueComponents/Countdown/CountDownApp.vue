@@ -21,60 +21,48 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, computed, onMounted, onBeforeUnmount } from "vue";
+<script setup lang="ts">
+import { ref, computed, onMounted, onBeforeUnmount } from "vue";
 
-//@ts-ignore
-// eslint-disable-next-line no-undef
-const date = (): any => selectedDate;
+const props = defineProps<{
+  selectedDate: string;
+}>();
 
-export default defineComponent({
-  setup() {
-    const timeLeft = ref<number | null>(null);
-    let timerInterval: number | null = null;
+const timeLeft = ref<number | null>(null);
+let timerInterval: number | null = null;
 
-    const calculateTimeLeft = (endDate: number) => {
-      const now = new Date().getTime();
-      const difference = endDate - now;
-      return difference > 0 ? difference : null;
-    };
+const calculateTimeLeft = (endDate: number) => {
+  const now = new Date().getTime();
+  const difference = endDate - now;
+  return difference > 0 ? difference : null;
+};
 
-    const updateTime = () => {
-      const endDate = new Date(date()).getTime();
-      timeLeft.value = calculateTimeLeft(endDate);
-      if (timeLeft.value === null && timerInterval !== null) {
-        clearInterval(timerInterval);
-      }
-    };
+const updateTime = () => {
+  const endDate = new Date(props.selectedDate).getTime();
+  timeLeft.value = calculateTimeLeft(endDate);
+  if (timeLeft.value === null && timerInterval !== null) {
+    clearInterval(timerInterval);
+  }
+};
 
-    const days = computed(() => Math.floor((timeLeft.value || 0) / (1000 * 60 * 60 * 24)));
-    const hours = computed(() =>
-      Math.floor(((timeLeft.value || 0) % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
-    );
-    const minutes = computed(() =>
-      Math.floor(((timeLeft.value || 0) % (1000 * 60 * 60)) / (1000 * 60))
-    );
-    const seconds = computed(() => Math.floor(((timeLeft.value || 0) % (1000 * 60)) / 1000));
+const days = computed(() => Math.floor((timeLeft.value || 0) / (1000 * 60 * 60 * 24)));
+const hours = computed(() =>
+  Math.floor(((timeLeft.value || 0) % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+);
+const minutes = computed(() =>
+  Math.floor(((timeLeft.value || 0) % (1000 * 60 * 60)) / (1000 * 60))
+);
+const seconds = computed(() => Math.floor(((timeLeft.value || 0) % (1000 * 60)) / 1000));
 
-    onMounted(() => {
-      updateTime(); // Initial update
-      timerInterval = window.setInterval(updateTime, 1000);
-    });
+onMounted(() => {
+  updateTime(); // Initial update
+  timerInterval = window.setInterval(updateTime, 1000);
+});
 
-    onBeforeUnmount(() => {
-      if (timerInterval !== null) {
-        clearInterval(timerInterval);
-      }
-    });
-
-    return {
-      timeLeft,
-      days,
-      hours,
-      minutes,
-      seconds,
-    };
-  },
+onBeforeUnmount(() => {
+  if (timerInterval !== null) {
+    clearInterval(timerInterval);
+  }
 });
 </script>
 
@@ -139,7 +127,7 @@ export default defineComponent({
   font-weight: 600;
 }
 
-@media screen and (max-width: 400px) {
+@media screen and (max-width: $screen-xs-max) {
   .countdown {
     flex-direction: row;
     gap: 8px;

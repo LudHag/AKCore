@@ -62,9 +62,11 @@ if (document.getElementById("music-app")) {
 if (document.getElementById("mailbox")) {
   createApp(MailBoxApp).mount("#mailbox");
 }
-
+declare const selectedDate: string;
 if (document.getElementById("countdown")) {
-  createApp(CountDownApp).mount("#countdown");
+  createApp(CountDownApp,{
+    selectedDate: selectedDate
+  }).mount("#countdown");
 }
 
 if (document.getElementById("loginapp")) {
