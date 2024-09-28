@@ -1,5 +1,6 @@
 import { getCookie } from "../general";
 import { commonTranslations } from "./common";
+import { countdownTranslations } from "./countdown";
 import { instrumentsTranslations } from "./instruments";
 import { loginTranslations } from "./login";
 import { mailboxTranslations } from "./mailbox";
@@ -19,7 +20,8 @@ export type TranslationDomain =
   | "upcoming"
   | "music"
   | "mailbox"
-  | "signup";
+  | "signup"
+  | "countdown";
 
 const translations: Record<TranslationDomain, Record<string, Translation>> = {
   login: loginTranslations,
@@ -31,6 +33,7 @@ const translations: Record<TranslationDomain, Record<string, Translation>> = {
   music: musicTranslations,
   mailbox: mailboxTranslations,
   signup: signupTranslations,
+  countdown: countdownTranslations,
 };
 
 export const isEnglish = getCookie("language") === "EN";
