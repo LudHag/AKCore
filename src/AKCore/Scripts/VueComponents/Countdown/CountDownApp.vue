@@ -3,19 +3,19 @@
     <div class="countdown">
       <div class="countdown-item">
         <span class="countdown-number">{{ days }}</span>
-        <span class="countdown-label">Days</span>
+        <span class="countdown-label">{{ t("days") }}</span>
       </div>
       <div class="countdown-item">
         <span class="countdown-number">{{ hours }}</span>
-        <span class="countdown-label">Hours</span>
+        <span class="countdown-label">{{ t("hours") }}</span>
       </div>
       <div class="countdown-item">
         <span class="countdown-number">{{ minutes }}</span>
-        <span class="countdown-label">Minutes</span>
+        <span class="countdown-label">{{ t("minutes") }}</span>
       </div>
       <div class="countdown-item">
         <span class="countdown-number">{{ seconds }}</span>
-        <span class="countdown-label">Seconds</span>
+        <span class="countdown-label">{{ t("seconds") }}</span>
       </div>
     </div>
   </div>
@@ -23,6 +23,7 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, onBeforeUnmount } from "vue";
+import { translate, TranslationDomain } from "../../translations";
 
 const props = defineProps<{
   selectedDate: string;
@@ -45,14 +46,20 @@ const updateTime = () => {
   }
 };
 
-const days = computed(() => Math.floor((timeLeft.value || 0) / (1000 * 60 * 60 * 24)));
+const days = computed(() =>
+  Math.floor((timeLeft.value || 0) / (1000 * 60 * 60 * 24)),
+);
 const hours = computed(() =>
-  Math.floor(((timeLeft.value || 0) % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+  Math.floor(
+    ((timeLeft.value || 0) % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
+  ),
 );
 const minutes = computed(() =>
-  Math.floor(((timeLeft.value || 0) % (1000 * 60 * 60)) / (1000 * 60))
+  Math.floor(((timeLeft.value || 0) % (1000 * 60 * 60)) / (1000 * 60)),
 );
-const seconds = computed(() => Math.floor(((timeLeft.value || 0) % (1000 * 60)) / 1000));
+const seconds = computed(() =>
+  Math.floor(((timeLeft.value || 0) % (1000 * 60)) / 1000),
+);
 
 onMounted(() => {
   updateTime(); // Initial update
@@ -64,6 +71,10 @@ onBeforeUnmount(() => {
     clearInterval(timerInterval);
   }
 });
+
+const t = (key: string, domain: TranslationDomain = "countdown") => {
+  return translate(domain, key);
+};
 </script>
 
 <style lang="scss" scoped>
