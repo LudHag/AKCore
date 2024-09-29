@@ -22,6 +22,7 @@ namespace AKCore.DataModel
         public const string Balett = "Balett";
         public const string Banjo = "Banjo";
         public const string Barytonsax = "Barytonsax";
+        public const string Dragspel = "Dragspel";
         public const string Euphonium = "Euphonium";
         public const string Flute = "Flöjt";
         public const string Horn = "Horn";
@@ -39,6 +40,7 @@ namespace AKCore.DataModel
             Balett,
             Banjo,
             Barytonsax,
+            Dragspel,
             Euphonium,
             Flute,
             Horn,
