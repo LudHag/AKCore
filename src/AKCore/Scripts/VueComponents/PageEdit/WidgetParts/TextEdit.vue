@@ -92,7 +92,6 @@ const getConfig = () => {
       field_name: string,
       _url: any,
       type: any,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       _win: any,
     ) {
       if (type === "image") {

@@ -116,7 +116,7 @@ if (languageButton) {
   languageButton.addEventListener("click", (e) => {
     e.preventDefault();
     const lang = (e.target as HTMLElement).classList[0];
-    document.cookie = `language=${lang};path=/`;
+    setCookie("language", lang, 30);
     window.location.reload();
   });
 }
@@ -124,7 +124,33 @@ if (languageButtonMobile) {
   languageButtonMobile.addEventListener("click", (e) => {
     e.preventDefault();
     const lang = (e.target as HTMLElement).classList[0];
-    document.cookie = `language=${lang};path=/`;
+    setCookie("language", lang, 30);
     window.location.reload();
   });
 }
+
+export const getImageLink = (image: string) => {
+  if (import.meta.env.MODE === "development") {
+    return `http://localhost:52727/images/${image}`;
+  } else if (import.meta.env.MODE === "production") {
+    return `https://cdn.altekamereren.org/images/${image}`;
+  }
+};
+
+export const setCookie = (name: string, value: string, days?: number): void => {
+  let expires = "";
+  if (days) {
+    const date = new Date();
+    date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+    expires = "; expires=" + date.toUTCString();
+  }
+  document.cookie = `${name}=${value}${expires}; path=/`;
+};
+
+export const getCookie = (name: string) => {
+  const value = "; " + document.cookie;
+  const parts = value.split("; " + name + "=");
+  if (parts.length === 2) {
+    return parts.pop()?.split(";").shift();
+  }
+};

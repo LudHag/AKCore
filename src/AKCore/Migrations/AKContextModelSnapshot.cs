@@ -17,7 +17,7 @@ namespace AKCore.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.5")
+                .HasAnnotation("ProductVersion", "8.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             MySqlModelBuilderExtensions.HasCharSet(modelBuilder, "utf8mb4");
@@ -177,6 +177,9 @@ namespace AKCore.Migrations
 
                     b.Property<string>("DescriptionEng")
                         .HasColumnType("longtext");
+
+                    b.Property<bool>("Disabled")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Fika")
                         .HasColumnType("longtext");
@@ -777,9 +780,11 @@ namespace AKCore.Migrations
 
             modelBuilder.Entity("AKCore.DataModel.SignUp", b =>
                 {
-                    b.HasOne("AKCore.DataModel.Event", null)
+                    b.HasOne("AKCore.DataModel.Event", "Event")
                         .WithMany("SignUps")
                         .HasForeignKey("EventId");
+
+                    b.Navigation("Event");
                 });
 
             modelBuilder.Entity("AKCore.DataModel.SubMenu", b =>

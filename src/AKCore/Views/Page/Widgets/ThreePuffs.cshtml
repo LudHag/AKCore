@@ -4,7 +4,7 @@
     <div class="col-sm-4">
         <a class="puff" href="/upcoming">
             <div class="puff-bild-container">
-                <div class="puff-bild" style="background-image:url('@Model.Image')"></div>
+                <div class="puff-bild" style="background-image:url('@settings.CDN@Model.Image')"></div>
             </div>
             @Html.Raw(Model.Text)
         </a>
@@ -12,7 +12,7 @@
     <div class="col-sm-4">
         <a class="puff" href="/hire">
             <div class="puff-bild-container">
-                <div class="puff-bild" style="background-image:url('/images/skivomslag.JPG')"></div>
+                <div class="puff-bild" style="background-image:url('@settings.CDN/images/skivomslag.JPG')"></div>
             </div>
             <p>@t.Get(TranslationDomains.Widgets,"Hire")</p>
         </a>
@@ -20,7 +20,7 @@
     <div class="col-sm-4">
         <a class="puff" href="/join">
             <div class="puff-bild-container">
-                <div class="puff-bild" style="background-image:url('/images/pajkamerer.jpg')"></div>
+                <div class="puff-bild" style="background-image:url('@settings.CDN/images/pajkamerer.jpg')"></div>
             </div>
             <p>@t.Get(TranslationDomains.Widgets,"Join")</p>
         </a>

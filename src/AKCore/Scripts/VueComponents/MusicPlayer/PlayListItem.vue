@@ -3,7 +3,7 @@
     :href="track.filepath"
     class="playlist-element"
     :class="{ active: active, small: small }"
-    @click.prevent="$emit('select', track)"
+    @click.prevent="emit('select', track)"
   >
     <span class="name" v-html="track.name"></span>
     <span
@@ -13,12 +13,12 @@
     <span
       class="glyphicon glyphicon-plus-sign"
       v-if="!noAdd && !remove"
-      @click.prevent.stop="$emit('add', track)"
+      @click.prevent.stop="emit('add', track)"
     ></span>
     <span
       class="glyphicon glyphicon-minus-sign"
       v-if="remove"
-      @click.prevent.stop="$emit('remove', track)"
+      @click.prevent.stop="emit('remove', track)"
     ></span>
   </a>
 </template>
@@ -32,7 +32,11 @@ const props = defineProps<{
   small?: boolean;
   remove?: boolean;
 }>();
-
+const emit = defineEmits<{
+  (e: "remove", track: Track): void;
+  (e: "add", track: Track): void;
+  (e: "select", track: Track): void;
+}>();
 const downloadUri = () => {
   const link = document.createElement("a");
   const trackPathParts = props.track.filepath.split("/");

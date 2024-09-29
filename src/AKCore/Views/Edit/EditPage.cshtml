@@ -1,14 +1,14 @@
 ﻿
 @section styles {
     <environment exclude="Development">
-        <link rel="stylesheet" href="/dist/@assetsModel.CssAdmin">
+        <link rel="stylesheet" href="@settings.CDN/dist/@assetsModel.CssAdmin">
     </environment>
 }
 
 @section scripts {
-    <script src="/tinymce/tinymce.min.js"></script>
+    <script src="@settings.CDN/tinymce/tinymce.min.js"></script>
     <environment exclude="Development">
-        <script src="~/dist/@assetsModel.JsAdmin" type="module">
+        <script src="@settings.CDN/dist/@assetsModel.JsAdmin" type="module">
         </script>
     </environment>
     <environment include="Development">

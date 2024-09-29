@@ -108,7 +108,8 @@ public class UpcomingController : Controller
                 Year = e.Day.Year,
                 Month = e.Day.Month,
                 NotComing = e.CantCome(),
-                SignupState = e.SignUps?.FirstOrDefault(x => x.PersonId == userId)?.Where
+                SignupState = e.SignUps?.FirstOrDefault(x => x.PersonId == userId)?.Where,
+                Disabled = e.Disabled
             }
             : new EventViewModel()
             {

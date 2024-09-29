@@ -74,8 +74,8 @@ export default defineConfig({
     outDir: "wwwroot",
     rollupOptions: {
       input: {
-        main: resolve(__dirname, "Scripts/main.html"),
-        admin: resolve(__dirname, "Scripts/admin.html"),
+        main: resolve(__dirname, "Scripts/main.ts"),
+        admin: resolve(__dirname, "Scripts/admin.ts"),
       },
       output: {
         entryFileNames: `dist/[name].[hash].js`,

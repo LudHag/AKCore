@@ -8,6 +8,9 @@ import MusicApp from "./VueComponents/MusicPlayer/MusicApp.vue";
 import MailBoxApp from "./VueComponents/MailBox/MailBoxApp.vue";
 import LoginApp from "./VueComponents/Login/LoginApp.vue";
 import { Member, Video } from "./VueComponents/models";
+import NotificationApp from "./VueComponents/Notifications/NotificationApp.vue";
+import { getCookie } from "./general";
+import CountDownApp from "./VueComponents/Countdown/CountDownApp.vue";
 
 declare const videos: Record<number, Array<Video>>;
 
@@ -59,7 +62,23 @@ if (document.getElementById("music-app")) {
 if (document.getElementById("mailbox")) {
   createApp(MailBoxApp).mount("#mailbox");
 }
+declare const selectedDate: string;
+if (document.getElementById("countdown")) {
+  createApp(CountDownApp,{
+    selectedDate: selectedDate
+  }).mount("#countdown");
+}
 
 if (document.getElementById("loginapp")) {
   createApp(LoginApp).mount("#loginapp");
+}
+
+const notificationElement = document.getElementById("notificationapp");
+if (notificationElement && window.innerWidth < 760) {
+  createApp(NotificationApp, {
+    recruitsInfoDisabled: getCookie("recruitsPopup") === "hide",
+    mailboxInfoDisabled: getCookie("mailboxPopup") === "hide",
+    recruits: Number(notificationElement.dataset.recruits),
+    mails: Number(notificationElement.dataset.mails),
+  }).mount("#notificationapp");
 }
