@@ -2,26 +2,6 @@
   z-index: 70000;
 }
 
-#new-page-form {
-  display: none;
-  &.open {
-    display: block;
-  }
-}
-
-.top-row {
-  font-weight: 500;
-  margin-bottom: 10px;
-  border-bottom: 2px solid #1a1a1a;
-}
-
-.edit-form {
-  padding-top: 35px;
-  .row {
-    margin-bottom: 10px;
-  }
-}
-
 .btn.move-up,
 .btn.move-down,
 .btn.move-left,
