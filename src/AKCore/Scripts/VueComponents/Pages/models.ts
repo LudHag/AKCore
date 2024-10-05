@@ -13,3 +13,5 @@ export type PageEditModel = {
 export type PagesRequesponse = {
   pages: PageEditModel[];
 };
+
+export type SortType = "name" | "slug" | "loggedin" | "lastModified";
