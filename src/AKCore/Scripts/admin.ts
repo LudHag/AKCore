@@ -5,7 +5,7 @@ import MenuEditApp from "./VueComponents/MenuEdit/MenuEditApp.vue";
 import RecruitsApp from "./VueComponents/Recruits/RecruitsApp.vue";
 import UsersApp from "./VueComponents/Users/UsersApp.vue";
 import PageEdit from "./VueComponents/PageEdit/PageEdit.vue";
-import "./Admin/pageedit";
+import PagesApp from "./VueComponents/Pages/PagesApp.vue";
 
 if (document.getElementById("pageedit-app")) {
   createApp(PageEdit).mount("#pageedit-app");
@@ -29,4 +29,8 @@ if (document.getElementById("recruits-app")) {
 
 if (document.getElementById("user-app")) {
   createApp(UsersApp).mount("#user-app");
+}
+
+if (document.getElementById("pages-app")) {
+  createApp(PagesApp).mount("#pages-app");
 }

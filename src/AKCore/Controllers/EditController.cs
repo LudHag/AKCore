@@ -25,11 +25,19 @@ public class EditController : Controller
     public async Task<ActionResult> Index()
     {
         ViewBag.Title = "Redigera sidor";
+   
+        return View();
+    }
+
+    [Route("model")]
+    [Authorize(Roles = "SuperNintendo,Editor")]
+    public async Task<ActionResult> IndexModel()
+    {
         var model = new EditPagesModel
         {
             Pages = await _pageService.GetPages(),
         };
-        return View(model);
+        return Ok(model);
     }
 
     [HttpPost]
