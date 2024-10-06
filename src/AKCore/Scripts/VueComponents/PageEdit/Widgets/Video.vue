@@ -9,38 +9,40 @@
           <label>Namn</label>
         </div>
       </div>
-      <draggable
+      <VueDraggable
         v-model="modelValue.videos"
         @update:modelValue="sortValues($event)"
         item-key="index"
         handle=".video-drag-area"
       >
-        <template #item="{ element }">
-          <div class="form-group video-area row">
-            <div
-              class="col-sm-1 glyphicon glyphicon-align-justify video-drag-area"
-            ></div>
-            <div class="col-sm-5">
-              <input
-                class="form-control video-link"
-                :value="element.link"
-                @keyup="updateLink($event, element)"
-              />
-            </div>
-            <div class="col-sm-6">
-              <input
-                class="form-control video-title"
-                :value="element.title"
-                @keyup="updateTitle($event, element)"
-              /><a
-                href="#"
-                class="btn glyphicon glyphicon-remove remove-video"
-                @click.prevent="removeVideo(element.index)"
-              ></a>
-            </div>
+        <div
+          class="form-group video-area row"
+          v-for="(element, index) in modelValue.videos"
+          :key="index"
+        >
+          <div
+            class="col-sm-1 glyphicon glyphicon-align-justify video-drag-area"
+          ></div>
+          <div class="col-sm-5">
+            <input
+              class="form-control video-link"
+              :value="element.link"
+              @keyup="updateLink($event, element)"
+            />
           </div>
-        </template>
-      </draggable>
+          <div class="col-sm-6">
+            <input
+              class="form-control video-title"
+              :value="element.title"
+              @keyup="updateTitle($event, element)"
+            /><a
+              href="#"
+              class="btn glyphicon glyphicon-remove remove-video"
+              @click.prevent="removeVideo(element.index)"
+            ></a>
+          </div>
+        </div>
+      </VueDraggable>
     </div>
     <div class="col-sm-6">
       <a href="#" class="btn btn-default" @click.prevent="addVideo">
@@ -51,7 +53,8 @@
 </template>
 <script setup lang="ts">
 import { onMounted } from "vue";
-import draggable from "vuedraggable";
+import { VueDraggable } from "vue-draggable-plus";
+
 import { WidgetEditModel, EditVideoModel } from "../models";
 
 const emit = defineEmits<{

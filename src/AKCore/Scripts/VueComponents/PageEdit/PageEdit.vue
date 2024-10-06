@@ -19,7 +19,7 @@
     </div>
     <add-widget @add="widgetAdd"></add-widget>
     <ul class="widget-area">
-      <draggable
+      <VueDraggable
         :model-value="usedWidgets"
         @update:modelValue="sortWidgets($event)"
         @start="drag = true"
@@ -27,16 +27,16 @@
         handle=".widget-header"
         item-key="id"
       >
-        <template #item="{ element }">
-          <widget
-            :model-value="element"
-            :albums="pageModel.albums"
-            @remove="removeWidget(element)"
-            @update:modelValue="updateWidget($event)"
-          >
-          </widget>
-        </template>
-      </draggable>
+        <widget
+          v-for="element in usedWidgets"
+          :key="element.id"
+          :model-value="element"
+          :albums="pageModel.albums"
+          @remove="removeWidget(element)"
+          @update:modelValue="updateWidget($event)"
+        >
+        </widget>
+      </VueDraggable>
     </ul>
     <image-picker-modal
       v-if="saveImageDest"
@@ -62,7 +62,7 @@ import Widget from "./Widget.vue";
 import { getFromApi, postByObject } from "../../services/apiservice";
 import ImagePickerModal from "../ImagePickerModal.vue";
 import DocumentPickerModal from "../DocumentPickerModal.vue";
-import draggable from "vuedraggable";
+import { VueDraggable } from "vue-draggable-plus";
 import PageVersions from "./PageVersions.vue";
 import { EventBus } from "../../utils/eventbus";
 import { onMounted, ref, watch, computed } from "vue";
