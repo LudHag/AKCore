@@ -24,3 +24,5 @@ export interface UpdateInfo {
   prop: string;
   value: any;
 }
+
+export type SortUser = "name" | "userName" | "roles" | "lastSignedIn";

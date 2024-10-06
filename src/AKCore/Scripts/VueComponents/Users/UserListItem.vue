@@ -251,7 +251,6 @@ const success = document.getElementsByClassName(
   "alert-success",
 )[0] as HTMLElement;
 
-//logic for setting last signed in to red if older than one year
 const userInactive = ref(false);
 const date = new Date();
 date.setFullYear(date.getFullYear() - 1);
