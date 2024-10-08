@@ -28,7 +28,7 @@ export interface WidgetEditModel {
 export interface EditVideoModel {
   link: string;
   title: string;
-  index?: number;
+  index: number;
 }
 
 export interface PageEditModel {
