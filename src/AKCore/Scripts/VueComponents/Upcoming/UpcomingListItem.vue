@@ -101,7 +101,13 @@
       </p>
     </div>
     <div class="extra">
-      <div class="col-sm-12 description" v-if="event.description">
+      <div
+        class="col-sm-12 description"
+        v-if="
+          event.description &&
+          (event.type === 'Spelning' || event.type === 'Evenemang')
+        "
+      >
         <p>{{ event.description }}</p>
       </div>
       <div class="col-xs-12" v-if="event.internalDescription">
