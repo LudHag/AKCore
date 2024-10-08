@@ -68,7 +68,15 @@
           </div>
           <div class="extra">
             <div class="col-sm-12">
-              <p class="modal-description">{{ event.description }}</p>
+              <p
+                class="modal-description"
+                v-if="
+                  event.description &&
+                  (event.type === 'Spelning' || event.type === 'Evenemang')
+                "
+              >
+                {{ event.description }}
+              </p>
             </div>
             <div class="col-sm-12">
               <p class="modal-intdescription">
