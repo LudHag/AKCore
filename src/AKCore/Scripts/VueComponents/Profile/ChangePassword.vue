@@ -60,7 +60,7 @@ const passwordsuccess = ref<HTMLElement | null>(null);
 
 const changePassword = async (event: Event) => {
   if (password.value !== confirmPass.value) {
-    slideUpAndDown(passworderror.value!, 4000, "Lösenord matchar ej");
+    slideUpAndDown(passworderror.value!, "Lösenord matchar ej");
     return;
   }
 

@@ -113,7 +113,7 @@ const closeModal = () => {
 };
 
 const newPasswordSuccess = () => {
-  slideUpAndDown(updatePasswordSuccess.value!, 4000);
+  slideUpAndDown(updatePasswordSuccess.value!);
 };
 </script>
 <style lang="scss" scoped>
