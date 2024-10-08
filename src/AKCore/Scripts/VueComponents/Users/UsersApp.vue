@@ -131,14 +131,14 @@ const userUpdated = (user: User) => {
   const index = users.value.map((u) => u.id).indexOf(user.id);
   users.value = Object.assign([], users.value, { [index]: user });
   closeModal();
-  slideUpAndDown(alertEditUser.value!, 4000, "Användare uppdaterad");
+  slideUpAndDown(alertEditUser.value!, "Användare uppdaterad");
 };
 
 const userCreated = (user: User) => {
   user.fullName = user.firstName + " " + user.lastName;
   users.value.push(user);
   closeModal();
-  slideUpAndDown(alertEditUser.value!, 4000, "Användare skapad");
+  slideUpAndDown(alertEditUser.value!, "Användare skapad");
 };
 
 const closeModal = () => {

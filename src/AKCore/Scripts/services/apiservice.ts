@@ -10,14 +10,14 @@ const handleResponse = async (
 
   if (res.success) {
     if (success) {
-      slideUpAndDown(success, 4000, res.message);
+      slideUpAndDown(success, res.message);
     }
     if (callback) {
       callback(res);
     }
   } else {
     if (error) {
-      slideUpAndDown(error, 4000, res.message);
+      slideUpAndDown(error, res.message);
     }
   }
 };
@@ -37,7 +37,7 @@ export const defaultFormSend = async (
     await handleResponse(response, error, success, callback);
   } catch (_) {
     if (error) {
-      slideUpAndDown(error, 4000, "Server error");
+      slideUpAndDown(error, "Server error");
     }
   }
 };
@@ -60,7 +60,7 @@ export const postToApi = async (
     await handleResponse(response, error, success, callback);
   } catch (_) {
     if (error) {
-      slideUpAndDown(error, 4000, "Server error");
+      slideUpAndDown(error, "Server error");
     }
   }
 };
@@ -98,7 +98,7 @@ export const postByObject = async (
     handleResponse(response, error, success, callback);
   } catch (_) {
     if (error) {
-      slideUpAndDown(error, 4000, "Server error");
+      slideUpAndDown(error, "Server error");
     }
   }
 };
@@ -119,7 +119,7 @@ export const postFormData = async (
     handleResponse(response, error, success, callback);
   } catch (_) {
     if (error) {
-      slideUpAndDown(error, 4000, "Server error");
+      slideUpAndDown(error, "Server error");
     }
   }
 };
@@ -134,7 +134,7 @@ export const getFromApi = async <T>(
     return (await response.json()) as T;
   } catch (e) {
     if (error) {
-      slideUpAndDown(error, 4000, "Server error");
+      slideUpAndDown(error, "Server error");
     }
     throw e;
   }
