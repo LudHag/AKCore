@@ -121,11 +121,6 @@ const newPasswordSuccess = () => {
 
 table {
   table-layout: auto;
-  overflow: hidden;
-}
-
-.user-list-scroll {
-  overflow-x: auto;
 }
 
 table .role {
