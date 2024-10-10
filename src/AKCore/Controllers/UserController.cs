@@ -70,11 +70,11 @@ namespace AKCore.Controllers
                     HasKey = user.HasKey,
                     Instrument = user.Instrument,
                     Medal = user.Medal,
-                    OtherInstruments = string.IsNullOrWhiteSpace(user.OtherInstruments) ? null : user.OtherInstruments.Split(',').ToList(),
+                    OtherInstruments = string.IsNullOrWhiteSpace(user.OtherInstruments) ? [] : user.OtherInstruments.Split(',').ToList(),
                     Phone = user.Phone,
                     SlavPoster = user.SlavPoster,
                     Roles = roles,
-                    Posts = model.Posts[user.UserName],
+                    Posts = model.Posts[user.UserName] ?? [],
                     Active = roles.Any(),
                     LastSignedIn = (user.LastSignedIn != DateTime.MinValue) ? user.LastSignedIn.ToString("d") : ""
                 });

@@ -79,7 +79,6 @@
         <label>{{ t("other-instruments") }}</label>
         <VueSelect
           is-multi
-          teleport="body"
           :placeholder="t('select-instrument')"
           :searchable="false"
           v-model="profileData.otherInstruments"
@@ -109,7 +108,6 @@ const emit = defineEmits<{
 const props = defineProps<{ profileData: ProfileData }>();
 const { profileData } = props;
 
-const selected = ref<string[]>([]);
 const formerror = ref<HTMLElement | null>(null);
 const formsuccess = ref<HTMLElement | null>(null);
 
