@@ -33,7 +33,7 @@
       </td>
     </tr>
     <tr class="user-edit-container" v-if="expanded">
-      <td colspan="4">
+      <td colspan="5">
         <div class="user-edit">
           <div class="user-edit-area row">
             <div class="col-sm-6">
@@ -198,12 +198,13 @@
                   method="POST"
                   @submit.prevent="addPost"
                 >
-                  <v-select
-                    multiple
+                  <VueSelect
+                    is-multi
                     :searchable="false"
+                    placeholder="Välj post(er)"
                     v-model="selectedPosts"
-                    :options="POSTS"
-                  ></v-select>
+                    :options="postOptions"
+                  />
                   <div class="form-group">
                     <button
                       type="reset"
@@ -227,9 +228,12 @@
 </template>
 <script setup lang="ts">
 import { MEDALS, POSTS, ROLES } from "../../constants";
-// @ts-ignore
-import vSelect from "vue-select";
-import { defaultFormSend, postToApi } from "../../services/apiservice";
+import VueSelect, { Option } from "vue3-select-component";
+import {
+  defaultFormSend,
+  postByObject,
+  postToApi,
+} from "../../services/apiservice";
 import { UpdateInfo, User } from "./models";
 import { computed, ref, watch } from "vue";
 
@@ -255,6 +259,10 @@ const userInactive = ref(false);
 const date = new Date();
 date.setFullYear(date.getFullYear() - 1);
 userInactive.value = Date.parse(props.user.lastSignedIn) - date.valueOf() < 0;
+
+const postOptions = POSTS.filter(Boolean).map((post) => {
+  return { value: post, label: post } as Option<string>;
+});
 
 watch(
   () => props.user,
@@ -374,7 +382,7 @@ const addPost = () => {
     post: selectedPosts.value,
     userName: props.user.userName,
   };
-  postToApi("/User/AddPost", postObj, error, success, () => {
+  postByObject("/User/AddPost", postObj, error, success, () => {
     emit("updateuserprop", {
       userName: props.user.userName,
       prop: "posts",
@@ -443,5 +451,9 @@ const roles = computed(() => {
     border: 10px solid $akwhite;
     border-color: $akwhite transparent transparent transparent;
   }
+}
+.edit-group :deep(.vue-select) {
+  color: black;
+  margin-bottom: 10px;
 }
 </style>

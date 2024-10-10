@@ -77,12 +77,13 @@
       </div>
       <div class="form-group">
         <label>{{ t("other-instruments") }}</label>
-        <v-select
-          multiple
+        <VueSelect
+          is-multi
+          :placeholder="t('select-instrument')"
           :searchable="false"
           v-model="profileData.otherInstruments"
           :options="othInstruments"
-        ></v-select>
+        ></VueSelect>
       </div>
       <div class="form-group">
         <button type="submit" class="btn btn-default">
@@ -94,8 +95,7 @@
 </template>
 <script setup lang="ts">
 import { INSTRUMENTS } from "../../constants";
-// @ts-ignore
-import vSelect from "vue-select";
+import VueSelect, { Option } from "vue3-select-component";
 import { ref, computed } from "vue";
 import { ProfileData } from "./models";
 import { postByObject } from "../../services/apiservice";
@@ -114,6 +114,8 @@ const formsuccess = ref<HTMLElement | null>(null);
 const othInstruments = computed(() => {
   return INSTRUMENTS.filter((instr) => {
     return instr !== profileData?.instrument;
+  }).map((instr) => {
+    return { value: instr, label: instr } as Option<string>;
   });
 });
 

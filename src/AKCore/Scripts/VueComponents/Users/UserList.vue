@@ -123,10 +123,6 @@ table {
   table-layout: auto;
 }
 
-.user-list-scroll {
-  overflow-x: auto;
-}
-
 table .role {
   cursor: pointer;
 }

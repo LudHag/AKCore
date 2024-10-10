@@ -57,6 +57,7 @@ namespace AKCore.Controllers
             };
             foreach (var user in model.Users)
             {
+
                 var roles = model.Roles[user.UserName].ToArray();
                 viewModel.Users.Add(new AkUserViewModel()
                 {
@@ -70,11 +71,11 @@ namespace AKCore.Controllers
                     HasKey = user.HasKey,
                     Instrument = user.Instrument,
                     Medal = user.Medal,
-                    OtherInstruments = string.IsNullOrWhiteSpace(user.OtherInstruments) ? null : user.OtherInstruments.Split(',').ToList(),
+                    OtherInstruments = string.IsNullOrWhiteSpace(user.OtherInstruments) ? [] : user.OtherInstruments.Split(',').ToList(),
                     Phone = user.Phone,
                     SlavPoster = user.SlavPoster,
                     Roles = roles,
-                    Posts = model.Posts[user.UserName],
+                    Posts = model.Posts[user.UserName] ?? [],
                     Active = roles.Any(),
                     LastSignedIn = (user.LastSignedIn != DateTime.MinValue) ? user.LastSignedIn.ToString("d") : ""
                 });
@@ -95,15 +96,14 @@ namespace AKCore.Controllers
             else
             {
                 users = _userManager.Users.Include(u => u.Roles).Where(x => x.Roles.Count > 0).ToList();
+                
             }
 
-            if (model.SearchPhrase != null)
-                users =
-                    users
-                        .Where(
-                            x =>
+            if (model.SearchPhrase != null) { 
+                users = users.Where(x =>
                                 x.UserName.Contains(model.SearchPhrase) ||
                                 (x.FirstName + ' ' + x.LastName).Contains(model.SearchPhrase)).ToList();
+            }
             foreach (var user in users)
             {
                 var uRoles = (from role in user.Roles
@@ -113,12 +113,24 @@ namespace AKCore.Controllers
                               select t.Name).ToList();
 
                 model.Roles[user.UserName] = uRoles;
-                model.Posts[user.UserName] = user.SlavPoster != null && user.SlavPoster != "[null]"
-                    ? JsonConvert.DeserializeObject<List<string>>(user.SlavPoster)
-                    : new List<string>();
+                model.Posts[user.UserName] = user.SlavPoster is not null and not "[null]"
+                    ? ParseToArray(user.SlavPoster)
+                    : [];
             }
 
             model.Users = users.OrderBy(x => x.FirstName).ToList();
+        }
+
+        private static string[] ParseToArray(string input)
+        {
+            string trimmedInput = input.Trim('[', ']');
+
+            var items = trimmedInput.Split(',')
+                                    .Select(item => item.Trim().Trim('"')) 
+                                    .Where(item => !string.IsNullOrWhiteSpace(item))
+                                    .ToArray();
+
+            return items;
         }
 
         [HttpPost("EditUser")]
@@ -323,12 +335,12 @@ namespace AKCore.Controllers
         }
 
         [Route("AddPost")]
-        public async Task<ActionResult> AddPost(string userName, IList<string> post)
+        public async Task<ActionResult> AddPost([FromBody] AddPostRequest request)
         {
-            var user = await _userManager.FindByNameAsync(userName);
+            var user = await _userManager.FindByNameAsync(request.UserName);
             if (user == null)
                 return Json(new { success = false, message = "Misslyckades att lägga till post" });
-            var poster = JsonConvert.SerializeObject(post);
+            var poster = JsonConvert.SerializeObject(request.Post);
             user.SlavPoster = poster;
             var result = await _userManager.UpdateAsync(user);
             return Json(new
