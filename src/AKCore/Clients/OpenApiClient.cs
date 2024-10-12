@@ -1,9 +1,7 @@
-﻿using Azure.AI.OpenAI;
-using OpenAI;
+﻿using OpenAI;
 using OpenAI.Chat;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace AKCore.Clients;
@@ -24,7 +22,7 @@ public class OpenApiClient
             ChatMessage.CreateSystemMessage("Only return the response to the question, no additional words."),
             imageUrl == null ?
              ChatMessage.CreateUserMessage(query) :
-             ChatMessage.CreateUserMessage(ChatMessageContentPart.CreateTextMessageContentPart(query), ChatMessageContentPart.CreateImageMessageContentPart(new Uri(imageUrl)))
+             ChatMessage.CreateUserMessage(ChatMessageContentPart.CreateTextPart(query), ChatMessageContentPart.CreateImagePart(new Uri(imageUrl)))
         };
 
         var response = await _chatClient.CompleteChatAsync(messages);
