@@ -23,6 +23,8 @@ public class UsersModel
                 return "Kan anmäla sig till spelningar, syns i adressregistret samt kan redigera sin profil";
             case AkRoles.Balett:
                 return "Kan se balettsidor";
+            default:
+                break;
         }
 
         return "";

@@ -11,34 +11,25 @@ namespace AKCore.Controllers;
 
 [Route("ExtraInfo")]
 [Authorize]
-public class ExtraInfoController : Controller
+public class ExtraInfoController(
+   IMemoryCache memoryCache,
+   AlbumService albumService,
+   OpenApiClient openApiClient) : Controller
 {
-    private readonly IMemoryCache _memoryCache;
-    private readonly OpenApiClient _openApiClient;
-    private readonly AlbumService _albumService;
 
-    public ExtraInfoController(
-       IMemoryCache memoryCache,
-       AlbumService albumService,
-       OpenApiClient openApiClient)
-    {
-        _memoryCache = memoryCache;
-        _openApiClient = openApiClient;
-        _albumService = albumService;
-    }
 
     [HttpGet]
     [Route("GetAlbumInfo")]
     public async Task<ActionResult> GetAlbumInfo(int id)
     {
-        var hasCache = _memoryCache.TryGetValue<string>($"albuminfo-{id}", out var albumInfo);
+        var hasCache = memoryCache.TryGetValue<string>($"albuminfo-{id}", out var albumInfo);
         if (hasCache)
         {
             return Json(new { albumInfo });
         }
 
 
-        var album = await _albumService.GetAlbum(id);
+        var album = await albumService.GetAlbum(id);
 
         var trackNames = string.Join("\\n", album.Tracks.Select(x => x.Number + ". " + (x.FileName ?? x.Name)));
 
@@ -47,9 +38,9 @@ public class ExtraInfoController : Controller
                         short description of a couple of its tracks(try to clean up track name so its not just filenames) metioned below with original artists metioned:
                         {trackNames}";
 
-        albumInfo = await _openApiClient.GetText(query, "https://www.altekamereren.org/" + album.Image);
+        albumInfo = await openApiClient.GetText(query, "https://www.altekamereren.org/" + album.Image);
 
-        _memoryCache.Set($"albuminfo-{id}", albumInfo, TimeSpan.FromDays(5));
+        memoryCache.Set($"albuminfo-{id}", albumInfo, TimeSpan.FromDays(5));
 
 
         return Json(new { albumInfo });
@@ -63,7 +54,7 @@ public class ExtraInfoController : Controller
         var query = $@"Please translate the following html from swedish to english:
                     {text}";
 
-        var data = (await _openApiClient.GetText(query)).Trim();
+        var data = (await openApiClient.GetText(query)).Trim();
 
 
 
@@ -78,7 +69,7 @@ public class ExtraInfoController : Controller
         var query = $@"Please translate the following text from swedish to english:
                     {text}";
 
-        var data = (await _openApiClient.GetText(query)).Trim();
+        var data = (await openApiClient.GetText(query)).Trim();
 
         return Json(new { success = true, data });
     }

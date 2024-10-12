@@ -22,7 +22,7 @@ public class EditController : Controller
     }
 
     [Authorize(Roles = "SuperNintendo,Editor")]
-    public async Task<ActionResult> Index()
+    public ActionResult Index()
     {
         ViewBag.Title = "Redigera sidor";
    
