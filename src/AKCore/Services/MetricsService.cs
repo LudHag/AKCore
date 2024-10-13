@@ -10,7 +10,7 @@ namespace AKCore.Services;
 public class MetricsService(AKContext db)
 {
    
-    public async Task SaveMetrics(IDictionary<string, int> metrics, bool loggedIn)
+    public async Task SaveMetrics(IDictionary<string, int> metrics, bool loggedIn, DateTime time)
     {
         var metricsEntities = metrics
             .Select(metric => new RequestsData
@@ -18,7 +18,7 @@ public class MetricsService(AKContext db)
                 Path = metric.Key,
                 Amount = metric.Value,
                 LoggedIn = loggedIn,
-                Created = DateTime.Now.ConvertToSwedishTime()
+                Created = time
             }).ToList();
 
         if(metricsEntities.Count == 0)
