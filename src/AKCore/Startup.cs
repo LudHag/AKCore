@@ -1,6 +1,6 @@
 ﻿using AKCore.Clients;
 using AKCore.DataModel;
-using AKCore.Migrations;
+using AKCore.Middlewares;
 using AKCore.Models;
 using AKCore.Services;
 using Microsoft.AspNetCore.Builder;
@@ -58,6 +58,7 @@ public class Startup
         services.AddTransient<AlbumService>();
         services.AddTransient<AdminLogService>();
         services.AddScoped<TranslationsService>();
+        services.AddScoped<MetricsService>();
 
         var apiSecret = Configuration["OpenApiSecret"];
         services.AddTransient(x => new OpenApiClient(apiSecret ?? ""));
