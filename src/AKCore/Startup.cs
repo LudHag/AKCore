@@ -1,5 +1,6 @@
 ﻿using AKCore.Clients;
 using AKCore.DataModel;
+using AKCore.Migrations;
 using AKCore.Models;
 using AKCore.Services;
 using Microsoft.AspNetCore.Builder;
@@ -86,7 +87,6 @@ public class Startup
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
         app.UseStaticFiles();
-
         if (env.IsDevelopment())
         {
             app.UseDeveloperExceptionPage();
@@ -100,9 +100,14 @@ public class Startup
 
         app.UseSession();
         app.UseRouting();
+      
         app.UseAuthentication();
 
         app.UseAuthorization();
+
+
+        app.UseMiddleware<MetricsMiddleware>();
+
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllers();
@@ -117,6 +122,21 @@ public class Startup
 
 
         });
+
+
+
+        app.Use(async (context, next) =>
+        {
+            await next.Invoke();
+            if (
+                context.Request.Path.ToString().Contains("hire")
+                )
+            {
+                Console.WriteLine(context.Response.ContentType);
+
+            }
+        });
+
 
         if (env.IsDevelopment())
         {

@@ -49,7 +49,9 @@ public class AKContext : IdentityDbContext<AkUser>
     public DbSet<Hire> Hires { get; set; }
     public DbSet<LogItem> Log { get; set; }
     public DbSet<MailBoxItem> MailBoxItems { get; set; }
+    public DbSet<RequestsData> RequestsDatas { get; set; }
     public DatabaseFacade DatabaseAccessor => Database;
+    
 }
 
 public class Page
@@ -311,4 +313,15 @@ public class MailBoxItem
     public string Message { get; set; }
     public DateTime Created { get; set; }
     public bool Archived { get; set; }
+}
+
+public class RequestsData
+{
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int Id { get; set; }
+    public string Path { get; set; }
+    public int Amount { get; set; }
+    public bool LoggedIn { get; set; }
+    public DateTime Created { get; set; }
 }
