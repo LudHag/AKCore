@@ -1,4 +1,5 @@
-﻿using AKCore.Services;
+﻿using AKCore.Extensions;
+using AKCore.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -61,9 +62,10 @@ public class MetricsMiddleware
                 using (var scope = serviceScopeFactory.CreateScope())
                 {
                     var metricsService = scope.ServiceProvider.GetRequiredService<MetricsService>();
+                    var nowTime = DateTime.Now.ConvertToSwedishTime();
 
-                    await metricsService.SaveMetrics(loggedInRouteRequests, true);
-                    await metricsService.SaveMetrics(loggedOutRouteRequests, false);
+                    await metricsService.SaveMetrics(loggedInRouteRequests, true, nowTime);
+                    await metricsService.SaveMetrics(loggedOutRouteRequests, false, nowTime);
                 }
                 loggedInRouteRequests = [];
             }

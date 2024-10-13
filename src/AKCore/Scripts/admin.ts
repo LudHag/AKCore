@@ -6,7 +6,7 @@ import RecruitsApp from "./VueComponents/Recruits/RecruitsApp.vue";
 import UsersApp from "./VueComponents/Users/UsersApp.vue";
 import PageEdit from "./VueComponents/PageEdit/PageEdit.vue";
 import PagesApp from "./VueComponents/Pages/PagesApp.vue";
-import MetricsApp from "./VueComponents/Metrics/MetricsApp.vue";
+import StatisticsApp from "./VueComponents/Statistics/StatisticsApp.vue";
 
 if (document.getElementById("pageedit-app")) {
   createApp(PageEdit).mount("#pageedit-app");
@@ -36,6 +36,6 @@ if (document.getElementById("pages-app")) {
   createApp(PagesApp).mount("#pages-app");
 }
 
-if (document.getElementById("metrics-app")) {
-  createApp(MetricsApp).mount("#metrics-app");
+if (document.getElementById("statistics-app")) {
+  createApp(StatisticsApp).mount("#statistics-app");
 }
