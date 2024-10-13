@@ -27,7 +27,9 @@ public class MetricsMiddleware
         try
         {
             if (
-                context.Response.ContentType?.Contains("text/html") is true
+                context.Response.ContentType?.Contains("text/html") is true &&
+                context.Response.StatusCode < 300 &&
+                !context.Request.Path.ToString().Contains('.')
                 )
             {
                 var isLoggedIn = context.User.Identity != null && context.User.Identity.IsAuthenticated;
