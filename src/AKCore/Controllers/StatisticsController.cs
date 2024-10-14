@@ -24,10 +24,21 @@ public class StatisticsController(AKContext db) : Controller
     }
 
     [Route("Model")]
-    public async Task<ActionResult> GetModel()
+    public async Task<ActionResult> GetModel(bool loggedIn = true, bool loggedOut = true)
     {
+        var all = loggedIn && loggedOut;
+        if(!loggedIn && !loggedOut) {
+            return Json(new
+            {
+                items = new List<string>(),
+                dates = new List<StatisticsItemModel>()
+            });
+        }
+
+
         var dataItems = await db.RequestsDatas
             .Where(x => x.Created > DateTime.UtcNow.AddDays(-30))
+            .Where(x => all || x.LoggedIn == loggedIn)
             .OrderBy(x => x.Created)
             .ToListAsync();
 
