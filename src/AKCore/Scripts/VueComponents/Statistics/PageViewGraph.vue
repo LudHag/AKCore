@@ -51,10 +51,40 @@ const data = computed(() =>
 const options: ChartOptions<"line"> = {
   responsive: true,
   maintainAspectRatio: false,
+  elements: {
+    line: {
+      cubicInterpolationMode: "monotone", // Enables cubic curves
+    },
+  },
   plugins: {
     legend: {
       position: "bottom",
       labels: { color: "#fff" },
+      onClick: function (e, legendItem, legend) {
+        const index = legendItem.datasetIndex;
+        const ci = legend.chart;
+
+        if (index === undefined) {
+          return;
+        }
+
+        const someHidden = ci.data.datasets.some((dataset) => dataset.hidden);
+
+        if (someHidden) {
+          ci.data.datasets.forEach((dataset) => {
+            dataset.hidden = false;
+          });
+        } else {
+          ci.data.datasets.forEach((dataset, i) => {
+            if (i === index) {
+              dataset.hidden = false;
+            } else {
+              dataset.hidden = true;
+            }
+          });
+        }
+        ci.update();
+      },
     },
   },
   scales: {
