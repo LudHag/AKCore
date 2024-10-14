@@ -1,5 +1,5 @@
 ﻿<template>
-  <div class="line-graph-container" :class="{ overlay: loading }">
+  <div class="line-graph-container">
     <Line class="line-graph" v-if="data" :data="data" :options="options" />
     <spinner v-if="loading" class="spinner-container" :size="'large'" />
   </div>
@@ -116,16 +116,6 @@ const options: ChartOptions<"line"> = {
 .line-graph-container {
   position: relative;
   height: 50vh;
-  &.overlay::after {
-    content: "";
-    display: block;
-    width: 100%;
-    height: 100%;
-    background-color: #000;
-    opacity: 0.5;
-    position: absolute;
-    top: 0;
-  }
 }
 .spinner-container {
   position: absolute;
