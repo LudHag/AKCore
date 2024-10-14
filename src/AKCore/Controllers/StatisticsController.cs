@@ -19,7 +19,7 @@ public class StatisticsController(AKContext db) : Controller
     public ActionResult Index()
     {
         ViewBag.Title = "Statistics";
-       
+
         return View();
     }
 
@@ -27,7 +27,8 @@ public class StatisticsController(AKContext db) : Controller
     public async Task<ActionResult> GetModel(bool loggedIn = true, bool loggedOut = true, StatisticsRange range = StatisticsRange.Day)
     {
         var all = loggedIn && loggedOut;
-        if(!loggedIn && !loggedOut) {
+        if (!loggedIn && !loggedOut)
+        {
             return Json(new
             {
                 items = new List<string>(),
@@ -43,17 +44,17 @@ public class StatisticsController(AKContext db) : Controller
 
         var dates = dataItems
              .Select(x => x.Created)
-             .Distinct()              
+             .Distinct()
              .ToList();
 
         var groupedItems = dataItems.GroupBy(x => x.Path)
             .Select(x => new { Path = x.Key, Items = NormalizeItems(x, dates) })
-            .OrderByDescending(x=> x.Items.Sum(y=>y.Amount));
+            .OrderByDescending(x => x.Items.Sum(y => y.Amount));
 
         return Json(new
         {
             items = groupedItems,
-            dates = dates.Select(x=> x.ToString("HH"))
+            dates = dates.Select(x => x.ToString("HH"))
         });
     }
 
@@ -63,10 +64,11 @@ public class StatisticsController(AKContext db) : Controller
             .Select(group => new StatisticsItemModel(group.Key, group.Sum(item => item.Amount)));
 
         return dates
-            .Select(date => {
-            var item = distinctItems.FirstOrDefault(x => x.Created == date);
-            return new StatisticsItemModel(date, item == null ? 0 : item.Amount);
-        });
+            .Select(date =>
+            {
+                var item = distinctItems.FirstOrDefault(x => x.Created == date);
+                return new StatisticsItemModel(date, item == null ? 0 : item.Amount);
+            });
     }
 
     private static DateTime GetRangeCompare(StatisticsRange range)
@@ -80,4 +82,5 @@ public class StatisticsController(AKContext db) : Controller
         };
 
     }
+}
 
