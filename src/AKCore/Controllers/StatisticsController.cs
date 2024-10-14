@@ -24,7 +24,7 @@ public class StatisticsController(AKContext db) : Controller
     }
 
     [Route("Model")]
-    public async Task<ActionResult> GetModel(bool loggedIn = true, bool loggedOut = true)
+    public async Task<ActionResult> GetModel(bool loggedIn = true, bool loggedOut = true, StatisticsRange range = StatisticsRange.Day)
     {
         var all = loggedIn && loggedOut;
         if(!loggedIn && !loggedOut) {
@@ -35,9 +35,8 @@ public class StatisticsController(AKContext db) : Controller
             });
         }
 
-
         var dataItems = await db.RequestsDatas
-            .Where(x => x.Created > DateTime.UtcNow.AddDays(-30))
+            .Where(x => x.Created > GetRangeCompare(range))
             .Where(x => all || x.LoggedIn == loggedIn)
             .OrderBy(x => x.Created)
             .ToListAsync();
@@ -48,7 +47,8 @@ public class StatisticsController(AKContext db) : Controller
              .ToList();
 
         var groupedItems = dataItems.GroupBy(x => x.Path)
-            .Select(x => new { Path = x.Key, Items = NormalizeItems(x, dates) });
+            .Select(x => new { Path = x.Key, Items = NormalizeItems(x, dates) })
+            .OrderByDescending(x=> x.Items.Sum(y=>y.Amount));
 
         return Json(new
         {
@@ -69,6 +69,15 @@ public class StatisticsController(AKContext db) : Controller
         });
     }
 
+    private static DateTime GetRangeCompare(StatisticsRange range)
+    {
+        return range switch
+        {
+            StatisticsRange.Day => DateTime.UtcNow.AddDays(-1),
+            StatisticsRange.Week => DateTime.UtcNow.AddDays(-7),
+            StatisticsRange.Month => DateTime.UtcNow.AddDays(-30),
+            _ => DateTime.UtcNow.AddDays(-1)
+        };
 
-}
+    }
 
