@@ -12,3 +12,5 @@ export type RequestsResponse = {
   dates: string[];
   items: RequestsPathsData[];
 };
+
+export type RequestsRange = "day" | "week" | "month";

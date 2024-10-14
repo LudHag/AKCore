@@ -36,12 +36,39 @@ public class MetricsMiddleware
                 var isLoggedIn = context.User.Identity != null && context.User.Identity.IsAuthenticated;
 
                 var path = context.Request.Path.ToString();
-                SavePath(path, isLoggedIn);
+                SavePath(GetNormalizedPath(path), isLoggedIn);
             }
         }
         catch
         {
         }
+    }
+
+    private string GetNormalizedPath(string path)
+    {
+        if (path == "/")
+        {
+            return path;
+        }
+
+        var lowercase = path.ToLower();
+
+        if (lowercase.StartsWith("/upcomming/event"))
+        {
+            return "/upcomming/event";
+        }
+
+        if (lowercase.StartsWith("/edit/page"))
+        {
+            return "/edit/page";
+        }
+
+        if (lowercase.StartsWith("/edit/page"))
+        {
+            return "/edit/page";
+        }
+
+        return path.TrimEnd('/');
     }
 
     private void SavePath(string path, bool loggedIn)

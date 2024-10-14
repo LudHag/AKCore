@@ -1,5 +1,8 @@
 ﻿<template>
-  <Line class="line-graph" v-if="data" :data="data" :options="options" />
+  <div class="line-graph-container">
+    <Line class="line-graph" v-if="data" :data="data" :options="options" />
+    <spinner v-if="loading" class="spinner-container" :size="'large'" />
+  </div>
 </template>
 <script setup lang="ts">
 import { RequestsResponse } from "./models";
@@ -17,9 +20,11 @@ import {
 import { Line } from "vue-chartjs";
 import { getRandomColor } from "./utils";
 import { computed } from "vue";
+import Spinner from "../Spinner.vue";
 
 const { dataPoints } = defineProps<{
   dataPoints: RequestsResponse;
+  loading: boolean;
 }>();
 
 ChartJS.register(
@@ -108,7 +113,14 @@ const options: ChartOptions<"line"> = {
 };
 </script>
 <style lang="scss" scoped>
-.line-graph {
-  max-height: 50vh;
+.line-graph-container {
+  position: relative;
+  height: 50vh;
+}
+.spinner-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 </style>

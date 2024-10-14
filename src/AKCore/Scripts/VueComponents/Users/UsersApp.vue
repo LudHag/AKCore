@@ -160,7 +160,7 @@ onMounted(() => {
   getUsers(false);
 });
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .spinner-container {
   float: right;
 }
