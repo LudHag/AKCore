@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -51,10 +52,12 @@ public class StatisticsController(AKContext db) : Controller
             .Select(x => new { Path = x.Key, Items = NormalizeItems(x, dates) })
             .OrderByDescending(x => x.Items.Sum(y => y.Amount));
 
+        CultureInfo swedishCulture = new("sv-SE");
+
         return Json(new
         {
             items = groupedItems,
-            dates = dates.Select(x => x.ToString("dddd kl. HH"))
+            dates = dates.Select(x => x.ToString("dddd 'kl.' HH", swedishCulture))
         });
     }
 
