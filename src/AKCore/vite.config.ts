@@ -69,6 +69,13 @@ export default defineConfig({
     hmr: { clientPort: 5173 },
   },
   plugins: [vue(), generateAssetList()],
+  css: {
+    preprocessorOptions: {
+      scss: {
+        api: "modern",
+      },
+    },
+  },
   build: {
     emptyOutDir: false,
     outDir: "wwwroot",
