@@ -96,6 +96,9 @@ const options: ChartOptions<"line"> = {
     x: {
       ticks: {
         color: "#fff",
+        autoSkip: true,
+        maxRotation: 0,
+        autoSkipPadding: 13,
       },
       grid: {
         color: "#6d6d6d",

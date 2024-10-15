@@ -44,7 +44,7 @@ public class MetricsMiddleware
         }
     }
 
-    private string GetNormalizedPath(string path)
+    private static string GetNormalizedPath(string path)
     {
         if (path == "/")
         {
@@ -53,7 +53,7 @@ public class MetricsMiddleware
 
         var lowercase = path.ToLower();
 
-        if (lowercase.StartsWith("/upcomming/event"))
+        if (lowercase.StartsWith("/upcoming/event"))
         {
             return "/upcomming/event";
         }
@@ -68,7 +68,7 @@ public class MetricsMiddleware
             return "/edit/page";
         }
 
-        return path.TrimEnd('/');
+        return lowercase.TrimEnd('/');
     }
 
     private void SavePath(string path, bool loggedIn)

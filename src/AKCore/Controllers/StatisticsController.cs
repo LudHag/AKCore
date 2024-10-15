@@ -1,11 +1,13 @@
 ﻿using AKCore.DataModel;
 using AKCore.Models;
+using AKCore.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -13,9 +15,8 @@ namespace AKCore.Controllers;
 
 [Route("Statistics")]
 [Authorize(Roles = "SuperNintendo")]
-public class StatisticsController(AKContext db) : Controller
+public class StatisticsController(AKContext db, TranslationsService translationsService) : Controller
 {
-
     public ActionResult Index()
     {
         ViewBag.Title = "Statistics";
@@ -51,10 +52,12 @@ public class StatisticsController(AKContext db) : Controller
             .Select(x => new { Path = x.Key, Items = NormalizeItems(x, dates) })
             .OrderByDescending(x => x.Items.Sum(y => y.Amount));
 
+        CultureInfo culture = translationsService.IsEnglish() ? new("en-US") : new("sv-SE");
+
         return Json(new
         {
             items = groupedItems,
-            dates = dates.Select(x => x.ToString("HH"))
+            dates = dates.Select(x => x.ToString("dddd 'kl.' HH", culture))
         });
     }
 
