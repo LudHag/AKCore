@@ -54,7 +54,7 @@ public class StatisticsController(AKContext db) : Controller
         return Json(new
         {
             items = groupedItems,
-            dates = dates.Select(x => x.ToString("HH"))
+            dates = dates.Select(x => x.ToString("dddd kl. HH"))
         });
     }
 
