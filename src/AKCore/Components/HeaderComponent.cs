@@ -69,6 +69,7 @@ public class HeaderViewComponent : ViewComponent
 
                 if (nintendo)
                 {
+                    adminMenu.Children.Add(new ModelMenu("Statistik", "/statistics", true));
                     adminMenu.Children.Add(new ModelMenu("Adminlogg", "/Log", true));
                 }
 

@@ -2,7 +2,8 @@
 
 namespace AKCore.Models;
 
-public record StatisticsItemModel(DateTime Created, int Amount);
+public record StatisticsItemModel(DateTime Created, int Amount, string Path);
+
 
 public enum StatisticsRange
 {

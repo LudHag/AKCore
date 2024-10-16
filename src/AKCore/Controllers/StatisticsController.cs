@@ -27,7 +27,6 @@ public class StatisticsController(AKContext db, TranslationsService translations
     [Route("Model")]
     public async Task<ActionResult> GetModel(bool loggedIn = true, bool loggedOut = true, StatisticsRange range = StatisticsRange.Day)
     {
-        var all = loggedIn && loggedOut;
         if (!loggedIn && !loggedOut)
         {
             return Json(new
@@ -36,12 +35,8 @@ public class StatisticsController(AKContext db, TranslationsService translations
                 dates = new List<StatisticsItemModel>()
             });
         }
+        var dataItems = await GetRequestItems(loggedIn, loggedOut, range);
 
-        var dataItems = await db.RequestsDatas
-            .Where(x => x.Created > GetRangeCompare(range))
-            .Where(x => all || x.LoggedIn == loggedIn)
-            .OrderBy(x => x.Created)
-            .ToListAsync();
 
         var dates = dataItems
              .Select(x => x.Created)
@@ -57,20 +52,59 @@ public class StatisticsController(AKContext db, TranslationsService translations
         return Json(new
         {
             items = groupedItems,
-            dates = dates.Select(x => x.ToString("dddd 'kl.' HH", culture))
+            dates = dates.Select(x => FormatTime(x, culture, range))
         });
     }
 
-    private static IEnumerable<StatisticsItemModel> NormalizeItems(IEnumerable<RequestsData> items, IEnumerable<DateTime> dates)
+    private static string FormatTime(DateTime date, CultureInfo culture, StatisticsRange range)
+    {
+        var perDay = range == StatisticsRange.Month;
+
+        return perDay ? date.ToString("dd MMM", culture) : date.ToString("ddd HH", culture);
+    }
+
+    private async Task<IEnumerable<StatisticsItemModel>> GetRequestItems(bool loggedIn , bool loggedOut , StatisticsRange range )
+    {
+        var all = loggedIn && loggedOut;
+
+        var perDay = range == StatisticsRange.Month;
+
+        var dataItemsFiltered = db.RequestsDatas
+          .Where(x => x.Created > GetRangeCompare(range))
+          .Where(x => all || x.LoggedIn == loggedIn);
+
+        if (perDay)
+        {
+            return  await dataItemsFiltered.GroupBy(r => new
+              {
+                  Created = r.Created.Date,
+                  r.Path
+              })
+              .Select(g => new
+              {
+                  g.Key.Created,
+                  g.Key.Path,
+                  Amount = g.Sum(r => r.Amount)
+              })
+              .Select(x => new StatisticsItemModel(x.Created, x.Amount, x.Path))
+              .ToListAsync();
+
+        }
+        return await dataItemsFiltered
+                    .Select(x => new StatisticsItemModel(x.Created, x.Amount, x.Path))
+                    .ToListAsync();
+    }
+
+    private static IEnumerable<StatisticsItemModel> NormalizeItems(IEnumerable<StatisticsItemModel> items, IEnumerable<DateTime> dates)
     {
         var distinctItems = items.GroupBy(item => item.Created)
-            .Select(group => new StatisticsItemModel(group.Key, group.Sum(item => item.Amount)));
+            .Select(group => new StatisticsItemModel(group.Key, group.Sum(item => item.Amount), group.First().Path));
 
         return dates
             .Select(date =>
             {
                 var item = distinctItems.FirstOrDefault(x => x.Created == date);
-                return new StatisticsItemModel(date, item == null ? 0 : item.Amount);
+                return new StatisticsItemModel(date, item == null ? 0 : item.Amount, null);
             });
     }
 
