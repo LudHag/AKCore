@@ -72,6 +72,7 @@ public class TranslationsService
         { AkInstruments.Balett, new Translation("Balett", "Ballet") },
         { AkInstruments.Banjo, new Translation("Banjo", "Banjo") },
         { AkInstruments.Barytonsax, new Translation("Barytonsax", "Baritone sax") },
+        { AkInstruments.Dragspel, new Translation("Dragspel", "Accordion")},
         { AkInstruments.Euphonium, new Translation("Euphonium", "Euphonium") },
         { AkInstruments.Flute, new Translation("Flöjt", "Flute") },
         { AkInstruments.Horn, new Translation("Horn", "Horn") },
