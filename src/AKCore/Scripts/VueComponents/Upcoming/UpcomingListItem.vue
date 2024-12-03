@@ -1,9 +1,5 @@
 ﻿<template>
-  <div
-    class="row event-row"
-    @click.prevent="expanded = !expanded"
-    :class="{ expandable, expanded }"
-  >
+  <div class="row event-row" @click.prevent="expanded = !expanded" :class="{ expandable, expanded }">
     <div class="col-sm-4 col-xs-6" style="font-weight: 500">
       <p style="text-transform: capitalize">{{ event.day }}</p>
       <p v-if="isRep">{{ t(event.type) }}</p>
@@ -16,16 +12,14 @@
     <div class="col-sm-4 col-xs-6">
       <template v-if="loggedIn">
         <p v-if="event.halanTime">
-          {{ t("gather-in-hole", "common") }}: {{ event.halanTime }}
+          <span v-if="event.type === 'Balettrep'"> {{ t("at-rehersal-place", "common")}} </span> <span v-else> {{ t("gather-in-hole", "common")}} </span>: {{ event.halanTime }}
         </p>
-        <p
-          v-if="
+        <p v-if="
             event.thereTime &&
             (event.type === 'Spelning' ||
               event.type === 'Kårhusrep' ||
               event.type === 'Athenrep')
-          "
-        >
+          ">
           {{ t("gather-there", "common") }}: {{ event.thereTime }}
         </p>
         <p v-if="event.startsTime && event.type === 'Spelning'">
@@ -46,28 +40,17 @@
           {{ t("concert-starts", "common") }}: {{ event.startsTime }}
         </p>
       </template>
-      <template
-        v-if="
+      <template v-if="
           loggedIn &&
           (event.type === 'Spelning' ||
             event.type === 'Kårhusrep' ||
             event.type === 'Athenrep')
-        "
-      >
-        <a
-          class="green signup-link"
-          v-if="member && event.signupState"
-          @click.prevent.stop="openSignup"
-          :href="signupUrl"
-        >
+        ">
+        <a class="green signup-link" v-if="member && event.signupState" @click.prevent.stop="openSignup"
+          :href="signupUrl">
           {{ t("signed-up") }} ({{ event.signupState }})
         </a>
-        <a
-          class="signup-link"
-          v-if="member && !event.signupState"
-          @click.prevent.stop="openSignup"
-          :href="signupUrl"
-        >
+        <a class="signup-link" v-if="member && !event.signupState" @click.prevent.stop="openSignup" :href="signupUrl">
           {{ event.disabled ? t("about-event") : t("sign-up") }}
         </a>
         <p class="hidden-xs">
@@ -78,36 +61,29 @@
       </template>
       <div v-if="event.disabled">
         <p>
-          <span
-            class="glyphicon glyphicon-warning-sign event-disabled-warning"
-          ></span>
+          <span class="glyphicon glyphicon-warning-sign event-disabled-warning"></span>
           <span class="warning-text">{{
             t("sign-up-not-allowed", "common")
-          }}</span>
+            }}</span>
         </p>
       </div>
       <p v-if="loggedIn && event.type === 'Spelning' && event.stand">
         {{ t("type-of-play") }}: {{ event.stand }}
       </p>
-      <p
-        v-if="
+      <p v-if="
           loggedIn &&
           (event.type === 'Rep' ||
             event.type === 'Kårhusrep' ||
             event.type === 'Athenrep')
-        "
-      >
+        ">
         {{ t("fika-and-clean") }}: {{ event.fika }}
       </p>
     </div>
     <div class="extra">
-      <div
-        class="col-sm-12 description"
-        v-if="
+      <div class="col-sm-12 description" v-if="
           event.description &&
           (event.type === 'Spelning' || event.type === 'Evenemang')
-        "
-      >
+        ">
         <p>{{ event.description }}</p>
       </div>
       <div class="col-xs-12" v-if="event.internalDescription">

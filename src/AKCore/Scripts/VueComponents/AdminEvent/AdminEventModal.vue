@@ -40,7 +40,7 @@
                     name="Name"
                   />
                 </div>
-                <div class="col-sm-6" v-if="eventType === 'Spelning'">
+                <div class="col-sm-6" v-if="eventType === 'Spelning' || eventType === 'Evenemang'">
                     <label></label>
                     <div class="checkbox checkbox-center">
                         <label>
@@ -48,7 +48,7 @@
                                   type="checkbox"
                                   v-model="upcomingEvent.secret"
                                   name="Secret" />
-                            Hemlig spelning
+                            Hemlig spelning/evenemang
                         </label>
                     </div>
                 </div>
@@ -94,8 +94,17 @@
                     required
                   ></datepicker>
                 </div>
-                <div class="col-sm-3" v-if="eventType !== 'Evenemang'">
+                <div class="col-sm-3" v-if="eventType !== 'Evenemang' && eventType !== 'Balettrep'">
                   <label>Vid hålan</label>
+                  <input
+                    class="form-control"
+                    type="time"
+                    v-model="upcomingEvent.halanTime"
+                    name="Halan"
+                  />
+                </div>
+                <div class="col-sm-3" v-if="eventType === 'Balettrep'">
+                  <label>Vid replokal</label>
                   <input
                     class="form-control"
                     type="time"

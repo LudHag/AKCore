@@ -11,7 +11,7 @@
           </div>
           <div class="col-sm-4">
             <p class="modal-halan" v-if="event.halanTime">
-              {{ t("gather-in-hole", "common") }}: {{ event.halanTime }}
+              <span v-if="event.type === 'Balettrep'"> {{ t("at-rehersal-place", "common")}} </span> <span v-else> {{ t("gather-in-hole", "common")}} </span>: {{ event.halanTime }}
             </p>
             <p class="modal-there" v-if="event.thereTime">
               {{ t("gather-there", "common") }}: {{ event.thereTime }}

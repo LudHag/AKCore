@@ -20,7 +20,11 @@ export const upcomingTranslations: Record<string, Translation> = {
   Kårhusrep: {
     swedish: "Kårhusrep",
     english: "Student union building rehearsal",
-  },
+    },
+  Balettrep: {
+      swedish: "Balettrep",
+      english: "Ballet rehearsal",
+    },
   Athenrep: { swedish: "Athenrep", english: "Athen rehearsal" },
   Fikarep: { swedish: "Fikarep", english: "Fika rehearsal" },
 };

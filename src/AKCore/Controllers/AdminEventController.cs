@@ -145,7 +145,7 @@ namespace AKCore.Controllers
                 {
                     if ((model.Type == AkEventTypes.FikaRep) || (model.Type == AkEventTypes.KarRep) ||
                         (model.Type == AkEventTypes.AthenRep) ||
-                        (model.Type == AkEventTypes.Rep))
+                        (model.Type == AkEventTypes.Rep) || model.Type == AkEventTypes.BalettRep)
                         model.Name = model.Type;
 
                     var newEvent = new Event

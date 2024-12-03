@@ -135,6 +135,7 @@ namespace AKCore.DataModel
         public const string Spelning = "Spelning";
         public const string Rep = "Rep";
         public const string KarRep = "Kårhusrep";
+        public const string BalettRep = "Balettrep";
         public const string AthenRep = "Athenrep";
         public const string FikaRep = "Fikarep";
         public const string Fest = "Fest";
@@ -147,6 +148,7 @@ namespace AKCore.DataModel
             KarRep,
             AthenRep,
             FikaRep,
+            BalettRep,
             Fest,
             Evenemang
         };
