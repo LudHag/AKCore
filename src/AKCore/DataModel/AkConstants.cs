@@ -18,6 +18,7 @@ namespace AKCore.DataModel
     }
     public class AkInstruments
     {
+        public const string Accordion = "Accordion";
         public const string Altsax = "Altsax";
         public const string Balett = "Balett";
         public const string Banjo = "Banjo";
@@ -88,6 +89,7 @@ namespace AKCore.DataModel
         public const string OK = "Överkamerer";
         public const string SK = "Skrivkamerer";
         public const string KK = "Kamrerskamerer";
+        public const string OPK = "Operativkamerer";
         public const string Arsenalkamerer = "Arsenalkamerer";
         public const string Balettkamerer = "Balettkamerer";
         public const string Busskamerer = "Busskamerer";
@@ -110,6 +112,7 @@ namespace AKCore.DataModel
             OK,
             SK,
             KK,
+            OPK,
             Balettkamerer,
             Busskamerer,
             Arsenalkamerer,
