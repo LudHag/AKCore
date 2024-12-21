@@ -104,7 +104,7 @@ const submitForm = (event: Event) => {
     success.value,
     () => {
       emit("update");
-    }
+    },
   );
 };
 

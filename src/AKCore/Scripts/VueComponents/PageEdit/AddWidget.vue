@@ -100,6 +100,9 @@
             <a href="#" @click.prevent="click('MailBox')"> Anonym brevlåda </a>
           </li>
           <li>
+            <a href="#" @click.prevent="click('CountDown')"> Nedräknare </a>
+          </li>
+          <li>
             <a href="#" @click.prevent="click('ThreePuffs')"> Tre puffar </a>
           </li>
         </ul>

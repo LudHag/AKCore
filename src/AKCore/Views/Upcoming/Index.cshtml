@@ -1,6 +1,10 @@
 ﻿@{
     ViewData["Description"] = @"Alte kamererens kommande spelnigar. Se oss på plats!";
 }
+@section styles {
+    @await Component.InvokeAsync("StructuredData")
+}
+
 <script>
     var eventId = -1;
 </script>

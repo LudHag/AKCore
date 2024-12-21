@@ -48,8 +48,10 @@ watch(
         editorRef.value.setContent(value || "");
       }
     }
-  }
+  },
 );
+
+declare const cssMain: string;
 
 const getConfig = () => {
   return {
@@ -77,7 +79,7 @@ const getConfig = () => {
       { title: "3-delskolumn", block: "p", classes: "col-sm-4" },
       { title: "Block med marginal", block: "p", classes: "col-xs-12" },
     ],
-    content_css: "/dist/main.css",
+    content_css: "/dist/" + cssMain,
     body_class: "body-content",
     setup: function (ed: any) {
       editorRef.value = ed;
@@ -90,8 +92,7 @@ const getConfig = () => {
       field_name: string,
       _url: any,
       type: any,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      _win: any
+      _win: any,
     ) {
       if (type === "image") {
         EventBus.trigger("loadimage", document.getElementById(field_name));

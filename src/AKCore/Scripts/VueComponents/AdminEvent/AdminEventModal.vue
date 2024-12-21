@@ -41,17 +41,16 @@
                   />
                 </div>
                 <div class="col-sm-6" v-if="eventType === 'Spelning'">
-                  <label></label>
-                  <div class="checkbox checkbox-center">
-                    <label>
-                      <input
-                        type="checkbox"
-                        v-model="upcomingEvent.secret"
-                        name="Secret"
-                      />
-                      Hemlig spelning
-                    </label>
-                  </div>
+                    <label></label>
+                    <div class="checkbox checkbox-center">
+                        <label>
+                            <input 
+                                  type="checkbox"
+                                  v-model="upcomingEvent.secret"
+                                  name="Secret" />
+                            Hemlig spelning
+                        </label>
+                    </div>
                 </div>
               </div>
             </div>
@@ -90,7 +89,7 @@
                   <label>Dag</label>
                   <datepicker
                     class="form-control"
-                    v-model="(upcomingEvent.dayDate as Date)"
+                    v-model="upcomingEvent.dayDate as Date"
                     name="Day"
                     required
                   ></datepicker>
@@ -123,6 +122,7 @@
                     required
                   />
                 </div>
+
                 <div class="col-sm-6" v-if="repFika && eventType !== 'Fikarep'">
                   <label>Fika</label>
                   <select
@@ -133,6 +133,28 @@
                     <option value>Välj en sektion</option>
                     <option v-for="s in SEKTIONER" :key="s">{{ s }}</option>
                   </select>
+                </div>
+              </div>
+              <div class="row" v-if="eventType === 'Spelning'">
+                <div class="col-sm-6">
+                  <label>Total speltid</label>
+                  <input
+                    class="form-control"
+                    v-model="upcomingEvent.playDuration"
+                    name="Duration"
+                  />
+                </div>
+                <div class="col-sm-6">
+                <label></label>
+                  <div class="checkbox checkbox-center">
+                    <label>
+                      <input 
+                                type="checkbox"
+                                v-model="upcomingEvent.disabled"
+                                name="AllowsSignUps" />
+                        Anmälan stängd
+                    </label>
+                  </div>
                 </div>
               </div>
             </div>
@@ -244,7 +266,7 @@ const translateDescs = () => {
           upcomingEvent.value.descriptionEng = response.data;
         }
         loadingDescTrans.value = false;
-      }
+      },
     );
   }
   if (upcomingEvent.value?.internalDescription) {
@@ -261,14 +283,14 @@ const translateDescs = () => {
           upcomingEvent.value.internalDescriptionEng = response.data;
         }
         loadingIntDescTrans.value = false;
-      }
+      },
     );
   }
 };
 
 const formSubmit = () => {
   const success = document.getElementsByClassName(
-    "alert-success"
+    "alert-success",
   )[0] as HTMLElement;
   const eventValue = upcomingEvent.value!;
 
@@ -305,8 +327,10 @@ const resetEvent = () => {
         halanTime: "00:00",
         thereTime: "00:00",
         startsTime: "00:00",
+        playDuration: "",
         stand: "",
         secret: false,
+        disabled: false
       };
   upcomingEvent.value!.dayDate = new Date(upcomingEvent.value!.dayDate);
 };
@@ -317,7 +341,7 @@ watch(
     if (props.showModal) {
       resetEvent();
     }
-  }
+  },
 );
 
 const eventId = computed(() => {

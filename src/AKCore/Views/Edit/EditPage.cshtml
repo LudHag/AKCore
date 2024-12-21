@@ -1,19 +1,23 @@
 ﻿
 @section styles {
     <environment exclude="Development">
-        <link rel="stylesheet" href="/dist/admin.css" asp-append-version="true">
+        <link rel="stylesheet" href="@settings.CDN/dist/@assetsModel.CssAdmin">
     </environment>
 }
 
 @section scripts {
-    <script src="/tinymce/tinymce.min.js"></script>
+    <script src="@settings.CDN/tinymce/tinymce.min.js"></script>
     <environment exclude="Development">
-        <script src="~/dist/admin.js" type="module" asp-append-version="true"></script>
+        <script src="@settings.CDN/dist/@assetsModel.JsAdmin" type="module">
+        </script>
     </environment>
     <environment include="Development">
         <script src="~/Scripts/admin.ts" type="module" asp-append-version="true">
         </script>
     </environment>
 }
+<script>
+    const cssMain = '@assetsModel.CssMain';
+</script>
 
 <div id="pageedit-app"></div>

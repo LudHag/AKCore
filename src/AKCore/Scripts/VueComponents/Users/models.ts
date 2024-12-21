@@ -16,7 +16,7 @@ export interface User {
   hasKey: boolean;
   active: boolean;
   password: string;
-  lastSignedIn: string
+  lastSignedIn: string;
 }
 
 export interface UpdateInfo {
@@ -24,3 +24,5 @@ export interface UpdateInfo {
   prop: string;
   value: any;
 }
+
+export type SortUser = "name" | "userName" | "roles" | "lastSignedIn";

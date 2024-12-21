@@ -1,4 +1,5 @@
 {
-  "DbConnectionString": "Server=endpoint;database=dbname;uid=user;pwd=password;"
-  //,"OpenApiSecret": "xxxx"
+  "DbConnectionString": "Server=endpoint;database=dbname;uid=user;pwd=password;",
+  //,"OpenApiSecret": "xxxx",
+  "akcdn": ""
 }

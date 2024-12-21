@@ -5,13 +5,15 @@
 
 @section styles {
     <environment exclude="Development">
-        <link rel="stylesheet" href="/dist/admin.css" asp-append-version="true">
+        <link rel="stylesheet" href="@settings.CDN/dist/@assetsModel.CssAdmin">
     </environment>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 }
 
 @section scripts {
     <environment exclude="Development">
-        <script src="~/dist/admin.js" type="module" asp-append-version="true"></script>
+        <script src="@settings.CDN/dist/@assetsModel.JsAdmin" type="module">
+        </script>
     </environment>
     <environment include="Development">
         <script src="~/Scripts/admin.ts" type="module" asp-append-version="true">

@@ -6,8 +6,11 @@
           <a
             href="/upcoming/akevents.ics"
             @click.prevent="showIcal = !showIcal"
-            class="fa fa-calendar"
           >
+            <img
+              style="max-width: 20px; vertical-align: baseline"
+              :src="calendarImage"
+            />
             {{ " " + t("ical-link") }}
           </a>
           <div class="input-group ical-copy" v-if="showIcal">
@@ -20,10 +23,12 @@
             />
             <span class="input-group-btnp">
               <button
-                class="btn btn-default fa fa-files-o copy-btn"
+                class="btn btn-default copy-btn"
                 @click.prevent="copyIcal"
                 type="button"
-              ></button>
+              >
+                <img style="max-width: 20px; display: block" :src="copyImage" />
+              </button>
             </span>
           </div>
         </div>
@@ -80,6 +85,7 @@ import EventApp from "../Event/EventApp.vue";
 import { UpcomingYears } from "./models";
 import { ref, nextTick, onMounted } from "vue";
 import { TranslationDomain, translate } from "../../translations";
+import { getImageLink } from "../../general";
 
 const props = defineProps<{
   eventId: number;
@@ -96,6 +102,9 @@ const showEvent = ref(false);
 const selectedEventId = ref(-1);
 const latestTop = ref(0);
 
+const calendarImage = getImageLink("calendar.svg");
+const copyImage = getImageLink("copy.svg");
+
 const copyIcal = () => {
   const copyText = document.querySelector("#ical-link") as HTMLInputElement;
   copyText.select();
@@ -109,7 +118,7 @@ const signup = (id: number) => {
   history.pushState(
     { showEvent: true, selectedEventId: id },
     "",
-    "/upcoming/Event/" + id
+    "/upcoming/Event/" + id,
   );
 };
 
@@ -146,13 +155,13 @@ onMounted(() => {
     history.replaceState(
       { showEvent: true, selectedEventId: props.eventId },
       "",
-      "/upcoming/Event/" + props.eventId
+      "/upcoming/Event/" + props.eventId,
     );
   } else {
     history.replaceState(
       { showEvent: false, selectedEventId: -1 },
       "",
-      "/upcoming"
+      "/upcoming",
     );
   }
   loadEvents();

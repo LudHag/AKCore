@@ -73,13 +73,14 @@
               </div>
               <div class="form-group">
                 <label>Andra instrument</label>
-                <v-select
-                  multiple
+                <VueSelect
+                  is-multi
                   :searchable="false"
                   name="OtherInstruments"
+                  placeholder="Välj andra instrument"
                   :options="othInstruments"
                   v-model="editedUser.otherInstruments"
-                ></v-select>
+                />
               </div>
             </div>
 
@@ -110,23 +111,23 @@
               </div>
               <div class="form-group" v-if="!user">
                 <label>Roller</label>
-                <v-select
-                  multiple
+                <VueSelect
+                  is-multi
                   :searchable="false"
                   name="Roles"
-                  :options="ROLES"
+                  :options="roleOptions"
                   v-model="editedUser.roles"
-                ></v-select>
+                ></VueSelect>
               </div>
               <div class="form-group">
                 <label>Poster</label>
-                <v-select
-                  multiple
-                  :searchable="false"
+                <VueSelect
+                  is-multi
                   name="Poster"
-                  :options="POSTS"
+                  placeholder="Välj poster"
+                  :options="postOptions"
                   v-model="editedUser.posts"
-                ></v-select>
+                ></VueSelect>
               </div>
               <div class="form-group">
                 <label>Senaste medalj</label>
@@ -168,8 +169,7 @@
 import { postToApi } from "../../services/apiservice";
 import Modal from "../Modal.vue";
 import { INSTRUMENTS, ROLES, POSTS, MEDALS } from "../../constants";
-// @ts-ignore
-import vSelect from "vue-select";
+import VueSelect, { Option } from "vue3-select-component";
 import { User } from "./models";
 import { ref, watch, computed } from "vue";
 
@@ -187,20 +187,32 @@ const props = defineProps<{
 const editedUser = ref<User>({} as User);
 const error = ref<HTMLElement | null>(null);
 
+const postOptions = POSTS.map((post) => {
+  return { value: post, label: post } as Option<string>;
+});
+
+const roleOptions = ROLES.map((role) => {
+  return { value: role, label: role } as Option<string>;
+});
+
 watch(
   () => props.showModal,
   () => {
     const newUser = props.user || ({} as User);
     if (!props.user) {
       newUser.roles = ["Medlem"];
+      newUser.posts = [];
+      newUser.otherInstruments = [];
     }
     editedUser.value = Object.assign({}, newUser);
-  }
+  },
 );
 
 const othInstruments = computed(() => {
   return INSTRUMENTS.filter((instr) => {
     return instr !== editedUser.value.instrument;
+  }).map((instr) => {
+    return { value: instr, label: instr } as Option<string>;
   });
 });
 

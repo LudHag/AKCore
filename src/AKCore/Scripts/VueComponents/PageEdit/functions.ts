@@ -22,6 +22,8 @@ export const getHeader = (type: string): string => {
       return "Tre puffar-widget";
     case "MailBox":
       return "Anonym brevlåda";
+    case "CountDown":
+      return "Nedräknare";
   }
   return "Text-bild-widget";
 };

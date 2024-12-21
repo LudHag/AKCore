@@ -54,4 +54,44 @@ export const profileTranslations: Record<string, Translation> = {
     english: "Latest medal given",
   },
   "user-info": { swedish: "Användarinfo", english: "User info" },
+  statisticsheader: {
+    swedish: "Statistik",
+    english: "Statistics",
+  },
+  statisticspreamble: {
+    swedish: "Statistik för dina spelningar det senaste året",
+    english: "Statistics for your performances the last year",
+  },
+  halan: {
+    swedish: "Spelningar där du kommit via Hålan",
+    english: "Performances where you came via Hålan",
+  },
+  direct: {
+    swedish: "Spelningar där du kommit direkt",
+    english: "Performances where you came directly",
+  },
+  cantCome: {
+    swedish: "Spelningar där du inte kunnat komma",
+    english: "Performances where you couldn't come",
+  },
+  car: {
+    swedish: "Spelningar där du kört bil",
+    english: "Performances where you drove a car",
+  },
+  "instrument-own": {
+    swedish: "Spelningar där du tagit med instrument själv",
+    english: "Performances where you brought your own instrument",
+  },
+  comment: {
+    swedish: "Spelningar där du lämnat en kommentar",
+    english: "Performances where you left a comment",
+  },
+  "total-gigs": {
+    swedish: "Totalt antal spelningar",
+    english: "Total number of performances",
+  },
+  nosignup: {
+    swedish: "Spelningar du ej anmält/anmält frånvaro till",
+    english: "Performances you haven't signed up for/signed up absence to",
+  },
 };

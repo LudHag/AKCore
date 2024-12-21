@@ -130,7 +130,7 @@ const firstWeekDays = computed(() => {
   let firstDayWeekDay = firstDayOfMonth.getDay() - 1;
   if (firstDayWeekDay < 0) firstDayWeekDay = 7 + firstDayWeekDay;
   const firstDayOfCalendar = new Date(
-    firstDayOfMonth.getTime() - firstDayWeekDay * timeDay
+    firstDayOfMonth.getTime() - firstDayWeekDay * timeDay,
   );
   let monday = new Date(firstDayOfCalendar.getTime());
   const weeks = [];
