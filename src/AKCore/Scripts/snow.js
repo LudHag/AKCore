@@ -6,7 +6,7 @@ const init = () => {
   }
 
   const today = new Date();
-  const newYear = new Date(2024, 0, 1);
+  const newYear = new Date(2025, 0, 1);
   const msLeft = newYear - today;
   let hrLeft = msLeft / (1000 * 60 * 60);
 
@@ -147,7 +147,7 @@ void main(){
     gl.bufferData(
       gl.ARRAY_BUFFER,
       new Float32Array(webgl.data),
-      gl.STATIC_DRAW
+      gl.STATIC_DRAW,
     );
     gl.drawArrays(glType, 0, webgl.data.length / 4);
   };
@@ -204,7 +204,7 @@ void main(){
         this.x,
         this.y,
         this.hue,
-        opts.projectileAlpha * 0.2
+        opts.projectileAlpha * 0.2,
       );
 
       if (this.vy >= opts.lowVelBoundary) {
@@ -274,7 +274,7 @@ void main(){
       this.x,
       this.y,
       this.parent.hue,
-      opts.projectileAlpha / this.tick
+      opts.projectileAlpha / this.tick,
     );
 
     if (this.y > h) this.dead = true;
