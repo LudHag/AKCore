@@ -33,7 +33,7 @@ namespace AKCore.Controllers
 
             _db.SaveChanges();
             return
-                Json(new { success = true, message = "Dit meddelande är skickat och kommer kunna ses av styrelsen" });
+                Json(new { success = true, message = "Ditt meddelande är skickat och kommer kunna ses av styrelsen" });
         }
 
         [HttpGet("GetItems")]

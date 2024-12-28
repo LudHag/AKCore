@@ -1,22 +1,22 @@
 ﻿<template>
   <div class="videos-app">
     <div
+      ref="container"
       class="videos-container"
       :class="{ showleft: showLeft, showright: showRight }"
-      ref="container"
     >
       <div
         class="videos"
         :style="{ transform: 'translateX(-' + offset + 'px)' }"
       >
         <div
-          class="video"
-          @:click="onVideoClick(video)"
           v-for="video in videos"
           :key="video.title"
+          class="video"
+          @:click="onVideoClick(video)"
         >
           <img :src="'https://img.youtube.com/vi/' + video.link + '/0.jpg'" />
-          <span class="title" v-html="video.title"></span>
+          <span v-html="video.title" class="title"></span>
           <span class="play-icon glyphicon glyphicon-play"></span>
         </div>
       </div>

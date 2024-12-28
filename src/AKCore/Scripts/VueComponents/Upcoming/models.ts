@@ -29,11 +29,13 @@ export interface UpcomingEvent {
   halanTime: string;
   thereTime: string;
   startsTime: string;
+  playDuration: string;
   stand: string;
   secret: boolean;
   signupState: string;
   coming: number;
   notComing: number;
+  disabled: boolean;
 }
 
 export interface UpcomingEventInfo {

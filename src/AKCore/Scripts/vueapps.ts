@@ -1,24 +1,29 @@
 ﻿import { createApp } from "vue";
 import VideoBar from "./VueComponents/VideoBar.vue";
 import MembersList from "./VueComponents/MembersList.vue";
-import ProfileApp from "./VueComponents/ProfileApp.vue";
+import ProfileApp from "./VueComponents/Profile/ProfileApp.vue";
 import UpcomingApp from "./VueComponents/Upcoming/UpcomingApp.vue";
 import MediaApp from "./VueComponents/Media/MediaApp.vue";
 import MusicApp from "./VueComponents/MusicPlayer/MusicApp.vue";
 import MailBoxApp from "./VueComponents/MailBox/MailBoxApp.vue";
 import LoginApp from "./VueComponents/Login/LoginApp.vue";
 import { Member, Video } from "./VueComponents/models";
+import NotificationApp from "./VueComponents/Notifications/NotificationApp.vue";
+import { getCookie } from "./general";
+import CountDownApp from "./VueComponents/Countdown/CountDownApp.vue";
 
 declare const videos: Record<number, Array<Video>>;
 
 const videoApps = Array.from(
-  document.getElementsByClassName("videos-app") as HTMLCollectionOf<HTMLElement>
+  document.getElementsByClassName(
+    "videos-app",
+  ) as HTMLCollectionOf<HTMLElement>,
 );
 
 videoApps.forEach((app) => {
   const widgetId = parseInt(app.dataset.id as string);
   createApp(VideoBar, { videos: videos[widgetId] }).mount(
-    `#videos-app-${widgetId}`
+    `#videos-app-${widgetId}`,
   );
 });
 
@@ -57,7 +62,23 @@ if (document.getElementById("music-app")) {
 if (document.getElementById("mailbox")) {
   createApp(MailBoxApp).mount("#mailbox");
 }
+declare const selectedDate: string;
+if (document.getElementById("countdown")) {
+  createApp(CountDownApp,{
+    selectedDate: selectedDate
+  }).mount("#countdown");
+}
 
 if (document.getElementById("loginapp")) {
   createApp(LoginApp).mount("#loginapp");
+}
+
+const notificationElement = document.getElementById("notificationapp");
+if (notificationElement && window.innerWidth < 760) {
+  createApp(NotificationApp, {
+    recruitsInfoDisabled: getCookie("recruitsPopup") === "hide",
+    mailboxInfoDisabled: getCookie("mailboxPopup") === "hide",
+    recruits: Number(notificationElement.dataset.recruits),
+    mails: Number(notificationElement.dataset.mails),
+  }).mount("#notificationapp");
 }

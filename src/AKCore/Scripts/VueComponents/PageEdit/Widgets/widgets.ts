@@ -10,6 +10,7 @@ import Music from "./Music.vue";
 import PostList from "./PostList.vue";
 import VideoWidget from "./Video.vue";
 import MailBox from "./MailBox.vue";
+import CountDown from "./CountDown.vue";
 
 export {
   TextImage,
@@ -24,4 +25,5 @@ export {
   VideoWidget,
   PostList,
   MailBox,
+  CountDown
 };

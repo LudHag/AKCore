@@ -21,17 +21,16 @@
 
     a {
       cursor: default;
-
-      &:link {
-        cursor: pointer;
-      }
-
       font-weight: 500;
       display: block;
       color: $akwhite;
       line-height: 34px;
       font-size: 16px;
       padding: 0 20px;
+
+      &:link {
+        cursor: pointer;
+      }
 
       &.active,
       &:hover {

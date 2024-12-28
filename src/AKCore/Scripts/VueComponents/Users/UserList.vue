@@ -10,10 +10,14 @@
     <table class="table">
       <thead>
         <tr>
-          <th>Namn</th>
-          <th>Användarnamn</th>
-          <th>Roller</th>
-          <th>Senast inloggad</th>
+          <th class="clickable-header" @click="updateSort('name')">Namn</th>
+          <th class="clickable-header" @click="updateSort('userName')">
+            Användarnamn
+          </th>
+          <th class="clickable-header" @click="updateSort('roles')">Roller</th>
+          <th class="clickable-header" @click="updateSort('lastSignedIn')">
+            Senast inloggad
+          </th>
           <th></th>
         </tr>
       </thead>
@@ -38,7 +42,7 @@
 <script setup lang="ts">
 import UserListItem from "./UserListItem.vue";
 import PasswordModal from "./PasswordModal.vue";
-import { UpdateInfo, User } from "./models";
+import { SortUser, UpdateInfo, User } from "./models";
 import { ref, computed } from "vue";
 import { slideUpAndDown } from "../../services/slidehandler";
 
@@ -55,11 +59,39 @@ const props = defineProps<{
 const showUpdatePasswordModal = ref(false);
 const updatePasswordUser = ref<User | null>(null);
 const updatePasswordSuccess = ref<HTMLElement | null>(null);
+const sort = ref<SortUser>("name");
+const asc = ref(true);
+
+const updateSort = (newSort: SortUser) => {
+  if (sort.value === newSort) {
+    asc.value = !asc.value;
+  } else {
+    asc.value = true;
+  }
+  sort.value = newSort;
+};
+
+const getDateValue = (date: string) => {
+  return date ? Date.parse(date) : 0;
+};
 
 const sortedUsers = computed(() => {
-  return [...props.users].sort((a, b) =>
-    a.firstName.localeCompare(b.firstName)
-  );
+  return [...props.users].sort((a, b) => {
+    const sortA = asc.value ? a : b;
+    const sortB = asc.value ? b : a;
+    if (sort.value === "name") {
+      return sortA.firstName?.localeCompare(sortB.firstName);
+    } else if (sort.value === "userName") {
+      return sortA.userName.localeCompare(sortB.userName);
+    } else if (sort.value === "roles") {
+      return sortA.roles.join().localeCompare(sortB.roles.join());
+    } else if (sort.value === "lastSignedIn") {
+      const dateAValue = getDateValue(sortA.lastSignedIn);
+      const dateBValue = getDateValue(sortB.lastSignedIn);
+      return dateBValue - dateAValue;
+    }
+    return 0;
+  });
 });
 
 const updateUserProp = (updateInfo: UpdateInfo) => {
@@ -81,7 +113,7 @@ const closeModal = () => {
 };
 
 const newPasswordSuccess = () => {
-  slideUpAndDown(updatePasswordSuccess.value!, 4000);
+  slideUpAndDown(updatePasswordSuccess.value!);
 };
 </script>
 <style lang="scss" scoped>
@@ -91,11 +123,10 @@ table {
   table-layout: auto;
 }
 
-.user-list-scroll { 
-  overflow-x: auto;
-}
-
 table .role {
+  cursor: pointer;
+}
+.clickable-header {
   cursor: pointer;
 }
 </style>

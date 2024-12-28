@@ -48,6 +48,23 @@
                 SK - @t.Get(TranslationDomains.Posts,"SK")
             </div>
         </div>
+        @if (Model.Users.ContainsKey(AkPoster.OPK) && Model.Users[AkPoster.OPK].Any())
+        {
+            <div class="row">
+                <div class="col-sm-4">
+                    Operativkamerer
+                </div>
+                <div class="col-sm-4">
+                    @foreach (var user in Model.Users[AkPoster.OPK])
+                    {
+                        <p>@user.GetName()</p>
+                    }
+                </div>
+                <div class="col-sm-4">
+                    OK - @t.Get(TranslationDomains.Posts, "OPK")
+                </div>
+            </div>
+        }
     </div>
     <div class="kategori">
         <h2>@t.Get(TranslationDomains.Posts, "Functionaries")</h2>

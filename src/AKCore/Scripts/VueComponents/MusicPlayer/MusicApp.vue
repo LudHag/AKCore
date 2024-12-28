@@ -12,7 +12,7 @@
     </h2>
     <div v-if="showingDesc" class="aidesc">
       <p v-if="aiDesc">{{ t("album-from-gpt") }}:</p>
-      <p v-if="aiDesc">{{ aiDesc }}</p>
+      <p v-if="aiDesc" v-html="aiDesc"></p>
       <spinner :size="'medium'" v-else></spinner>
     </div>
     <div class="player-container" v-if="currentAlbum">
@@ -110,9 +110,9 @@ const showDesc = async () => {
     try {
       aiDesc.value = (
         await getFromApi<{ albumInfo: string }>(
-          `/ExtraInfo/GetAlbumInfo?id=${currentAlbum.value.id}`
+          `/ExtraInfo/GetAlbumInfo?id=${currentAlbum.value.id}`,
         )
-      ).albumInfo;
+      ).albumInfo.replace(/\n/g, "<br>");
     } catch (error) {
       aiDesc.value = null;
       showingDesc.value = false;

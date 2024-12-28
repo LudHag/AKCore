@@ -19,23 +19,41 @@
             <p class="modal-start" v-if="event.startsTime">
               {{ t("concert-starts", "common") }}: {{ event.startsTime }}
             </p>
+            <p v-if="event.playDuration && event.type === 'Spelning'">
+              {{ t("play-duration", "common") }}: {{ event.playDuration }}
+            </p>
           </div>
           <div class="col-sm-4">
             <a
               class="green"
-              v-if="signupable && event.signupState"
+              v-if="signupable && event.signupState && !event.disabled"
               @click.prevent.stop="openSignup"
               :href="signupUrl"
             >
               {{ t("signed-up") }} ({{ event.signupState }})
             </a>
             <a
-              v-if="signupable && !event.signupState"
+              v-if="signupable && !event.signupState && !event.disabled"
               @click.prevent.stop="openSignup"
               :href="signupUrl"
             >
               {{ t("sign-up") }}
             </a>
+            <a
+              v-if="signupable && event.disabled"
+              @click.prevent.stop="openSignup"
+              :href="signupUrl"
+            >
+              {{ t("about-event") }}
+            </a>
+            <div v-if="event.disabled">
+              <p>
+                <span class="glyphicon glyphicon-warning-sign"></span>
+                <span class="warning-text">{{
+                  t("sign-up-not-allowed", "common")
+                }}</span>
+              </p>
+            </div>
             <p class="modal-comming" v-if="signupable">
               {{ event.coming }} {{ t("coming", "common") }} -
               {{ event.notComing }}
@@ -50,7 +68,15 @@
           </div>
           <div class="extra">
             <div class="col-sm-12">
-              <p class="modal-description">{{ event.description }}</p>
+              <p
+                class="modal-description"
+                v-if="
+                  event.description &&
+                  (event.type === 'Spelning' || event.type === 'Evenemang')
+                "
+              >
+                {{ event.description }}
+              </p>
             </div>
             <div class="col-sm-12">
               <p class="modal-intdescription">
@@ -110,7 +136,14 @@ const t = (key: string, domain: TranslationDomain = "upcoming") => {
 };
 </script>
 <style lang="scss" scoped>
+@import "../../../Styles/variables.scss";
 .green {
   color: #02c66f;
+}
+.glyphicon-warning-sign {
+  color: $akred;
+}
+.warning-text {
+  margin-left: 8px;
 }
 </style>

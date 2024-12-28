@@ -1,0 +1,18 @@
+﻿<div id="statistics-app"></div>
+
+@section styles {
+    <environment exclude="Development">
+        <link rel="stylesheet" href="@settings.CDN/dist/@assetsModel.CssAdmin">
+    </environment>
+}
+
+@section scripts {
+    <environment exclude="Development">
+        <script src="@settings.CDN/dist/@assetsModel.JsAdmin" type="module">
+        </script>
+    </environment>
+    <environment include="Development">
+        <script src="~/Scripts/admin.ts" type="module" asp-append-version="true">
+        </script>
+    </environment>
+}

@@ -8,6 +8,10 @@
   --vs-dropdown-option-color: #000;
 }
 
+.form-group .vue-select .control {
+  border: 1px solid #ccc;
+}
+
 html,
 body,
 .wrap {
@@ -157,8 +161,14 @@ a {
     transition: all 0.2s linear;
   }
 
-  a:hover {
-    color: $akwhite;
+  .social-icon {
+    display: inline-block;
+    height: 24px;
+    width: 24px;
+  }
+
+  a:hover svg g path {
+    fill: $akwhite;
   }
 }
 
@@ -355,5 +365,12 @@ p.infobox {
   }
   body {
     overflow: visible;
+  }
+  p {
+    color: black;
+  }
+  .no-print,
+  .no-print * {
+    display: none !important;
   }
 }

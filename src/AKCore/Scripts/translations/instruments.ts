@@ -17,6 +17,10 @@ export const instrumentsTranslations: Record<string, Translation> = {
     swedish: "Barytonsax",
     english: "Baritone sax",
   },
+  Dragspel: {
+    swedish: "Dragspel",
+    english: "Accordion",
+  },
   Euphonium: {
     swedish: "Euphonium",
     english: "Euphonium",

@@ -20,13 +20,15 @@ export interface WidgetEditModel {
   textEng?: string;
   image?: string;
   videos?: EditVideoModel[];
+  targetDate?: string;
+  targetTime?: string;
   albums: number[];
 }
 
 export interface EditVideoModel {
   link: string;
   title: string;
-  index?: number;
+  index: number;
 }
 
 export interface PageEditModel {

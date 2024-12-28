@@ -56,7 +56,7 @@ const onInputBlur = () => {
     null,
     () => {
       emit("update");
-    }
+    },
   );
 };
 

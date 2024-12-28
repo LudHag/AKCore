@@ -124,16 +124,16 @@ const removeEvent = (e: UpcomingEvent) => {
       () => {
         loadEvents(
           adminEventData.value?.old ?? false,
-          adminEventData.value?.currentPage ?? 1
+          adminEventData.value?.currentPage ?? 1,
         );
-      }
+      },
     );
   }
 };
 
 const loadEvents = async (old: boolean, page: number) => {
   adminEventData.value = await getFromApi<AdminEventModel>(
-    "/AdminEvent/EventData?old=" + old + "&page=" + page
+    "/AdminEvent/EventData?old=" + old + "&page=" + page,
   );
 };
 
@@ -155,7 +155,7 @@ const eventUpdated = () => {
   closeModal();
   loadEvents(
     adminEventData.value?.old ?? false,
-    adminEventData.value?.currentPage ?? 1
+    adminEventData.value?.currentPage ?? 1,
   );
 };
 
@@ -167,4 +167,16 @@ onMounted(() => {
   loadEvents(false, 1);
 });
 </script>
-<style lang="scss"></style>
+<style lang="scss" scoped>
+@import "../../../Styles/variables.scss";
+
+.event-row {
+  padding: 15px;
+  border: 3px solid $akred;
+  border-radius: 7px;
+  position: relative;
+}
+.event-row:hover {
+  background-color: #1a0000;
+}
+</style>
