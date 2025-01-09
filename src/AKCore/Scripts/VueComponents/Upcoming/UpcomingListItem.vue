@@ -89,7 +89,7 @@
       <p v-if="loggedIn && event.type === 'Spelning' && event.stand">
         {{ t("type-of-play") }}: {{ event.stand }}
       </p>
-      <p
+      <div
         v-if="
           loggedIn &&
           (event.type === 'Rep' ||
@@ -97,8 +97,13 @@
             event.type === 'Athenrep')
         "
       >
-        {{ t("fika-and-clean") }}: {{ event.fika }}
-      </p>
+      <div>
+        {{ t("fika-and-clean") }}:
+          <span v-for="(item, index) in event.fikaCollection" :key="index">
+            {{ item }} 
+          </span>
+      </div>
+    </div>
     </div>
     <div class="extra">
       <div

@@ -114,13 +114,13 @@ export const EVENTTYPES = [
 export const SPELTYPER = ["Stå", "Gå", "Stå och gå"];
 
 export const SEKTIONER = [
-  "Balett",
   "Flöjt",
-  "Grovbrass",
   "Klarinett",
-  "Komp",
   "Sax",
   "Trumpet",
+  "Grovbrass",
+  "Komp",
+  "Balett",
 ];
 
 export const IMAGETYPES = [

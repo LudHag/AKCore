@@ -215,6 +215,7 @@ public class Event
     public string InternalDescription { get; set; }
     public string InternalDescriptionEng { get; set; }
     public string Fika { get; set; }
+    public string FikaCollection { get; set; }
     public DateTime Day { get; set; }
     public TimeSpan HalanTime { get; set; }
     public TimeSpan ThereTime { get; set; }

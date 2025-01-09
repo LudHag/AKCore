@@ -62,8 +62,8 @@
             <p class="modal-stand" v-if="event.stand">
               {{ t("type-of-play") }}: {{ event.stand }}
             </p>
-            <p class="modal-fika" v-if="event.fika">
-              {{ t("fika-and-clean") }}: {{ event.fika }}
+            <p class="modal-fika" v-if="event.fikaCollection">
+              {{ t("fika-and-clean") }}: {{ event.fikaCollection }}
             </p>
           </div>
           <div class="extra">
