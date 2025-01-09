@@ -251,11 +251,10 @@ const close = () => {
   emit("close");
 };
 
-
 const fikaOptions = SEKTIONER.map((section) => {
   return { value: section, label: section } as Option<string>;
 });
-console.log(fikaOptions)
+
 const translateDescs = () => {
   if (upcomingEvent.value?.description) {
     loadingDescTrans.value = true;

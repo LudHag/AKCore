@@ -100,7 +100,7 @@
       <div>
         {{ t("fika-and-clean") }}:
           <span v-for="(item, index) in event.fikaCollection" :key="index">
-            {{ item }} 
+            {{ item }}<span v-if="event.fikaCollection.length > 1 && index !== event.fikaCollection.length-1">, </span>
           </span>
       </div>
     </div>
