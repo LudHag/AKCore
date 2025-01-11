@@ -125,6 +125,8 @@ public class UpcomingController : Controller
                 Year = e.Day.Year,
                 Month = e.Day.Month
             };
+        if (e.FikaCollection == null && loggedIn)
+            model.FikaCollection = [e.Fika];
         return model;
     }
 
