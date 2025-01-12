@@ -97,6 +97,7 @@ public class UpcomingController : Controller
                 Description = description,
                 InternalDescription = internalDescription,
                 Fika = e.Fika,
+                FikaCollection = string.IsNullOrWhiteSpace(e.FikaCollection) ? null : e.FikaCollection.Split(',').ToList(),
                 Day = e.Day.ToString("dddd dd", cultureToUse) + "/" + e.Day.ToString("MM", cultureToUse),
                 DayInMonth = e.Day.Day,
                 HalanTime = ParseTime(e.HalanTime),
@@ -124,6 +125,8 @@ public class UpcomingController : Controller
                 Year = e.Day.Year,
                 Month = e.Day.Month
             };
+        if (e.FikaCollection == null && loggedIn)
+            model.FikaCollection = [e.Fika];
         return model;
     }
 

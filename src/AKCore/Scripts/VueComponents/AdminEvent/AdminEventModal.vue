@@ -133,15 +133,14 @@
                 </div>
 
                 <div class="col-sm-6" v-if="repFika && eventType !== 'Fikarep'">
-                  <label>Fika</label>
-                  <select
-                    class="form-control"
-                    v-model="upcomingEvent.fika"
-                    name="Fika"
-                  >
-                    <option value>Välj en sektion</option>
-                    <option v-for="s in SEKTIONER" :key="s">{{ s }}</option>
-                  </select>
+                <label>Fika</label>
+                <VueSelect
+                  is-multi
+                  :searchable="false"
+                  name="Fika"
+                  :options="fikaOptions"
+                  v-model="upcomingEvent.fikaCollection"
+                ></VueSelect>
                 </div>
               </div>
               <div class="row" v-if="eventType === 'Spelning'">
@@ -238,6 +237,7 @@ import Modal from "../Modal.vue";
 import Spinner from "../Spinner.vue";
 import { UpcomingEvent } from "../Upcoming/models";
 import { computed, onMounted, ref, watch } from "vue";
+import VueSelect, {Option} from "vue3-select-component";
 
 const emit = defineEmits<{
   (e: "close"): void;
@@ -259,6 +259,10 @@ const loadingIntDescTrans = ref(false);
 const close = () => {
   emit("close");
 };
+
+const fikaOptions = SEKTIONER.map((section) => {
+  return { value: section, label: section } as Option<string>;
+});
 
 const translateDescs = () => {
   if (upcomingEvent.value?.description) {
@@ -314,33 +318,33 @@ const resetEvent = () => {
   const today = new Date();
   eventType.value = props.selectedEvent ? props.selectedEvent.type : "";
   upcomingEvent.value = props.selectedEvent
-    ? Object.assign({}, props.selectedEvent)
-    : {
-        id: -1,
-        day: "",
-        dayInMonth: 1,
-        signupState: "",
-        coming: 0,
-        notComing: 0,
-        type: "",
-        name: "",
-        place: "",
-        description: "",
-        descriptionEng: "",
-        internalDescription: "",
-        internalDescriptionEng: "",
-        year: today.getFullYear(),
-        month: today.getMonth() + 1,
-        dayDate: today,
-        fika: "",
-        halanTime: "00:00",
-        thereTime: "00:00",
-        startsTime: "00:00",
-        playDuration: "",
-        stand: "",
-        secret: false,
-        disabled: false
-      };
+  ? Object.assign({}, props.selectedEvent)
+  : {
+      id: -1,
+      day: "",
+      dayInMonth: 1,
+      signupState: "",
+      coming: 0,
+      notComing: 0,
+      type: "",
+      name: "",
+      place: "",
+      description: "",
+      descriptionEng: "",
+      internalDescription: "",
+      internalDescriptionEng: "",
+      year: today.getFullYear(),
+      month: today.getMonth() + 1,
+      dayDate: today,
+      fikaCollection: [],
+      halanTime: "00:00",
+      thereTime: "00:00",
+      startsTime: "00:00",
+      playDuration: "",
+      stand: "",
+      secret: false,
+      disabled: false
+    };
   upcomingEvent.value!.dayDate = new Date(upcomingEvent.value!.dayDate);
 };
 

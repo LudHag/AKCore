@@ -70,14 +70,21 @@
       <p v-if="loggedIn && event.type === 'Spelning' && event.stand">
         {{ t("type-of-play") }}: {{ event.stand }}
       </p>
-      <p v-if="
+      <div
+        v-if="
           loggedIn &&
           (event.type === 'Rep' ||
             event.type === 'Kårhusrep' ||
             event.type === 'Athenrep')
-        ">
-        {{ t("fika-and-clean") }}: {{ event.fika }}
-      </p>
+        "
+      >
+      <div>
+        {{ t("fika-and-clean") }}:
+          <span v-for="(item, index) in event.fikaCollection" :key="index">
+            {{ item }}<span v-if="event.fikaCollection.length > 1 && index !== event.fikaCollection.length-1">, </span>
+          </span>
+      </div>
+    </div>
     </div>
     <div class="extra">
       <div class="col-sm-12 description" v-if="
