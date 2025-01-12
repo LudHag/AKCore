@@ -26,5 +26,9 @@ export const upcomingTranslations: Record<string, Translation> = {
       english: "Ballet rehearsal",
     },
   Athenrep: { swedish: "Athenrep", english: "Athen rehearsal" },
+  Samlingsrep: { swedish: "Gemensamt rep", english: "Collective rehearsal" },
   Fikarep: { swedish: "Fikarep", english: "Fika rehearsal" },
+  Spelning: { swedish: "Spelning", english: "Gig" },
+  Fest: { swedish: "Fest", english: "Party" },
+  Evenemang: { swedish: "Evenemang", english: "Event" },
 };

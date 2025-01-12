@@ -56,7 +56,7 @@
             </div>
             <div
               class="form-group"
-              v-if="spelningFest || eventType == 'Evenemang'"
+              v-if="spelningFest || eventType == 'Evenemang' || eventType == 'Samlingsrep'"
             >
               <div class="row">
                 <div class="col-sm-6">
@@ -139,6 +139,7 @@
                   :searchable="false"
                   name="Fika"
                   :options="fikaOptions"
+                  placeholder="Välj sektion"
                   v-model="upcomingEvent.fikaCollection"
                 ></VueSelect>
                 </div>
@@ -372,7 +373,8 @@ const spelningKarhus = computed(() => {
   return (
     eventType.value === "Spelning" ||
     eventType.value === "Kårhusrep" ||
-    eventType.value === "Athenrep"
+    eventType.value === "Athenrep" || 
+    eventType.value === "Samlingsrep"
   );
 });
 
@@ -381,7 +383,8 @@ const repFika = computed(() => {
     eventType.value === "Rep" ||
     eventType.value === "Kårhusrep" ||
     eventType.value === "Athenrep" ||
-    eventType.value === "Fikarep"
+    eventType.value === "Fikarep" || 
+    eventType.value === "Samlingsrep"
   );
 });
 

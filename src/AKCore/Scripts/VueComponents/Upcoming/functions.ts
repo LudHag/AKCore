@@ -5,4 +5,5 @@ export const eventIsRep = (event: UpcomingEvent) =>
     event.type === "Kårhusrep" ||
     event.type === "Athenrep" ||
     event.type === "Fikarep" ||
-    event.type == "Balettrep";
+    event.type == "Balettrep" ||
+    event.type == "Samlingsrep";

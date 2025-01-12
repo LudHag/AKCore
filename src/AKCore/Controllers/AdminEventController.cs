@@ -147,10 +147,10 @@ namespace AKCore.Controllers
                 }
                 else //skapa
                 {
-                    if ((model.Type == AkEventTypes.FikaRep) || (model.Type == AkEventTypes.KarRep) ||
-                        (model.Type == AkEventTypes.AthenRep) ||
-                        (model.Type == AkEventTypes.Rep) || model.Type == AkEventTypes.BalettRep)
+                    if (AkEventTypes.RepEventTypes.Contains(model.Type))
+                    {
                         model.Name = model.Type;
+                    }
 
                     var newEvent = new Event
                     {

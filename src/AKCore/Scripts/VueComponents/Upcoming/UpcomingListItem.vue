@@ -14,11 +14,13 @@
         <p v-if="event.halanTime">
           <span v-if="event.type === 'Balettrep'"> {{ t("at-rehersal-place", "common")}} </span> <span v-else> {{ t("gather-in-hole", "common")}} </span>: {{ event.halanTime }}
         </p>
-        <p v-if="
+        <p
+          v-if="
             event.thereTime &&
             (event.type === 'Spelning' ||
               event.type === 'Kårhusrep' ||
-              event.type === 'Athenrep')
+              event.type === 'Athenrep' ||
+              event.type === 'Samlingsrep')
           ">
           {{ t("gather-there", "common") }}: {{ event.thereTime }}
         </p>
@@ -75,7 +77,8 @@
           loggedIn &&
           (event.type === 'Rep' ||
             event.type === 'Kårhusrep' ||
-            event.type === 'Athenrep')
+            event.type === 'Athenrep' || 
+            event.type === 'Samlingsrep')
         "
       >
       <div>

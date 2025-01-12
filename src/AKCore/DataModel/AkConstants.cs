@@ -140,6 +140,7 @@ namespace AKCore.DataModel
         public const string KarRep = "Kårhusrep";
         public const string BalettRep = "Balettrep";
         public const string AthenRep = "Athenrep";
+        public const string Samlingsrep = "Samlingsrep";
         public const string FikaRep = "Fikarep";
         public const string Fest = "Fest";
         public const string Evenemang = "Evenemang";
@@ -150,13 +151,22 @@ namespace AKCore.DataModel
             Rep,
             KarRep,
             AthenRep,
+            Samlingsrep,
             FikaRep,
             BalettRep,
             Fest,
-            Evenemang
+            Evenemang,
         };
+        public static readonly string[] RepEventTypes =
+        [
+            FikaRep,
+            KarRep,
+            AthenRep,
+            Rep,
+            BalettRep,
+            Samlingsrep,
+        ];
     }
-
     public class AkSignupType
     {
         public const string Halan = "Hålan";
