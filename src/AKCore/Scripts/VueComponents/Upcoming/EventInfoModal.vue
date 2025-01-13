@@ -11,7 +11,11 @@
           </div>
           <div class="col-sm-4">
             <p class="modal-halan" v-if="event.halanTime">
-              <span v-if="event.type === 'Balettrep'"> {{ t("at-rehersal-place", "common") }} </span> <span v-else> {{ t("gather-in-hole", "common")}} </span>: {{ event.halanTime }}
+              <span v-if="event.type === 'Balettrep'">
+                {{ t("at-rehersal-place", "common") }}
+              </span>
+              <span v-else> {{ t("gather-in-hole", "common") }} </span>:
+              {{ event.halanTime }}
             </p>
             <p class="modal-there" v-if="event.thereTime">
               {{ t("gather-there", "common") }}: {{ event.thereTime }}
@@ -63,20 +67,30 @@
               {{ t("type-of-play") }}: {{ event.stand }}
             </p>
             <div
-            v-if="
-              (event.type === 'Rep' ||
+              v-if="
+                event.type === 'Rep' ||
                 event.type === 'Kårhusrep' ||
-                event.type === 'Athenrep' || 
-                event.type === 'Samlingsrep')
-            "
-          >
-          <div>
-            {{ t("fika-and-clean") }}:
-              <span v-for="(item, index) in event.fikaCollection" :key="index">
-                {{ item }}<span v-if="event.fikaCollection.length > 1 && index !== event.fikaCollection.length-1">, </span>
-              </span>
-          </div>
-        </div>
+                event.type === 'Athenrep' ||
+                event.type === 'Samlingsrep'
+              "
+            >
+              <div>
+                {{ t("fika-and-clean") }}:
+                <span
+                  v-for="(item, index) in event.fikaCollection"
+                  :key="index"
+                >
+                  {{ item
+                  }}<span
+                    v-if="
+                      event.fikaCollection.length > 1 &&
+                      index !== event.fikaCollection.length - 1
+                    "
+                    >,
+                  </span>
+                </span>
+              </div>
+            </div>
           </div>
           <div class="extra">
             <div class="col-sm-12">
