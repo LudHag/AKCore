@@ -40,7 +40,7 @@
                     name="Name"
                   />
                 </div>
-                <div class="col-sm-6" v-if="eventType === 'Spelning'">
+                <div class="col-sm-6" v-if="eventType === 'Spelning' || eventType === 'Evenemang'">
                     <label></label>
                     <div class="checkbox checkbox-center">
                         <label>
@@ -48,7 +48,7 @@
                                   type="checkbox"
                                   v-model="upcomingEvent.secret"
                                   name="Secret" />
-                            Hemlig spelning
+                            Hemlig spelning/evenemang
                         </label>
                     </div>
                 </div>
@@ -56,7 +56,7 @@
             </div>
             <div
               class="form-group"
-              v-if="spelningFest || eventType == 'Evenemang'"
+              v-if="spelningFest || eventType == 'Evenemang' || eventType == 'Samlingsrep'"
             >
               <div class="row">
                 <div class="col-sm-6">
@@ -94,8 +94,17 @@
                     required
                   ></datepicker>
                 </div>
-                <div class="col-sm-3" v-if="eventType !== 'Evenemang'">
+                <div class="col-sm-3" v-if="eventType !== 'Evenemang' && eventType !== 'Balettrep'">
                   <label>Vid hålan</label>
+                  <input
+                    class="form-control"
+                    type="time"
+                    v-model="upcomingEvent.halanTime"
+                    name="Halan"
+                  />
+                </div>
+                <div class="col-sm-3" v-if="eventType === 'Balettrep'">
+                  <label>Vid replokal</label>
                   <input
                     class="form-control"
                     type="time"
@@ -130,6 +139,7 @@
                   :searchable="false"
                   name="Fika"
                   :options="fikaOptions"
+                  placeholder="Välj sektion"
                   v-model="upcomingEvent.fikaCollection"
                 ></VueSelect>
                 </div>
@@ -363,7 +373,8 @@ const spelningKarhus = computed(() => {
   return (
     eventType.value === "Spelning" ||
     eventType.value === "Kårhusrep" ||
-    eventType.value === "Athenrep"
+    eventType.value === "Athenrep" || 
+    eventType.value === "Samlingsrep"
   );
 });
 
@@ -372,7 +383,8 @@ const repFika = computed(() => {
     eventType.value === "Rep" ||
     eventType.value === "Kårhusrep" ||
     eventType.value === "Athenrep" ||
-    eventType.value === "Fikarep"
+    eventType.value === "Fikarep" || 
+    eventType.value === "Samlingsrep"
   );
 });
 

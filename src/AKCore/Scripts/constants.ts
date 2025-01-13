@@ -106,7 +106,9 @@ export const EVENTTYPES = [
   "Rep",
   "Kårhusrep",
   "Athenrep",
+  "Samlingsrep",
   "Fikarep",
+  "Balettrep",
   "Fest",
   "Evenemang",
 ];
