@@ -136,6 +136,20 @@ public class UpcomingController : Controller
         return time == "00:00" ? null : time;
     }
 
+    private static string SanitizeIcalDescription(string description)
+    {
+        if (string.IsNullOrEmpty(description))
+        {
+            return string.Empty;
+        }
+
+        var sanitizedDesc = description
+            .Replace("\n", @" ")  
+            .Replace("\r", @" ");
+
+        return sanitizedDesc;
+    }
+
     [Route("akevents.ics")]
     public ActionResult Ical()
     {
@@ -159,6 +173,8 @@ public class UpcomingController : Controller
             var dtStart = res.Day.Date;
             dtStart += res.HalanTime;
 
+            var description = SanitizeIcalDescription(res.Description);
+            var internalDesc = SanitizeIcalDescription(res.InternalDescription);
             var dtEnd = dtStart.AddHours(1);
             sb.AppendLine("BEGIN:VEVENT");
             sb.AppendLine("DTSTART:" + dtStart.ToString(DateFormat));
@@ -166,10 +182,10 @@ public class UpcomingController : Controller
             sb.AppendLine("DTSTAMP:" + now);
             sb.AppendLine("UID:" + Guid.NewGuid());
             sb.AppendLine("CREATED:" + now);
-            sb.AppendLine("X-ALT-DESC;FMTTYPE=text/html:" + res.Description + "<br/>" +
-                          res.InternalDescription);
-            sb.AppendLine("DESCRIPTION:" + res.Description +
-                          (!string.IsNullOrWhiteSpace(res.Description) ? "\\n" : "") + res.InternalDescription);
+            sb.AppendLine("X-ALT-DESC;FMTTYPE=text/html:" + description + "<br/>" +
+                          internalDesc);
+            sb.AppendLine("DESCRIPTION:" + description +
+                          (!string.IsNullOrWhiteSpace(description) ? "\\r\\n" : "") + internalDesc);
             sb.AppendLine("LAST-MODIFIED:" + now);
             sb.AppendLine("LOCATION:" + res.Place);
             sb.AppendLine("SEQUENCE:0");
