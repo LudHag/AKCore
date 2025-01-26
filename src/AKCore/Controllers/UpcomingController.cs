@@ -185,7 +185,7 @@ public class UpcomingController : Controller
             sb.AppendLine("X-ALT-DESC;FMTTYPE=text/html:" + description + "<br/>" +
                           internalDesc);
             sb.AppendLine("DESCRIPTION:" + description +
-                          (!string.IsNullOrWhiteSpace(description) ? "\\r\\n" : "") + internalDesc);
+                          (!string.IsNullOrWhiteSpace(description) ? "\\n" : "") + internalDesc);
             sb.AppendLine("LAST-MODIFIED:" + now);
             sb.AppendLine("LOCATION:" + res.Place);
             sb.AppendLine("SEQUENCE:0");
