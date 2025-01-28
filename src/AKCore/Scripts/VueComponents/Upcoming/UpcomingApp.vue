@@ -32,25 +32,40 @@
             </span>
           </div>
         </div>
-        <div class="calendar-control hidden-xs">
-          <a
-            href="#"
-            class="event calendar-toggle"
-            @click.prevent="calendarView = false"
-            :class="{ active: !calendarView }"
-          >
-            {{ t("list") }}
-          </a>
-          <a
-            href="#"
-            class="month calendar-toggle"
-            @click.prevent="calendarView = true"
-            :class="{ active: calendarView }"
-          >
-            {{ t("month") }}
-          </a>
+        <div class="calendar-control">
+          <div class="hidden-xs">
+            <a
+              href="#"
+              class="event calendar-toggle"
+              @click.prevent="calendarView = false"
+              :class="{ active: !calendarView }"
+            >
+              {{ t("list") }}
+            </a>
+            <a
+              href="#"
+              class="month calendar-toggle"
+              @click.prevent="calendarView = true"
+              :class="{ active: calendarView }"
+            >
+              {{ t("month") }}
+            </a>
+        </div>
+          <div class="rehearsal-filter">
+            <select
+              class="form-control"
+              name="rehearsal-filter"
+              v-model="rehearsalFilter"
+              @change="handleFilterChange"
+            >
+              <option value="all" key="all"> {{ t("allFilter") }}</option>
+              <option value="ballet" key="balett"> {{ t("balletFilter") }}</option>
+              <option value="orchestra" key="orchestra"> {{ t("orchestraFilter") }}</option>
+            </select>
+          </div>
         </div>
       </div>
+    
       <spinner :size="'medium'" v-if="!years"></spinner>
       <upcoming-list
         v-if="!calendarView && years"
@@ -85,7 +100,7 @@ import EventApp from "../Event/EventApp.vue";
 import { UpcomingYears } from "./models";
 import { ref, nextTick, onMounted } from "vue";
 import { TranslationDomain, translate } from "../../translations";
-import { getImageLink } from "../../general";
+import { getCookie, getImageLink, setCookie } from "../../general";
 
 const props = defineProps<{
   eventId: number;
@@ -101,6 +116,7 @@ const showIcal = ref(false);
 const showEvent = ref(false);
 const selectedEventId = ref(-1);
 const latestTop = ref(0);
+const rehearsalFilter = ref('all')
 
 const calendarImage = getImageLink("calendar.svg");
 const copyImage = getImageLink("copy.svg");
@@ -130,10 +146,21 @@ const closeEvent = () => {
   });
 };
 
+const handleFilterChange = () => {
+  loadEvents();
+  setCookie("rehersalFilter", rehearsalFilter.value, 365);
+};
+
+const initializeFilter = () => {
+  const savedFilter = getCookie("rehersalFilter");
+  if (savedFilter) {
+    rehearsalFilter.value = savedFilter;
+  }
+};
+
 const loadEvents = () => {
   loading.value = true;
-
-  fetch("/Upcoming/UpcomingListData")
+  fetch("/Upcoming/UpcomingListData" + '?filter=' + rehearsalFilter.value)
     .then((res) => res.json())
     .then((res) => {
       years.value = res.years;
@@ -149,6 +176,7 @@ const loadEvents = () => {
 };
 
 onMounted(() => {
+  initializeFilter();
   if (props.eventId > -1) {
     selectedEventId.value = props.eventId;
     showEvent.value = true;
@@ -185,6 +213,7 @@ const t = (key: string, domain: TranslationDomain = "upcoming") => {
   .calendar-control {
     margin-top: 20px;
     margin-bottom: 20px;
+    display: flex;
     .calendar-toggle {
       padding: 4px 10px;
       color: #000;
@@ -216,5 +245,10 @@ const t = (key: string, domain: TranslationDomain = "upcoming") => {
     display: flex;
     gap: 10px;
   }
+}
+.rehearsal-filter {
+  color: #000;
+  max-width: fit-content;
+  margin-left: 10px;
 }
 </style>

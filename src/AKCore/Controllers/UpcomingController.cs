@@ -41,7 +41,8 @@ public class UpcomingController : Controller
     }
 
     [Route("UpcomingListData")]
-    public async Task<ActionResult> UpcomingData()
+    [HttpGet]
+    public async Task<ActionResult> UpcomingData([FromQuery] string filter)
     {
         var loggedIn = User.Identity.IsAuthenticated;
         var member = false;
@@ -62,6 +63,11 @@ public class UpcomingController : Controller
                 .Include(x => x.SignUps)
                 .Where(x => loggedIn || (x.Type == "Spelning") || (x.Type == "Evenemang"))
                 .Where(x => loggedIn || (!x.Secret))
+                .Where(x =>
+                    (filter == "ballet" && x.Type != "Rep") ||
+                    (filter == "orchestra" && x.Type != "BalettRep") ||
+                    (filter == "all")
+                )
                 .Where(x => x.Day >= DateTime.UtcNow.Date)
                 .ToList()
                 .OrderBy(x => x.Day.Date).ThenBy(x => x.StartsTime != default ? x.StartsTime : x.HalanTime)
