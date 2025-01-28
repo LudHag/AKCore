@@ -214,6 +214,7 @@ const t = (key: string, domain: TranslationDomain = "upcoming") => {
     margin-top: 20px;
     margin-bottom: 20px;
     display: flex;
+    align-items: center;
     .calendar-toggle {
       padding: 4px 10px;
       color: #000;
