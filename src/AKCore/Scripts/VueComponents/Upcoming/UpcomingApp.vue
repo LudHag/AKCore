@@ -97,7 +97,7 @@ import Spinner from "../Spinner.vue";
 import UpcomingList from "./UpcomingList.vue";
 import UpcomingCalendar from "./UpcomingCalendar.vue";
 import EventApp from "../Event/EventApp.vue";
-import { UpcomingYears } from "./models";
+import { UpcomingMonths, UpcomingYears } from "./models";
 import { ref, nextTick, onMounted } from "vue";
 import { TranslationDomain, translate } from "../../translations";
 import { getCookie, getImageLink, setCookie } from "../../general";
@@ -106,7 +106,6 @@ const props = defineProps<{
   eventId: number;
 }>();
 
-const years = ref<UpcomingYears | null>(null);
 const loading = ref(false);
 const loggedIn = ref(false);
 const member = ref(false);
@@ -116,7 +115,7 @@ const showIcal = ref(false);
 const showEvent = ref(false);
 const selectedEventId = ref(-1);
 const latestTop = ref(0);
-const rehearsalFilter = ref('all')
+const rehearsalFilter = ref<RepFilterType> ('all')
 
 const calendarImage = getImageLink("calendar.svg");
 const copyImage = getImageLink("copy.svg");
@@ -125,6 +124,59 @@ const copyIcal = () => {
   const copyText = document.querySelector("#ical-link") as HTMLInputElement;
   copyText.select();
   document.execCommand("copy");
+};
+
+
+import { computed } from "vue";
+import { RepFilterType } from "../models";
+
+const allYears = ref<UpcomingYears | null>(null); // Store all unfiltered events
+
+const years = computed(() => {
+  if (!allYears.value) return null;
+
+  const filteredYears: UpcomingYears = {};
+
+  Object.entries(allYears.value).forEach(([year, yearData]) => {
+    const filteredMonths: UpcomingMonths = {};
+
+    Object.entries(yearData.months).forEach(([month, events]) => {
+      // Apply filter to events
+      const filteredEvents = events.filter((event) => {
+        if (rehearsalFilter.value === "all") return true;
+        if (rehearsalFilter.value === 'ballet' && event.type === 'Rep') return false
+        if (rehearsalFilter.value === 'orchestra' && event.type === 'Balettrep') return false
+        return true;
+      });
+
+      if (filteredEvents.length > 0) {
+        filteredMonths[month] = filteredEvents;
+      }
+    });
+
+    if (Object.keys(filteredMonths).length > 0) {
+      filteredYears[year] = { ...yearData, months: filteredMonths };
+    }
+  });
+
+  return filteredYears;
+});
+
+const loadEvents = () => {
+  loading.value = true;
+  fetch("/Upcoming/UpcomingListData")
+    .then((res) => res.json())
+    .then((res) => {
+      allYears.value = res.years; // Store unfiltered data
+      loggedIn.value = res.loggedIn;
+      member.value = res.member;
+      icalLink.value = res.icalLink;
+      loading.value = false;
+    })
+    .catch(() => {
+      console.log("Error loading events");
+      loading.value = false;
+    });
 };
 
 const signup = (id: number) => {
@@ -154,26 +206,10 @@ const handleFilterChange = () => {
 const initializeFilter = () => {
   const savedFilter = getCookie("rehersalFilter");
   if (savedFilter) {
-    rehearsalFilter.value = savedFilter;
+    rehearsalFilter.value = savedFilter as RepFilterType;
   }
 };
 
-const loadEvents = () => {
-  loading.value = true;
-  fetch("/Upcoming/UpcomingListData" + '?filter=' + rehearsalFilter.value)
-    .then((res) => res.json())
-    .then((res) => {
-      years.value = res.years;
-      loggedIn.value = res.loggedIn;
-      member.value = res.member;
-      icalLink.value = res.icalLink;
-      loading.value = false;
-    })
-    .catch(() => {
-      console.log("fel");
-      loading.value = false;
-    });
-};
 
 onMounted(() => {
   initializeFilter();
