@@ -12,9 +12,9 @@ export const upcomingTranslations: Record<string, Translation> = {
   "ical-link": { swedish: "iCal-länk", english: "iCal-link" },
   list: { swedish: "Lista", english: "List" },
   month: { swedish: "Månad", english: "Month" },
-  allFilter: { swedish: "Visa alla rep", english: "Show all rehearsals" },
-  balletFilter: { swedish: "Visa balettrep", english: "Show ballet rehearsals" },
-  orchestraFilter: { swedish: "Visa orkesterrep", english: "Show orchestra rehearsals" },
+  allFilter: { swedish: "Alla rep", english: "All rehearsals" },
+  balletFilter: { swedish: "Balettrep", english: "Ballet rehearsals" },
+  orchestraFilter: { swedish: "Orkesterrep", english: "Orchestra rehearsals" },
   "no-concerts": {
     swedish: "Vi har tyvärr inga spelningar inplanerade närmaste tiden",
     english: "Unfortunately we have no planned concerts in the upcoming weeks",

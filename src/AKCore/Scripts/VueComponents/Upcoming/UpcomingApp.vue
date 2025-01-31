@@ -1,7 +1,7 @@
 ﻿<template>
   <div id="upcoming-app">
     <div v-if="!showEvent">
-      <div class="calendar-actions" v-if="loggedIn">
+      <div class="toggle-actions" v-if="loggedIn">
         <div class="ical-container">
           <a
             href="/upcoming/akevents.ics"
@@ -32,11 +32,38 @@
             </span>
           </div>
         </div>
-        <div class="calendar-control">
+        
+        <div class="toggle-control">
+          <div>
+            <a 
+              href="#" 
+              class="all toggle" 
+              :class="{ active: rehearsalFilter === 'all' }" 
+              @click.prevent="handleFilterChange('all')"
+            >
+              {{ t("allFilter") }}
+            </a>
+            <a 
+              href="#" 
+              class="ballet toggle" 
+              :class="{ active: rehearsalFilter === 'ballet' }" 
+              @click.prevent="handleFilterChange('ballet')"
+            >
+              {{ t("balletFilter") }}
+            </a>
+            <a 
+              href="#" 
+              class="orchestra toggle" 
+              :class="{ active: rehearsalFilter === 'orchestra' }" 
+              @click.prevent="handleFilterChange('orchestra')"
+            >
+              {{ t("orchestraFilter") }}
+            </a>
+          </div>
           <div class="hidden-xs">
             <a
               href="#"
-              class="event calendar-toggle"
+              class="event toggle"
               @click.prevent="calendarView = false"
               :class="{ active: !calendarView }"
             >
@@ -44,25 +71,13 @@
             </a>
             <a
               href="#"
-              class="month calendar-toggle"
+              class="month toggle"
               @click.prevent="calendarView = true"
               :class="{ active: calendarView }"
             >
               {{ t("month") }}
             </a>
         </div>
-          <div class="rehearsal-filter">
-            <select
-              class="form-control"
-              name="rehearsal-filter"
-              v-model="rehearsalFilter"
-              @change="handleFilterChange"
-            >
-              <option value="all" key="all"> {{ t("allFilter") }}</option>
-              <option value="ballet" key="balett"> {{ t("balletFilter") }}</option>
-              <option value="orchestra" key="orchestra"> {{ t("orchestraFilter") }}</option>
-            </select>
-          </div>
         </div>
       </div>
     
@@ -130,7 +145,7 @@ const copyIcal = () => {
 import { computed } from "vue";
 import { RepFilterType } from "../models";
 
-const allYears = ref<UpcomingYears | null>(null); // Store all unfiltered events
+const allYears = ref<UpcomingYears | null>(null);
 
 const years = computed(() => {
   if (!allYears.value) return null;
@@ -141,12 +156,13 @@ const years = computed(() => {
     const filteredMonths: UpcomingMonths = {};
 
     Object.entries(yearData.months).forEach(([month, events]) => {
-      // Apply filter to events
       const filteredEvents = events.filter((event) => {
-        if (rehearsalFilter.value === "all") return true;
-        if (rehearsalFilter.value === 'ballet' && event.type === 'Rep') return false
-        if (rehearsalFilter.value === 'orchestra' && event.type === 'Balettrep') return false
-        return true;
+        const { value } = rehearsalFilter;
+        return (
+          value === "all" ||
+          (value === "ballet" && event.type !== "Rep") ||
+          (value === "orchestra" && event.type !== "Balettrep")
+        );
       });
 
       if (filteredEvents.length > 0) {
@@ -167,7 +183,7 @@ const loadEvents = () => {
   fetch("/Upcoming/UpcomingListData")
     .then((res) => res.json())
     .then((res) => {
-      allYears.value = res.years; // Store unfiltered data
+      allYears.value = res.years; 
       loggedIn.value = res.loggedIn;
       member.value = res.member;
       icalLink.value = res.icalLink;
@@ -198,7 +214,9 @@ const closeEvent = () => {
   });
 };
 
-const handleFilterChange = () => {
+const handleFilterChange = (value: RepFilterType) => {
+
+  rehearsalFilter.value = value
   loadEvents();
   setCookie("rehersalFilter", rehearsalFilter.value, 365);
 };
@@ -241,17 +259,17 @@ const t = (key: string, domain: TranslationDomain = "upcoming") => {
 };
 </script>
 <style lang="scss" scoped>
-.calendar-actions {
-  float: right;
-  text-align: right;
-  max-width: 360px;
+.toggle-actions {
 
-  .calendar-control {
+  text-align: right;
+
+  .toggle-control {
     margin-top: 20px;
     margin-bottom: 20px;
     display: flex;
     align-items: center;
-    .calendar-toggle {
+    justify-content: space-between;
+    .toggle {
       padding: 4px 10px;
       color: #000;
       display: inline-block;
@@ -262,6 +280,14 @@ const t = (key: string, domain: TranslationDomain = "upcoming") => {
       }
 
       &.month {
+        border-radius: 0 7px 7px 0;
+      }
+
+      &.all {
+        border-radius: 7px 0 0 7px;
+      }
+
+      &.orchestra {
         border-radius: 0 7px 7px 0;
       }
 
@@ -282,10 +308,5 @@ const t = (key: string, domain: TranslationDomain = "upcoming") => {
     display: flex;
     gap: 10px;
   }
-}
-.rehearsal-filter {
-  color: #000;
-  max-width: fit-content;
-  margin-left: 10px;
 }
 </style>
