@@ -252,7 +252,7 @@ const t = (key: string, domain: TranslationDomain = "upcoming") => {
 .calendar-actions {
   float: right;
   text-align: right;
-  max-width: 400px;
+  max-width: 500px;
 
   .calendar-control {
     margin-top: 20px;
