@@ -4,7 +4,6 @@
       <div class="calendar-actions" v-if="loggedIn">
         <div class="ical-container">
           <a
-            href="/upcoming/akevents.ics"
             @click.prevent="showIcal = !showIcal"
           >
             <img
@@ -19,7 +18,7 @@
               id="ical-link"
               type="text"
               readonly
-              :value="icalLink"
+              :value="fullIcalLink"
             />
             <span class="input-group-btnp">
               <button
@@ -167,6 +166,10 @@ const years = computed(() => {
   if (!allYears.value) return null;
 
   return filterYears(allYears.value, rehearsalFilter.value);
+});
+
+const fullIcalLink = computed(() => {
+  return icalLink.value + `?rehearsalFilter=${rehearsalFilter.value}`;
 });
 
 const loadEvents = () => {

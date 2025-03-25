@@ -151,11 +151,20 @@ public class UpcomingController : Controller
     }
 
     [Route("akevents.ics")]
-    public ActionResult Ical()
+    public ActionResult Ical(string rehearsalFilter)
     {
         var events = _db.Events.OrderBy(x => x.Day.Date).ThenBy(x => x.StartsTime)
             .Include(x => x.SignUps)
             .Where(x => x.Day >= DateTime.UtcNow.Date);
+
+        if (rehearsalFilter == "orchestra")
+        {
+            events = events.Where(x => x.Type != AkEventTypes.BalettRep);
+        }
+        else if (rehearsalFilter == "ballet")
+        {
+            events = events.Where(x => x.Type != AkEventTypes.Rep);
+        }
 
 
         var sb = new StringBuilder();
