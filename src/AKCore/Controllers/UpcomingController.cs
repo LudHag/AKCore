@@ -157,11 +157,11 @@ public class UpcomingController : Controller
             .Include(x => x.SignUps)
             .Where(x => x.Day >= DateTime.UtcNow.Date);
 
-        if (rehearsalFilter == "ballet")
+        if (rehearsalFilter == "orchestra")
         {
             events = events.Where(x => x.Type != AkEventTypes.BalettRep);
         }
-        else if (rehearsalFilter == "orchestra")
+        else if (rehearsalFilter == "ballet")
         {
             events = events.Where(x => x.Type != AkEventTypes.Rep);
         }
