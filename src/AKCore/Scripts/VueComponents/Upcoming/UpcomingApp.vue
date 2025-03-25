@@ -4,7 +4,6 @@
       <div class="calendar-actions" v-if="loggedIn">
         <div class="ical-container">
           <a
-            href="fullIcalLink"
             @click.prevent="showIcal = !showIcal"
           >
             <img
@@ -170,16 +169,7 @@ const years = computed(() => {
 });
 
 const fullIcalLink = computed(() => {
-  const exclusions: Record<"orchestra" | "ballet", string> = {
-    orchestra: "ballet",
-    ballet: "orchestra",
-  };
-
-  const exclusionParam = exclusions[rehearsalFilter.value as "orchestra" | "ballet"]
-    ? `?excludeType=${exclusions[rehearsalFilter.value as "orchestra" | "ballet"]}`
-    : "";
-
-  return icalLink.value + exclusionParam;
+  return icalLink.value + `?rehearsalFilter=${rehearsalFilter.value}`;
 });
 
 const loadEvents = () => {
