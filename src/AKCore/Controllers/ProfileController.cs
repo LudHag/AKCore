@@ -54,7 +54,7 @@ public class ProfileController : Controller
             LastName = user.LastName,
             Phone = user.Phone,
             Instrument = user.Instrument,
-            OtherInstruments = string.IsNullOrWhiteSpace(user.OtherInstruments) ? null : user.OtherInstruments.Split(',').ToList(),
+            OtherInstruments = string.IsNullOrWhiteSpace(user.OtherInstruments) ? [] : user.OtherInstruments.Split(',').ToList(),
             Posts = GetPosts(user.SlavPoster),
             Roles = await _userManager.GetRolesAsync(user),
             Medal = user.Medal,
