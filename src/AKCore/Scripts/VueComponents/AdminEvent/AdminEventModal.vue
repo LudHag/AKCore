@@ -40,23 +40,31 @@
                     name="Name"
                   />
                 </div>
-                <div class="col-sm-6" v-if="eventType === 'Spelning' || eventType === 'Evenemang'">
-                    <label></label>
-                    <div class="checkbox checkbox-center">
-                        <label>
-                            <input 
-                                  type="checkbox"
-                                  v-model="upcomingEvent.secret"
-                                  name="Secret" />
-                            Hemlig spelning/evenemang
-                        </label>
-                    </div>
+                <div
+                  class="col-sm-6"
+                  v-if="eventType === 'Spelning' || eventType === 'Evenemang'"
+                >
+                  <label></label>
+                  <div class="checkbox checkbox-center">
+                    <label>
+                      <input
+                        type="checkbox"
+                        v-model="upcomingEvent.secret"
+                        name="Secret"
+                      />
+                      Hemlig spelning/evenemang
+                    </label>
+                  </div>
                 </div>
               </div>
             </div>
             <div
               class="form-group"
-              v-if="spelningFest || eventType == 'Evenemang' || eventType == 'Samlingsrep'"
+              v-if="
+                spelningFest ||
+                eventType == 'Evenemang' ||
+                eventType == 'Samlingsrep'
+              "
             >
               <div class="row">
                 <div class="col-sm-6">
@@ -94,7 +102,10 @@
                     required
                   ></datepicker>
                 </div>
-                <div class="col-sm-3" v-if="eventType !== 'Evenemang' && eventType !== 'Balettrep'">
+                <div
+                  class="col-sm-3"
+                  v-if="eventType !== 'Evenemang' && eventType !== 'Balettrep'"
+                >
                   <label>Vid hålan</label>
                   <input
                     class="form-control"
@@ -133,15 +144,15 @@
                 </div>
 
                 <div class="col-sm-6" v-if="repFika && eventType !== 'Fikarep'">
-                <label>Fika</label>
-                <VueSelect
-                  is-multi
-                  :searchable="false"
-                  name="Fika"
-                  :options="fikaOptions"
-                  placeholder="Välj sektion"
-                  v-model="upcomingEvent.fikaCollection"
-                ></VueSelect>
+                  <label>Fika</label>
+                  <VueSelect
+                    is-multi
+                    :searchable="false"
+                    name="Fika"
+                    :options="fikaOptions"
+                    placeholder="Välj sektion"
+                    v-model="upcomingEvent.fikaCollection"
+                  ></VueSelect>
                 </div>
               </div>
               <div class="row" v-if="eventType === 'Spelning'">
@@ -154,14 +165,15 @@
                   />
                 </div>
                 <div class="col-sm-6">
-                <label></label>
+                  <label></label>
                   <div class="checkbox checkbox-center">
                     <label>
-                      <input 
-                                type="checkbox"
-                                v-model="upcomingEvent.disabled"
-                                name="AllowsSignUps" />
-                        Anmälan stängd
+                      <input
+                        type="checkbox"
+                        v-model="upcomingEvent.disabled"
+                        name="AllowsSignUps"
+                      />
+                      Anmälan stängd
                     </label>
                   </div>
                 </div>
@@ -238,7 +250,7 @@ import Modal from "../Modal.vue";
 import Spinner from "../Spinner.vue";
 import { UpcomingEvent } from "../Upcoming/models";
 import { computed, onMounted, ref, watch } from "vue";
-import VueSelect, {Option} from "vue3-select-component";
+import VueSelect, { Option } from "vue3-select-component";
 
 const emit = defineEmits<{
   (e: "close"): void;
@@ -319,33 +331,33 @@ const resetEvent = () => {
   const today = new Date();
   eventType.value = props.selectedEvent ? props.selectedEvent.type : "";
   upcomingEvent.value = props.selectedEvent
-  ? Object.assign({}, props.selectedEvent)
-  : {
-      id: -1,
-      day: "",
-      dayInMonth: 1,
-      signupState: "",
-      coming: 0,
-      notComing: 0,
-      type: "",
-      name: "",
-      place: "",
-      description: "",
-      descriptionEng: "",
-      internalDescription: "",
-      internalDescriptionEng: "",
-      year: today.getFullYear(),
-      month: today.getMonth() + 1,
-      dayDate: today,
-      fikaCollection: [],
-      halanTime: "00:00",
-      thereTime: "00:00",
-      startsTime: "00:00",
-      playDuration: "",
-      stand: "",
-      secret: false,
-      disabled: false
-    };
+    ? Object.assign({}, props.selectedEvent)
+    : {
+        id: -1,
+        day: "",
+        dayInMonth: 1,
+        signupState: "",
+        coming: 0,
+        notComing: 0,
+        type: "",
+        name: "",
+        place: "",
+        description: "",
+        descriptionEng: "",
+        internalDescription: "",
+        internalDescriptionEng: "",
+        year: today.getFullYear(),
+        month: today.getMonth() + 1,
+        dayDate: today,
+        fikaCollection: [],
+        halanTime: "00:00",
+        thereTime: "00:00",
+        startsTime: "00:00",
+        playDuration: "",
+        stand: "",
+        secret: false,
+        disabled: false,
+      };
   upcomingEvent.value!.dayDate = new Date(upcomingEvent.value!.dayDate);
 };
 
@@ -373,7 +385,7 @@ const spelningKarhus = computed(() => {
   return (
     eventType.value === "Spelning" ||
     eventType.value === "Kårhusrep" ||
-    eventType.value === "Athenrep" || 
+    eventType.value === "Athenrep" ||
     eventType.value === "Samlingsrep"
   );
 });
@@ -383,7 +395,7 @@ const repFika = computed(() => {
     eventType.value === "Rep" ||
     eventType.value === "Kårhusrep" ||
     eventType.value === "Athenrep" ||
-    eventType.value === "Fikarep" || 
+    eventType.value === "Fikarep" ||
     eventType.value === "Samlingsrep"
   );
 });

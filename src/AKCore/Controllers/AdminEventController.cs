@@ -73,7 +73,7 @@ namespace AKCore.Controllers
                 InternalDescription = e.InternalDescription,
                 InternalDescriptionEng = e.InternalDescriptionEng,
                 Fika = e.Fika,
-                FikaCollection = string.IsNullOrWhiteSpace(e.FikaCollection) ? null : e.FikaCollection.Split(',').ToList(),
+                FikaCollection = string.IsNullOrWhiteSpace(e.FikaCollection) ? [] : e.FikaCollection.Split(',').ToList(),
                 DayDate = e.Day,
                 Day = e.Day.ToString("dd MMM - yyyy", Culture),
                 DayInMonth = e.Day.Day,
