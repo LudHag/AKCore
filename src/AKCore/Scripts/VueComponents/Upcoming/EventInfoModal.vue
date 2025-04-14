@@ -141,7 +141,8 @@ const signupable =
   props.member &&
   (props.event.type === "Spelning" ||
     props.event.type === "Kårhusrep" ||
-    props.event.type === "Athenrep");
+    props.event.type === "Athenrep" ||
+    props.event.type === "Samlingsrep");
 
 const eventName = (e: UpcomingEvent) => {
   if (eventIsRep(e)) {
