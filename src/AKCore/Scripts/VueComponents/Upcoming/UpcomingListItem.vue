@@ -56,7 +56,8 @@
           loggedIn &&
           (event.type === 'Spelning' ||
             event.type === 'Kårhusrep' ||
-            event.type === 'Athenrep')
+            event.type === 'Athenrep' ||
+            event.type === 'Samlingsrep')
         "
       >
         <a
