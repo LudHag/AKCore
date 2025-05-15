@@ -222,7 +222,7 @@ public class UpcomingController : Controller
     [Route("EditSignup")]
     [Authorize(Roles = AkRoles.SuperNintendo)]
     [HttpPost]
-    public ActionResult EditSignup(string eventId, string memberId, string type)
+    public ActionResult EditSignup(string eventId, string memberId, string type, bool instrument, bool car)
     {
         if (!int.TryParse(eventId, out var eIdInt) || string.IsNullOrWhiteSpace(type) ||
             string.IsNullOrWhiteSpace(memberId)) return Json(new { success = false, message = "Felaktig data" });
@@ -233,6 +233,8 @@ public class UpcomingController : Controller
         {
             signUp.Where = type;
             signUp.InstrumentName = member.Instrument;
+            signUp.Instrument = instrument;
+            signUp.Car = car;
         }
         else
         {

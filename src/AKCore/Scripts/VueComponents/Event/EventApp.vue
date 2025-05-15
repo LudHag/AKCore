@@ -71,7 +71,7 @@
           </p>
         </div>
       </div>
-      <div v-if="!eventInfo.event.disabled">
+      <div>
         <edit-signup-modal
           v-if="eventInfo"
           :show-modal="showEditForm"

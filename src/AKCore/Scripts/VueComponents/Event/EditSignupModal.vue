@@ -36,6 +36,20 @@
                     {{ signupType }}
                   </option>
                 </select>
+                <div class="checkbox">
+                <label>
+                  <input type="checkbox" v-model="car" />
+                  <input type="hidden" name="Car" v-model="car" />
+                  Har bil
+                </label>
+              </div>
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" v-model="instrument" />
+                  <input type="hidden" name="Instrument" v-model="instrument" />
+                  Tar med instrument
+                </label>
+              </div>
               </div>
             </div>
           </div>
@@ -65,6 +79,9 @@ defineProps<{
   eventId: number;
   showModal: boolean;
 }>();
+
+const car = ref(false);
+const instrument = ref(false);
 
 const close = () => {
   emit("close");
