@@ -290,6 +290,7 @@ public class UpcomingController : Controller
         var isEnglish = _translationsService.IsEnglish();
         model.Event = MapEventModel(spelning, true, user.Id, isEnglish);
         var signups = spelning.SignUps.Select(x => x.CopySignupWithoutEvent()).OrderBy(x => x.InstrumentName).ThenBy(x => x.PersonName);
+        model.Signups = signups;
 
         if (nintendo)
         {
@@ -303,6 +304,7 @@ public class UpcomingController : Controller
 
         return Json(model);
     }
+
 
     [Route("Signup/{id:int}")]
     [Authorize(Roles = "Medlem")]
