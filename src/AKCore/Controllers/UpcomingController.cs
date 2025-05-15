@@ -290,7 +290,6 @@ public class UpcomingController : Controller
         var isEnglish = _translationsService.IsEnglish();
         model.Event = MapEventModel(spelning, true, user.Id, isEnglish);
         var signups = spelning.SignUps.Select(x => x.CopySignupWithoutEvent()).OrderBy(x => x.InstrumentName).ThenBy(x => x.PersonName);
-        model.Signups = await RemoveDoubles(signups, eId);
 
         if (nintendo)
         {
@@ -304,32 +303,6 @@ public class UpcomingController : Controller
 
         return Json(model);
     }
-
-    private async Task<IEnumerable<SignUp>> RemoveDoubles(IEnumerable<SignUp> signups, int eventId)
-    {
-        var doubles = signups.GroupBy(x => x.PersonId).Where(x => x.Count() > 1);
-
-        if (!doubles.Any())
-        {
-            return signups;
-        }
-
-
-        foreach (var personSignups in doubles)
-        {
-            var signupsToDelete = personSignups.SkipLast(1);
-
-            _db.SignUps.RemoveRange(signupsToDelete);
-
-        }
-
-        await _db.SaveChangesAsync();
-        var spelning = _db.Events.Include(x => x.SignUps).FirstOrDefault(x => x.Id == eventId);
-
-
-        return spelning.SignUps.Select(x => x.CopySignupWithoutEvent());
-    }
-
 
     [Route("Signup/{id:int}")]
     [Authorize(Roles = "Medlem")]
