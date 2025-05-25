@@ -73,6 +73,7 @@ namespace AKCore.Controllers
                 InternalDescription = e.InternalDescription,
                 InternalDescriptionEng = e.InternalDescriptionEng,
                 Fika = e.Fika,
+                FikaCollection = string.IsNullOrWhiteSpace(e.FikaCollection) ? [] : e.FikaCollection.Split(',').ToList(),
                 DayDate = e.Day,
                 Day = e.Day.ToString("dd MMM - yyyy", Culture),
                 DayInMonth = e.Day.Day,
@@ -86,6 +87,8 @@ namespace AKCore.Controllers
                 Month = e.Day.Month,
                 Disabled = e.Disabled,
             };
+            if (e.FikaCollection == null)
+                model.FikaCollection = [e.Fika];
             return model;
         }
 
@@ -122,6 +125,7 @@ namespace AKCore.Controllers
                     changeEvent.Stand = model.Stand;
                     changeEvent.StartsTime = ParseTime(model.StartsTime);
                     changeEvent.Fika = model.Fika;
+                    changeEvent.FikaCollection = model.FikaCollection == null ? "" : string.Join(",", model.FikaCollection);
                     changeEvent.Description = model.Description;
                     changeEvent.DescriptionEng = model.DescriptionEng;
                     changeEvent.InternalDescription = model.InternalDescription;
@@ -143,10 +147,10 @@ namespace AKCore.Controllers
                 }
                 else //skapa
                 {
-                    if ((model.Type == AkEventTypes.FikaRep) || (model.Type == AkEventTypes.KarRep) ||
-                        (model.Type == AkEventTypes.AthenRep) ||
-                        (model.Type == AkEventTypes.Rep))
+                    if (AkEventTypes.RepEventTypes.Contains(model.Type))
+                    {
                         model.Name = model.Type;
+                    }
 
                     var newEvent = new Event
                     {
@@ -159,6 +163,7 @@ namespace AKCore.Controllers
                         Day = DateTime.Parse(model.Day).ConvertToSwedishTime(),
                         Type = model.Type,
                         Fika = model.Fika,
+                        FikaCollection = model.FikaCollection == null ? "" : string.Join(",", model.FikaCollection),
                         HalanTime = ParseTime(model.HalanTime),
                         ThereTime = ParseTime(model.ThereTime),
                         Stand = model.Stand,

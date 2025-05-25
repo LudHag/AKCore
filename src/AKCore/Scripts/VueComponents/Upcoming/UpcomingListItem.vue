@@ -1,13 +1,13 @@
 ﻿<template>
   <div
     class="row event-row"
-    @click.prevent="expanded = !expanded"
+    @click.prevent="(expanded = !expanded)"
     :class="{ expandable, expanded }"
   >
     <div class="col-sm-4 col-xs-6" style="font-weight: 500">
       <p style="text-transform: capitalize">{{ event.day }}</p>
       <p v-if="isRep">{{ t(event.type) }}</p>
-      <p v-if="event.type === 'Rep'">{{ event.place }}</p>
+      <p v-if="event.type === 'Rep' || event.type === 'Samlingsrep'">{{ event.place }}</p>
       <template v-if="!isRep && loggedIn">
         <p>{{ event.name }}</p>
         <p>{{ event.place }}</p>
@@ -16,14 +16,19 @@
     <div class="col-sm-4 col-xs-6">
       <template v-if="loggedIn">
         <p v-if="event.halanTime">
-          {{ t("gather-in-hole", "common") }}: {{ event.halanTime }}
+          <span v-if="event.type === 'Balettrep'">
+            {{ t("at-rehersal-place", "common") }}
+          </span>
+          <span v-else> {{ t("gather-in-hole", "common") }} </span>:
+          {{ event.halanTime }}
         </p>
         <p
           v-if="
             event.thereTime &&
             (event.type === 'Spelning' ||
               event.type === 'Kårhusrep' ||
-              event.type === 'Athenrep')
+              event.type === 'Athenrep' ||
+              event.type === 'Samlingsrep')
           "
         >
           {{ t("gather-there", "common") }}: {{ event.thereTime }}
@@ -51,7 +56,8 @@
           loggedIn &&
           (event.type === 'Spelning' ||
             event.type === 'Kårhusrep' ||
-            event.type === 'Athenrep')
+            event.type === 'Athenrep' ||
+            event.type === 'Samlingsrep')
         "
       >
         <a
@@ -89,16 +95,29 @@
       <p v-if="loggedIn && event.type === 'Spelning' && event.stand">
         {{ t("type-of-play") }}: {{ event.stand }}
       </p>
-      <p
+      <div
         v-if="
           loggedIn &&
           (event.type === 'Rep' ||
             event.type === 'Kårhusrep' ||
-            event.type === 'Athenrep')
+            event.type === 'Athenrep' ||
+            event.type === 'Samlingsrep')
         "
       >
-        {{ t("fika-and-clean") }}: {{ event.fika }}
-      </p>
+        <div>
+          {{ t("fika-and-clean") }}:
+          <span v-for="(item, index) in event.fikaCollection" :key="index">
+            {{ item
+            }}<span
+              v-if="
+                event.fikaCollection.length > 1 &&
+                index !== event.fikaCollection.length - 1
+              "
+              >,
+            </span>
+          </span>
+        </div>
+      </div>
     </div>
     <div class="extra">
       <div

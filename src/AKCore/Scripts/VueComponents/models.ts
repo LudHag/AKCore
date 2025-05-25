@@ -10,6 +10,8 @@ export interface Video {
   title: string;
 }
 
+export type RepFilterType = 'all' | 'orchestra' | 'ballet';
+
 interface Uploadable {
   id: number;
   name: string;
