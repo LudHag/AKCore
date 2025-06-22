@@ -333,6 +333,28 @@ p.infobox {
   }
 }
 
+.skip-link {
+  position: absolute;
+  display: inline-block;
+  padding: 0.375rem 0.75rem;
+  line-height: 1;
+  font-size: 1.25rem;
+  background-color: $akgrey;
+  z-index: 1;
+  color: $akwhite;
+  top: 0.5rem;
+  left: 0.5rem;
+
+  &:focus {
+    color: $akwhite;
+    text-decoration: underline;
+  }
+}
+
+.skip-link:not(:focus) {
+  transform: translateY(-3rem);
+}
+
 @media screen and (max-width: $screen-xs-max) {
   h1 {
     font-size: 30px;

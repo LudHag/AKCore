@@ -44,6 +44,7 @@ public class TranslationsService
         { "SelectInstrument", new Translation("Välj instrument", "Select instrument") },
         { "Gigs", new Translation("Spelningar", "Upcoming gigs") },
         { "Upcoming", new Translation("På gång", "Upcoming") },
+        { "ContinueContent", new Translation("Hoppa till innehåll", "Skip to content") },
     };
 
     private static readonly Dictionary<string, Translation> widgetsTranslations = new() {
