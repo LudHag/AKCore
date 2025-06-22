@@ -1,5 +1,11 @@
-﻿<!DOCTYPE html>
-<html lang="sv">
+﻿@{
+    var currentPath = Context.Request.Path;
+    bool isEnInformationPage = currentPath.Equals("/en-information", StringComparison.OrdinalIgnoreCase);
+    var enPage = t.IsEnglish() || isEnInformationPage;
+}
+
+<!DOCTYPE html>
+<html lang="@(enPage ? "en" : "sv")">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
