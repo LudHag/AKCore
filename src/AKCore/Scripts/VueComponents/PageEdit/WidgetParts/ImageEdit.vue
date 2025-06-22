@@ -9,6 +9,21 @@
         Välj bild
       </a>
     </div>
+    <div class="form-group" v-if="modelValue">
+      <label for="imageAlt">Alt text för bilden:</label>
+      <input
+        type="text"
+        class="form-control"
+        :value="altText"
+        @input="
+          emit(
+            'update:altText',
+            ($event.target as HTMLInputElement).value ?? '',
+          )
+        "
+        placeholder="Beskrivande text för bilden"
+      />
+    </div>
     <image-picker-modal
       v-if="showModal"
       :show-modal="showModal"
@@ -25,10 +40,12 @@ import { Image } from "../../models";
 
 const emit = defineEmits<{
   (e: "update:modelValue", value: string): void;
+  (e: "update:altText", value: string): void;
 }>();
 
 defineProps<{
   modelValue?: string;
+  altText?: string;
   fullwidth?: boolean;
 }>();
 
