@@ -31,21 +31,30 @@
             <a
               class="green"
               v-if="signupable && event.signupState && !event.disabled"
+              tabindex="0"
               @click.prevent.stop="openSignup"
+              @keydown.prevent.enter="openSignup"
+              @keydown.prevent.space="openSignup"
               :href="signupUrl"
             >
               {{ t("signed-up") }} ({{ event.signupState }})
             </a>
             <a
               v-if="signupable && !event.signupState && !event.disabled"
+              tabindex="0"
               @click.prevent.stop="openSignup"
+              @keydown.prevent.enter="openSignup"
+              @keydown.prevent.space="openSignup"
               :href="signupUrl"
             >
               {{ t("sign-up") }}
             </a>
             <a
               v-if="signupable && event.disabled"
+              tabindex="0"
               @click.prevent.stop="openSignup"
+              @keydown.prevent.enter="openSignup"
+              @keydown.prevent.space="openSignup"
               :href="signupUrl"
             >
               {{ t("about-event") }}

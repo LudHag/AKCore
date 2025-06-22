@@ -140,6 +140,10 @@ a {
 
 .modal {
   z-index: 70000;
+
+  a:focus {
+    outline-color: $akred;
+  }
 }
 
 .modal-open {
