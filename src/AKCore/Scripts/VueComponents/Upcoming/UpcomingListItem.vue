@@ -1,13 +1,18 @@
 ﻿<template>
   <div
     class="row event-row"
-    @click.prevent="(expanded = !expanded)"
+    @click.prevent="expanded = !expanded"
+    @keydown.prevent.enter="expanded = !expanded"
+    @keydown.prevent.space="expanded = !expanded"
     :class="{ expandable, expanded }"
+    :tabindex="expandable ? 0 : -1"
   >
     <div class="col-sm-4 col-xs-6" style="font-weight: 500">
       <p style="text-transform: capitalize">{{ event.day }}</p>
       <p v-if="isRep">{{ t(event.type) }}</p>
-      <p v-if="event.type === 'Rep' || event.type === 'Samlingsrep'">{{ event.place }}</p>
+      <p v-if="event.type === 'Rep' || event.type === 'Samlingsrep'">
+        {{ event.place }}
+      </p>
       <template v-if="!isRep && loggedIn">
         <p>{{ event.name }}</p>
         <p>{{ event.place }}</p>
@@ -64,6 +69,8 @@
           class="green signup-link"
           v-if="member && event.signupState"
           @click.prevent.stop="openSignup"
+          @keydown.prevent.enter="openSignup"
+          @keydown.prevent.space="openSignup"
           :href="signupUrl"
         >
           {{ t("signed-up") }} ({{ event.signupState }})
@@ -72,6 +79,8 @@
           class="signup-link"
           v-if="member && !event.signupState"
           @click.prevent.stop="openSignup"
+          @keydown.prevent.enter="openSignup"
+          @keydown.prevent.space="openSignup"
           :href="signupUrl"
         >
           {{ event.disabled ? t("about-event") : t("sign-up") }}
@@ -178,6 +187,11 @@ const t = (key: string, domain: TranslationDomain = "upcoming") => {
 .event-row.expandable a {
   margin: 0 0 10px;
   display: block;
+}
+
+.event-row:focus {
+  outline: 1px solid #fff;
+  outline-offset: 5px;
 }
 
 .event-row {

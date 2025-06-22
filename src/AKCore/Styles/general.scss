@@ -22,6 +22,10 @@ body {
   overflow: auto;
   height: 100%;
   font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-smooth: never;
+
   b,
   strong {
     font-weight: 500;
@@ -75,6 +79,11 @@ header {
     font-weight: 500;
   }
 
+  a:hover,
+  a:focus {
+    color: #fff;
+  }
+
   .logo {
     display: block;
   }
@@ -95,6 +104,13 @@ a:visited,
 a:link,
 a:active {
   text-decoration: none;
+}
+
+a:hover,
+a:focus {
+  outline-offset: 5px;
+  outline-color: #fff;
+  outline-width: 1px;
 }
 p.big {
   font-size: 18px;

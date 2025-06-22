@@ -5,6 +5,9 @@
         <div class="ical-container">
           <a
             @click.prevent="showIcal = !showIcal"
+            @keydown.prevent.enter="showIcal = !showIcal"
+            @keydown.prevent.space="showIcal = !showIcal"
+            tabindex="0"
           >
             <img
               style="max-width: 20px; vertical-align: baseline"
@@ -54,6 +57,8 @@
             class="left toggle"
             :class="{ active: rehearsalFilter === 'all' }"
             @click.prevent="handleFilterChange('all')"
+            @keydown.prevent.enter="handleFilterChange('all')"
+            @keydown.prevent.space="handleFilterChange('all')"
           >
             {{ t("allFilter") }}
           </a>
@@ -62,6 +67,8 @@
             class="toggle"
             :class="{ active: rehearsalFilter === 'ballet' }"
             @click.prevent="handleFilterChange('ballet')"
+            @keydown.prevent.enter="handleFilterChange('ballet')"
+            @keydown.prevent.space="handleFilterChange('ballet')"
           >
             {{ t("balletFilter") }}
           </a>
@@ -70,6 +77,8 @@
             class="right toggle"
             :class="{ active: rehearsalFilter === 'orchestra' }"
             @click.prevent="handleFilterChange('orchestra')"
+            @keydown.prevent.enter="handleFilterChange('orchestra')"
+            @keydown.prevent.space="handleFilterChange('orchestra')"
           >
             {{ t("orchestraFilter") }}
           </a>
@@ -79,6 +88,8 @@
             href="#"
             class="left toggle"
             @click.prevent="calendarView = false"
+            @keydown.prevent.enter="calendarView = false"
+            @keydown.prevent.space="calendarView = false"
             :class="{ active: !calendarView }"
           >
             {{ t("list") }}
@@ -87,6 +98,8 @@
             href="#"
             class="right toggle"
             @click.prevent="calendarView = true"
+            @keydown.prevent.enter="calendarView = true"
+            @keydown.prevent.space="calendarView = true"
             :class="{ active: calendarView }"
           >
             {{ t("month") }}
