@@ -56,4 +56,20 @@ const selectImage = (image: Image) => {
   showModal.value = false;
 };
 </script>
-<style lang="scss"></style>
+<style lang="scss" scoped>
+.choose-picture-btn {
+  margin-top: 20px;
+  display: block;
+  width: 100px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.picture-select {
+  text-align: center;
+  img {
+    width: 188px;
+    height: 188px;
+  }
+}
+</style>
