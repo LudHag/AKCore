@@ -3,7 +3,6 @@
 @{
     var isEnglish = t.IsEnglish();
 }
-
 <ul class="navigation hidden-print">
     @foreach (var m in Model.Menus)
             {
@@ -24,7 +23,7 @@
                 <li class="@(m.Children.Count > 0 ? "exp" : "")">
                     @if (string.IsNullOrWhiteSpace(m.Link))
                     {
-                        <a class="@active">
+                        <a class="@active" tabindex="0">
                             @name
                         </a>
                     }
