@@ -48,6 +48,17 @@
                 />
               </div>
               <div class="form-group">
+                <label>Matpreferens</label>
+                <input
+                  type="text"
+                  autocomplete="off"
+                  class="form-control"
+                  name="FoodPreference"
+                  placeholder="Matpreferens"
+                  v-model="editedUser.foodPreference"
+                />
+              </div>
+              <div class="form-group">
                 <label>Epost</label>
                 <input
                   type="email"

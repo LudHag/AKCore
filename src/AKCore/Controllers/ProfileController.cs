@@ -58,7 +58,8 @@ public class ProfileController : Controller
             Posts = GetPosts(user.SlavPoster),
             Roles = await _userManager.GetRolesAsync(user),
             Medal = user.Medal,
-            GivenMedal = user.GivenMedal
+            GivenMedal = user.GivenMedal,
+            FoodPreference = user.FoodPreference
         };
         return Json(model);
     }
@@ -130,6 +131,7 @@ public class ProfileController : Controller
         user.Phone = model.Phone;
         user.Instrument = model.Instrument;
         user.OtherInstruments = model.OtherInstruments == null ? "" : string.Join(",", model.OtherInstruments);
+        user.FoodPreference = model.FoodPreference;
         var result = await _userManager.UpdateAsync(user);
         if (result.Succeeded && updateUName)
         {

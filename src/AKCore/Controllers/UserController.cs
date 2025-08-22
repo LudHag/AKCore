@@ -64,7 +64,8 @@ public class UserController(
                 Roles = roles,
                 Posts = model.Posts[user.UserName] ?? [],
                 Active = roles.Length != 0,
-                LastSignedIn = (user.LastSignedIn != DateTime.MinValue) ? user.LastSignedIn.ToString("d") : ""
+                LastSignedIn = (user.LastSignedIn != DateTime.MinValue) ? user.LastSignedIn.ToString("d") : "",
+                FoodPreference = user.FoodPreference
             });
         }
 
@@ -142,6 +143,7 @@ public class UserController(
         user.OtherInstruments = model.OtherInstruments == null ? "" : string.Join(",", model.OtherInstruments);
         user.Medal = model.Medal;
         user.GivenMedal = model.GivenMedal;
+        user.FoodPreference = model.FoodPreference;
 
         var result = await userManager.UpdateAsync(user);
 
@@ -192,7 +194,8 @@ public class UserController(
             Instrument = model.Instrument,
             SlavPoster = model.Posts == null ? "" : JsonConvert.SerializeObject(model.Posts),
             Medal = model.Medal,
-            GivenMedal = model.GivenMedal
+            GivenMedal = model.GivenMedal,
+            FoodPreference = model.FoodPreference
         };
 
         var createRes = await userManager.CreateAsync(newUser, model.Password);

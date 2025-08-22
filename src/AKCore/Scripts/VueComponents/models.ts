@@ -3,6 +3,7 @@ export interface Member {
   email: string;
   phone: string;
   instrument: string;
+  foodPreference: string | null;
 }
 
 export interface Video {

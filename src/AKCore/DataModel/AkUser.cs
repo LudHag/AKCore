@@ -19,7 +19,8 @@ namespace AKCore.DataModel
         public string Medal { get; set; }
         public string GivenMedal { get; set; }
         public string OtherInstruments { get; set; }
-        public DateTime LastSignedIn {  get; set; }
+        public string FoodPreference { get; set; }
+        public DateTime LastSignedIn { get; set; }
         public bool HasKey { get; set; }
 
         public virtual ICollection<IdentityUserRole<string>> Roles { get; } = new List<IdentityUserRole<string>>();

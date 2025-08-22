@@ -62,6 +62,15 @@
         />
       </div>
       <div class="form-group">
+        <label>{{ t("food-preference") }}</label>
+        <input
+          v-model="profileData.foodPreference"
+          class="form-control"
+          :placeholder="t('food-preference')"
+          name="FoodPreference"
+        />
+      </div>
+      <div class="form-group">
         <label>{{ t("instrument") }}</label>
         <select
           v-model="profileData.instrument"

@@ -10,6 +10,7 @@ export interface ProfileData {
   givenMedal: string | null;
   roles: string[];
   posts: string[];
+  foodPreference: string | null;
 }
 
 export interface ProfileStatisticsModel {

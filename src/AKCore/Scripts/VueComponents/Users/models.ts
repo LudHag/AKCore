@@ -17,6 +17,7 @@ export interface User {
   active: boolean;
   password: string;
   lastSignedIn: string;
+  foodPreference: string | null;
 }
 
 export interface UpdateInfo {

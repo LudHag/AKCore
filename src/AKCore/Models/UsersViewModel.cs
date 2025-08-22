@@ -29,5 +29,6 @@ namespace AKCore.Models
         public IEnumerable<string> Roles;
         public IEnumerable<string> Posts;
         public string LastSignedIn { get; set; }
+        public string FoodPreference { get; set; }
     }
 }

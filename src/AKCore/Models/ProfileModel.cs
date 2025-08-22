@@ -28,6 +28,8 @@ public class ProfileModel
     public string Medal { get; set; }
     public string GivenMedal { get; set; }
 
+    public string FoodPreference { get; set; }
+
     public IList<string> Roles { get; set; }
     public IList<string> Posts { get; set; }
     public ProfileModel()

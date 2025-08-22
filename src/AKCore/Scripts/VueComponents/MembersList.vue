@@ -41,6 +41,9 @@
               <div class="phone-nation">
                 <a :href="'tel:' + member.phone">{{ member.phone }}</a>
               </div>
+              <div class="">
+               {{ t("food-preference") }}: {{ member.foodPreference }}
+              </div>
             </div>
           </div>
         </div>
