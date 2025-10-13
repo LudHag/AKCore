@@ -16,8 +16,8 @@ export const upcomingTranslations: Record<string, Translation> = {
   balletFilter: { swedish: "Balettrep", english: "Ballet rehearsals" },
   orchestraFilter: { swedish: "Orkesterrep", english: "Orchestra rehearsals" },
   "no-concerts": {
-    swedish: "Vi har tyvärr inga spelningar inplanerade närmaste tiden",
-    english: "Unfortunately we have no planned concerts in the upcoming weeks",
+    swedish: "Vi har tyvärr inga offentliga spelningar inplanerade närmaste tiden",
+    english: "Unfortunately we have no planned public concerts in the upcoming weeks",
   },
   Rep: { swedish: "Rep", english: "Rehearsal" },
   Kårhusrep: {
