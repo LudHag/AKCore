@@ -92,6 +92,7 @@ namespace AKCore.DataModel
         public const string OPK = "Operativkamerer";
         public const string Arsenalkamerer = "Arsenalkamerer";
         public const string Balettkamerer = "Balettkamerer";
+        public const string BITKamerer = "BIT-kamerer";
         public const string Busskamerer = "Busskamerer";
         public const string Kamerakamerer = "Kamerakamerer";
         public const string Kramkamerer = "Kramkamerer";
@@ -107,7 +108,6 @@ namespace AKCore.DataModel
         public const string Skrubbkamerer = "Skrubbkamerer";
         public const string Sponsringskamerer = "Sponsringskamerer";
         public const string Stämledare = "Stämledare";
-        public const string BITKamerer = "BIT-kamerer";
         public const string SYKamerer = "SY-kamerer";
         public static readonly IList<string> Poster = new List<string>()
         {
@@ -116,6 +116,7 @@ namespace AKCore.DataModel
             KK,
             OPK,
             Balettkamerer,
+            BITKamerer,
             Busskamerer,
             Arsenalkamerer,
             Kamerakamerer,
@@ -132,7 +133,6 @@ namespace AKCore.DataModel
             Skrubbkamerer,
             Sponsringskamerer,
             Stämledare,
-            BITKamerer,
             SYKamerer
         };
     }
