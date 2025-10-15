@@ -295,5 +295,33 @@
                 @t.Get(TranslationDomains.Posts,"Sponsor")
             </div>
         </div>
+         <div class="row">
+            <div class="col-sm-4">
+                SY-kamerer
+            </div>
+            <div class="col-sm-4">
+                @foreach (var user in Model.Users[AkPoster.SYKamerer])
+                {
+                    <p>@user.GetName()</p>
+                }
+            </div>
+            <div class="col-sm-4">
+                @t.Get(TranslationDomains.Posts,"SY-kamerer")
+            </div>
+        </div>
+         <div class="row">
+            <div class="col-sm-4">
+                BIT-kamerer
+            </div>
+            <div class="col-sm-4">
+                @foreach (var user in Model.Users[AkPoster.BITKamerer])
+                {
+                    <p>@user.GetName()</p>
+                }
+            </div>
+            <div class="col-sm-4">
+                @t.Get(TranslationDomains.Posts,"BIT-kamerer")
+            </div>
+        </div>
     </div>
 </div>

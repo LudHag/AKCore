@@ -108,6 +108,8 @@ public class TranslationsService
         { "Gadget", new Translation("Ansvarig för medaljer, tröjor, märken och dylikt", "Responsible for medals, t-shirts, brands etc.") },
         { "Scrub", new Translation("Ansvarig för Hålan, t.ex. glödlampor osv.", "Responsible for Hålan, for exampel light bulbs etc.") },
         { "Sponsor", new Translation("Ansvarar för att hitta sponsorer", "Responsible for finding sponsors") },
+        { "BIT-kamerer", new Translation("Ansvarar för att balettens nya koreografier blir filmade efter varje rep, samt lägger upp dessa på hemsidan", "Responsible for filming the ballet's new choreographies after each rehearsal and uploading them to the website") },
+        { "SY-kamerer", new Translation("Ansvarar för att balettens uniformskjolar sys.", "Responsible for sewing the ballet's uniform skirts") },
         { "Board", new Translation("Styrelse",  "Board") },
         { "Functionaries", new Translation("Funktionärer",  "Functionaries") },
         { "OtherPosts", new Translation("Slavkamererer", "Other posts") }

@@ -20,6 +20,8 @@
   "Skrubbkamerer",
   "Sponsringskamerer",
   "Stämledare",
+  "BIT-kamerer",
+  "SY-kamerer",
 ];
 export const ROLES = ["SuperNintendo", "Medlem", "Editor", "Balett"];
 export const MEDALS = [

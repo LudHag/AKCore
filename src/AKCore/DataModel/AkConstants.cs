@@ -107,6 +107,8 @@ namespace AKCore.DataModel
         public const string Skrubbkamerer = "Skrubbkamerer";
         public const string Sponsringskamerer = "Sponsringskamerer";
         public const string Stämledare = "Stämledare";
+        public const string BITKamerer = "BIT-kamerer";
+        public const string SYKamerer = "SY-kamerer";
         public static readonly IList<string> Poster = new List<string>()
         {
             OK,
@@ -129,7 +131,9 @@ namespace AKCore.DataModel
             Sexkamerer,
             Skrubbkamerer,
             Sponsringskamerer,
-            Stämledare
+            Stämledare,
+            BITKamerer,
+            SYKamerer
         };
     }
 
