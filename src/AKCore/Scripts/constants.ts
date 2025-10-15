@@ -5,6 +5,7 @@
   "Operativkamerer",
   "Arsenalkamerer",
   "Balettkamerer",
+  "BIT-kamerer",
   "Busskamerer",
   "Kamerakamerer",
   "Kramkamerer",
@@ -20,6 +21,7 @@
   "Skrubbkamerer",
   "Sponsringskamerer",
   "Stämledare",
+  "SY-kamerer",
 ];
 export const ROLES = ["SuperNintendo", "Medlem", "Editor", "Balett"];
 export const MEDALS = [
