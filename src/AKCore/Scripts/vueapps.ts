@@ -11,6 +11,12 @@ import { Member, Video } from "./VueComponents/models";
 import NotificationApp from "./VueComponents/Notifications/NotificationApp.vue";
 import { getCookie } from "./general";
 import CountDownApp from "./VueComponents/Countdown/CountDownApp.vue";
+import VideosSearch from "./VueComponents/VideosSearch.vue";
+
+const videosHeaderApp = document.getElementById("videos-header-search-app");
+if (videosHeaderApp) {
+  createApp(VideosSearch).mount(videosHeaderApp);
+}
 
 declare const videos: Record<number, { title?: string; videos: Array<Video> }>;
 
@@ -24,12 +30,8 @@ videoApps.forEach((app) => {
   const widgetId = parseInt(app.dataset.id as string);
   const videoData = videos[widgetId];
 
-  // Get the global search phrase that affects all video bars
-  const searchPhrase = (window as any).globalVideoSearchPhrase;
-
   createApp(VideoBar, {
     ...videoData,
-    searchPhrase: searchPhrase || undefined,
   }).mount(`#videos-app-${widgetId}`);
 });
 

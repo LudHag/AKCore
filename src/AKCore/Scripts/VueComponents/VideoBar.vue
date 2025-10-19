@@ -1,5 +1,5 @@
 ﻿<template>
-  <div class="videos-app">
+  <div v-if="!hideComponent" class="videos-app">
     <h2 v-if="title" v-html="title"></h2>
     <div ref="container" class="videos-container">
       <div class="videos">
@@ -20,30 +20,38 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { Video } from "./models";
+import { sharedVideoState } from "./sharedState";
 
 const props = defineProps<{
   title?: string;
   videos: Array<Video>;
-  searchPhrase?: string;
 }>();
 
 const filteredVideos = computed(() => {
-  if (!props.searchPhrase || props.searchPhrase.trim() === "") {
+  if (
+    !sharedVideoState.searchPhrase ||
+    sharedVideoState.searchPhrase.trim() === ""
+  ) {
     return props.videos;
   }
 
-  const searchTerm = props.searchPhrase.toLowerCase().trim();
+  const searchTerm = sharedVideoState.searchPhrase.toLowerCase().trim();
   return props.videos.filter((video) =>
     video.title.toLowerCase().includes(searchTerm),
   );
 });
+
+const hideComponent = computed(() => {
+  return sharedVideoState.searchPhrase && filteredVideos.value.length === 0;
+});
 </script>
 <style lang="scss" scoped>
+@import "bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss";
 .videos-app {
   position: relative;
+  margin-bottom: 20px;
   h2 {
     margin-bottom: 20px;
-    margin-top: 20px;
   }
 
   .videos {
@@ -69,6 +77,12 @@ const filteredVideos = computed(() => {
     text-overflow: ellipsis;
     white-space: nowrap;
     display: block;
+  }
+}
+
+@media screen and (max-width: $screen-xs-max) {
+  .videos-app .videos .video {
+    width: 140px;
   }
 }
 </style>
