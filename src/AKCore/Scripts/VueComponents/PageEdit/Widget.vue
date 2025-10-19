@@ -65,10 +65,10 @@
         </three-puffs>
 
         <count-down
-        v-if="modelValue.type === 'CountDown'"
-        :model-value="modelValue"
-        @update:modelValue="$emit('update:modelValue', $event)"
-        :translate="translate"
+          v-if="modelValue.type === 'CountDown'"
+          :model-value="modelValue"
+          @update:modelValue="$emit('update:modelValue', $event)"
+          :translate="translate"
         >
         </count-down>
         <video-widget
@@ -80,7 +80,11 @@
       <div class="col-xs-12">
         <a
           class="btn btn-default translate-btn"
-          v-if="!translate && modelValue.text"
+          v-if="
+            !translate &&
+            modelValue.text &&
+            !macrosWithNoTranslate.includes(modelValue.type)
+          "
           @click.prevent="translate = true"
         >
           Översätt
@@ -114,7 +118,7 @@ import {
   Music,
   VideoWidget,
   PostList,
-  CountDown
+  CountDown,
 } from "./Widgets/widgets";
 
 const emit = defineEmits<{
@@ -131,6 +135,8 @@ defineProps<{
 
 const minimized = ref(false);
 const translate = ref(false);
+
+const macrosWithNoTranslate = ["Video"];
 
 onUpdated(() => {
   emit("updated");

@@ -12,7 +12,7 @@ import NotificationApp from "./VueComponents/Notifications/NotificationApp.vue";
 import { getCookie } from "./general";
 import CountDownApp from "./VueComponents/Countdown/CountDownApp.vue";
 
-declare const videos: Record<number, Array<Video>>;
+declare const videos: Record<number, { title?: string; videos: Array<Video> }>;
 
 const videoApps = Array.from(
   document.getElementsByClassName(
@@ -22,9 +22,8 @@ const videoApps = Array.from(
 
 videoApps.forEach((app) => {
   const widgetId = parseInt(app.dataset.id as string);
-  createApp(VideoBar, { videos: videos[widgetId] }).mount(
-    `#videos-app-${widgetId}`,
-  );
+  const videoData = videos[widgetId];
+  createApp(VideoBar, videoData).mount(`#videos-app-${widgetId}`);
 });
 
 declare const memberList: Record<string, Array<Member>>;
@@ -64,8 +63,8 @@ if (document.getElementById("mailbox")) {
 }
 declare const selectedDate: string;
 if (document.getElementById("countdown")) {
-  createApp(CountDownApp,{
-    selectedDate: selectedDate
+  createApp(CountDownApp, {
+    selectedDate: selectedDate,
   }).mount("#countdown");
 }
 
