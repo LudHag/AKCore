@@ -9,6 +9,7 @@ import MemberList from "./MemberList.vue";
 import Music from "./Music.vue";
 import PostList from "./PostList.vue";
 import VideoWidget from "./Video.vue";
+import VideosHeader from "./VideosHeader.vue";
 import MailBox from "./MailBox.vue";
 import CountDown from "./CountDown.vue";
 
@@ -25,5 +26,6 @@ export {
   VideoWidget,
   PostList,
   MailBox,
-  CountDown
+  CountDown,
+  VideosHeader,
 };

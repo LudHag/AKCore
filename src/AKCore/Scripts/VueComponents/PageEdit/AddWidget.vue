@@ -105,6 +105,11 @@
           <li>
             <a href="#" @click.prevent="click('ThreePuffs')"> Tre puffar </a>
           </li>
+          <li>
+            <a href="#" @click.prevent="click('VideosHeader')">
+              Videos rubrik med sök
+            </a>
+          </li>
         </ul>
       </div>
     </div>

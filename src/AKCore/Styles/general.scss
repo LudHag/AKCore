@@ -416,3 +416,15 @@ p.infobox {
     display: none !important;
   }
 }
+
+.content-wrapper .videos-header.row {
+  margin-bottom: 0;
+  display: flex;
+  flex-wrap: wrap;
+
+  .videos-header-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
