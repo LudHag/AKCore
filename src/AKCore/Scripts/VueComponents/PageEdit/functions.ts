@@ -21,9 +21,11 @@ export const getHeader = (type: string): string => {
     case "ThreePuffs":
       return "Tre puffar-widget";
     case "MailBox":
-      return "Anonym brevlåda";
+      return "Anonym brevlåda-widget";
     case "CountDown":
-      return "Nedräknare";
+      return "Nedräknare-widget";
+    case "VideosHeader":
+      return "Video rubrik med sök-widget";
   }
   return "Text-bild-widget";
 };

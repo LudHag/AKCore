@@ -23,7 +23,14 @@ const videoApps = Array.from(
 videoApps.forEach((app) => {
   const widgetId = parseInt(app.dataset.id as string);
   const videoData = videos[widgetId];
-  createApp(VideoBar, videoData).mount(`#videos-app-${widgetId}`);
+
+  // Get the global search phrase that affects all video bars
+  const searchPhrase = (window as any).globalVideoSearchPhrase;
+
+  createApp(VideoBar, {
+    ...videoData,
+    searchPhrase: searchPhrase || undefined,
+  }).mount(`#videos-app-${widgetId}`);
 });
 
 declare const memberList: Record<string, Array<Member>>;

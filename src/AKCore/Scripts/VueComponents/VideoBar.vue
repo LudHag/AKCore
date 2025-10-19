@@ -1,10 +1,10 @@
 ﻿<template>
   <div class="videos-app">
-    <h2 v-if="title">{{ title }}</h2>
+    <h2 v-if="title" v-html="title"></h2>
     <div ref="container" class="videos-container">
       <div class="videos">
         <a
-          v-for="video in videos"
+          v-for="video in filteredVideos"
           :key="video.title"
           class="video"
           :href="'https://www.youtube.com/watch?v=' + video.link"
@@ -18,12 +18,25 @@
   </div>
 </template>
 <script setup lang="ts">
+import { computed } from "vue";
 import { Video } from "./models";
 
-defineProps<{
+const props = defineProps<{
   title?: string;
   videos: Array<Video>;
+  searchPhrase?: string;
 }>();
+
+const filteredVideos = computed(() => {
+  if (!props.searchPhrase || props.searchPhrase.trim() === "") {
+    return props.videos;
+  }
+
+  const searchTerm = props.searchPhrase.toLowerCase().trim();
+  return props.videos.filter((video) =>
+    video.title.toLowerCase().includes(searchTerm),
+  );
+});
 </script>
 <style lang="scss" scoped>
 .videos-app {

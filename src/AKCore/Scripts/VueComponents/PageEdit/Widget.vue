@@ -50,6 +50,7 @@
           @update:modelValue="$emit('update:modelValue', $event)"
           :translate="translate"
         ></text-widget>
+
         <text-image
           v-if="modelValue.type === 'TextImage'"
           :translate="translate"
@@ -76,6 +77,12 @@
           :model-value="modelValue"
           @update:modelValue="$emit('update:modelValue', $event)"
         ></video-widget>
+        <videos-header
+          v-if="modelValue.type === 'VideosHeader'"
+          :model-value="modelValue"
+          @update:modelValue="$emit('update:modelValue', $event)"
+          :translate="translate"
+        ></videos-header>
       </div>
       <div class="col-xs-12">
         <a
@@ -117,6 +124,7 @@ import {
   ImageWidget,
   Music,
   VideoWidget,
+  VideosHeader,
   PostList,
   CountDown,
 } from "./Widgets/widgets";
