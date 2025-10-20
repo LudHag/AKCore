@@ -91,7 +91,7 @@ public class TranslationsService
         { "ÖK", new Translation("Ordförande", "Chairman") },
         { "KK", new Translation("Kassör", "Cashier") },
         { "SK", new Translation("Sekreterare", "Secretary") },
-        { "OPK", new Translation("Operativkamerer", "4th board member") },
+        { "OPK", new Translation("Vice ordförande", "Vice Chairman") },
         { "Ballet", new Translation("Ansvariga för baletten", "Responsible for the ballet") },
         { "Music", new Translation("Ansvarig för det konstnärliga - dirigent", "Responsible for the artistic - conductor") },
         { "Pub", new Translation("Ansvarig för puben", "Responsible for the pub") },
