@@ -20,8 +20,8 @@ export const signupTranslations: Record<string, Translation> = {
     english: "Can't come",
   },
   "brings-instrument": {
-    swedish: "Tar med instrument själv",
-    english: "Brings own instrument",
+    swedish: "Packa med mitt instrument. Jag beskriver mitt case i kommentaren.",
+    english: "Please bring my instrument. I will describe my case in the comment.",
   },
   comment: {
     swedish: "Kommentar",

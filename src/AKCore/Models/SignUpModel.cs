@@ -15,6 +15,8 @@ namespace AKCore.Models
         public bool Car { get; set; }
         [Display(Name = "Tar med instrument själv")]
         public bool Instrument { get; set; }
+        [Display(Name = "Packa mitt instrument")]
+        public bool InstrumentHelp { get; set; }
         [Display(Name = "Kommentar")]
         public string Comment { get; set; }
 
