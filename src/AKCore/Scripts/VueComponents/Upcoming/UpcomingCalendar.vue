@@ -4,8 +4,8 @@
       <a
         href=""
         class="prev-month glyphicon glyphicon-chevron-left"
-        @click.prevent="prevMonth"
-        v-show="showPrevArrow"
+        @click.prevent="handlePrevMonth"
+        :class="{ disabled: !prevArrowEnabled }"
       ></a>
       <span class="date">{{ thisMonthName }} {{ year }}</span>
       <a
@@ -91,6 +91,12 @@ const prevMonth = () => {
   }
 };
 
+const handlePrevMonth = () => {
+  if (prevArrowEnabled.value) {
+    prevMonth();
+  }
+};
+
 const openEvent = (e: UpcomingEvent) => {
   modalEvent.value = e;
 };
@@ -141,7 +147,7 @@ const firstWeekDays = computed(() => {
   return weeks;
 });
 
-const showPrevArrow = computed(() => {
+const prevArrowEnabled = computed(() => {
   return (
     month.value - 1 >= today.getMonth() || year.value > today.getFullYear()
   );
@@ -155,14 +161,28 @@ onMounted(() => {
 <style lang="scss" scoped>
 @import "../../../Styles/variables.scss";
 .controls {
+  display: flex;
+  align-items: center;
   .date {
-    min-width: 110px;
+    min-width: 120px;
     display: inline-block;
     text-align: center;
+    line-height: 20px;
+  }
+
+  .prev-month.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
   }
 }
 
 .table-bordered {
   border: 3px solid $akred;
+}
+
+.next-month,
+.prev-month {
+  font-size: 2rem;
 }
 </style>
