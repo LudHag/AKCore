@@ -57,7 +57,7 @@
     </div>
     <div class="checkbox">
       <label>
-        <input type="checkbox" v-model="instrument" />
+        <input type="checkbox" v-model="inverseInstrument" />
         <input type="hidden" name="Instrument" v-model="instrument" />
         {{ t("brings-instrument") }}
       </label>
@@ -77,7 +77,7 @@
   </form>
 </template>
 <script setup lang="ts">
-import { onMounted, ref, onActivated } from "vue";
+import { onMounted, ref, onActivated, computed } from "vue";
 import { defaultFormSend } from "../../services/apiservice";
 import { UpcomingEventInfo, UpcomingWhere } from "../Upcoming/models";
 import { TranslationDomain, translate } from "../../translations";
@@ -93,6 +93,16 @@ const props = defineProps<{
 const where = ref<UpcomingWhere>(null);
 const car = ref(false);
 const instrument = ref(false);
+
+const inverseInstrument = computed({
+  get() {
+    return !instrument.value;
+  },
+  set(value: boolean) {
+    instrument.value = !value;
+  },
+});
+
 const comment = ref<string | null>(null);
 const error = ref<HTMLElement | null>(null);
 const success = ref<HTMLElement | null>(null);
@@ -102,31 +112,29 @@ const submitForm = (event: Event) => {
     event.target as HTMLFormElement,
     error.value,
     success.value,
-    () => {
-      emit("update");
-    },
+    () => emit("update"),
   );
 };
 
 const loadForm = () => {
-  if (props.eventInfo) {
+  if (props.eventInfo?.where) {
+    // Editing existing signup
     where.value = props.eventInfo.where;
     comment.value = props.eventInfo.comment;
     instrument.value = props.eventInfo.instrument;
     car.value = props.eventInfo.car;
+  } else {
+    where.value = null;
+    comment.value = null;
+    instrument.value = true;
+    car.value = false;
   }
 };
 
-onMounted(() => {
-  loadForm();
-});
+onMounted(() => loadForm());
+onActivated(() => loadForm());
 
-onActivated(() => {
-  loadForm();
-});
-
-const t = (key: string, domain: TranslationDomain = "signup") => {
-  return translate(domain, key);
-};
+const t = (key: string, domain: TranslationDomain = "signup") =>
+  translate(domain, key);
 </script>
 <style lang="scss"></style>
