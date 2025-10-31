@@ -7,7 +7,11 @@
         @submit.prevent="submitForm"
       >
         <div class="modal-body">
-          <div class="alert alert-danger" ref="error" style="display: none"></div>
+          <div
+            class="alert alert-danger"
+            ref="error"
+            style="display: none"
+          ></div>
           <div class="row">
             <div class="col-sm-12">
               <input type="hidden" name="eventId" :value="eventId" />
@@ -46,7 +50,11 @@
                 <div class="checkbox">
                   <label>
                     <input type="checkbox" v-model="inverseInstrument" />
-                    <input type="hidden" name="Instrument" v-model="instrument" />
+                    <input
+                      type="hidden"
+                      name="Instrument"
+                      v-model="instrument"
+                    />
                     {{ t("brings-instrument", "signup") }}
                   </label>
                 </div>

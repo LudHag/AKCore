@@ -315,7 +315,7 @@ const saveLastEarned = (event: Event) => {
     emit("updateuserprop", {
       userName: props.user.userName,
       prop: "medal",
-      // @ts-ignore
+      // @ts-expect-error - medal is not typed
       value: (event.target as HTMLFormElement).elements.medal.value,
     });
   });
@@ -326,7 +326,7 @@ const saveLastGiven = (event: Event) => {
     emit("updateuserprop", {
       userName: props.user.userName,
       prop: "givenMedal",
-      // @ts-ignore
+      // @ts-expect-error - medal is not typed
       value: (event.target as HTMLFormElement).elements.medal.value,
     });
   });
@@ -356,7 +356,7 @@ const removeRole = (role: string) => {
 };
 
 const addRole = (event: Event) => {
-  // @ts-ignore
+  // @ts-expect-error - role is not typed
   const role = (event.target as HTMLFormElement).elements.Role.value;
   const roleIndex = props.user.roles.indexOf(role);
   if (roleIndex !== -1) {
