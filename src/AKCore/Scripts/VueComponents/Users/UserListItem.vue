@@ -62,9 +62,9 @@
                   @submit.prevent="saveLastEarned"
                 >
                   <div class="form-group">
-                    <strong class="spacing-right"
-                      >Senast förtjänade medalj: {{ user.medal }}</strong
-                    >
+                    <strong class="spacing-right">
+                      Senast förtjänade medalj: {{ user.medal }}
+                    </strong>
                     <input
                       type="hidden"
                       name="userName"
