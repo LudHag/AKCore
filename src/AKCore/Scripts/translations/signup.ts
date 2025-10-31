@@ -2,9 +2,9 @@ import { Translation } from "./models";
 
 export const signupTranslations: Record<string, Translation> = {
   "show-info": { swedish: "Visa information", english: "Show information" },
-  "has-instrument": {
-    swedish: "Har instrument",
-    english: "Has instrument",
+  "need-instrument-transport": {
+    swedish: "Behöver transport av instrument",
+    english: "Needs instrument transport",
   },
   "has-car": { swedish: "Har bil", english: "Has car" },
   "coming-to": {
@@ -20,8 +20,8 @@ export const signupTranslations: Record<string, Translation> = {
     english: "Can't come",
   },
   "brings-instrument": {
-    swedish: "Tar med instrument själv",
-    english: "Brings own instrument",
+    swedish: "Packa mitt instrument. Jag beskriver mitt case i kommentaren nedan",
+    english: "Pack my instrument. I will describe my case in the comment below",
   },
   comment: {
     swedish: "Kommentar",

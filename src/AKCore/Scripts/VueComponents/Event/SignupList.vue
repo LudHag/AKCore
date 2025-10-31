@@ -92,8 +92,8 @@ const otherInstrumentsList = (signup: UpcomingSignup) => {
 
 const getInfo = (signup: UpcomingSignup) => {
   let info = signup.where;
-  if (signup.instrument) {
-    info += ", " + t("has-instrument").toLowerCase();
+  if (!signup.instrument) {
+    info += ", " + t("need-instrument-transport").toLowerCase();
   }
   if (signup.car) {
     info += ", " + t("has-car").toLowerCase();
