@@ -5,7 +5,7 @@ import vueParser from "vue-eslint-parser";
 import globals from "globals";
 import prettierConfig from "eslint-config-prettier";
 
-export default ts.config(
+export default [
   js.configs.recommended,
   ...ts.configs.recommended,
   ...eslintPluginVue.configs["flat/recommended"],
@@ -52,4 +52,4 @@ export default ts.config(
     },
   },
   prettierConfig,
-);
+];
