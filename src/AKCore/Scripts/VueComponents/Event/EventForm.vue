@@ -92,7 +92,8 @@ const props = defineProps<{
 
 const where = ref<UpcomingWhere>(null);
 const car = ref(false);
-const instrument = ref(false);
+const instrument = ref(true);
+const comment = ref<string | null>(null);
 
 const inverseInstrument = computed({
   get() {
@@ -103,7 +104,6 @@ const inverseInstrument = computed({
   },
 });
 
-const comment = ref<string | null>(null);
 const error = ref<HTMLElement | null>(null);
 const success = ref<HTMLElement | null>(null);
 
@@ -118,16 +118,10 @@ const submitForm = (event: Event) => {
 
 const loadForm = () => {
   if (props.eventInfo?.where) {
-    // Editing existing signup
     where.value = props.eventInfo.where;
     comment.value = props.eventInfo.comment;
     instrument.value = props.eventInfo.instrument;
     car.value = props.eventInfo.car;
-  } else {
-    where.value = null;
-    comment.value = null;
-    instrument.value = true;
-    car.value = false;
   }
 };
 
