@@ -89,7 +89,7 @@ public class TranslationsService
 
     private static readonly Dictionary<string, Translation> postsTranslations = new() {
         { "ÖK", new Translation("Ordförande", "Chairman") },
-        { "KK", new Translation("Kassör", "Cashier") },
+        { "KK", new Translation("Kassör", "Treasurer") },
         { "SK", new Translation("Sekreterare", "Secretary") },
         { "OPK", new Translation("Vice ordförande", "Vice Chairman") },
         { "Ballet", new Translation("Ansvariga för baletten", "Responsible for the ballet") },
