@@ -59,6 +59,7 @@ namespace AKCore.DataModel
         public const string Komp = "Komp";
         public const string Klarinett = "Klarinett";
         public const string Flute = "Flöjt";
+        public const string Horn = "Horn";
         public const string Trombon = "Grovbrass";
         public const string Trumpet = "Trumpet";
         public static readonly IList<string> Sektioner = new List<string>()
@@ -68,6 +69,7 @@ namespace AKCore.DataModel
             Klarinett,
             Komp,
             Sax,
+            Horn,
             Trombon,
             Trumpet
         };
