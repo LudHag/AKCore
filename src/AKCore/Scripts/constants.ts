@@ -121,6 +121,7 @@ export const SEKTIONER = [
   "Balett",
   "Flöjt",
   "Grovbrass",
+  "Horn",
   "Klarinett",
   "Komp",
   "Sax",
