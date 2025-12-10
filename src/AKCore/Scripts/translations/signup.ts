@@ -21,8 +21,8 @@ export const signupTranslations: Record<string, Translation> = {
   },
   "brings-instrument": {
     swedish:
-      "Packa mitt instrument. Jag beskriver mitt case i kommentaren nedan",
-    english: "Pack my instrument. I will describe my case in the comment below",
+      "Packa mitt instrument, tack. Jag beskriver mitt case i kommentaren nedan (om namnlapp saknas).",
+    english: "Pack my instrument, please. I will describe my case in the comment below (if no nametag is present).",
   },
   comment: {
     swedish: "Kommentar",
