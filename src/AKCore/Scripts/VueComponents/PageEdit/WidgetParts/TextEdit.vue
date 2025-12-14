@@ -42,9 +42,9 @@ watch(
   () => props.modelValue,
   (value) => {
     if (editorRef.value) {
-      // @ts-ignore
+      // @ts-expect-error - editorRef.value is not typed
       if (value !== editorRef.value.getContent()) {
-        // @ts-ignore
+        // @ts-expect-error - editorRef.value is not typed
         editorRef.value.setContent(value || "");
       }
     }

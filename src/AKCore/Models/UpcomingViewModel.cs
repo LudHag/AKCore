@@ -22,6 +22,7 @@ namespace AKCore.Models
         public string InternalDescription { get; set; }
         public string InternalDescriptionEng { get; set; }
         public string Fika { get; set; }
+        public IList<string> FikaCollection { get; set; }
         public int Year { get; set; }
         public int Month { get; set; }
         public string Day { get; set; }

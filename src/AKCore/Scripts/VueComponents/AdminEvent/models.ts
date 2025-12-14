@@ -8,6 +8,7 @@ export interface AdminEventModel {
   place: string;
   type: string;
   fika: string;
+  fikaCollection: string[];
   description: string;
   internalDescription: string;
   day: string;

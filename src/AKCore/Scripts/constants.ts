@@ -5,6 +5,7 @@
   "Operativkamerer",
   "Arsenalkamerer",
   "Balettkamerer",
+  "BIT-kamerer",
   "Busskamerer",
   "Kamerakamerer",
   "Kramkamerer",
@@ -20,6 +21,7 @@
   "Skrubbkamerer",
   "Sponsringskamerer",
   "Stämledare",
+  "SY-kamerer",
 ];
 export const ROLES = ["SuperNintendo", "Medlem", "Editor", "Balett"];
 export const MEDALS = [
@@ -106,7 +108,9 @@ export const EVENTTYPES = [
   "Rep",
   "Kårhusrep",
   "Athenrep",
+  "Samlingsrep",
   "Fikarep",
+  "Balettrep",
   "Fest",
   "Evenemang",
 ];
@@ -117,6 +121,7 @@ export const SEKTIONER = [
   "Balett",
   "Flöjt",
   "Grovbrass",
+  "Horn",
   "Klarinett",
   "Komp",
   "Sax",

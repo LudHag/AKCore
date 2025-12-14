@@ -1,21 +1,7 @@
 <template>
   <div>
-    <div class="col-sm-12">
-      <label>Inställt datum </label>
-      <input
-        class="form-control"
-        type="date"
-        v-model="modelValue.targetDate"
-        name="Date"
-      />
-      <br />
-      <label>Inställd tid </label>
-      <input
-        class="form-control"
-        type="time"
-        v-model="modelValue.targetTime"
-        name="Time"
-      />
+    <div>
+      <text-edit v-model="modelValue.text" :fullwidth="true"></text-edit>
     </div>
     <translation-edit
       :model-value="modelValue"
@@ -26,6 +12,7 @@
 </template>
 <script setup lang="ts">
 import { WidgetEditModel } from "../models";
+import TextEdit from "../WidgetParts/TextEdit.vue";
 import TranslationEdit from "../WidgetParts/TranslationEdit.vue";
 
 defineProps<{

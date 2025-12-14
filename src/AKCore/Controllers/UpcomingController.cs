@@ -97,6 +97,7 @@ public class UpcomingController : Controller
                 Description = description,
                 InternalDescription = internalDescription,
                 Fika = e.Fika,
+                FikaCollection = string.IsNullOrWhiteSpace(e.FikaCollection) ? null : e.FikaCollection.Split(',').ToList(),
                 Day = e.Day.ToString("dddd dd", cultureToUse) + "/" + e.Day.ToString("MM", cultureToUse),
                 DayInMonth = e.Day.Day,
                 HalanTime = ParseTime(e.HalanTime),
@@ -124,6 +125,8 @@ public class UpcomingController : Controller
                 Year = e.Day.Year,
                 Month = e.Day.Month
             };
+        if (e.FikaCollection == null && loggedIn)
+            model.FikaCollection = [e.Fika];
         return model;
     }
 
@@ -133,12 +136,35 @@ public class UpcomingController : Controller
         return time == "00:00" ? null : time;
     }
 
+    private static string SanitizeIcalDescription(string description)
+    {
+        if (string.IsNullOrEmpty(description))
+        {
+            return string.Empty;
+        }
+
+        var sanitizedDesc = description
+            .Replace("\n", @" ")  
+            .Replace("\r", @" ");
+
+        return sanitizedDesc;
+    }
+
     [Route("akevents.ics")]
-    public ActionResult Ical()
+    public ActionResult Ical(string rehearsalFilter)
     {
         var events = _db.Events.OrderBy(x => x.Day.Date).ThenBy(x => x.StartsTime)
             .Include(x => x.SignUps)
             .Where(x => x.Day >= DateTime.UtcNow.Date);
+
+        if (rehearsalFilter == "orchestra")
+        {
+            events = events.Where(x => x.Type != AkEventTypes.BalettRep);
+        }
+        else if (rehearsalFilter == "ballet")
+        {
+            events = events.Where(x => x.Type != AkEventTypes.Rep);
+        }
 
 
         var sb = new StringBuilder();
@@ -156,6 +182,8 @@ public class UpcomingController : Controller
             var dtStart = res.Day.Date;
             dtStart += res.HalanTime;
 
+            var description = SanitizeIcalDescription(res.Description);
+            var internalDesc = SanitizeIcalDescription(res.InternalDescription);
             var dtEnd = dtStart.AddHours(1);
             sb.AppendLine("BEGIN:VEVENT");
             sb.AppendLine("DTSTART:" + dtStart.ToString(DateFormat));
@@ -163,10 +191,10 @@ public class UpcomingController : Controller
             sb.AppendLine("DTSTAMP:" + now);
             sb.AppendLine("UID:" + Guid.NewGuid());
             sb.AppendLine("CREATED:" + now);
-            sb.AppendLine("X-ALT-DESC;FMTTYPE=text/html:" + res.Description + "<br/>" +
-                          res.InternalDescription);
-            sb.AppendLine("DESCRIPTION:" + res.Description +
-                          (!string.IsNullOrWhiteSpace(res.Description) ? "\\n" : "") + res.InternalDescription);
+            sb.AppendLine("X-ALT-DESC;FMTTYPE=text/html:" + description + "<br/>" +
+                          internalDesc);
+            sb.AppendLine("DESCRIPTION:" + description +
+                          (!string.IsNullOrWhiteSpace(description) ? "\\n" : "") + internalDesc);
             sb.AppendLine("LAST-MODIFIED:" + now);
             sb.AppendLine("LOCATION:" + res.Place);
             sb.AppendLine("SEQUENCE:0");
@@ -194,7 +222,7 @@ public class UpcomingController : Controller
     [Route("EditSignup")]
     [Authorize(Roles = AkRoles.SuperNintendo)]
     [HttpPost]
-    public ActionResult EditSignup(string eventId, string memberId, string type)
+    public ActionResult EditSignup(string eventId, string memberId, string type, bool instrument, bool car)
     {
         if (!int.TryParse(eventId, out var eIdInt) || string.IsNullOrWhiteSpace(type) ||
             string.IsNullOrWhiteSpace(memberId)) return Json(new { success = false, message = "Felaktig data" });
@@ -205,6 +233,8 @@ public class UpcomingController : Controller
         {
             signUp.Where = type;
             signUp.InstrumentName = member.Instrument;
+            signUp.Instrument = instrument;
+            signUp.Car = car;
         }
         else
         {
@@ -260,7 +290,7 @@ public class UpcomingController : Controller
         var isEnglish = _translationsService.IsEnglish();
         model.Event = MapEventModel(spelning, true, user.Id, isEnglish);
         var signups = spelning.SignUps.Select(x => x.CopySignupWithoutEvent()).OrderBy(x => x.InstrumentName).ThenBy(x => x.PersonName);
-        model.Signups = await RemoveDoubles(signups, eId);
+        model.Signups = signups;
 
         if (nintendo)
         {
@@ -273,31 +303,6 @@ public class UpcomingController : Controller
         }
 
         return Json(model);
-    }
-
-    private async Task<IEnumerable<SignUp>> RemoveDoubles(IEnumerable<SignUp> signups, int eventId)
-    {
-        var doubles = signups.GroupBy(x => x.PersonId).Where(x => x.Count() > 1);
-
-        if (!doubles.Any())
-        {
-            return signups;
-        }
-
-
-        foreach (var personSignups in doubles)
-        {
-            var signupsToDelete = personSignups.SkipLast(1);
-
-            _db.SignUps.RemoveRange(signupsToDelete);
-
-        }
-
-        await _db.SaveChangesAsync();
-        var spelning = _db.Events.Include(x => x.SignUps).FirstOrDefault(x => x.Id == eventId);
-
-
-        return spelning.SignUps.Select(x => x.CopySignupWithoutEvent());
     }
 
 

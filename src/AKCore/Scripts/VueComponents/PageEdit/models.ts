@@ -19,6 +19,7 @@ export interface WidgetEditModel {
   text?: string;
   textEng?: string;
   image?: string;
+  imageAlt?: string;
   videos?: EditVideoModel[];
   targetDate?: string;
   targetTime?: string;

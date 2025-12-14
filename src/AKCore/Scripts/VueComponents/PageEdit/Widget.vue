@@ -50,6 +50,7 @@
           @update:modelValue="$emit('update:modelValue', $event)"
           :translate="translate"
         ></text-widget>
+
         <text-image
           v-if="modelValue.type === 'TextImage'"
           :translate="translate"
@@ -65,10 +66,10 @@
         </three-puffs>
 
         <count-down
-        v-if="modelValue.type === 'CountDown'"
-        :model-value="modelValue"
-        @update:modelValue="$emit('update:modelValue', $event)"
-        :translate="translate"
+          v-if="modelValue.type === 'CountDown'"
+          :model-value="modelValue"
+          @update:modelValue="$emit('update:modelValue', $event)"
+          :translate="translate"
         >
         </count-down>
         <video-widget
@@ -76,11 +77,21 @@
           :model-value="modelValue"
           @update:modelValue="$emit('update:modelValue', $event)"
         ></video-widget>
+        <videos-header
+          v-if="modelValue.type === 'VideosHeader'"
+          :model-value="modelValue"
+          @update:modelValue="$emit('update:modelValue', $event)"
+          :translate="translate"
+        ></videos-header>
       </div>
       <div class="col-xs-12">
         <a
           class="btn btn-default translate-btn"
-          v-if="!translate && modelValue.text"
+          v-if="
+            !translate &&
+            modelValue.text &&
+            !macrosWithNoTranslate.includes(modelValue.type)
+          "
           @click.prevent="translate = true"
         >
           Översätt
@@ -113,8 +124,9 @@ import {
   ImageWidget,
   Music,
   VideoWidget,
+  VideosHeader,
   PostList,
-  CountDown
+  CountDown,
 } from "./Widgets/widgets";
 
 const emit = defineEmits<{
@@ -131,6 +143,8 @@ defineProps<{
 
 const minimized = ref(false);
 const translate = ref(false);
+
+const macrosWithNoTranslate = ["Video"];
 
 onUpdated(() => {
   emit("updated");
