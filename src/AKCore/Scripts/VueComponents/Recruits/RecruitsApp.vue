@@ -94,10 +94,9 @@ const removeRecruit = (id: number) => {
     return recruit.id !== id;
   });
 };
+declare const recruitList: Recruit[];
 
 onMounted(() => {
-  //@ts-ignore
-  // eslint-disable-next-line no-undef
   recruits.value = recruitList;
 });
 </script>

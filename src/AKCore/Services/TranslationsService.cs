@@ -44,6 +44,7 @@ public class TranslationsService
         { "SelectInstrument", new Translation("Välj instrument", "Select instrument") },
         { "Gigs", new Translation("Spelningar", "Upcoming gigs") },
         { "Upcoming", new Translation("På gång", "Upcoming") },
+        { "ContinueContent", new Translation("Hoppa till innehåll", "Skip to content") },
     };
 
     private static readonly Dictionary<string, Translation> widgetsTranslations = new() {
@@ -88,9 +89,9 @@ public class TranslationsService
 
     private static readonly Dictionary<string, Translation> postsTranslations = new() {
         { "ÖK", new Translation("Ordförande", "Chairman") },
-        { "KK", new Translation("Kassör", "Cashier") },
+        { "KK", new Translation("Kassör", "Treasurer") },
         { "SK", new Translation("Sekreterare", "Secretary") },
-        { "OPK", new Translation("Operativkamerer", "4th board member") },
+        { "OPK", new Translation("Vice ordförande", "Vice Chairman") },
         { "Ballet", new Translation("Ansvariga för baletten", "Responsible for the ballet") },
         { "Music", new Translation("Ansvarig för det konstnärliga - dirigent", "Responsible for the artistic - conductor") },
         { "Pub", new Translation("Ansvarig för puben", "Responsible for the pub") },
@@ -107,6 +108,8 @@ public class TranslationsService
         { "Gadget", new Translation("Ansvarig för medaljer, tröjor, märken och dylikt", "Responsible for medals, t-shirts, brands etc.") },
         { "Scrub", new Translation("Ansvarig för Hålan, t.ex. glödlampor osv.", "Responsible for Hålan, for exampel light bulbs etc.") },
         { "Sponsor", new Translation("Ansvarar för att hitta sponsorer", "Responsible for finding sponsors") },
+        { "BIT-kamerer", new Translation("Ansvarar för att balettens nya koreografier blir filmade efter varje rep, samt lägger upp dessa på hemsidan", "Responsible for filming the ballet's new choreographies after each rehearsal and uploading them to the website") },
+        { "SY-kamerer", new Translation("Ansvarar för att balettens uniformskjolar sys.", "Responsible for sewing the ballet's uniform skirts") },
         { "Board", new Translation("Styrelse",  "Board") },
         { "Functionaries", new Translation("Funktionärer",  "Functionaries") },
         { "OtherPosts", new Translation("Slavkamererer", "Other posts") }

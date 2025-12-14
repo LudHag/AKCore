@@ -2,7 +2,16 @@
   <div>
     <div>
       <text-edit v-model="modelValue.text"></text-edit>
-      <image-edit v-model="modelValue.image"></image-edit>
+      <image-edit
+        v-model="modelValue.image"
+        :alt-text="modelValue.imageAlt"
+        @update:altText="
+          emit('update:modelValue', {
+            ...modelValue,
+            imageAlt: $event,
+          })
+        "
+      ></image-edit>
     </div>
     <translation-edit
       :model-value="modelValue"
@@ -23,7 +32,7 @@ defineProps<{
 }>();
 
 const emit = defineEmits<{
-  (e: "update:modelValue", event: any): void;
+  (e: "update:modelValue", event: WidgetEditModel): void;
 }>();
 </script>
 <style lang="scss"></style>

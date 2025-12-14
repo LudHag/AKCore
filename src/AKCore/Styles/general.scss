@@ -22,6 +22,10 @@ body {
   overflow: auto;
   height: 100%;
   font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-smooth: never;
+
   b,
   strong {
     font-weight: 500;
@@ -61,7 +65,6 @@ label {
 header {
   display: block;
   position: relative;
-  border-bottom: 2px solid #1a1a1a;
   padding: 15px 0 0;
   background: $akred;
   .container {
@@ -73,6 +76,11 @@ header {
   a:visited {
     color: #000;
     font-weight: 500;
+  }
+
+  a:hover,
+  a:focus {
+    color: #fff;
   }
 
   .logo {
@@ -95,6 +103,13 @@ a:visited,
 a:link,
 a:active {
   text-decoration: none;
+}
+
+a:hover,
+a:focus {
+  outline-offset: 5px;
+  outline-color: #fff;
+  outline-width: 1px;
 }
 p.big {
   font-size: 18px;
@@ -125,6 +140,10 @@ a {
 
 .modal {
   z-index: 70000;
+
+  a:focus {
+    outline-color: $akred;
+  }
 }
 
 .modal-open {
@@ -214,6 +233,7 @@ a {
   margin-top: 20px;
 }
 
+.exp:focus-within .subnav,
 .exp:hover .subnav {
   display: block;
 }
@@ -317,6 +337,28 @@ p.infobox {
   }
 }
 
+.skip-link {
+  position: absolute;
+  display: inline-block;
+  padding: 0.375rem 0.75rem;
+  line-height: 1;
+  font-size: 1.25rem;
+  background-color: $akgrey;
+  z-index: 1;
+  color: $akwhite;
+  top: 0.5rem;
+  left: 0.5rem;
+
+  &:focus {
+    color: $akwhite;
+    text-decoration: underline;
+  }
+}
+
+.skip-link:not(:focus) {
+  transform: translateY(-3rem);
+}
+
 @media screen and (max-width: $screen-xs-max) {
   h1 {
     font-size: 30px;
@@ -372,5 +414,17 @@ p.infobox {
   .no-print,
   .no-print * {
     display: none !important;
+  }
+}
+
+.content-wrapper .videos-header.row {
+  margin-bottom: 0;
+  display: flex;
+  flex-wrap: wrap;
+
+  .videos-header-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 }

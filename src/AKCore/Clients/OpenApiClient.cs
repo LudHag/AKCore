@@ -20,6 +20,7 @@ public class OpenApiClient
 
         var messages = new List<ChatMessage> {
             ChatMessage.CreateSystemMessage("Only return the response to the question, no additional words."),
+            ChatMessage.CreateSystemMessage("When asked to return HTML, only return html, not any markdown for html."),
             imageUrl == null ?
              ChatMessage.CreateUserMessage(query) :
              ChatMessage.CreateUserMessage(ChatMessageContentPart.CreateTextPart(query), ChatMessageContentPart.CreateImagePart(new Uri(imageUrl)))

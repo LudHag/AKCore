@@ -10,6 +10,7 @@ import { musicTranslations } from "./music";
 import { profileTranslations } from "./profile";
 import { signupTranslations } from "./signup";
 import { upcomingTranslations } from "./upcoming";
+import { videoTranslations } from "./videos";
 
 export type TranslationDomain =
   | "login"
@@ -21,7 +22,8 @@ export type TranslationDomain =
   | "music"
   | "mailbox"
   | "signup"
-  | "countdown";
+  | "countdown"
+  | "videos";
 
 const translations: Record<TranslationDomain, Record<string, Translation>> = {
   login: loginTranslations,
@@ -34,6 +36,7 @@ const translations: Record<TranslationDomain, Record<string, Translation>> = {
   mailbox: mailboxTranslations,
   signup: signupTranslations,
   countdown: countdownTranslations,
+  videos: videoTranslations,
 };
 
 export const isEnglish = getCookie("language") === "EN";

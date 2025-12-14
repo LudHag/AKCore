@@ -15,7 +15,7 @@
     if (!videos) {
         var videos = {};
     }
-    videos[@Model.Id] = widgetVideos;
+    videos[@Model.Id] = {videos: widgetVideos, title: "@Model.Text" };
 </script>
 
 <div class="videos-app" id="videos-app-@Model.Id" data-id="@Model.Id">

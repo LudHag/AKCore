@@ -40,8 +40,8 @@ import { MailItem } from "./models";
 const mailBoxItems = ref<MailItem[]>([]);
 const isArchived = ref(false);
 
-//@ts-ignore
-// eslint-disable-next-line no-undef
+declare const isBoard: boolean;
+
 const isUserBoard = (): boolean => isBoard;
 
 const loadMediaList = async () => {

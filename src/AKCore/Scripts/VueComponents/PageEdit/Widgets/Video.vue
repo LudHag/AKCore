@@ -3,6 +3,27 @@
     <div class="col-sm-12" v-if="modelValue.videos">
       <div class="row">
         <div class="col-sm-6">
+          <label>Titel </label>
+          <input
+            class="form-control"
+            type="text"
+            v-model="modelValue.text"
+            name="text"
+          />
+        </div>
+        <div class="col-sm-6">
+          <label>Titel på engelska</label>
+          <input
+            class="form-control"
+            type="text"
+            v-model="modelValue.textEng"
+            name="textEng"
+          />
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-6">
           <label>Video</label>
         </div>
         <div class="col-sm-6">

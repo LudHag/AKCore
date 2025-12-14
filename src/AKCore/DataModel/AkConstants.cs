@@ -59,6 +59,7 @@ namespace AKCore.DataModel
         public const string Komp = "Komp";
         public const string Klarinett = "Klarinett";
         public const string Flute = "Flöjt";
+        public const string Horn = "Horn";
         public const string Trombon = "Grovbrass";
         public const string Trumpet = "Trumpet";
         public static readonly IList<string> Sektioner = new List<string>()
@@ -68,6 +69,7 @@ namespace AKCore.DataModel
             Klarinett,
             Komp,
             Sax,
+            Horn,
             Trombon,
             Trumpet
         };
@@ -92,6 +94,7 @@ namespace AKCore.DataModel
         public const string OPK = "Operativkamerer";
         public const string Arsenalkamerer = "Arsenalkamerer";
         public const string Balettkamerer = "Balettkamerer";
+        public const string BITKamerer = "BIT-kamerer";
         public const string Busskamerer = "Busskamerer";
         public const string Kamerakamerer = "Kamerakamerer";
         public const string Kramkamerer = "Kramkamerer";
@@ -107,6 +110,7 @@ namespace AKCore.DataModel
         public const string Skrubbkamerer = "Skrubbkamerer";
         public const string Sponsringskamerer = "Sponsringskamerer";
         public const string Stämledare = "Stämledare";
+        public const string SYKamerer = "SY-kamerer";
         public static readonly IList<string> Poster = new List<string>()
         {
             OK,
@@ -114,6 +118,7 @@ namespace AKCore.DataModel
             KK,
             OPK,
             Balettkamerer,
+            BITKamerer,
             Busskamerer,
             Arsenalkamerer,
             Kamerakamerer,
@@ -129,7 +134,8 @@ namespace AKCore.DataModel
             Sexkamerer,
             Skrubbkamerer,
             Sponsringskamerer,
-            Stämledare
+            Stämledare,
+            SYKamerer
         };
     }
 
@@ -138,7 +144,9 @@ namespace AKCore.DataModel
         public const string Spelning = "Spelning";
         public const string Rep = "Rep";
         public const string KarRep = "Kårhusrep";
+        public const string BalettRep = "Balettrep";
         public const string AthenRep = "Athenrep";
+        public const string Samlingsrep = "Samlingsrep";
         public const string FikaRep = "Fikarep";
         public const string Fest = "Fest";
         public const string Evenemang = "Evenemang";
@@ -149,12 +157,22 @@ namespace AKCore.DataModel
             Rep,
             KarRep,
             AthenRep,
+            Samlingsrep,
             FikaRep,
+            BalettRep,
             Fest,
-            Evenemang
+            Evenemang,
         };
+        public static readonly string[] RepEventTypes =
+        [
+            FikaRep,
+            KarRep,
+            AthenRep,
+            Rep,
+            BalettRep,
+            Samlingsrep,
+        ];
     }
-
     public class AkSignupType
     {
         public const string Halan = "Hålan";

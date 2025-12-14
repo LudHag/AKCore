@@ -196,27 +196,6 @@
   display: none;
 }
 
-.picture-select {
-  text-align: center;
-  img {
-    width: 200px;
-    height: 200px;
-  }
-}
-.choose-picture-btn {
-  margin-top: 40px;
-  display: block;
-  width: 100px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-#picker-images {
-  .image-box {
-    cursor: pointer;
-  }
-}
-
 #widget-area {
   list-style-type: none;
   padding: 0;

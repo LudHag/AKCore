@@ -116,7 +116,7 @@ const updateUserProp = (updateInfo: any) => {
   const user = users.value.find((user) => {
     return user.userName === updateInfo.userName;
   });
-  // @ts-ignore
+  // @ts-expect-error - updateInfo is not typed
   user[updateInfo.prop] = updateInfo.value;
 };
 

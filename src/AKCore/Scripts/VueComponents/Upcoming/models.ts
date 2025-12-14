@@ -20,7 +20,7 @@ export interface UpcomingEvent {
   descriptionEng: string;
   internalDescription: string;
   internalDescriptionEng: string;
-  fika: string;
+  fikaCollection: string[];
   year: number;
   month: number;
   day: string;
