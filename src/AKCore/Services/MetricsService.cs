@@ -1,5 +1,4 @@
 ﻿using AKCore.DataModel;
-using AKCore.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,13 +9,15 @@ namespace AKCore.Services;
 public class MetricsService(AKContext db)
 {
    
-    public async Task SaveMetrics(IDictionary<string, int> metrics, bool loggedIn, DateTime time)
+    public async Task SaveMetrics(IDictionary<string, int> metrics, bool loggedIn, int mobileRequests, int desktopRequests, DateTime time)
     {
         var metricsEntities = metrics
             .Select(metric => new RequestsData
             {
                 Path = metric.Key,
                 Amount = metric.Value,
+                Mobile = mobileRequests,
+                Desktop = desktopRequests,
                 LoggedIn = loggedIn,
                 Created = time
             }).ToList();

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace AKCore.Middlewares;
@@ -12,6 +13,10 @@ public class MetricsMiddleware
 {
     private Dictionary<string, int> loggedInRouteRequests = [];
     private Dictionary<string, int> loggedOutRouteRequests = [];
+    private int mobileInRequests = 0;
+    private int mobileOutRequests = 0;
+    private int desktopInRequests = 0;
+    private int desktopOutRequests = 0;
     private readonly RequestDelegate next;
     private readonly IServiceScopeFactory serviceScopeFactory;
     private readonly Task intervalTask;
@@ -36,7 +41,9 @@ public class MetricsMiddleware
                 var isLoggedIn = context.User.Identity != null && context.User.Identity.IsAuthenticated;
 
                 var path = context.Request.Path.ToString();
-                SavePath(GetNormalizedPath(path), isLoggedIn);
+                var userAgent = context.Request.Headers.UserAgent.ToString().ToLower();
+
+                SavePath(GetNormalizedPath(path), userAgent, isLoggedIn);
             }
         }
         catch
@@ -71,11 +78,73 @@ public class MetricsMiddleware
         return lowercase.TrimEnd('/');
     }
 
-    private void SavePath(string path, bool loggedIn)
+    private void SavePath(string path, string userAgent, bool loggedIn)
     {
+        if (IsCrawler(userAgent))
+        {
+            return;
+        }
+
         var requestsStore = loggedIn ? loggedInRouteRequests : loggedOutRouteRequests;
 
         requestsStore[path] = requestsStore.TryGetValue(path, out var numberRequests) ? numberRequests + 1 : 1;
+
+        var isDesktop = IsDesktop(userAgent);
+        if (isDesktop)
+        {
+            if(loggedIn)
+            {
+                desktopInRequests++;
+            }
+            else
+            {
+                desktopOutRequests++;
+            }
+        }
+        else
+        {
+            if(loggedIn)
+            {
+                mobileInRequests++;
+            }
+            else
+            {
+                mobileOutRequests++;
+            }
+        }
+    }
+
+    private static bool IsCrawler(string userAgent)
+    {
+        if (string.IsNullOrEmpty(userAgent))
+        {
+            return true;
+        }
+
+        var crawlerIndicators = new[]
+        {
+            "bot", "crawler", "spider", "scraper",
+            "curl", "wget", "python-requests", "httpclient", "go-http-client", "java/",
+            "googlebot", "bingbot", "duckduckbot", "baiduspider", "yandexbot", "twitterbot", "linkedinbot",
+            "embedly", "applebot"
+        };
+
+        return crawlerIndicators.Any(indicator => userAgent.Contains(indicator));
+    }
+
+    private static bool IsDesktop(string userAgent)
+    {
+        if (string.IsNullOrEmpty(userAgent))
+        {
+            return false;
+        }
+
+        var mobileIndicators = new[]
+        {
+            "mobile", "android", "iphone", "ipad", "tablet"
+        };
+
+        return !mobileIndicators.Any(indicator => userAgent.Contains(indicator));
     }
 
     private async Task SetupInterval()
@@ -91,11 +160,15 @@ public class MetricsMiddleware
                     var metricsService = scope.ServiceProvider.GetRequiredService<MetricsService>();
                     var nowTime = DateTime.Now.ConvertToSwedishTime();
 
-                    await metricsService.SaveMetrics(loggedInRouteRequests, true, nowTime);
-                    await metricsService.SaveMetrics(loggedOutRouteRequests, false, nowTime);
+                    await metricsService.SaveMetrics(loggedInRouteRequests, true, mobileInRequests, desktopInRequests, nowTime);
+                    await metricsService.SaveMetrics(loggedOutRouteRequests, false, mobileOutRequests, desktopOutRequests, nowTime);
                 }
                 loggedInRouteRequests = [];
                 loggedOutRouteRequests = [];
+                mobileInRequests = 0;
+                mobileOutRequests = 0;
+                desktopInRequests = 0;
+                desktopOutRequests = 0;
             }
             catch
             {
