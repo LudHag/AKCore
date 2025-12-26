@@ -1,4 +1,5 @@
 ﻿using AKCore.Extensions;
+using AKCore.Models;
 using AKCore.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,12 +12,8 @@ namespace AKCore.Middlewares;
 
 public class MetricsMiddleware
 {
-    private Dictionary<string, int> loggedInRouteRequests = [];
-    private Dictionary<string, int> loggedOutRouteRequests = [];
-    private int mobileInRequests = 0;
-    private int mobileOutRequests = 0;
-    private int desktopInRequests = 0;
-    private int desktopOutRequests = 0;
+    private Dictionary<string, RouteMetrics> loggedInRouteRequests = [];
+    private Dictionary<string, RouteMetrics> loggedOutRouteRequests = [];
     private readonly RequestDelegate next;
     private readonly IServiceScopeFactory serviceScopeFactory;
     private readonly Task intervalTask;
@@ -85,33 +82,13 @@ public class MetricsMiddleware
             return;
         }
 
+        var isDesktop = IsDesktop(userAgent);
+
         var requestsStore = loggedIn ? loggedInRouteRequests : loggedOutRouteRequests;
 
-        requestsStore[path] = requestsStore.TryGetValue(path, out var numberRequests) ? numberRequests + 1 : 1;
+        RouteMetrics newRequests = isDesktop ? new RouteMetrics(0,1) : new RouteMetrics(1,0);
 
-        var isDesktop = IsDesktop(userAgent);
-        if (isDesktop)
-        {
-            if(loggedIn)
-            {
-                desktopInRequests++;
-            }
-            else
-            {
-                desktopOutRequests++;
-            }
-        }
-        else
-        {
-            if(loggedIn)
-            {
-                mobileInRequests++;
-            }
-            else
-            {
-                mobileOutRequests++;
-            }
-        }
+        requestsStore[path] = requestsStore.TryGetValue(path, out var numberRequests) ? numberRequests + newRequests : newRequests;
     }
 
     private static bool IsCrawler(string userAgent)
@@ -160,15 +137,11 @@ public class MetricsMiddleware
                     var metricsService = scope.ServiceProvider.GetRequiredService<MetricsService>();
                     var nowTime = DateTime.Now.ConvertToSwedishTime();
 
-                    await metricsService.SaveMetrics(loggedInRouteRequests, true, mobileInRequests, desktopInRequests, nowTime);
-                    await metricsService.SaveMetrics(loggedOutRouteRequests, false, mobileOutRequests, desktopOutRequests, nowTime);
+                    await metricsService.SaveMetrics(loggedInRouteRequests, true, nowTime);
+                    await metricsService.SaveMetrics(loggedOutRouteRequests, false, nowTime);
                 }
                 loggedInRouteRequests = [];
                 loggedOutRouteRequests = [];
-                mobileInRequests = 0;
-                mobileOutRequests = 0;
-                desktopInRequests = 0;
-                desktopOutRequests = 0;
             }
             catch
             {
