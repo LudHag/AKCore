@@ -1,57 +1,63 @@
-import { writeFile } from "fs";
-import { Plugin } from "vite";
-import { OutputBundle } from "rollup";
+import { writeFile, readFileSync } from "fs";
+import { resolve } from "path";
+import { Plugin, Manifest } from "vite";
 
 export const entrypoints = ["main", "admin"];
+type Entrypoint = (typeof entrypoints)[number];
 
-export function generateAssetList(): Plugin {
+const cleanFilePath = (filePath: string) =>
+  filePath.replace("wwwroot/dist/", "");
+
+export function getAssetsFromManifest(manifest: Manifest) {
+  const modified: Record<
+    Entrypoint,
+    { entrypoint: string; js: string[]; css: string[] }
+  > = {};
+
+  entrypoints.forEach((entrypoint) => {
+    const entrypointManifest = manifest[`Scripts/${entrypoint}.ts`];
+
+    const imports =
+      entrypointManifest.imports?.map((importName) => manifest[importName]) ||
+      [];
+
+    const importJs = imports.map((importFile) =>
+      cleanFilePath(importFile.file),
+    );
+    const importCss = imports
+      .flatMap((importFile) => importFile.css || [])
+      .map(cleanFilePath);
+
+    modified[entrypoint] = {
+      entrypoint: cleanFilePath(entrypointManifest.file),
+      js: importJs,
+      css: importCss,
+    };
+  });
+
+  return modified;
+}
+
+export function manifestTransform(): Plugin {
+  const manifestPath = "manifest.json";
+
   return {
-    name: "generate-asset-list",
-    generateBundle(_options, bundle: OutputBundle) {
-      const assets: string[] = [];
+    name: "manifest-transform",
+    closeBundle() {
+      const manifestFullPath = resolve(process.cwd(), manifestPath);
+      const manifestContent = readFileSync(manifestFullPath, "utf-8");
+      const manifest: Manifest = JSON.parse(manifestContent);
 
-      for (const fileName in bundle) {
-        const assetInfo = bundle[fileName];
-        if (assetInfo.type === "asset" || assetInfo.type === "chunk") {
-          // Get just the filename without any path
-          assets.push(fileName.split("/").pop() || fileName);
-        }
-      }
-
-      const assetContainer = {
-        mainjs: assets.find(
-          (asset) => asset.includes("main") && asset.includes("js"),
-        ),
-        adminjs: assets.find(
-          (asset) => asset.includes("admin") && asset.includes("js"),
-        ),
-        vendorjs: assets.find(
-          (asset) => asset.includes("vendor") && asset.includes("js"),
-        ),
-        maincss: assets.find(
-          (asset) => asset.includes("main") && asset.includes("css"),
-        ),
-        admincss: assets.find(
-          (asset) => asset.includes("admin") && asset.includes("css"),
-        ),
-        vendorcss: assets.find(
-          (asset) => asset.includes("vendor") && asset.includes("css"),
-        ),
-      };
+      const modifiedManifest = removeWwwrootDistPrefix(manifest);
 
       writeFile(
-        "./assets.json",
-        JSON.stringify(assetContainer, null, 2),
+        manifestFullPath,
+        JSON.stringify(modifiedManifest, null, 2),
+        "utf-8",
         (err) => {
           if (err) throw err;
-          console.log("Assets manifest has been created");
         },
       );
-
-      writeFile("./bundle.json", JSON.stringify(bundle, null, 2), (err) => {
-        if (err) throw err;
-        console.log("Bundle manifest has been created");
-      });
     },
   };
 }

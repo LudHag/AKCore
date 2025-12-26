@@ -1,7 +1,7 @@
 import { defineConfig } from "vite";
 import { resolve } from "path";
 import vue from "@vitejs/plugin-vue";
-import { entrypoints } from "./vite.utils";
+import { entrypoints, manifestTransform } from "./vite.utils";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -9,7 +9,7 @@ export default defineConfig({
     port: 5173,
     hmr: { clientPort: 5173 },
   },
-  plugins: [vue()],
+  plugins: [vue(), manifestTransform()],
   build: {
     manifest: "manifest.json",
     outDir: ".",
