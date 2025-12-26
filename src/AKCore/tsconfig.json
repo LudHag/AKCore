@@ -18,7 +18,7 @@
     "Scripts/**/*.d.ts",
     "Scripts/**/*.tsx",
     "Scripts/**/*.vue",
-    "Scripts/VueComponents/AdminEvent/AdminEventApp.vue"
-  ],
-  "references": [{ "path": "./tsconfig.node.json" }]
+    "Scripts/VueComponents/AdminEvent/AdminEventApp.vue",
+    "vite.config.ts"
+  ]
 }

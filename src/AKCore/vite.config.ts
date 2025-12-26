@@ -3,7 +3,7 @@ import { resolve } from "path";
 import vue from "@vitejs/plugin-vue";
 import { writeFile } from "fs";
 import { Plugin } from "vite";
-import { OutputBundle } from "rollup";
+import { OutputBundle, PreRenderedAsset } from "rollup";
 
 function generateAssetList(): Plugin {
   return {
@@ -51,10 +51,13 @@ function generateAssetList(): Plugin {
   };
 }
 
-const assetFileNames = (assetInfo) => {
+const assetFileNames = (assetInfo: PreRenderedAsset): string => {
   if (
-    assetInfo.name.endsWith("css") &&
-    (assetInfo.name.includes("admin") || assetInfo.name.includes("main"))
+    assetInfo.names.some(
+      (name) =>
+        name.endsWith("css") &&
+        (name.includes("admin") || name.includes("main")),
+    )
   ) {
     return "dist/[name].[hash].[ext]";
   } else {
