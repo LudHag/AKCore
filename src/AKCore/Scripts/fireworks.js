@@ -6,7 +6,7 @@ const init = () => {
   }
 
   const today = new Date();
-  const newYear = new Date(2025, 0, 1);
+  const newYear = new Date(2026, 0, 1);
   const msLeft = newYear - today;
   let hrLeft = msLeft / (1000 * 60 * 60);
 
@@ -18,6 +18,10 @@ const init = () => {
     hrLeft = 0;
   }
   const intensity = Math.pow(40 - hrLeft, 1.89);
+
+  if (isNaN(intensity)) {
+    return;
+  }
 
   let w = (holder.width = window.innerWidth),
     h = (holder.height = window.innerHeight);
@@ -158,7 +162,7 @@ void main(){
     coss = [],
     maxShardsParFirework =
       opts.baseShardsParFirework + opts.addedShardsParFirework,
-    // eslint-disable-next-line @typescript-eslint/no-loss-of-precision
+    // eslint-disable-next-line no-loss-of-precision
     tau = 6.283185307179586476925286766559;
 
   for (let i = 0; i < maxShardsParFirework; ++i) {

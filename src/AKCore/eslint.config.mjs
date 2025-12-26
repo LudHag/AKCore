@@ -30,6 +30,14 @@ export default [
     },
   },
   {
+    files: ["*.js", "**/*.js"],
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+      },
+    },
+  },
+  {
     files: ["*.ts", "**/*.ts", "*.vue", "**/*.vue"],
     rules: {
       "vue/no-mutating-props": "off",
