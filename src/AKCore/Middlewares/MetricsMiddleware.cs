@@ -39,8 +39,8 @@ public class MetricsMiddleware
 
                 var path = context.Request.Path.ToString();
                 var userAgent = context.Request.Headers.UserAgent.ToString().ToLower();
-
-                SavePath(GetNormalizedPath(path), userAgent, isLoggedIn);
+                var query = context.Request.QueryString.ToString();
+                SavePath(GetNormalizedPath(path), query, userAgent, isLoggedIn);
             }
         }
         catch
@@ -75,9 +75,9 @@ public class MetricsMiddleware
         return lowercase.TrimEnd('/');
     }
 
-    private void SavePath(string path, string userAgent, bool loggedIn)
+    private void SavePath(string path, string query, string userAgent, bool loggedIn)
     {
-        if (IsCrawler(userAgent))
+        if (IsCrawler(userAgent) || query == "?ping")
         {
             return;
         }
