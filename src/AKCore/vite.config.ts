@@ -3,7 +3,7 @@ import { resolve } from "path";
 import vue from "@vitejs/plugin-vue";
 import { writeFile } from "fs";
 import { Plugin } from "vite";
-import { OutputBundle, PreRenderedAsset } from "rollup";
+import { OutputBundle } from "rollup";
 
 function generateAssetList(): Plugin {
   return {
@@ -14,7 +14,8 @@ function generateAssetList(): Plugin {
       for (const fileName in bundle) {
         const assetInfo = bundle[fileName];
         if (assetInfo.type === "asset" || assetInfo.type === "chunk") {
-          assets.push(fileName.split("/")[1]);
+          // Get just the filename without any path
+          assets.push(fileName.split("/").pop() || fileName);
         }
       }
 
@@ -51,20 +52,6 @@ function generateAssetList(): Plugin {
   };
 }
 
-const assetFileNames = (assetInfo: PreRenderedAsset): string => {
-  if (
-    assetInfo.names.some(
-      (name) =>
-        name.endsWith("css") &&
-        (name.includes("admin") || name.includes("main")),
-    )
-  ) {
-    return "dist/[name].[hash].[ext]";
-  } else {
-    return "dist/vendor.[hash].[ext]";
-  }
-};
-
 // https://vitejs.dev/config/
 export default defineConfig({
   server: {
@@ -74,16 +61,16 @@ export default defineConfig({
   plugins: [vue(), generateAssetList()],
   build: {
     emptyOutDir: false,
-    outDir: "wwwroot",
+    outDir: "wwwroot/dist",
     rollupOptions: {
       input: {
         main: resolve(__dirname, "Scripts/main.ts"),
         admin: resolve(__dirname, "Scripts/admin.ts"),
       },
       output: {
-        entryFileNames: `dist/[name].[hash].js`,
-        chunkFileNames: `dist/vendor.[hash].js`,
-        assetFileNames: assetFileNames,
+        assetFileNames: "[name].[ext]",
+        chunkFileNames: "[name]-[hash].js",
+        entryFileNames: "[name]-[hash].js",
       },
     },
   },

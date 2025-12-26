@@ -7,9 +7,14 @@ import UsersApp from "./VueComponents/Users/UsersApp.vue";
 import PageEdit from "./VueComponents/PageEdit/PageEdit.vue";
 import PagesApp from "./VueComponents/Pages/PagesApp.vue";
 import StatisticsApp from "./VueComponents/Statistics/StatisticsApp.vue";
+import MediaApp from "./VueComponents/Media/MediaApp.vue";
 
 if (document.getElementById("pageedit-app")) {
   createApp(PageEdit).mount("#pageedit-app");
+}
+
+if (document.getElementById("media-app")) {
+  createApp(MediaApp).mount("#media-app");
 }
 
 if (document.getElementById("admin-event-app")) {

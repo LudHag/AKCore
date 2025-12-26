@@ -3,7 +3,6 @@ import VideoBar from "./VueComponents/VideoBar.vue";
 import MembersList from "./VueComponents/MembersList.vue";
 import ProfileApp from "./VueComponents/Profile/ProfileApp.vue";
 import UpcomingApp from "./VueComponents/Upcoming/UpcomingApp.vue";
-import MediaApp from "./VueComponents/Media/MediaApp.vue";
 import MusicApp from "./VueComponents/MusicPlayer/MusicApp.vue";
 import MailBoxApp from "./VueComponents/MailBox/MailBoxApp.vue";
 import LoginApp from "./VueComponents/Login/LoginApp.vue";
@@ -54,10 +53,6 @@ if (document.getElementById("upcoming-app")) {
 
 if (document.getElementById("profile-app")) {
   createApp(ProfileApp).mount("#profile-app");
-}
-
-if (document.getElementById("media-app")) {
-  createApp(MediaApp).mount("#media-app");
 }
 
 declare const loggedIn: boolean;
