@@ -19,6 +19,7 @@
     "Scripts/**/*.tsx",
     "Scripts/**/*.vue",
     "Scripts/VueComponents/AdminEvent/AdminEventApp.vue",
-    "vite.config.ts"
+    "vite.config.ts",
+    "vite.utils.ts"
   ]
 }
