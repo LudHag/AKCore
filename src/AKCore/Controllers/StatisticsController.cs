@@ -69,6 +69,7 @@ public class StatisticsController(AKContext db, TranslationsService translations
           .OrderBy(x => x.Day)
           .Select(x => new
           {
+              x.Id,
               x.Name,
               x.Day,
               CantCome = x.SignUps.Count(s => s.Where == AkSignupType.CantCome),

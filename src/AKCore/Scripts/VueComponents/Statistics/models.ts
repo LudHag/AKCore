@@ -18,6 +18,7 @@ export type RequestsResponse = {
 export type RequestsRange = "day" | "week" | "month";
 
 export type GigItem = {
+  id: number;
   name: string;
   day: string;
   cantCome: number;
