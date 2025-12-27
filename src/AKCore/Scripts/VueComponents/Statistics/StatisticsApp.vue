@@ -50,17 +50,17 @@
         </a>
       </div>
     </div>
-    <PageViewGraph
-      v-if="dataPoints"
-      :data-points="dataPoints"
-      :loading="loading"
-    />
+    <div class="graphs-row" v-if="dataPoints">
+      <PageViewGraph :data-points="dataPoints" :loading="loading" />
+      <DeviceGraph :data-points="dataPoints" />
+    </div>
   </div>
 </template>
 <script setup lang="ts">
 import { onMounted, ref, watch } from "vue";
 import { getFromApi } from "../../services/apiservice";
 import PageViewGraph from "./PageViewGraph.vue";
+import DeviceGraph from "./DeviceGraph.vue";
 import { RequestsRange, RequestsResponse } from "./models";
 
 const dataPoints = ref<RequestsResponse | null>(null);
@@ -104,6 +104,14 @@ onMounted(() => {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+.graphs-row {
+  display: flex;
+  gap: 10px;
+
+  @media (max-width: 1225px) {
+    flex-direction: column;
+  }
 }
 
 .checkbox {

@@ -1,5 +1,7 @@
 export type RequestsData = {
   amount: number;
+  mobile: number;
+  desktop: number;
   created: string;
 };
 
