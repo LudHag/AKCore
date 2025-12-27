@@ -4,6 +4,7 @@ import AlbumEditApp from "./VueComponents/AlbumEdit/AlbumEditApp.vue";
 import MenuEditApp from "./VueComponents/MenuEdit/MenuEditApp.vue";
 import RecruitsApp from "./VueComponents/Recruits/RecruitsApp.vue";
 import UsersApp from "./VueComponents/Users/UsersApp.vue";
+import MediaApp from "./VueComponents/Media/MediaApp.vue";
 import PageEdit from "./VueComponents/PageEdit/PageEdit.vue";
 import PagesApp from "./VueComponents/Pages/PagesApp.vue";
 import StatisticsApp from "./VueComponents/Statistics/StatisticsApp.vue";
@@ -18,6 +19,10 @@ if (document.getElementById("admin-event-app")) {
 
 if (document.getElementById("album-edit-app")) {
   createApp(AlbumEditApp).mount("#album-edit-app");
+}
+
+if (document.getElementById("media-app")) {
+  createApp(MediaApp).mount("#media-app");
 }
 
 if (document.getElementById("menu-edit-app")) {

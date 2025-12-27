@@ -7,16 +7,16 @@
 <script setup lang="ts">
 import { RequestsResponse } from "./models";
 import {
-  Chart as ChartJS,
+  Chart,
   CategoryScale,
   LinearScale,
   PointElement,
   LineElement,
-  Title,
   Tooltip,
   Legend,
   ChartOptions,
 } from "chart.js";
+
 import { Line } from "vue-chartjs";
 import { getRandomColor } from "./utils";
 import { computed } from "vue";
@@ -27,12 +27,11 @@ const { dataPoints } = defineProps<{
   loading: boolean;
 }>();
 
-ChartJS.register(
+Chart.register(
   CategoryScale,
   LinearScale,
   PointElement,
   LineElement,
-  Title,
   Tooltip,
   Legend,
 );
@@ -119,6 +118,7 @@ const options: ChartOptions<"line"> = {
 .line-graph-container {
   position: relative;
   height: 50vh;
+  flex-grow: 1;
 }
 .spinner-container {
   position: absolute;
