@@ -117,7 +117,7 @@ const options: ChartOptions<"line"> = {
 <style lang="scss" scoped>
 .line-graph-container {
   position: relative;
-  height: 50vh;
+  height: 300px;
   flex-grow: 1;
 }
 .spinner-container {

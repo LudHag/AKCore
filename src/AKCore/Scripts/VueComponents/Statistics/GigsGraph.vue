@@ -61,17 +61,21 @@ const handleChartClick = (event: any) => {
   }
 };
 const chartData = computed(() => {
+  const filteredData = props.dataPoints.filter(
+    (item) => item.canCome > 0 || item.cantCome > 0,
+  );
+
   return {
-    labels: props.dataPoints.map((item) => item.name),
+    labels: filteredData.map((item) => item.name),
     datasets: [
       {
-        label: "Can Come",
-        data: props.dataPoints.map((item) => item.canCome),
+        label: "Kan komma",
+        data: filteredData.map((item) => item.canCome),
         backgroundColor: "#00b100",
       },
       {
-        label: "Cant Come",
-        data: props.dataPoints.map((item) => item.cantCome),
+        label: "Kan inte komma",
+        data: filteredData.map((item) => item.cantCome),
         backgroundColor: "#b10000",
       },
     ],
