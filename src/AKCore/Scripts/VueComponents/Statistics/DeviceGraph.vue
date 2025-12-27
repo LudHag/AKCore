@@ -14,6 +14,31 @@ const props = defineProps<{
 
 Chart.register(ArcElement, Tooltip, Legend);
 
+const data = computed(() => {
+  const mobile = props.dataPoints.items
+    .flatMap((item) => item.items)
+    .reduce((acc, item) => acc + item.mobile, 0);
+  const desktop = props.dataPoints.items
+    .flatMap((item) => item.items)
+    .reduce((acc, item) => acc + item.desktop, 0);
+
+  const mobilePercentage = ((mobile / (mobile + desktop)) * 100).toFixed(0);
+  const desktopPercentage = ((desktop / (mobile + desktop)) * 100).toFixed(0);
+
+  return {
+    labels: [
+      `Mobile (${mobilePercentage}%)`,
+      `Desktop (${desktopPercentage}%)`,
+    ],
+    datasets: [
+      {
+        backgroundColor: ["#b10000", "#00b100"],
+        data: [mobile, desktop],
+      },
+    ],
+  };
+});
+
 const options: ChartOptions<"doughnut"> = {
   responsive: true,
   maintainAspectRatio: false,
@@ -25,21 +50,4 @@ const options: ChartOptions<"doughnut"> = {
     },
   },
 };
-
-const data = computed(() => ({
-  labels: ["Mobile", "Desktop"],
-  datasets: [
-    {
-      backgroundColor: ["#b10000", "#00b100"],
-      data: [
-        props.dataPoints.items
-          .flatMap((item) => item.items)
-          .reduce((acc, item) => acc + item.mobile, 0),
-        props.dataPoints.items
-          .flatMap((item) => item.items)
-          .reduce((acc, item) => acc + item.desktop, 0),
-      ],
-    },
-  ],
-}));
 </script>
