@@ -1,5 +1,31 @@
 ﻿<template>
   <div>
+    <h2>Spelningar</h2>
+    <div class="controls">
+      <div class="checkbox">
+        <div class="range-control hidden-xs">
+          <a
+            href="#"
+            class="range-toggle"
+            @click.prevent="gigsRange = 'Month'"
+            :class="{ active: gigsRange === 'Month' }"
+          >
+            Senaste Månaden
+          </a>
+          <a
+            href="#"
+            class="range-toggle"
+            @click.prevent="gigsRange = 'Year'"
+            :class="{ active: gigsRange === 'Year' }"
+          >
+            Senaste Året
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="graphs-row" v-if="gigs">
+      <GigsGraph :data-points="gigs" />
+    </div>
     <h2>Sidladdningar</h2>
     <div class="controls">
       <div class="checkbox">
@@ -27,31 +53,31 @@
         <a
           href="#"
           class="range-toggle"
-          @click.prevent="range = 'day'"
-          :class="{ active: range === 'day' }"
+          @click.prevent="requestsRange = 'day'"
+          :class="{ active: requestsRange === 'day' }"
         >
           Idag
         </a>
         <a
           href="#"
           class="range-toggle"
-          @click.prevent="range = 'week'"
-          :class="{ active: range === 'week' }"
+          @click.prevent="requestsRange = 'week'"
+          :class="{ active: requestsRange === 'week' }"
         >
           Senaste veckan
         </a>
         <a
           href="#"
           class="range-toggle"
-          @click.prevent="range = 'month'"
-          :class="{ active: range === 'month' }"
+          @click.prevent="requestsRange = 'month'"
+          :class="{ active: requestsRange === 'month' }"
         >
           Senaste månaden
         </a>
       </div>
     </div>
     <div class="graphs-row" v-if="dataPoints">
-      <PageViewGraph :data-points="dataPoints" :loading="loading" />
+      <PageViewGraph :data-points="dataPoints" :loading="loadingRequests" />
       <DeviceGraph :data-points="dataPoints" />
     </div>
   </div>
@@ -61,42 +87,61 @@ import { onMounted, ref, watch } from "vue";
 import { getFromApi } from "../../services/apiservice";
 import PageViewGraph from "./PageViewGraph.vue";
 import DeviceGraph from "./DeviceGraph.vue";
-import { RequestsRange, RequestsResponse } from "./models";
+import GigsGraph from "./GigsGraph.vue";
 
+import {
+  RequestsRange,
+  RequestsResponse,
+  GigsResponse,
+  GigItem,
+  GigsRange,
+} from "./models";
 const dataPoints = ref<RequestsResponse | null>(null);
+const gigs = ref<GigItem[] | null>(null);
 const loggedIn = ref<boolean>(true);
 const loggedOut = ref<boolean>(true);
-const range = ref<RequestsRange>("day");
-const loading = ref<boolean>(false);
+const requestsRange = ref<RequestsRange>("day");
+const gigsRange = ref<GigsRange>("Year");
+const loadingRequests = ref<boolean>(false);
+const loadingGigs = ref<boolean>(false);
 
-watch(loggedIn, () => {
-  reloadData();
+watch([loggedIn, loggedOut, requestsRange], () => {
+  loadRequestData();
 });
 
-watch(loggedOut, () => {
-  reloadData();
+watch([gigsRange], () => {
+  loadGigsData();
 });
 
-watch(range, () => {
-  reloadData();
-});
-
-const reloadData = () => {
-  loading.value = true;
+const loadRequestData = () => {
+  loadingRequests.value = true;
   getFromApi<RequestsResponse>(
     window.location.href +
-      `/model?loggedIn=${loggedIn.value}&loggedOut=${loggedOut.value}&range=${range.value}`,
+      `/SiteRequests?loggedIn=${loggedIn.value}&loggedOut=${loggedOut.value}&range=${requestsRange.value}`,
   )
     .then((res) => {
       dataPoints.value = res;
     })
     .finally(() => {
-      loading.value = false;
+      loadingRequests.value = false;
+    });
+};
+const loadGigsData = () => {
+  loadingGigs.value = true;
+  getFromApi<GigsResponse>(
+    window.location.href + `/Gigs?range=${gigsRange.value}`,
+  )
+    .then((res) => {
+      gigs.value = res.items;
+    })
+    .finally(() => {
+      loadingGigs.value = false;
     });
 };
 
 onMounted(() => {
-  reloadData();
+  loadRequestData();
+  loadGigsData();
 });
 </script>
 <style lang="scss" scoped>

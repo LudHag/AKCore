@@ -16,3 +16,16 @@ export type RequestsResponse = {
 };
 
 export type RequestsRange = "day" | "week" | "month";
+
+export type GigItem = {
+  name: string;
+  day: string;
+  cantCome: number;
+  canCome: number;
+};
+
+export type GigsResponse = {
+  items: GigItem[];
+};
+
+export type GigsRange = "Month" | "Year";
