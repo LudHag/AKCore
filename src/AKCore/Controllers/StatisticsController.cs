@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -84,27 +83,29 @@ public class StatisticsController(AKContext db, TranslationsService translations
               {
                   g.Key.Created,
                   g.Key.Path,
-                  Amount = g.Sum(r => r.Amount)
+                  Amount = g.Sum(r => r.Amount),
+                  Mobile = g.Sum(r => r.Mobile),
+                  Desktop = g.Sum(r => r.Desktop)
               })
-              .Select(x => new StatisticsItemModel(x.Created, x.Amount, x.Path))
+              .Select(x => new StatisticsItemModel(x.Created, x.Amount, x.Mobile, x.Desktop, x.Path))
               .ToListAsync();
 
         }
         return await dataItemsFiltered
-                    .Select(x => new StatisticsItemModel(x.Created, x.Amount, x.Path))
+                    .Select(x => new StatisticsItemModel(x.Created, x.Amount, x.Mobile, x.Desktop, x.Path))
                     .ToListAsync();
     }
 
     private static IEnumerable<StatisticsItemModel> NormalizeItems(IEnumerable<StatisticsItemModel> items, IEnumerable<DateTime> dates)
     {
         var distinctItems = items.GroupBy(item => item.Created)
-            .Select(group => new StatisticsItemModel(group.Key, group.Sum(item => item.Amount), group.First().Path));
+            .Select(group => new StatisticsItemModel(group.Key, group.Sum(item => item.Amount), group.Sum(item => item.Mobile), group.Sum(item => item.Desktop), group.First().Path));
 
         return dates
             .Select(date =>
             {
                 var item = distinctItems.FirstOrDefault(x => x.Created == date);
-                return new StatisticsItemModel(date, item == null ? 0 : item.Amount, null);
+                return new StatisticsItemModel(date, item == null ? 0 : item.Amount, item == null ? 0 : item.Mobile, item == null ? 0 : item.Desktop, null);
             });
     }
 
