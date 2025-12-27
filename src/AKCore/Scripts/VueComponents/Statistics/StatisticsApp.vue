@@ -52,7 +52,7 @@
     </div>
     <div class="graphs-row" v-if="dataPoints">
       <PageViewGraph :data-points="dataPoints" :loading="loading" />
-      <DeviceGraph :data-points="dataPoints" :loading="loading" />
+      <DeviceGraph :data-points="dataPoints" />
     </div>
   </div>
 </template>

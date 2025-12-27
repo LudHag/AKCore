@@ -1,18 +1,15 @@
 ﻿<template>
   <div class="line-graph-container">
     <Doughnut v-if="data" :data="data" :options="options" />
-    <spinner v-if="loading" class="spinner-container" :size="'large'" />
   </div>
 </template>
 <script setup lang="ts">
 import { RequestsResponse } from "./models";
-import Spinner from "../Spinner.vue";
 import { Chart, ArcElement, Tooltip, Legend, ChartOptions } from "chart.js";
 import { Doughnut } from "vue-chartjs";
 import { computed } from "vue";
 const props = defineProps<{
   dataPoints: RequestsResponse;
-  loading: boolean;
 }>();
 
 Chart.register(ArcElement, Tooltip, Legend);
