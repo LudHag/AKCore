@@ -20,6 +20,7 @@ namespace AKCore.Models
 
         public bool IsNintendo { get; set; }
 
+        public bool IsPassed { get; set; }
         public IEnumerable<MemberViewModel> Members { get; set; }
 
         public EventViewModel Event { get; set; }

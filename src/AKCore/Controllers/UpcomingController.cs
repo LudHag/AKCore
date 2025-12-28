@@ -292,6 +292,8 @@ public class UpcomingController : Controller
         var signups = spelning.SignUps.Select(x => x.CopySignupWithoutEvent()).OrderBy(x => x.InstrumentName).ThenBy(x => x.PersonName);
         model.Signups = signups;
 
+        model.IsPassed = spelning.Day.Date < DateTime.UtcNow.Date.AddDays(-1);
+
         if (nintendo)
         {
             model.Members = (await _userManager.GetUsersInRoleAsync(AkRoles.Medlem)).OrderBy(x => x.FirstName)

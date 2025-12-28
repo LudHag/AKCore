@@ -2,12 +2,18 @@
 
 namespace AKCore.Models;
 
-public record StatisticsItemModel(DateTime Created, int Amount, string Path);
+public record StatisticsRequestModel(DateTime Created, int Amount, int Mobile, int Desktop, string Path);
 
 
-public enum StatisticsRange
+public enum StatisticsRequestRange
 {
     Day,
     Week,
     Month
+}
+
+public enum StatisticsGigsRange
+{
+    Month,
+    Year
 }
