@@ -30,7 +30,6 @@ const props = defineProps<{
   dataPoints: GigItem[];
 }>();
 
-// Access the chart instance via: chartRef.value?.chart
 const chartRef = useTemplateRef<ChartComponentRef<"bar">>("chartRef");
 
 ChartJS.register(
