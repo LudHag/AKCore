@@ -1,6 +1,6 @@
 ﻿<template>
   <form
-    v-if="eventInfo"
+    v-if="eventInfo && !eventInfo.isPassed"
     @submit.prevent="submitForm"
     :action="'/upcoming/Signup/' + eventInfo.event.id"
     method="POST"

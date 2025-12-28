@@ -44,6 +44,7 @@ export interface UpcomingEventInfo {
   instrument: boolean;
   comment: string;
   isNintendo: boolean;
+  isPassed: boolean;
   members: AvailableMember[];
   event: UpcomingEvent;
   signups: UpcomingSignup[];

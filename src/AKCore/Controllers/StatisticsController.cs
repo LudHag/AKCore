@@ -23,15 +23,15 @@ public class StatisticsController(AKContext db, TranslationsService translations
         return View();
     }
 
-    [Route("Model")]
-    public async Task<ActionResult> GetModel(bool loggedIn = true, bool loggedOut = true, StatisticsRange range = StatisticsRange.Day)
+    [Route("SiteRequests")]
+    public async Task<ActionResult> GetSiteRequests(bool loggedIn = true, bool loggedOut = true, StatisticsRequestRange range = StatisticsRequestRange.Day)
     {
         if (!loggedIn && !loggedOut)
         {
             return Json(new
             {
                 items = new List<string>(),
-                dates = new List<StatisticsItemModel>()
+                dates = new List<StatisticsRequestModel>()
             });
         }
         var dataItems = await GetRequestItems(loggedIn, loggedOut, range);
@@ -55,18 +55,45 @@ public class StatisticsController(AKContext db, TranslationsService translations
         });
     }
 
-    private static string FormatTime(DateTime date, CultureInfo culture, StatisticsRange range)
+    [Route("Gigs")]
+    public async Task<ActionResult> GetGigs(StatisticsGigsRange range = StatisticsGigsRange.Month)
     {
-        var perDay = range == StatisticsRange.Month;
+        var today = DateTime.UtcNow;
+        var startDate = range == StatisticsGigsRange.Month ? today.AddMonths(-1) : today.AddYears(-1);
+
+        var dataItems = await db.Events
+          .Where(x => x.Type == "Spelning")
+          .Where(x => x.Day < today)
+          .Where(x => x.Day > startDate)
+          .OrderBy(x => x.Day)
+          .Select(x => new
+          {
+              x.Id,
+              x.Name,
+              x.Day,
+              CantCome = x.SignUps.Count(s => s.Where == AkSignupType.CantCome),
+              CanCome = x.SignUps.Count(s => s.Where != AkSignupType.CantCome)
+          })
+          .ToListAsync();
+
+        return Json(new
+        {
+            items = dataItems,
+        });
+    }
+
+    private static string FormatTime(DateTime date, CultureInfo culture, StatisticsRequestRange range)
+    {
+        var perDay = range == StatisticsRequestRange.Month;
 
         return perDay ? date.ToString("dd MMM", culture) : date.ToString("ddd HH", culture);
     }
 
-    private async Task<IEnumerable<StatisticsItemModel>> GetRequestItems(bool loggedIn , bool loggedOut , StatisticsRange range )
+    private async Task<IEnumerable<StatisticsRequestModel>> GetRequestItems(bool loggedIn, bool loggedOut, StatisticsRequestRange range )
     {
         var all = loggedIn && loggedOut;
 
-        var perDay = range == StatisticsRange.Month;
+        var perDay = range == StatisticsRequestRange.Month;
 
         var dataItemsFiltered = db.RequestsDatas
           .Where(x => x.Created > GetRangeCompare(range))
@@ -87,35 +114,35 @@ public class StatisticsController(AKContext db, TranslationsService translations
                   Mobile = g.Sum(r => r.Mobile),
                   Desktop = g.Sum(r => r.Desktop)
               })
-              .Select(x => new StatisticsItemModel(x.Created, x.Amount, x.Mobile, x.Desktop, x.Path))
+              .Select(x => new StatisticsRequestModel(x.Created, x.Amount, x.Mobile, x.Desktop, x.Path))
               .ToListAsync();
 
         }
         return await dataItemsFiltered
-                    .Select(x => new StatisticsItemModel(x.Created, x.Amount, x.Mobile, x.Desktop, x.Path))
+                    .Select(x => new StatisticsRequestModel(x.Created, x.Amount, x.Mobile, x.Desktop, x.Path))
                     .ToListAsync();
     }
 
-    private static IEnumerable<StatisticsItemModel> NormalizeItems(IEnumerable<StatisticsItemModel> items, IEnumerable<DateTime> dates)
+    private static IEnumerable<StatisticsRequestModel> NormalizeItems(IEnumerable<StatisticsRequestModel> items, IEnumerable<DateTime> dates)
     {
         var distinctItems = items.GroupBy(item => item.Created)
-            .Select(group => new StatisticsItemModel(group.Key, group.Sum(item => item.Amount), group.Sum(item => item.Mobile), group.Sum(item => item.Desktop), group.First().Path));
+            .Select(group => new StatisticsRequestModel(group.Key, group.Sum(item => item.Amount), group.Sum(item => item.Mobile), group.Sum(item => item.Desktop), group.First().Path));
 
         return dates
             .Select(date =>
             {
                 var item = distinctItems.FirstOrDefault(x => x.Created == date);
-                return new StatisticsItemModel(date, item == null ? 0 : item.Amount, item == null ? 0 : item.Mobile, item == null ? 0 : item.Desktop, null);
+                return new StatisticsRequestModel(date, item == null ? 0 : item.Amount, item == null ? 0 : item.Mobile, item == null ? 0 : item.Desktop, null);
             });
     }
 
-    private static DateTime GetRangeCompare(StatisticsRange range)
+    private static DateTime GetRangeCompare(StatisticsRequestRange range)
     {
         return range switch
         {
-            StatisticsRange.Day => DateTime.UtcNow.AddDays(-1),
-            StatisticsRange.Week => DateTime.UtcNow.AddDays(-7),
-            StatisticsRange.Month => DateTime.UtcNow.AddDays(-30),
+            StatisticsRequestRange.Day => DateTime.UtcNow.AddDays(-1),
+            StatisticsRequestRange.Week => DateTime.UtcNow.AddDays(-7),
+            StatisticsRequestRange.Month => DateTime.UtcNow.AddDays(-30),
             _ => DateTime.UtcNow.AddDays(-1)
         };
 
