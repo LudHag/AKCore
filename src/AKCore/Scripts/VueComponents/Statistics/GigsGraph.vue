@@ -41,8 +41,8 @@ ChartJS.register(
   LinearScale,
 );
 
-const filteredData = props.dataPoints.filter(
-  (item) => item.canCome > 0 || item.cantCome > 0,
+const filteredData = computed(() =>
+  props.dataPoints.filter((item) => item.canCome > 0 || item.cantCome > 0),
 );
 
 const handleChartClick = (event: any) => {
@@ -57,7 +57,7 @@ const handleChartClick = (event: any) => {
 
   if (interactionItems.length > 0) {
     const dataIndex = interactionItems[0].index;
-    const gig = filteredData[dataIndex];
+    const gig = filteredData.value[dataIndex];
     const gigId = gig.id;
 
     window.location.href = `/upcoming/Event/${gigId}`;
@@ -66,16 +66,16 @@ const handleChartClick = (event: any) => {
 
 const chartData = computed(() => {
   return {
-    labels: filteredData.map((item) => item.name),
+    labels: filteredData.value.map((item) => item.name),
     datasets: [
       {
         label: "Kan inte komma",
-        data: filteredData.map((item) => item.cantCome),
+        data: filteredData.value.map((item) => item.cantCome),
         backgroundColor: "#b10000",
       },
       {
         label: "Kan komma",
-        data: filteredData.map((item) => item.canCome),
+        data: filteredData.value.map((item) => item.canCome),
         backgroundColor: "#00b100",
       },
     ],
@@ -105,7 +105,7 @@ const options: ChartOptions<"bar"> = {
       callbacks: {
         title: (tooltipItems) => {
           const dataIndex = tooltipItems[0].dataIndex;
-          const gigItem = filteredData[dataIndex];
+          const gigItem = filteredData.value[dataIndex];
           return `${gigItem.name} - ${gigItem.day.split("T")[0]}`;
         },
       },
@@ -118,7 +118,7 @@ const options: ChartOptions<"bar"> = {
         color: "#fff",
         minRotation: 70,
         callback: function (_value, index) {
-          const gigItem = filteredData[index];
+          const gigItem = filteredData.value[index];
           return gigItem ? gigItem.name : "";
         },
       },
