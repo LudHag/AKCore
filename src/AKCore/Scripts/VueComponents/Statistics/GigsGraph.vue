@@ -41,6 +41,10 @@ ChartJS.register(
   LinearScale,
 );
 
+const filteredData = props.dataPoints.filter(
+  (item) => item.canCome > 0 || item.cantCome > 0,
+);
+
 const handleChartClick = (event: any) => {
   if (!chartRef.value || !chartRef.value.chart) return;
   const chart = chartRef.value?.chart;
@@ -53,17 +57,14 @@ const handleChartClick = (event: any) => {
 
   if (interactionItems.length > 0) {
     const dataIndex = interactionItems[0].index;
-    const gig = props.dataPoints[dataIndex];
+    const gig = filteredData[dataIndex];
     const gigId = gig.id;
 
     window.location.href = `/upcoming/Event/${gigId}`;
   }
 };
-const chartData = computed(() => {
-  const filteredData = props.dataPoints.filter(
-    (item) => item.canCome > 0 || item.cantCome > 0,
-  );
 
+const chartData = computed(() => {
   return {
     labels: filteredData.map((item) => item.name),
     datasets: [
@@ -104,7 +105,7 @@ const options: ChartOptions<"bar"> = {
       callbacks: {
         title: (tooltipItems) => {
           const dataIndex = tooltipItems[0].dataIndex;
-          const gigItem = props.dataPoints[dataIndex];
+          const gigItem = filteredData[dataIndex];
           return `${gigItem.name} - ${gigItem.day.split("T")[0]}`;
         },
       },
@@ -117,7 +118,7 @@ const options: ChartOptions<"bar"> = {
         color: "#fff",
         minRotation: 70,
         callback: function (_value, index) {
-          const gigItem = props.dataPoints[index];
+          const gigItem = filteredData[index];
           return gigItem ? gigItem.name : "";
         },
       },
