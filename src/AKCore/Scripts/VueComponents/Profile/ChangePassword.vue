@@ -22,6 +22,7 @@
         <label for="newpass">{{ t("new-password") }}:</label>
         <input
           v-model="password"
+          id="newpass"
           type="password"
           class="form-control"
           name="password"
@@ -33,6 +34,7 @@
         <label for="confirmpass">{{ t("confirm-password") }}:</label>
         <input
           v-model="confirmPass"
+          id="confirmpass"
           type="password"
           class="form-control"
           :placeholder="t('confirm-password')"
