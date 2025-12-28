@@ -115,6 +115,7 @@ const options: ChartOptions<"bar"> = {
     x: {
       ticks: {
         color: "#fff",
+        minRotation: 70,
         callback: function (_value, index) {
           const gigItem = props.dataPoints[index];
           return gigItem ? gigItem.name : "";

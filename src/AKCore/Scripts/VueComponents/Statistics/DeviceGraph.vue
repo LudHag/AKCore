@@ -26,10 +26,7 @@ const data = computed(() => {
   const desktopPercentage = ((desktop / (mobile + desktop)) * 100).toFixed(0);
 
   return {
-    labels: [
-      `Mobile (${mobilePercentage}%)`,
-      `Desktop (${desktopPercentage}%)`,
-    ],
+    labels: [`Mobil (${mobilePercentage}%)`, `Desktop (${desktopPercentage}%)`],
     datasets: [
       {
         backgroundColor: ["#b10000", "#00b100"],

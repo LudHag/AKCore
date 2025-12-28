@@ -3,7 +3,7 @@
     <h2>Spelningar</h2>
     <div class="controls">
       <div class="checkbox">
-        <div class="range-control hidden-xs">
+        <div class="range-control">
           <a
             href="#"
             class="range-toggle"
