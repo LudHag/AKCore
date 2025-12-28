@@ -1,5 +1,9 @@
 ﻿@model AKCore.DataModel.Widget
 
+@{
+    ViewData["test"]="TextImage";
+}
+
 <div class="row">
     <div class="col-sm-8">
         @Html.Raw(Model.Text)
