@@ -3,17 +3,20 @@
 
 @section styles {
     <environment exclude="Development">
-        <link rel="stylesheet" href="@settings.CDN/dist/@assetsModel.CssAdmin">
+        @foreach (var cssFile in assetsModel.Assets["admin"].Css)
+        {
+            <link rel="stylesheet" href="@settings.CDN/dist/@cssFile">
+        }
     </environment>
 }
 
 @section scripts {
-        <environment exclude="Development">
-        <script src="@settings.CDN/dist/@assetsModel.JsAdmin" type="module">
+    <environment exclude="Development">
+        <script src="@settings.CDN/dist/@assetsModel.Assets["admin"].Entrypoint" type="module">
         </script>
-        </environment>
-        <environment include="Development">
+    </environment>
+    <environment include="Development">
         <script src="~/Scripts/admin.ts" type="module" asp-append-version="true">
-            </script>
-        </environment>
+        </script>
+    </environment>
 }

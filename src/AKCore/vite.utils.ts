@@ -8,8 +8,8 @@ type Entrypoint = (typeof entrypoints)[number];
 const cleanFilePath = (filePath: string) =>
   filePath.replace("wwwroot/dist/", "");
 
-export function getAssetsFromManifest(manifest: Manifest) {
-  const modified: Record<
+function getAssetsFromManifest(manifest: Manifest) {
+  const assets: Record<
     Entrypoint,
     { entrypoint: string; js: string[]; css: string[] }
   > = {};
@@ -26,16 +26,17 @@ export function getAssetsFromManifest(manifest: Manifest) {
     );
     const importCss = imports
       .flatMap((importFile) => importFile.css || [])
+      .concat(entrypointManifest.css || [])
       .map(cleanFilePath);
 
-    modified[entrypoint] = {
+    assets[entrypoint] = {
       entrypoint: cleanFilePath(entrypointManifest.file),
       js: importJs,
       css: importCss,
     };
   });
 
-  return modified;
+  return { assets };
 }
 
 export function manifestTransform(): Plugin {
@@ -48,7 +49,7 @@ export function manifestTransform(): Plugin {
       const manifestContent = readFileSync(manifestFullPath, "utf-8");
       const manifest: Manifest = JSON.parse(manifestContent);
 
-      const modifiedManifest = removeWwwrootDistPrefix(manifest);
+      const modifiedManifest = getAssetsFromManifest(manifest);
 
       writeFile(
         manifestFullPath,

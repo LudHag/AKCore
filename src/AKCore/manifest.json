@@ -1,64 +1,24 @@
 {
-  "Scripts/admin.ts": {
-    "file": "wwwroot/dist/admin-B6cNXxkg.js",
-    "name": "admin",
-    "src": "Scripts/admin.ts",
-    "isEntry": true,
-    "imports": [
-      "_Modal-CH8RNXwM.js"
-    ],
-    "css": [
-      "wwwroot/dist/admin-4JNDCNQN.css"
-    ]
-  },
-  "Scripts/main.ts": {
-    "file": "wwwroot/dist/main-DOizZDJF.js",
-    "name": "main",
-    "src": "Scripts/main.ts",
-    "isEntry": true,
-    "imports": [
-      "_Modal-CH8RNXwM.js"
-    ],
-    "css": [
-      "wwwroot/dist/main-BMZf_S7H.css"
-    ],
-    "assets": [
-      "wwwroot/dist/glyphicons-halflings-regular-BUJKDMgK.eot",
-      "wwwroot/dist/glyphicons-halflings-regular-DzqM6ju8.woff2",
-      "wwwroot/dist/glyphicons-halflings-regular-BKjkU69z.woff",
-      "wwwroot/dist/glyphicons-halflings-regular-DrwTMapi.ttf",
-      "wwwroot/dist/glyphicons-halflings-regular-CSehLiBc.svg"
-    ]
-  },
-  "_Modal-C6YDF-j9.css": {
-    "file": "wwwroot/dist/Modal-C6YDF-j9.css",
-    "src": "_Modal-C6YDF-j9.css"
-  },
-  "_Modal-CH8RNXwM.js": {
-    "file": "wwwroot/dist/Modal-CH8RNXwM.js",
-    "name": "Modal",
-    "css": [
-      "wwwroot/dist/Modal-C6YDF-j9.css"
-    ]
-  },
-  "node_modules/bootstrap-sass/assets/fonts/bootstrap/glyphicons-halflings-regular.eot": {
-    "file": "wwwroot/dist/glyphicons-halflings-regular-BUJKDMgK.eot",
-    "src": "node_modules/bootstrap-sass/assets/fonts/bootstrap/glyphicons-halflings-regular.eot"
-  },
-  "node_modules/bootstrap-sass/assets/fonts/bootstrap/glyphicons-halflings-regular.svg": {
-    "file": "wwwroot/dist/glyphicons-halflings-regular-CSehLiBc.svg",
-    "src": "node_modules/bootstrap-sass/assets/fonts/bootstrap/glyphicons-halflings-regular.svg"
-  },
-  "node_modules/bootstrap-sass/assets/fonts/bootstrap/glyphicons-halflings-regular.ttf": {
-    "file": "wwwroot/dist/glyphicons-halflings-regular-DrwTMapi.ttf",
-    "src": "node_modules/bootstrap-sass/assets/fonts/bootstrap/glyphicons-halflings-regular.ttf"
-  },
-  "node_modules/bootstrap-sass/assets/fonts/bootstrap/glyphicons-halflings-regular.woff": {
-    "file": "wwwroot/dist/glyphicons-halflings-regular-BKjkU69z.woff",
-    "src": "node_modules/bootstrap-sass/assets/fonts/bootstrap/glyphicons-halflings-regular.woff"
-  },
-  "node_modules/bootstrap-sass/assets/fonts/bootstrap/glyphicons-halflings-regular.woff2": {
-    "file": "wwwroot/dist/glyphicons-halflings-regular-DzqM6ju8.woff2",
-    "src": "node_modules/bootstrap-sass/assets/fonts/bootstrap/glyphicons-halflings-regular.woff2"
+  "assets": {
+    "main": {
+      "entrypoint": "main-bQqZhq00.js",
+      "js": [
+        "Modal-Brmq_1nK.js"
+      ],
+      "css": [
+        "Modal-C6YDF-j9.css",
+        "main-BMZf_S7H.css"
+      ]
+    },
+    "admin": {
+      "entrypoint": "admin-CMNJzi0a.js",
+      "js": [
+        "Modal-Brmq_1nK.js"
+      ],
+      "css": [
+        "Modal-C6YDF-j9.css",
+        "admin-DvwchS0S.css"
+      ]
+    }
   }
 }

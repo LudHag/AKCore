@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
-using AKCore.DataModel;
 
 namespace AKCore.Models;
 
-public record AssetsModel(string JsMain, string JsAdmin, string JsVendor, string CssMain, string CssAdmin, string CssVendor);
+public record AssetModel(string Entrypoint, string[] Js, string[] Css);
+
+public record AssetsModel(IDictionary<string, AssetModel> Assets);
