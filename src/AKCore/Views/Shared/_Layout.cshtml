@@ -21,7 +21,9 @@
         <link rel="modulepreload" href="@settings.CDN/dist/@assetsModel.JsVendor">
         <link rel="stylesheet" href="@settings.CDN/dist/@assetsModel.CssMain">
         <link rel="stylesheet" href="@settings.CDN/dist/@assetsModel.CssVendor">
+        @RenderSection("preloads", required: false)
     </environment>
+
     <link rel="icon" type="image/x-icon" href="@settings.CDN/favicon.ico">
     <link rel="icon" type="image/png" sizes="32x32" href="@settings.CDN/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="@settings.CDN/favicon-16x16.png">
