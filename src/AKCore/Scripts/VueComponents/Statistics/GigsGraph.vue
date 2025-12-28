@@ -68,14 +68,14 @@ const chartData = computed(() => {
     labels: filteredData.map((item) => item.name),
     datasets: [
       {
-        label: "Kan komma",
-        data: filteredData.map((item) => item.canCome),
-        backgroundColor: "#00b100",
-      },
-      {
         label: "Kan inte komma",
         data: filteredData.map((item) => item.cantCome),
         backgroundColor: "#b10000",
+      },
+      {
+        label: "Kan komma",
+        data: filteredData.map((item) => item.canCome),
+        backgroundColor: "#00b100",
       },
     ],
   };
@@ -112,6 +112,7 @@ const options: ChartOptions<"bar"> = {
   },
   scales: {
     x: {
+      stacked: true,
       ticks: {
         color: "#fff",
         minRotation: 70,
@@ -122,6 +123,7 @@ const options: ChartOptions<"bar"> = {
       },
     },
     y: {
+      stacked: true,
       ticks: {
         color: "#fff",
       },
