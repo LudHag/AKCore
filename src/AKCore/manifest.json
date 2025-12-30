@@ -1,22 +1,28 @@
 {
   "assets": {
     "main": {
-      "entrypoint": "main-DLFmKWBz.js",
+      "entrypoint": "main-6GHS5x4i.js",
       "js": [
-        "Spinner-D-_NXp-o.js",
-        "Modal-Cg4dVt2X.js"
+        "index-NRpegh10.js",
+        "_plugin-vue_export-helper-_hjwHrEL.js",
+        "Spinner-CEWu9Xzz.js",
+        "constants-ChulqxJe.js",
+        "Modal-HSqL_ZLl.js"
       ],
       "css": [
         "Spinner-_DcxstE0.css",
         "Modal-D7ovXKqj.css",
-        "main-o809jq_r.css"
+        "main-BP5fBskR.css"
       ]
     },
     "admin": {
-      "entrypoint": "admin-8PJnaemB.js",
+      "entrypoint": "admin-6e3370S4.js",
       "js": [
-        "Spinner-D-_NXp-o.js",
-        "Modal-Cg4dVt2X.js"
+        "_plugin-vue_export-helper-_hjwHrEL.js",
+        "Spinner-CEWu9Xzz.js",
+        "constants-ChulqxJe.js",
+        "Modal-HSqL_ZLl.js",
+        "index.es-CzvzD9UB.js"
       ],
       "css": [
         "Spinner-_DcxstE0.css",
@@ -25,13 +31,26 @@
       ]
     },
     "statistics": {
-      "entrypoint": "statistics-C8AyAEo2.js",
+      "entrypoint": "statistics-BCkVauoQ.js",
       "js": [
-        "Spinner-D-_NXp-o.js"
+        "_plugin-vue_export-helper-_hjwHrEL.js",
+        "Spinner-CEWu9Xzz.js"
       ],
       "css": [
         "Spinner-_DcxstE0.css",
         "statistics-CYvDAwoy.css"
+      ]
+    },
+    "profile": {
+      "entrypoint": "profile-DGInrQD4.js",
+      "js": [
+        "_plugin-vue_export-helper-_hjwHrEL.js",
+        "constants-ChulqxJe.js",
+        "index.es-CzvzD9UB.js",
+        "index-NRpegh10.js"
+      ],
+      "css": [
+        "profile-CkkNJzMN.css"
       ]
     }
   }
