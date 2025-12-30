@@ -10,6 +10,12 @@ export default defineConfig({
     hmr: { clientPort: 5173 },
   },
   plugins: [vue(), manifestTransform()],
+  experimental: {
+    // This is handling the problem we get from having to use relative paths since out app is not served from the root of the domain
+    renderBuiltUrl: (filename) => {
+      return filename.replace("wwwroot", "");
+    },
+  },
   build: {
     manifest: "manifest.json",
     outDir: ".",

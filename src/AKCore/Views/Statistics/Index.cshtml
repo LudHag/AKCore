@@ -1,21 +1,9 @@
 ﻿<div id="statistics-app"></div>
 
 @section styles {
-    <environment exclude="Development">
-        @foreach (var cssFile in assetsModel.Assets["admin"].Css)
-        {
-            <link rel="stylesheet" href="@settings.CDN/dist/@cssFile">
-        }
-    </environment>
+    <partial name="Imports/AdminImportStyles" />
 }
 
 @section scripts {
-    <environment exclude="Development">
-        <script src="@settings.CDN/dist/@assetsModel.Assets["admin"].Entrypoint" type="module">
-        </script>
-    </environment>
-    <environment include="Development">
-        <script src="~/Scripts/admin.ts" type="module" asp-append-version="true">
-        </script>
-    </environment>
+    <partial name="Imports/AdminImportScripts" />
 }

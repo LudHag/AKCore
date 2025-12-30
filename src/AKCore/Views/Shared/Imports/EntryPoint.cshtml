@@ -1,0 +1,15 @@
+@model AKCore.Models.EntryPointModel
+
+@{
+    var asset = Model.AssetsModel.Assets[Model.EntryPointName];
+}
+
+<environment exclude="Development">
+    <script src="@settings.CDN/dist/@asset.Entrypoint" type="module">
+    </script>
+</environment>
+<environment include="Development">
+    <script src="~/Scripts/@(Model.EntryPointName).ts" type="module" asp-append-version="true">
+    </script>
+</environment>
+

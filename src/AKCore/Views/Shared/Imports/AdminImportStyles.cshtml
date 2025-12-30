@@ -1,0 +1,11 @@
+<environment exclude="Development">
+    @foreach (var jsFile in assetsModel.Assets["admin"].Js)
+    {
+        <link rel="modulepreload" href="@settings.CDN/dist/@jsFile">
+    }
+
+    @foreach (var cssFile in assetsModel.Assets["admin"].Css)
+    {
+        <link rel="stylesheet" href="@settings.CDN/dist/@cssFile">
+    }
+</environment>
