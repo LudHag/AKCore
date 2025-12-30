@@ -1,7 +1,7 @@
 @model AKCore.Models.EntryPointModel
 
 @{
-    var asset = Model.AssetsModel.Assets[Model.EntryPointName];
+    var asset = Model.AssetsModel.GetAssetForEntrypoint("Model.EntryPointName", ViewData);
 }
 
 <environment exclude="Development">

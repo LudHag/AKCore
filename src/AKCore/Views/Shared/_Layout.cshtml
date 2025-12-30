@@ -18,7 +18,7 @@
     }
     <meta property="og:image" content="https://www.altekamereren.org/images/OG.png" />
      <environment exclude="Development">
-        <partial name="Imports/Preloads" model="@assetsModel.Assets["main"]" />
+        <partial name="Imports/Preloads" model="@assetsModel.GetAssetForEntrypoint("main", ViewData)" />
     </environment>
 
     <link rel="icon" type="image/x-icon" href="@settings.CDN/favicon.ico">
