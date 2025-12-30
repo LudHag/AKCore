@@ -13,8 +13,10 @@
     {
         <link rel="stylesheet" href="@settings.CDN/dist/@cssFile">
     }
-    <script src="@settings.CDN/dist/@asset.Entrypoint" type="module">
-    </script>
+    @if (!string.IsNullOrEmpty(asset.Entrypoint)) {
+        <script src="@settings.CDN/dist/@asset.Entrypoint" type="module">
+        </script>
+    }
 </environment>
 <environment include="Development">
     <script src="~/Scripts/@(Model.EntryPointName).ts" type="module" asp-append-version="true">

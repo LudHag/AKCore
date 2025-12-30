@@ -22,7 +22,7 @@ public record AssetsModel(IDictionary<string, AssetModel> Assets)
         return new AssetModel(asset.Entrypoint, newJs, newCss);
     }
 
-    private HashSet<string> GetRegisteredSet(ViewDataDictionary viewData, string key)
+    private static HashSet<string> GetRegisteredSet(ViewDataDictionary viewData, string key)
     {
         if (viewData[key] is not HashSet<string> set)
             viewData[key] = set = [];
