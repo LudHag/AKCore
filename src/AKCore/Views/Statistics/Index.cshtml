@@ -1,9 +1,5 @@
 ﻿<div id="statistics-app"></div>
 
-@section styles {
-    <partial name="Imports/AdminImportStyles" />
-}
+<partial name="Imports/EntryPoint" model="@(new EntryPointModel(assetsModel, "statistics"))" />
 
-@section scripts {
-    <partial name="Imports/AdminImportScripts" />
-}
+

@@ -1,10 +1,18 @@
 @model AKCore.Models.EntryPointModel
 
 @{
-    var asset = Model.AssetsModel.GetAssetForEntrypoint("Model.EntryPointName", ViewData);
+    var asset = Model.AssetsModel.GetAssetForEntrypoint(Model.EntryPointName, ViewData);
 }
 
 <environment exclude="Development">
+    @foreach (var jsFile in asset.Js)
+    {
+        <link rel="modulepreload" href="@settings.CDN/dist/@jsFile">
+    }
+    @foreach (var cssFile in asset.Css)
+    {
+        <link rel="stylesheet" href="@settings.CDN/dist/@cssFile">
+    }
     <script src="@settings.CDN/dist/@asset.Entrypoint" type="module">
     </script>
 </environment>

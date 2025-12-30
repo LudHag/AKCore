@@ -1,23 +1,37 @@
 {
   "assets": {
     "main": {
-      "entrypoint": "main-CY6n0xcP.js",
+      "entrypoint": "main-DLFmKWBz.js",
       "js": [
-        "Modal-Brmq_1nK.js"
+        "Spinner-D-_NXp-o.js",
+        "Modal-Cg4dVt2X.js"
       ],
       "css": [
-        "Modal-C6YDF-j9.css",
+        "Spinner-_DcxstE0.css",
+        "Modal-D7ovXKqj.css",
         "main-o809jq_r.css"
       ]
     },
     "admin": {
-      "entrypoint": "admin-CMNJzi0a.js",
+      "entrypoint": "admin-8PJnaemB.js",
       "js": [
-        "Modal-Brmq_1nK.js"
+        "Spinner-D-_NXp-o.js",
+        "Modal-Cg4dVt2X.js"
       ],
       "css": [
-        "Modal-C6YDF-j9.css",
-        "admin-DvwchS0S.css"
+        "Spinner-_DcxstE0.css",
+        "Modal-D7ovXKqj.css",
+        "admin-o1wln5WT.css"
+      ]
+    },
+    "statistics": {
+      "entrypoint": "statistics-C8AyAEo2.js",
+      "js": [
+        "Spinner-D-_NXp-o.js"
+      ],
+      "css": [
+        "Spinner-_DcxstE0.css",
+        "statistics-CYvDAwoy.css"
       ]
     }
   }
