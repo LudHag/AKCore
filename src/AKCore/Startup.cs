@@ -58,13 +58,13 @@ public class Startup
         services.AddRouting();
         services.AddDistributedMemoryCache();
 
-//#if DEBUG
-//#else
-//        services.Configure<Microsoft.AspNetCore.Mvc.MvcOptions>(options =>
-//        {
-//            options.Filters.Add(new Microsoft.AspNetCore.Mvc.RequireHttpsAttribute());
-//        });
-//#endif
+#if DEBUG
+#else
+        services.Configure<Microsoft.AspNetCore.Mvc.MvcOptions>(options =>
+        {
+            options.Filters.Add(new Microsoft.AspNetCore.Mvc.RequireHttpsAttribute());
+        });
+#endif
         services.AddControllersWithViews().AddNewtonsoftJson();
         services.AddSession();
         services.AddMemoryCache();
@@ -114,8 +114,8 @@ public class Startup
         else
         {
             app.UseExceptionHandler("/Page/Error");
-            //app.UseHsts();
-            //app.UseHttpsRedirection();
+            app.UseHsts();
+            app.UseHttpsRedirection();
         }
 
         app.UseSession();
