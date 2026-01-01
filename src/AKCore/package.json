@@ -7,7 +7,7 @@
     "start": "echo Starting the development server && vite",
     "clear": "rimraf ./wwwroot/dist/",
     "dev": "vite",
-    "build": "vite build",
+    "build": "vue-tsc && vite build",
     "lint": "eslint Scripts",
     "typecheck": "vue-tsc",
     "prettier": "prettier --write \"**/*.{ts,vue}\""
