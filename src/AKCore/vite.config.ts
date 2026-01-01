@@ -16,7 +16,6 @@ export default defineConfig({
     ...(process.env.ANALYZE
       ? [
           visualizer({
-            filename: "./wwwroot/dist/stats.html",
             open: true,
           }),
         ]
