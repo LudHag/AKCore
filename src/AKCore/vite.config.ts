@@ -1,6 +1,7 @@
 import { defineConfig } from "vite";
 import { resolve } from "path";
 import vue from "@vitejs/plugin-vue";
+import { visualizer } from "rollup-plugin-visualizer";
 import { entrypoints, manifestTransform } from "./vite.utils";
 
 // https://vitejs.dev/config/
@@ -9,7 +10,17 @@ export default defineConfig({
     port: 5173,
     hmr: { clientPort: 5173 },
   },
-  plugins: [vue(), manifestTransform()],
+  plugins: [
+    vue(),
+    manifestTransform(),
+    ...(process.env.ANALYZE
+      ? [
+          visualizer({
+            open: true,
+          }),
+        ]
+      : []),
+  ],
   experimental: {
     renderBuiltUrl: (filename) => {
       return filename.replace("wwwroot", "");
