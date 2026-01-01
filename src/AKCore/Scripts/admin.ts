@@ -7,6 +7,7 @@ import UsersApp from "./VueComponents/Users/UsersApp.vue";
 import MediaApp from "./VueComponents/Media/MediaApp.vue";
 import PageEdit from "./VueComponents/PageEdit/PageEdit.vue";
 import PagesApp from "./VueComponents/Pages/PagesApp.vue";
+import "vue3-select-component/styles";
 
 if (document.getElementById("pageedit-app")) {
   createApp(PageEdit).mount("#pageedit-app");
