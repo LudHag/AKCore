@@ -22,6 +22,14 @@ public record AssetsModel(IDictionary<string, AssetModel> Assets)
         return new AssetModel(asset.Entrypoint, newJs, newCss);
     }
 
+    public string GetCssContaining(string entrypoint, string contains)
+    {
+        if (!Assets.TryGetValue(entrypoint, out var asset))
+            return string.Empty;
+        
+        return asset.Css.FirstOrDefault(x => x.Contains(contains)) ?? string.Empty;
+    }
+
     private static HashSet<string> GetRegisteredSet(ViewDataDictionary viewData, string key)
     {
         if (viewData[key] is not HashSet<string> set)

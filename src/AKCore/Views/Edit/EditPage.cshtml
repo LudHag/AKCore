@@ -7,7 +7,7 @@
     <partial name="Imports/AdminImportScripts" />
 }
 <script>
-    const cssMain = '@assetsModel.Assets["main"].Css.FirstOrDefault(x=>x.Contains("main"))';
+    const cssMain = '@assetsModel.GetCssContaining("main", "main")';
 </script>
 
 <div id="pageedit-app"></div>
