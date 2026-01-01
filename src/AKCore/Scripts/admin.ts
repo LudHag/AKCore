@@ -13,10 +13,6 @@ if (document.getElementById("pageedit-app")) {
   createApp(PageEdit).mount("#pageedit-app");
 }
 
-if (document.getElementById("media-app")) {
-  createApp(MediaApp).mount("#media-app");
-}
-
 if (document.getElementById("admin-event-app")) {
   createApp(AdminEventApp).mount("#admin-event-app");
 }
