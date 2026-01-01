@@ -1,0 +1,8 @@
+<environment exclude="Development">
+    <script src="@settings.CDN/dist/@assetsModel.Assets["admin"].Entrypoint" type="module">
+    </script>
+</environment>
+<environment include="Development">
+    <script src="~/Scripts/admin.ts" type="module" asp-append-version="true">
+    </script>
+</environment>

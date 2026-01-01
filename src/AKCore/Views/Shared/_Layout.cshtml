@@ -18,10 +18,9 @@
     }
     <meta property="og:image" content="https://www.altekamereren.org/images/OG.png" />
      <environment exclude="Development">
-        <link rel="modulepreload" href="@settings.CDN/dist/@assetsModel.JsVendor">
-        <link rel="stylesheet" href="@settings.CDN/dist/@assetsModel.CssMain">
-        <link rel="stylesheet" href="@settings.CDN/dist/@assetsModel.CssVendor">
+        <partial name="Imports/Preloads" model="@assetsModel.GetAssetForEntrypoint("main", ViewData)" />
     </environment>
+
     <link rel="icon" type="image/x-icon" href="@settings.CDN/favicon.ico">
     <link rel="icon" type="image/png" sizes="32x32" href="@settings.CDN/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="@settings.CDN/favicon-16x16.png">
@@ -67,16 +66,7 @@
         </div>
     </div>
     <div id="loginapp"></div>
-    <environment exclude="Development">
-        <script src="@settings.CDN/dist/@assetsModel.JsMain" type="module">
-        </script>
-    </environment>
-    <environment include="Development">
-        <script src="~/Scripts/main.ts" type="module" asp-append-version="true">
-        </script>
-    </environment>
-
-
+    <partial name="Imports/EntryPoint" model="@(new EntryPointModel(assetsModel, "main"))" />
     @RenderSection("scripts", required: false)
 </body>
 </html>

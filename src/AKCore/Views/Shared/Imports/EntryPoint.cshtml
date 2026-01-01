@@ -1,0 +1,25 @@
+@model AKCore.Models.EntryPointModel
+
+@{
+    var asset = Model.AssetsModel.GetAssetForEntrypoint(Model.EntryPointName, ViewData);
+}
+
+<environment exclude="Development">
+    @foreach (var jsFile in asset.Js)
+    {
+        <link rel="modulepreload" href="@settings.CDN/dist/@jsFile">
+    }
+    @foreach (var cssFile in asset.Css)
+    {
+        <link rel="stylesheet" href="@settings.CDN/dist/@cssFile">
+    }
+    @if (!string.IsNullOrEmpty(asset.Entrypoint)) {
+        <script src="@settings.CDN/dist/@asset.Entrypoint" type="module">
+        </script>
+    }
+</environment>
+<environment include="Development">
+    <script src="~/Scripts/@(Model.EntryPointName).ts" type="module" asp-append-version="true">
+    </script>
+</environment>
+

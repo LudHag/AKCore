@@ -23,18 +23,9 @@
 </script>
 
 @section styles {
-    <environment exclude="Development">
-        <link rel="stylesheet" href="@settings.CDN/dist/@assetsModel.CssAdmin">
-    </environment>
+    <partial name="Imports/AdminImportStyles" />
 }
 
 @section scripts {
-    <environment exclude="Development">
-        <script src="@settings.CDN/dist/@assetsModel.JsAdmin" type="module">
-        </script>
-    </environment>
-    <environment include="Development">
-        <script src="~/Scripts/admin.ts" type="module" asp-append-version="true">
-        </script>
-    </environment>
+    <partial name="Imports/AdminImportScripts" />
 }

@@ -1,0 +1,15 @@
+@{
+    var assetModel = assetsModel.GetAssetForEntrypoint("admin", ViewData);
+}
+
+<environment exclude="Development">
+    @foreach (var jsFile in assetModel.Js)
+    {
+        <link rel="modulepreload" href="@settings.CDN/dist/@jsFile">
+    }
+
+    @foreach (var cssFile in assetModel.Css)
+    {
+        <link rel="stylesheet" href="@settings.CDN/dist/@cssFile">
+    }
+</environment>

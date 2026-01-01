@@ -1,0 +1,10 @@
+﻿@model AKCore.Models.AssetModel
+
+@foreach (var jsFile in Model.Js)
+{
+    <link rel="modulepreload" href="@settings.CDN/dist/@jsFile">
+}
+@foreach (var cssFile in Model.Css)
+{
+    <link rel="stylesheet" href="@settings.CDN/dist/@cssFile">
+}

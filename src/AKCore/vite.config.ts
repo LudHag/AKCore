@@ -1,69 +1,7 @@
 import { defineConfig } from "vite";
 import { resolve } from "path";
 import vue from "@vitejs/plugin-vue";
-import { writeFile } from "fs";
-import { Plugin } from "vite";
-import { OutputBundle, PreRenderedAsset } from "rollup";
-
-function generateAssetList(): Plugin {
-  return {
-    name: "generate-asset-list",
-    generateBundle(_options, bundle: OutputBundle) {
-      const assets: string[] = [];
-
-      for (const fileName in bundle) {
-        const assetInfo = bundle[fileName];
-        if (assetInfo.type === "asset" || assetInfo.type === "chunk") {
-          assets.push(fileName.split("/")[1]);
-        }
-      }
-
-      const assetContainer = {
-        mainjs: assets.find(
-          (asset) => asset.includes("main") && asset.includes("js"),
-        ),
-        adminjs: assets.find(
-          (asset) => asset.includes("admin") && asset.includes("js"),
-        ),
-        vendorjs: assets.find(
-          (asset) => asset.includes("vendor") && asset.includes("js"),
-        ),
-        maincss: assets.find(
-          (asset) => asset.includes("main") && asset.includes("css"),
-        ),
-        admincss: assets.find(
-          (asset) => asset.includes("admin") && asset.includes("css"),
-        ),
-        vendorcss: assets.find(
-          (asset) => asset.includes("vendor") && asset.includes("css"),
-        ),
-      };
-
-      writeFile(
-        "./assets.json",
-        JSON.stringify(assetContainer, null, 2),
-        (err) => {
-          if (err) throw err;
-          console.log("Assets manifest has been created");
-        },
-      );
-    },
-  };
-}
-
-const assetFileNames = (assetInfo: PreRenderedAsset): string => {
-  if (
-    assetInfo.names.some(
-      (name) =>
-        name.endsWith("css") &&
-        (name.includes("admin") || name.includes("main")),
-    )
-  ) {
-    return "dist/[name].[hash].[ext]";
-  } else {
-    return "dist/vendor.[hash].[ext]";
-  }
-};
+import { entrypoints, manifestTransform } from "./vite.utils";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -71,19 +9,28 @@ export default defineConfig({
     port: 5173,
     hmr: { clientPort: 5173 },
   },
-  plugins: [vue(), generateAssetList()],
+  plugins: [vue(), manifestTransform()],
+  experimental: {
+    renderBuiltUrl: (filename) => {
+      return filename.replace("wwwroot", "");
+    },
+  },
   build: {
+    manifest: "manifest.json",
+    outDir: ".",
     emptyOutDir: false,
-    outDir: "wwwroot",
     rollupOptions: {
-      input: {
-        main: resolve(__dirname, "Scripts/main.ts"),
-        admin: resolve(__dirname, "Scripts/admin.ts"),
-      },
+      input: entrypoints.reduce(
+        (acc, entrypoint) => {
+          acc[entrypoint] = resolve(__dirname, `Scripts/${entrypoint}.ts`);
+          return acc;
+        },
+        {} as Record<string, string>,
+      ),
       output: {
-        entryFileNames: `dist/[name].[hash].js`,
-        chunkFileNames: `dist/vendor.[hash].js`,
-        assetFileNames: assetFileNames,
+        assetFileNames: "wwwroot/dist/[name]-[hash].[ext]",
+        chunkFileNames: "wwwroot/dist/[name]-[hash].js",
+        entryFileNames: "wwwroot/dist/[name]-[hash].js",
       },
     },
   },

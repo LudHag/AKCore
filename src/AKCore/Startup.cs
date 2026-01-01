@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using System.Collections.Generic;
 
 namespace AKCore;
 
@@ -23,11 +24,29 @@ public class Startup
             .SetBasePath(env.ContentRootPath)
             .AddJsonFile("appsettings.json", true, true)
             .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true)
-            .AddJsonFile("assets.json", true, true)
+            .AddJsonFile("manifest.json", true, true)
             .AddEnvironmentVariables();
         Configuration = builder.Build();
     }
     public IConfigurationRoot Configuration { get; }
+
+    private static AssetsModel CreateAssetsModel(IConfiguration configuration)
+    {
+        var assetsSection = configuration.GetSection("assets");
+        var assetsDictionary = new Dictionary<string, AssetModel>();
+        
+        foreach (var assetSection in assetsSection.GetChildren())
+        {
+            var assetName = assetSection.Key;
+            var entrypoint = assetSection["entrypoint"] ?? "";
+            var js = assetSection.GetSection("js").Get<string[]>() ?? [];
+            var css = assetSection.GetSection("css").Get<string[]>() ?? [];
+            
+            assetsDictionary[assetName] = new AssetModel(entrypoint, js, css);
+        }
+        
+        return new AssetsModel(assetsDictionary);
+    }
 
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
@@ -63,8 +82,7 @@ public class Startup
         var apiSecret = Configuration["OpenApiSecret"];
         services.AddTransient(x => new OpenApiClient(apiSecret ?? ""));
 
-        var assetsModel = new AssetsModel(Configuration["mainjs"], Configuration["adminjs"], Configuration["vendorjs"], Configuration["maincss"], Configuration["admincss"], Configuration["vendorcss"]);
-
+        var assetsModel = CreateAssetsModel(Configuration);
         services.AddSingleton(assetsModel);
 
         services.AddIdentity<AkUser, IdentityRole>()

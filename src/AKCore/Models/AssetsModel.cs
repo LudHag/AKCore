@@ -1,6 +1,41 @@
 ﻿using System.Collections.Generic;
-using AKCore.DataModel;
+using System.Linq;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace AKCore.Models;
 
-public record AssetsModel(string JsMain, string JsAdmin, string JsVendor, string CssMain, string CssAdmin, string CssVendor);
+public record AssetModel(string Entrypoint, string[] Js, string[] Css);
+
+public record AssetsModel(IDictionary<string, AssetModel> Assets)
+{
+    public AssetModel GetAssetForEntrypoint(string entrypoint, ViewDataDictionary viewData)
+    {
+        if (!Assets.TryGetValue(entrypoint, out var asset))
+            return new AssetModel("", [], []);
+
+        var registeredJs = GetRegisteredSet(viewData, "RegisteredJs");
+        var registeredCss = GetRegisteredSet(viewData, "RegisteredCss");
+
+        var newJs = asset.Js.Where(registeredJs.Add).ToArray();
+        var newCss = asset.Css.Where(registeredCss.Add).ToArray();
+
+        return new AssetModel(asset.Entrypoint, newJs, newCss);
+    }
+
+    public string GetCssContaining(string entrypoint, string contains)
+    {
+        if (!Assets.TryGetValue(entrypoint, out var asset))
+            return string.Empty;
+        
+        return asset.Css.FirstOrDefault(x => x.Contains(contains)) ?? string.Empty;
+    }
+
+    private static HashSet<string> GetRegisteredSet(ViewDataDictionary viewData, string key)
+    {
+        if (viewData[key] is not HashSet<string> set)
+            viewData[key] = set = [];
+        return set;
+    }
+}
+
+public record EntryPointModel(AssetsModel AssetsModel, string EntryPointName);

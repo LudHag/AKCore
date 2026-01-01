@@ -1,7 +1,6 @@
 ﻿import { createApp } from "vue";
 import VideoBar from "./VueComponents/VideoBar.vue";
 import MembersList from "./VueComponents/MembersList.vue";
-import ProfileApp from "./VueComponents/Profile/ProfileApp.vue";
 import UpcomingApp from "./VueComponents/Upcoming/UpcomingApp.vue";
 import MusicApp from "./VueComponents/MusicPlayer/MusicApp.vue";
 import MailBoxApp from "./VueComponents/MailBox/MailBoxApp.vue";
@@ -49,10 +48,6 @@ if (document.getElementById("upcoming-app")) {
   createApp(UpcomingApp, {
     "event-id": eventId,
   }).mount("#upcoming-app");
-}
-
-if (document.getElementById("profile-app")) {
-  createApp(ProfileApp).mount("#profile-app");
 }
 
 declare const loggedIn: boolean;
