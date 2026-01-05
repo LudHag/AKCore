@@ -20,6 +20,14 @@
           >
             Senaste Året
           </a>
+          <a
+            href="#"
+            class="range-toggle"
+            @click.prevent="gigsRange = 'AllTime'"
+            :class="{ active: gigsRange === 'AllTime' }"
+          >
+            Alla spelningar
+          </a>
         </div>
       </div>
     </div>
@@ -172,6 +180,7 @@ onMounted(() => {
     color: #000;
     display: inline-block;
     background-color: #808080;
+    border-right: 1px solid #575656;
 
     &:first-of-type {
       border-radius: 7px 0 0 7px;

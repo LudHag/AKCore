@@ -15,5 +15,6 @@ public enum StatisticsRequestRange
 public enum StatisticsGigsRange
 {
     Month,
-    Year
+    Year,
+    AllTime
 }

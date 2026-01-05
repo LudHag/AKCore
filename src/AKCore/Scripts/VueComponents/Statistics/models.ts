@@ -29,4 +29,4 @@ export type GigsResponse = {
   items: GigItem[];
 };
 
-export type GigsRange = "Month" | "Year";
+export type GigsRange = "Month" | "Year" | "AllTime";

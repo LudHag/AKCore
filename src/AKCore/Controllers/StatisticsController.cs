@@ -1,4 +1,4 @@
-﻿using AKCore.DataModel;
+using AKCore.DataModel;
 using AKCore.Models;
 using AKCore.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -59,7 +59,13 @@ public class StatisticsController(AKContext db, TranslationsService translations
     public async Task<ActionResult> GetGigs(StatisticsGigsRange range = StatisticsGigsRange.Month)
     {
         var today = DateTime.UtcNow;
-        var startDate = range == StatisticsGigsRange.Month ? today.AddMonths(-1) : today.AddYears(-1);
+        var startDate = range switch
+        {
+            StatisticsGigsRange.Month => today.AddMonths(-1),
+            StatisticsGigsRange.Year => today.AddYears(-1),
+            StatisticsGigsRange.AllTime => DateTime.MinValue,
+            _ => today.AddYears(-1)
+        };
 
         var dataItems = await db.Events
           .Where(x => x.Type == "Spelning")
