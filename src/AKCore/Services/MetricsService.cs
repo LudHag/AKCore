@@ -29,6 +29,17 @@ public class MetricsService(AKContext db)
         }
 
         db.RequestsDatas.AddRange(metricsEntities);
+
+        await db.SaveChangesAsync();
+    }
+
+    public async Task ClearOldMetrics()
+    {
+        var cutoffTime = DateTime.UtcNow.AddDays(-60);
+        db.RequestsDatas.RemoveRange(
+            db.RequestsDatas
+            .Where(r => r.Created < cutoffTime)
+        );
         await db.SaveChangesAsync();
     }
 

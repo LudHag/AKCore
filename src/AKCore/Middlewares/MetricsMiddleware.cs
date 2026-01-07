@@ -139,6 +139,7 @@ public class MetricsMiddleware
 
                     await metricsService.SaveMetrics(loggedInRouteRequests, true, nowTime);
                     await metricsService.SaveMetrics(loggedOutRouteRequests, false, nowTime);
+                    await metricsService.ClearOldMetrics();
                 }
                 loggedInRouteRequests = [];
                 loggedOutRouteRequests = [];
