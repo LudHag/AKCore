@@ -48,6 +48,12 @@ const close = () => {
   emit("close");
 };
 
+const handleEscapeKey = (event: KeyboardEvent) => {
+  if (event.key === "Escape" && props.showModal) {
+    close();
+  }
+};
+
 let savedScrollY = 0;
 
 watch(
@@ -57,10 +63,12 @@ watch(
       savedScrollY = window.scrollY;
       document.body.classList.add("modal-open");
       document.body.style.top = `-${savedScrollY}px`;
+      document.addEventListener("keydown", handleEscapeKey);
     } else {
       document.body.classList.remove("modal-open");
       document.body.style.top = "";
       window.scrollTo(0, savedScrollY);
+      document.removeEventListener("keydown", handleEscapeKey);
     }
   },
   { immediate: true },
@@ -71,6 +79,7 @@ onUnmounted(() => {
   document.body.classList.remove("modal-open");
   document.body.style.top = "";
   window.scrollTo(0, savedScrollY);
+  document.removeEventListener("keydown", handleEscapeKey);
 });
 </script>
 
