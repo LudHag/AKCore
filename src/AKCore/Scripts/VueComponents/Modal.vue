@@ -24,11 +24,13 @@
   </transition>
 </template>
 <script setup lang="ts">
+import { watch, onUnmounted } from "vue";
+
 const emit = defineEmits<{
   (e: "close"): void;
 }>();
 
-defineProps<{
+const props = defineProps<{
   showModal: boolean;
   header?: string;
   notransition?: boolean;
@@ -45,6 +47,31 @@ const modalClose = (event: Event) => {
 const close = () => {
   emit("close");
 };
+
+let savedScrollY = 0;
+
+watch(
+  () => props.showModal,
+  (isOpen) => {
+    if (isOpen) {
+      savedScrollY = window.scrollY;
+      document.body.classList.add("modal-open");
+      document.body.style.top = `-${savedScrollY}px`;
+    } else {
+      document.body.classList.remove("modal-open");
+      document.body.style.top = "";
+      window.scrollTo(0, savedScrollY);
+    }
+  },
+  { immediate: true },
+);
+
+// Cleanup on unmount
+onUnmounted(() => {
+  document.body.classList.remove("modal-open");
+  document.body.style.top = "";
+  window.scrollTo(0, savedScrollY);
+});
 </script>
 
 <style lang="scss" scoped>
@@ -52,11 +79,16 @@ const close = () => {
 @import "../../Styles/variables.scss";
 
 .modal {
+  z-index: 70000;
+
   position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
+  a:focus {
+    outline-color: $akred;
+  }
 }
 
 .modal-enter,

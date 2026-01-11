@@ -138,16 +138,14 @@ a {
   font-size: 2rem;
 }
 
-.modal {
-  z-index: 70000;
-
-  a:focus {
-    outline-color: $akred;
-  }
-}
-
 .modal-open {
+  top: 0;
+  left: 0;
+  width: 100%;
   padding-right: 0 !important;
+  overflow: overlay;
+  position: fixed;
+  height: -webkit-fill-available;
 }
 
 ::selection {
