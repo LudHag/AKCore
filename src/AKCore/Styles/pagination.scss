@@ -1,0 +1,62 @@
+@use "variables.scss";
+.pagination {
+  display: inline-block;
+  padding-left: 0;
+  margin: 20px 0;
+  border-radius: 5px;
+
+  > li {
+    display: inline;
+    > a,
+    > span {
+      position: relative;
+      float: left;
+      padding: 6px 12px;
+      margin-left: -1px;
+      color: variables.$akred;
+      text-decoration: none;
+      background-color: variables.$akwhite;
+      border: 1px solid variables.$aklightgrey;
+      transition:
+        color 0.2s,
+        background-color 0.2s,
+        border-color 0.2s;
+
+      &:hover,
+      &:focus {
+        z-index: 2;
+        color: darken(variables.$akred, 15%);
+        background-color: darken(variables.$akwhite, 15%);
+        border-color: darken(variables.$aklightgrey, 5%);
+      }
+    }
+    &:first-child {
+      > a,
+      > span {
+        margin-left: 0;
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+      }
+    }
+    &:last-child {
+      > a,
+      > span {
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+      }
+    }
+  }
+
+  > .active > a,
+  > .active > span {
+    &,
+    &:hover,
+    &:focus {
+      z-index: 3;
+      color: variables.$akwhite;
+      cursor: default;
+      background-color: variables.$akred;
+      border-color: variables.$aklightgrey;
+    }
+  }
+}

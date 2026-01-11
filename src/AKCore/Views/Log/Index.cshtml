@@ -63,17 +63,19 @@
     }
     @if (Model.TotalPages > 1)
     {
-        <div class="col-xs-12">
-            <ul class="pagination">
-                @for (var i = 1; i <= Model.TotalPages; i++)
-                {
-                    if(i < 4 || i > Model.TotalPages - 3 || ( i > Model.Page - 1 && i < Model.Page + 3 )) {
-                        <li class="@(Model.Page == i - 1 ? "active" : "")"><a href="?p=@(i - 1)@query">@i</a></li>
-                    } else if(i == 4 || (i == Model.TotalPages -3 && Model.Page > 1)){
-                        <li class=""><span class="dots">...</span></li>
+        <div class="row">
+            <div class="col-xs-12">
+                <ul class="pagination">
+                    @for (var i = 1; i <= Model.TotalPages; i++)
+                    {
+                        if(i < 4 || i > Model.TotalPages - 3 || ( i > Model.Page - 1 && i < Model.Page + 3 )) {
+                            <li class="@(Model.Page == i - 1 ? "active" : "")"><a href="?p=@(i - 1)@query">@i</a></li>
+                        } else if(i == 4 || (i == Model.TotalPages -3 && Model.Page > 1)){
+                            <li class=""><span class="dots">...</span></li>
+                        }
                     }
-                }
-            </ul>
+                </ul>
+            </div>
         </div>
     }
 </div>
