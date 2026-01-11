@@ -1,3 +1,4 @@
+@use "sass:color";
 @use "variables.scss";
 .pagination {
   display: flex;
@@ -21,9 +22,9 @@
 
       &:hover,
       &:focus {
-        color: darken(variables.$akred, 15%);
-        background-color: darken(variables.$akwhite, 15%);
-        border-color: darken(variables.$aklightgrey, 5%);
+        color: color.adjust(variables.$akred, $lightness: -15%);
+        background-color: color.adjust(variables.$akwhite, $lightness: -15%);
+        border-color: color.adjust(variables.$aklightgrey, $lightness: -5%);
       }
     }
 
