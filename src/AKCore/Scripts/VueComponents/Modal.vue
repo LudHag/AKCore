@@ -66,4 +66,8 @@ const close = () => {
 .modal-dialog {
   max-height: calc(100vh - 30px);
 }
+
+.modal-content {
+  color: black;
+}
 </style>
