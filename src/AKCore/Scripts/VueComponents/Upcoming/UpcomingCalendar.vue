@@ -51,7 +51,7 @@ import Constants from "../../constants";
 import CalendarDay from "./CalendarDay.vue";
 import EventInfoModal from "./EventInfoModal.vue";
 import { UpcomingYears, UpcomingEvent } from "./models";
-import { isEnglish } from "../../translations";
+import { isEnglish } from "@scripts/translations";
 
 const timeDay = 24 * 60 * 60 * 1000;
 const today = new Date();

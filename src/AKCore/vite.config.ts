@@ -10,6 +10,15 @@ export default defineConfig({
     port: 5173,
     hmr: { clientPort: 5173 },
   },
+  resolve: {
+    alias: {
+      "@styles": resolve(__dirname, "Styles"),
+      "@scripts": resolve(__dirname, "Scripts"),
+      "@components": resolve(__dirname, "Scripts/VueComponents"),
+      "@utils": resolve(__dirname, "Scripts/utils"),
+      "@services": resolve(__dirname, "Scripts/services"),
+    },
+  },
   plugins: [
     vue(),
     manifestTransform(),

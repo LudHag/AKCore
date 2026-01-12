@@ -28,7 +28,7 @@
 import Modal from "../Modal.vue";
 import FileUploader from "../FileUploader.vue";
 import AlbumUploadTrackItem from "./AlbumUploadTrackItem.vue";
-import { postToApi, postFormData } from "../../services/apiservice";
+import { postToApi, postFormData } from "@services/apiservice";
 import { AlbumEditModel } from "./models";
 import { computed, ref } from "vue";
 

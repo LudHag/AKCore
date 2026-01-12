@@ -47,8 +47,8 @@ import ChangePassword from "./ChangePassword.vue";
 import ProfileStatistics from "./ProfileStatistics.vue";
 import { ref, onMounted } from "vue";
 import { ProfileData, ProfileStatisticsModel } from "./models";
-import { getFromApi } from "../../services/apiservice";
-import { TranslationDomain, translate } from "../../translations";
+import { getFromApi } from "@services/apiservice";
+import { TranslationDomain, translate } from "@scripts/translations";
 
 const profileData = ref<ProfileData | null>(null);
 const profileStatistics = ref<ProfileStatisticsModel | null>(null);

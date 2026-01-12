@@ -60,9 +60,9 @@
 </template>
 <script setup lang="ts">
 import { ref, computed } from "vue";
-import { groupBy, nameCompare } from "../../utils/functions";
+import { groupBy, nameCompare } from "@utils/functions";
 import { Album, Track } from "./models";
-import { TranslationDomain, translate } from "../../translations";
+import { TranslationDomain, translate } from "@scripts/translations";
 
 const props = defineProps<{ albums: Album[] }>();
 

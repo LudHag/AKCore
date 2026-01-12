@@ -29,7 +29,7 @@
 </template>
 <script setup lang="ts">
 import { ref, computed } from "vue";
-import { formatDateNoTime } from "../../utils/functions";
+import { formatDateNoTime } from "@utils/functions";
 import { MailItem } from "./models";
 
 const emit = defineEmits<{

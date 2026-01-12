@@ -166,7 +166,7 @@
   </modal>
 </template>
 <script setup lang="ts">
-import { postToApi } from "../../services/apiservice";
+import { postToApi } from "@services/apiservice";
 import Modal from "../Modal.vue";
 import { INSTRUMENTS, ROLES, POSTS, MEDALS } from "../../constants";
 import VueSelect, { Option } from "vue3-select-component";

@@ -25,7 +25,7 @@ import { computed } from "vue";
 import Constants from "../../constants";
 import { UpcomingYears, UpcomingEvent } from "./models";
 import UpcomingListItem from "./UpcomingListItem.vue";
-import { TranslationDomain, isEnglish, translate } from "../../translations";
+import { TranslationDomain, isEnglish, translate } from "@scripts/translations";
 
 const emit = defineEmits<{
   (e: "signup", id: number): void;

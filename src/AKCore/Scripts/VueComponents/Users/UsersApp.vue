@@ -62,8 +62,8 @@ import EditUserModal from "./EditUserModal.vue";
 import Spinner from "../Spinner.vue";
 import { User } from "./models";
 import { ref, computed, watch, onMounted } from "vue";
-import { getFromApi } from "../../services/apiservice";
-import { slideUpAndDown } from "../../services/slidehandler";
+import { getFromApi } from "@services/apiservice";
+import { slideUpAndDown } from "@services/slidehandler";
 
 const searchPhrase = ref("");
 const inactive = ref(false);

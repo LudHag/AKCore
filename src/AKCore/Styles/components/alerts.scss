@@ -1,3 +1,5 @@
+@use "sass:color";
+
 $alert-padding: 15px;
 
 .alert {
@@ -24,23 +26,35 @@ $alert-padding: 15px;
 .alert-success {
   color: #3c763d;
   background-color: #dff0d8;
-  border-color: darken(adjust-hue(#dff0d8, -10), 5%);
+  border-color: color.adjust(
+    color.adjust(#dff0d8, $hue: -10deg),
+    $lightness: -5%
+  );
 }
 
 .alert-info {
   color: #31708f;
   background-color: #d9edf7;
-  border-color: darken(adjust-hue(#d9edf7, -10), 5%);
+  border-color: color.adjust(
+    color.adjust(#d9edf7, $hue: -10deg),
+    $lightness: -5%
+  );
 }
 
 .alert-warning {
   color: #8a6d3b;
   background-color: #fcf8e3;
-  border-color: darken(adjust-hue(#fcf8e3, -10), 5%);
+  border-color: color.adjust(
+    color.adjust(#fcf8e3, $hue: -10deg),
+    $lightness: -5%
+  );
 }
 
 .alert-danger {
   color: #a94442;
   background-color: #f2dede;
-  border-color: darken(adjust-hue(#f2dede, -10), 5%);
+  border-color: color.adjust(
+    color.adjust(#f2dede, $hue: -10deg),
+    $lightness: -5%
+  );
 }

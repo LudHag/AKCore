@@ -11,7 +11,14 @@
     "lib": ["ESNext", "DOM"],
     "skipLibCheck": true,
     "noEmit": true,
-    "allowJs": true
+    "allowJs": true,
+    "paths": {
+      "@styles/*": ["./Styles/*"],
+      "@scripts/*": ["./Scripts/*"],
+      "@components/*": ["./Scripts/VueComponents/*"],
+      "@utils/*": ["./Scripts/utils/*"],
+      "@services/*": ["./Scripts/services/*"]
+    }
   },
   "include": [
     "Scripts/**/*.ts",

@@ -95,8 +95,8 @@ import SignupList from "./SignupList.vue";
 import EditSignupModal from "./EditSignupModal.vue";
 import { ref, computed, toRefs, watch, onMounted } from "vue";
 import { UpcomingEventInfo } from "../Upcoming/models";
-import { getFromApi } from "../../services/apiservice";
-import { TranslationDomain, translate } from "../../translations";
+import { getFromApi } from "@services/apiservice";
+import { TranslationDomain, translate } from "@scripts/translations";
 
 const emit = defineEmits<{
   (e: "close"): void;

@@ -51,8 +51,8 @@
 </template>
 <script setup lang="ts">
 import Modal from "../Modal.vue";
-import { defaultFormSend } from "../../services/apiservice";
-import { TranslationDomain, translate } from "../../translations";
+import { defaultFormSend } from "@services/apiservice";
+import { TranslationDomain, translate } from "@scripts/translations";
 import { ref, onMounted, nextTick } from "vue";
 
 const showModal = ref(false);

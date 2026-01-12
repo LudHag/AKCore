@@ -31,8 +31,8 @@
 </template>
 <script setup lang="ts">
 import { ref } from "vue";
-import { defaultFormSend } from "../../services/apiservice";
-import { TranslationDomain, translate } from "../../translations";
+import { defaultFormSend } from "@services/apiservice";
+import { TranslationDomain, translate } from "@scripts/translations";
 
 const emit = defineEmits<{
   (e: "sent"): void;

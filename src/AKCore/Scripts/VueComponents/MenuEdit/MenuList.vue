@@ -58,7 +58,7 @@
 </template>
 <script setup lang="ts">
 import { ref } from "vue";
-import { postToApi } from "../../services/apiservice";
+import { postToApi } from "@services/apiservice";
 import { MenuEditModel } from "./models";
 
 defineProps<{

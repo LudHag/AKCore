@@ -44,7 +44,7 @@ import UserListItem from "./UserListItem.vue";
 import PasswordModal from "./PasswordModal.vue";
 import { SortUser, UpdateInfo, User } from "./models";
 import { ref, computed } from "vue";
-import { slideUpAndDown } from "../../services/slidehandler";
+import { slideUpAndDown } from "@services/slidehandler";
 
 const emit = defineEmits<{
   (e: "updateuserprop", updateInfo: UpdateInfo): void;

@@ -59,12 +59,12 @@
 import PageMeta from "./PageMeta.vue";
 import AddWidget from "./AddWidget.vue";
 import Widget from "./Widget.vue";
-import { getFromApi, postByObject } from "../../services/apiservice";
+import { getFromApi, postByObject } from "@services/apiservice";
 import ImagePickerModal from "../ImagePickerModal.vue";
 import DocumentPickerModal from "../DocumentPickerModal.vue";
 import { VueDraggable } from "vue-draggable-plus";
 import PageVersions from "./PageVersions.vue";
-import { EventBus } from "../../utils/eventbus";
+import { EventBus } from "@utils/eventbus";
 import { onMounted, ref, watch, computed } from "vue";
 import {
   PageEditModel,

@@ -45,7 +45,7 @@
 </template>
 <script setup lang="ts">
 import { ref } from "vue";
-import { defaultFormSend } from "../../services/apiservice";
+import { defaultFormSend } from "@services/apiservice";
 import Modal from "../Modal.vue";
 import { User } from "./models";
 

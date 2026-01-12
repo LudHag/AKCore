@@ -51,7 +51,7 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
 import { Member } from "./models";
-import { TranslationDomain, translate } from "../translations";
+import { TranslationDomain, translate } from "@scripts/translations";
 
 const props = defineProps<{
   members: Record<string, Array<Member>>;

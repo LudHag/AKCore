@@ -1,15 +1,15 @@
 ﻿import { createApp } from "vue";
-import VideoBar from "./VueComponents/VideoBar.vue";
-import MembersList from "./VueComponents/MembersList.vue";
-import UpcomingApp from "./VueComponents/Upcoming/UpcomingApp.vue";
-import MusicApp from "./VueComponents/MusicPlayer/MusicApp.vue";
-import MailBoxApp from "./VueComponents/MailBox/MailBoxApp.vue";
-import LoginApp from "./VueComponents/Login/LoginApp.vue";
-import { Member, Video } from "./VueComponents/models";
-import NotificationApp from "./VueComponents/Notifications/NotificationApp.vue";
+import VideoBar from "@components/VideoBar.vue";
+import MembersList from "@components/MembersList.vue";
+import UpcomingApp from "@components/Upcoming/UpcomingApp.vue";
+import MusicApp from "@components/MusicPlayer/MusicApp.vue";
+import MailBoxApp from "@components/MailBox/MailBoxApp.vue";
+import LoginApp from "@components/Login/LoginApp.vue";
+import NotificationApp from "@components/Notifications/NotificationApp.vue";
+import CountDownApp from "@components/Countdown/CountDownApp.vue";
+import VideosSearch from "@components/VideosSearch.vue";
+import { Member, Video } from "@components/models";
 import { getCookie } from "./general";
-import CountDownApp from "./VueComponents/Countdown/CountDownApp.vue";
-import VideosSearch from "./VueComponents/VideosSearch.vue";
 
 const videosHeaderApp = document.getElementById("videos-header-search-app");
 if (videosHeaderApp) {

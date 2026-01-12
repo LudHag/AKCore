@@ -35,8 +35,8 @@
   </div>
 </template>
 <script setup lang="ts">
-import { postToApi } from "../../services/apiservice";
-import { GenericApiResponse } from "../../services/models";
+import { postToApi } from "@services/apiservice";
+import { GenericApiResponse } from "@services/models";
 import { Recruit, RecruitUpdate } from "./models";
 
 const emit = defineEmits<{

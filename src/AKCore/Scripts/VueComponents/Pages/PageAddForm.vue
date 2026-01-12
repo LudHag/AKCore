@@ -51,7 +51,7 @@
 </template>
 <script setup lang="ts">
 import { ref } from "vue";
-import { defaultFormSend } from "../../services/apiservice";
+import { defaultFormSend } from "@services/apiservice";
 
 const showForm = ref(false);
 const error = ref<HTMLElement | null>(null);

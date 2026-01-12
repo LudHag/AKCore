@@ -1,4 +1,4 @@
-﻿import { defaultFormSend } from "./services/apiservice";
+﻿import { defaultFormSend } from "@services/apiservice";
 
 const menu = document.getElementById("mobile-menu")!;
 

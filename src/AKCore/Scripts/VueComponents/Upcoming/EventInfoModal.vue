@@ -128,7 +128,7 @@
 import { computed } from "vue";
 import Modal from "../Modal.vue";
 import { UpcomingEvent } from "./models";
-import { TranslationDomain, translate } from "../../translations";
+import { TranslationDomain, translate } from "@scripts/translations";
 import { eventIsRep } from "./functions";
 
 const emit = defineEmits<{

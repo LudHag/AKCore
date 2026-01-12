@@ -78,9 +78,9 @@
 </template>
 <script setup lang="ts">
 import { onMounted, ref, onActivated, computed } from "vue";
-import { defaultFormSend } from "../../services/apiservice";
+import { defaultFormSend } from "@services/apiservice";
 import { UpcomingEventInfo, UpcomingWhere } from "../Upcoming/models";
-import { TranslationDomain, translate } from "../../translations";
+import { TranslationDomain, translate } from "@scripts/translations";
 
 const emit = defineEmits<{
   (e: "update"): void;
