@@ -84,11 +84,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import {
-  postToApi,
-  defaultFormSend,
-  getFromApi,
-} from "../../services/apiservice";
+import { postToApi, defaultFormSend, getFromApi } from "@services/apiservice";
 import AlbumEditItem from "./AlbumEditItem.vue";
 import ImagePickerModal from "../ImagePickerModal.vue";
 import AlbumUploadModal from "./AlbumUploadModal.vue";

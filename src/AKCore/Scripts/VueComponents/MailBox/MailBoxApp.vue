@@ -32,7 +32,7 @@
 </template>
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
-import { getFromApi, postToApi } from "../../services/apiservice";
+import { getFromApi, postToApi } from "@services/apiservice";
 import MailBoxForm from "./MailBoxForm.vue";
 import MailBoxItem from "./MailBoxItem.vue";
 import { MailItem } from "./models";

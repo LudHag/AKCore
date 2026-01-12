@@ -47,7 +47,7 @@ import PlayList from "./PlayList.vue";
 import Spinner from "../Spinner.vue";
 import { Album, Track } from "./models";
 import { ref, onMounted } from "vue";
-import { getFromApi } from "../../services/apiservice";
+import { getFromApi } from "@services/apiservice";
 import { TranslationDomain, translate } from "../../translations";
 
 const albums = ref<Album[]>([]);

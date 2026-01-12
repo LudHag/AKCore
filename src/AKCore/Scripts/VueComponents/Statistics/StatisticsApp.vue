@@ -92,7 +92,7 @@
 </template>
 <script setup lang="ts">
 import { onMounted, ref, watch } from "vue";
-import { getFromApi } from "../../services/apiservice";
+import { getFromApi } from "@services/apiservice";
 import PageViewGraph from "./PageViewGraph.vue";
 import DeviceGraph from "./DeviceGraph.vue";
 import GigsGraph from "./GigsGraph.vue";

@@ -37,7 +37,7 @@
 </template>
 <script setup lang="ts">
 import Modal from "./Modal.vue";
-import { getFromApi } from "../services/apiservice";
+import { getFromApi } from "@services/apiservice";
 import { Document } from "./models";
 import { ref, computed, onMounted, watch } from "vue";
 

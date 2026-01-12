@@ -4,7 +4,7 @@
 </template>
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
-import { getFromApi } from "../../services/apiservice";
+import { getFromApi } from "@services/apiservice";
 import { PageEditModel, PagesRequesponse } from "./models";
 import PageList from "./PageList.vue";
 import PageAddForm from "./PageAddForm.vue";

@@ -31,7 +31,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { getFromApi, postFormData } from "../../services/apiservice";
+import { getFromApi, postFormData } from "@services/apiservice";
 import FileUploader from "../FileUploader.vue";
 import MediaList from "./MediaList.vue";
 import { IMAGETYPES } from "../../constants";

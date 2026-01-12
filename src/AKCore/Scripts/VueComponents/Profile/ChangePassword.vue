@@ -51,8 +51,8 @@
 </template>
 <script setup lang="ts">
 import { ref } from "vue";
-import { defaultFormSend } from "../../services/apiservice";
-import { slideUpAndDown } from "../../services/slidehandler";
+import { defaultFormSend } from "@services/apiservice";
+import { slideUpAndDown } from "@services/slidehandler";
 import { TranslationDomain, translate } from "../../translations";
 
 const password = ref("");

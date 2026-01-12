@@ -78,7 +78,7 @@
 <script setup lang="ts">
 import Spinner from "../Spinner.vue";
 import AdminEventModal from "./AdminEventModal.vue";
-import { getFromApi, postToApi } from "../../services/apiservice";
+import { getFromApi, postToApi } from "@services/apiservice";
 import { ref, computed, onMounted } from "vue";
 import { AdminEventModel } from "./models";
 import { UpcomingEvent } from "../Upcoming/models";

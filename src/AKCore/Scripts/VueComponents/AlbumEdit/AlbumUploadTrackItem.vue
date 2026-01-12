@@ -14,7 +14,7 @@
 </template>
 <script setup lang="ts">
 import { computed, nextTick, onMounted, ref } from "vue";
-import { postToApi } from "../../services/apiservice";
+import { postToApi } from "@services/apiservice";
 import { TrackEditModel } from "./models";
 
 const emit = defineEmits<{

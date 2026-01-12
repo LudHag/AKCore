@@ -229,11 +229,7 @@
 <script setup lang="ts">
 import { MEDALS, POSTS, ROLES } from "../../constants";
 import VueSelect, { Option } from "vue3-select-component";
-import {
-  defaultFormSend,
-  postByObject,
-  postToApi,
-} from "../../services/apiservice";
+import { defaultFormSend, postByObject, postToApi } from "@services/apiservice";
 import { UpdateInfo, User } from "./models";
 import { computed, ref, watch } from "vue";
 

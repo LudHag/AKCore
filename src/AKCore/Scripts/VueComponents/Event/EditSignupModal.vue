@@ -73,7 +73,7 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
 import { SIGNUPTYPES } from "../../constants";
-import { defaultFormSend } from "../../services/apiservice";
+import { defaultFormSend } from "@services/apiservice";
 import Modal from "../Modal.vue";
 import { AvailableMember } from "../Upcoming/models";
 import { TranslationDomain, translate } from "../../translations";

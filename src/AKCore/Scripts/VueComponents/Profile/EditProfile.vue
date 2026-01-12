@@ -98,7 +98,7 @@ import { INSTRUMENTS } from "../../constants";
 import VueSelect, { Option } from "vue3-select-component";
 import { ref, computed } from "vue";
 import { ProfileData } from "./models";
-import { postByObject } from "../../services/apiservice";
+import { postByObject } from "@services/apiservice";
 import { TranslationDomain, translate } from "../../translations";
 
 const emit = defineEmits<{

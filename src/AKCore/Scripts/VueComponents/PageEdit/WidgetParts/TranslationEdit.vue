@@ -26,7 +26,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { postToApi } from "../../../services/apiservice";
+import { postToApi } from "@services/apiservice";
 import { WidgetEditModel } from "../models";
 import TextEdit from "./TextEdit.vue";
 import Spinner from "../../Spinner.vue";

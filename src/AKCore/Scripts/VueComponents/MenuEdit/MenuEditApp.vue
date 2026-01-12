@@ -67,7 +67,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { defaultFormSend, getFromApi } from "../../services/apiservice";
+import { defaultFormSend, getFromApi } from "@services/apiservice";
 import MenuList from "./MenuList.vue";
 import MenuEditModal from "./MenuEditModal.vue";
 import { MenuEditModel, PageEditModel } from "./models";

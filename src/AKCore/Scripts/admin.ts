@@ -8,7 +8,7 @@ import MediaApp from "./VueComponents/Media/MediaApp.vue";
 import PageEdit from "./VueComponents/PageEdit/PageEdit.vue";
 import PagesApp from "./VueComponents/Pages/PagesApp.vue";
 import "vue3-select-component/styles";
-import "../Styles/adminstyles.scss";
+import "@styles/adminstyles.scss";
 
 if (document.getElementById("pageedit-app")) {
   createApp(PageEdit).mount("#pageedit-app");
