@@ -1,0 +1,17 @@
+@use "bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss" as bvars;
+
+.log-item-menu {
+  font-weight: 500;
+}
+
+.content-wrapper .log-item-list .log-item {
+  margin-bottom: 0;
+}
+
+@media screen and (max-width: bvars.$screen-xs-max) {
+  .content-wrapper .log-item-list .log-item {
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+    border-bottom: 1px solid #e0e0e0;
+  }
+}
