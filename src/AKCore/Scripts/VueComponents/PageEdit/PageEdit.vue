@@ -64,7 +64,7 @@ import ImagePickerModal from "../ImagePickerModal.vue";
 import DocumentPickerModal from "../DocumentPickerModal.vue";
 import { VueDraggable } from "vue-draggable-plus";
 import PageVersions from "./PageVersions.vue";
-import { EventBus } from "../../utils/eventbus";
+import { EventBus } from "@utils/eventbus";
 import { onMounted, ref, watch, computed } from "vue";
 import {
   PageEditModel,

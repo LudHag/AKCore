@@ -16,7 +16,7 @@
 <script setup lang="ts">
 import { computed, toRefs } from "vue";
 import { Album, Track } from "./models";
-import { nameCompare } from "../../utils/functions";
+import { nameCompare } from "@utils/functions";
 import PlayListItem from "./PlayListItem.vue";
 
 defineEmits<{

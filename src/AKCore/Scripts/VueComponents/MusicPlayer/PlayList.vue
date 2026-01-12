@@ -25,7 +25,7 @@
 </template>
 <script setup lang="ts">
 import { nextTick, ref, computed, toRefs, watch } from "vue";
-import { nameCompare } from "../../utils/functions";
+import { nameCompare } from "@utils/functions";
 import { Album, Track } from "./models";
 import Player from "./Player.vue";
 import PlayListItem from "./PlayListItem.vue";

@@ -54,9 +54,9 @@
 </template>
 <script setup lang="ts">
 import { toRefs, computed } from "vue";
-import { formatDate } from "../../utils/functions";
-import { UpcomingSignup } from "../Upcoming/models";
-import { TranslationDomain, translate } from "../../translations";
+import { formatDate } from "@utils/functions";
+import { UpcomingSignup } from "@components/Upcoming/models";
+import { TranslationDomain, translate } from "@translations/index";
 
 const props = defineProps<{
   nintendo: boolean;

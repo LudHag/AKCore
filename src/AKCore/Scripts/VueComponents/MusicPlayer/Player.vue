@@ -44,7 +44,7 @@
 </template>
 <script setup lang="ts">
 import { ref, computed, watch, nextTick, toRefs } from "vue";
-import { fmtMSS } from "../../utils/functions";
+import { fmtMSS } from "@utils/functions";
 
 import { Track } from "./models";
 

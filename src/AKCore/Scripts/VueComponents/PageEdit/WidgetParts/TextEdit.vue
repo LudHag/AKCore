@@ -16,7 +16,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { EventBus } from "../../../utils/eventbus";
+import { EventBus } from "@utils/eventbus";
 import Editor from "@tinymce/tinymce-vue";
 import { onMounted, ref, watch } from "vue";
 
