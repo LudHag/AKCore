@@ -1,4 +1,6 @@
-﻿.dp-modal {
+﻿@use "../variables.scss" as *;
+
+.dp-modal {
   z-index: 70000;
 }
 
