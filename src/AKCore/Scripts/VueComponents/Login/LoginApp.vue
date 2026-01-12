@@ -9,7 +9,11 @@
           method="post"
         >
           <div class="modal-body">
-            <div class="alert alert-danger" ref="error"></div>
+            <div
+              class="alert alert-danger"
+              ref="error"
+              style="display: none"
+            ></div>
             <div class="form-group">
               <label for="username">{{ t("user-name", "common") }}</label>
               <input
