@@ -17,7 +17,7 @@
 import { computed } from "vue";
 import { UpcomingEvent } from "./models";
 import { eventIsRep } from "./functions";
-import { TranslationDomain, translate } from "../../translations";
+import { TranslationDomain, translate } from "@scripts/translations";
 
 const today = new Date();
 const emit = defineEmits<{

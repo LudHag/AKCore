@@ -21,7 +21,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { sharedVideoState } from "./sharedState";
-import { TranslationDomain, translate } from "../translations";
+import { TranslationDomain, translate } from "@scripts/translations";
 
 const t = (key: string, domain: TranslationDomain = "videos") => {
   return translate(domain, key);

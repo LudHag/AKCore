@@ -23,7 +23,7 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, onBeforeUnmount } from "vue";
-import { translate, TranslationDomain } from "../../translations";
+import { translate, TranslationDomain } from "@scripts/translations";
 
 const props = defineProps<{
   selectedDate: string;

@@ -56,7 +56,7 @@
 import { toRefs, computed } from "vue";
 import { formatDate } from "@utils/functions";
 import { UpcomingSignup } from "@components/Upcoming/models";
-import { TranslationDomain, translate } from "@translations/index";
+import { TranslationDomain, translate } from "@scripts/translations";
 
 const props = defineProps<{
   nintendo: boolean;

@@ -142,8 +142,8 @@ import UpcomingCalendar from "./UpcomingCalendar.vue";
 import EventApp from "../Event/EventApp.vue";
 import { UpcomingYears } from "./models";
 import { ref, nextTick, onMounted } from "vue";
-import { TranslationDomain, translate } from "../../translations";
-import { getCookie, getImageLink, setCookie } from "../../general";
+import { TranslationDomain, translate } from "@scripts/translations";
+import { getCookie, getImageLink, setCookie } from "@scripts/general";
 
 const props = defineProps<{
   eventId: number;

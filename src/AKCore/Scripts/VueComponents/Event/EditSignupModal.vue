@@ -76,7 +76,7 @@ import { SIGNUPTYPES } from "../../constants";
 import { defaultFormSend } from "@services/apiservice";
 import Modal from "../Modal.vue";
 import { AvailableMember } from "../Upcoming/models";
-import { TranslationDomain, translate } from "../../translations";
+import { TranslationDomain, translate } from "@scripts/translations";
 
 const emit = defineEmits<{
   (e: "update"): void;

@@ -147,7 +147,7 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import { UpcomingEvent } from "./models";
-import { TranslationDomain, translate } from "../../translations";
+import { TranslationDomain, translate } from "@scripts/translations";
 import { eventIsRep } from "./functions";
 
 const emit = defineEmits<{

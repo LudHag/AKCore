@@ -99,7 +99,7 @@ import VueSelect, { Option } from "vue3-select-component";
 import { ref, computed } from "vue";
 import { ProfileData } from "./models";
 import { postByObject } from "@services/apiservice";
-import { TranslationDomain, translate } from "../../translations";
+import { TranslationDomain, translate } from "@scripts/translations";
 
 const emit = defineEmits<{
   (e: "update"): void;

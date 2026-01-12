@@ -16,7 +16,6 @@ export default defineConfig({
       "@scripts": resolve(__dirname, "Scripts"),
       "@components": resolve(__dirname, "Scripts/VueComponents"),
       "@utils": resolve(__dirname, "Scripts/utils"),
-      "@translations": resolve(__dirname, "Scripts/translations"),
       "@services": resolve(__dirname, "Scripts/services"),
     },
   },

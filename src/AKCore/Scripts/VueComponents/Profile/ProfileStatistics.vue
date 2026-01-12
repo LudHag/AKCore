@@ -61,7 +61,7 @@
 </template>
 <script setup lang="ts">
 import { ProfileStatisticsModel } from "./models";
-import { TranslationDomain, translate } from "../../translations";
+import { TranslationDomain, translate } from "@scripts/translations";
 
 const props = defineProps<{ profileStatistics: ProfileStatisticsModel }>();
 const { profileStatistics } = props;
