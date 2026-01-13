@@ -5,7 +5,7 @@
       <a
         href="#"
         @click.prevent="close"
-        class="close-event pull-right glyphicon glyphicon-remove"
+        class="close-event pull-right glyphicon glyphicon-remove hidden-print"
       ></a>
       <h1>{{ eventInfo.event.name }}</h1>
       <div class="row hidden-print">
