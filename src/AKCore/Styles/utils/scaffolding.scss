@@ -1,0 +1,31 @@
+@use "@styles/variables.scss";
+
+* {
+  box-sizing: border-box;
+}
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 10px;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+body {
+  line-height: 1.428571429;
+}
+
+a {
+  color: variables.$link-color;
+
+  &:hover,
+  &:focus {
+    color: variables.$link-hover-color;
+  }
+}
+
+img {
+  vertical-align: middle;
+}
