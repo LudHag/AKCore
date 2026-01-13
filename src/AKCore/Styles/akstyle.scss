@@ -1,6 +1,7 @@
 ﻿@import "variables.scss";
 @import "bootstrap.scss";
-@import "responsive-utils.scss";
+@import "utils/responsivity.scss";
+@import "utils/scaffolding.scss";
 @import "components/alerts.scss";
 @import "components/pagination.scss";
 @import "components/table.scss";
