@@ -1,13 +1,9 @@
 ﻿@import "variables.scss";
 @import "bootstrap.scss";
-@import "utils/responsivity.scss";
-@import "utils/scaffolding.scss";
-@import "components/alerts.scss";
-@import "components/pagination.scss";
-@import "components/table.scss";
+@import "utils/index.scss";
 @import "components/log.scss";
-@import "general.scss";
 @import "components/menu.scss";
 @import "components/joinus.scss";
 @import "components/recruits.scss";
+@import "general.scss";
 @import "widget-styling.scss";
