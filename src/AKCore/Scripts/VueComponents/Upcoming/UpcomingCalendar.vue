@@ -185,4 +185,8 @@ onMounted(() => {
 .prev-month {
   font-size: 2rem;
 }
+
+.table {
+  table-layout: fixed;
+}
 </style>
