@@ -1,40 +1,40 @@
-﻿ .halan-map {
-    height: 250px;
+﻿.halan-map {
+  height: 250px;
+  width: 100%;
+  &:after {
     width: 100%;
-    &:after{
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        top: 0;
-        left: 0;
-        background-color: #000;
-        opacity: 0.2;
-        content: "";
-        display: block;
-        pointer-events:none;
-    }
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #000;
+    opacity: 0.2;
+    content: "";
+    display: block;
+    pointer-events: none;
+  }
 }
-.map-text{
-     text-align:center;
+.map-text {
+  text-align: center;
 }
 
 @media screen and (min-width: $screen-sm-min) {
-    .map-text {
-        position: absolute;
-        pointer-events: none;
-        top: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        color: $akwhite;
-        font-size: 37px;
-        text-transform: uppercase;
-        font-weight: 500;
-        text-shadow: 2px 4px 3px rgba(0,0,0,0.3);
-    }
+  .map-text {
+    position: absolute;
+    pointer-events: none;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    color: $akwhite;
+    font-size: 37px;
+    text-transform: uppercase;
+    font-weight: 500;
+    text-shadow: 2px 4px 3px rgba(0, 0, 0, 0.3);
+  }
 }
 
 @media screen and (max-width: $screen-xs-max) {
-    .halan-map {
-        display: none;
-    }
+  .halan-map {
+    display: none;
+  }
 }

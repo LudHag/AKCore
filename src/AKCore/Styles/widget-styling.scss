@@ -1,134 +1,134 @@
 ﻿.video-bg {
-    position: relative;
+  position: relative;
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  margin-bottom: 20px;
+
+  &.mobile {
+    height: 100px;
+  }
+
+  .video-bg-content {
+    position: absolute;
     width: 100%;
-    height: 200px;
-    overflow: hidden;
-    margin-bottom: 20px;
-
-    &.mobile {
-        height: 100px;
-    }
-
-    .video-bg-content {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        z-index: 2;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        h1 {
-            margin: 0;
-            text-transform: uppercase;
-            color: $akwhite;
-            font-size: 37px;
-            text-align: center;
-            z-index: 1;
-            text-transform: uppercase;
-            font-weight: 500;
-            text-shadow: 2px 4px 3px rgba(0, 0, 0, 0.3);
-        }
-    }
-
-    .video {
-        position: absolute;
-        top: 0;
-        min-width: 100%;
-        min-height: 100%;
-        width: 100%;
-        height: auto;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%,-50%);
-    }
-}
-
-
-.header-with-text {
-    text-align: center;
-    height: 200px;
-    background-position: 50% 50%;
-    background-size: cover;
+    height: 100%;
+    z-index: 2;
     display: flex;
     justify-content: center;
     align-items: center;
-    position: relative;
 
     h1 {
-        color: $akwhite;
-        font-size: 37px;
-        text-transform: uppercase;
-        text-shadow: 2px 4px 3px rgba(0, 0, 0, 0.3);
-        z-index: 1;
+      margin: 0;
+      text-transform: uppercase;
+      color: $akwhite;
+      font-size: 37px;
+      text-align: center;
+      z-index: 1;
+      text-transform: uppercase;
+      font-weight: 500;
+      text-shadow: 2px 4px 3px rgba(0, 0, 0, 0.3);
     }
+  }
 
-    &:after {
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        top: 0;
-        left: 0;
-        background-color: #333;
-        opacity: 0.3;
-        content: "";
-        display: block;
-    }
+  .video {
+    position: absolute;
+    top: 0;
+    min-width: 100%;
+    min-height: 100%;
+    width: 100%;
+    height: auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.header-with-text {
+  text-align: center;
+  height: 200px;
+  background-position: 50% 50%;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+
+  h1 {
+    color: $akwhite;
+    font-size: 37px;
+    text-transform: uppercase;
+    text-shadow: 2px 4px 3px rgba(0, 0, 0, 0.3);
+    z-index: 1;
+  }
+
+  &:after {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #333;
+    opacity: 0.3;
+    content: "";
+    display: block;
+  }
 }
 .three-puffs {
-    margin-top: 40px;
+  margin-top: 40px;
 }
 .puff {
-    display: block;
-    border: 4px solid #430800;
-    padding: 10px;
-    min-height: 300px;
-    font-size: 16px;
-    font-weight: 400;
-    margin-bottom: 20px;
+  display: block;
+  border: 4px solid #430800;
+  padding: 10px;
+  min-height: 300px;
+  font-size: 16px;
+  font-weight: 400;
+  margin-bottom: 20px;
 
-    a, p {
-        color: $akwhite;
-    }
+  a,
+  p {
+    color: $akwhite;
+  }
 
-    .puff-bild-container {
-        height: 220px;
-        position: relative;
-        margin-bottom: 10px;
-        overflow: hidden;
-    }
+  .puff-bild-container {
+    height: 220px;
+    position: relative;
+    margin-bottom: 10px;
+    overflow: hidden;
+  }
 
+  .puff-bild {
+    height: 100%;
+    background-image: url(/media/SOF2011.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    transition: all 0.2s linear;
+  }
+
+  &:hover {
     .puff-bild {
-        height: 100%;
-        background-image: url(/media/SOF2011.jpg);
-        background-size: cover;
-        background-repeat: no-repeat;
-        background-position: center center;
-        transition: all 0.2s linear;
+      transform: scale(1.2);
     }
+  }
 
-    &:hover {
-        .puff-bild {
-            transform: scale(1.2);
-        }
-    }
-
-    p {
-        margin: 0;
-    }
+  p {
+    margin: 0;
+  }
 }
 
 @media screen and (max-width: $screen-xs-max) {
-    .video-bg .video {
-        width: auto;
-        height: 175%;
-    }
+  .video-bg .video {
+    width: auto;
+    height: 175%;
+  }
 }
 
 @media screen and (max-width: 400px) {
-    .header-with-text {
-        h1 {
-            font-size: 30px;
-        }
+  .header-with-text {
+    h1 {
+      font-size: 30px;
     }
+  }
 }
