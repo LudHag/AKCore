@@ -11,7 +11,7 @@
     "build:analyze": "cross-env ANALYZE=true vite build",
     "lint": "eslint Scripts",
     "typecheck": "vue-tsc",
-    "prettier": "prettier --write \"**/*.{ts,vue}\""
+    "prettier": "prettier --write \"**/*.{ts,vue,scss}\""
   },
   "browserslist": {
     "development": [

@@ -1,75 +1,77 @@
-﻿#recruitList, #hireList{
-    .recruit {
-        margin-bottom: 0;
-        padding: 15px 0;
+﻿#recruitList,
+#hireList {
+  .recruit {
+    margin-bottom: 0;
+    padding: 15px 0;
+  }
+
+  .recruit-head {
+    font-weight: 500;
+  }
+
+  .actions {
+    .archive {
+      &.green {
+        color: #02c66f;
+      }
     }
 
-    .recruit-head {
-        font-weight: 500;
+    .remove {
+      margin-left: 15px;
     }
-
-    .actions {
-        .archive {
-            &.green {
-                color: #02C66F;
-            }
-        }
-
-        .remove {
-            margin-left: 15px;
-        }
-    }
+  }
 }
 
-.interest-filters{
-    margin-top: 15px;
+.interest-filters {
+  margin-top: 15px;
 }
 
-.toggle-switch{
-    display:none;
+.toggle-switch {
+  display: none;
 }
 
-.toggle-switch-btn{
-    overflow: hidden;
-    width: 120px;
-    position: relative;
+.toggle-switch-btn {
+  overflow: hidden;
+  width: 120px;
+  position: relative;
+  height: 35px;
+  text-align: center;
+  vertical-align: middle;
+  margin-bottom: 0;
+  display: inline-block;
+  cursor: pointer;
+  &:before,
+  &:after {
+    display: inline-block;
+    vertical-align: middle;
+    backface-visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 4px;
     height: 35px;
-    text-align: center;
-    vertical-align:middle;
-    margin-bottom:0;
-    display:inline-block;
-    cursor:pointer;
-    &:before,&:after{
-        display: inline-block;
-        vertical-align:middle;
-        backface-visibility: hidden;
-        position: absolute;
-        top: 0;
-        left: 0;
-        border-radius: 4px;
-        height: 35px;
-        line-height: 35px;
-        width: 100px;
-        transition: all .4s ease;
-    }
-    &:before{
-        background: #02C66F;
-        content: attr(data-tg-off);
-    }
-    &:after{
-        content: attr(data-tg-on);
-        background: $akred;
-        transform: rotateY(180deg);
-    }
+    line-height: 35px;
+    width: 100px;
+    transition: all 0.4s ease;
+  }
+  &:before {
+    background: #02c66f;
+    content: attr(data-tg-off);
+  }
+  &:after {
+    content: attr(data-tg-on);
+    background: $akred;
+    transform: rotateY(180deg);
+  }
 }
 
-.toggle-switch:checked{
-    + .toggle-switch-btn{
-        &:before{
-            transform: rotateY(180deg);
-        }
-        &:after{
-            transform: rotateY(0);
-        }
+.toggle-switch:checked {
+  + .toggle-switch-btn {
+    &:before {
+      transform: rotateY(180deg);
     }
+    &:after {
+      transform: rotateY(0);
+    }
+  }
 }
