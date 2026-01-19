@@ -1,19 +1,9 @@
-@use "sass:color";
-
-@use "sass:math";
-
-
-
-
 label {
   display: inline-block;
   max-width: 100%; // Force IE8 to wrap long content (see https://github.com/twbs/bootstrap/issues/13141)
   margin-bottom: 5px;
   font-weight: 700;
 }
-
-
-
 
 input[type="radio"],
 input[type="checkbox"] {
@@ -87,7 +77,6 @@ textarea.form-control {
   height: auto;
 }
 
-
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
   input[type="date"],
   input[type="time"],
@@ -103,15 +92,12 @@ textarea.form-control {
   margin-bottom: 15px;
 }
 
-
 .radio,
 .checkbox {
   position: relative;
   display: block;
   margin-top: 10px;
   margin-bottom: 10px;
-
- 
 
   label {
     min-height: $line-height-computed; // Ensure the input doesn't jump when there is no text
@@ -154,8 +140,6 @@ textarea.form-control {
       width: auto; // Prevent labels from stacking above inputs in `.form-group`
       vertical-align: middle;
     }
-
-  
 
     .input-group {
       display: inline-table;
