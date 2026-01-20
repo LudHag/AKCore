@@ -1,0 +1,128 @@
+@use "sass:color";
+
+.btn {
+  display: inline-block;
+  margin-bottom: 0;
+  font-weight: normal;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  touch-action: manipulation;
+  cursor: pointer;
+  background-image: none;
+  border: 1px solid transparent;
+
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.428571429;
+  border-radius: 4px;
+
+  user-select: none;
+
+  &,
+  &:active,
+  &.active {
+    &:focus,
+    &.focus {
+      outline: 5px auto -webkit-focus-ring-color;
+      outline-offset: -2px;
+    }
+  }
+
+  &:hover,
+  &:focus,
+  &.focus {
+    color: #333;
+    text-decoration: none;
+  }
+
+  &:active,
+  &.active {
+    background-image: none;
+    outline: 0;
+    box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  }
+
+  &.disabled,
+  &[disabled],
+  fieldset[disabled] & {
+    cursor: not-allowed;
+    opacity: 0.65;
+    box-shadow: none;
+  }
+}
+
+a.btn {
+  &.disabled,
+  fieldset[disabled] & {
+    pointer-events: none;
+  }
+}
+
+@mixin button-variant($color, $background, $border) {
+  color: $color;
+  background-color: $background;
+  border-color: $border;
+
+  &:focus,
+  &.focus {
+    color: $color;
+    background-color: color.adjust($background, $lightness: -10%, $space: hsl);
+    border-color: color.adjust($border, $lightness: -25%, $space: hsl);
+  }
+  &:hover {
+    color: $color;
+    background-color: color.adjust($background, $lightness: -10%, $space: hsl);
+    border-color: color.adjust($border, $lightness: -12%, $space: hsl);
+  }
+  &:active,
+  &.active,
+  .open > &.dropdown-toggle {
+    color: $color;
+    background-color: color.adjust($background, $lightness: -10%, $space: hsl);
+    background-image: none;
+    border-color: color.adjust($border, $lightness: -12%, $space: hsl);
+
+    &:hover,
+    &:focus,
+    &.focus {
+      color: $color;
+      background-color: color.adjust(
+        $background,
+        $lightness: -17%,
+        $space: hsl
+      );
+      border-color: color.adjust($border, $lightness: -25%, $space: hsl);
+    }
+  }
+  &.disabled,
+  &[disabled],
+  fieldset[disabled] & {
+    &:hover,
+    &:focus,
+    &.focus {
+      background-color: $background;
+      border-color: $border;
+    }
+  }
+
+  .badge {
+    color: $background;
+    background-color: $color;
+  }
+}
+
+.btn-default {
+  @include button-variant(#333, #fff, #ccc);
+}
+.btn-primary {
+  @include button-variant(#fff, #428bca, #357ebd);
+}
+
+input[type="submit"],
+input[type="reset"],
+input[type="button"] {
+  &.btn-block {
+    width: 100%;
+  }
+}
