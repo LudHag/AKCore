@@ -1,0 +1,79 @@
+@use "sass:color";
+
+$caret-width-base: 4px;
+.caret {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-left: 2px;
+  vertical-align: middle;
+  border-top: $caret-width-base dashed;
+  border-right: $caret-width-base solid transparent;
+  border-left: $caret-width-base solid transparent;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  display: none; // none by default, but block on "open" of the menu
+  float: left;
+  min-width: 160px;
+  padding: 5px 0;
+  margin: 2px 0 0; // override default ul
+  font-size: 14px;
+  text-align: left; // Ensures proper alignment if parent has it changed (e.g., modal footer)
+  list-style: none;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+
+  // Links within the dropdown menu
+  > li > a {
+    display: block;
+    padding: 3px 20px;
+    clear: both;
+    font-weight: 400;
+    line-height: 1.428571429;
+    color: #333333;
+    white-space: nowrap; // prevent links from randomly breaking onto new lines
+
+    &:hover,
+    &:focus {
+      color: rgb(38.25, 38.25, 38.25);
+      text-decoration: none;
+      background-color: #f5f5f5;
+    }
+  }
+}
+
+.dropdown-menu > .active > a {
+  &,
+  &:hover,
+  &:focus {
+    color: #fff;
+    text-decoration: none;
+    background-color: color.adjust(#428bca, $lightness: -6.5%, $space: hsl);
+    outline: 0;
+  }
+}
+
+// Open state for the dropdown
+.open {
+  // Show the menu
+  > .dropdown-menu {
+    display: block;
+  }
+
+  // Remove the outline when :focus is triggered
+  > a {
+    outline: 0;
+  }
+}
