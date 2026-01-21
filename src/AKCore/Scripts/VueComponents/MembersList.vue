@@ -94,7 +94,7 @@ const t = (key: string, domain: TranslationDomain = "memberlist") => {
 };
 </script>
 <style lang="scss" scoped>
-@import "bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss";
+@use "@styles/variables.scss";
 #adress-register .kamerer {
   padding-bottom: 4px;
 }
@@ -129,7 +129,7 @@ const t = (key: string, domain: TranslationDomain = "memberlist") => {
   margin-right: 20px;
 }
 
-@media screen and (max-width: $screen-xs-max) {
+@media screen and (max-width: variables.$screen-xs-max) {
   #adress-register .kamerer > div {
     &.name-email {
       width: 60%;

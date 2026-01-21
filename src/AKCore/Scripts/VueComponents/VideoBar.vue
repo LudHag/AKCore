@@ -46,7 +46,7 @@ const hideComponent = computed(() => {
 });
 </script>
 <style lang="scss" scoped>
-@import "bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss";
+@use "@styles/variables.scss";
 .videos-app {
   position: relative;
   margin-bottom: 20px;
@@ -80,7 +80,7 @@ const hideComponent = computed(() => {
   }
 }
 
-@media screen and (max-width: $screen-xs-max) {
+@media screen and (max-width: variables.$screen-xs-max) {
   .videos-app .videos .video {
     width: 140px;
   }

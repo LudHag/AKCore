@@ -33,7 +33,7 @@ const searchPhrase = computed({
 });
 </script>
 <style lang="scss" scoped>
-@import "bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss";
+@use "@styles/variables.scss";
 .videos-search {
   display: flex;
   .form-group {
@@ -47,7 +47,7 @@ const searchPhrase = computed({
 }
 
 // Left align on extra small screens (xs)
-@media screen and (max-width: $screen-xs-max) {
+@media screen and (max-width: variables.$screen-xs-max) {
   .videos-search {
     .form-group {
       margin-left: 0;

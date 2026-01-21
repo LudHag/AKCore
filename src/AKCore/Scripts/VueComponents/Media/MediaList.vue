@@ -119,17 +119,16 @@ const remove = (file: MediaItem) => {
 };
 </script>
 <style lang="scss" scoped>
-@import "bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss";
-@import "../../../Styles/variables.scss";
+@use "@styles/variables.scss";
 .tags {
-  border: 3px solid $akred;
+  border: 3px solid variables.$akred;
   padding: 8px;
 }
 .tag-info {
   margin-top: 20px;
 }
 .files {
-  border: 3px solid $akred;
+  border: 3px solid variables.$akred;
   padding: 15px;
 }
 .tag {
@@ -149,7 +148,7 @@ const remove = (file: MediaItem) => {
   grid-gap: 4%;
   grid-row-gap: 1em;
   justify-content: space-between;
-  @media screen and (max-width: $screen-xs-max) {
+  @media screen and (max-width: variables.$screen-xs-max) {
     grid-template-columns: 45% 45%;
   }
 }
@@ -166,7 +165,7 @@ const remove = (file: MediaItem) => {
     position: absolute;
     top: 0;
     right: 0;
-    background-color: $akred;
+    background-color: variables.$akred;
     color: #fff;
     padding: 5px;
     border-radius: 50%;
@@ -179,7 +178,7 @@ const remove = (file: MediaItem) => {
   }
   .glyphicon-file {
     font-size: 100px;
-    color: $akred;
+    color: variables.$akred;
     margin-right: -10px;
   }
 

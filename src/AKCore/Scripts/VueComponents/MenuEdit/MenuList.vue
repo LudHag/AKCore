@@ -151,8 +151,7 @@ const deleteSubMenu = (menu: MenuEditModel) => {
 };
 </script>
 <style lang="scss" scoped>
-@import "bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss";
-@import "../../../Styles/variables.scss";
+@use "@styles/variables.scss";
 .menu-item {
   margin-bottom: 5px;
 }
@@ -178,18 +177,18 @@ const deleteSubMenu = (menu: MenuEditModel) => {
   background-color: #999999;
   color: white;
   &:focus {
-    background-color: $akred;
+    background-color: variables.$akred;
     border-color: #6e1601;
     color: white;
   }
 
   &:hover {
     color: #333;
-    background-color: $akwhite;
+    background-color: variables.$akwhite;
     border-color: #ccc;
   }
 }
-@media screen and (max-width: $screen-xs-max) {
+@media screen and (max-width: variables.$screen-xs-max) {
   .menu-row.sub-row {
     padding-left: 0;
   }

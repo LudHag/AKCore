@@ -78,8 +78,7 @@ const t = (key: string, domain: TranslationDomain = "countdown") => {
 </script>
 
 <style lang="scss" scoped>
-@import "../../../Styles/variables.scss";
-@import "bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss";
+@use "@styles/variables.scss";
 
 .countdown-container {
   display: flex;
@@ -121,7 +120,7 @@ const t = (key: string, domain: TranslationDomain = "countdown") => {
 
 .countdown-number {
   font-size: 3rem;
-  color: $akred;
+  color: variables.$akred;
   font-weight: 600;
 }
 
@@ -134,11 +133,11 @@ const t = (key: string, domain: TranslationDomain = "countdown") => {
 
 .countdown-over-title {
   font-size: 3rem;
-  color: $akred;
+  color: variables.$akred;
   font-weight: 600;
 }
 
-@media screen and (max-width: $screen-xs-max) {
+@media screen and (max-width: variables.$screen-xs-max) {
   .countdown {
     flex-direction: row;
     gap: 8px;
