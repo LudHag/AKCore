@@ -1,3 +1,5 @@
+@use "@styles/variables.scss";
+
 .visible-xs,
 .visible-sm,
 .visible-md,
@@ -11,43 +13,43 @@
   }
 }
 
-@media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
+@media (min-width: variables.$screen-sm-min) and (max-width: variables.$screen-xs-max) {
   .visible-sm {
     display: block !important;
   }
 }
 
-@media (min-width: $screen-md-min) and (max-width: $screen-md-max) {
+@media (min-width: variables.$screen-md-min) and (max-width: variables.$screen-md-max) {
   .visible-md {
     display: block !important;
   }
 }
 
-@media (min-width: $screen-lg-min) {
+@media (min-width: variables.$screen-lg-min) {
   .visible-lg {
     display: block !important;
   }
 }
 
-@media (max-width: $screen-xs-max) {
+@media (max-width: variables.$screen-xs-max) {
   .hidden-xs {
     display: none !important;
   }
 }
 
-@media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
+@media (min-width: variables.$screen-sm-min) and (max-width: variables.$screen-xs-max) {
   .hidden-sm {
     display: none !important;
   }
 }
 
-@media (min-width: $screen-md-min) and (max-width: $screen-md-max) {
+@media (min-width: variables.$screen-md-min) and (max-width: variables.$screen-md-max) {
   .hidden-md {
     display: none !important;
   }
 }
 
-@media (min-width: $screen-lg-min) {
+@media (min-width: variables.$screen-lg-min) {
   .hidden-lg {
     display: none !important;
   }
