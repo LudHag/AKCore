@@ -132,8 +132,7 @@ const selectTrack = (track: Track) => {
 </script>
 
 <style lang="scss" scoped>
-@import "bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss";
-@import "../../../Styles/variables.scss";
+@use "@styles/variables.scss";
 .player-module {
   flex-grow: 1;
   padding-left: 30px;
@@ -173,7 +172,7 @@ const selectTrack = (track: Track) => {
   }
 }
 
-@media screen and (max-width: $screen-xs-max) {
+@media screen and (max-width: variables.$screen-xs-max) {
   .player-module {
     padding-top: 30px;
     padding-left: 0;

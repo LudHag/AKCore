@@ -46,8 +46,7 @@ const downloadUri = () => {
 };
 </script>
 <style lang="scss" scoped>
-@import "bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss";
-@import "../../../Styles/variables.scss";
+@use "@styles/variables.scss";
 .playlist-element {
   display: flex;
   color: #a5a2a0;
@@ -72,7 +71,7 @@ const downloadUri = () => {
   }
 
   &.active {
-    color: $akred;
+    color: variables.$akred;
   }
   .glyphicon-plus-sign,
   .glyphicon-minus-sign {

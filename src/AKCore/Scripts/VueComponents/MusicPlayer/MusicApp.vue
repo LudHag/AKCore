@@ -135,8 +135,7 @@ const t = (key: string, domain: TranslationDomain = "music") => {
 };
 </script>
 <style lang="scss" scoped>
-@import "bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss";
-@import "../../../Styles/variables.scss";
+@use "@styles/variables.scss";
 .album-title {
   background-color: #111111;
   border-radius: 5px;
@@ -167,7 +166,7 @@ const t = (key: string, domain: TranslationDomain = "music") => {
   margin-bottom: 20px;
 }
 
-@media screen and (max-width: $screen-xs-max) {
+@media screen and (max-width: variables.$screen-xs-max) {
   .player-container {
     display: block;
     margin-top: 20px;

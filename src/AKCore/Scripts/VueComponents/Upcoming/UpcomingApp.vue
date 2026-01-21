@@ -264,7 +264,7 @@ const t = (key: string, domain: TranslationDomain = "upcoming") => {
 };
 </script>
 <style lang="scss" scoped>
-@import "bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss";
+@use "@styles/variables.scss";
 .calendar-actions {
   float: right;
   text-align: right;
@@ -318,7 +318,7 @@ const t = (key: string, domain: TranslationDomain = "upcoming") => {
   color: #000;
 }
 
-@media screen and (max-width: $screen-xs-max) {
+@media screen and (max-width: variables.$screen-xs-max) {
   .upcomming-list.loggedIn {
     padding-top: 0;
   }

@@ -168,10 +168,9 @@ const clickProgress = (event: any) => {
 };
 </script>
 <style lang="scss" scoped>
-@import "bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss";
-@import "../../../Styles/variables.scss";
+@use "@styles/variables.scss";
 .controls {
-  border: 1px solid $akred;
+  border: 1px solid variables.$akred;
   border-radius: 7px;
   padding: 7px;
   margin-top: 3px;
@@ -187,7 +186,7 @@ const clickProgress = (event: any) => {
   margin-left: 7px;
   color: #6f6f6f;
   &.active {
-    color: $akred;
+    color: variables.$akred;
   }
 }
 .progress-container {
@@ -218,7 +217,7 @@ const clickProgress = (event: any) => {
   }
 }
 
-@media screen and (max-width: $screen-xs-max) {
+@media screen and (max-width: variables.$screen-xs-max) {
   .player {
     width: 100%;
   }

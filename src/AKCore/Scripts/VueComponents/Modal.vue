@@ -84,8 +84,7 @@ onUnmounted(() => {
 </script>
 
 <style lang="scss" scoped>
-@import "bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss";
-@import "../../Styles/variables.scss";
+@use "@styles/variables.scss";
 
 .modal {
   z-index: 70000;
@@ -96,7 +95,7 @@ onUnmounted(() => {
   bottom: 0;
   left: 0;
   a:focus {
-    outline-color: $akred;
+    outline-color: variables.$akred;
   }
 }
 
@@ -117,7 +116,7 @@ onUnmounted(() => {
 }
 
 .modal-content {
-  background-color: $akwhite;
+  background-color: variables.$akwhite;
   color: black;
   max-height: calc(100vh - 100px);
   overflow: auto;
@@ -141,7 +140,7 @@ onUnmounted(() => {
 
 .modal-header {
   padding: 15px;
-  border-bottom: 1px solid $aklightgrey;
+  border-bottom: 1px solid variables.$aklightgrey;
 }
 .modal-title {
   margin: 0;
@@ -158,7 +157,7 @@ onUnmounted(() => {
 :deep(.modal-footer) {
   padding: 15px;
   text-align: right;
-  border-top: 1px solid $aklightgrey;
+  border-top: 1px solid variables.$aklightgrey;
 
   .btn + .btn {
     margin-bottom: 0;
@@ -172,7 +171,7 @@ onUnmounted(() => {
   }
 }
 
-@media (min-width: $screen-sm-min) {
+@media (min-width: variables.$screen-sm-min) {
   .modal-dialog {
     width: 600px;
     margin: 30px auto;

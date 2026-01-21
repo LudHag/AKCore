@@ -112,7 +112,7 @@ const t = (key: string, domain: TranslationDomain = "music") => {
 };
 </script>
 <style lang="scss" scoped>
-@import "bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss";
+@use "@styles/variables.scss";
 .album-list {
   margin-top: 10px;
   position: relative;
@@ -177,7 +177,7 @@ h2 {
   margin-top: 5px;
 }
 
-@media screen and (max-width: $screen-xs-max) {
+@media screen and (max-width: variables.$screen-xs-max) {
   h2 {
     text-align: center;
   }

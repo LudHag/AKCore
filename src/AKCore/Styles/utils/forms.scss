@@ -102,7 +102,7 @@ textarea.form-control {
   margin-bottom: 10px;
 
   label {
-    min-height: $line-height-computed; // Ensure the input doesn't jump when there is no text
+    min-height: 20px;
     padding-left: 20px;
     margin-bottom: 0;
     font-weight: 400;
