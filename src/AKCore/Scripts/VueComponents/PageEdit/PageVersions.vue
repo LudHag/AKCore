@@ -45,12 +45,12 @@ const selectRevision = (revision: PageRevisionEditModel | null) => {
 };
 </script>
 <style lang="scss" scoped>
-@import "../../../Styles/variables.scss";
+@use "@styles/variables.scss";
 .revisions {
   h2 {
     font-weight: 500;
     margin-top: 0;
-    color: $akwhite;
+    color: variables.$akwhite;
     font-size: 15px;
     line-height: 15px;
     margin-bottom: 15px;

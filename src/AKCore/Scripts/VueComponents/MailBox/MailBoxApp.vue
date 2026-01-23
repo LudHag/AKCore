@@ -75,8 +75,6 @@ onMounted(() => {
 });
 </script>
 <style lang="scss" scoped>
-@import "../../../Styles/variables.scss";
-
 .list-header {
   position: relative;
 }

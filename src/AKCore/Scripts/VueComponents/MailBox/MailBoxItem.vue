@@ -72,13 +72,13 @@ const remove = () => {
 };
 </script>
 <style lang="scss" scoped>
-@import "../../../Styles/variables.scss";
+@use "@styles/variables.scss";
 
 .mailpost {
   padding-top: 20px;
 }
 .mailpost + .mailpost {
-  border-top: 2px solid $akred;
+  border-top: 2px solid variables.$akred;
 }
 
 .subject {
