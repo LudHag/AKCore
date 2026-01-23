@@ -168,7 +168,7 @@ const t = (key: string, domain: TranslationDomain = "signup") => {
 };
 </script>
 <style lang="scss" scoped>
-@import "../../../Styles/variables.scss";
+@use "@styles/variables.scss";
 .close-event {
   font-size: 26px;
 }
@@ -176,6 +176,6 @@ const t = (key: string, domain: TranslationDomain = "signup") => {
   margin-left: 8px;
 }
 .glyphicon-warning-sign {
-  color: $akred;
+  color: variables.$akred;
 }
 </style>

@@ -117,8 +117,6 @@ const newPasswordSuccess = () => {
 };
 </script>
 <style lang="scss" scoped>
-@import "../../../Styles/variables.scss";
-
 table {
   table-layout: auto;
 }

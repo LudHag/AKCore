@@ -168,11 +168,11 @@ onMounted(() => {
 });
 </script>
 <style lang="scss" scoped>
-@import "../../../Styles/variables.scss";
+@use "@styles/variables.scss";
 
 .event-row {
   padding: 15px;
-  border: 3px solid $akred;
+  border: 3px solid variables.$akred;
   border-radius: 7px;
   position: relative;
 }

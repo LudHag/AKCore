@@ -109,7 +109,7 @@ onMounted(() => {
 });
 </script>
 <style lang="scss" scoped>
-@import "../../../Styles/variables.scss";
+@use "@styles/variables.scss";
 .row:hover {
   background-color: #1a0000;
 }
@@ -146,7 +146,7 @@ onMounted(() => {
     outline: 0;
 
     &:focus {
-      background: $akwhite;
+      background: variables.$akwhite;
       color: #000;
     }
   }

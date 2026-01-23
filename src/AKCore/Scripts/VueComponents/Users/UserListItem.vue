@@ -398,14 +398,14 @@ const roles = computed(() => {
 });
 </script>
 <style lang="scss" scoped>
-@import "../../../Styles/variables.scss";
+@use "@styles/variables.scss";
 
 .table > tbody + tbody {
   border-top: 0;
 }
 
 .remove-role {
-  color: $akwhite;
+  color: variables.$akwhite;
   font-size: 12px;
 }
 .listed-items {
@@ -433,7 +433,7 @@ const roles = computed(() => {
     bottom: 35px;
     left: 0;
     width: 255px;
-    background: $akwhite;
+    background: variables.$akwhite;
     color: #555555;
     padding: 5px;
     border-radius: 5px;
@@ -444,8 +444,8 @@ const roles = computed(() => {
     position: absolute;
     left: 5px;
     bottom: 15px;
-    border: 10px solid $akwhite;
-    border-color: $akwhite transparent transparent transparent;
+    border: 10px solid variables.$akwhite;
+    border-color: variables.$akwhite transparent transparent transparent;
   }
 }
 .edit-group :deep(.vue-select) {

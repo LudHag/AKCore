@@ -159,7 +159,7 @@ onMounted(() => {
 });
 </script>
 <style lang="scss" scoped>
-@import "../../../Styles/variables.scss";
+@use "@styles/variables.scss";
 .controls {
   display: flex;
   align-items: center;
@@ -178,7 +178,7 @@ onMounted(() => {
 }
 
 .table-bordered {
-  border: 3px solid $akred;
+  border: 3px solid variables.$akred;
 }
 
 .next-month,

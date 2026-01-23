@@ -61,7 +61,7 @@ const removeAlbum = (album: AlbumEditModel) => {
 };
 </script>
 <style lang="scss" scoped>
-@import "../../../../Styles/variables.scss";
+@use "@styles/variables.scss";
 .album-list {
   list-style: none;
   padding: 0;
@@ -69,7 +69,7 @@ const removeAlbum = (album: AlbumEditModel) => {
   overflow: auto;
   li {
     cursor: pointer;
-    color: $akred;
+    color: variables.$akred;
     margin-bottom: 10px;
   }
 }

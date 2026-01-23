@@ -172,12 +172,12 @@ const t = (key: string, domain: TranslationDomain = "upcoming") => {
 };
 </script>
 <style lang="scss" scoped>
-@import "../../../Styles/variables.scss";
+@use "@styles/variables.scss";
 .green {
   color: #02c66f;
 }
 .glyphicon-warning-sign {
-  color: $akred;
+  color: variables.$akred;
 }
 .warning-text {
   margin-left: 8px;

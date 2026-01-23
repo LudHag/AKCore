@@ -10,7 +10,7 @@ const props = defineProps<{
 const sizeClass = `spinner-${props.size}`;
 </script>
 <style lang="scss" scoped>
-@import "../../Styles/variables.scss";
+@use "@styles/variables.scss";
 
 .spinner {
   margin: 0 auto;
@@ -20,20 +20,20 @@ const sizeClass = `spinner-${props.size}`;
 }
 .spinner-small {
   border: 2px solid #eee;
-  border-top: 2px solid $akred;
+  border-top: 2px solid variables.$akred;
   width: 16px;
   height: 16px;
 }
 
 .spinner-medium {
   border: 3px solid #eee;
-  border-top: 3px solid $akred;
+  border-top: 3px solid variables.$akred;
   width: 32px;
   height: 32px;
 }
 .spinner-large {
   border: 4px solid #eee;
-  border-top: 4px solid $akred;
+  border-top: 4px solid variables.$akred;
   width: 48px;
   height: 48px;
 }

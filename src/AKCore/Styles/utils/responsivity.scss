@@ -7,7 +7,7 @@
   display: none !important;
 }
 
-@media (max-width: $screen-xs-max) {
+@media (max-width: variables.$screen-xs-max) {
   .visible-xs {
     display: block !important;
   }

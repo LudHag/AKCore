@@ -1,4 +1,6 @@
-﻿.halan-map {
+﻿@use "@styles/variables.scss";
+
+.halan-map {
   height: 250px;
   width: 100%;
   &:after {
@@ -18,14 +20,14 @@
   text-align: center;
 }
 
-@media screen and (min-width: $screen-sm-min) {
+@media screen and (min-width: variables.$screen-sm-min) {
   .map-text {
     position: absolute;
     pointer-events: none;
     top: 0;
     left: 50%;
     transform: translateX(-50%);
-    color: $akwhite;
+    color: variables.$akwhite;
     font-size: 37px;
     text-transform: uppercase;
     font-weight: 500;
@@ -33,7 +35,7 @@
   }
 }
 
-@media screen and (max-width: $screen-xs-max) {
+@media screen and (max-width: variables.$screen-xs-max) {
   .halan-map {
     display: none;
   }

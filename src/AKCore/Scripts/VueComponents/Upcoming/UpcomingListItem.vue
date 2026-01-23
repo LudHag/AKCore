@@ -182,7 +182,7 @@ const t = (key: string, domain: TranslationDomain = "upcoming") => {
 };
 </script>
 <style lang="scss" scoped>
-@import "../../../Styles/variables.scss";
+@use "@styles/variables.scss";
 
 .event-row.expandable a {
   margin: 0 0 10px;
@@ -196,7 +196,7 @@ const t = (key: string, domain: TranslationDomain = "upcoming") => {
 
 .event-row {
   padding: 15px;
-  border: 3px solid $akred;
+  border: 3px solid variables.$akred;
   border-radius: 7px;
   position: relative;
 }
@@ -209,7 +209,7 @@ const t = (key: string, domain: TranslationDomain = "upcoming") => {
 }
 
 .event-disabled-warning {
-  color: $akred;
+  color: variables.$akred;
 }
 
 .event-row .warning-text {
@@ -223,7 +223,7 @@ const t = (key: string, domain: TranslationDomain = "upcoming") => {
 
   .event-row.expandable:before {
     content: "+";
-    color: $akred;
+    color: variables.$akred;
     position: absolute;
     right: 6px;
     top: 3px;
