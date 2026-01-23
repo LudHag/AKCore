@@ -1,6 +1,6 @@
 # Instruktioner för installation
 
-Utvecklat med VS 2022 (Visual studio code fungerar bra också).
+Utvecklat med VS 2026 (Visual studio code fungerar bra också).
 
 Utveckling av frontend görs bäst med Visual studio code samt pluginet Vue - Official som är bäst för att hantera senaste versionen av Vue.
 
@@ -21,11 +21,6 @@ Migrationer hanteras med Add-Migration och Update-Database i package manager con
 
 Identity:
 https://learn.microsoft.com/en-us/aspnet/core/security/authentication/identity
-
-# Bootstrap
-
-Sidan använder Bootstrap 3. Läs mer om dess standardanvändning [här](http://getbootstrap.com/css/) och dess komponenter [här](http://getbootstrap.com/components/).
-I nuläget har alla javascriptfiler från bootstrap plockats bort. Vi använder dock en hel del bootstrapstyling fortsatt, framför allt för layout.
 
 # Vite, SCSS och TS:
 
