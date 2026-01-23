@@ -1,4 +1,6 @@
-﻿#recruitList,
+﻿@use "@styles/variables.scss";
+
+#recruitList,
 #hireList {
   .recruit {
     margin-bottom: 0;
@@ -60,7 +62,7 @@
   }
   &:after {
     content: attr(data-tg-on);
-    background: $akred;
+    background: variables.$akred;
     transform: rotateY(180deg);
   }
 }

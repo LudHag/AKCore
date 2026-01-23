@@ -1,3 +1,5 @@
+@use "@styles/variables.scss";
+
 label {
   display: inline-block;
   max-width: 100%; // Force IE8 to wrap long content (see https://github.com/twbs/bootstrap/issues/13141)
@@ -125,7 +127,7 @@ textarea.form-control {
 
 @mixin form-inline {
   // Kick in the inline
-  @media (min-width: $screen-sm-min) {
+  @media (min-width: variables.$screen-sm-min) {
     // Inline-block all the things for "inline"
     .form-group {
       display: inline-block;

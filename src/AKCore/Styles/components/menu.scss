@@ -1,10 +1,12 @@
-﻿nav {
+﻿@use "@styles/variables.scss";
+
+nav {
   display: block;
   position: relative;
   width: 100%;
   margin-top: 15px;
   height: fit-content;
-  background: $akgrey;
+  background: variables.$akgrey;
   .navigation {
     display: flex;
     justify-content: center;
@@ -18,7 +20,7 @@
         cursor: default;
         font-weight: 500;
         display: block;
-        color: $akwhite;
+        color: variables.$akwhite;
         line-height: 34px;
         font-size: 16px;
         padding: 0 20px;
@@ -52,7 +54,7 @@
   list-style: none;
   padding: 5px 0;
   z-index: 5000;
-  background-color: $akgrey;
+  background-color: variables.$akgrey;
   white-space: nowrap;
 
   li {
@@ -125,7 +127,7 @@
   transition: height 0.5s ease-in-out;
 }
 
-@media screen and (max-width: $screen-xs-max) {
+@media screen and (max-width: variables.$screen-xs-max) {
   .logo img {
     width: 388px;
     max-width: 80%;
@@ -154,6 +156,6 @@
   }
 
   nav {
-    background: $akred;
+    background: variables.$akred;
   }
 }

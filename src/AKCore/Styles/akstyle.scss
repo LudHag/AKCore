@@ -1,8 +1,7 @@
-﻿@import "variables.scss";
-@import "utils/index.scss";
-@import "components/log.scss";
-@import "components/menu.scss";
-@import "components/joinus.scss";
-@import "components/recruits.scss";
-@import "general.scss";
-@import "widget-styling.scss";
+﻿@forward "utils/index.scss";
+@forward "components/log.scss";
+@forward "components/menu.scss";
+@forward "components/joinus.scss";
+@forward "components/recruits.scss";
+@forward "general.scss";
+@forward "widget-styling.scss";
