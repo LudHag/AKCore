@@ -21,7 +21,7 @@ export default defineConfig({
   },
   plugins: [
     vue(),
-    // manifestTransform(),
+    manifestTransform(),
     ...(process.env.ANALYZE
       ? [
           visualizer({
