@@ -40,6 +40,9 @@
     "vue-eslint-parser": "^10.4.0",
     "vue-tsc": "^3.2.1"
   },
+  "overrides": {
+    "minimatch": "^10.2.2"
+  },
   "dependencies": {
     "@tinymce/tinymce-vue": "^6.0.1",
     "chart.js": "^4.5.1",
