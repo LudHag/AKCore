@@ -73,6 +73,7 @@ const eventName = (e: UpcomingEvent) => {
 <style lang="scss" scoped>
 .day {
   height: 90px;
+  vertical-align: top;
 
   &.outside {
     color: #5f5f5f;
