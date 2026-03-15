@@ -39,7 +39,7 @@ export default defineConfig({
     manifest: "manifest.json",
     outDir: ".",
     emptyOutDir: false,
-    rollupOptions: {
+    rolldownOptions: {
       input: entrypoints.reduce(
         (acc, entrypoint) => {
           acc[entrypoint] = resolve(__dirname, `Scripts/${entrypoint}.ts`);
