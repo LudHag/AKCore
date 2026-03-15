@@ -36,8 +36,8 @@ export default defineConfig({
     },
   },
   build: {
-    manifest: "manifest.json",
-    outDir: ".",
+    manifest: "wwwroot/dist/manifest.json",
+    outDir: "wwwroot/dist",
     emptyOutDir: false,
     rollupOptions: {
       input: entrypoints.reduce(

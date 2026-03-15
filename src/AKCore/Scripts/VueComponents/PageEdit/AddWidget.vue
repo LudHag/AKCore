@@ -62,6 +62,13 @@
               <span class="glyphicon glyphicon-header"></span>
             </a>
           </li>
+          <li>
+            <a href="#" @click.prevent="click('TextOverlap')">
+              <span class="glyphicon glyphicon-align-left"></span>
+              <span class="glyphicon glyphicon-picture"></span>
+              <span class="glyphicon glyphicon-arrow-left" style="font-size: 10px; margin-left: -8px;"></span>
+            </a>
+          </li>
         </ul>
       </div>
       <div
@@ -108,6 +115,11 @@
           <li>
             <a href="#" @click.prevent="click('VideosHeader')">
               Videos rubrik med sök
+            </a>
+          </li>
+          <li>
+            <a href="#" @click.prevent="click('StartPageHero')">
+              Startsida hero 
             </a>
           </li>
         </ul>

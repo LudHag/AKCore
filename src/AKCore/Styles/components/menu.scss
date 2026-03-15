@@ -6,7 +6,7 @@ nav {
   width: 100%;
   margin-top: 15px;
   height: fit-content;
-  background: variables.$akgrey;
+  background: #821010;
   .navigation {
     display: flex;
     justify-content: center;
@@ -18,7 +18,7 @@ nav {
 
       a {
         cursor: default;
-        font-weight: 500;
+        font-weight: 300;
         display: block;
         color: variables.$akwhite;
         line-height: 34px;
@@ -29,10 +29,16 @@ nav {
           cursor: pointer;
         }
 
-        &.active,
+        &.active {
+          display: block;
+          color: white;
+          text-decoration: none;
+          background-color: #141414;
+        }
+
         &:hover {
           display: block;
-          color: #999;
+          color: #888;
           text-decoration: none;
         }
 

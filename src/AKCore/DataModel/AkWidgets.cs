@@ -17,6 +17,7 @@ namespace AKCore.DataModel
         public string TextEng { get; set; }
         public string Image { get; set; }
         public string ImageAlt { get; set; }
+        public string Alignment { get; set; }
         public string TargetDate { get; set; }
         public string TargetTime { get; set; }
         public List<Video> Videos { get; set; }

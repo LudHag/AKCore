@@ -8,7 +8,9 @@
 </div>
 <div class="row">
     <div class="col-md-6">
-        @Html.Raw(Model.Text)
+        <div class="row">
+            @Html.Raw(Model.Text)
+        </div>
     </div>
     <div class="col-md-6">
         <form id="recruit-form" method="POST" action="/SignUp/Signup">

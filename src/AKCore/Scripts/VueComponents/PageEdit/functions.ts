@@ -26,6 +26,10 @@ export const getHeader = (type: string): string => {
       return "Nedräknare-widget";
     case "VideosHeader":
       return "Video rubrik med sök-widget";
+    case "TextOverlap":
+      return "Text-överlappning-widget";
+    case "StartPageHero":
+      return "Startsida hero-widget";
   }
   return "Text-bild-widget";
 };

@@ -57,6 +57,12 @@
           :model-value="modelValue"
           @update:modelValue="$emit('update:modelValue', $event)"
         ></text-image>
+        <text-overlap
+          v-if="modelValue.type === 'TextOverlap'"
+          :translate="translate"
+          :model-value="modelValue"
+          @update:modelValue="$emit('update:modelValue', $event)"
+        ></text-overlap>
         <three-puffs
           v-if="modelValue.type === 'ThreePuffs'"
           :model-value="modelValue"
@@ -83,6 +89,11 @@
           @update:modelValue="$emit('update:modelValue', $event)"
           :translate="translate"
         ></videos-header>
+        <start-page-hero
+          v-if="modelValue.type === 'StartPageHero'"
+          :model-value="modelValue"
+          @update:modelValue="$emit('update:modelValue', $event)"
+        ></start-page-hero>
       </div>
       <div class="col-xs-12">
         <a
@@ -115,6 +126,7 @@ import { getHeader } from "./functions";
 import { WidgetEditModel } from "./models";
 import {
   TextImage,
+  TextOverlap,
   ThreePuffs,
   HeaderText,
   TextWidget,
@@ -127,6 +139,7 @@ import {
   VideosHeader,
   PostList,
   CountDown,
+  StartPageHero,
 } from "./Widgets/widgets";
 
 const emit = defineEmits<{

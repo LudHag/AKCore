@@ -1,0 +1,23 @@
+@model AKCore.DataModel.Widget
+
+@{
+    var alignmentClass = !string.IsNullOrEmpty(Model.Alignment) ? $"align-{Model.Alignment}" : "align-left";
+}
+
+<div class="text-overlap-widget @alignmentClass">
+    @if (!string.IsNullOrEmpty(Model.Image))
+    {
+        <div class="text-overlap-image">
+            <img src="@Model.Image" alt="@(Model.ImageAlt ?? "")" />
+        </div>
+    }
+    
+    <div class="text-overlap-content">
+        <div class="text-overlap-background">
+            @if (!string.IsNullOrEmpty(Model.Text))
+            {
+                <h1 class="text-overlap-text">@Html.Raw(Model.Text)</h1>
+            }
+        </div>
+    </div>
+</div>

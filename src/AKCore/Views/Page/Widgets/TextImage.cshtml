@@ -1,10 +1,30 @@
 ﻿@model AKCore.DataModel.Widget
 
-<div class="row">
-    <div class="col-sm-8">
-        @Html.Raw(Model.Text)
-    </div>
-    <div class="col-sm-4 hidden-xs center-image">
-        <img class="side-image" src="@settings.CDN@Model.Image" alt="@Model.ImageAlt" />
-    </div>
+@{
+    var imageOnLeft = Model.Alignment == "left";
+}
+
+<div class="row text-image-widget">
+    @if (imageOnLeft)
+    {
+        <div class="col-sm-4 hidden-xs center-image">
+            <img class="side-image" src="@settings.CDN@Model.Image" alt="@(Model.ImageAlt ?? Model.Text)" />
+        </div>
+        <div class="col-sm-8 text-image-content image-left">
+            <div class="row">
+                @Html.Raw(Model.Text)
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="col-sm-8 text-image-content image-right">
+            <div class="row">
+                @Html.Raw(Model.Text)
+            </div>
+        </div>
+        <div class="col-sm-4 hidden-xs center-image">
+            <img class="side-image" src="@settings.CDN@Model.Image" alt="@(Model.ImageAlt ?? Model.Text)" />
+        </div>
+    }
 </div>

@@ -1,0 +1,31 @@
+@model AKCore.DataModel.Widget
+
+<div class="start-page-hero">
+    @if (!string.IsNullOrEmpty(Model.Image))
+    {
+        <div class="hero-image-container">
+            @if (!string.IsNullOrEmpty(Model.TargetDate))
+            {
+                <h1 class="hero-header">@Model.TargetDate</h1>
+            }
+            <div class="hero-image" style="background-image: url('@settings.CDN@Model.Image')"></div>
+        </div>
+    }
+    
+    <div class="hero-content">
+        <div class="hero-buttons">
+            @if (!string.IsNullOrEmpty(Model.Text) && !string.IsNullOrEmpty(Model.ImageAlt))
+            {
+                <a href="@Model.ImageAlt" class="btn btn-hero btn-hero-primary">
+                    @Model.Text
+                </a>
+            }
+            @if (!string.IsNullOrEmpty(Model.TextEng) && !string.IsNullOrEmpty(Model.Alignment))
+            {
+                <a href="@Model.Alignment" class="btn btn-hero btn-hero-secondary">
+                    @Model.TextEng
+                </a>
+            }
+        </div>
+    </div>
+</div>

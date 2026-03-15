@@ -20,6 +20,7 @@ export interface WidgetEditModel {
   textEng?: string;
   image?: string;
   imageAlt?: string;
+  alignment?: string;
   videos?: EditVideoModel[];
   targetDate?: string;
   targetTime?: string;

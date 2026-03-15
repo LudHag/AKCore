@@ -1,7 +1,6 @@
 <template>
   <div>
     <div>
-      <text-edit v-model="modelValue.text"></text-edit>
       <image-edit
         v-model="modelValue.image"
         :alt-text="modelValue.imageAlt"
@@ -12,13 +11,14 @@
           })
         "
       ></image-edit>
+      <text-edit v-model="modelValue.text"></text-edit>
       <div class="col-sm-6">
         <div class="form-group">
-          <label for="image-alignment">Bild placering:</label>
+          <label for="text-alignment">Text placering:</label>
           <select
-            id="image-alignment"
+            id="text-alignment"
             class="form-control"
-            :value="modelValue.alignment || 'right'"
+            :value="modelValue.alignment || 'left'"
             @change="
               emit('update:modelValue', {
                 ...modelValue,
@@ -26,8 +26,8 @@
               })
             "
           >
-            <option value="right">Höger (standard)</option>
-            <option value="left">Vänster</option>
+            <option value="left">Vänster (standard)</option>
+            <option value="right">Höger</option>
           </select>
         </div>
       </div>
