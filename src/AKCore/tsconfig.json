@@ -10,6 +10,7 @@
     "esModuleInterop": true,
     "lib": ["ESNext", "DOM"],
     "skipLibCheck": true,
+    "noUncheckedSideEffectImports": false,
     "noEmit": true,
     "allowJs": true,
     "paths": {
