@@ -30,7 +30,7 @@ jobs:
         if: steps.cache-restore.outputs.cache-hit != 'true'
         run: |
           cd src/AKCore 
-          npm ci - ignore-scripts
+          npm ci --ignore-scripts
 
       - name: Lint
         run: |
