@@ -30,19 +30,19 @@
     "@types/node": "^24.9.2",
     "@vitejs/plugin-vue": "^6.0.5",
     "cross-env": "^10.1.0",
-    "eslint": "10.0.3",
+    "eslint": "10.2.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-vue": "^10.8.0",
     "globals": "^17.4.0",
     "prettier": "^3.8.1",
     "rimraf": "^6.1.3",
     "rollup-plugin-visualizer": "^7.0.1",
-    "sass": "~1.97.3",
+    "sass": "~1.99.0",
     "typescript": "^6.0.2",
-    "typescript-eslint": "^8.57.2",
-    "vite": "~8.0.3",
+    "typescript-eslint": "^8.58.1",
+    "vite": "~8.0.8",
     "vue-eslint-parser": "^10.4.0",
-    "vue-tsc": "^3.2.5"
+    "vue-tsc": "^3.2.6"
   },
   "overrides": {
     "typescript-eslint": {
@@ -52,10 +52,10 @@
   "dependencies": {
     "@tinymce/tinymce-vue": "^6.0.1",
     "chart.js": "^4.5.1",
-    "vue": "^3.5.31",
+    "vue": "^3.5.32",
     "vue-chartjs": "^5.3.3",
     "vue-draggable-plus": "^0.6.1",
     "vue3-datepicker": "^0.4.0",
-    "vue3-select-component": "^0.16.0"
+    "vue3-select-component": "^0.16.2"
   }
 }
