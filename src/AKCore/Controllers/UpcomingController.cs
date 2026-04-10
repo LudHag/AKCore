@@ -179,15 +179,26 @@ public class UpcomingController : Controller
         sb.AppendLine("METHOD:PUBLISH");
         foreach (var res in events)
         {
-            var dtStart = res.Day.Date;
-            dtStart += res.HalanTime;
-
             var description = SanitizeIcalDescription(res.Description);
             var internalDesc = SanitizeIcalDescription(res.InternalDescription);
-            var dtEnd = dtStart.AddHours(1);
+
+            string dtStartStr, dtEndStr;
+            if (res.HalanTime == TimeSpan.Zero)
+            {
+                dtStartStr = "DTSTART;VALUE=DATE:" + res.Day.ToString("yyyyMMdd");
+                dtEndStr = "DTEND;VALUE=DATE:" + res.Day.AddDays(1).ToString("yyyyMMdd");
+            }
+            else
+            {
+                var dtStart = res.Day.Date + res.HalanTime;
+                var dtEnd = dtStart.AddHours(1);
+                dtStartStr = "DTSTART:" + dtStart.ToString(DateFormat);
+                dtEndStr = "DTEND:" + dtEnd.ToString(DateFormat);
+            }
+
             sb.AppendLine("BEGIN:VEVENT");
-            sb.AppendLine("DTSTART:" + dtStart.ToString(DateFormat));
-            sb.AppendLine("DTEND:" + dtEnd.ToString(DateFormat));
+            sb.AppendLine(dtStartStr);
+            sb.AppendLine(dtEndStr);
             sb.AppendLine("DTSTAMP:" + now);
             sb.AppendLine("UID:" + Guid.NewGuid());
             sb.AppendLine("CREATED:" + now);
