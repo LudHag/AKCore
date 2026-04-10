@@ -222,7 +222,7 @@ public class UpcomingController : Controller
 
     private static string GetName(Event e)
     {
-        if (e.Type is AkEventTypes.Spelning or AkEventTypes.Fest)
+        if (e.Type is AkEventTypes.Spelning or AkEventTypes.Fest or AkEventTypes.Evenemang)
         {
             return e.Name;
         }
