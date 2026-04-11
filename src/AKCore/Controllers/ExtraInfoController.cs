@@ -35,7 +35,7 @@ public class ExtraInfoController(
 
         var query = $@"Please provide a short description in swedish describing about the following 
                         album titled {album.Name} mentioning the attached albumcover and giving a 
-                        short description of a couple of its tracks(try to clean up track name so its not just filenames) metioned below with original artists metioned:
+                        short description of a couple of its tracks(try to clean up track name so its not just filenames and dont emphasise words with markdown syntax) metioned below with original artists metioned:
                         {trackNames}";
 
         albumInfo = await openApiClient.GetText(query, "https://www.altekamereren.org/" + album.Image);
