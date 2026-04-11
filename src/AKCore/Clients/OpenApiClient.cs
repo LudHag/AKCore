@@ -12,7 +12,7 @@ public class OpenApiClient
     public OpenApiClient(string token)
     {
         var apiClient = new OpenAIClient(token);
-        _chatClient = apiClient.GetChatClient("gpt-4o");
+        _chatClient = apiClient.GetChatClient("gpt-5.2");
     }
 
     public async Task<string> GetText(string query, string imageUrl = null)
