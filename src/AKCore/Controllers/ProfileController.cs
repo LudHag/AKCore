@@ -102,13 +102,13 @@ public class ProfileController : Controller
     {
         if (string.IsNullOrWhiteSpace(slavPoster))
         {
-            return new List<string>();
+            return [];
         }
         var deserialized = JsonConvert.DeserializeObject<List<string>>(slavPoster);
 
         if (deserialized.Count == 0)
         {
-            return new List<string>();
+            return [];
         }
         return [.. deserialized
             .SelectMany(p => p.Split(',', StringSplitOptions.RemoveEmptyEntries))
