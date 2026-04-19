@@ -106,11 +106,14 @@ public class ProfileController : Controller
         }
         var deserialized = JsonConvert.DeserializeObject<List<string>>(slavPoster);
 
-        if (deserialized.Count() == 0)
+        if (deserialized.Count == 0)
         {
             return new List<string>();
         }
-        return deserialized.FirstOrDefault().Split(",").ToList();
+        return [.. deserialized
+            .SelectMany(p => p.Split(',', StringSplitOptions.RemoveEmptyEntries))
+            .Select(p => p.Trim())
+            .Where(p => !string.IsNullOrEmpty(p))];
     }
 
     [Route("EditProfile")]
