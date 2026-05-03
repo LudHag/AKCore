@@ -18,7 +18,7 @@ namespace AKCore.DataModel
     }
     public class AkInstruments
     {
-        public const string Accordion = "Accordion";
+        public const string Accordion = "Dragspel";
         public const string Altsax = "Altsax";
         public const string Balett = "Balett";
         public const string Banjo = "Banjo";
@@ -36,6 +36,7 @@ namespace AKCore.DataModel
 
         public static readonly IList<string> Instrument = new List<string>()
         {
+            Accordion,
             Altsax,
             Balett,
             Banjo,
