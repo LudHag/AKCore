@@ -32,7 +32,7 @@ export interface UpcomingEvent {
   playDuration: string;
   stand: string;
   secret: boolean;
-  signupState: string;
+  signupState: UpcomingWhere;
   coming: number;
   notComing: number;
   disabled: boolean;
