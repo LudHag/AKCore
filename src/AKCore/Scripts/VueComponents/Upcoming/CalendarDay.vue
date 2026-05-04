@@ -9,14 +9,14 @@
       class="dayEvent"
       :class="{ green: e.signupState }"
     >
-      {{ e.halanTime }} {{ e.signupState }} {{ eventName(e) }}
+      {{ e.halanTime }} {{ eventName(e) }} {{ signUpState(e) }}
     </a>
   </td>
 </template>
 <script setup lang="ts">
 import { computed } from "vue";
 import { UpcomingEvent } from "./models";
-import { eventIsRep } from "./functions";
+import { eventIsRep, translateSignupWhere } from "./functions";
 import { TranslationDomain, translate } from "@scripts/translations";
 
 const today = new Date();
@@ -30,6 +30,13 @@ const props = defineProps<{
   month: number;
   year: number;
 }>();
+
+const signUpState = (e: UpcomingEvent) => {
+  if (!e.signupState) {
+    return "";
+  }
+  return `(${translateSignupWhere(e.signupState)})`;
+};
 
 const outside = computed(() => {
   if (

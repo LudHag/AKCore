@@ -11,6 +11,10 @@ export const signupTranslations: Record<string, Translation> = {
     swedish: "Kommer till",
     english: "Coming to",
   },
+  halan: {
+    swedish: "Hålan",
+    english: "Hålan",
+  },
   direct: {
     swedish: "Direkt",
     english: "Direct",
