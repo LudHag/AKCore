@@ -35,7 +35,7 @@ public class UpcomingController : Controller
 
     public ActionResult Index()
     {
-        ViewBag.Title = "På gång";
+        ViewBag.Title = _translationsService.Get(TranslationDomains.Upcoming, "PageTitle");
         ViewData["Canonical"] = "https://www.altekamereren.org/upcoming";
         return View();
     }
@@ -268,7 +268,7 @@ public class UpcomingController : Controller
     [Authorize(Roles = "Medlem")]
     public ActionResult Event(string id)
     {
-        ViewBag.Title = "Anmälan";
+        ViewBag.Title = _translationsService.Get(TranslationDomains.Upcoming, "SignupPageTitle");
         if (!int.TryParse(id, out var eId))
             return Redirect("/upcoming");
 
