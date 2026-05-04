@@ -37,7 +37,7 @@
           <p>{{ cleanName(signup.personName) }}</p>
         </div>
         <div class="col-sm-3 signup-element">
-          <p>{{ signup.instrumentName }}</p>
+          <p>{{ t(signup.instrumentName, "instruments") }}</p>
         </div>
         <div class="col-sm-3 signup-element" v-if="nintendo">
           <p>{{ signup.comment }}</p>
@@ -83,9 +83,8 @@ const notComing = computed(() => {
   });
 });
 
-
 const getInfo = (signup: UpcomingSignup) => {
-  let info = signup.where;
+  let info = signup.where === "Direkt" ? t("direct", "signup") : signup.where;
   if (!signup.instrument) {
     info += ", " + t("need-instrument-transport").toLowerCase();
   }
