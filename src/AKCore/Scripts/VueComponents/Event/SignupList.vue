@@ -12,7 +12,7 @@
           <p>{{ cleanName(signup.personName) }}</p>
         </div>
         <div class="col-sm-2 signup-element">
-          <p>{{ signup.instrumentName }}{{ otherInstrumentsList(signup) }}</p>
+          <p>{{ signup.instrumentName }}</p>
         </div>
         <div class="col-sm-2 signup-element">
           <p>{{ getInfo(signup) }}</p>
@@ -83,12 +83,6 @@ const notComing = computed(() => {
   });
 });
 
-const otherInstrumentsList = (signup: UpcomingSignup) => {
-  if (signup.otherInstruments) {
-    return ", " + signup.otherInstruments.replace(",", ", ");
-  }
-  return "";
-};
 
 const getInfo = (signup: UpcomingSignup) => {
   let info = signup.where;

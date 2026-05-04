@@ -17,10 +17,13 @@ namespace AKCore.Models
         public bool Instrument { get; set; }
         [Display(Name = "Kommentar")]
         public string Comment { get; set; }
+        [Display(Name = "Instrument")]
+        public string SelectedInstrument { get; set; }
 
         public bool IsNintendo { get; set; }
 
         public bool IsPassed { get; set; }
+        public IList<string> AvailableInstruments { get; set; }
         public IEnumerable<MemberViewModel> Members { get; set; }
 
         public EventViewModel Event { get; set; }

@@ -48,6 +48,8 @@ export interface UpcomingEventInfo {
   members: AvailableMember[];
   event: UpcomingEvent;
   signups: UpcomingSignup[];
+  availableInstruments: string[];
+  selectedInstrument: string | null;
 }
 
 export interface AvailableMember {

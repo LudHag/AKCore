@@ -295,7 +295,24 @@ public class UpcomingController : Controller
             model.Car = signup.Car;
             model.Instrument = signup.Instrument;
             model.Comment = signup.Comment;
+            model.SelectedInstrument = signup.InstrumentName;
         }
+
+        var instruments = new List<string>();
+        if (!string.IsNullOrWhiteSpace(user.Instrument))
+            instruments.Add(user.Instrument);
+        if (!string.IsNullOrWhiteSpace(user.OtherInstruments))
+        {
+            foreach (var instr in user.OtherInstruments.Split(','))
+            {
+                var trimmed = instr.Trim();
+                if (!string.IsNullOrWhiteSpace(trimmed) && !instruments.Contains(trimmed))
+                    instruments.Add(trimmed);
+            }
+        }
+        model.AvailableInstruments = instruments;
+        if (model.SelectedInstrument == null && instruments.Count > 0)
+            model.SelectedInstrument = instruments[0];
 
         model.IsNintendo = nintendo;
         var isEnglish = _translationsService.IsEnglish();
@@ -351,8 +368,24 @@ public class UpcomingController : Controller
         signup.Person = user.UserName;
         signup.PersonId = user.Id;
         signup.PersonName = user.GetName();
-        signup.InstrumentName = user.Instrument;
-        signup.OtherInstruments = user.OtherInstruments;
+        signup.OtherInstruments = null;
+
+        var allInstruments = new List<string>();
+        if (!string.IsNullOrWhiteSpace(user.Instrument))
+            allInstruments.Add(user.Instrument);
+        if (!string.IsNullOrWhiteSpace(user.OtherInstruments))
+        {
+            foreach (var instr in user.OtherInstruments.Split(','))
+            {
+                var trimmed = instr.Trim();
+                if (!string.IsNullOrWhiteSpace(trimmed) && !allInstruments.Contains(trimmed))
+                    allInstruments.Add(trimmed);
+            }
+        }
+        if (!string.IsNullOrWhiteSpace(model.SelectedInstrument) && allInstruments.Contains(model.SelectedInstrument.Trim()))
+            signup.InstrumentName = model.SelectedInstrument.Trim();
+        else
+            signup.InstrumentName = user.Instrument;
         spelning.SignUps.Add(signup);
         await _db.SaveChangesAsync();
         return Json(new { success = true, message = "Anmälan uppdaterad" });

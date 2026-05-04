@@ -33,4 +33,8 @@ export const signupTranslations: Record<string, Translation> = {
     swedish: "Anmäl",
     english: "Sign up",
   },
+  instrument: {
+    swedish: "Instrument",
+    english: "Instrument",
+  },
 };
