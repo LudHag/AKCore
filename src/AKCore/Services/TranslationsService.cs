@@ -12,7 +12,8 @@ public enum TranslationDomains
     Widgets,
     ErrorPages,
     Posts,
-    Instruments
+    Instruments,
+    Upcoming
 }
 public record Translation(string Swedish, string English);
 public record DomainTranslations(Dictionary<string, string> translations);
@@ -87,6 +88,15 @@ public class TranslationsService
     };
 
 
+    private static readonly Dictionary<string, Translation> upcomingTranslations = new() {
+        { "InvalidData", new Translation("Felaktig data", "Invalid data") },
+        { "InvalidId", new Translation("Felaktigt id", "Invalid id") },
+        { "MustChooseWhere", new Translation(
+            "Du måste välja om du kommer via hålan, direkt eller inte alls",
+            "You must choose whether you are coming via Hålan, direct, or not at all") },
+        { "SignupUpdated", new Translation("Anmälan uppdaterad", "Sign-up updated") },
+    };
+
     private static readonly Dictionary<string, Translation> postsTranslations = new() {
         { "ÖK", new Translation("Ordförande", "Chairman") },
         { "KK", new Translation("Kassör", "Treasurer") },
@@ -125,6 +135,7 @@ public class TranslationsService
         { TranslationDomains.ErrorPages, errorTranslations },
         { TranslationDomains.Posts, postsTranslations },
         { TranslationDomains.Instruments, instrumentTranslations },
+        { TranslationDomains.Upcoming, upcomingTranslations },
     };
 
 }

@@ -236,7 +236,7 @@ public class UpcomingController : Controller
     public ActionResult EditSignup(string eventId, string memberId, string type, bool instrument, bool car)
     {
         if (!int.TryParse(eventId, out var eIdInt) || string.IsNullOrWhiteSpace(type) ||
-            string.IsNullOrWhiteSpace(memberId)) return Json(new { success = false, message = "Felaktig data" });
+            string.IsNullOrWhiteSpace(memberId)) return Json(new { success = false, message = _translationsService.Get(TranslationDomains.Upcoming, "InvalidData") });
         var e = _db.Events.Include(x => x.SignUps).FirstOrDefault(x => x.Id == eIdInt);
         var member = _db.Users.FirstOrDefault(x => x.Id == memberId);
         var signUp = e.SignUps.FirstOrDefault(x => x.PersonId == member.Id);
@@ -341,15 +341,15 @@ public class UpcomingController : Controller
     public async Task<ActionResult> SignUp(SignUpModel model, string id)
     {
         if (!int.TryParse(id, out var eId))
-            return Json(new { success = false, message = "Felaktigt id" });
+            return Json(new { success = false, message = _translationsService.Get(TranslationDomains.Upcoming, "InvalidId") });
         if (string.IsNullOrWhiteSpace(model.Where))
             return Json(new
             {
                 success = false,
-                message = "Du måste välja om du kommer via hålan, direkt eller inte alls"
+                message = _translationsService.Get(TranslationDomains.Upcoming, "MustChooseWhere")
             });
         var spelning = _db.Events.Include(x => x.SignUps).FirstOrDefault(x => x.Id == eId);
-        if (spelning == null) return Json(new { success = false, message = "Felaktigt id" });
+        if (spelning == null) return Json(new { success = false, message = _translationsService.Get(TranslationDomains.Upcoming, "InvalidId") });
         var user = await _userManager.FindByNameAsync(User.Identity.Name);
         var signup = spelning.SignUps.FirstOrDefault(x => x.PersonId == user.Id) ?? new SignUp();
         if (signup.Where == AkSignupType.CantCome || model.Where == AkSignupType.CantCome)
@@ -388,6 +388,6 @@ public class UpcomingController : Controller
             signup.InstrumentName = user.Instrument;
         spelning.SignUps.Add(signup);
         await _db.SaveChangesAsync();
-        return Json(new { success = true, message = "Anmälan uppdaterad" });
+        return Json(new { success = true, message = _translationsService.Get(TranslationDomains.Upcoming, "SignupUpdated") });
     }
 }
