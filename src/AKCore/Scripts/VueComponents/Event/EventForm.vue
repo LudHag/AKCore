@@ -58,7 +58,7 @@
           v-for="instr in eventInfo.availableInstruments"
           :key="instr"
           :value="instr"
-        >{{ instr }}</option>
+        >{{ t(instr, "instruments") }}</option>
       </select>
     </div>
     <input

@@ -12,7 +12,7 @@
           <p>{{ cleanName(signup.personName) }}</p>
         </div>
         <div class="col-sm-2 signup-element">
-          <p>{{ signup.instrumentName }}</p>
+          <p>{{ t(signup.instrumentName, "instruments") }}</p>
         </div>
         <div class="col-sm-2 signup-element">
           <p>{{ getInfo(signup) }}</p>
