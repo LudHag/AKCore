@@ -7,24 +7,27 @@
       </p>
       <h2>{{ t("coming", "common") }}</h2>
 
-      <div class="row signup-row" :key="signup.id" v-for="signup in coming">
-        <div class="col-sm-2 signup-element">
-          <p>{{ cleanName(signup.personName) }}</p>
-        </div>
-        <div class="col-sm-2 signup-element">
-          <p>{{ t(signup.instrumentName, "instruments") }}</p>
-        </div>
-        <div class="col-sm-2 signup-element">
-          <p>{{ getInfo(signup) }}</p>
-        </div>
-        <div class="col-sm-3 signup-element" v-if="nintendo">
-          <p>{{ signup.comment }}</p>
-        </div>
-        <div class="col-sm-3 signup-element" v-if="nintendo">
-          <p>{{ formatDate(signup.signupTime) }}</p>
-        </div>
-        <div class="col-sm-6 signup-element" v-if="!nintendo">
-          <p>{{ signup.comment }}</p>
+      <div v-for="(instrumentSignupList, instrument) in comingGrouped" :key="instrument">
+         <h3>{{ t(instrument, "instruments") }}: {{ instrumentSignupList.length }}</h3>
+        <div class="row signup-row" :key="signup.id" v-for="signup in instrumentSignupList">
+          <div class="col-sm-2 signup-element">
+            <p>{{ cleanName(signup.personName) }}</p>
+          </div>
+          <div class="col-sm-2 signup-element">
+            <p>{{ t(signup.instrumentName, "instruments")}}</p>
+          </div>
+          <div class="col-sm-2 signup-element">
+            <p>{{ getInfo(signup) }}</p>
+          </div>
+          <div class="col-sm-3 signup-element" v-if="nintendo">
+            <p>{{ signup.comment }}</p>
+          </div>
+          <div class="col-sm-3 signup-element" v-if="nintendo">
+            <p>{{ formatDate(signup.signupTime) }}</p>
+          </div>
+          <div class="col-sm-6 signup-element" v-if="!nintendo">
+            <p>{{ signup.comment }}</p>
+          </div>
         </div>
       </div>
       <h2 class="no-print">{{ t("not-coming", "common") }}</h2>
@@ -82,6 +85,18 @@ const notComing = computed(() => {
     return signup.where === "Kan inte komma";
   });
 });
+
+const comingGrouped = computed(() =>
+  coming.value.reduce(
+    (groups, signup) => {
+      const key = signup.instrumentName;
+      if (!groups[key]) groups[key] = [];
+      groups[key].push(signup);
+      return groups;
+    },
+    {} as Record<string, UpcomingSignup[]>,
+  ),
+);
 
 const getInfo = (signup: UpcomingSignup) => {
   let info = signup.where === "Direkt" ? t("direct", "signup") : signup.where;
