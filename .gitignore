@@ -260,7 +260,6 @@ assets.json
 manifest.json
 stats.html
 
-.vscode/
 .vitest-attachments/
 
 **/__screenshots__/**
