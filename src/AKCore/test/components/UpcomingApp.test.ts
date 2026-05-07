@@ -11,8 +11,11 @@ import UpcomingApp from "@components/Upcoming/UpcomingApp.vue";
 import {
   createUpcomingListDataPayload,
   mockUpcomingEventName,
-} from "../mocks/upcomingListData";
-import { fetchRequestUrl, jsonResponse } from "../utils/fetch";
+} from "@test/mocks/upcomingListData";
+import {
+  fetchRequestUrl,
+  jsonResponse,
+} from "@test/utils/component-test-utils";
 
 afterEach(() => {
   vi.restoreAllMocks();

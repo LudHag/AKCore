@@ -18,7 +18,8 @@
       "@scripts/*": ["./Scripts/*"],
       "@components/*": ["./Scripts/VueComponents/*"],
       "@utils/*": ["./Scripts/utils/*"],
-      "@services/*": ["./Scripts/services/*"]
+      "@services/*": ["./Scripts/services/*"],
+      "@test/*": ["./test/*"]
     }
   },
   "include": [

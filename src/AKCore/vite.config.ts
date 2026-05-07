@@ -37,6 +37,7 @@ export default defineConfig({
       "@components": resolve(__dirname, "Scripts/VueComponents"),
       "@utils": resolve(__dirname, "Scripts/utils"),
       "@services": resolve(__dirname, "Scripts/services"),
+      "@test": resolve(__dirname, "test"),
     },
   },
   plugins: [
