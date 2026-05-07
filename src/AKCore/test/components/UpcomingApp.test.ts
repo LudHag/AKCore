@@ -8,72 +8,15 @@ vi.mock("@scripts/general", () => ({
 }));
 
 import UpcomingApp from "@components/Upcoming/UpcomingApp.vue";
-
-const EVENT_NAME = "Component Test Gig";
-
-/** Minimal payload matching `/Upcoming/UpcomingListData` JSON shape used by UpcomingApp. */
-function upcomingListData(loggedIn: boolean) {
-  return {
-    years: {
-      "2026": {
-        year: 2026,
-        months: {
-          "5": [
-            {
-              id: 4242,
-              type: "Spelning",
-              name: EVENT_NAME,
-              place: "Test Venue",
-              description: "",
-              descriptionEng: "",
-              internalDescription: "",
-              internalDescriptionEng: "",
-              fikaCollection: [] as string[],
-              year: 2026,
-              month: 5,
-              day: "monday 05/05",
-              dayDate: "2026-05-05",
-              dayInMonth: 5,
-              halanTime: "",
-              thereTime: "",
-              startsTime: "19:00",
-              playDuration: "",
-              stand: "",
-              secret: false,
-              signupState: null,
-              coming: 0,
-              notComing: 0,
-              disabled: false,
-            },
-          ],
-        },
-      },
-    },
-    loggedIn,
-    member: false,
-    icalLink: "https://example.test/upcoming/akevents.ics",
-  };
-}
-
-function jsonResponse(data: unknown) {
-  return Promise.resolve(
-    new Response(JSON.stringify(data), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    }),
-  );
-}
-
-function fetchRequestUrl(input: string | Request | URL): string {
-  if (typeof input === "string") return input;
-  if (input instanceof URL) return input.href;
-  return input.url;
-}
+import {
+  createUpcomingListDataPayload,
+  mockUpcomingEventName,
+} from "../mocks/upcomingListData";
+import { fetchRequestUrl, jsonResponse } from "../utils/fetch";
 
 afterEach(() => {
   vi.restoreAllMocks();
 });
-
 
 test("UpcomingApp mounts and shows the loading spinner", async () => {
   vi.spyOn(globalThis, "fetch").mockImplementation(
@@ -84,18 +27,16 @@ test("UpcomingApp mounts and shows the loading spinner", async () => {
     props: { eventId: -1 },
   });
 
-  // Playwright visibility requires a non-zero layout; scoped spinner styles may not
-  // apply the same way in the test page, so assert DOM presence instead.
   await expect
     .poll(() => screen.container.querySelector(".spinner-medium"))
     .not.toBeNull();
 });
 
-test("after UpcomingListData loads while logged in, list and member-only chrome appear", async () => {
+test("after UpcomingListData loads while logged in, list and member-only", async () => {
   vi.spyOn(globalThis, "fetch").mockImplementation((input) => {
     const url = fetchRequestUrl(input);
     if (url.includes("UpcomingListData")) {
-      return jsonResponse(upcomingListData(true));
+      return jsonResponse(createUpcomingListDataPayload(true));
     }
     return Promise.reject(new Error(`Unexpected fetch: ${url}`));
   });
@@ -109,7 +50,7 @@ test("after UpcomingListData loads while logged in, list and member-only chrome 
     .not.toBeNull();
 
   await expect
-    .poll(() => screen.container.textContent?.includes(EVENT_NAME))
+    .poll(() => screen.container.textContent?.includes(mockUpcomingEventName))
     .toBe(true);
 
   await expect
@@ -121,7 +62,7 @@ test("after UpcomingListData loads while logged out, list appears without member
   vi.spyOn(globalThis, "fetch").mockImplementation((input) => {
     const url = fetchRequestUrl(input);
     if (url.includes("UpcomingListData")) {
-      return jsonResponse(upcomingListData(false));
+      return jsonResponse(createUpcomingListDataPayload(false));
     }
     return Promise.reject(new Error(`Unexpected fetch: ${url}`));
   });
@@ -135,7 +76,7 @@ test("after UpcomingListData loads while logged out, list appears without member
     .not.toBeNull();
 
   await expect
-    .poll(() => screen.container.textContent?.includes(EVENT_NAME))
+    .poll(() => screen.container.textContent?.includes(mockUpcomingEventName))
     .toBe(true);
 
   expect(screen.container.querySelector(".calendar-actions")).toBeNull();
