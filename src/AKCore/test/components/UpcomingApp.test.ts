@@ -61,7 +61,7 @@ test("after UpcomingListData loads while logged in, list and member-only", async
     .not.toBeNull();
 });
 
-test("after UpcomingListData loads while logged out, list appears without member chrome", async () => {
+test("after UpcomingListData loads while logged out, list appears without member", async () => {
   vi.spyOn(globalThis, "fetch").mockImplementation((input) => {
     const url = fetchRequestUrl(input);
     if (url.includes("UpcomingListData")) {
