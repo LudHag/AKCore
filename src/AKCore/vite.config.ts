@@ -56,10 +56,14 @@ export default defineConfig({
       return filename.replace("wwwroot", "");
     },
   },
+  optimizeDeps: {
+    include: ["vue"],
+  },
   build: {
     manifest: "manifest.json",
     outDir: ".",
     emptyOutDir: false,
+
     rolldownOptions: {
       input: entrypoints.reduce(
         (acc, entrypoint) => {
