@@ -1,5 +1,10 @@
+import "@styles/akstyle.scss";
 import { render } from "vitest-browser-vue";
 import { afterEach, beforeEach, expect, test, vi } from "vitest";
+
+const { reloadWindowMock } = vi.hoisted(() => ({
+  reloadWindowMock: vi.fn(),
+}));
 
 vi.mock("@scripts/general", () => ({
   getCookie: () => undefined,
@@ -7,22 +12,15 @@ vi.mock("@scripts/general", () => ({
   getImageLink: () => "",
 }));
 
-const { defaultFormSendMock } = vi.hoisted(() => ({
-  defaultFormSendMock:
-    vi.fn<
-      (
-        form: HTMLFormElement,
-        error: HTMLElement | null,
-        success: HTMLElement | null,
-        callback: (data: unknown) => void,
-      ) => void
-    >(),
-}));
-vi.mock("@services/apiservice", () => ({
-  defaultFormSend: defaultFormSendMock,
+vi.mock("@services/window-utils", () => ({
+  reloadWindow: reloadWindowMock,
 }));
 
 import LoginApp from "@components/Login/LoginApp.vue";
+import {
+  fetchRequestUrl,
+  jsonResponse,
+} from "@test/utils/component-test-utils";
 
 const LOGIN_TRIGGER_ID = "login-trigger";
 
@@ -38,7 +36,7 @@ beforeEach(() => {
 
 afterEach(() => {
   loginTrigger.remove();
-  defaultFormSendMock.mockReset();
+  reloadWindowMock.mockReset();
   vi.restoreAllMocks();
 });
 
@@ -63,30 +61,34 @@ async function openModalAndFillCredentials(
 }
 
 test("happy case: submitting valid credentials posts the form to /Account/Login", async () => {
+  const fetchSpy = vi.spyOn(globalThis, "fetch").mockImplementation((input, init) => {
+    const url = fetchRequestUrl(input);
+    expect(url).toBe("/Account/Login");
+    expect(init?.method?.toLowerCase()).toBe("post");
+    const body = init?.body as FormData;
+    expect(body.get("Username")).toBe("alice");
+    expect(body.get("Password")).toBe("secret");
+    return jsonResponse({ success: true, message: "ok" });
+  });
+
   const screen = await render(LoginApp);
 
   await openModalAndFillCredentials(screen.container, "alice", "secret");
 
-  await expect.poll(() => defaultFormSendMock.mock.calls.length).toBe(1);
-
-  const [submittedForm, errorEl, successEl, callback] =
-    defaultFormSendMock.mock.calls[0];
-  expect(submittedForm.getAttribute("action")).toBe("/Account/Login");
-  expect(submittedForm.getAttribute("method")).toBe("post");
-  expect(errorEl).not.toBeNull();
-  expect(successEl).toBeNull();
-  expect(typeof callback).toBe("function");
-
-  const submittedData = new FormData(submittedForm);
-  expect(submittedData.get("Username")).toBe("alice");
-  expect(submittedData.get("Password")).toBe("secret");
+  await expect.poll(() => fetchSpy.mock.calls.length).toBe(1);
+  await expect.poll(() => reloadWindowMock.mock.calls.length).toBe(1);
 });
 
 test("non-happy case: failed login shows the error message in the modal", async () => {
-  defaultFormSendMock.mockImplementation((_form, error) => {
-    if (error) {
-      error.innerHTML = "Invalid credentials";
+  vi.spyOn(globalThis, "fetch").mockImplementation((input) => {
+    const url = fetchRequestUrl(input);
+    if (url.includes("/Account/Login")) {
+      return jsonResponse({
+        success: false,
+        message: "Invalid credentials",
+      });
     }
+    return Promise.reject(new Error(`Unexpected fetch: ${url}`));
   });
 
   const screen = await render(LoginApp);
@@ -96,4 +98,21 @@ test("non-happy case: failed login shows the error message in the modal", async 
   await expect
     .poll(() => screen.container.textContent?.includes("Invalid credentials"))
     .toBe(true);
+
+  expect(reloadWindowMock).not.toHaveBeenCalled();
+});
+
+test("closing login via header close button hides the modal", async () => {
+  const screen = await render(LoginApp);
+
+  loginTrigger.click();
+  await expect.poll(() => screen.container.querySelector("#loginForm")).not.toBeNull();
+
+  const headerClose = screen.container.querySelector<HTMLButtonElement>(
+    ".modal-header button.close",
+  );
+  expect(headerClose).not.toBeNull();
+  headerClose!.click();
+
+  await expect.poll(() => screen.container.querySelector("#loginForm")).toBeNull();
 });

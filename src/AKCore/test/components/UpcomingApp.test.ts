@@ -1,3 +1,4 @@
+import "@styles/akstyle.scss";
 import { render } from "vitest-browser-vue";
 import { afterEach, expect, test, vi } from "vitest";
 
