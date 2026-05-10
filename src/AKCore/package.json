@@ -15,6 +15,8 @@
     "build:analyze": "cross-env ANALYZE=true vite build",
     "lint": "eslint Scripts",
     "typecheck": "vue-tsc",
+    "test:components": "playwright install --with-deps chromium && vitest run --project=component-tests",
+    "test:components:debug": "playwright install --with-deps chromium && vitest --project=component-tests --browser.headless=false",
     "prettier": "prettier --write \"**/*.{ts,vue,scss}\""
   },
   "browserslist": {
@@ -28,12 +30,14 @@
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@types/node": "^24.9.2",
+    "@vitest/browser-playwright": "^4.1.2",
     "@vitejs/plugin-vue": "^6.0.5",
     "cross-env": "^10.1.0",
     "eslint": "10.2.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-vue": "^10.8.0",
     "globals": "^17.4.0",
+    "playwright": "^1.56.1",
     "prettier": "^3.8.1",
     "rimraf": "^6.1.3",
     "rollup-plugin-visualizer": "^7.0.1",
@@ -41,6 +45,8 @@
     "typescript": "^6.0.2",
     "typescript-eslint": "^8.58.1",
     "vite": "~8.0.8",
+    "vitest": "^4.1.2",
+    "vitest-browser-vue": "^2.1.0",
     "vue-eslint-parser": "^10.4.0",
     "vue-tsc": "^3.2.6"
   },

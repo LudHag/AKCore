@@ -41,3 +41,8 @@ jobs:
         run: |
           cd src/AKCore 
           npm run typecheck
+
+      - name: Component tests
+        run: |
+          cd src/AKCore
+          npm run test:components
