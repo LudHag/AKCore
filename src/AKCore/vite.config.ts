@@ -1,11 +1,31 @@
-import { defineConfig } from "vite";
+import { defineConfig } from "vitest/config";
 import { resolve } from "path";
 import vue from "@vitejs/plugin-vue";
+import { playwright } from "@vitest/browser-playwright";
 import { visualizer } from "rollup-plugin-visualizer";
 import { entrypoints, manifestTransform } from "./vite.utils";
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  test: {
+    projects: [
+      {
+        extends: true,
+        test: {
+          name: "component-tests",
+          include: ["test/components/**/*.test.ts"],
+          setupFiles: ["vitest-browser-vue"],
+          browser: {
+            headless: true,
+            enabled: true,
+            provider: playwright(),
+            instances: [{ browser: "chromium" }],
+            viewport: { width: 1366, height: 768 },
+          },
+        },
+      },
+    ],
+  },
   server: {
     port: 5173,
     hmr: { clientPort: 5173 },
@@ -17,6 +37,7 @@ export default defineConfig({
       "@components": resolve(__dirname, "Scripts/VueComponents"),
       "@utils": resolve(__dirname, "Scripts/utils"),
       "@services": resolve(__dirname, "Scripts/services"),
+      "@test": resolve(__dirname, "test"),
     },
   },
   plugins: [
@@ -35,11 +56,15 @@ export default defineConfig({
       return filename.replace("wwwroot", "");
     },
   },
+  optimizeDeps: {
+    include: ["vue"],
+  },
   build: {
     manifest: "wwwroot/dist/manifest.json",
     outDir: "wwwroot/dist",
     emptyOutDir: false,
-    rollupOptions: {
+
+    rolldownOptions: {
       input: entrypoints.reduce(
         (acc, entrypoint) => {
           acc[entrypoint] = resolve(__dirname, `Scripts/${entrypoint}.ts`);

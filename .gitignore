@@ -259,3 +259,7 @@ appsettings.json
 assets.json
 manifest.json
 stats.html
+
+.vitest-attachments/
+
+**/__screenshots__/**

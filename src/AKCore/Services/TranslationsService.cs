@@ -12,7 +12,9 @@ public enum TranslationDomains
     Widgets,
     ErrorPages,
     Posts,
-    Instruments
+    Instruments,
+    Upcoming,
+    Profile
 }
 public record Translation(string Swedish, string English);
 public record DomainTranslations(Dictionary<string, string> translations);
@@ -87,6 +89,26 @@ public class TranslationsService
     };
 
 
+    private static readonly Dictionary<string, Translation> upcomingTranslations = new() {
+        { "PageTitle", new Translation("På gång", "Upcoming") },
+        { "SignupPageTitle", new Translation("Anmälan", "Sign-up") },
+        { "InvalidData", new Translation("Felaktig data", "Invalid data") },
+        { "InvalidId", new Translation("Felaktigt id", "Invalid id") },
+        { "MustChooseWhere", new Translation(
+            "Du måste välja om du kommer via hålan, direkt eller inte alls",
+            "You must choose whether you are coming via Hålan, direct, or not at all") },
+        { "SignupUpdated", new Translation("Anmälan uppdaterad", "Sign-up updated") },
+    };
+
+    private static readonly Dictionary<string, Translation> profileTranslations = new() {
+        { "PageTitle", new Translation("Profil", "Profile") },
+        { "DuplicateInstrument", new Translation(
+            "Du kan inte välja samma instrument som både huvudinstrument och andrainstrument.",
+            "You cannot select the same instrument as both primary and additional instrument.") },
+        { "ProfileUpdated", new Translation("Din profil uppdaterades", "Your profile was updated") },
+        { "PasswordChanged", new Translation("Lösenord ändrat", "Password changed") },
+    };
+
     private static readonly Dictionary<string, Translation> postsTranslations = new() {
         { "ÖK", new Translation("Ordförande", "Chairman") },
         { "KK", new Translation("Kassör", "Treasurer") },
@@ -125,6 +147,8 @@ public class TranslationsService
         { TranslationDomains.ErrorPages, errorTranslations },
         { TranslationDomains.Posts, postsTranslations },
         { TranslationDomains.Instruments, instrumentTranslations },
+        { TranslationDomains.Upcoming, upcomingTranslations },
+        { TranslationDomains.Profile, profileTranslations },
     };
 
 }

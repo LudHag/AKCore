@@ -73,7 +73,7 @@
           @keydown.prevent.space="openSignup"
           :href="signupUrl"
         >
-          {{ t("signed-up") }} ({{ event.signupState }})
+          {{ t("signed-up") }} ({{ translateSignupWhere(event.signupState) }})
         </a>
         <a
           class="signup-link"
@@ -148,7 +148,7 @@
 import { computed, ref } from "vue";
 import { UpcomingEvent } from "./models";
 import { TranslationDomain, translate } from "@scripts/translations";
-import { eventIsRep } from "./functions";
+import { eventIsRep, translateSignupWhere } from "./functions";
 
 const emit = defineEmits<{
   (e: "signup", id: number): void;

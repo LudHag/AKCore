@@ -32,7 +32,7 @@ export interface UpcomingEvent {
   playDuration: string;
   stand: string;
   secret: boolean;
-  signupState: string;
+  signupState: UpcomingWhere;
   coming: number;
   notComing: number;
   disabled: boolean;
@@ -48,6 +48,8 @@ export interface UpcomingEventInfo {
   members: AvailableMember[];
   event: UpcomingEvent;
   signups: UpcomingSignup[];
+  availableInstruments: string[];
+  selectedInstrument: string | null;
 }
 
 export interface AvailableMember {

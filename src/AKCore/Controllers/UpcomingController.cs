@@ -35,7 +35,7 @@ public class UpcomingController : Controller
 
     public ActionResult Index()
     {
-        ViewBag.Title = "På gång";
+        ViewBag.Title = _translationsService.Get(TranslationDomains.Upcoming, "PageTitle");
         ViewData["Canonical"] = "https://www.altekamereren.org/upcoming";
         return View();
     }
@@ -179,15 +179,26 @@ public class UpcomingController : Controller
         sb.AppendLine("METHOD:PUBLISH");
         foreach (var res in events)
         {
-            var dtStart = res.Day.Date;
-            dtStart += res.HalanTime;
-
             var description = SanitizeIcalDescription(res.Description);
             var internalDesc = SanitizeIcalDescription(res.InternalDescription);
-            var dtEnd = dtStart.AddHours(1);
+
+            string dtStartStr, dtEndStr;
+            if (res.HalanTime == TimeSpan.Zero)
+            {
+                dtStartStr = "DTSTART;VALUE=DATE:" + res.Day.ToString("yyyyMMdd");
+                dtEndStr = "DTEND;VALUE=DATE:" + res.Day.AddDays(1).ToString("yyyyMMdd");
+            }
+            else
+            {
+                var dtStart = res.Day.Date + res.HalanTime;
+                var dtEnd = dtStart.AddHours(1);
+                dtStartStr = "DTSTART:" + dtStart.ToString(DateFormat);
+                dtEndStr = "DTEND:" + dtEnd.ToString(DateFormat);
+            }
+
             sb.AppendLine("BEGIN:VEVENT");
-            sb.AppendLine("DTSTART:" + dtStart.ToString(DateFormat));
-            sb.AppendLine("DTEND:" + dtEnd.ToString(DateFormat));
+            sb.AppendLine(dtStartStr);
+            sb.AppendLine(dtEndStr);
             sb.AppendLine("DTSTAMP:" + now);
             sb.AppendLine("UID:" + Guid.NewGuid());
             sb.AppendLine("CREATED:" + now);
@@ -211,7 +222,7 @@ public class UpcomingController : Controller
 
     private static string GetName(Event e)
     {
-        if (e.Type is AkEventTypes.Spelning or AkEventTypes.Fest)
+        if (e.Type is AkEventTypes.Spelning or AkEventTypes.Fest or AkEventTypes.Evenemang)
         {
             return e.Name;
         }
@@ -225,7 +236,7 @@ public class UpcomingController : Controller
     public ActionResult EditSignup(string eventId, string memberId, string type, bool instrument, bool car)
     {
         if (!int.TryParse(eventId, out var eIdInt) || string.IsNullOrWhiteSpace(type) ||
-            string.IsNullOrWhiteSpace(memberId)) return Json(new { success = false, message = "Felaktig data" });
+            string.IsNullOrWhiteSpace(memberId)) return Json(new { success = false, message = _translationsService.Get(TranslationDomains.Upcoming, "InvalidData") });
         var e = _db.Events.Include(x => x.SignUps).FirstOrDefault(x => x.Id == eIdInt);
         var member = _db.Users.FirstOrDefault(x => x.Id == memberId);
         var signUp = e.SignUps.FirstOrDefault(x => x.PersonId == member.Id);
@@ -257,7 +268,7 @@ public class UpcomingController : Controller
     [Authorize(Roles = "Medlem")]
     public ActionResult Event(string id)
     {
-        ViewBag.Title = "Anmälan";
+        ViewBag.Title = _translationsService.Get(TranslationDomains.Upcoming, "SignupPageTitle");
         if (!int.TryParse(id, out var eId))
             return Redirect("/upcoming");
 
@@ -284,7 +295,24 @@ public class UpcomingController : Controller
             model.Car = signup.Car;
             model.Instrument = signup.Instrument;
             model.Comment = signup.Comment;
+            model.SelectedInstrument = signup.InstrumentName;
         }
+
+        var instruments = new List<string>();
+        if (!string.IsNullOrWhiteSpace(user.Instrument))
+            instruments.Add(user.Instrument);
+        if (!string.IsNullOrWhiteSpace(user.OtherInstruments))
+        {
+            foreach (var instr in user.OtherInstruments.Split(','))
+            {
+                var trimmed = instr.Trim();
+                if (!string.IsNullOrWhiteSpace(trimmed) && !instruments.Contains(trimmed))
+                    instruments.Add(trimmed);
+            }
+        }
+        model.AvailableInstruments = instruments;
+        if (model.SelectedInstrument == null && instruments.Count > 0)
+            model.SelectedInstrument = instruments[0];
 
         model.IsNintendo = nintendo;
         var isEnglish = _translationsService.IsEnglish();
@@ -313,15 +341,15 @@ public class UpcomingController : Controller
     public async Task<ActionResult> SignUp(SignUpModel model, string id)
     {
         if (!int.TryParse(id, out var eId))
-            return Json(new { success = false, message = "Felaktigt id" });
+            return Json(new { success = false, message = _translationsService.Get(TranslationDomains.Upcoming, "InvalidId") });
         if (string.IsNullOrWhiteSpace(model.Where))
             return Json(new
             {
                 success = false,
-                message = "Du måste välja om du kommer via hålan, direkt eller inte alls"
+                message = _translationsService.Get(TranslationDomains.Upcoming, "MustChooseWhere")
             });
         var spelning = _db.Events.Include(x => x.SignUps).FirstOrDefault(x => x.Id == eId);
-        if (spelning == null) return Json(new { success = false, message = "Felaktigt id" });
+        if (spelning == null) return Json(new { success = false, message = _translationsService.Get(TranslationDomains.Upcoming, "InvalidId") });
         var user = await _userManager.FindByNameAsync(User.Identity.Name);
         var signup = spelning.SignUps.FirstOrDefault(x => x.PersonId == user.Id) ?? new SignUp();
         if (signup.Where == AkSignupType.CantCome || model.Where == AkSignupType.CantCome)
@@ -340,10 +368,26 @@ public class UpcomingController : Controller
         signup.Person = user.UserName;
         signup.PersonId = user.Id;
         signup.PersonName = user.GetName();
-        signup.InstrumentName = user.Instrument;
-        signup.OtherInstruments = user.OtherInstruments;
+        signup.OtherInstruments = null;
+
+        var allInstruments = new List<string>();
+        if (!string.IsNullOrWhiteSpace(user.Instrument))
+            allInstruments.Add(user.Instrument);
+        if (!string.IsNullOrWhiteSpace(user.OtherInstruments))
+        {
+            foreach (var instr in user.OtherInstruments.Split(','))
+            {
+                var trimmed = instr.Trim();
+                if (!string.IsNullOrWhiteSpace(trimmed) && !allInstruments.Contains(trimmed))
+                    allInstruments.Add(trimmed);
+            }
+        }
+        if (!string.IsNullOrWhiteSpace(model.SelectedInstrument) && allInstruments.Contains(model.SelectedInstrument.Trim()))
+            signup.InstrumentName = model.SelectedInstrument.Trim();
+        else
+            signup.InstrumentName = user.Instrument;
         spelning.SignUps.Add(signup);
         await _db.SaveChangesAsync();
-        return Json(new { success = true, message = "Anmälan uppdaterad" });
+        return Json(new { success = true, message = _translationsService.Get(TranslationDomains.Upcoming, "SignupUpdated") });
     }
 }

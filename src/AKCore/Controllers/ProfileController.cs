@@ -1,5 +1,6 @@
 ﻿using AKCore.DataModel;
 using AKCore.Models;
+using AKCore.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -19,20 +20,23 @@ public class ProfileController : Controller
     private readonly SignInManager<AkUser> _signInManager;
     private readonly UserManager<AkUser> _userManager;
     private readonly AKContext _db;
+    private readonly TranslationsService _translationsService;
 
     public ProfileController(
         UserManager<AkUser> userManager,
         SignInManager<AkUser> signInManager,
-        AKContext db)
+        AKContext db,
+        TranslationsService translationsService)
     {
         _userManager = userManager;
         _signInManager = signInManager;
         _db = db;
+        _translationsService = translationsService;
     }
 
     public ActionResult Index()
     {
-        ViewBag.Title = "Profil";
+        ViewBag.Title = _translationsService.Get(TranslationDomains.Profile, "PageTitle");
         return View();
     }
 
@@ -102,15 +106,18 @@ public class ProfileController : Controller
     {
         if (string.IsNullOrWhiteSpace(slavPoster))
         {
-            return new List<string>();
+            return [];
         }
         var deserialized = JsonConvert.DeserializeObject<List<string>>(slavPoster);
 
-        if (deserialized.Count() == 0)
+        if (deserialized.Count == 0)
         {
-            return new List<string>();
+            return [];
         }
-        return deserialized.FirstOrDefault().Split(",").ToList();
+        return [.. deserialized
+            .SelectMany(p => p.Split(',', StringSplitOptions.RemoveEmptyEntries))
+            .Select(p => p.Trim())
+            .Where(p => !string.IsNullOrEmpty(p))];
     }
 
     [Route("EditProfile")]
@@ -118,7 +125,7 @@ public class ProfileController : Controller
     {
         if (model.OtherInstruments?.Contains(model.Instrument) ?? false)
         {
-            return Json(new { success = false, message = "Du kan inte välja samma instrument som både huvudinstrument och andrainstrument." });
+            return Json(new { success = false, message = _translationsService.Get(TranslationDomains.Profile, "DuplicateInstrument") });
         }
 
         var user = await _userManager.FindByNameAsync(User.Identity.Name);
@@ -135,7 +142,7 @@ public class ProfileController : Controller
         {
             await _signInManager.SignInAsync(user, true);
         }
-        return Json(new { success = result.Succeeded, message = "Din profil uppdaterades" });
+        return Json(new { success = result.Succeeded, message = _translationsService.Get(TranslationDomains.Profile, "ProfileUpdated") });
     }
 
     [Route("ChangePassword")]
@@ -150,6 +157,6 @@ public class ProfileController : Controller
             return Json(new { success = result.Succeeded, message = result.ToString() });
         }
 
-        return Json(new { success = result.Succeeded, message = "Lösenord ändrat" });
+        return Json(new { success = result.Succeeded, message = _translationsService.Get(TranslationDomains.Profile, "PasswordChanged") });
     }
 }

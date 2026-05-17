@@ -54,6 +54,7 @@ import Modal from "../Modal.vue";
 import { defaultFormSend } from "@services/apiservice";
 import { TranslationDomain, translate } from "@scripts/translations";
 import { ref, onMounted, nextTick } from "vue";
+import { reloadWindow } from "@services/window-utils";
 
 const showModal = ref(false);
 const error = ref<HTMLElement | null>(null);
@@ -66,7 +67,7 @@ const close = () => {
 const submitForm = (e: Event) => {
   e.preventDefault();
   defaultFormSend(e.target as HTMLFormElement, error.value, null, () => {
-    window.location.reload();
+    reloadWindow();
   });
 };
 

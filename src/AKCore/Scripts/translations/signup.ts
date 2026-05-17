@@ -11,6 +11,10 @@ export const signupTranslations: Record<string, Translation> = {
     swedish: "Kommer till",
     english: "Coming to",
   },
+  halan: {
+    swedish: "Hålan",
+    english: "Hålan",
+  },
   direct: {
     swedish: "Direkt",
     english: "Direct",
@@ -32,5 +36,9 @@ export const signupTranslations: Record<string, Translation> = {
   "sign-up": {
     swedish: "Anmäl",
     english: "Sign up",
+  },
+  instrument: {
+    swedish: "Instrument",
+    english: "Instrument",
   },
 };

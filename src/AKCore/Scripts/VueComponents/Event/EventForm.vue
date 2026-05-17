@@ -48,6 +48,25 @@
         </div>
       </div>
     </div>
+    <div
+      class="form-group"
+      v-if="eventInfo.availableInstruments && eventInfo.availableInstruments.length > 1"
+    >
+      <label>{{ t("instrument") }}:</label>
+      <select class="form-control" name="SelectedInstrument" v-model="selectedInstrument">
+        <option
+          v-for="instr in eventInfo.availableInstruments"
+          :key="instr"
+          :value="instr"
+        >{{ t(instr, "instruments") }}</option>
+      </select>
+    </div>
+    <input
+      v-else-if="selectedInstrument"
+      type="hidden"
+      name="SelectedInstrument"
+      :value="selectedInstrument"
+    />
     <div class="checkbox">
       <label>
         <input type="checkbox" v-model="car" />
@@ -94,6 +113,7 @@ const where = ref<UpcomingWhere>(null);
 const car = ref(false);
 const instrument = ref(true);
 const comment = ref<string | null>(null);
+const selectedInstrument = ref<string | null>(null);
 
 const inverseInstrument = computed({
   get() {
@@ -117,12 +137,19 @@ const submitForm = (event: Event) => {
 };
 
 const loadForm = () => {
-  if (props.eventInfo?.where) {
-    where.value = props.eventInfo.where;
-    comment.value = props.eventInfo.comment;
-    instrument.value = props.eventInfo.instrument;
-    car.value = props.eventInfo.car;
+  const info = props.eventInfo;
+  if (!info) return;
+
+  if (info.where) {
+    where.value = info.where;
+    comment.value = info.comment;
+    instrument.value = info.instrument;
+    car.value = info.car;
   }
+
+  selectedInstrument.value =
+    info.selectedInstrument ??
+    (info.availableInstruments?.length > 0 ? info.availableInstruments[0] : null);
 };
 
 onMounted(() => loadForm());

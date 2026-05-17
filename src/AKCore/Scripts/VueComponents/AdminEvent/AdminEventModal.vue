@@ -336,7 +336,7 @@ const resetEvent = () => {
         id: -1,
         day: "",
         dayInMonth: 1,
-        signupState: "",
+        signupState: null,
         coming: 0,
         notComing: 0,
         type: "",

@@ -1,5 +1,27 @@
+import { translate } from "@scripts/translations";
 import { RepFilterType } from "../models";
-import { UpcomingEvent, UpcomingMonths, UpcomingYears } from "./models";
+import {
+  UpcomingEvent,
+  UpcomingMonths,
+  UpcomingYears,
+  UpcomingWhere,
+} from "./models";
+
+export const translateSignupWhere = (where: UpcomingWhere): string => {
+  if (!where) {
+    return "";
+  }
+  switch (where) {
+    case "Hålan":
+      return translate("signup", "halan");
+    case "Direkt":
+      return translate("signup", "direct");
+    case "Kan inte komma":
+      return translate("signup", "cant-come");
+    default:
+      return where;
+  }
+};
 
 export const eventIsRep = (event: UpcomingEvent) =>
   event.type === "Rep" ||
