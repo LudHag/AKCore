@@ -175,10 +175,10 @@
 
   }
 
-  .text-overlap-text {
+  h1.text-overlap-text {
     color: variables.$akwhite;
     font-size: 70px;
-    font-weight: 700;
+    font-weight: 300;
     line-height: 1.2;
     margin: 0;
     text-transform: uppercase;
@@ -314,8 +314,8 @@
     right: 0;
     z-index: 10;
     color: variables.$akred;
-    font-size: 40px;
-    font-weight: 400;
+    font-size: 80px;
+    font-weight: 700;
     text-transform: uppercase;
     text-align: center;
     margin: 0;
@@ -392,7 +392,7 @@
     }
 
     .hero-header {
-      font-size: 36px;
+      font-size: 72px;
       top: 30px;
     }
 
@@ -415,7 +415,7 @@
     }
 
     .hero-header {
-      font-size: 24px;
+      font-size: 48px;
       top: 20px;
       letter-spacing: 1px;
     }
