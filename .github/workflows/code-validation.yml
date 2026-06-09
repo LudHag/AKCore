@@ -35,53 +35,33 @@ jobs:
           cd src/AKCore
           npm ci --ignore-scripts
 
-      # - name: Lint
-      #   run: |
-      #     cd src/AKCore
-      #     npm run lint
+      - name: Lint
+        run: |
+          cd src/AKCore
+          npm run lint
 
-      # - name: Typecheck
-      #   run: |
-      #     cd src/AKCore
-      #     npm run typecheck
-
-      - name: Get Playwright version
-        id: playwright-version
-        working-directory: src/AKCore
-        run: echo "version=$(node -p "require('./node_modules/playwright/package.json').version")" >> $GITHUB_OUTPUT
-
-      - name: Cache Playwright browsers
-        id: playwright-cache
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/ms-playwright
-          key: playwright-${{ runner.os }}-${{ steps.playwright-version.outputs.version }}
-
-      - name: Install Playwright system dependencies
-        if: steps.playwright-cache.outputs.cache-hit != 'true'
-        working-directory: src/AKCore
-        run: npx playwright install-deps chromium
-
-      - name: Install Playwright Chromium
-        working-directory: src/AKCore
-        run: npx playwright install chromium
+      - name: Typecheck
+        run: |
+          cd src/AKCore
+          npm run typecheck
 
       - name: Component tests
-        working-directory: src/AKCore
-        run: npx vitest run --project=component-tests
+        run: |
+          cd src/AKCore
+          timeout 2m npm run test:components
 
-  # backend-validation:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v6
-  #       with:
-  #         ref: ${{ github.event.pull_request.head.sha }}
+  backend-validation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
 
-  #     - name: Setup .NET
-  #       uses: actions/setup-dotnet@v5
-  #       with:
-  #         dotnet-version: "10.0.x"
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: "10.0.x"
 
-  #     - name: Integration tests
-  #       run: dotnet test tests/AKCore.IntegrationTests/AKCore.IntegrationTests.csproj --configuration Release --verbosity normal
+      - name: Integration tests
+        run: dotnet test tests/AKCore.IntegrationTests/AKCore.IntegrationTests.csproj --configuration Release 
