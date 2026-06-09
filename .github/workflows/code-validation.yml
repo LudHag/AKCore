@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  code-validation:
+  frontend-validation:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -29,23 +29,31 @@ jobs:
       - name: Install dependencies
         if: steps.cache-restore.outputs.cache-hit != 'true'
         run: |
-          cd src/AKCore 
+          cd src/AKCore
           npm ci --ignore-scripts
 
       - name: Lint
         run: |
-          cd src/AKCore 
+          cd src/AKCore
           npm run lint
 
       - name: Typecheck
         run: |
-          cd src/AKCore 
+          cd src/AKCore
           npm run typecheck
 
       - name: Component tests
         run: |
           cd src/AKCore
-          npm run test:components
+          timeout 2m npm run test:components
+
+  backend-validation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v5
