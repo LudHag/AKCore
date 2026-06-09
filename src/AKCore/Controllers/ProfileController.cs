@@ -5,9 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -44,26 +42,11 @@ public class ProfileController : Controller
     public async Task<ActionResult> ProfileData()
     {
         var user = await _userManager.FindByNameAsync(User.Identity.Name);
-        var logins = _db.UserLogins.Where(x => x.ProviderDisplayName == user.UserName).ToList();
-        if (user.SlavPoster == "[null]")
-        {
-            user.SlavPoster = null;
-        }
-
-        var model = new ProfileModel
-        {
-            UserName = user.UserName,
-            Email = user.Email,
-            FirstName = user.FirstName,
-            LastName = user.LastName,
-            Phone = user.Phone,
-            Instrument = user.Instrument,
-            OtherInstruments = string.IsNullOrWhiteSpace(user.OtherInstruments) ? [] : user.OtherInstruments.Split(',').ToList(),
-            Posts = GetPosts(user.SlavPoster),
-            Roles = await _userManager.GetRolesAsync(user),
-            Medal = user.Medal,
-            GivenMedal = user.GivenMedal
-        };
+        var roles = await _userManager.GetRolesAsync(user);
+        var model = UserAdminService.MapToProfileModel(
+            user,
+            roles,
+            UserAdminService.ParseSlavPosterToList(user.SlavPoster));
         return Json(model);
     }
 
@@ -102,24 +85,6 @@ public class ProfileController : Controller
         return Json(statistics);
     }
 
-    private static List<string> GetPosts(string slavPoster)
-    {
-        if (string.IsNullOrWhiteSpace(slavPoster))
-        {
-            return [];
-        }
-        var deserialized = JsonConvert.DeserializeObject<List<string>>(slavPoster);
-
-        if (deserialized.Count == 0)
-        {
-            return [];
-        }
-        return [.. deserialized
-            .SelectMany(p => p.Split(',', StringSplitOptions.RemoveEmptyEntries))
-            .Select(p => p.Trim())
-            .Where(p => !string.IsNullOrEmpty(p))];
-    }
-
     [Route("EditProfile")]
     public async Task<ActionResult> EditProfile([FromBody] ProfileModel model)
     {
@@ -130,13 +95,7 @@ public class ProfileController : Controller
 
         var user = await _userManager.FindByNameAsync(User.Identity.Name);
         var updateUName = user.UserName != model.UserName;
-        user.UserName = model.UserName;
-        user.Email = model.Email;
-        user.FirstName = model.FirstName;
-        user.LastName = model.LastName;
-        user.Phone = model.Phone;
-        user.Instrument = model.Instrument;
-        user.OtherInstruments = model.OtherInstruments == null ? "" : string.Join(",", model.OtherInstruments);
+        UserAdminService.ApplyProfileFields(user, model, includeAdminFields: false);
         var result = await _userManager.UpdateAsync(user);
         if (result.Succeeded && updateUName)
         {
