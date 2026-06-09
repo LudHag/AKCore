@@ -10,6 +10,7 @@ public static class TestEvents
     public const string GetEventName = "Get Event Test";
     public const string CreateEventName = "New Created Event";
     public const string AdminCreatedUpcomingName = "Admin Created Upcoming Event";
+    public const string SignupEventName = "Signup Test Spelning";
 
     public static Event Create(
         string name,
@@ -37,4 +38,7 @@ public static class TestEvents
 
     public static Event EvenemangForGet() =>
         Create(GetEventName, AkEventTypes.Evenemang, "Hålan", daysFromNow: 5);
+
+    public static Event SignupSpelning() =>
+        Create(SignupEventName, daysFromNow: 7);
 }

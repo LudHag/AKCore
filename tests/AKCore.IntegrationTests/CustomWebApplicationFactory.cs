@@ -1,5 +1,7 @@
 using AKCore.DataModel;
+using AKCore.IntegrationTests.TestData;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
@@ -71,6 +73,41 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
         var db = scope.ServiceProvider.GetRequiredService<AKContext>();
         await seed(db);
         await db.SaveChangesAsync();
+    }
+
+    public async Task SeedMemberAsync(
+        string userName = TestUsers.MemberUserName,
+        string instrument = "Flöjt")
+    {
+        using var scope = Services.CreateScope();
+        var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AkUser>>();
+        var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+        if (!await roleManager.RoleExistsAsync(AkRoles.Medlem))
+        {
+            await roleManager.CreateAsync(new IdentityRole(AkRoles.Medlem));
+        }
+
+        if (await userManager.FindByNameAsync(userName) != null)
+        {
+            return;
+        }
+
+        var user = new AkUser
+        {
+            UserName = userName,
+            FirstName = "Test",
+            LastName = "Member",
+            Instrument = instrument
+        };
+
+        var result = await userManager.CreateAsync(user, "TestPassword1!");
+        if (!result.Succeeded)
+        {
+            throw new InvalidOperationException(string.Join(", ", result.Errors.Select(e => e.Description)));
+        }
+
+        await userManager.AddToRoleAsync(user, AkRoles.Medlem);
     }
 
     public HttpClient CreateClientWithHttpsBaseAddress()
