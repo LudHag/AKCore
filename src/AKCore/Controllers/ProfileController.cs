@@ -94,10 +94,10 @@ public class ProfileController : Controller
         }
 
         var user = await _userManager.FindByNameAsync(User.Identity.Name);
-        var updateUName = user.UserName != model.UserName;
+        var updateUserName = user.UserName != model.UserName;
         UserAdminService.ApplyProfileFields(user, model, includeAdminFields: false);
         var result = await _userManager.UpdateAsync(user);
-        if (result.Succeeded && updateUName)
+        if (result.Succeeded && updateUserName)
         {
             await _signInManager.SignInAsync(user, true);
         }

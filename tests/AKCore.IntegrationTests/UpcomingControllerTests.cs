@@ -42,6 +42,22 @@ public class UpcomingControllerTests
     }
 
     [Fact]
+    public async Task Event_ReturnsSignupPageForAuthenticatedMember()
+    {
+        await using var factory = new CustomWebApplicationFactory();
+        await factory.SeedMemberAsync();
+        var eventId = await factory.SeedEventAndReturnIdAsync(TestEvents.SignupSpelning());
+
+        var client = TestClients.CreateMemberClient(factory);
+        var response = await client.GetAsync($"/upcoming/Event/{eventId}");
+
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+        var body = await response.Content.ReadAsStringAsync();
+        Assert.Contains($"var eventId = {eventId};", body);
+    }
+
+    [Fact]
     public async Task SignUp_CreatesSignupForAuthenticatedMember()
     {
         await using var factory = new CustomWebApplicationFactory();

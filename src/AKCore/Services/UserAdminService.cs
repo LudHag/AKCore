@@ -121,7 +121,7 @@ public class UserAdminService
             GivenMedal = user.GivenMedal
         };
     }
-
+  
     public static void ApplyProfileFields(AkUser user, ProfileModel model, bool includeAdminFields)
     {
         user.UserName = model.UserName;

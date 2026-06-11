@@ -4,7 +4,6 @@ using AKCore.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace AKCore.Controllers;
@@ -86,14 +85,9 @@ public class UpcomingController : Controller
 
     [Route("Event/{id:int}")]
     [Authorize(Roles = "Medlem")]
-    public ActionResult Event(string id)
+    public ActionResult Event(int id)
     {
         ViewBag.Title = _translationsService.Get(TranslationDomains.Upcoming, "SignupPageTitle");
-        if (!int.TryParse(id, out _))
-        {
-            return Redirect("/upcoming");
-        }
-
         return View(id);
     }
 
