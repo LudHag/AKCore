@@ -85,7 +85,7 @@ namespace AKCore.Controllers
                 .Where(x => string.IsNullOrWhiteSpace(type) || x.Type == type)
                 .Where(x => string.IsNullOrWhiteSpace(tag) || x.Tag == tag)
                 .OrderByDescending(x => x.Created);
-            totalPages = PaginationExtensions.TotalPages(searched.Count(), pagesize);
+            totalPages = searched.Count().TotalPages(pagesize);
             if (totalPages < page) page = totalPages;
             return searched.Skip((page - 1) * pagesize).Take(pagesize).ToList();
         }

@@ -34,7 +34,7 @@ namespace AKCore.Controllers
                 logItems = logItems.Where(x => x.Type == type);
             }
             var logItemList = logItems.OrderByDescending(x=>x.Modified).Skip(p * pageSize).Take(pageSize).ToList();
-            var totalPages = PaginationExtensions.TotalPages(logItems.Count(), pageSize);
+            var totalPages = logItems.Count().TotalPages(pageSize);
             var model = new LogModel()
             {
                 Page = p,

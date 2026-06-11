@@ -42,7 +42,7 @@ public class EventService
         return new AdminEventModel
         {
             Events = events.Select(MapEventModelForAdmin),
-            TotalPages = PaginationExtensions.TotalPages(totalCount, AdminPageSize),
+            TotalPages = totalCount.TotalPages(AdminPageSize),
             CurrentPage = page,
             Old = old
         };
