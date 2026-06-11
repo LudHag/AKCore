@@ -51,8 +51,8 @@ public class MenuService
 
         AssignPageLink(menu, pageId);
         _db.Menus.Add(menu);
-        await _adminLogService.LogAction(AkLogTypes.Menus, userName, "Toppmeny med namn " + menu.Name + " skapas");
         await _db.SaveChangesAsync();
+        await _adminLogService.LogAction(AkLogTypes.Menus, userName, "Toppmeny med namn " + menu.Name + " skapas");
         return ServiceResult.Ok();
     }
 
@@ -104,9 +104,14 @@ public class MenuService
             AssignPageLink(subMenu, pageId);
         }
 
-        await _adminLogService.LogAction(AkLogTypes.Menus, userName, "Meny med id " + menuId + " redigeras");
         var res = await _db.SaveChangesAsync();
-        return res > 0 ? ServiceResult.Ok() : ServiceResult.Fail("Inga ändringar gjorda");
+        if (res == 0)
+        {
+            return ServiceResult.Fail("Inga ändringar gjorda");
+        }
+
+        await _adminLogService.LogAction(AkLogTypes.Menus, userName, "Meny med id " + menuId + " redigeras");
+        return ServiceResult.Ok();
     }
 
     public async Task<ServiceResult> AddSubMenuAsync(string parentId, string pageId, string text, string userName)
@@ -136,8 +141,8 @@ public class MenuService
 
         AssignPageLink(subMenu, pageId);
         parent.Children.Add(subMenu);
-        await _adminLogService.LogAction(AkLogTypes.Menus, userName, "Submeny med namn " + text + " läggs till");
         await _db.SaveChangesAsync();
+        await _adminLogService.LogAction(AkLogTypes.Menus, userName, "Submeny med namn " + text + " läggs till");
         return ServiceResult.Ok();
     }
 
@@ -162,8 +167,8 @@ public class MenuService
 
         var menuName = menu.Name;
         _db.Menus.Remove(menu);
-        await _adminLogService.LogAction(AkLogTypes.Menus, userName, "Submeny med namn " + menuName + " tas bort");
         await _db.SaveChangesAsync();
+        await _adminLogService.LogAction(AkLogTypes.Menus, userName, "Submeny med namn " + menuName + " tas bort");
         return ServiceResult.Ok();
     }
 
@@ -192,8 +197,8 @@ public class MenuService
             menu2.PosIndex = tempPos;
         }
 
-        await _adminLogService.LogAction(AkLogTypes.Menus, userName, "Meny med id " + id + " flyttas");
         await _db.SaveChangesAsync();
+        await _adminLogService.LogAction(AkLogTypes.Menus, userName, "Meny med id " + id + " flyttas");
         return ServiceResult.Ok();
     }
 
@@ -238,8 +243,8 @@ public class MenuService
             menu2.SubPosIndex = tempPos;
         }
 
-        await _adminLogService.LogAction(AkLogTypes.Menus, userName, "Meny med id " + id + " flyttas");
         await _db.SaveChangesAsync();
+        await _adminLogService.LogAction(AkLogTypes.Menus, userName, "Meny med id " + id + " flyttas");
         return ServiceResult.Ok();
     }
 
@@ -259,8 +264,8 @@ public class MenuService
 
         var menuName = menu.Name;
         _db.SubMenus.Remove(menu);
-        await _adminLogService.LogAction(AkLogTypes.Menus, userName, "Submeny med namn " + menuName + " flyttas");
         await _db.SaveChangesAsync();
+        await _adminLogService.LogAction(AkLogTypes.Menus, userName, "Submeny med namn " + menuName + " flyttas");
         return ServiceResult.Ok();
     }
 
