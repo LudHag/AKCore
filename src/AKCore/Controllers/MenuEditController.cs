@@ -230,9 +230,9 @@ namespace AKCore.Controllers
             {
                 return Json(new { success = false, message = "Meny finns ej" });
             }
-            while (menu.Children.Count > 0)
+            foreach (var child in menu.Children.ToList())
             {
-                _db.SubMenus.Remove(menu.Children.First());
+                _db.SubMenus.Remove(child);
             }
 
             var menuName = menu.Name;
@@ -244,7 +244,7 @@ namespace AKCore.Controllers
                 Type = AkLogTypes.Menus,
                 Modified = DateTime.Now.ConvertToSwedishTime(),
                 ModifiedBy = user,
-                Comment = "Submeny med namn " + menuName + " tas bort"
+                Comment = "Toppmeny med namn " + menuName + " tas bort"
             });
             _db.SaveChanges();
             return Json(new { success = true });
@@ -448,7 +448,7 @@ namespace AKCore.Controllers
                 Type = AkLogTypes.Menus,
                 Modified = DateTime.Now.ConvertToSwedishTime(),
                 ModifiedBy = user,
-                Comment = "Submeny med namn " + menuName + " flyttas"
+                Comment = "Submeny med namn " + menuName + " tas bort"
             });
 
             _db.SaveChanges();

@@ -256,7 +256,9 @@ public class UpcomingController : Controller
                 PersonId = member.Id,
                 SignupTime = DateTime.Now.ConvertToSwedishTime(),
                 Where = type,
-                InstrumentName = member.Instrument
+                InstrumentName = member.Instrument,
+                Instrument = instrument,
+                Car = car
             });
         }
 
