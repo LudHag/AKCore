@@ -5,22 +5,29 @@ namespace AKCore.IntegrationTests;
 
 public static class TestClients
 {
-    public static HttpClient CreateAdminClient(CustomWebApplicationFactory factory)
-    {
-        var client = factory.CreateClientWithHttpsBaseAddress();
-        client.DefaultRequestHeaders.Add(TestAuthHandler.UserHeader, "admin");
-        client.DefaultRequestHeaders.Add(TestAuthHandler.RolesHeader, AkRoles.SuperNintendo);
-        return client;
-    }
+    public static HttpClient CreateAdminClient(CustomWebApplicationFactory factory) =>
+        CreateAuthenticatedClient(factory, TestUsers.AdminUserName, AkRoles.SuperNintendo);
 
-    public static HttpClient CreateMemberClient(CustomWebApplicationFactory factory)
-    {
-        var client = factory.CreateClientWithHttpsBaseAddress();
-        client.DefaultRequestHeaders.Add(TestAuthHandler.UserHeader, TestUsers.MemberUserName);
-        client.DefaultRequestHeaders.Add(TestAuthHandler.RolesHeader, AkRoles.Medlem);
-        return client;
-    }
+    public static HttpClient CreateEditorClient(CustomWebApplicationFactory factory) =>
+        CreateAuthenticatedClient(factory, TestUsers.EditorUserName, AkRoles.Editor);
+
+    public static HttpClient CreateMemberClient(CustomWebApplicationFactory factory) =>
+        CreateMemberClient(factory, TestUsers.MemberUserName);
+
+    public static HttpClient CreateMemberClient(CustomWebApplicationFactory factory, string userName) =>
+        CreateAuthenticatedClient(factory, userName, AkRoles.Medlem);
 
     public static HttpClient CreateAnonymousClient(CustomWebApplicationFactory factory) =>
         factory.CreateClientWithHttpsBaseAddress();
+
+    public static HttpClient CreateAuthenticatedClient(
+        CustomWebApplicationFactory factory,
+        string userName,
+        string roles)
+    {
+        var client = factory.CreateClientWithHttpsBaseAddress();
+        client.DefaultRequestHeaders.Add(TestAuthHandler.UserHeader, userName);
+        client.DefaultRequestHeaders.Add(TestAuthHandler.RolesHeader, roles);
+        return client;
+    }
 }
