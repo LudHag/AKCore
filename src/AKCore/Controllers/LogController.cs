@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using AKCore.DataModel;
+using AKCore.Extensions;
 using AKCore.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -33,7 +34,7 @@ namespace AKCore.Controllers
                 logItems = logItems.Where(x => x.Type == type);
             }
             var logItemList = logItems.OrderByDescending(x=>x.Modified).Skip(p * pageSize).Take(pageSize).ToList();
-            var totalPages = ((logItems.Count() - 1) / pageSize) + 1;
+            var totalPages = logItems.Count().TotalPages(pageSize);
             var model = new LogModel()
             {
                 Page = p,

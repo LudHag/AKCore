@@ -42,6 +42,22 @@ public class UpcomingControllerTests
     }
 
     [Fact]
+    public async Task Event_ReturnsSignupPageForAuthenticatedMember()
+    {
+        await using var factory = new CustomWebApplicationFactory();
+        await factory.SeedMemberAsync();
+        var eventId = await factory.SeedEventAndReturnIdAsync(TestEvents.SignupSpelning());
+
+        var client = TestClients.CreateMemberClient(factory);
+        var response = await client.GetAsync($"/upcoming/Event/{eventId}");
+
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+        var body = await response.Content.ReadAsStringAsync();
+        Assert.Contains($"var eventId = {eventId};", body);
+    }
+
+    [Fact]
     public async Task SignUp_CreatesSignupForAuthenticatedMember()
     {
         await using var factory = new CustomWebApplicationFactory();
@@ -153,5 +169,115 @@ public class UpcomingControllerTests
         }
 
         return null;
+    }
+
+    [Fact]
+    public async Task EditSignup_UpdatesExistingSignup()
+    {
+        await using var factory = new CustomWebApplicationFactory();
+        await factory.SeedAdminAsync();
+        await factory.SeedMemberAsync(instrument: "Klarinett");
+        var memberId = await factory.SeedMemberAndReturnIdAsync();
+        var eventId = await factory.SeedEventAndReturnIdAsync(TestEvents.SignupSpelning());
+
+        await factory.SeedAsync(async db =>
+        {
+            var evt = await db.Events.Include(e => e.SignUps).FirstAsync(e => e.Id == eventId);
+            evt.SignUps ??= [];
+            evt.SignUps.Add(new SignUp
+            {
+                Person = TestUsers.MemberUserName,
+                PersonId = memberId,
+                PersonName = "Test Member",
+                Where = AkSignupType.Halan,
+                InstrumentName = "Flöjt",
+                SignupTime = DateTime.UtcNow
+            });
+        });
+
+        var client = TestClients.CreateAdminClient(factory);
+        var response = await client.PostAsync(
+            "/upcoming/EditSignup",
+            EditSignupForms.Create(eventId, memberId, AkSignupType.Direct, instrument: true, car: true));
+
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+        var body = await response.Content.ReadAsStringAsync();
+        using var json = JsonDocument.Parse(body);
+        Assert.True(json.RootElement.GetProperty("success").GetBoolean());
+
+        using var scope = factory.Services.CreateScope();
+        var db = scope.ServiceProvider.GetRequiredService<AKContext>();
+        var evt = await db.Events.Include(e => e.SignUps).FirstAsync(e => e.Id == eventId);
+        var signup = evt.SignUps.Single(s => s.PersonId == memberId);
+        Assert.Equal(AkSignupType.Direct, signup.Where);
+        Assert.Equal("Klarinett", signup.InstrumentName);
+        Assert.True(signup.Instrument);
+        Assert.True(signup.Car);
+    }
+
+    [Fact]
+    public async Task EditSignup_InsertsNewSignupWithInstrumentAndCar()
+    {
+        await using var factory = new CustomWebApplicationFactory();
+        await factory.SeedAdminAsync();
+        await factory.SeedMemberAsync(instrument: "Horn");
+        var memberId = await factory.SeedMemberAndReturnIdAsync();
+        var eventId = await factory.SeedEventAndReturnIdAsync(TestEvents.SignupSpelning());
+
+        var client = TestClients.CreateAdminClient(factory);
+        var response = await client.PostAsync(
+            "/upcoming/EditSignup",
+            EditSignupForms.Create(eventId, memberId, AkSignupType.Halan, instrument: true, car: true));
+
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+        var body = await response.Content.ReadAsStringAsync();
+        using var json = JsonDocument.Parse(body);
+        Assert.True(json.RootElement.GetProperty("success").GetBoolean());
+
+        using var scope = factory.Services.CreateScope();
+        var db = scope.ServiceProvider.GetRequiredService<AKContext>();
+        var evt = await db.Events.Include(e => e.SignUps).FirstAsync(e => e.Id == eventId);
+        var signup = evt.SignUps.Single(s => s.PersonId == memberId);
+        Assert.Equal(AkSignupType.Halan, signup.Where);
+        Assert.Equal("Horn", signup.InstrumentName);
+        Assert.True(signup.Instrument);
+        Assert.True(signup.Car);
+        Assert.Equal(TestUsers.MemberUserName, signup.Person);
+    }
+
+    [Fact]
+    public async Task EditSignup_InvalidData_ReturnsFailure()
+    {
+        await using var factory = new CustomWebApplicationFactory();
+        await factory.SeedAdminAsync();
+
+        var client = TestClients.CreateAdminClient(factory);
+        var response = await client.PostAsync(
+            "/upcoming/EditSignup",
+            EditSignupForms.Create(0, "", ""));
+
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+        var body = await response.Content.ReadAsStringAsync();
+        using var json = JsonDocument.Parse(body);
+        Assert.False(json.RootElement.GetProperty("success").GetBoolean());
+    }
+
+    [Fact]
+    public async Task EditSignup_RequiresSuperNintendoRole()
+    {
+        await using var factory = new CustomWebApplicationFactory();
+        await factory.SeedMemberAsync();
+        var memberId = await factory.SeedMemberAndReturnIdAsync();
+        var eventId = await factory.SeedEventAndReturnIdAsync(TestEvents.SignupSpelning());
+
+        var client = TestClients.CreateMemberClient(factory);
+        var response = await client.PostAsync(
+            "/upcoming/EditSignup",
+            EditSignupForms.Create(eventId, memberId, AkSignupType.Halan));
+
+        Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
     }
 }

@@ -75,17 +75,60 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
         await db.SaveChangesAsync();
     }
 
-    public async Task SeedMemberAsync(
+    public Task SeedAdminAsync() =>
+        SeedUserWithRoleAsync(
+            TestUsers.AdminUserName,
+            AkRoles.SuperNintendo,
+            "Admin",
+            "User");
+
+    public Task SeedEditorAsync() =>
+        SeedUserWithRoleAsync(
+            TestUsers.EditorUserName,
+            AkRoles.Editor,
+            "Editor",
+            "User");
+
+    public Task SeedMemberAsync(
         string userName = TestUsers.MemberUserName,
+        string instrument = "Flöjt") =>
+        SeedUserWithRoleAsync(userName, AkRoles.Medlem, "Test", "Member", instrument);
+
+    public async Task<string> SeedMemberAndReturnIdAsync(
+        string userName = TestUsers.MemberUserName,
+        string instrument = "Flöjt")
+    {
+        await SeedMemberAsync(userName, instrument);
+        using var scope = Services.CreateScope();
+        var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AkUser>>();
+        var user = await userManager.FindByNameAsync(userName);
+        return user!.Id;
+    }
+
+    public async Task EnsureRoleExistsAsync(string roleName)
+    {
+        using var scope = Services.CreateScope();
+        var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+        if (!await roleManager.RoleExistsAsync(roleName))
+        {
+            await roleManager.CreateAsync(new IdentityRole(roleName));
+        }
+    }
+
+    private async Task SeedUserWithRoleAsync(
+        string userName,
+        string roleName,
+        string firstName,
+        string lastName,
         string instrument = "Flöjt")
     {
         using var scope = Services.CreateScope();
         var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AkUser>>();
         var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
-        if (!await roleManager.RoleExistsAsync(AkRoles.Medlem))
+        if (!await roleManager.RoleExistsAsync(roleName))
         {
-            await roleManager.CreateAsync(new IdentityRole(AkRoles.Medlem));
+            await roleManager.CreateAsync(new IdentityRole(roleName));
         }
 
         if (await userManager.FindByNameAsync(userName) != null)
@@ -96,18 +139,18 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
         var user = new AkUser
         {
             UserName = userName,
-            FirstName = "Test",
-            LastName = "Member",
+            FirstName = firstName,
+            LastName = lastName,
             Instrument = instrument
         };
 
-        var result = await userManager.CreateAsync(user, "TestPassword1!");
+        var result = await userManager.CreateAsync(user, TestUsers.DefaultPassword);
         if (!result.Succeeded)
         {
             throw new InvalidOperationException(string.Join(", ", result.Errors.Select(e => e.Description)));
         }
 
-        await userManager.AddToRoleAsync(user, AkRoles.Medlem);
+        await userManager.AddToRoleAsync(user, roleName);
     }
 
     public HttpClient CreateClientWithHttpsBaseAddress()

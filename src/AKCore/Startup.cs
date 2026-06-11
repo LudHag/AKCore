@@ -76,6 +76,10 @@ public class Startup
         services.AddTransient<PageService>();
         services.AddTransient<AlbumService>();
         services.AddTransient<AdminLogService>();
+        services.AddTransient<EventService>();
+        services.AddTransient<SignupService>();
+        services.AddTransient<UserAdminService>();
+        services.AddTransient<MenuService>();
         services.AddScoped<TranslationsService>();
         services.AddScoped<MetricsService>();
 

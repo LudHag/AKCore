@@ -83,9 +83,7 @@ const parentId = ref<number | null>(null);
 const editMenu = (menu: MenuEditModel | null, parent?: MenuEditModel) => {
   showEditModal.value = true;
   editedMenu.value = menu;
-  if (parent) {
-    parentId.value = parent.id;
-  }
+  parentId.value = parent ? parent.id : null;
 };
 
 const loadMenus = async () => {
