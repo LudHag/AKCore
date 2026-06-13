@@ -1,14 +1,13 @@
 ﻿using AKCore.DataModel;
 using AKCore.Extensions;
 using AKCore.Models;
+using AKCore.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Net.Http.Headers;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace AKCore.Controllers
 {
@@ -16,15 +15,13 @@ namespace AKCore.Controllers
     [Authorize(Roles = "SuperNintendo,Editor")]
     public class MediaController : Controller
     {
-        private static readonly string[] ImageExtensions = { "jpg", "bmp", "gif", "png", "svg" };
-        private static readonly string[] DocumentExtensions = { "pdf", "docx", "doc" };
         private readonly AKContext _db;
-        private readonly IWebHostEnvironment _hostingEnv;
+        private readonly MediaService _mediaService;
 
-        public MediaController(AKContext db, IWebHostEnvironment hostingEnv)
+        public MediaController(AKContext db, MediaService mediaService)
         {
             _db = db;
-            _hostingEnv = hostingEnv;
+            _mediaService = mediaService;
         }
 
         public ActionResult Index()
@@ -95,88 +92,24 @@ namespace AKCore.Controllers
             return searched.Skip((page - 1) * pagesize).Take(pagesize).ToList();
         }
         [Route("EditFile")]
-        public ActionResult EditFile(string Tag, string Id)
+        public async Task<ActionResult> EditFile(string Tag, string Id)
         {
-            if (int.TryParse(Id, out int iId) && !string.IsNullOrWhiteSpace(Tag))
-            {
-                var file = _db.Medias.FirstOrDefault(x => x.Id == iId);
-                if (file != null)
-                {
-                    file.Tag = Tag;
-                    _db.SaveChanges();
-                    return Json(new { success = true });
-                }
-            }
-
-            return Json(new { success = false });
+            var result = await _mediaService.EditFileAsync(Tag, Id, User.Identity.Name);
+            return Json(new { success = result.Success });
         }
+
         [Route("UploadFiles")]
-        public ActionResult UploadFile(MediasModel model)
+        public async Task<ActionResult> UploadFile(MediasModel model)
         {
-            foreach (var uploadFile in model.UploadFiles)
-            {
-
-                var file = uploadFile;
-                var ext = Path.GetExtension(file.FileName).ToLower();
-                var isImage = ImageExtensions.FirstOrDefault(x => ext.EndsWith(x)) != null;
-                var isDocument = DocumentExtensions.FirstOrDefault(x => ext.EndsWith(x)) != null;
-                if (!(isImage || isDocument) || string.IsNullOrWhiteSpace(model.Tag))
-                {
-                    return Json(new { success = false, message = "Filen har fel format" });
-                }
-
-                var filename = ContentDispositionHeaderValue
-                    .Parse(file.ContentDisposition)
-                    .FileName
-                    .ToString()
-                    .Trim('"');
-                var filepath = _hostingEnv.WebRootPath + $@"\media\{filename}";
-
-                if (_db.Medias.FirstOrDefault(x => x.Name == filename) != null)
-                {
-                    return Json(new { success = false, message = "Filen finns redan uppladdad" });
-                }
-                using (var fs = System.IO.File.Create(filepath))
-                {
-                    file.CopyTo(fs);
-                    fs.Flush();
-                }
-                var mediaFile = new Media
-                {
-                    Name = filename,
-                    Created = DateTime.Now.ConvertToSwedishTime(),
-                    Tag = model.Tag
-                };
-                mediaFile.Type = isImage ? "Image" : "Document";
-                _db.Medias.Add(mediaFile);
-            }
-
-            _db.SaveChanges();
-
-            return Json(new { success = true });
+            var result = await _mediaService.UploadFilesAsync(model, User.Identity.Name);
+            return Json(new { success = result.Success, message = result.Message });
         }
+
         [Route("RemoveFile")]
-        public ActionResult RemoveFile(string filename)
+        public async Task<ActionResult> RemoveFile(string filename)
         {
-            var filepath = _hostingEnv.WebRootPath + $@"\media\{filename}";
-
-            var file = _db.Medias.FirstOrDefault(x => x.Name == filename);
-            if (file == null)
-            {
-                return Json(new { success = false, message = "Filen finns ej" });
-            }
-            try
-            {
-                System.IO.File.Delete(filepath);
-            }
-            catch
-            {
-                return Json(new { success = false, message = "Misslyckades ta bort filen" });
-            }
-            _db.Medias.Remove(file);
-            _db.SaveChanges();
-
-            return Json(new { success = true });
+            var result = await _mediaService.RemoveFileAsync(filename, User.Identity.Name);
+            return Json(new { success = result.Success, message = result.Message });
         }
     }
 }

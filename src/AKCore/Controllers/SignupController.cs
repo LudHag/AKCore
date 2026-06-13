@@ -2,10 +2,11 @@
 using System.Linq;
 using AKCore.DataModel;
 using AKCore.Models;
+using AKCore.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Hosting;
 using AKCore.Extensions;
+using System.Threading.Tasks;
 
 namespace AKCore.Controllers
 {
@@ -14,9 +15,12 @@ namespace AKCore.Controllers
     public class SignupController : Controller
     {
         private readonly AKContext _db;
-        public SignupController(AKContext db)
+        private readonly RecruitService _recruitService;
+
+        public SignupController(AKContext db, RecruitService recruitService)
         {
             _db = db;
+            _recruitService = recruitService;
         }
 
         [Route("Signup")]
@@ -88,32 +92,19 @@ namespace AKCore.Controllers
         [Route("Archive")]
         [Authorize(Roles = "SuperNintendo,Editor")]
         [HttpPost]
-        public ActionResult Archive(int id, bool arch)
+        public async Task<ActionResult> Archive(int id, bool arch)
         {
-            if (id < 0)
-            {
-                return Json(new { success = false });
-            }
-            var recruit = _db.Recruits.FirstOrDefault(x => x.Id == id);
-            if (recruit == null) return Json(new { success = false });
-            recruit.Archived = arch;
-            _db.SaveChanges();
-            return Json(new { success = true });
+            var result = await _recruitService.ArchiveAsync(id, arch, User.Identity.Name);
+            return Json(new { success = result.Success });
         }
+
         [Route("Remove")]
         [Authorize(Roles = "SuperNintendo,Editor")]
         [HttpPost]
-        public ActionResult Remove(int id)
+        public async Task<ActionResult> Remove(int id)
         {
-            if (id < 0)
-            {
-                return Json(new { success = false });
-            }
-            var recruit = _db.Recruits.FirstOrDefault(x => x.Id == id);
-            if (recruit == null) return Json(new { success = false });
-            _db.Recruits.Remove(recruit);
-            _db.SaveChanges();
-            return Json(new { success = true });
+            var result = await _recruitService.RemoveAsync(id, User.Identity.Name);
+            return Json(new { success = result.Success });
         }
     }
 }

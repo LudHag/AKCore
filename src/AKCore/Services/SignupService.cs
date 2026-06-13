@@ -14,11 +14,13 @@ public class SignupService
 {
     private readonly AKContext _db;
     private readonly UserManager<AkUser> _userManager;
+    private readonly AdminLogService _adminLogService;
 
-    public SignupService(AKContext db, UserManager<AkUser> userManager)
+    public SignupService(AKContext db, UserManager<AkUser> userManager, AdminLogService adminLogService)
     {
         _db = db;
         _userManager = userManager;
+        _adminLogService = adminLogService;
     }
 
     public Event GetEventWithSignups(int eventId) =>
@@ -137,7 +139,7 @@ public class SignupService
         await _db.SaveChangesAsync();
     }
 
-    public async Task EditSignupAsync(int eventId, string memberId, string type, bool instrument, bool car)
+    public async Task EditSignupAsync(int eventId, string memberId, string type, bool instrument, bool car, string adminUserName)
     {
         if (string.IsNullOrWhiteSpace(type) || string.IsNullOrWhiteSpace(memberId))
         {
@@ -180,5 +182,7 @@ public class SignupService
         }
 
         await _db.SaveChangesAsync();
+        await _adminLogService.LogAction(AkLogTypes.Events, adminUserName,
+            "Anmälan för medlem " + member.GetName() + " på spelning " + eventId + " ändrad");
     }
 }

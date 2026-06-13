@@ -76,6 +76,9 @@ public class Startup
         services.AddTransient<PageService>();
         services.AddTransient<AlbumService>();
         services.AddTransient<AdminLogService>();
+        services.AddTransient<MediaService>();
+        services.AddTransient<RecruitService>();
+        services.AddTransient<MailBoxService>();
         services.AddTransient<EventService>();
         services.AddTransient<SignupService>();
         services.AddTransient<UserAdminService>();
