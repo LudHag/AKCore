@@ -125,7 +125,7 @@ public class MediaService
         return ServiceResult.Ok();
     }
 
-    private string? GetSafeMediaFilePath(string filename)
+    private string GetSafeMediaFilePath(string filename)
     {
         if (string.IsNullOrWhiteSpace(filename) || filename != Path.GetFileName(filename))
         {
