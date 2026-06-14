@@ -239,6 +239,8 @@ namespace AKCore.DataModel
         public const string Files = "Files";
         public const string Events = "Events";
         public const string Menus = "Menus";
+        public const string Recruits = "Recruits";
+        public const string MailBox = "MailBox";
         public static readonly IList<string> LogTypes = new List<string>()
         {
             Page,
@@ -246,7 +248,9 @@ namespace AKCore.DataModel
             Album,
             Files,
             Events,
-            Menus
+            Menus,
+            Recruits,
+            MailBox
         };
     }
     public class AkAlbumCategories

@@ -299,6 +299,75 @@ public class UserAdminService
         return ServiceResult.Ok("Lösenord ändrat");
     }
 
+    public async Task<ServiceResult> AddPostAsync(AddPostRequest request, string adminUserName)
+    {
+        var user = await _userManager.FindByNameAsync(request.UserName);
+        if (user == null)
+        {
+            return ServiceResult.Fail("Misslyckades att lägga till post");
+        }
+
+        user.SlavPoster = JsonConvert.SerializeObject(request.Post);
+        var result = await _userManager.UpdateAsync(user);
+        if (result.Succeeded)
+        {
+            await _adminLogService.LogAction(AkLogTypes.User, adminUserName,
+                "Användare med namn " + user.GetName() + " får poster uppdaterade");
+        }
+
+        return new ServiceResult
+        {
+            Success = result.Succeeded,
+            Message = result.Succeeded ? "Uppdaterat poster" : result.ToString()
+        };
+    }
+
+    public async Task<ServiceResult> SaveMedalAsync(string userName, string medal, string adminUserName)
+    {
+        var user = await _userManager.FindByNameAsync(userName);
+        if (user == null)
+        {
+            return ServiceResult.Fail("Misslyckades att lägga till medalj");
+        }
+
+        user.Medal = medal;
+        var result = await _userManager.UpdateAsync(user);
+        if (result.Succeeded)
+        {
+            await _adminLogService.LogAction(AkLogTypes.User, adminUserName,
+                "Användare med namn " + user.GetName() + " får medalj uppdaterad");
+        }
+
+        return new ServiceResult
+        {
+            Success = result.Succeeded,
+            Message = result.Succeeded ? "Uppdaterade medaljinfo" : result.ToString()
+        };
+    }
+
+    public async Task<ServiceResult> SaveGivenMedalAsync(string userName, string medal, string adminUserName)
+    {
+        var user = await _userManager.FindByNameAsync(userName);
+        if (user == null)
+        {
+            return ServiceResult.Fail("Misslyckades att lägga till medalj");
+        }
+
+        user.GivenMedal = medal;
+        var result = await _userManager.UpdateAsync(user);
+        if (result.Succeeded)
+        {
+            await _adminLogService.LogAction(AkLogTypes.User, adminUserName,
+                "Användare med namn " + user.GetName() + " får utdelad medalj uppdaterad");
+        }
+
+        return new ServiceResult
+        {
+            Success = result.Succeeded,
+            Message = result.Succeeded ? "Uppdaterade medaljinfo" : result.ToString()
+        };
+    }
+
     public static IList<string> ParseOtherInstruments(string otherInstruments) =>
         string.IsNullOrWhiteSpace(otherInstruments) ? [] : otherInstruments.Split(',').ToList();
 

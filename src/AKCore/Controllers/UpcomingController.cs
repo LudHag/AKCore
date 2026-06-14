@@ -74,7 +74,7 @@ public class UpcomingController : Controller
 
         try
         {
-            await _signupService.EditSignupAsync(eIdInt, memberId, type, instrument, car);
+            await _signupService.EditSignupAsync(eIdInt, memberId, type, instrument, car, User.Identity.Name);
             return Json(new { success = true });
         }
         catch (AkValidationError)

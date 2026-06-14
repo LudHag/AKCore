@@ -2,9 +2,10 @@
 using System.Linq;
 using AKCore.DataModel;
 using AKCore.Models;
+using AKCore.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Hosting;
+using System.Threading.Tasks;
 
 namespace AKCore.Controllers
 {
@@ -12,9 +13,12 @@ namespace AKCore.Controllers
     public class MailBoxController : Controller
     {
         private readonly AKContext _db;
-        public MailBoxController(AKContext db)
+        private readonly MailBoxService _mailBoxService;
+
+        public MailBoxController(AKContext db, MailBoxService mailBoxService)
         {
             _db = db;
+            _mailBoxService = mailBoxService;
         }
 
         [HttpPost]
@@ -48,31 +52,18 @@ namespace AKCore.Controllers
 
         [HttpPost("{id}/Archive")]
         [Authorize(Roles = AkRoles.SuperNintendo)]
-        public ActionResult Archive(int id)
+        public async Task<ActionResult> Archive(int id)
         {
-            if (id < 0)
-            {
-                return Json(new { success = false });
-            }
-            var item = _db.MailBoxItems.FirstOrDefault(x => x.Id == id);
-            if (item == null) return Json(new { success = false });
-            item.Archived = !item.Archived;
-            _db.SaveChanges();
-            return Json(new { success = true });
+            var result = await _mailBoxService.ArchiveAsync(id, User.Identity.Name);
+            return Json(new { success = result.Success });
         }
+
         [Authorize(Roles = AkRoles.SuperNintendo)]
         [HttpPost("{id}/Delete")]
-        public ActionResult Remove(int id)
+        public async Task<ActionResult> Remove(int id)
         {
-            if (id < 0)
-            {
-                return Json(new { success = false });
-            }
-            var item = _db.MailBoxItems.FirstOrDefault(x => x.Id == id);
-            if (item == null) return Json(new { success = false });
-            _db.MailBoxItems.Remove(item);
-            _db.SaveChanges();
-            return Json(new { success = true });
+            var result = await _mailBoxService.RemoveAsync(id, User.Identity.Name);
+            return Json(new { success = result.Success });
         }
     }
 }
