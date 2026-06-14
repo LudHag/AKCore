@@ -96,7 +96,11 @@ public class MediaService
 
     public async Task<ServiceResult> RemoveFileAsync(string filename, string adminUserName)
     {
-        var filepath = _hostingEnv.WebRootPath + $@"\media\{filename}";
+        var filepath = GetSafeMediaFilePath(filename);
+        if (filepath == null)
+        {
+            return ServiceResult.Fail("Ogiltigt filnamn");
+        }
 
         var file = _db.Medias.FirstOrDefault(x => x.Name == filename);
         if (file == null)
@@ -119,5 +123,22 @@ public class MediaService
             "Fil med namn " + filename + " borttagen");
 
         return ServiceResult.Ok();
+    }
+
+    private string? GetSafeMediaFilePath(string filename)
+    {
+        if (string.IsNullOrWhiteSpace(filename) || filename != Path.GetFileName(filename))
+        {
+            return null;
+        }
+
+        var mediaRoot = Path.GetFullPath(Path.Combine(_hostingEnv.WebRootPath, "media"));
+        var filepath = Path.GetFullPath(Path.Combine(mediaRoot, filename));
+        if (!filepath.StartsWith(mediaRoot + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase))
+        {
+            return null;
+        }
+
+        return filepath;
     }
 }
