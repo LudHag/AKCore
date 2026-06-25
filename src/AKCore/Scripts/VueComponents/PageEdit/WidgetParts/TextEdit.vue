@@ -68,9 +68,9 @@ import TextAlign from "@tiptap/extension-text-align";
 import Underline from "@tiptap/extension-underline";
 import StarterKit from "@tiptap/starter-kit";
 import { EditorContent, useEditor } from "@tiptap/vue-3";
-import ResizableImage from "tiptap-extension-resize-image";
 import { EventBus } from "@utils/eventbus";
 import { computed, onMounted, ref, watch } from "vue";
+import { ResizableImage } from "./resizableImageExtension";
 import { CustomClass } from "./textEditExtensions";
 import TextEditToolbar from "./TextEditToolbar.vue";
 
