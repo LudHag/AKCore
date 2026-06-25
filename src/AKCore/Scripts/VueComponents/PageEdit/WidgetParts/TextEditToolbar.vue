@@ -138,7 +138,12 @@
     <button
       type="button"
       class="text-edit__btn"
-      :class="{ 'is-active': editor?.isActive('link') || (editor?.isActive('imageResize') && !!editor?.getAttributes('imageResize').href) }"
+      :class="{
+        'is-active':
+          editor?.isActive('link') ||
+          (editor?.isActive('imageResize') &&
+            !!editor?.getAttributes('imageResize').href),
+      }"
       :disabled="showCodeView"
       title="Länk"
       @click="setLink"
@@ -148,7 +153,14 @@
     <button
       type="button"
       class="text-edit__btn"
-      :disabled="showCodeView || (!editor?.isActive('link') && !(editor?.isActive('imageResize') && !!editor?.getAttributes('imageResize').href))"
+      :disabled="
+        showCodeView ||
+        (!editor?.isActive('link') &&
+          !(
+            editor?.isActive('imageResize') &&
+            !!editor?.getAttributes('imageResize').href
+          ))
+      "
       title="Ta bort länk"
       @click="removeLink"
     >
@@ -193,10 +205,7 @@
     >
       <span class="glyphicon glyphicon-erase"></span>
     </button>
-    <text-edit-table-toolbar
-      :editor="editor"
-      :show-code-view="showCodeView"
-    />
+    <text-edit-table-toolbar :editor="editor" :show-code-view="showCodeView" />
 
     <span class="text-edit__separator"></span>
 
@@ -403,7 +412,6 @@ const clearFormatting = () => {
   gap: 2px;
   padding: 4px;
   border-bottom: 1px solid #ccc;
-  background: #f5f5f5;
 }
 
 .text-edit__style-select {
