@@ -5,14 +5,9 @@ import MenuEditApp from "@components/MenuEdit/MenuEditApp.vue";
 import RecruitsApp from "@components/Recruits/RecruitsApp.vue";
 import UsersApp from "@components/Users/UsersApp.vue";
 import MediaApp from "@components/Media/MediaApp.vue";
-import PageEdit from "@components/PageEdit/PageEdit.vue";
 import PagesApp from "@components/Pages/PagesApp.vue";
 import "vue3-select-component/styles";
 import "@styles/adminstyles.scss";
-
-if (document.getElementById("pageedit-app")) {
-  createApp(PageEdit).mount("#pageedit-app");
-}
 
 if (document.getElementById("admin-event-app")) {
   createApp(AdminEventApp).mount("#admin-event-app");

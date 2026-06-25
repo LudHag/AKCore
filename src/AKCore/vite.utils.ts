@@ -2,7 +2,7 @@ import { writeFile, readFileSync } from "fs";
 import { resolve } from "path";
 import { Plugin, Manifest } from "vite";
 
-export const entrypoints = ["main", "admin", "statistics", "profile"];
+export const entrypoints = ["main", "admin", "statistics", "profile", "pageedit"];
 type Entrypoint = (typeof entrypoints)[number];
 
 const cleanFilePath = (filePath: string) =>

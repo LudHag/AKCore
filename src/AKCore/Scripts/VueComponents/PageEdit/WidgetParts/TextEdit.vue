@@ -14,8 +14,6 @@
       @keydown.esc="isFullscreen = false"
       tabindex="-1"
     >
-      <link rel="stylesheet" :href="contentCssHref" />
-
       <text-edit-toolbar
         :editor="editor"
         :show-code-view="showCodeView"
@@ -42,18 +40,11 @@
         </button>
       </div>
 
-      <div
-        v-if="!showCodeView"
-        class="text-edit__content body-content"
-      >
+      <div v-if="!showCodeView" class="text-edit__content body-content">
         <EditorContent :editor="editor" />
       </div>
 
-      <textarea
-        v-else
-        class="text-edit__code"
-        v-model="codeHtml"
-      ></textarea>
+      <textarea v-else class="text-edit__code" v-model="codeHtml"></textarea>
     </div>
   </div>
 </template>
@@ -69,12 +60,10 @@ import Underline from "@tiptap/extension-underline";
 import StarterKit from "@tiptap/starter-kit";
 import { EditorContent, useEditor } from "@tiptap/vue-3";
 import { EventBus } from "@utils/eventbus";
-import { computed, onMounted, ref, watch } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { ResizableImage } from "./resizableImageExtension";
 import { CustomClass } from "./textEditExtensions";
 import TextEditToolbar from "./TextEditToolbar.vue";
-
-declare const cssMain: string;
 
 const emit = defineEmits<{
   (e: "update:modelValue", value: string): void;
@@ -90,8 +79,6 @@ const showCodeView = ref(false);
 const isFullscreen = ref(false);
 const codeHtml = ref("");
 const previousHtml = ref("");
-
-const contentCssHref = computed(() => "/dist/" + cssMain);
 
 const editor = useEditor({
   content: props.modelValue || "",

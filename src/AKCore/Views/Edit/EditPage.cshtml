@@ -1,12 +1,3 @@
-﻿@section styles {
-    <partial name="Imports/AdminImportStyles" />
-}
+﻿<div id="pageedit-app"></div>
 
-@section scripts {
-    <partial name="Imports/AdminImportScripts" />
-}
-<script>
-    const cssMain = '@assetsModel.GetCssContaining("main", "main")';
-</script>
-
-<div id="pageedit-app"></div>
+<partial name="Imports/EntryPoint" model="@(new EntryPointModel(assetsModel, "pageedit"))" />
