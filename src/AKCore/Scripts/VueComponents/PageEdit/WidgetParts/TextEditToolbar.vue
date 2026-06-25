@@ -1,0 +1,407 @@
+<template>
+  <div class="text-edit__toolbar">
+    <select
+      class="text-edit__style-select"
+      :disabled="showCodeView"
+      @change="applyStyle($event)"
+    >
+      <option value="" disabled selected>Stil</option>
+      <option
+        v-for="(option, index) in TEXT_STYLE_OPTIONS"
+        :key="option.label"
+        :value="index"
+      >
+        {{ option.label }}
+      </option>
+    </select>
+
+    <span class="text-edit__separator"></span>
+
+    <button
+      type="button"
+      class="text-edit__btn"
+      :class="{ 'is-active': editor?.isActive('bold') }"
+      :disabled="showCodeView"
+      title="Fet"
+      @click="editor?.chain().focus().toggleBold().run()"
+    >
+      <span class="glyphicon glyphicon-bold"></span>
+    </button>
+    <button
+      type="button"
+      class="text-edit__btn text-edit__btn--italic"
+      :class="{ 'is-active': editor?.isActive('italic') }"
+      :disabled="showCodeView"
+      title="Kursiv"
+      @click="editor?.chain().focus().toggleItalic().run()"
+    >
+      I
+    </button>
+    <button
+      type="button"
+      class="text-edit__btn text-edit__btn--underline"
+      :class="{ 'is-active': editor?.isActive('underline') }"
+      :disabled="showCodeView"
+      title="Understruken"
+      @click="editor?.chain().focus().toggleUnderline().run()"
+    >
+      U
+    </button>
+    <button
+      type="button"
+      class="text-edit__btn text-edit__btn--strike"
+      :class="{ 'is-active': editor?.isActive('strike') }"
+      :disabled="showCodeView"
+      title="Genomstruken"
+      @click="editor?.chain().focus().toggleStrike().run()"
+    >
+      S
+    </button>
+
+    <span class="text-edit__separator"></span>
+
+    <button
+      type="button"
+      class="text-edit__btn"
+      :class="{ 'is-active': editor?.isActive({ textAlign: 'left' }) }"
+      :disabled="showCodeView"
+      title="Vänster"
+      @click="editor?.chain().focus().setTextAlign('left').run()"
+    >
+      <span class="glyphicon glyphicon-align-left"></span>
+    </button>
+    <button
+      type="button"
+      class="text-edit__btn"
+      :class="{ 'is-active': editor?.isActive({ textAlign: 'center' }) }"
+      :disabled="showCodeView"
+      title="Centrerad"
+      @click="editor?.chain().focus().setTextAlign('center').run()"
+    >
+      <span class="glyphicon glyphicon-align-center"></span>
+    </button>
+    <button
+      type="button"
+      class="text-edit__btn"
+      :class="{ 'is-active': editor?.isActive({ textAlign: 'right' }) }"
+      :disabled="showCodeView"
+      title="Höger"
+      @click="editor?.chain().focus().setTextAlign('right').run()"
+    >
+      <span class="glyphicon glyphicon-align-right"></span>
+    </button>
+    <button
+      type="button"
+      class="text-edit__btn"
+      :class="{ 'is-active': editor?.isActive({ textAlign: 'justify' }) }"
+      :disabled="showCodeView"
+      title="Marginaljusterad"
+      @click="editor?.chain().focus().setTextAlign('justify').run()"
+    >
+      <span class="glyphicon glyphicon-align-justify"></span>
+    </button>
+
+    <span class="text-edit__separator"></span>
+
+    <button
+      type="button"
+      class="text-edit__btn"
+      :class="{ 'is-active': editor?.isActive('bulletList') }"
+      :disabled="showCodeView"
+      title="Punktlista"
+      @click="editor?.chain().focus().toggleBulletList().run()"
+    >
+      <span class="glyphicon glyphicon-list"></span>
+    </button>
+    <button
+      type="button"
+      class="text-edit__btn"
+      :disabled="showCodeView || !editor?.can().undo()"
+      title="Ångra"
+      @click="editor?.chain().focus().undo().run()"
+    >
+      <span class="glyphicon glyphicon-share-alt text-edit__flip-h"></span>
+    </button>
+    <button
+      type="button"
+      class="text-edit__btn"
+      :disabled="showCodeView || !editor?.can().redo()"
+      title="Gör om"
+      @click="editor?.chain().focus().redo().run()"
+    >
+      <span class="glyphicon glyphicon-share-alt"></span>
+    </button>
+
+    <span class="text-edit__separator"></span>
+
+    <button
+      type="button"
+      class="text-edit__btn"
+      :class="{ 'is-active': editor?.isActive('link') }"
+      :disabled="showCodeView"
+      title="Länk"
+      @click="setLink"
+    >
+      <span class="glyphicon glyphicon-link"></span>
+    </button>
+    <button
+      type="button"
+      class="text-edit__btn"
+      :disabled="showCodeView || !editor?.isActive('link')"
+      title="Ta bort länk"
+      @click="editor?.chain().focus().unsetLink().run()"
+    >
+      <span class="glyphicon glyphicon-remove-circle"></span>
+    </button>
+    <button
+      type="button"
+      class="text-edit__btn"
+      :disabled="showCodeView"
+      title="Bild"
+      @click="pickImage"
+    >
+      <span class="glyphicon glyphicon-picture"></span>
+    </button>
+    <button
+      type="button"
+      class="text-edit__btn"
+      :disabled="showCodeView"
+      title="Dokument"
+      @click="pickFile"
+    >
+      <span class="glyphicon glyphicon-file"></span>
+    </button>
+
+    <span class="text-edit__separator"></span>
+
+    <button
+      type="button"
+      class="text-edit__btn"
+      :disabled="showCodeView"
+      title="Horisontell linje"
+      @click="editor?.chain().focus().setHorizontalRule().run()"
+    >
+      <span class="glyphicon glyphicon-minus"></span>
+    </button>
+    <button
+      type="button"
+      class="text-edit__btn"
+      :disabled="showCodeView"
+      title="Rensa formatering"
+      @click="clearFormatting"
+    >
+      <span class="glyphicon glyphicon-erase"></span>
+    </button>
+    <button
+      type="button"
+      class="text-edit__btn"
+      :disabled="showCodeView"
+      title="Tabell"
+      @click="
+        editor
+          ?.chain()
+          .focus()
+          .insertTable({ rows: 3, cols: 3, withHeaderRow: true })
+          .run()
+      "
+    >
+      <span class="glyphicon glyphicon-th"></span>
+    </button>
+
+    <span class="text-edit__separator"></span>
+
+    <button
+      type="button"
+      class="text-edit__btn"
+      :class="{ 'is-active': showCodeView }"
+      title="HTML-kod (klicka igen för att tillämpa)"
+      @click="emit('toggle-code-view')"
+    >
+      <span class="glyphicon glyphicon-console"></span>
+    </button>
+    <button
+      type="button"
+      class="text-edit__btn"
+      :class="{ 'is-active': isFullscreen }"
+      title="Helskärm (Esc för att avsluta)"
+      @click="emit('toggle-fullscreen')"
+    >
+      <span class="glyphicon glyphicon-fullscreen"></span>
+    </button>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { EventBus } from "@utils/eventbus";
+import type { Editor } from "@tiptap/core";
+import { TEXT_STYLE_OPTIONS, type TextStyleOption } from "./textEditExtensions";
+
+const emit = defineEmits<{
+  (e: "toggle-code-view"): void;
+  (e: "toggle-fullscreen"): void;
+}>();
+
+const props = defineProps<{
+  editor: Editor | undefined;
+  showCodeView: boolean;
+  isFullscreen: boolean;
+}>();
+
+const applyStyle = (event: Event) => {
+  const select = event.target as HTMLSelectElement;
+  const index = Number(select.value);
+  if (Number.isNaN(index)) {
+    return;
+  }
+
+  applyTextStyle(TEXT_STYLE_OPTIONS[index]);
+  select.selectedIndex = 0;
+};
+
+const applyTextStyle = (option: TextStyleOption) => {
+  if (!props.editor) {
+    return;
+  }
+
+  const chain = props.editor.chain().focus();
+
+  if (option.block === "heading" && option.level) {
+    chain.setHeading({ level: option.level });
+    chain.updateAttributes("heading", { class: option.className ?? null });
+  } else {
+    chain.setParagraph();
+    chain.updateAttributes("paragraph", { class: option.className ?? null });
+  }
+
+  chain.run();
+};
+
+const setLink = () => {
+  if (!props.editor) {
+    return;
+  }
+
+  const previousUrl = props.editor.getAttributes("link").href as
+    | string
+    | undefined;
+  const url = window.prompt("URL", previousUrl || "https://");
+
+  if (url === null) {
+    return;
+  }
+
+  if (url === "") {
+    props.editor.chain().focus().extendMarkRange("link").unsetLink().run();
+    return;
+  }
+
+  props.editor
+    .chain()
+    .focus()
+    .extendMarkRange("link")
+    .setLink({ href: url })
+    .run();
+};
+
+const pickImage = () => {
+  EventBus.trigger("loadimage", (url: string) => {
+    props.editor?.chain().focus().setImage({ src: url }).run();
+  });
+};
+
+const pickFile = () => {
+  EventBus.trigger("loadfile", (url: string) => {
+    if (!props.editor) {
+      return;
+    }
+
+    const { from, to } = props.editor.state.selection;
+    if (from !== to) {
+      props.editor.chain().focus().setLink({ href: url }).run();
+      return;
+    }
+
+    const fileName = url.split("/").pop() || url;
+    props.editor
+      .chain()
+      .focus()
+      .insertContent(`<a href="${url}">${fileName}</a>`)
+      .run();
+  });
+};
+
+const clearFormatting = () => {
+  props.editor?.chain().focus().unsetAllMarks().clearNodes().run();
+};
+</script>
+
+<style lang="scss" scoped>
+.text-edit__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px;
+  padding: 4px;
+  border-bottom: 1px solid #ccc;
+  background: #f5f5f5;
+}
+
+.text-edit__style-select {
+  min-width: 120px;
+  height: 28px;
+  font-size: 12px;
+}
+
+.text-edit__btn {
+  min-width: 28px;
+  height: 28px;
+  padding: 0 6px;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  background: transparent;
+  cursor: pointer;
+  font-size: 12px;
+  line-height: 1;
+
+  &:hover:not(:disabled) {
+    background: #e8e8e8;
+  }
+
+  &.is-active {
+    background: #d0d0d0;
+    border-color: #aaa;
+  }
+
+  &:disabled {
+    opacity: 0.35;
+    cursor: default;
+  }
+
+  &--italic {
+    font-style: italic;
+    font-weight: bold;
+  }
+
+  &--underline {
+    text-decoration: underline;
+    font-weight: bold;
+  }
+
+  &--strike {
+    text-decoration: line-through;
+    font-weight: bold;
+  }
+}
+
+.text-edit__flip-h {
+  display: inline-block;
+  transform: scaleX(-1);
+}
+
+.text-edit__separator {
+  width: 1px;
+  height: 20px;
+  margin: 0 4px;
+  background: #ccc;
+}
+</style>
