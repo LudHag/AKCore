@@ -3,9 +3,10 @@
     <select
       class="text-edit__style-select"
       :disabled="showCodeView"
+      :value="selectedStyleIndex"
       @change="applyStyle($event)"
     >
-      <option value="" disabled selected>Stil</option>
+      <option value="" disabled>Stil</option>
       <option
         v-for="(option, index) in TEXT_STYLE_OPTIONS"
         :key="option.label"
@@ -192,21 +193,10 @@
     >
       <span class="glyphicon glyphicon-erase"></span>
     </button>
-    <button
-      type="button"
-      class="text-edit__btn"
-      :disabled="showCodeView"
-      title="Tabell"
-      @click="
-        editor
-          ?.chain()
-          .focus()
-          .insertTable({ rows: 3, cols: 3, withHeaderRow: true })
-          .run()
-      "
-    >
-      <span class="glyphicon glyphicon-th"></span>
-    </button>
+    <text-edit-table-toolbar
+      :editor="editor"
+      :show-code-view="showCodeView"
+    />
 
     <span class="text-edit__separator"></span>
 
@@ -234,7 +224,9 @@
 <script setup lang="ts">
 import { EventBus } from "@utils/eventbus";
 import type { Editor } from "@tiptap/core";
+import { computed } from "vue";
 import { TEXT_STYLE_OPTIONS, type TextStyleOption } from "./textEditExtensions";
+import TextEditTableToolbar from "./TextEditTableToolbar.vue";
 
 const emit = defineEmits<{
   (e: "toggle-code-view"): void;
@@ -247,6 +239,40 @@ const props = defineProps<{
   isFullscreen: boolean;
 }>();
 
+const selectedStyleIndex = computed(() => {
+  if (!props.editor) {
+    return "";
+  }
+
+  for (let index = 0; index < TEXT_STYLE_OPTIONS.length; index++) {
+    const option = TEXT_STYLE_OPTIONS[index];
+
+    if (option.block === "heading" && option.level) {
+      if (!props.editor.isActive("heading", { level: option.level })) {
+        continue;
+      }
+
+      const editorClass = props.editor.getAttributes("heading").class ?? null;
+      if (editorClass === (option.className ?? null)) {
+        return index;
+      }
+
+      continue;
+    }
+
+    if (!props.editor.isActive("paragraph")) {
+      continue;
+    }
+
+    const editorClass = props.editor.getAttributes("paragraph").class ?? null;
+    if (editorClass === (option.className ?? null)) {
+      return index;
+    }
+  }
+
+  return "";
+});
+
 const applyStyle = (event: Event) => {
   const select = event.target as HTMLSelectElement;
   const index = Number(select.value);
@@ -255,7 +281,6 @@ const applyStyle = (event: Event) => {
   }
 
   applyTextStyle(TEXT_STYLE_OPTIONS[index]);
-  select.selectedIndex = 0;
 };
 
 const applyTextStyle = (option: TextStyleOption) => {
