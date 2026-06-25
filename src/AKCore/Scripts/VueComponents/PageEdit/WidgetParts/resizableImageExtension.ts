@@ -4,16 +4,6 @@ import ImageResize from "tiptap-extension-resize-image";
 
 const DEFAULT_WRAPPER_STYLE = "display: flex; margin: 0;";
 
-// cursor: pointer is set by the extension for editor interactivity only and
-// should not appear in the serialized HTML rendered on the public page.
-function stripEditorOnlyStyles(style: string): string {
-  return style
-    .split(";")
-    .map((d) => d.trim())
-    .filter((d) => d !== "" && !/^cursor\s*:/i.test(d))
-    .join("; ");
-}
-
 function readLegacyOrParentStyle(
   element: HTMLElement,
   legacyAttribute: string,
@@ -36,13 +26,13 @@ function readLegacyOrParentStyle(
 
 export const ResizableImage = ImageResize.extend({
   renderHTML({ node, HTMLAttributes }) {
-    // containerStyle / wrapperStyle have renderHTML: () => ({}) so they are
-    // stripped from HTMLAttributes before this function runs. Read them from
-    // node.attrs directly to get the actual stored values.
     const containerStyle = node.attrs.containerStyle as string | null;
     const wrapperStyle = node.attrs.wrapperStyle as string | null;
 
-    const img: DOMOutputSpec = ["img", mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)];
+    const img: DOMOutputSpec = [
+      "img",
+      mergeAttributes(this.options.HTMLAttributes, HTMLAttributes),
+    ];
 
     if (!containerStyle && !wrapperStyle) {
       return img;
@@ -53,9 +43,6 @@ export const ResizableImage = ImageResize.extend({
 
     if (wrapperStyle) {
       wrapperAttrs.style = wrapperStyle;
-    }
-    if (containerStyle) {
-      containerAttrs.style = stripEditorOnlyStyles(containerStyle);
     }
 
     return ["div", wrapperAttrs, ["div", containerAttrs, img]] as DOMOutputSpec;
