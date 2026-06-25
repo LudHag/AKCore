@@ -138,7 +138,7 @@
     <button
       type="button"
       class="text-edit__btn"
-      :class="{ 'is-active': editor?.isActive('link') }"
+      :class="{ 'is-active': editor?.isActive('link') || (editor?.isActive('imageResize') && !!editor?.getAttributes('imageResize').href) }"
       :disabled="showCodeView"
       title="Länk"
       @click="setLink"
@@ -148,9 +148,9 @@
     <button
       type="button"
       class="text-edit__btn"
-      :disabled="showCodeView || !editor?.isActive('link')"
+      :disabled="showCodeView || (!editor?.isActive('link') && !(editor?.isActive('imageResize') && !!editor?.getAttributes('imageResize').href))"
       title="Ta bort länk"
-      @click="editor?.chain().focus().unsetLink().run()"
+      @click="removeLink"
     >
       <span class="glyphicon glyphicon-remove-circle"></span>
     </button>
@@ -306,6 +306,24 @@ const setLink = () => {
     return;
   }
 
+  if (props.editor.isActive("imageResize")) {
+    const previousUrl = props.editor.getAttributes("imageResize").href as
+      | string
+      | undefined;
+    const url = window.prompt("URL", previousUrl || "https://");
+
+    if (url === null) {
+      return;
+    }
+
+    props.editor
+      .chain()
+      .focus()
+      .updateAttributes("imageResize", { href: url || null })
+      .run();
+    return;
+  }
+
   const previousUrl = props.editor.getAttributes("link").href as
     | string
     | undefined;
@@ -326,6 +344,23 @@ const setLink = () => {
     .extendMarkRange("link")
     .setLink({ href: url })
     .run();
+};
+
+const removeLink = () => {
+  if (!props.editor) {
+    return;
+  }
+
+  if (props.editor.isActive("imageResize")) {
+    props.editor
+      .chain()
+      .focus()
+      .updateAttributes("imageResize", { href: null, target: null, rel: null })
+      .run();
+    return;
+  }
+
+  props.editor.chain().focus().extendMarkRange("link").unsetLink().run();
 };
 
 const pickImage = () => {
