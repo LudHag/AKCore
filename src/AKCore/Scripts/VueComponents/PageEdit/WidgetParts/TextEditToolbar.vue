@@ -227,13 +227,25 @@
     >
       <span class="glyphicon glyphicon-fullscreen"></span>
     </button>
+
+    <link-modal
+      v-if="showLinkModal"
+      :show-modal="showLinkModal"
+      :initial-url="linkUrl"
+      :initial-text="linkInitialText"
+      :show-text-field="linkShowTextField"
+      @apply="applyLink"
+      @close="showLinkModal = false"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
 import { EventBus } from "@utils/eventbus";
+import { getMarkRange } from "@tiptap/core";
 import type { Editor } from "@tiptap/core";
-import { computed } from "vue";
+import { computed, ref } from "vue";
+import LinkModal from "./LinkModal.vue";
 import { TEXT_STYLE_OPTIONS, type TextStyleOption } from "./textEditExtensions";
 import TextEditTableToolbar from "./TextEditTableToolbar.vue";
 
@@ -247,6 +259,13 @@ const props = defineProps<{
   showCodeView: boolean;
   isFullscreen: boolean;
 }>();
+
+const showLinkModal = ref(false);
+const linkUrl = ref("");
+const linkInitialText = ref("");
+const linkTarget = ref<"text" | "image">("text");
+const linkShowTextField = ref(false);
+const linkIsEditing = ref(false);
 
 const selectedStyleIndex = computed(() => {
   if (!props.editor) {
@@ -319,12 +338,43 @@ const setLink = () => {
     const previousUrl = props.editor.getAttributes("imageResize").href as
       | string
       | undefined;
-    const url = window.prompt("URL", previousUrl || "https://");
+    linkTarget.value = "image";
+    linkUrl.value = previousUrl || "https://";
+    showLinkModal.value = true;
+    return;
+  }
 
-    if (url === null) {
-      return;
+  const previousUrl = props.editor.getAttributes("link").href as
+    | string
+    | undefined;
+  const { $from, from, to } = props.editor.state.selection;
+  const hasSelection = from !== to;
+  const editingExisting = !hasSelection && props.editor.isActive("link");
+
+  let existingText = "";
+  if (editingExisting) {
+    const range = getMarkRange($from, props.editor.schema.marks.link);
+    if (range) {
+      existingText = props.editor.state.doc.textBetween(range.from, range.to);
     }
+  }
 
+  linkTarget.value = "text";
+  linkUrl.value = previousUrl || "https://";
+  linkInitialText.value = existingText;
+  linkShowTextField.value = !hasSelection;
+  linkIsEditing.value = editingExisting;
+  showLinkModal.value = true;
+};
+
+const applyLink = (url: string, text: string) => {
+  showLinkModal.value = false;
+
+  if (!props.editor) {
+    return;
+  }
+
+  if (linkTarget.value === "image") {
     props.editor
       .chain()
       .focus()
@@ -333,17 +383,28 @@ const setLink = () => {
     return;
   }
 
-  const previousUrl = props.editor.getAttributes("link").href as
-    | string
-    | undefined;
-  const url = window.prompt("URL", previousUrl || "https://");
-
-  if (url === null) {
-    return;
-  }
-
-  if (url === "") {
-    props.editor.chain().focus().extendMarkRange("link").unsetLink().run();
+  if (linkShowTextField.value) {
+    const displayText = text || url;
+    if (linkIsEditing.value) {
+      const range = getMarkRange(
+        props.editor.state.selection.$from,
+        props.editor.schema.marks.link,
+      );
+      if (range) {
+        props.editor
+          .chain()
+          .focus()
+          .setTextSelection(range)
+          .insertContent(`<a href="${url}">${displayText}</a>`)
+          .run();
+        return;
+      }
+    }
+    props.editor
+      .chain()
+      .focus()
+      .insertContent(`<a href="${url}">${displayText}</a>`)
+      .run();
     return;
   }
 
