@@ -67,6 +67,7 @@ const props = defineProps<{
   showModal: boolean | null;
   notransition?: boolean | null;
   destination?: HTMLInputElement | null;
+  insertCallback?: ((url: string) => void) | null;
 }>();
 
 const images = ref<Image[]>([]);
@@ -83,8 +84,12 @@ const loadImages = async () => {
 };
 
 const selectImage = (image: Image) => {
-  if (props.destination) {
-    props.destination.value = "/media/" + image.name;
+  const url = "/media/" + image.name;
+  if (props.insertCallback) {
+    props.insertCallback(url);
+    emit("close");
+  } else if (props.destination) {
+    props.destination.value = url;
     emit("close");
   } else {
     emit("image", image);
