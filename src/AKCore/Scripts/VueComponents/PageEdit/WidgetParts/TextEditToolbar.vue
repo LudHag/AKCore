@@ -474,11 +474,13 @@ const clearFormatting = () => {
   padding: 4px;
   border-bottom: 1px solid #ccc;
 }
-
 .text-edit__style-select {
   min-width: 120px;
   height: 28px;
   font-size: 12px;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 }
 
 .text-edit__btn {
@@ -488,6 +490,7 @@ const clearFormatting = () => {
   border: 1px solid transparent;
   border-radius: 2px;
   background: transparent;
+  color: #595959;
   cursor: pointer;
   font-size: 12px;
   line-height: 1;

@@ -226,6 +226,7 @@ onUnmounted(() => {
   border: 1px solid transparent;
   border-radius: 2px;
   background: transparent;
+  color: #595959;
   cursor: pointer;
   font-size: 12px;
   line-height: 1;
