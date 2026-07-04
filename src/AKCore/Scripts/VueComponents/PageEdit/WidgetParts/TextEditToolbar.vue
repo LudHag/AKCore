@@ -340,6 +340,9 @@ const setLink = () => {
       | undefined;
     linkTarget.value = "image";
     linkUrl.value = previousUrl || "https://";
+    linkInitialText.value = "";
+    linkShowTextField.value = false;
+    linkIsEditing.value = false;
     showLinkModal.value = true;
     return;
   }

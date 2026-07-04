@@ -70,6 +70,10 @@ export const ResizableImage = ImageResize.extend({
       wrapperAttrs.style = wrapperStyle;
     }
 
+    if (containerStyle) {
+      containerAttrs.style = containerStyle;
+    }
+
     return ["div", wrapperAttrs, ["div", containerAttrs, innerContent]] as DOMOutputSpec;
   },
 
