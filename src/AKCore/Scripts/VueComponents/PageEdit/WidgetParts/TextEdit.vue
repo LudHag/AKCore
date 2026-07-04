@@ -197,8 +197,14 @@ const cancelCodeView = () => {
   font-style: italic;
 }
 
+.text-edit--fullscreen .text-edit__content {
+  max-height: none;
+}
+
 .text-edit__content {
   min-height: 200px;
+  max-height: 250px;
+  overflow-y: auto;
   padding: 8px 12px;
 
   :deep(.ProseMirror) {
