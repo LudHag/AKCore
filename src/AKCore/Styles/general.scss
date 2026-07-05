@@ -203,7 +203,7 @@ table td {
   padding: 10px;
 }
 body {
-  background: #141414;
+  background: variables.$akblack;
   height: 100%;
   font-family: "Roboto", sans-serif;
   color: #dddddd;
@@ -231,7 +231,7 @@ a {
   font-weight: 400;
 }
 .body-content {
-  background: #141414;
+  background: variables.$akblack;
   color: variables.$akwhite;
   position: relative;
 }
