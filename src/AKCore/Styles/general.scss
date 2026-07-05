@@ -76,13 +76,7 @@ html {
 
 :root {
   --vs-border-width: 0;
-  --vs-dropdown-option-color: #000;
 }
-
-.form-group .vue-select .control {
-  border: 1px solid #ccc;
-}
-
 html,
 body,
 .wrap {
@@ -153,10 +147,13 @@ label {
 header {
   display: block;
   position: relative;
-  padding: 15px 0 0;
+  padding: 12px 0 0;
   background: variables.$akred;
   .container {
-    position: relative;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
     padding: 0 45px;
   }
 
@@ -173,11 +170,33 @@ header {
 
   .logo {
     display: block;
-    text-align: center;
+    flex: 0 1 auto;
+    text-align: left;
+
     img {
-      height: 93px;
-      width: auto;
+      display: block;
     }
+
+    .hidden-xs {
+      width: clamp(320px, 48vw, 640px);
+      max-width: 100%;
+      height: auto;
+    }
+
+    .visible-xs {
+      height: auto;
+    }
+  }
+
+  .header-side {
+    flex: 0 0 auto;
+    margin-left: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+    min-width: 0;
+    padding-top: 8px;
   }
 }
 table td {
@@ -248,29 +267,83 @@ a {
 }
 
 .account {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
   text-align: right;
-  padding: 5px;
+  padding: 0;
   color: variables.$akwhite;
   z-index: 10;
-  top: 5px;
-  position: absolute;
-  right: 20px;
+
+  p {
+    margin: 0;
+  }
+
+  .login,
+  .logout {
+    white-space: nowrap;
+  }
+}
+
+.account-top {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px 16px;
+}
+
+.account-status {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.2;
+  white-space: nowrap;
+
+  .profile-link,
+  .profile-link:visited {
+    color: inherit;
+    font-weight: inherit;
+  }
+
+  .profile-link:hover,
+  .profile-link:focus {
+    color: variables.$akwhite;
+    text-decoration: underline;
+  }
+}
+
+.account-bottom {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: flex-end;
+  align-self: flex-end;
+  gap: 6px;
+  text-align: right;
+
+  .login,
+  .logout {
+    display: block;
+    width: 100%;
+    text-align: right;
+  }
 }
 
 .social {
-  position: absolute;
-  right: 20px;
-  top: 50%;
-  transform: translateY(-50%);
-  padding: 5px;
+  width: 100%;
+  padding: 0;
   color: variables.$akwhite;
   z-index: 10;
   display: flex;
+  justify-content: flex-end;
+  align-self: flex-end;
   align-items: center;
-  gap: 0.5rem;
-  font-size: 26px;
+  gap: 0.4rem;
 
   a {
+    color: #0f0f0f;
     transition: all 0.2s linear;
   }
 
@@ -280,13 +353,29 @@ a {
     width: 24px;
   }
 
-  a:hover svg g path {
-    fill: variables.$akwhite;
+  svg {
+    display: block;
+    width: 24px;
+    height: 24px;
+  }
+
+  a:hover,
+  a:focus {
+    color: variables.$akwhite;
+    svg g path,
+    svg path {
+      fill: variables.$akwhite;
+    }
   }
 }
 
 .content-wrapper {
   padding: 40px 30px;
+
+  a:hover,
+  a:focus {
+    color: variables.$akwhite;
+  }
 
   .row {
     margin-bottom: 20px;
@@ -424,13 +513,19 @@ p.infobox {
   overflow: hidden;
 }
 .notice-box {
-  position: absolute;
-  left: -50px;
+  position: static;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 .interested-notice,
 .mail-notice {
-  margin-bottom: 8px;
-  display: block;
+  margin-bottom: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
 
   .text {
     color: variables.$akwhite;
@@ -438,8 +533,7 @@ p.infobox {
 
   .fa {
     font-size: 20px;
-    position: absolute;
-    left: -25px;
+    position: static;
   }
 }
 
@@ -478,13 +572,25 @@ p.infobox {
     height: 85px;
 
     .container {
-      padding: 0 15px;
+      display: block;
+      padding: 0 60px 0 15px;
+      text-align: center;
     }
 
     .logo {
-      img {
-        max-height: 90px;
-        width: auto;
+      margin: 0;
+      text-align: left;
+
+      .visible-xs {
+        width: 388px;
+        max-width: 80%;
+        max-height: 64px;
+        margin: 0;
+      }
+
+      .hidden-xs {
+        max-width: 100%;
+        height: auto;
       }
     }
 
@@ -495,6 +601,9 @@ p.infobox {
     }
 
     #open-mobile-menu {
+      position: absolute;
+      font-size: 42px;
+      line-height: 1;
       top: -82px;
     }
   }
