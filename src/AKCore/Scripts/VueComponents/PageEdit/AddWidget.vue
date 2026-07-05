@@ -16,57 +16,74 @@
         >
           <li>
             <a href="#" @click.prevent="click('TextImage')">
-              <span class="glyphicon glyphicon-align-left"></span>
-              <span class="glyphicon glyphicon-picture"></span>
+              <span class="widget-choice-icons">
+                <span class="glyphicon glyphicon-align-left"></span>
+                <span class="glyphicon glyphicon-picture"></span>
+              </span>
+              <span class="widget-choice-label">{{ getHeader("TextImage") }}</span>
             </a>
           </li>
           <li>
             <a href="#" @click.prevent="click('Text')">
-              <span class="glyphicon glyphicon-align-justify nomargin"></span>
-              <span class="glyphicon glyphicon-align-left"></span>
+              <span class="widget-choice-icons">
+                <span class="glyphicon glyphicon-align-justify nomargin"></span>
+                <span class="glyphicon glyphicon-align-left"></span>
+              </span>
+              <span class="widget-choice-label">{{ getHeader("Text") }}</span>
             </a>
           </li>
           <li>
             <a
               href="#"
               @click.prevent="click('Image')"
-              style="text-align: center"
             >
-              <span class="glyphicon glyphicon-picture"></span>
+              <span class="widget-choice-icons">
+                <span class="glyphicon glyphicon-picture"></span>
+              </span>
+              <span class="widget-choice-label">{{ getHeader("Image") }}</span>
             </a>
           </li>
           <li>
             <a
               href="#"
               @click.prevent="click('Video')"
-              style="text-align: center"
             >
-              <span class="glyphicon glyphicon-facetime-video"></span>
+              <span class="widget-choice-icons">
+                <span class="glyphicon glyphicon-facetime-video"></span>
+              </span>
+              <span class="widget-choice-label">{{ getHeader("Video") }}</span>
             </a>
           </li>
           <li>
             <a
               href="#"
               @click.prevent="click('Music')"
-              style="text-align: center"
             >
-              <span class="glyphicon glyphicon-music"></span>
+              <span class="widget-choice-icons">
+                <span class="glyphicon glyphicon-music"></span>
+              </span>
+              <span class="widget-choice-label">{{ getHeader("Music") }}</span>
             </a>
           </li>
           <li>
             <a
               href="#"
               @click.prevent="click('HeaderText')"
-              style="text-align: center"
             >
-              <span class="glyphicon glyphicon-header"></span>
+              <span class="widget-choice-icons">
+                <span class="glyphicon glyphicon-header"></span>
+              </span>
+              <span class="widget-choice-label">{{ getHeader("HeaderText") }}</span>
             </a>
           </li>
           <li>
             <a href="#" @click.prevent="click('TextOverlap')">
-              <span class="glyphicon glyphicon-align-left"></span>
-              <span class="glyphicon glyphicon-picture"></span>
-              <span class="glyphicon glyphicon-arrow-left" style="font-size: 10px; margin-left: -8px;"></span>
+              <span class="widget-choice-icons widget-choice-icons--overlap">
+                <span class="glyphicon glyphicon-align-left"></span>
+                <span class="glyphicon glyphicon-picture"></span>
+                <span class="glyphicon glyphicon-arrow-left widget-choice-overlap-arrow"></span>
+              </span>
+              <span class="widget-choice-label">{{ getHeader("TextOverlap") }}</span>
             </a>
           </li>
         </ul>
@@ -129,6 +146,7 @@
 </template>
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
+import { getHeader } from "./functions";
 
 const emit = defineEmits<{
   (e: "add", type: string): void;

@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div>
+  <div class="start-page-hero-editor">
+    <div class="start-page-hero-editor__content">
       <div class="row">
         <div class="col-sm-12">
           <div class="form-group">
@@ -118,6 +118,10 @@ const emit = defineEmits<{
 }>();
 </script>
 <style lang="scss" scoped>
+.start-page-hero-editor__content {
+  padding: 15px;
+}
+
 .form-group {
   margin-bottom: 15px;
 
