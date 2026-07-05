@@ -39,18 +39,18 @@
       </VueDraggable>
     </ul>
     <image-picker-modal
-      v-if="saveImageDest"
-      :show-modal="!!saveImageDest"
-      :destination="saveImageDest"
+      v-if="imageInsert"
+      :show-modal="!!imageInsert"
+      :insert-callback="imageInsert"
       :notransition="true"
-      @close="saveImageDest = null"
+      @close="imageInsert = null"
     ></image-picker-modal>
     <document-picker-modal
-      v-if="saveDocumentDest"
-      :show-modal="!!saveDocumentDest"
-      :destination="saveDocumentDest"
+      v-if="fileInsert"
+      :show-modal="!!fileInsert"
+      :insert-callback="fileInsert"
       :notransition="true"
-      @close="saveDocumentDest = null"
+      @close="fileInsert = null"
     >
     </document-picker-modal>
   </div>
@@ -73,19 +73,19 @@ import {
 } from "./models";
 
 const pageModel = ref<PageEditModel | null>(null);
-const saveImageDest = ref<HTMLInputElement | null>(null);
-const saveDocumentDest = ref<HTMLInputElement | null>(null);
+const imageInsert = ref<((url: string) => void) | null>(null);
+const fileInsert = ref<((url: string) => void) | null>(null);
 const drag = ref(false);
 const selectedRevision = ref<PageRevisionEditModel | null>(null);
 const usedModel = ref<PageEditModel | PageRevisionEditModel | null>(null);
 
 onMounted(() => {
-  EventBus.on("loadimage", (field: any) => {
-    selectImage(field);
+  EventBus.on("loadimage", (callback: (url: string) => void) => {
+    selectImage(callback);
   });
 
-  EventBus.on("loadfile", (field: any) => {
-    selectfile(field);
+  EventBus.on("loadfile", (callback: (url: string) => void) => {
+    selectfile(callback);
   });
 
   getFromApi<PageEditModel>(window.location.href + "/Model").then((res) => {
@@ -158,12 +158,12 @@ const removeWidget = (widget: WidgetEditModel) => {
   );
 };
 
-const selectImage = (destination: HTMLInputElement | null) => {
-  saveImageDest.value = destination;
+const selectImage = (callback: (url: string) => void) => {
+  imageInsert.value = callback;
 };
 
-const selectfile = (destination: HTMLInputElement | null) => {
-  saveDocumentDest.value = destination;
+const selectfile = (callback: (url: string) => void) => {
+  fileInsert.value = callback;
 };
 
 const save = () => {

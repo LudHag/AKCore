@@ -7,18 +7,63 @@
       disabled
     ></textarea>
 
-    <editor
-      v-if="!disabled"
-      api-key="no-api-key"
-      :initial-value="modelValue || ''"
-      :init="getConfig()"
-    ></editor>
+    <div
+      v-else
+      class="text-edit"
+      :class="{ 'text-edit--fullscreen': isFullscreen }"
+      @keydown.esc="isFullscreen = false"
+      tabindex="-1"
+    >
+      <text-edit-toolbar
+        :editor="editor"
+        :show-code-view="showCodeView"
+        :is-fullscreen="isFullscreen"
+        @toggle-code-view="toggleCodeView"
+        @toggle-fullscreen="isFullscreen = !isFullscreen"
+      />
+
+      <div v-if="showCodeView" class="text-edit__code-bar">
+        <span class="text-edit__code-label">HTML-läge</span>
+        <button
+          type="button"
+          class="btn btn-xs btn-primary"
+          @click="applyCodeHtml"
+        >
+          Tillämpa
+        </button>
+        <button
+          type="button"
+          class="btn btn-xs btn-default"
+          @click="cancelCodeView"
+        >
+          Avbryt
+        </button>
+      </div>
+
+      <div v-if="!showCodeView" class="text-edit__content body-content">
+        <EditorContent :editor="editor" />
+      </div>
+
+      <textarea v-else class="text-edit__code" v-model="codeHtml"></textarea>
+    </div>
   </div>
 </template>
+
 <script setup lang="ts">
+import Link from "@tiptap/extension-link";
+import { Table } from "@tiptap/extension-table";
+import TableCell from "@tiptap/extension-table-cell";
+import TableHeader from "@tiptap/extension-table-header";
+import TableRow from "@tiptap/extension-table-row";
+import TextAlign from "@tiptap/extension-text-align";
+import Underline from "@tiptap/extension-underline";
+import StarterKit from "@tiptap/starter-kit";
+import { EditorContent, useEditor } from "@tiptap/vue-3";
 import { EventBus } from "@utils/eventbus";
-import Editor from "@tinymce/tinymce-vue";
 import { onMounted, ref, watch } from "vue";
+import { ResizableImage } from "./resizableImageExtension";
+import { CustomClass } from "./textEditExtensions";
+import TextEditToolbar from "./TextEditToolbar.vue";
 
 const emit = defineEmits<{
   (e: "update:modelValue", value: string): void;
@@ -30,7 +75,39 @@ const props = defineProps<{
 }>();
 
 const disabled = ref(false);
-const editorRef = ref(null);
+const showCodeView = ref(false);
+const isFullscreen = ref(false);
+const codeHtml = ref("");
+const previousHtml = ref("");
+
+const editor = useEditor({
+  content: props.modelValue || "",
+  editable: true,
+  extensions: [
+    StarterKit.configure({
+      heading: { levels: [1, 2] },
+    }),
+    Underline,
+    TextAlign.configure({
+      types: ["heading", "paragraph"],
+    }),
+    Link.configure({
+      openOnClick: false,
+      autolink: false,
+    }),
+    ResizableImage,
+    Table.configure({
+      resizable: false,
+    }),
+    TableRow,
+    TableHeader,
+    TableCell,
+    CustomClass,
+  ],
+  onUpdate: ({ editor: currentEditor }) => {
+    emit("update:modelValue", currentEditor.getHTML());
+  },
+});
 
 onMounted(() => {
   EventBus.on("widgetDrag", (value: boolean) => {
@@ -41,73 +118,142 @@ onMounted(() => {
 watch(
   () => props.modelValue,
   (value) => {
-    if (editorRef.value) {
-      // @ts-expect-error - editorRef.value is not typed
-      if (value !== editorRef.value.getContent()) {
-        // @ts-expect-error - editorRef.value is not typed
-        editorRef.value.setContent(value || "");
-      }
+    if (!editor.value || showCodeView.value) {
+      return;
+    }
+    const current = editor.value.getHTML();
+    if (value !== current) {
+      editor.value.commands.setContent(value || "", { emitUpdate: false });
     }
   },
 );
 
-declare const cssMain: string;
+watch(disabled, (value) => {
+  editor.value?.setEditable(!value);
+});
 
-const getConfig = () => {
-  return {
-    selector: ".widget-area .mce-content",
-    theme: "modern",
-    plugins: [
-      "advlist link image imagetools lists charmap print hr anchor spellchecker searchreplace wordcount code fullscreen media nonbreaking",
-      "table contextmenu directionality emoticons template textcolor paste textcolor colorpicker textpattern",
-    ],
-    height: 200,
-    table_appearance_options: false,
-    menubar: false,
-    elementpath: true,
-    convert_urls: false,
-    toolbar1:
-      "bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | styleselect code fullscreen",
-    toolbar2:
-      "searchreplace bullist | undo redo | link unlink image | hr removeformat | charmap table",
-    style_formats: [
-      { title: "Vanlig text", block: "p" },
-      { title: "Stor text", block: "p", classes: "big" },
-      { title: "Rubrik 1", block: "h1" },
-      { title: "Rubrik 2", block: "h2" },
-      { title: "Infobox", selector: "p", classes: "infobox" },
-      { title: "2-delskolumn", block: "p", classes: "col-sm-6" },
-      { title: "3-delskolumn", block: "p", classes: "col-sm-4" },
-      { title: "Block med marginal", block: "p", classes: "col-xs-12" },
-    ],
-    content_css: "/dist/" + cssMain,
-    body_class: "body-content",
-    setup: function (ed: any) {
-      editorRef.value = ed;
-      ed.on("change", function () {
-        const elcontent = ed.getContent();
-        emit("update:modelValue", elcontent);
-      });
-    },
-    file_browser_callback: function (
-      field_name: string,
-      _url: any,
-      type: any,
-      _win: any,
-    ) {
-      if (type === "image") {
-        EventBus.trigger("loadimage", document.getElementById(field_name));
-      }
-      if (type === "file") {
-        EventBus.trigger("loadfile", document.getElementById(field_name));
-      }
-    },
-  };
+const toggleCodeView = () => {
+  if (!editor.value) {
+    return;
+  }
+
+  if (!showCodeView.value) {
+    previousHtml.value = editor.value.getHTML();
+    codeHtml.value = previousHtml.value;
+    showCodeView.value = true;
+    return;
+  }
+
+  applyCodeHtml();
+};
+
+const applyCodeHtml = () => {
+  if (!editor.value) {
+    return;
+  }
+
+  editor.value.commands.setContent(codeHtml.value, { emitUpdate: true });
+  showCodeView.value = false;
+};
+
+const cancelCodeView = () => {
+  codeHtml.value = "";
+  showCodeView.value = false;
 };
 </script>
+
 <style lang="scss" scoped>
 .placeholder {
   width: 100%;
   height: 288px;
+}
+
+.text-edit {
+  border: 1px solid #ccc;
+  background: #fff;
+
+  &--fullscreen {
+    position: fixed;
+    inset: 0;
+    z-index: 1050;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.text-edit__code-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  background: #fff8e1;
+  border-bottom: 1px solid #ffe082;
+  font-size: 12px;
+}
+
+.text-edit__code-label {
+  flex: 1;
+  color: #666;
+  font-style: italic;
+}
+
+.text-edit--fullscreen .text-edit__content {
+  max-height: none;
+}
+
+.text-edit__content {
+  min-height: 200px;
+  max-height: 250px;
+  overflow-y: auto;
+  padding: 8px 12px;
+
+  :deep(.ProseMirror) {
+    min-height: 180px;
+    outline: none;
+
+    p {
+      margin: 0 0 0.5em;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+
+      td,
+      th {
+        border: 1px solid #ccc;
+        padding: 4px 8px;
+      }
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+  }
+}
+
+.text-edit--fullscreen .text-edit__content {
+  flex: 1;
+  overflow: auto;
+
+  :deep(.ProseMirror) {
+    min-height: 100%;
+  }
+}
+
+.text-edit__code {
+  width: 100%;
+  min-height: 200px;
+  padding: 8px 12px;
+  border: 0;
+  font-family: monospace;
+  font-size: 13px;
+  resize: vertical;
+}
+
+.text-edit--fullscreen .text-edit__code {
+  flex: 1;
+  min-height: 0;
 }
 </style>

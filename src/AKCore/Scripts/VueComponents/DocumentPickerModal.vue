@@ -50,6 +50,7 @@ const props = defineProps<{
   showModal: boolean;
   notransition?: boolean;
   destination?: HTMLInputElement | null;
+  insertCallback?: ((url: string) => void) | null;
 }>();
 
 const documents = ref<Document[]>([]);
@@ -64,8 +65,12 @@ const loadDocuments = async () => {
 };
 
 const selectDocument = (document: Document) => {
-  if (props.destination) {
-    props.destination.value = "/media/" + document.name;
+  const url = "/media/" + document.name;
+  if (props.insertCallback) {
+    props.insertCallback(url);
+    emit("close");
+  } else if (props.destination) {
+    props.destination.value = url;
     emit("close");
   } else {
     emit("document", document);
