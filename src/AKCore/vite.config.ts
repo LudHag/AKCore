@@ -27,9 +27,6 @@ export default defineConfig({
     projects: [
       {
         extends: true,
-        server: {
-          hmr: false,
-        },
         test: {
           name: "component-tests",
           include: ["test/components/**/*.test.ts"],
@@ -47,7 +44,7 @@ export default defineConfig({
   },
   server: {
     port: 5173,
-    hmr: { clientPort: 5173 },
+    hmr: process.env.VITEST ? true : { clientPort: 5173 },
   },
   resolve: {
     alias: {
