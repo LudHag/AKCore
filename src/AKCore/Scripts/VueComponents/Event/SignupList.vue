@@ -7,14 +7,23 @@
       </p>
       <h2>{{ t("coming", "common") }}</h2>
 
-      <div v-for="(instrumentSignupList, instrument) in comingGrouped" :key="instrument">
-         <h3>{{ t(instrument, "instruments") }}: {{ instrumentSignupList.length }}</h3>
-        <div class="row signup-row" :key="signup.id" v-for="signup in instrumentSignupList">
+      <div
+        v-for="(instrumentSignupList, instrument) in comingGrouped"
+        :key="instrument"
+      >
+        <h3>
+          {{ t(instrument, "instruments") }}: {{ instrumentSignupList.length }}
+        </h3>
+        <div
+          class="row signup-row"
+          :key="signup.id"
+          v-for="signup in instrumentSignupList"
+        >
           <div class="col-sm-2 signup-element">
             <p>{{ cleanName(signup.personName) }}</p>
           </div>
           <div class="col-sm-2 signup-element">
-            <p>{{ t(signup.instrumentName, "instruments")}}</p>
+            <p>{{ t(signup.instrumentName, "instruments") }}</p>
           </div>
           <div class="col-sm-2 signup-element">
             <p>{{ getInfo(signup) }}</p>
