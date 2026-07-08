@@ -11,6 +11,9 @@ export default defineConfig({
     projects: [
       {
         extends: true,
+        server: {
+          hmr: false,
+        },
         test: {
           name: "component-tests",
           include: ["test/components/**/*.test.ts"],
