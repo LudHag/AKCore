@@ -1,25 +1,9 @@
 import { defineConfig } from "vitest/config";
 import { resolve } from "path";
-import { appendFileSync } from "fs";
 import vue from "@vitejs/plugin-vue";
 import { playwright } from "@vitest/browser-playwright";
 import { visualizer } from "rollup-plugin-visualizer";
 import { entrypoints, manifestTransform } from "./vite.utils";
-
-// #region agent log
-const _dbgLog = (msg: object) => {
-  const line = JSON.stringify({sessionId:'fc1cd3',...msg,timestamp:Date.now()});
-  try { appendFileSync('debug-fc1cd3.log', line + '\n'); } catch (_e) { void _e; }
-  process.stderr.write('[debug-fc1cd3] ' + line + '\n');
-};
-_dbgLog({location:'vite.config.ts:1',message:'config module loaded',hypothesisId:'H1',data:{VITEST:process.env.VITEST,CI:process.env.CI}});
-const _dbgPlugin = () => ({
-  name: 'debug-hmr-check',
-  configResolved(cfg: {server?:{hmr?:unknown}}) {
-    _dbgLog({location:'vite.config.ts:configResolved',message:'resolved server.hmr',hypothesisId:'H1',data:{serverHmr:cfg.server?.hmr,isVitest:!!process.env.VITEST}});
-  },
-});
-// #endregion agent log
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -59,9 +43,6 @@ export default defineConfig({
   plugins: [
     vue(),
     manifestTransform(),
-    // #region agent log
-    _dbgPlugin(),
-    // #endregion agent log
     ...(process.env.ANALYZE
       ? [
           visualizer({
