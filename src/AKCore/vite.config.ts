@@ -5,7 +5,6 @@ import { playwright } from "@vitest/browser-playwright";
 import { visualizer } from "rollup-plugin-visualizer";
 import { entrypoints, manifestTransform } from "./vite.utils";
 
-// https://vitejs.dev/config/
 export default defineConfig({
   test: {
     projects: [
