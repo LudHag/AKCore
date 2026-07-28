@@ -200,7 +200,6 @@
                 >
                   <VueSelect
                     multiple
-                    :searchable="false"
                     placeholder="Välj post(er)"
                     v-model="selectedPosts"
                     :options="postOptions"

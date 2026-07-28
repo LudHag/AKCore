@@ -75,7 +75,6 @@
                 <label>Andra instrument</label>
                 <VueSelect
                   multiple
-                  :searchable="true"
                   name="OtherInstruments"
                   placeholder="Välj andra instrument"
                   :options="othInstruments"
@@ -113,7 +112,6 @@
                 <label>Roller</label>
                 <VueSelect
                   multiple
-                  :searchable="false"
                   name="Roles"
                   :options="roleOptions"
                   v-model="editedUser.roles"

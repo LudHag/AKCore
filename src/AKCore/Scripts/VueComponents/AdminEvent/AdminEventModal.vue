@@ -147,7 +147,6 @@
                   <label>Fika</label>
                   <VueSelect
                     multiple
-                    :searchable="true"
                     name="Fika"
                     :options="fikaOptions"
                     placeholder="Välj sektion"
