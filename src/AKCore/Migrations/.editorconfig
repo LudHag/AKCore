@@ -1,3 +1,2 @@
-# Suppress known noise in EF migration sources
-dotnet_diagnostic.CS8981.severity = none
-dotnet_diagnostic.CS0618.severity = none
+[*.cs]
+dotnet_diagnostic.CS8981.severity = error
