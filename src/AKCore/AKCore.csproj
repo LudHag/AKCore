@@ -8,7 +8,7 @@
     <PackageId>AKCore</PackageId>
     <TypeScriptCompileBlocked>True</TypeScriptCompileBlocked>
     <CompressionEnabled>false</CompressionEnabled>
-    <!-- Applied EF migrations are named in lower case; renaming them is riskier than the warning is worth. -->
+    <!-- Removing warnings for lowerclass class names. -->
     <NoWarn>$(NoWarn);CS8981</NoWarn>
   </PropertyGroup>
 
