@@ -8,6 +8,8 @@
     <PackageId>AKCore</PackageId>
     <TypeScriptCompileBlocked>True</TypeScriptCompileBlocked>
     <CompressionEnabled>false</CompressionEnabled>
+    <!-- Removing warnings for lowerclass class names. -->
+    <NoWarn>$(NoWarn);CS8981</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

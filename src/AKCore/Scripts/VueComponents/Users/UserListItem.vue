@@ -199,8 +199,7 @@
                   @submit.prevent="addPost"
                 >
                   <VueSelect
-                    is-multi
-                    :searchable="false"
+                    multiple
                     placeholder="Välj post(er)"
                     v-model="selectedPosts"
                     :options="postOptions"
@@ -228,7 +227,10 @@
 </template>
 <script setup lang="ts">
 import { MEDALS, POSTS, ROLES } from "../../constants";
-import VueSelect, { Option } from "vue3-select-component";
+import {
+  Select as VueSelect,
+  type SelectOptionData,
+} from "vue3-select-component";
 import { defaultFormSend, postByObject, postToApi } from "@services/apiservice";
 import { UpdateInfo, User } from "./models";
 import { computed, ref, watch } from "vue";
@@ -257,7 +259,7 @@ date.setFullYear(date.getFullYear() - 1);
 userInactive.value = Date.parse(props.user.lastSignedIn) - date.valueOf() < 0;
 
 const postOptions = POSTS.filter(Boolean).map((post) => {
-  return { value: post, label: post } as Option<string>;
+  return { value: post, label: post } as SelectOptionData<string>;
 });
 
 watch(
@@ -448,8 +450,8 @@ const roles = computed(() => {
     border-color: variables.$akwhite transparent transparent transparent;
   }
 }
-.edit-group :deep(.vue-select) {
-  color: black;
+.edit-group :deep([data-assembled-select]) {
+  --vs-text-color: black;
   margin-bottom: 10px;
 }
 </style>

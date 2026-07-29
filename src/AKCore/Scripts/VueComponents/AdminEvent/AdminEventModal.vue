@@ -146,8 +146,7 @@
                 <div class="col-sm-6" v-if="repFika && eventType !== 'Fikarep'">
                   <label>Fika</label>
                   <VueSelect
-                    is-multi
-                    :searchable="false"
+                    multiple
                     name="Fika"
                     :options="fikaOptions"
                     placeholder="Välj sektion"
@@ -250,7 +249,10 @@ import Modal from "../Modal.vue";
 import Spinner from "../Spinner.vue";
 import { UpcomingEvent } from "../Upcoming/models";
 import { computed, onMounted, ref, watch } from "vue";
-import VueSelect, { Option } from "vue3-select-component";
+import {
+  Select as VueSelect,
+  type SelectOptionData,
+} from "vue3-select-component";
 
 const emit = defineEmits<{
   (e: "close"): void;
@@ -274,7 +276,7 @@ const close = () => {
 };
 
 const fikaOptions = SEKTIONER.map((section) => {
-  return { value: section, label: section } as Option<string>;
+  return { value: section, label: section } as SelectOptionData<string>;
 });
 
 const translateDescs = () => {
