@@ -65,7 +65,7 @@ export interface UpcomingSignup {
   where: UpcomingWhere;
   car: boolean;
   instrument: boolean;
-  instrumentName: string;
+  instrumentName: string | null;
   otherInstruments: string;
   comment: string;
   signupTime: string;

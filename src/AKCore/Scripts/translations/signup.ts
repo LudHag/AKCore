@@ -41,4 +41,8 @@ export const signupTranslations: Record<string, Translation> = {
     swedish: "Instrument",
     english: "Instrument",
   },
+  "no-instrument": {
+    swedish: "Inget instrument",
+    english: "No instrument",
+  },
 };

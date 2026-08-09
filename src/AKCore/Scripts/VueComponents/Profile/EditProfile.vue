@@ -78,6 +78,7 @@
       <div class="form-group">
         <label>{{ t("other-instruments") }}</label>
         <VueSelect
+          class="select-popup"
           multiple
           :placeholder="t('select-instrument')"
           :searchable="true"
