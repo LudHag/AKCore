@@ -146,6 +146,7 @@
                 <div class="col-sm-6" v-if="repFika && eventType !== 'Fikarep'">
                   <label>Fika</label>
                   <VueSelect
+                    :teleport="false"
                     multiple
                     name="Fika"
                     :options="fikaOptions"

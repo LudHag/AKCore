@@ -74,6 +74,7 @@
               <div class="form-group">
                 <label>Andra instrument</label>
                 <VueSelect
+                  :teleport="false"
                   multiple
                   name="OtherInstruments"
                   placeholder="Välj andra instrument"
@@ -111,6 +112,7 @@
               <div class="form-group" v-if="!user">
                 <label>Roller</label>
                 <VueSelect
+                  :teleport="false"
                   multiple
                   name="Roles"
                   :options="roleOptions"
@@ -120,6 +122,7 @@
               <div class="form-group">
                 <label>Poster</label>
                 <VueSelect
+                  :teleport="false"
                   multiple
                   name="Poster"
                   placeholder="Välj poster"

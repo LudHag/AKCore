@@ -1,11 +1,14 @@
 import type {
   UpcomingEvent,
   UpcomingEventInfo,
+  UpcomingSignup,
 } from "@components/Upcoming/models";
 
 export const mockEventDetailName = "Component Test Event Detail";
 
 export const mockEventDetailId = 5151;
+
+export const mockSignupPersonName = "Test Signup Person";
 
 function createMockEvent(id: number): UpcomingEvent {
   return {
@@ -33,6 +36,25 @@ function createMockEvent(id: number): UpcomingEvent {
     coming: 0,
     notComing: 0,
     disabled: false,
+  };
+}
+
+export function createMockSignup(
+  overrides: Partial<UpcomingSignup> = {},
+): UpcomingSignup {
+  return {
+    id: 1,
+    person: "test-person",
+    personId: "test-person-id",
+    personName: mockSignupPersonName,
+    where: "Hålan",
+    car: false,
+    instrument: true,
+    instrumentName: "Flöjt",
+    otherInstruments: "",
+    comment: "",
+    signupTime: "2026-05-01T12:00:00",
+    ...overrides,
   };
 }
 

@@ -12,7 +12,7 @@
         :key="instrument"
       >
         <h3>
-          {{ t(instrument, "instruments") }}: {{ instrumentSignupList.length }}
+          {{ instrumentLabel(instrument) }}: {{ instrumentSignupList.length }}
         </h3>
         <div
           class="row signup-row"
@@ -23,7 +23,7 @@
             <p>{{ cleanName(signup.personName) }}</p>
           </div>
           <div class="col-sm-2 signup-element">
-            <p>{{ t(signup.instrumentName, "instruments") }}</p>
+            <p>{{ instrumentLabel(signup.instrumentName) }}</p>
           </div>
           <div class="col-sm-2 signup-element">
             <p>{{ getInfo(signup) }}</p>
@@ -49,7 +49,7 @@
           <p>{{ cleanName(signup.personName) }}</p>
         </div>
         <div class="col-sm-3 signup-element">
-          <p>{{ t(signup.instrumentName, "instruments") }}</p>
+          <p>{{ instrumentLabel(signup.instrumentName) }}</p>
         </div>
         <div class="col-sm-3 signup-element" v-if="nintendo">
           <p>{{ signup.comment }}</p>
@@ -98,7 +98,7 @@ const notComing = computed(() => {
 const comingGrouped = computed(() =>
   coming.value.reduce(
     (groups, signup) => {
-      const key = signup.instrumentName;
+      const key = signup.instrumentName ?? "";
       if (!groups[key]) groups[key] = [];
       groups[key].push(signup);
       return groups;
@@ -116,6 +116,12 @@ const getInfo = (signup: UpcomingSignup) => {
     info += ", " + t("has-car").toLowerCase();
   }
   return info;
+};
+
+const instrumentLabel = (instrumentName: string | null) => {
+  return instrumentName
+    ? t(instrumentName, "instruments")
+    : t("no-instrument");
 };
 
 const cleanName = (name: string) => {
