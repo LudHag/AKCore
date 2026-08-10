@@ -50,13 +50,11 @@
 </template>
 
 <script setup lang="ts">
-import Link from "@tiptap/extension-link";
 import { Table } from "@tiptap/extension-table";
 import TableCell from "@tiptap/extension-table-cell";
 import TableHeader from "@tiptap/extension-table-header";
 import TableRow from "@tiptap/extension-table-row";
 import TextAlign from "@tiptap/extension-text-align";
-import Underline from "@tiptap/extension-underline";
 import StarterKit from "@tiptap/starter-kit";
 import { EditorContent, useEditor } from "@tiptap/vue-3";
 import { EventBus } from "@utils/eventbus";
@@ -86,14 +84,13 @@ const editor = useEditor({
   extensions: [
     StarterKit.configure({
       heading: { levels: [1, 2] },
+      link: {
+        openOnClick: false,
+        autolink: false,
+      },
     }),
-    Underline,
     TextAlign.configure({
       types: ["heading", "paragraph"],
-    }),
-    Link.configure({
-      openOnClick: false,
-      autolink: false,
     }),
     ResizableImage,
     Table.configure({

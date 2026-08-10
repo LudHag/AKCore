@@ -1,31 +1,20 @@
-export const getHeader = (type: string): string => {
-  switch (type) {
-    case "Text":
-      return "Text-widget";
-    case "Image":
-      return "Bild-widget";
-    case "Video":
-      return "Video-widget";
-    case "Music":
-      return "Musik-widget";
-    case "Join":
-      return "Gå med-widget";
-    case "Hire":
-      return "Anlita oss-widget";
-    case "MemberList":
-      return "Adressregister-widget";
-    case "PostList":
-      return "Kamererspostlista-widget";
-    case "HeaderText":
-      return "Headertext-widget";
-    case "ThreePuffs":
-      return "Tre puffar-widget";
-    case "MailBox":
-      return "Anonym brevlåda-widget";
-    case "CountDown":
-      return "Nedräknare-widget";
-    case "VideosHeader":
-      return "Video rubrik med sök-widget";
-  }
-  return "Text-bild-widget";
+import { WidgetType } from "./models";
+
+const widgetHeaders: Record<WidgetType, string> = {
+  Text: "Text-widget",
+  TextImage: "Text-bild-widget",
+  Image: "Bild-widget",
+  Video: "Video-widget",
+  Music: "Musik-widget",
+  Join: "Gå med-widget",
+  Hire: "Anlita oss-widget",
+  MemberList: "Adressregister-widget",
+  PostList: "Kamererspostlista-widget",
+  HeaderText: "Headertext-widget",
+  ThreePuffs: "Tre puffar-widget",
+  MailBox: "Anonym brevlåda-widget",
+  CountDown: "Nedräknare-widget",
+  VideosHeader: "Video rubrik med sök-widget",
 };
+
+export const getHeader = (type: WidgetType): string => widgetHeaders[type];

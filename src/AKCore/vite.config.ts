@@ -11,6 +11,14 @@ export default defineConfig({
       {
         extends: true,
         test: {
+          name: "unit-tests",
+          include: ["test/unit/**/*.test.ts"],
+          environment: "node",
+        },
+      },
+      {
+        extends: true,
+        test: {
           name: "component-tests",
           include: ["test/components/**/*.test.ts"],
           setupFiles: ["vitest-browser-vue"],
