@@ -117,7 +117,7 @@
 </template>
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
-import { WidgetType } from "./models";
+import type { WidgetType } from "./models";
 
 const emit = defineEmits<{
   (e: "add", type: WidgetType): void;
