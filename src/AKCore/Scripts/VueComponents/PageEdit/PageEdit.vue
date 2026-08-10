@@ -70,6 +70,7 @@ import {
   PageEditModel,
   PageRevisionEditModel,
   WidgetEditModel,
+  WidgetType,
 } from "./models";
 
 const pageModel = ref<PageEditModel | null>(null);
@@ -138,7 +139,7 @@ const selectRevision = (revision: PageRevisionEditModel | null) => {
   selectedRevision.value = revision;
 };
 
-const widgetAdd = (type: string) => {
+const widgetAdd = (type: WidgetType) => {
   let newId = pageModel.value!.widgets.length;
   while (pageModel.value!.widgets.some((x) => x.id === newId)) {
     newId++;
@@ -146,7 +147,7 @@ const widgetAdd = (type: string) => {
 
   pageModel.value!.widgets.push({
     id: newId,
-    type: type,
+    type,
     albums: [],
     text: "",
   });
