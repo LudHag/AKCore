@@ -112,7 +112,7 @@
 import { onUpdated, ref } from "vue";
 import { AlbumEditModel } from "../AlbumEdit/models";
 import { getHeader } from "./functions";
-import { WidgetEditModel } from "./models";
+import { WidgetEditModel, WidgetType } from "./models";
 import {
   TextImage,
   ThreePuffs,
@@ -144,7 +144,7 @@ defineProps<{
 const minimized = ref(false);
 const translate = ref(false);
 
-const macrosWithNoTranslate = ["Video"];
+const macrosWithNoTranslate: WidgetType[] = ["Video"];
 
 onUpdated(() => {
   emit("updated");

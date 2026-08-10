@@ -117,15 +117,16 @@
 </template>
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
+import { WidgetType } from "./models";
 
 const emit = defineEmits<{
-  (e: "add", type: string): void;
+  (e: "add", type: WidgetType): void;
 }>();
 
 const widgetExanded = ref(false);
 const specialWidgetExpanded = ref(false);
 
-const click = (type: string) => {
+const click = (type: WidgetType) => {
   emit("add", type);
   specialWidgetExpanded.value = false;
   widgetExanded.value = false;
