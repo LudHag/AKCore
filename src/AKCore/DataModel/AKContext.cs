@@ -50,6 +50,7 @@ public class AKContext : IdentityDbContext<AkUser>
     public DbSet<LogItem> Log { get; set; }
     public DbSet<MailBoxItem> MailBoxItems { get; set; }
     public DbSet<RequestsData> RequestsDatas { get; set; }
+    public DbSet<UsageData> UsageDatas { get; set; }
     public DatabaseFacade DatabaseAccessor => Database;
     
 }
@@ -326,5 +327,14 @@ public class RequestsData
     public int Desktop { get; set; }
     public int Mobile { get; set; }
     public bool LoggedIn { get; set; }
+    public DateTime Created { get; set; }
+}
+
+public class UsageData
+{
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int Id { get; set; }
+    public string Type { get; set; }
     public DateTime Created { get; set; }
 }
