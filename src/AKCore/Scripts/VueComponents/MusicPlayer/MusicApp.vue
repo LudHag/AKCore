@@ -48,6 +48,10 @@ import Spinner from "../Spinner.vue";
 import { Album, Track } from "./models";
 import { ref, onMounted } from "vue";
 import { getFromApi } from "@services/apiservice";
+import {
+  FeatureUsageTypes,
+  trackFeatureUsage,
+} from "@services/usage";
 import { TranslationDomain, translate } from "@scripts/translations";
 
 const albums = ref<Album[]>([]);
@@ -107,6 +111,7 @@ const showDesc = async () => {
   }
   showingDesc.value = !showingDesc.value;
   if (showingDesc.value && !aiDesc.value) {
+    trackFeatureUsage(FeatureUsageTypes.AlbumAIGeneration);
     try {
       aiDesc.value = (
         await getFromApi<{ albumInfo: string }>(

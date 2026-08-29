@@ -49,7 +49,7 @@ public class UsageCollector
 
     private async Task SetupInterval()
     {
-        var intervalPeriod = TimeSpan.FromHours(1);
+        var intervalPeriod = TimeSpan.FromMinutes(2);
 
         while (true)
         {
