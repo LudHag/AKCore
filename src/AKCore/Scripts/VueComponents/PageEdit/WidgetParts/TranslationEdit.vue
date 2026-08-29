@@ -27,6 +27,7 @@
 </template>
 <script setup lang="ts">
 import { postToApi } from "@services/apiservice";
+import { FeatureUsageTypes, recordFeatureUsage } from "@services/usage";
 import { WidgetEditModel } from "../models";
 import TextEdit from "./TextEdit.vue";
 import Spinner from "../../Spinner.vue";
@@ -39,6 +40,7 @@ const props = defineProps<{
 const fetchingData = ref(false);
 
 const translateText = () => {
+  recordFeatureUsage(FeatureUsageTypes.PageTranslation);
   fetchingData.value = true;
   postToApi(
     "/ExtraInfo/TranslateHtml",

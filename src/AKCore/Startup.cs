@@ -85,6 +85,8 @@ public class Startup
         services.AddTransient<MenuService>();
         services.AddScoped<TranslationsService>();
         services.AddScoped<MetricsService>();
+        services.AddScoped<UsageService>();
+        services.AddSingleton<UsageCollector>();
 
         var apiSecret = Configuration["OpenApiSecret"];
         services.AddTransient(x => new OpenApiClient(apiSecret ?? ""));
@@ -112,6 +114,9 @@ public class Startup
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
+        // Start hourly usage flush loop
+        app.ApplicationServices.GetRequiredService<UsageCollector>();
+
         app.UseStaticFiles();
         if (env.IsDevelopment())
         {
