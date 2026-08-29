@@ -93,4 +93,43 @@ public class UsageControllerTests
         var eventRow = Assert.Single(rows, r => r.Type == AkFeatureUsageTypes.EventTranslation);
         Assert.Equal(1, eventRow.Amount);
     }
+
+    [Fact]
+    public async Task ClearOldMetrics_RemovesRecordsOlderThan60Days()
+    {
+        await using var factory = new CustomWebApplicationFactory();
+        await factory.SeedMemberAsync();
+
+        using (var scope = factory.Services.CreateScope())
+        {
+            var db = scope.ServiceProvider.GetRequiredService<AKContext>();
+            db.UsageDatas.AddRange(
+                new UsageData
+                {
+                    Type = AkFeatureUsageTypes.FlojtEvent,
+                    Amount = 1,
+                    Created = DateTime.UtcNow.AddDays(-61)
+                },
+                new UsageData
+                {
+                    Type = AkFeatureUsageTypes.PageTranslation,
+                    Amount = 2,
+                    Created = DateTime.UtcNow.AddDays(-1)
+                });
+            await db.SaveChangesAsync();
+        }
+
+        var collector = factory.Services.GetRequiredService<UsageCollector>();
+        await collector.ClearOldMetricsAsync();
+
+        using (var scope = factory.Services.CreateScope())
+        {
+            var db = scope.ServiceProvider.GetRequiredService<AKContext>();
+            var rows = await db.UsageDatas.ToListAsync();
+
+            var remaining = Assert.Single(rows);
+            Assert.Equal(AkFeatureUsageTypes.PageTranslation, remaining.Type);
+            Assert.Equal(2, remaining.Amount);
+        }
+    }
 }

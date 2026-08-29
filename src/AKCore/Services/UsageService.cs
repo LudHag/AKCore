@@ -28,4 +28,14 @@ public class UsageService(AKContext db)
 
         await db.SaveChangesAsync();
     }
+
+    public async Task ClearOldMetrics()
+    {
+        var cutoffTime = DateTime.UtcNow.AddDays(-60);
+        db.UsageDatas.RemoveRange(
+            db.UsageDatas
+            .Where(r => r.Created < cutoffTime)
+        );
+        await db.SaveChangesAsync();
+    }
 }

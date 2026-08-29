@@ -47,6 +47,13 @@ public class UsageCollector
         await usageService.SaveUsage(countsToSave, nowTime);
     }
 
+    public async Task ClearOldMetricsAsync()
+    {
+        using var scope = serviceScopeFactory.CreateScope();
+        var usageService = scope.ServiceProvider.GetRequiredService<UsageService>();
+        await usageService.ClearOldMetrics();
+    }
+
     private async Task SetupInterval()
     {
         var intervalPeriod = TimeSpan.FromHours(1);
@@ -56,6 +63,7 @@ public class UsageCollector
             try
             {
                 await FlushAsync();
+                await ClearOldMetricsAsync();
             }
             catch
             {
