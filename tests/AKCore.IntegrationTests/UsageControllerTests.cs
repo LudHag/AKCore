@@ -10,77 +10,73 @@ namespace AKCore.IntegrationTests;
 public class UsageControllerTests
 {
     [Fact]
-    public async Task Track_RequiresAuthentication()
+    public async Task Record_AllowsAnonymous()
     {
         await using var factory = new CustomWebApplicationFactory();
         var client = TestClients.CreateAnonymousClient(factory);
 
         var response = await client.PostAsync(
-            $"/Usage/Track?type={AkFeatureUsageTypes.AlbumAIGeneration}",
+            $"/Usage/Record?type={AkFeatureUsageTypes.FlojtEvent}",
             null);
 
-        Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
     }
 
     [Fact]
-    public async Task Track_RejectsMissingType()
+    public async Task Record_RejectsMissingType()
     {
         await using var factory = new CustomWebApplicationFactory();
         await factory.SeedMemberAsync();
 
         var client = TestClients.CreateMemberClient(factory);
-        var response = await client.PostAsync("/Usage/Track", null);
+        var response = await client.PostAsync("/Usage/Record", null);
 
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
     }
 
     [Fact]
-    public async Task Track_RejectsInvalidType()
+    public async Task Record_RejectsInvalidType()
     {
         await using var factory = new CustomWebApplicationFactory();
         await factory.SeedMemberAsync();
 
         var client = TestClients.CreateMemberClient(factory);
-        var response = await client.PostAsync("/Usage/Track?type=UnknownFeature", null);
+        var response = await client.PostAsync("/Usage/Record?type=UnknownFeature", null);
 
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
     }
 
-    [Fact]
-    public async Task Track_AcceptsValidTypes()
+    [Theory]
+    [InlineData(AkFeatureUsageTypes.AlbumAIGeneration)]
+    [InlineData(AkFeatureUsageTypes.EventTranslation)]
+    [InlineData(AkFeatureUsageTypes.PageTranslation)]
+    [InlineData(AkFeatureUsageTypes.FlojtEvent)]
+    public async Task Record_AcceptsValidTypes(string type)
     {
         await using var factory = new CustomWebApplicationFactory();
         await factory.SeedMemberAsync();
 
         var client = TestClients.CreateMemberClient(factory);
 
-        var albumResponse = await client.PostAsync(
-            $"/Usage/Track?type={AkFeatureUsageTypes.AlbumAIGeneration}",
-            null);
-        var eventResponse = await client.PostAsync(
-            $"/Usage/Track?type={AkFeatureUsageTypes.EventTranslation}",
-            null);
+        var response = await client.PostAsync($"/Usage/Record?type={type}", null);
 
-        Assert.Equal(HttpStatusCode.OK, albumResponse.StatusCode);
-        Assert.Equal(HttpStatusCode.OK, eventResponse.StatusCode);
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
-        using var albumJson = JsonDocument.Parse(await albumResponse.Content.ReadAsStringAsync());
-        using var eventJson = JsonDocument.Parse(await eventResponse.Content.ReadAsStringAsync());
-        Assert.True(albumJson.RootElement.GetProperty("success").GetBoolean());
-        Assert.True(eventJson.RootElement.GetProperty("success").GetBoolean());
+        using var json = JsonDocument.Parse(await response.Content.ReadAsStringAsync());
+        Assert.True(json.RootElement.GetProperty("success").GetBoolean());
     }
 
     [Fact]
-    public async Task Track_FlushesAggregatedAmountToDatabase()
+    public async Task Record_FlushesAggregatedAmountToDatabase()
     {
         await using var factory = new CustomWebApplicationFactory();
         await factory.SeedMemberAsync();
 
         var client = TestClients.CreateMemberClient(factory);
 
-        await client.PostAsync($"/Usage/Track?type={AkFeatureUsageTypes.AlbumAIGeneration}", null);
-        await client.PostAsync($"/Usage/Track?type={AkFeatureUsageTypes.AlbumAIGeneration}", null);
-        await client.PostAsync($"/Usage/Track?type={AkFeatureUsageTypes.EventTranslation}", null);
+        await client.PostAsync($"/Usage/Record?type={AkFeatureUsageTypes.AlbumAIGeneration}", null);
+        await client.PostAsync($"/Usage/Record?type={AkFeatureUsageTypes.AlbumAIGeneration}", null);
+        await client.PostAsync($"/Usage/Record?type={AkFeatureUsageTypes.EventTranslation}", null);
 
         var collector = factory.Services.GetRequiredService<UsageCollector>();
         await collector.FlushAsync();

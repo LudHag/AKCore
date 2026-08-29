@@ -7,12 +7,12 @@ using System.Linq;
 namespace AKCore.Controllers;
 
 [Route("Usage")]
-[Authorize]
+[AllowAnonymous]
 public class UsageController(UsageCollector usageCollector) : Controller
 {
     [HttpPost]
-    [Route("Track")]
-    public ActionResult Track(string type)
+    [Route("Record")]
+    public ActionResult Record(string type)
     {
         if (string.IsNullOrWhiteSpace(type) || !AkFeatureUsageTypes.Types.Contains(type))
         {

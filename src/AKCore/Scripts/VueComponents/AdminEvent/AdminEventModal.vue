@@ -248,7 +248,7 @@ import Datepicker from "vue3-datepicker";
 import { postToApi } from "@services/apiservice";
 import {
   FeatureUsageTypes,
-  trackFeatureUsage,
+  recordFeatureUsage,
 } from "@services/usage";
 import Modal from "../Modal.vue";
 import Spinner from "../Spinner.vue";
@@ -285,7 +285,7 @@ const fikaOptions = SEKTIONER.map((section) => {
 });
 
 const translateDescs = () => {
-  trackFeatureUsage(FeatureUsageTypes.EventTranslation);
+  recordFeatureUsage(FeatureUsageTypes.EventTranslation);
   if (upcomingEvent.value?.description) {
     loadingDescTrans.value = true;
     postToApi(

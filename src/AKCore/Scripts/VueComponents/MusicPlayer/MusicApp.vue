@@ -50,7 +50,7 @@ import { ref, onMounted } from "vue";
 import { getFromApi } from "@services/apiservice";
 import {
   FeatureUsageTypes,
-  trackFeatureUsage,
+  recordFeatureUsage,
 } from "@services/usage";
 import { TranslationDomain, translate } from "@scripts/translations";
 
@@ -111,7 +111,7 @@ const showDesc = async () => {
   }
   showingDesc.value = !showingDesc.value;
   if (showingDesc.value && !aiDesc.value) {
-    trackFeatureUsage(FeatureUsageTypes.AlbumAIGeneration);
+    recordFeatureUsage(FeatureUsageTypes.AlbumAIGeneration);
     try {
       aiDesc.value = (
         await getFromApi<{ albumInfo: string }>(

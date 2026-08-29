@@ -272,10 +272,14 @@ namespace AKCore.DataModel
     {
         public const string AlbumAIGeneration = "AlbumAIGeneration";
         public const string EventTranslation = "EventTranslation";
+        public const string PageTranslation = "PageTranslation";
+        public const string FlojtEvent = "FlojtEvent";
         public static readonly IList<string> Types = new List<string>()
         {
             AlbumAIGeneration,
-            EventTranslation
+            EventTranslation,
+            PageTranslation,
+            FlojtEvent
         };
     }
 }
