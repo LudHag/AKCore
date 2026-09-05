@@ -17,6 +17,21 @@ export type RequestsResponse = {
 
 export type RequestsRange = "day" | "week" | "month";
 
+export type UsageDataPoint = {
+  amount: number;
+  created: string;
+};
+
+export type UsageTypeData = {
+  type: string;
+  items: UsageDataPoint[];
+};
+
+export type UsageResponse = {
+  dates: string[];
+  items: UsageTypeData[];
+};
+
 export type GigItem = {
   id: number;
   name: string;
