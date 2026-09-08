@@ -394,6 +394,7 @@ public class UserAdminService
         }
 
         return [.. deserialized
+            .Where(p => p != null)
             .SelectMany(p => p.Split(',', StringSplitOptions.RemoveEmptyEntries))
             .Select(p => p.Trim())
             .Where(p => !string.IsNullOrEmpty(p))];
