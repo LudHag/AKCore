@@ -41,6 +41,30 @@ public class ProfileControllerTests
     }
 
     [Fact]
+    public async Task ProfileData_HandlesNullOnlySlavPoster()
+    {
+        await using var factory = new CustomWebApplicationFactory();
+        await factory.SeedMemberAsync();
+
+        using (var setupScope = factory.Services.CreateScope())
+        {
+            var setupUserManager = setupScope.ServiceProvider.GetRequiredService<UserManager<AkUser>>();
+            var setupUser = await setupUserManager.FindByNameAsync(TestUsers.MemberUserName);
+            setupUser!.SlavPoster = "[null]";
+            await setupUserManager.UpdateAsync(setupUser);
+        }
+
+        var client = TestClients.CreateMemberClient(factory);
+        var response = await client.GetAsync("/Profile/ProfileData");
+
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+        var body = await response.Content.ReadAsStringAsync();
+        using var json = JsonDocument.Parse(body);
+        Assert.Empty(json.RootElement.GetProperty("posts").EnumerateArray());
+    }
+
+    [Fact]
     public async Task EditProfile_UpdatesUserFields()
     {
         await using var factory = new CustomWebApplicationFactory();
