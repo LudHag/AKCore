@@ -2,6 +2,7 @@ import { Translation } from "./models";
 
 export const signupTranslations: Record<string, Translation> = {
   "show-info": { swedish: "Visa information", english: "Show information" },
+  "edit-signups": { swedish: "Ändra anmälningar", english: "Edit signups" },
   "need-instrument-transport": {
     swedish: "Behöver transport av instrument",
     english: "Needs instrument transport",
