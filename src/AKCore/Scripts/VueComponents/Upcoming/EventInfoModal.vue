@@ -37,7 +37,9 @@
               @keydown.prevent.space="openSignup"
               :href="signupUrl"
             >
-              {{ t("signed-up") }} ({{ translateSignupWhere(event.signupState) }})
+              {{ t("signed-up") }} ({{
+                translateSignupWhere(event.signupState)
+              }})
             </a>
             <a
               v-if="signupable && !event.signupState && !event.disabled"
@@ -129,7 +131,7 @@ import { computed } from "vue";
 import Modal from "../Modal.vue";
 import { UpcomingEvent } from "./models";
 import { TranslationDomain, translate } from "@scripts/translations";
-import { eventIsRep, translateSignupWhere } from "./functions";
+import { eventName, translateSignupWhere } from "./functions";
 
 const emit = defineEmits<{
   (e: "close"): void;
@@ -152,13 +154,6 @@ const signupable =
     props.event.type === "Kårhusrep" ||
     props.event.type === "Athenrep" ||
     props.event.type === "Samlingsrep");
-
-const eventName = (e: UpcomingEvent) => {
-  if (eventIsRep(e)) {
-    return t(e.type);
-  }
-  return e.name;
-};
 
 const header = computed(() => {
   if (!props.event) {

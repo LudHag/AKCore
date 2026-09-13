@@ -36,6 +36,9 @@ export const eventIsRep = (event: UpcomingEvent) => isRepType(event.type);
 export const eventTypeLabel = (type: string) =>
   isRepType(type) ? translate("upcoming", type) : type;
 
+export const eventName = (event: UpcomingEvent) =>
+  eventIsRep(event) ? eventTypeLabel(event.type) : event.name;
+
 export const filterYears = (
   years: UpcomingYears,
   filter: RepFilterType,
