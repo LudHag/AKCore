@@ -55,7 +55,7 @@
               v-if="eventInfo.isNintendo"
               @click.prevent="showAdminEdit"
             >
-              Lägg till anmälningar
+              {{ t("edit-signups") }}
             </a>
             <a href="#" class="btn btn-default" @click.prevent="toggleInfo">
               {{ t("show-info") }}
