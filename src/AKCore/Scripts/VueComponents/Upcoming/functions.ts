@@ -23,13 +23,18 @@ export const translateSignupWhere = (where: UpcomingWhere): string => {
   }
 };
 
-export const eventIsRep = (event: UpcomingEvent) =>
-  event.type === "Rep" ||
-  event.type === "Kårhusrep" ||
-  event.type === "Athenrep" ||
-  event.type === "Fikarep" ||
-  event.type == "Balettrep" ||
-  event.type == "Samlingsrep";
+export const isRepType = (type: string) =>
+  type === "Rep" ||
+  type === "Kårhusrep" ||
+  type === "Athenrep" ||
+  type === "Fikarep" ||
+  type === "Balettrep" ||
+  type === "Samlingsrep";
+
+export const eventIsRep = (event: UpcomingEvent) => isRepType(event.type);
+
+export const eventTypeLabel = (type: string) =>
+  isRepType(type) ? translate("upcoming", type) : type;
 
 export const filterYears = (
   years: UpcomingYears,
