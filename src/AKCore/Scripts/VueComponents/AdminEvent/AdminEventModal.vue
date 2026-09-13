@@ -23,7 +23,9 @@
               required
             >
               <option value>Typ av händelse</option>
-              <option v-for="e in EVENTTYPES" :key="e">{{ e }}</option>
+              <option v-for="e in EVENTTYPES" :key="e" :value="e">
+                {{ eventTypeLabel(e) }}
+              </option>
             </select>
           </div>
           <div class="editeventbody" v-if="eventType">
@@ -246,13 +248,11 @@
 import { EVENTTYPES, SPELTYPER, SEKTIONER } from "../../constants";
 import Datepicker from "vue3-datepicker";
 import { postToApi } from "@services/apiservice";
-import {
-  FeatureUsageTypes,
-  recordFeatureUsage,
-} from "@services/usage";
+import { FeatureUsageTypes, recordFeatureUsage } from "@services/usage";
 import Modal from "../Modal.vue";
 import Spinner from "../Spinner.vue";
 import { UpcomingEvent } from "../Upcoming/models";
+import { eventTypeLabel } from "../Upcoming/functions";
 import { computed, onMounted, ref, watch } from "vue";
 import {
   Select as VueSelect,

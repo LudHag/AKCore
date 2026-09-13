@@ -39,7 +39,7 @@
           <p>{{ e.name }}</p>
         </div>
         <div class="col-sm-4">
-          <p>{{ e.type }}</p>
+          <p>{{ eventTypeLabel(e.type) }}</p>
         </div>
         <div class="col-sm-2">
           <a
@@ -78,6 +78,7 @@
 <script setup lang="ts">
 import Spinner from "../Spinner.vue";
 import AdminEventModal from "./AdminEventModal.vue";
+import { eventTypeLabel } from "../Upcoming/functions";
 import { getFromApi, postToApi } from "@services/apiservice";
 import { ref, computed, onMounted } from "vue";
 import { AdminEventModel } from "./models";
