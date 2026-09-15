@@ -19,9 +19,10 @@ namespace AKCore.Migrations
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     UserId = table.Column<string>(
-                        type: "varchar(95)",
-                        maxLength: 95,
-                        nullable: false),
+                          type: "varchar(127)",
+                          maxLength: 127,
+                          nullable: false)
+                      .Annotation("MySql:CharSet", "latin1"),
                     EventId = table.Column<int>(type: "int", nullable: false),
                     ClaimedAt = table.Column<DateTime>(type: "datetime", nullable: false),
                     SentAt = table.Column<DateTime>(type: "datetime", nullable: true)

@@ -11,7 +11,7 @@ public class MobileNotificationDelivery
     public long Id { get; set; }
 
     [Required]
-    [StringLength(95)]
+    [StringLength(127)]
     public string UserId { get; set; } = "";
 
     public int EventId { get; set; }

@@ -412,8 +412,9 @@ namespace AKCore.Migrations
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasMaxLength(95)
-                        .HasColumnType("varchar(95)");
+                        .HasMaxLength(127)
+                        .HasColumnType("varchar(127)")
+                        .HasAnnotation("MySql:CharSet", "latin1");
 
                     b.HasKey("Id");
 
@@ -447,8 +448,9 @@ namespace AKCore.Migrations
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasMaxLength(95)
-                        .HasColumnType("varchar(95)");
+                        .HasMaxLength(127)
+                        .HasColumnType("varchar(127)")
+                        .HasAnnotation("MySql:CharSet", "latin1");
 
                     b.HasKey("Id");
 
@@ -484,8 +486,9 @@ namespace AKCore.Migrations
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasMaxLength(95)
-                        .HasColumnType("varchar(95)");
+                        .HasMaxLength(127)
+                        .HasColumnType("varchar(127)")
+                        .HasAnnotation("MySql:CharSet", "latin1");
 
                     b.HasKey("Id");
 

@@ -37,15 +37,18 @@ public class AKContext : IdentityDbContext<AkUser>
 
         builder.Entity<MobileSession>()
             .Property(x => x.UserId)
-            .HasMaxLength(95);
+            .HasMaxLength(127)
+            .HasCharSet("latin1");
 
         builder.Entity<MobileDevice>()
             .Property(x => x.UserId)
-            .HasMaxLength(95);
+            .HasMaxLength(127)
+            .HasCharSet("latin1");
 
         builder.Entity<MobileNotificationDelivery>()
             .Property(x => x.UserId)
-            .HasMaxLength(95);
+            .HasMaxLength(127)
+            .HasCharSet("latin1");
 
         builder.Entity<MobileNotificationDelivery>()
             .HasIndex(x => new
