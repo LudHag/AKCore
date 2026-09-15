@@ -19,13 +19,15 @@ public class MobileNotificationDeliveryService
     public async Task<bool> TryClaimAsync(
         string userId,
         int eventId,
+        string installationId,
         DateTime claimedAt,
         CancellationToken cancellationToken = default)
     {
         var alreadyClaimed = await _db.MobileNotificationDeliveries
             .AnyAsync(
                 x => x.UserId == userId &&
-                    x.EventId == eventId,
+                    x.EventId == eventId &&
+                    x.InstallationId == installationId,
                 cancellationToken);
 
         if (alreadyClaimed)
@@ -37,6 +39,7 @@ public class MobileNotificationDeliveryService
         {
             UserId = userId,
             EventId = eventId,
+            InstallationId = installationId,
             ClaimedAt = claimedAt
         };
 
@@ -58,16 +61,41 @@ public class MobileNotificationDeliveryService
     public async Task MarkSentAsync(
         string userId,
         int eventId,
+        string installationId,
         DateTime sentAt,
         CancellationToken cancellationToken = default)
     {
         var delivery = await _db.MobileNotificationDeliveries
             .SingleAsync(
                 x => x.UserId == userId &&
-                    x.EventId == eventId,
+                    x.EventId == eventId &&
+                    x.InstallationId == installationId,
                 cancellationToken);
 
         delivery.SentAt = sentAt;
+
+        await _db.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task ReleaseClaimAsync(
+        string userId,
+        int eventId,
+        string installationId,
+        CancellationToken cancellationToken = default)
+    {
+        var delivery = await _db.MobileNotificationDeliveries
+            .SingleOrDefaultAsync(
+                x => x.UserId == userId &&
+                    x.EventId == eventId &&
+                    x.InstallationId == installationId,
+                cancellationToken);
+
+        if (delivery == null || delivery.SentAt != null)
+        {
+            return;
+        }
+
+        _db.MobileNotificationDeliveries.Remove(delivery);
 
         await _db.SaveChangesAsync(cancellationToken);
     }

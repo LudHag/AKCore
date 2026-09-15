@@ -33,6 +33,7 @@ public class MobileNotificationDeliveryServiceTests
             var claimed = await service.TryClaimAsync(
                 userId,
                 eventId,
+                "test-installation",
                 claimedAt);
 
             Assert.True(claimed);
@@ -75,11 +76,13 @@ public class MobileNotificationDeliveryServiceTests
         var first = await service.TryClaimAsync(
             userId,
             eventId,
+            "test-installation",
             DateTime.UtcNow);
 
         var second = await service.TryClaimAsync(
             userId,
             eventId,
+            "test-installation",
             DateTime.UtcNow.AddMinutes(1));
 
         Assert.True(first);
@@ -122,11 +125,13 @@ public class MobileNotificationDeliveryServiceTests
         Assert.True(await service.TryClaimAsync(
             userId,
             firstEvent.Id,
+            "test-installation",
             DateTime.UtcNow));
 
         Assert.True(await service.TryClaimAsync(
             userId,
             secondEvent.Id,
+            "test-installation",
             DateTime.UtcNow));
     }
 }

@@ -48,7 +48,12 @@ public class AKContext : IdentityDbContext<AkUser>
             .HasMaxLength(95);
 
         builder.Entity<MobileNotificationDelivery>()
-            .HasIndex(x => new { x.UserId, x.EventId })
+            .HasIndex(x => new
+            {
+                x.UserId,
+                x.EventId,
+                x.InstallationId
+            })
             .IsUnique();
 
         builder.Entity<MobileDevice>()

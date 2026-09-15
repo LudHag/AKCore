@@ -8,7 +8,7 @@ namespace AKCore.IntegrationTests.Api.V1;
 public class MobileNotificationServiceTests
 {
     [Fact]
-    public async Task Send_UsesMostRecentlyUpdatedFcmAndroidDevice()
+    public async Task Send_SendsToAllFcmAndroidDevices()
     {
         await using var factory = new CustomWebApplicationFactory();
 
@@ -17,7 +17,7 @@ public class MobileNotificationServiceTests
         var evt = new Event
         {
             Type = AkEventTypes.Evenemang,
-            Name = "Newest device test",
+            Name = "Multiple device test",
             Day = DateTime.UtcNow.Date,
             SignUps = []
         };
@@ -30,8 +30,8 @@ public class MobileNotificationServiceTests
                 new MobileDevice
                 {
                     UserId = userId,
-                    InstallationId = "old-device",
-                    PushToken = "old-token",
+                    InstallationId = "phone",
+                    PushToken = "phone-token",
                     Provider = "fcm",
                     Platform = "android",
                     CreatedAt = DateTime.UtcNow.AddDays(-2),
@@ -40,8 +40,8 @@ public class MobileNotificationServiceTests
                 new MobileDevice
                 {
                     UserId = userId,
-                    InstallationId = "new-device",
-                    PushToken = "new-token",
+                    InstallationId = "tablet",
+                    PushToken = "tablet-token",
                     Provider = "fcm",
                     Platform = "android",
                     CreatedAt = DateTime.UtcNow.AddDays(-1),
@@ -69,10 +69,24 @@ public class MobileNotificationServiceTests
             DateTime.UtcNow);
 
         Assert.True(sent);
-        var call = Assert.Single(sender.Calls);
-        Assert.Equal("new-token", call.PushToken);
-        Assert.Equal(eventId, call.EventId);
-        Assert.Equal(evt.Name, call.EventName);
+        Assert.Equal(2, sender.Calls.Count);
+
+        Assert.Contains(
+            sender.Calls,
+            x => x.PushToken == "phone-token");
+
+        Assert.Contains(
+            sender.Calls,
+            x => x.PushToken == "tablet-token");
+
+        var deliveries = await db.MobileNotificationDeliveries
+            .ToListAsync();
+
+        Assert.Equal(2, deliveries.Count);
+
+        Assert.All(
+            deliveries,
+            delivery => Assert.NotNull(delivery.SentAt));
     }
 
     [Fact]
@@ -231,7 +245,7 @@ public class MobileNotificationServiceTests
     }
 
     [Fact]
-    public async Task Send_SenderFailure_LeavesClaimUnsent()
+    public async Task Send_OneDeviceFails_SuccessfulDeviceIsNotResentOnRetry()
     {
         await using var factory = new CustomWebApplicationFactory();
 
@@ -240,7 +254,7 @@ public class MobileNotificationServiceTests
         var evt = new Event
         {
             Type = AkEventTypes.Evenemang,
-            Name = "Failed send test",
+            Name = "Partial failure test",
             Day = DateTime.UtcNow.Date,
             SignUps = []
         };
@@ -249,24 +263,33 @@ public class MobileNotificationServiceTests
 
         await factory.SeedAsync(db =>
         {
-            db.MobileDevices.Add(new MobileDevice
-            {
-                UserId = userId,
-                InstallationId = "failure-device",
-                PushToken = "failure-token",
-                Provider = "fcm",
-                Platform = "android",
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow
-            });
+            db.MobileDevices.AddRange(
+                new MobileDevice
+                {
+                    UserId = userId,
+                    InstallationId = "phone",
+                    PushToken = "phone-token",
+                    Provider = "fcm",
+                    Platform = "android",
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow
+                },
+                new MobileDevice
+                {
+                    UserId = userId,
+                    InstallationId = "tablet",
+                    PushToken = "tablet-token",
+                    Provider = "fcm",
+                    Platform = "android",
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow
+                });
 
             return Task.CompletedTask;
         });
 
-        var sender = new FakeFcmNotificationSender
-        {
-            ThrowOnSend = true
-        };
+        var sender = new FakeFcmNotificationSender();
+        sender.FailingTokens.Add("tablet-token");
 
         using var scope = factory.Services.CreateScope();
         var db = scope.ServiceProvider.GetRequiredService<AKContext>();
@@ -284,17 +307,47 @@ public class MobileNotificationServiceTests
                 eventId,
                 DateTime.UtcNow));
 
-        var delivery = await db.MobileNotificationDeliveries.SingleAsync();
+        var firstDeliveries = await db.MobileNotificationDeliveries
+            .ToListAsync();
 
-        Assert.Null(delivery.SentAt);
-        Assert.Single(sender.Calls);
+        var firstDelivery = Assert.Single(firstDeliveries);
+
+        Assert.Equal("phone", firstDelivery.InstallationId);
+        Assert.NotNull(firstDelivery.SentAt);
+
+        sender.FailingTokens.Remove("tablet-token");
+
+        var retried = await service.SendAsync(
+            userId,
+            eventId,
+            DateTime.UtcNow.AddMinutes(1));
+
+        Assert.True(retried);
+
+        Assert.Equal(
+            1,
+            sender.Calls.Count(x => x.PushToken == "phone-token"));
+
+        Assert.Equal(
+            2,
+            sender.Calls.Count(x => x.PushToken == "tablet-token"));
+
+        var finalDeliveries = await db.MobileNotificationDeliveries
+            .OrderBy(x => x.InstallationId)
+            .ToListAsync();
+
+        Assert.Equal(2, finalDeliveries.Count);
+
+        Assert.All(
+            finalDeliveries,
+            delivery => Assert.NotNull(delivery.SentAt));
     }
 
     private sealed class FakeFcmNotificationSender : IFcmNotificationSender
     {
         public List<SendCall> Calls { get; } = [];
 
-        public bool ThrowOnSend { get; init; }
+        public HashSet<string> FailingTokens { get; } = [];
 
         public Task SendAsync(
             string pushToken,
@@ -307,7 +360,7 @@ public class MobileNotificationServiceTests
                 eventId,
                 eventName));
 
-            if (ThrowOnSend)
+            if (FailingTokens.Contains(pushToken))
             {
                 throw new InvalidOperationException(
                     "Simulated FCM failure.");

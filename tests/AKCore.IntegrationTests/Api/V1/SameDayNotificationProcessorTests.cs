@@ -183,9 +183,9 @@ public class SameDayNotificationProcessorTests
         var deliveries = await db.MobileNotificationDeliveries
             .ToListAsync();
 
-        Assert.Equal(2, deliveries.Count);
-        Assert.Single(deliveries, x => x.SentAt == null);
-        Assert.Single(deliveries, x => x.SentAt != null);
+        var delivery = Assert.Single(deliveries);
+
+        Assert.NotNull(delivery.SentAt);
     }
 
     [Fact]

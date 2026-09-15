@@ -16,6 +16,10 @@ public class MobileNotificationDelivery
 
     public int EventId { get; set; }
 
+    [Required]
+    [StringLength(128)]
+    public string InstallationId { get; set; } = "";
+
     public DateTime ClaimedAt { get; set; }
 
     public DateTime? SentAt { get; set; }

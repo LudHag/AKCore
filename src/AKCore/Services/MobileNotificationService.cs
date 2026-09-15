@@ -32,16 +32,15 @@ public class MobileNotificationService
         DateTime now,
         CancellationToken cancellationToken = default)
     {
-        var device = await _db.MobileDevices
+        var devices = await _db.MobileDevices
             .Where(x =>
                 x.UserId == userId &&
                 x.Provider == FcmProvider &&
                 x.Platform == AndroidPlatform)
-            .OrderByDescending(x => x.UpdatedAt)
-            .ThenByDescending(x => x.Id)
-            .FirstOrDefaultAsync(cancellationToken);
+            .OrderBy(x => x.Id)
+            .ToListAsync(cancellationToken);
 
-        if (device == null)
+        if (devices.Count == 0)
         {
             return false;
         }
@@ -56,29 +55,59 @@ public class MobileNotificationService
             return false;
         }
 
-        var claimed = await _deliveryService.TryClaimAsync(
-            userId,
-            eventId,
-            now,
-            cancellationToken);
+        var sentAny = false;
+        Exception firstFailure = null;
 
-        if (!claimed)
+        foreach (var device in devices)
         {
-            return false;
+            var claimed = await _deliveryService.TryClaimAsync(
+                userId,
+                eventId,
+                device.InstallationId,
+                now,
+                cancellationToken);
+
+            if (!claimed)
+            {
+                continue;
+            }
+
+            try
+            {
+                await _sender.SendAsync(
+                    device.PushToken,
+                    eventId,
+                    evt.Name,
+                    cancellationToken);
+
+                await _deliveryService.MarkSentAsync(
+                    userId,
+                    eventId,
+                    device.InstallationId,
+                    DateTime.UtcNow,
+                    cancellationToken);
+
+                sentAny = true;
+            }
+            catch (Exception error)
+            {
+                await _deliveryService.ReleaseClaimAsync(
+                    userId,
+                    eventId,
+                    device.InstallationId,
+                    cancellationToken);
+
+                firstFailure ??= error;
+            }
         }
 
-        await _sender.SendAsync(
-            device.PushToken,
-            eventId,
-            evt.Name,
-            cancellationToken);
+        if (firstFailure != null)
+        {
+            throw new InvalidOperationException(
+                "One or more mobile notification deliveries failed.",
+                firstFailure);
+        }
 
-        await _deliveryService.MarkSentAsync(
-            userId,
-            eventId,
-            DateTime.UtcNow,
-            cancellationToken);
-
-        return true;
+        return sentAny;
     }
 }
