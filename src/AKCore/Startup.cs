@@ -2,7 +2,10 @@
 using AKCore.DataModel;
 using AKCore.Middlewares;
 using AKCore.Models;
+using AKCore.Models.Api.V1.Auth;
 using AKCore.Services;
+using AKCore.Services.Api.V1.Auth;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -11,8 +14,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.Text;
+using FirebaseAdmin;
+using Google.Apis.Auth.OAuth2;
 
 namespace AKCore;
 
@@ -34,17 +41,17 @@ public class Startup
     {
         var assetsSection = configuration.GetSection("assets");
         var assetsDictionary = new Dictionary<string, AssetModel>();
-        
+
         foreach (var assetSection in assetsSection.GetChildren())
         {
             var assetName = assetSection.Key;
             var entrypoint = assetSection["entrypoint"] ?? "";
             var js = assetSection.GetSection("js").Get<string[]>() ?? [];
             var css = assetSection.GetSection("css").Get<string[]>() ?? [];
-            
+
             assetsDictionary[assetName] = new AssetModel(entrypoint, js, css);
         }
-        
+
         return new AssetsModel(assetsDictionary);
     }
 
@@ -87,6 +94,7 @@ public class Startup
         services.AddScoped<MetricsService>();
         services.AddScoped<UsageService>();
         services.AddSingleton<UsageCollector>();
+        services.AddSingleton<SameDayNotificationRunner>();
 
         var apiSecret = Configuration["OpenApiSecret"];
         services.AddTransient(x => new OpenApiClient(apiSecret ?? ""));
@@ -97,6 +105,76 @@ public class Startup
         services.AddIdentity<AkUser, IdentityRole>()
             .AddEntityFrameworkStores<AKContext>()
             .AddDefaultTokenProviders();
+
+        var mobileAuthOptions = new MobileAuthOptions();
+        Configuration
+            .GetSection(MobileAuthOptions.SectionName)
+            .Bind(mobileAuthOptions);
+
+        services.Configure<MobilePushOptions>(
+            Configuration.GetSection(MobilePushOptions.SectionName));
+
+        services.AddSingleton(_ =>
+        {
+            var projectId =
+                Configuration[$"{MobilePushOptions.SectionName}:ProjectId"];
+
+            if (string.IsNullOrWhiteSpace(projectId))
+            {
+                throw new InvalidOperationException(
+                    "MobilePush project ID is not configured.");
+            }
+
+            return FirebaseApp.Create(
+                new AppOptions
+                {
+                    ProjectId = projectId,
+                    Credential = GoogleCredential.GetApplicationDefault()
+                });
+        });
+
+        services.Configure<MobileAuthOptions>(
+            Configuration.GetSection(MobileAuthOptions.SectionName));
+
+        services.AddTransient<MobileTokenService>();
+        services.AddTransient<MobileNotificationDeliveryService>();
+        services.AddTransient<SameDayNotificationRelevanceService>();
+        services.AddTransient<MobileNotificationService>();
+        services.AddTransient<SameDayNotificationProcessor>();
+        services.AddTransient<IFcmNotificationSender, FcmNotificationSender>();
+
+        services.AddAuthentication()
+            .AddJwtBearer("MobileBearer", options =>
+            {
+                options.MapInboundClaims = false;
+
+                var tokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidIssuer = mobileAuthOptions.Issuer,
+
+                    ValidateAudience = true,
+                    ValidAudience = mobileAuthOptions.Audience,
+
+                    ValidateLifetime = true,
+                    RequireExpirationTime = true,
+
+                    ValidateIssuerSigningKey = true,
+
+                    ClockSkew = TimeSpan.FromMinutes(1)
+                };
+
+                if (!string.IsNullOrWhiteSpace(mobileAuthOptions.SigningKey))
+                {
+                    tokenValidationParameters.IssuerSigningKey =
+                        new SymmetricSecurityKey(
+                            Encoding.UTF8.GetBytes(
+                                mobileAuthOptions.SigningKey));
+                }
+
+                options.TokenValidationParameters =
+                    tokenValidationParameters;
+            });
 
         services.ConfigureApplicationCookie(options => options.LoginPath = "/");
 
@@ -117,6 +195,11 @@ public class Startup
         // Start hourly usage flush loop
         app.ApplicationServices.GetRequiredService<UsageCollector>();
 
+        if (!env.IsEnvironment("Testing"))
+        {
+            app.ApplicationServices.GetRequiredService<SameDayNotificationRunner>();
+        }
+
         app.UseStaticFiles();
         if (env.IsDevelopment())
         {
@@ -131,7 +214,7 @@ public class Startup
 
         app.UseSession();
         app.UseRouting();
-      
+
         app.UseAuthentication();
 
         app.UseAuthorization();

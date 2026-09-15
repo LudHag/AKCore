@@ -32,8 +32,36 @@ public class AKContext : IdentityDbContext<AkUser>
             .HasMaxLength(255);
 
         builder.Entity<IdentityRole>()
-          .Property(x => x.Id)
-          .HasMaxLength(255);
+            .Property(x => x.Id)
+            .HasMaxLength(255);
+
+        builder.Entity<MobileSession>()
+            .Property(x => x.UserId)
+            .HasMaxLength(95);
+
+        builder.Entity<MobileDevice>()
+            .Property(x => x.UserId)
+            .HasMaxLength(95);
+
+        builder.Entity<MobileNotificationDelivery>()
+            .Property(x => x.UserId)
+            .HasMaxLength(95);
+
+        builder.Entity<MobileNotificationDelivery>()
+            .HasIndex(x => new { x.UserId, x.EventId })
+            .IsUnique();
+
+        builder.Entity<MobileDevice>()
+            .HasIndex(x => x.InstallationId)
+            .IsUnique();
+
+        builder.Entity<MobileDevice>()
+            .HasIndex(x => x.PushToken)
+            .IsUnique();
+
+        builder.Entity<SignUp>()
+            .HasIndex("EventId", nameof(SignUp.PersonId))
+            .IsUnique();
     }
 
     public DbSet<Page> Pages { get; set; }
@@ -51,8 +79,11 @@ public class AKContext : IdentityDbContext<AkUser>
     public DbSet<MailBoxItem> MailBoxItems { get; set; }
     public DbSet<RequestsData> RequestsDatas { get; set; }
     public DbSet<UsageData> UsageDatas { get; set; }
+    public DbSet<MobileSession> MobileSessions { get; set; }
+    public DbSet<MobileDevice> MobileDevices { get; set; }
+    public DbSet<MobileNotificationDelivery> MobileNotificationDeliveries { get; set; }
     public DatabaseFacade DatabaseAccessor => Database;
-    
+
 }
 
 public class Page
@@ -292,7 +323,7 @@ public class SignUp
             OtherInstruments = OtherInstruments,
             Comment = Comment,
             SignupTime = SignupTime
-        }; 
+        };
     }
 }
 public class LogItem

@@ -3,6 +3,7 @@ using AKCore.Extensions;
 using AKCore.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using MySqlConnector;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -95,6 +96,7 @@ public class SignupService
     public async Task SaveSignupAsync(SignUpModel model, int eventId, AkUser user)
     {
         var spelning = await _db.Events.Include(x => x.SignUps).FirstOrDefaultAsync(x => x.Id == eventId);
+
         if (spelning == null)
         {
             throw new AkValidationError("InvalidId");
@@ -105,38 +107,53 @@ public class SignupService
             throw new AkValidationError("MustChooseWhere");
         }
 
-        var signup = spelning.SignUps.FirstOrDefault(x => x.PersonId == user.Id) ?? new SignUp();
-        if (signup.Where == AkSignupType.CantCome || model.Where == AkSignupType.CantCome)
+        if (!AkSignupType.Types.Contains(model.Where))
         {
-            signup.SignupTime = DateTime.Now;
-        }
-        else
-        {
-            signup.SignupTime = signup.Where == null ? DateTime.Now : signup.SignupTime;
+            throw new AkValidationError("InvalidData");
         }
 
-        signup.Where = model.Where;
-        signup.Car = model.Car;
-        signup.Instrument = model.Instrument;
-        signup.Comment = model.Comment;
-        signup.Person = user.UserName;
-        signup.PersonId = user.Id;
-        signup.PersonName = user.GetName();
-        signup.OtherInstruments = null;
+        var isPassed =
+            spelning.Day.Date < DateTime.UtcNow.Date.AddDays(-1);
 
-        var allInstruments = GetInstrumentsForUser(user);
-        if (!string.IsNullOrWhiteSpace(model.SelectedInstrument) &&
-            allInstruments.Contains(model.SelectedInstrument.Trim()))
+        if (spelning.Disabled || isPassed)
         {
-            signup.InstrumentName = model.SelectedInstrument.Trim();
-        }
-        else
-        {
-            signup.InstrumentName = user.Instrument;
+            throw new AkValidationError("InvalidData");
         }
 
-        spelning.SignUps.Add(signup);
-        await _db.SaveChangesAsync();
+        var signup = spelning.SignUps.FirstOrDefault(x => x.PersonId == user.Id);
+        var isNewSignup = signup == null;
+
+        if (signup == null)
+        {
+            signup = new SignUp();
+            spelning.SignUps.Add(signup);
+        }
+
+        ApplySignupValues(signup, model, user);
+
+        try
+        {
+            await _db.SaveChangesAsync();
+        }
+        catch (DbUpdateException error) when (
+            isNewSignup &&
+            error.InnerException is MySqlException { Number: 1062 })
+        {
+            _db.Entry(signup).State = EntityState.Detached;
+
+            var existingSignup = await _db.SignUps
+                .FirstOrDefaultAsync(x =>
+                    x.Event.Id == eventId &&
+                    x.PersonId == user.Id);
+
+            if (existingSignup == null)
+            {
+                throw;
+            }
+
+            ApplySignupValues(existingSignup, model, user);
+            await _db.SaveChangesAsync();
+        }
     }
 
     public async Task EditSignupAsync(int eventId, string memberId, string type, bool instrument, bool car, string adminUserName)
@@ -184,5 +201,44 @@ public class SignupService
         await _db.SaveChangesAsync();
         await _adminLogService.LogAction(AkLogTypes.Events, adminUserName,
             "Anmälan för medlem " + member.GetName() + " på spelning " + eventId + " ändrad");
+    }
+
+    private static void ApplySignupValues(
+        SignUp signup,
+        SignUpModel model,
+        AkUser user)
+    {
+        if (signup.Where == AkSignupType.CantCome ||
+            model.Where == AkSignupType.CantCome)
+        {
+            signup.SignupTime = DateTime.Now;
+        }
+        else
+        {
+            signup.SignupTime =
+                signup.Where == null
+                    ? DateTime.Now
+                    : signup.SignupTime;
+        }
+
+        signup.Where = model.Where;
+        signup.Car = model.Car;
+        signup.Instrument = model.Instrument;
+        signup.Comment = model.Comment;
+        signup.Person = user.UserName;
+        signup.PersonId = user.Id;
+        signup.PersonName = user.GetName();
+        signup.OtherInstruments = null;
+
+        var allInstruments = GetInstrumentsForUser(user);
+        if (!string.IsNullOrWhiteSpace(model.SelectedInstrument) &&
+            allInstruments.Contains(model.SelectedInstrument.Trim()))
+        {
+            signup.InstrumentName = model.SelectedInstrument.Trim();
+        }
+        else
+        {
+            signup.InstrumentName = user.Instrument;
+        }
     }
 }

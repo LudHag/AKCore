@@ -1,5 +1,6 @@
 using AKCore.DataModel;
 using AKCore.IntegrationTests.TestData;
+using AKCore.Models.Api.V1.Auth;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -7,12 +8,24 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace AKCore.IntegrationTests;
 
 public class CustomWebApplicationFactory : WebApplicationFactory<Program>
 {
     private readonly string _dbName = Guid.NewGuid().ToString();
+    private readonly bool _useTestAuthentication;
+    private const string MobileAuthSigningKey =
+    "0123456789abcdef0123456789abcdef";
+
+    public CustomWebApplicationFactory(
+        bool useTestAuthentication = true)
+    {
+        _useTestAuthentication = useTestAuthentication;
+    }
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
@@ -25,15 +38,50 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
             services.AddDbContext<AKContext>(options =>
                 options.UseInMemoryDatabase(_dbName));
 
-            services.AddAuthentication(options =>
+            services.Configure<MobileAuthOptions>(options =>
             {
-                options.DefaultAuthenticateScheme = TestAuthHandler.SchemeName;
-                options.DefaultChallengeScheme = TestAuthHandler.SchemeName;
-                options.DefaultScheme = TestAuthHandler.SchemeName;
-            })
-            .AddScheme<Microsoft.AspNetCore.Authentication.AuthenticationSchemeOptions, TestAuthHandler>(
-                TestAuthHandler.SchemeName,
-                _ => { });
+                options.Issuer = "AKCore.Tests";
+                options.Audience = "AlteKamerer.Tests";
+                options.SigningKey = MobileAuthSigningKey;
+                options.AccessTokenMinutes = 15;
+                options.RefreshTokenDays = 30;
+            });
+
+            services.PostConfigure<JwtBearerOptions>(
+                "MobileBearer",
+                options =>
+                {
+                    options.MapInboundClaims = false;
+
+                    options.TokenValidationParameters =
+                        new TokenValidationParameters
+                        {
+                            ValidateIssuer = true,
+                            ValidIssuer = "AKCore.Tests",
+                            ValidateAudience = true,
+                            ValidAudience = "AlteKamerer.Tests",
+                            ValidateLifetime = true,
+                            RequireExpirationTime = true,
+                            ValidateIssuerSigningKey = true,
+                            IssuerSigningKey =
+                                new SymmetricSecurityKey(
+                                    Encoding.UTF8.GetBytes(MobileAuthSigningKey)),
+                            ClockSkew = TimeSpan.FromMinutes(1)
+                        };
+                });
+
+            if (_useTestAuthentication)
+            {
+                services.AddAuthentication(options =>
+                {
+                    options.DefaultAuthenticateScheme = TestAuthHandler.SchemeName;
+                    options.DefaultChallengeScheme = TestAuthHandler.SchemeName;
+                    options.DefaultScheme = TestAuthHandler.SchemeName;
+                })
+                .AddScheme<Microsoft.AspNetCore.Authentication.AuthenticationSchemeOptions, TestAuthHandler>(
+                    TestAuthHandler.SchemeName,
+                    _ => { });
+            }
         });
     }
 

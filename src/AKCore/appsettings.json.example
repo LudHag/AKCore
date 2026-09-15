@@ -1,5 +1,8 @@
 {
   "DbConnectionString": "Server=endpoint;database=dbname;uid=user;pwd=password;",
   //,"OpenApiSecret": "xxxx",
-  "akcdn": ""
+  "akcdn": "",
+  "MobilePush": {
+    "ProjectId": "firebase-project-id"
+  }
 }

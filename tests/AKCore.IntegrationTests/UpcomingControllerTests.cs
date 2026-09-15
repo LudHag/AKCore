@@ -101,6 +101,128 @@ public class UpcomingControllerTests
     }
 
     [Fact]
+    public async Task SignUp_RejectsInvalidWhere()
+    {
+        await using var factory = new CustomWebApplicationFactory();
+        await factory.SeedMemberAsync();
+
+        var eventId = await factory.SeedEventAndReturnIdAsync(
+            TestEvents.SignupSpelning());
+
+        var client = TestClients.CreateMemberClient(factory);
+        var response = await client.PostAsync(
+            $"/upcoming/Signup/{eventId}",
+            SignupForms.Create(where: "Something else"));
+
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+        var body = await response.Content.ReadAsStringAsync();
+        using var json = JsonDocument.Parse(body);
+
+        Assert.False(
+            json.RootElement.GetProperty("success").GetBoolean());
+
+        using var scope = factory.Services.CreateScope();
+        var db = scope.ServiceProvider.GetRequiredService<AKContext>();
+
+        Assert.Empty(
+            await db.SignUps
+                .Where(x => x.Event.Id == eventId)
+                .ToListAsync());
+    }
+
+    [Fact]
+    public async Task SignUp_RejectsDisabledEvent()
+    {
+        await using var factory = new CustomWebApplicationFactory();
+        await factory.SeedMemberAsync();
+
+        var evt = TestEvents.SignupSpelning();
+        evt.Disabled = true;
+
+        var eventId = await factory.SeedEventAndReturnIdAsync(evt);
+
+        var client = TestClients.CreateMemberClient(factory);
+        var response = await client.PostAsync(
+            $"/upcoming/Signup/{eventId}",
+            SignupForms.Create());
+
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+        var body = await response.Content.ReadAsStringAsync();
+        using var json = JsonDocument.Parse(body);
+
+        Assert.False(
+            json.RootElement.GetProperty("success").GetBoolean());
+
+        using var scope = factory.Services.CreateScope();
+        var db = scope.ServiceProvider.GetRequiredService<AKContext>();
+
+        Assert.Empty(
+            await db.SignUps
+                .Where(x => x.Event.Id == eventId)
+                .ToListAsync());
+    }
+
+    [Fact]
+    public async Task SignUp_RejectsPassedEvent()
+    {
+        await using var factory = new CustomWebApplicationFactory();
+        await factory.SeedMemberAsync();
+
+        var evt = TestEvents.SignupSpelning();
+        evt.Day = DateTime.UtcNow.Date.AddDays(-2);
+
+        var eventId = await factory.SeedEventAndReturnIdAsync(evt);
+
+        var client = TestClients.CreateMemberClient(factory);
+        var response = await client.PostAsync(
+            $"/upcoming/Signup/{eventId}",
+            SignupForms.Create());
+
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+        var body = await response.Content.ReadAsStringAsync();
+        using var json = JsonDocument.Parse(body);
+
+        Assert.False(
+            json.RootElement.GetProperty("success").GetBoolean());
+
+        using var scope = factory.Services.CreateScope();
+        var db = scope.ServiceProvider.GetRequiredService<AKContext>();
+
+        Assert.Empty(
+            await db.SignUps
+                .Where(x => x.Event.Id == eventId)
+                .ToListAsync());
+    }
+
+    [Fact]
+    public async Task SignUp_AllowsYesterdaysEvent()
+    {
+        await using var factory = new CustomWebApplicationFactory();
+        await factory.SeedMemberAsync();
+
+        var evt = TestEvents.SignupSpelning();
+        evt.Day = DateTime.UtcNow.Date.AddDays(-1);
+
+        var eventId = await factory.SeedEventAndReturnIdAsync(evt);
+
+        var client = TestClients.CreateMemberClient(factory);
+        var response = await client.PostAsync(
+            $"/upcoming/Signup/{eventId}",
+            SignupForms.Create());
+
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+        var body = await response.Content.ReadAsStringAsync();
+        using var json = JsonDocument.Parse(body);
+
+        Assert.True(
+            json.RootElement.GetProperty("success").GetBoolean());
+    }
+
+    [Fact]
     public async Task SignUp_RequiresMemberRole()
     {
         await using var factory = new CustomWebApplicationFactory();
