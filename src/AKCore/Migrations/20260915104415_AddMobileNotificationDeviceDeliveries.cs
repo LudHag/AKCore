@@ -10,10 +10,6 @@ namespace AKCore.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropIndex(
-                name: "IX_MobileNotificationDeliveries_UserId_EventId",
-                table: "MobileNotificationDeliveries");
-
             migrationBuilder.AddColumn<string>(
                 name: "InstallationId",
                 table: "MobileNotificationDeliveries",
@@ -28,27 +24,31 @@ namespace AKCore.Migrations
                 table: "MobileNotificationDeliveries",
                 columns: new[] { "UserId", "EventId", "InstallationId" },
                 unique: true);
+
+            migrationBuilder.DropIndex(
+                name: "IX_MobileNotificationDeliveries_UserId_EventId",
+                table: "MobileNotificationDeliveries");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropIndex(
-                name: "IX_MobileNotificationDeliveries_UserId_EventId_InstallationId",
-                table: "MobileNotificationDeliveries");
-
             migrationBuilder.Sql(
                 "DELETE FROM `MobileNotificationDeliveries`;");
-
-            migrationBuilder.DropColumn(
-                name: "InstallationId",
-                table: "MobileNotificationDeliveries");
 
             migrationBuilder.CreateIndex(
                 name: "IX_MobileNotificationDeliveries_UserId_EventId",
                 table: "MobileNotificationDeliveries",
                 columns: new[] { "UserId", "EventId" },
                 unique: true);
+
+            migrationBuilder.DropIndex(
+                name: "IX_MobileNotificationDeliveries_UserId_EventId_InstallationId",
+                table: "MobileNotificationDeliveries");
+
+            migrationBuilder.DropColumn(
+                name: "InstallationId",
+                table: "MobileNotificationDeliveries");
         }
     }
 }
