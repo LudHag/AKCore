@@ -1,5 +1,6 @@
 using FirebaseAdmin;
 using FirebaseAdmin.Messaging;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,10 +10,14 @@ namespace AKCore.Services;
 public class FcmNotificationSender : IFcmNotificationSender
 {
     private readonly FirebaseMessaging _messaging;
+    private readonly MobilePushHealth _health;
 
-    public FcmNotificationSender(FirebaseApp app)
+    public FcmNotificationSender(
+        FirebaseApp app,
+        MobilePushHealth health)
     {
         _messaging = FirebaseMessaging.GetMessaging(app);
+        _health = health;
     }
 
     public async Task SendAsync(
@@ -38,8 +43,41 @@ public class FcmNotificationSender : IFcmNotificationSender
         message.Token = pushToken;
 #pragma warning restore CS0618
 
-        await _messaging.SendAsync(
-            message,
-            cancellationToken);
+        try
+        {
+            await _messaging.SendAsync(
+                message,
+                cancellationToken);
+
+            _health.MarkHealthy(DateTime.UtcNow);
+        }
+        catch (FirebaseMessagingException error)
+        {
+            if (error.MessagingErrorCode ==
+                MessagingErrorCode.Unregistered)
+            {
+                throw new InvalidMobilePushTokenException(
+                    "The FCM registration token is no longer valid.",
+                    error);
+            }
+
+            if (MobilePushFailureClassifier.IsInfrastructureFailure(
+                error.MessagingErrorCode))
+            {
+                _health.MarkUnhealthy(
+                    DateTime.UtcNow,
+                    error);
+            }
+
+            throw;
+        }
+        catch (Exception error)
+        {
+            _health.MarkUnhealthy(
+                DateTime.UtcNow,
+                error);
+
+            throw;
+        }
     }
 }

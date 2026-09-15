@@ -343,11 +343,100 @@ public class MobileNotificationServiceTests
             delivery => Assert.NotNull(delivery.SentAt));
     }
 
+    [Fact]
+    public async Task Send_InvalidToken_RemovesDeviceAndContinuesOtherDevices()
+    {
+        await using var factory = new CustomWebApplicationFactory();
+
+        var userId = await factory.SeedMemberAndReturnIdAsync();
+
+        var evt = new Event
+        {
+            Type = AkEventTypes.Evenemang,
+            Name = "Invalid token cleanup test",
+            Day = DateTime.UtcNow.Date,
+            SignUps = []
+        };
+
+        var eventId = await factory.SeedEventAndReturnIdAsync(evt);
+
+        await factory.SeedAsync(db =>
+        {
+            db.MobileDevices.AddRange(
+                new MobileDevice
+                {
+                    UserId = userId,
+                    InstallationId = "dead-device",
+                    PushToken = "dead-token",
+                    Provider = "fcm",
+                    Platform = "android",
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow
+                },
+                new MobileDevice
+                {
+                    UserId = userId,
+                    InstallationId = "good-device",
+                    PushToken = "good-token",
+                    Provider = "fcm",
+                    Platform = "android",
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow
+                });
+
+            return Task.CompletedTask;
+        });
+
+        var sender = new FakeFcmNotificationSender();
+        sender.InvalidTokens.Add("dead-token");
+
+        using var scope = factory.Services.CreateScope();
+
+        var db = scope.ServiceProvider.GetRequiredService<AKContext>();
+
+        var deliveryService =
+            scope.ServiceProvider.GetRequiredService<
+                MobileNotificationDeliveryService>();
+
+        var service = new MobileNotificationService(
+            db,
+            deliveryService,
+            sender);
+
+        var sent = await service.SendAsync(
+            userId,
+            eventId,
+            DateTime.UtcNow);
+
+        Assert.True(sent);
+
+        Assert.Equal(2, sender.Calls.Count);
+
+        var remainingDevice =
+            Assert.Single(await db.MobileDevices.ToListAsync());
+
+        Assert.Equal(
+            "good-device",
+            remainingDevice.InstallationId);
+
+        var delivery =
+            Assert.Single(
+                await db.MobileNotificationDeliveries.ToListAsync());
+
+        Assert.Equal(
+            "good-device",
+            delivery.InstallationId);
+
+        Assert.NotNull(delivery.SentAt);
+    }
+
     private sealed class FakeFcmNotificationSender : IFcmNotificationSender
     {
         public List<SendCall> Calls { get; } = [];
 
         public HashSet<string> FailingTokens { get; } = [];
+
+        public HashSet<string> InvalidTokens { get; } = [];
 
         public Task SendAsync(
             string pushToken,
@@ -359,6 +448,14 @@ public class MobileNotificationServiceTests
                 pushToken,
                 eventId,
                 eventName));
+
+            if (InvalidTokens.Contains(pushToken))
+            {
+                throw new InvalidMobilePushTokenException(
+                    "Simulated invalid FCM token.",
+                    new InvalidOperationException(
+                        "Simulated Firebase Unregistered response."));
+            }
 
             if (FailingTokens.Contains(pushToken))
             {

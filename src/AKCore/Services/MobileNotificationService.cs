@@ -89,6 +89,17 @@ public class MobileNotificationService
 
                 sentAny = true;
             }
+            catch (InvalidMobilePushTokenException)
+            {
+                await _deliveryService.ReleaseClaimAsync(
+                    userId,
+                    eventId,
+                    device.InstallationId,
+                    cancellationToken);
+
+                _db.MobileDevices.Remove(device);
+                await _db.SaveChangesAsync(cancellationToken);
+            }
             catch (Exception error)
             {
                 await _deliveryService.ReleaseClaimAsync(

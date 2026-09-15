@@ -111,27 +111,38 @@ public class Startup
             .GetSection(MobileAuthOptions.SectionName)
             .Bind(mobileAuthOptions);
 
+        var mobilePushOptions = new MobilePushOptions();
+
+        Configuration
+            .GetSection(MobilePushOptions.SectionName)
+            .Bind(mobilePushOptions);
+
+        mobilePushOptions.Validate();
+
         services.Configure<MobilePushOptions>(
             Configuration.GetSection(MobilePushOptions.SectionName));
 
-        services.AddSingleton(_ =>
+        services.AddSingleton(
+            new MobilePushHealth(mobilePushOptions.Enabled));
+
+        if (mobilePushOptions.Enabled)
         {
-            var projectId =
-                Configuration[$"{MobilePushOptions.SectionName}:ProjectId"];
+            var credential =
+                GoogleCredential.GetApplicationDefault();
 
-            if (string.IsNullOrWhiteSpace(projectId))
-            {
-                throw new InvalidOperationException(
-                    "MobilePush project ID is not configured.");
-            }
-
-            return FirebaseApp.Create(
+            var firebaseApp = FirebaseApp.Create(
                 new AppOptions
                 {
-                    ProjectId = projectId,
-                    Credential = GoogleCredential.GetApplicationDefault()
+                    ProjectId = mobilePushOptions.ProjectId,
+                    Credential = credential
                 });
-        });
+
+            services.AddSingleton(firebaseApp);
+
+            services.AddTransient<
+                IFcmNotificationSender,
+                FcmNotificationSender>();
+        }
 
         services.Configure<MobileAuthOptions>(
             Configuration.GetSection(MobileAuthOptions.SectionName));
@@ -141,8 +152,6 @@ public class Startup
         services.AddTransient<SameDayNotificationRelevanceService>();
         services.AddTransient<MobileNotificationService>();
         services.AddTransient<SameDayNotificationProcessor>();
-        services.AddTransient<IFcmNotificationSender, FcmNotificationSender>();
-
         services.AddAuthentication()
             .AddJwtBearer("MobileBearer", options =>
             {
@@ -195,7 +204,12 @@ public class Startup
         // Start hourly usage flush loop
         app.ApplicationServices.GetRequiredService<UsageCollector>();
 
-        if (!env.IsEnvironment("Testing"))
+        var mobilePushEnabled =
+            Configuration.GetValue<bool>(
+                $"{MobilePushOptions.SectionName}:Enabled");
+
+        if (!env.IsEnvironment("Testing") &&
+            mobilePushEnabled)
         {
             app.ApplicationServices.GetRequiredService<SameDayNotificationRunner>();
         }
