@@ -18,8 +18,6 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using FirebaseAdmin;
-using Google.Apis.Auth.OAuth2;
 
 namespace AKCore;
 
@@ -94,7 +92,6 @@ public class Startup
         services.AddScoped<MetricsService>();
         services.AddScoped<UsageService>();
         services.AddSingleton<UsageCollector>();
-        services.AddSingleton<SameDayNotificationRunner>();
 
         var apiSecret = Configuration["OpenApiSecret"];
         services.AddTransient(x => new OpenApiClient(apiSecret ?? ""));
@@ -111,47 +108,11 @@ public class Startup
             .GetSection(MobileAuthOptions.SectionName)
             .Bind(mobileAuthOptions);
 
-        var mobilePushOptions = new MobilePushOptions();
-
-        Configuration
-            .GetSection(MobilePushOptions.SectionName)
-            .Bind(mobilePushOptions);
-
-        mobilePushOptions.Validate();
-
-        services.Configure<MobilePushOptions>(
-            Configuration.GetSection(MobilePushOptions.SectionName));
-
-        services.AddSingleton(
-            new MobilePushHealth(mobilePushOptions.Enabled));
-
-        if (mobilePushOptions.Enabled)
-        {
-            var credential =
-                GoogleCredential.GetApplicationDefault();
-
-            var firebaseApp = FirebaseApp.Create(
-                new AppOptions
-                {
-                    ProjectId = mobilePushOptions.ProjectId,
-                    Credential = credential
-                });
-
-            services.AddSingleton(firebaseApp);
-
-            services.AddTransient<
-                IFcmNotificationSender,
-                FcmNotificationSender>();
-        }
-
         services.Configure<MobileAuthOptions>(
             Configuration.GetSection(MobileAuthOptions.SectionName));
 
         services.AddTransient<MobileTokenService>();
-        services.AddTransient<MobileNotificationDeliveryService>();
-        services.AddTransient<SameDayNotificationRelevanceService>();
-        services.AddTransient<MobileNotificationService>();
-        services.AddTransient<SameDayNotificationProcessor>();
+
         services.AddAuthentication()
             .AddJwtBearer("MobileBearer", options =>
             {
@@ -203,16 +164,6 @@ public class Startup
     {
         // Start hourly usage flush loop
         app.ApplicationServices.GetRequiredService<UsageCollector>();
-
-        var mobilePushEnabled =
-            Configuration.GetValue<bool>(
-                $"{MobilePushOptions.SectionName}:Enabled");
-
-        if (!env.IsEnvironment("Testing") &&
-            mobilePushEnabled)
-        {
-            app.ApplicationServices.GetRequiredService<SameDayNotificationRunner>();
-        }
 
         app.UseStaticFiles();
         if (env.IsDevelopment())

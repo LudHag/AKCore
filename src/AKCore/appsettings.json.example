@@ -1,31 +1,5 @@
 {
   "DbConnectionString": "Server=endpoint;database=dbname;uid=user;pwd=password;",
   //,"OpenApiSecret": "xxxx",
-  "akcdn": "",
-  // Mobile push notifications use Firebase Cloud Messaging (FCM).
-  // Leave Enabled=false to run AKCore without Firebase; the website and API
-  // continue to work, but same-day mobile push notifications are disabled.
-  //
-  // When Enabled=true:
-  // - ProjectId must contain the Firebase project ID.
-  // - Google Application Default Credentials must be available to AKCore.
-  //   One option is GOOGLE_APPLICATION_CREDENTIALS pointing to a Firebase
-  //   service-account key.
-  // - Missing/invalid Firebase configuration prevents AKCore from starting.
-  //
-  // Runtime push status is available at:
-  // GET /api/v1/mobile-push/health
-  //
-  // Status values:
-  // Disabled  - push is intentionally disabled.
-  // Ready     - Firebase initialized, but no successful send has occurred yet.
-  // Healthy   - an FCM send has succeeded.
-  // Unhealthy - a Firebase/infrastructure failure occurred; endpoint returns 503.
-  //
-  // An invalid token for one mobile device does not mark the entire
-  // Firebase integration unhealthy.
-  "MobilePush": {
-    "Enabled": false,
-    "ProjectId": ""
-  }
+  "akcdn": ""
 }

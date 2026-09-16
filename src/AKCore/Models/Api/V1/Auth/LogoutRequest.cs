@@ -6,5 +6,4 @@ public class LogoutRequest
 {
     [Required]
     public string RefreshToken { get; set; } = "";
-    public string InstallationId { get; set; }
 }

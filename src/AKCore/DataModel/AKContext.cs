@@ -40,33 +40,6 @@ public class AKContext : IdentityDbContext<AkUser>
             .HasMaxLength(127)
             .HasCharSet("latin1");
 
-        builder.Entity<MobileDevice>()
-            .Property(x => x.UserId)
-            .HasMaxLength(127)
-            .HasCharSet("latin1");
-
-        builder.Entity<MobileNotificationDelivery>()
-            .Property(x => x.UserId)
-            .HasMaxLength(127)
-            .HasCharSet("latin1");
-
-        builder.Entity<MobileNotificationDelivery>()
-            .HasIndex(x => new
-            {
-                x.UserId,
-                x.EventId,
-                x.InstallationId
-            })
-            .IsUnique();
-
-        builder.Entity<MobileDevice>()
-            .HasIndex(x => x.InstallationId)
-            .IsUnique();
-
-        builder.Entity<MobileDevice>()
-            .HasIndex(x => x.PushToken)
-            .IsUnique();
-
         builder.Entity<SignUp>()
             .HasIndex("EventId", nameof(SignUp.PersonId))
             .IsUnique();
@@ -88,8 +61,6 @@ public class AKContext : IdentityDbContext<AkUser>
     public DbSet<RequestsData> RequestsDatas { get; set; }
     public DbSet<UsageData> UsageDatas { get; set; }
     public DbSet<MobileSession> MobileSessions { get; set; }
-    public DbSet<MobileDevice> MobileDevices { get; set; }
-    public DbSet<MobileNotificationDelivery> MobileNotificationDeliveries { get; set; }
     public DatabaseFacade DatabaseAccessor => Database;
 
 }

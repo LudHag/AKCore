@@ -13,6 +13,7 @@ namespace AKCore.Migrations
     [DbContext(typeof(AKContext))]
     partial class AKContextModelSnapshot : ModelSnapshot
     {
+        /// <inheritdoc />
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
@@ -371,97 +372,6 @@ namespace AKCore.Migrations
                     b.HasIndex("LinkId");
 
                     b.ToTable("Menus");
-                });
-
-            modelBuilder.Entity("AKCore.DataModel.MobileDevice", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime");
-
-                    b.Property<string>("InstallationId")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
-
-                    b.Property<string>("Platform")
-                        .IsRequired()
-                        .HasMaxLength(32)
-                        .HasColumnType("varchar(32)");
-
-                    b.Property<string>("Provider")
-                        .IsRequired()
-                        .HasMaxLength(32)
-                        .HasColumnType("varchar(32)");
-
-                    b.Property<string>("PushToken")
-                        .IsRequired()
-                        .HasMaxLength(512)
-                        .HasColumnType("varchar(512)");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasMaxLength(127)
-                        .HasColumnType("varchar(127)")
-                        .HasAnnotation("MySql:CharSet", "latin1");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("InstallationId")
-                        .IsUnique();
-
-                    b.HasIndex("PushToken")
-                        .IsUnique();
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("MobileDevices");
-                });
-
-            modelBuilder.Entity("AKCore.DataModel.MobileNotificationDelivery", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
-
-                    b.Property<DateTime>("ClaimedAt")
-                        .HasColumnType("datetime");
-
-                    b.Property<int>("EventId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("InstallationId")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
-
-                    b.Property<DateTime?>("SentAt")
-                        .HasColumnType("datetime");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasMaxLength(127)
-                        .HasColumnType("varchar(127)")
-                        .HasAnnotation("MySql:CharSet", "latin1");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EventId");
-
-                    b.HasIndex("UserId", "EventId", "InstallationId")
-                        .IsUnique();
-
-                    b.ToTable("MobileNotificationDeliveries");
                 });
 
             modelBuilder.Entity("AKCore.DataModel.MobileSession", b =>
@@ -946,36 +856,6 @@ namespace AKCore.Migrations
                         .HasForeignKey("LinkId");
 
                     b.Navigation("Link");
-                });
-
-            modelBuilder.Entity("AKCore.DataModel.MobileDevice", b =>
-                {
-                    b.HasOne("AKCore.DataModel.AkUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("AKCore.DataModel.MobileNotificationDelivery", b =>
-                {
-                    b.HasOne("AKCore.DataModel.Event", "Event")
-                        .WithMany()
-                        .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("AKCore.DataModel.AkUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Event");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("AKCore.DataModel.MobileSession", b =>

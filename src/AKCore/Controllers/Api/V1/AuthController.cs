@@ -134,34 +134,10 @@ public class AuthController : ControllerBase
             .SingleOrDefaultAsync(
                 x => x.RefreshTokenHash == refreshTokenHash);
 
-        if (session != null)
+        if (session != null && session.RevokedAt == null)
         {
-            var changed = false;
-
-            if (session.RevokedAt == null)
-            {
-                session.RevokedAt = DateTime.UtcNow;
-                changed = true;
-            }
-
-            if (!string.IsNullOrWhiteSpace(request.InstallationId))
-            {
-                var device = await _db.MobileDevices
-                    .SingleOrDefaultAsync(
-                        x => x.InstallationId == request.InstallationId &&
-                            x.UserId == session.UserId);
-
-                if (device != null)
-                {
-                    _db.MobileDevices.Remove(device);
-                    changed = true;
-                }
-            }
-
-            if (changed)
-            {
-                await _db.SaveChangesAsync();
-            }
+            session.RevokedAt = DateTime.UtcNow;
+            await _db.SaveChangesAsync();
         }
 
         return NoContent();
