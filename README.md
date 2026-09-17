@@ -37,3 +37,15 @@ För att få frontendresurser att bygga krävs NPM (Node package manager). Det i
 ## Vue.js
 
 [Vue 3](https://vuejs.org/) används för vissa dynamiska komponenter som inloggning, men ännu mer på inloggade sidor för att hantera dynamiska element och liknar mycket react i funktionalitet. Vi använder Vues composition api samt typescript.
+
+## AlteKamerer
+
+AlteKamerer är mobilappen för AKCore och är tänkt att ge medlemmar ett smidigare sätt att använda de funktioner i AKCore som är mest relevanta i vardagen.
+
+I appen kan man bland annat logga in med sitt vanliga AKCore-konto, se kalender och evenemang, anmäla sig till evenemang och få relevanta påminnelser.
+
+AlteKamerer bygger vidare på samma information och regler som redan finns i AKCore, så medlemskap, evenemang, anmälningar och annan befintlig funktionalitet fortsätter att hanteras av AKCore.
+
+Källkoden för appen finns i det separata repositoryt:
+
+https://github.com/AKCore-Services/AlteKamerer

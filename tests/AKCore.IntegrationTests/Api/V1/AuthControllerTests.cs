@@ -127,6 +127,68 @@ public class AuthControllerTests
     }
 
     [Fact]
+    public async Task Login_RemovesOldMobileSessions()
+    {
+        await using var factory = new CustomWebApplicationFactory();
+        var userId = await factory.SeedMemberAndReturnIdAsync();
+
+        var now = DateTime.UtcNow;
+
+        await factory.SeedAsync(db =>
+        {
+            db.MobileSessions.AddRange(
+                new MobileSession
+                {
+                    UserId = userId,
+                    RefreshTokenHash = new string('d', 64),
+                    CreatedAt = now.AddDays(-40),
+                    ExpiresAt = now.AddDays(-1)
+                },
+                new MobileSession
+                {
+                    UserId = userId,
+                    RefreshTokenHash = new string('e', 64),
+                    CreatedAt = now.AddDays(-40),
+                    ExpiresAt = now.AddDays(10),
+                    RevokedAt = now.AddDays(-31)
+                },
+                new MobileSession
+                {
+                    UserId = userId,
+                    RefreshTokenHash = new string('f', 64),
+                    CreatedAt = now.AddDays(-5),
+                    ExpiresAt = now.AddDays(25),
+                    RevokedAt = now.AddDays(-5)
+                });
+
+            return Task.CompletedTask;
+        });
+
+        var client = TestClients.CreateAnonymousClient(factory);
+
+        var response = await client.PostAsJsonAsync(
+            "/api/v1/auth/login",
+            new
+            {
+                username = TestUsers.MemberUserName,
+                password = TestUsers.DefaultPassword
+            });
+
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+        using var scope = factory.Services.CreateScope();
+        var db = scope.ServiceProvider.GetRequiredService<AKContext>();
+
+        var sessions = await db.MobileSessions
+            .OrderBy(x => x.CreatedAt)
+            .ToListAsync();
+
+        Assert.Equal(2, sessions.Count);
+        Assert.Equal(new string('f', 64), sessions[0].RefreshTokenHash);
+        Assert.Null(sessions[1].RevokedAt);
+    }
+
+    [Fact]
     public async Task Refresh_ValidToken_RotatesRefreshSession()
     {
         await using var factory = new CustomWebApplicationFactory();

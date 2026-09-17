@@ -1,6 +1,8 @@
 using System.Net;
 using System.Text;
 using System.Text.Json;
+using System.Collections.Generic;
+using System.Net.Http;
 using AKCore.DataModel;
 using AKCore.IntegrationTests.TestData;
 using AKCore.Models;
@@ -207,4 +209,50 @@ public class ProfileControllerTests
         using var profileJson = JsonDocument.Parse(profileBody);
         Assert.Equal(newUserName, profileJson.RootElement.GetProperty("userName").GetString());
     }
+
+    [Fact]
+    public async Task ChangePassword_RemovesMobileSessions()
+    {
+        await using var factory = new CustomWebApplicationFactory();
+
+        var memberId = await factory.SeedMemberAndReturnIdAsync();
+
+        await factory.SeedAsync(db =>
+        {
+            db.MobileSessions.Add(new MobileSession
+            {
+                UserId = memberId,
+                RefreshTokenHash = new string('a', 64),
+                CreatedAt = DateTime.UtcNow,
+                ExpiresAt = DateTime.UtcNow.AddDays(30)
+            });
+
+            return Task.CompletedTask;
+        });
+
+        var client = TestClients.CreateMemberClient(factory);
+
+        var response = await client.PostAsync(
+            "/Profile/ChangePassword",
+            new FormUrlEncodedContent(new Dictionary<string, string>
+            {
+                ["password"] = "NewPassword2!"
+            }));
+
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+        var body = await response.Content.ReadAsStringAsync();
+        using var json = JsonDocument.Parse(body);
+
+        Assert.True(
+            json.RootElement.GetProperty("success").GetBoolean());
+
+        using var scope = factory.Services.CreateScope();
+
+        var db =
+            scope.ServiceProvider.GetRequiredService<AKContext>();
+
+        Assert.Empty(await db.MobileSessions.ToListAsync());
+    }
+
 }

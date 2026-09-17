@@ -17,17 +17,20 @@ public class UserAdminService
     private readonly RoleManager<IdentityRole> _roleManager;
     private readonly SignInManager<AkUser> _signInManager;
     private readonly AdminLogService _adminLogService;
+    private readonly AKContext _db;
 
     public UserAdminService(
         UserManager<AkUser> userManager,
         RoleManager<IdentityRole> roleManager,
         SignInManager<AkUser> signInManager,
-        AdminLogService adminLogService)
+        AdminLogService adminLogService,
+        AKContext db)
     {
         _userManager = userManager;
         _roleManager = roleManager;
         _signInManager = signInManager;
         _adminLogService = adminLogService;
+        _db = db;
     }
 
     public void PopulateUsersModel(UsersModel model)
@@ -279,7 +282,10 @@ public class UserAdminService
         return ServiceResult.Ok("Lyckades ta bort roll");
     }
 
-    public async Task<ServiceResult> ChangePasswordAsync(string userName, string password, string editingUserName)
+    public async Task<ServiceResult> ChangePasswordAsync(
+        string userName,
+        string password,
+        string editingUserName)
     {
         var user = await _userManager.FindByNameAsync(userName);
         if (user == null)
@@ -291,11 +297,23 @@ public class UserAdminService
         var result = await _userManager.ResetPasswordAsync(user, token, password);
         if (!result.Succeeded)
         {
-            return new ServiceResult { Success = false, Message = result.ToString() };
+            return new ServiceResult
+            {
+                Success = false,
+                Message = result.ToString()
+            };
         }
 
-        await _adminLogService.LogAction(AkLogTypes.User, editingUserName,
+        _db.MobileSessions.RemoveRange(
+            _db.MobileSessions.Where(x => x.UserId == user.Id));
+
+        await _db.SaveChangesAsync();
+
+        await _adminLogService.LogAction(
+            AkLogTypes.User,
+            editingUserName,
             "Användare med namn " + userName + " får lösenord ändrat");
+
         return ServiceResult.Ok("Lösenord ändrat");
     }
 

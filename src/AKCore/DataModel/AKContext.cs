@@ -40,6 +40,10 @@ public class AKContext : IdentityDbContext<AkUser>
             .HasMaxLength(127)
             .HasCharSet("latin1");
 
+        builder.Entity<MobileSession>()
+            .HasIndex(x => x.RefreshTokenHash)
+            .IsUnique();
+
         builder.Entity<SignUp>()
             .HasIndex("EventId", nameof(SignUp.PersonId))
             .IsUnique();

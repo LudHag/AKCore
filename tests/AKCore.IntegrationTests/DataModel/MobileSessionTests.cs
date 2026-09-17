@@ -46,6 +46,25 @@ public class MobileSessionTests
     }
 
     [Fact]
+    public async Task MobileSession_RefreshTokenHashHasUniqueIndex()
+    {
+        await using var factory = new CustomWebApplicationFactory();
+
+        using var scope = factory.Services.CreateScope();
+        var db = scope.ServiceProvider.GetRequiredService<AKContext>();
+
+        var entityType = db.Model.FindEntityType(typeof(MobileSession));
+        Assert.NotNull(entityType);
+
+        var index = Assert.Single(
+            entityType.GetIndexes(),
+            x => x.Properties.Count == 1 &&
+                x.Properties[0].Name == nameof(MobileSession.RefreshTokenHash));
+
+        Assert.True(index.IsUnique);
+    }
+
+    [Fact]
     public async Task MobileSession_CanBeRevoked()
     {
         await using var factory = new CustomWebApplicationFactory();
