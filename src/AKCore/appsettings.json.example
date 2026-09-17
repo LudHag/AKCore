@@ -1,5 +1,10 @@
 {
   "DbConnectionString": "Server=endpoint;database=dbname;uid=user;pwd=password;",
   //,"OpenApiSecret": "xxxx",
-  "akcdn": ""
+  "akcdn": "",
+  "MobileAuth": {
+    "Issuer": "AKCore",
+    "Audience": "AlteKamerer",
+    "SigningKey": "replace-with-a-long-random-secret"
+  }
 }

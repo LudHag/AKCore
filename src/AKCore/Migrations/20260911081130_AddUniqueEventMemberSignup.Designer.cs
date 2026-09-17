@@ -4,6 +4,7 @@ using AKCore.DataModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AKCore.Migrations
 {
     [DbContext(typeof(AKContext))]
-    partial class AKContextModelSnapshot : ModelSnapshot
+    [Migration("20260911081130_AddUniqueEventMemberSignup")]
+    partial class AddUniqueEventMemberSignup
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -397,15 +400,10 @@ namespace AKCore.Migrations
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasMaxLength(127)
-                        .HasColumnType("varchar(127)");
-
-                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("UserId"), "latin1");
+                        .HasMaxLength(95)
+                        .HasColumnType("varchar(95)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("RefreshTokenHash")
-                        .IsUnique();
 
                     b.HasIndex("UserId");
 

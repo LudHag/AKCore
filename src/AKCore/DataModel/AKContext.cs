@@ -32,8 +32,21 @@ public class AKContext : IdentityDbContext<AkUser>
             .HasMaxLength(255);
 
         builder.Entity<IdentityRole>()
-          .Property(x => x.Id)
-          .HasMaxLength(255);
+            .Property(x => x.Id)
+            .HasMaxLength(255);
+
+        builder.Entity<MobileSession>()
+            .Property(x => x.UserId)
+            .HasMaxLength(127)
+            .HasCharSet("latin1");
+
+        builder.Entity<MobileSession>()
+            .HasIndex(x => x.RefreshTokenHash)
+            .IsUnique();
+
+        builder.Entity<SignUp>()
+            .HasIndex("EventId", nameof(SignUp.PersonId))
+            .IsUnique();
     }
 
     public DbSet<Page> Pages { get; set; }
@@ -51,8 +64,9 @@ public class AKContext : IdentityDbContext<AkUser>
     public DbSet<MailBoxItem> MailBoxItems { get; set; }
     public DbSet<RequestsData> RequestsDatas { get; set; }
     public DbSet<UsageData> UsageDatas { get; set; }
+    public DbSet<MobileSession> MobileSessions { get; set; }
     public DatabaseFacade DatabaseAccessor => Database;
-    
+
 }
 
 public class Page
@@ -292,7 +306,7 @@ public class SignUp
             OtherInstruments = OtherInstruments,
             Comment = Comment,
             SignupTime = SignupTime
-        }; 
+        };
     }
 }
 public class LogItem

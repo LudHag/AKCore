@@ -116,6 +116,11 @@ public class ProfileController : Controller
             return Json(new { success = result.Succeeded, message = result.ToString() });
         }
 
+        _db.MobileSessions.RemoveRange(
+            _db.MobileSessions.Where(x => x.UserId == user.Id));
+
+        await _db.SaveChangesAsync();
+
         return Json(new { success = result.Succeeded, message = _translationsService.Get(TranslationDomains.Profile, "PasswordChanged") });
     }
 }

@@ -4,6 +4,7 @@ using AKCore.DataModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AKCore.Migrations
 {
     [DbContext(typeof(AKContext))]
-    partial class AKContextModelSnapshot : ModelSnapshot
+    [Migration("20260904064944_AddMobileSessions")]
+    partial class AddMobileSessions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -398,14 +401,10 @@ namespace AKCore.Migrations
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasMaxLength(127)
-                        .HasColumnType("varchar(127)");
-
-                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("UserId"), "latin1");
+                        .HasColumnType("varchar(127)")
+                        .HasAnnotation("MySql:CharSet", "latin1");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("RefreshTokenHash")
-                        .IsUnique();
 
                     b.HasIndex("UserId");
 
@@ -615,8 +614,7 @@ namespace AKCore.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EventId", "PersonId")
-                        .IsUnique();
+                    b.HasIndex("EventId");
 
                     b.HasIndex("PersonId", "SignupTime");
 

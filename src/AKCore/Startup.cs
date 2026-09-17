@@ -2,7 +2,10 @@
 using AKCore.DataModel;
 using AKCore.Middlewares;
 using AKCore.Models;
+using AKCore.Models.Api.V1.Auth;
 using AKCore.Services;
+using AKCore.Services.Api.V1.Auth;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -11,8 +14,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace AKCore;
 
@@ -34,17 +39,17 @@ public class Startup
     {
         var assetsSection = configuration.GetSection("assets");
         var assetsDictionary = new Dictionary<string, AssetModel>();
-        
+
         foreach (var assetSection in assetsSection.GetChildren())
         {
             var assetName = assetSection.Key;
             var entrypoint = assetSection["entrypoint"] ?? "";
             var js = assetSection.GetSection("js").Get<string[]>() ?? [];
             var css = assetSection.GetSection("css").Get<string[]>() ?? [];
-            
+
             assetsDictionary[assetName] = new AssetModel(entrypoint, js, css);
         }
-        
+
         return new AssetsModel(assetsDictionary);
     }
 
@@ -98,6 +103,49 @@ public class Startup
             .AddEntityFrameworkStores<AKContext>()
             .AddDefaultTokenProviders();
 
+        var mobileAuthOptions = new MobileAuthOptions();
+        Configuration
+            .GetSection(MobileAuthOptions.SectionName)
+            .Bind(mobileAuthOptions);
+
+        services.Configure<MobileAuthOptions>(
+            Configuration.GetSection(MobileAuthOptions.SectionName));
+
+        services.AddTransient<MobileTokenService>();
+
+        services.AddAuthentication()
+            .AddJwtBearer("MobileBearer", options =>
+            {
+                options.MapInboundClaims = false;
+
+                var tokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidIssuer = mobileAuthOptions.Issuer,
+
+                    ValidateAudience = true,
+                    ValidAudience = mobileAuthOptions.Audience,
+
+                    ValidateLifetime = true,
+                    RequireExpirationTime = true,
+
+                    ValidateIssuerSigningKey = true,
+
+                    ClockSkew = TimeSpan.FromMinutes(1)
+                };
+
+                if (!string.IsNullOrWhiteSpace(mobileAuthOptions.SigningKey))
+                {
+                    tokenValidationParameters.IssuerSigningKey =
+                        new SymmetricSecurityKey(
+                            Encoding.UTF8.GetBytes(
+                                mobileAuthOptions.SigningKey));
+                }
+
+                options.TokenValidationParameters =
+                    tokenValidationParameters;
+            });
+
         services.ConfigureApplicationCookie(options => options.LoginPath = "/");
 
         services.Configure<IdentityOptions>(options =>
@@ -131,7 +179,7 @@ public class Startup
 
         app.UseSession();
         app.UseRouting();
-      
+
         app.UseAuthentication();
 
         app.UseAuthorization();

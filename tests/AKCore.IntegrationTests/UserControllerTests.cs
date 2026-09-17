@@ -177,7 +177,21 @@ public class UserControllerTests
     {
         await using var factory = new CustomWebApplicationFactory();
         await factory.SeedAdminAsync();
-        await factory.SeedMemberAsync();
+
+        var memberId = await factory.SeedMemberAndReturnIdAsync();
+
+        await factory.SeedAsync(db =>
+        {
+            db.MobileSessions.Add(new MobileSession
+            {
+                UserId = memberId,
+                RefreshTokenHash = new string('a', 64),
+                CreatedAt = DateTime.UtcNow,
+                ExpiresAt = DateTime.UtcNow.AddDays(30)
+            });
+
+            return Task.CompletedTask;
+        });
 
         var client = TestClients.CreateAdminClient(factory);
         var response = await client.PostAsync(
@@ -195,6 +209,7 @@ public class UserControllerTests
         var db = scope.ServiceProvider.GetRequiredService<AKContext>();
         var user = await userManager.FindByNameAsync(TestUsers.MemberUserName);
         Assert.True(await userManager.CheckPasswordAsync(user!, "NewPassword2!"));
+        Assert.Empty(await db.MobileSessions.ToListAsync());
         await LogAssertions.AssertLogExistsAsync(
             db,
             AkLogTypes.User,
