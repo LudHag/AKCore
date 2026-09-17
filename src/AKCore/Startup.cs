@@ -8,7 +8,9 @@ using AKCore.Services.Api.V1.Auth;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -18,6 +20,7 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.RateLimiting;
 
 namespace AKCore;
 
@@ -111,7 +114,45 @@ public class Startup
         services.Configure<MobileAuthOptions>(
             Configuration.GetSection(MobileAuthOptions.SectionName));
 
+        services.AddRateLimiter(options =>
+        {
+            options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+            options.OnRejected = async (context, cancellationToken) =>
+            {
+                var http = context.HttpContext;
+                http.Response.StatusCode = StatusCodes.Status429TooManyRequests;
+
+                if (http.Request.Path.StartsWithSegments("/api"))
+                {
+                    await http.Response.WriteAsJsonAsync(new
+                    {
+                        message = "Too many login attempts. Try again later."
+                    }, cancellationToken);
+                    return;
+                }
+
+                await http.Response.WriteAsJsonAsync(new
+                {
+                    success = false,
+                    message = "För många inloggningsförsök. Försök igen senare."
+                }, cancellationToken);
+            };
+
+            options.AddPolicy(LoginRateLimit.PolicyName, httpContext =>
+                RateLimitPartition.GetFixedWindowLimiter(
+                    partitionKey: httpContext.Connection.RemoteIpAddress?.ToString()
+                        ?? "unknown",
+                    factory: _ => new FixedWindowRateLimiterOptions
+                    {
+                        AutoReplenishment = true,
+                        PermitLimit = LoginRateLimit.PermitLimit,
+                        Window = TimeSpan.FromMinutes(LoginRateLimit.WindowMinutes),
+                        QueueLimit = 0
+                    }));
+        });
+
         services.AddTransient<MobileTokenService>();
+        services.AddSingleton<MobileSessionCleaner>();
 
         services.AddAuthentication()
             .AddJwtBearer("MobileBearer", options =>
@@ -165,6 +206,9 @@ public class Startup
         // Start hourly usage flush loop
         app.ApplicationServices.GetRequiredService<UsageCollector>();
 
+        // Start hourly mobile session cleanup loop
+        app.ApplicationServices.GetRequiredService<MobileSessionCleaner>();
+
         app.UseStaticFiles();
         if (env.IsDevelopment())
         {
@@ -179,6 +223,7 @@ public class Startup
 
         app.UseSession();
         app.UseRouting();
+        app.UseRateLimiter();
 
         app.UseAuthentication();
 

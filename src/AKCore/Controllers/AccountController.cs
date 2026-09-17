@@ -3,6 +3,7 @@ using AKCore.Extensions;
 using AKCore.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using System;
 using System.Threading.Tasks;
 
@@ -27,6 +28,7 @@ public class AccountController : Controller
 
     [HttpPost]
     [Route("Login")]
+    [EnableRateLimiting(LoginRateLimit.PolicyName)]
     public async Task<ActionResult> Login(LoginModel model)
     {
         if (ModelState.IsValid)

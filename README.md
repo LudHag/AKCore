@@ -38,14 +38,19 @@ För att få frontendresurser att bygga krävs NPM (Node package manager). Det i
 
 [Vue 3](https://vuejs.org/) används för vissa dynamiska komponenter som inloggning, men ännu mer på inloggade sidor för att hantera dynamiska element och liknar mycket react i funktionalitet. Vi använder Vues composition api samt typescript.
 
-## AlteKamerer
+# API v1:
 
-AlteKamerer är mobilappen för AKCore och är tänkt att ge medlemmar ett smidigare sätt att använda de funktioner i AKCore som är mest relevanta i vardagen.
+JSON-API under `/api/v1`. Auth-endpoints är öppna; övriga kräver Bearer-token från login (`Authorization: Bearer ...`). Samma användare, evenemang och anmälningar som i övriga AKCore.
 
-I appen kan man bland annat logga in med sitt vanliga AKCore-konto, se kalender och evenemang, anmäla sig till evenemang och få relevanta påminnelser.
+**Auth**
+- `POST /api/v1/auth/login` – inloggning, returnerar access- och refresh-token
+- `POST /api/v1/auth/refresh` – förnya tokens
+- `POST /api/v1/auth/logout` – ogiltigförklara refresh-token
 
-AlteKamerer bygger vidare på samma information och regler som redan finns i AKCore, så medlemskap, evenemang, anmälningar och annan befintlig funktionalitet fortsätter att hanteras av AKCore.
+**Övrigt**
+- `GET /api/v1/me` – inloggad användare
+- `GET /api/v1/calendar` – kommande evenemang
+- `GET /api/v1/events/{id}` – evenemangsdetaljer och anmälningslista
+- `PUT /api/v1/events/{id}/registration` – skapa eller uppdatera anmälan
 
-Källkoden för appen finns i det separata repositoryt:
-
-https://github.com/AKCore-Services/AlteKamerer
+API:t finns främst för att stödja mobilappen AlteKamerer: https://github.com/AKCore-Services/AlteKamerer

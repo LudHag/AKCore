@@ -2,6 +2,7 @@ using System.Net;
 using System.Net.Http.Json;
 using AKCore.IntegrationTests.TestData;
 using AKCore.DataModel;
+using AKCore.Models;
 using AKCore.Models.Api.V1.Auth;
 using AKCore.Services.Api.V1.Auth;
 using Microsoft.EntityFrameworkCore;
@@ -92,6 +93,39 @@ public class AuthControllerTests
     }
 
     [Fact]
+    public async Task Login_TooManyAttempts_ReturnsTooManyRequests()
+    {
+        await using var factory = new CustomWebApplicationFactory();
+        await factory.SeedMemberAsync();
+
+        var client = TestClients.CreateAnonymousClient(factory);
+        var loginBody = new
+        {
+            username = TestUsers.MemberUserName,
+            password = "WrongPassword"
+        };
+
+        for (var i = 0; i < LoginRateLimit.PermitLimit; i++)
+        {
+            var response = await client.PostAsJsonAsync(
+                "/api/v1/auth/login",
+                loginBody);
+
+            Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+        }
+
+        var limitedResponse =
+            await client.PostAsJsonAsync("/api/v1/auth/login", loginBody);
+
+        Assert.Equal(HttpStatusCode.TooManyRequests, limitedResponse.StatusCode);
+
+        var body = await limitedResponse.Content.ReadFromJsonAsync<RateLimitResponse>();
+
+        Assert.NotNull(body);
+        Assert.Equal("Too many login attempts. Try again later.", body.Message);
+    }
+
+    [Fact]
     public async Task Login_ValidCredentials_PersistsHashedRefreshSession()
     {
         await using var factory = new CustomWebApplicationFactory();
@@ -127,7 +161,7 @@ public class AuthControllerTests
     }
 
     [Fact]
-    public async Task Login_RemovesOldMobileSessions()
+    public async Task Login_LeavesOldMobileSessionsToBackgroundCleanup()
     {
         await using var factory = new CustomWebApplicationFactory();
         var userId = await factory.SeedMemberAndReturnIdAsync();
@@ -183,9 +217,8 @@ public class AuthControllerTests
             .OrderBy(x => x.CreatedAt)
             .ToListAsync();
 
-        Assert.Equal(2, sessions.Count);
-        Assert.Equal(new string('f', 64), sessions[0].RefreshTokenHash);
-        Assert.Null(sessions[1].RevokedAt);
+        Assert.Equal(4, sessions.Count);
+        Assert.Null(sessions[3].RevokedAt);
     }
 
     [Fact]
@@ -445,6 +478,11 @@ public class AuthControllerTests
         Assert.Equal(
             HttpStatusCode.NoContent,
             response.StatusCode);
+    }
+
+    private sealed class RateLimitResponse
+    {
+        public string? Message { get; set; }
     }
 
 }
