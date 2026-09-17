@@ -1,9 +1,11 @@
 using AKCore.DataModel;
+using AKCore.Models;
 using AKCore.Models.Api.V1.Auth;
 using AKCore.Services.Api.V1.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading.Tasks;
@@ -30,6 +32,7 @@ public class AuthController : ControllerBase
 
     [AllowAnonymous]
     [HttpPost("login")]
+    [EnableRateLimiting(LoginRateLimit.PolicyName)]
     public async Task<IActionResult> Login(LoginRequest request)
     {
         var user = await _userManager.FindByNameAsync(request.Username);

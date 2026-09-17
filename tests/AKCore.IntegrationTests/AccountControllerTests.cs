@@ -1,6 +1,7 @@
 using System.Net;
 using System.Net.Http.Json;
 using AKCore.IntegrationTests.TestData;
+using AKCore.Models;
 
 namespace AKCore.IntegrationTests;
 
@@ -72,6 +73,48 @@ public class AccountControllerTests
             "Inloggning misslyckades",
             body.Message);
     }
+
+    [Fact]
+    public async Task Login_TooManyAttempts_ReturnsTooManyRequests()
+    {
+        await using var factory =
+            new CustomWebApplicationFactory(
+                useTestAuthentication: false);
+        await factory.SeedMemberAsync();
+
+        var client = TestClients.CreateAnonymousClient(factory);
+
+        for (var i = 0; i < LoginRateLimit.PermitLimit; i++)
+        {
+            var response = await client.PostAsync(
+                "/Account/Login",
+                CreateFailedLoginContent());
+
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        }
+
+        var limitedResponse =
+            await client.PostAsync("/Account/Login", CreateFailedLoginContent());
+
+        Assert.Equal(HttpStatusCode.TooManyRequests, limitedResponse.StatusCode);
+
+        var body =
+            await limitedResponse.Content.ReadFromJsonAsync<LoginResponse>();
+
+        Assert.NotNull(body);
+        Assert.False(body.Success);
+        Assert.Equal(
+            "För många inloggningsförsök. Försök igen senare.",
+            body.Message);
+    }
+
+    private static FormUrlEncodedContent CreateFailedLoginContent() =>
+        new(
+            new Dictionary<string, string>
+            {
+                ["Username"] = TestUsers.MemberUserName,
+                ["Password"] = "WrongPassword"
+            });
 
     private sealed class LoginResponse
     {
