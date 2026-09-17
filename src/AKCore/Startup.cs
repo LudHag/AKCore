@@ -112,6 +112,7 @@ public class Startup
             Configuration.GetSection(MobileAuthOptions.SectionName));
 
         services.AddTransient<MobileTokenService>();
+        services.AddSingleton<MobileSessionCleaner>();
 
         services.AddAuthentication()
             .AddJwtBearer("MobileBearer", options =>
@@ -164,6 +165,9 @@ public class Startup
     {
         // Start hourly usage flush loop
         app.ApplicationServices.GetRequiredService<UsageCollector>();
+
+        // Start hourly mobile session cleanup loop
+        app.ApplicationServices.GetRequiredService<MobileSessionCleaner>();
 
         app.UseStaticFiles();
         if (env.IsDevelopment())

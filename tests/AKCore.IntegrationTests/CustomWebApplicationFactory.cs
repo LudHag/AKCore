@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -18,13 +19,16 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
 {
     private readonly string _dbName = Guid.NewGuid().ToString();
     private readonly bool _useTestAuthentication;
+    private readonly IInterceptor[] _dbInterceptors;
     private const string MobileAuthSigningKey =
     "0123456789abcdef0123456789abcdef";
 
     public CustomWebApplicationFactory(
-        bool useTestAuthentication = true)
+        bool useTestAuthentication = true,
+        IInterceptor[]? dbInterceptors = null)
     {
         _useTestAuthentication = useTestAuthentication;
+        _dbInterceptors = dbInterceptors ?? [];
     }
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
@@ -36,7 +40,7 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
             RemoveDbContextRegistrations(services);
 
             services.AddDbContext<AKContext>(options =>
-                options.UseInMemoryDatabase(_dbName));
+                options.UseInMemoryDatabase(_dbName).AddInterceptors(_dbInterceptors));
 
             services.Configure<MobileAuthOptions>(options =>
             {

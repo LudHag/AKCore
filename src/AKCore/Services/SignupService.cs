@@ -139,6 +139,7 @@ public class SignupService
             isNewSignup &&
             error.InnerException is MySqlException { Number: 1062 })
         {
+            spelning.SignUps.Remove(signup);
             _db.Entry(signup).State = EntityState.Detached;
 
             var existingSignup = await _db.SignUps

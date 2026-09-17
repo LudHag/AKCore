@@ -127,7 +127,7 @@ public class AuthControllerTests
     }
 
     [Fact]
-    public async Task Login_RemovesOldMobileSessions()
+    public async Task Login_LeavesOldMobileSessionsToBackgroundCleanup()
     {
         await using var factory = new CustomWebApplicationFactory();
         var userId = await factory.SeedMemberAndReturnIdAsync();
@@ -183,9 +183,8 @@ public class AuthControllerTests
             .OrderBy(x => x.CreatedAt)
             .ToListAsync();
 
-        Assert.Equal(2, sessions.Count);
-        Assert.Equal(new string('f', 64), sessions[0].RefreshTokenHash);
-        Assert.Null(sessions[1].RevokedAt);
+        Assert.Equal(4, sessions.Count);
+        Assert.Null(sessions[3].RevokedAt);
     }
 
     [Fact]

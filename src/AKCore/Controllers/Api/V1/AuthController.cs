@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace AKCore.Controllers.Api.V1;
@@ -45,7 +44,6 @@ public class AuthController : ControllerBase
         }
 
         var now = DateTime.UtcNow;
-        ClearOldSessions(now);
 
         var accessToken =
             _mobileTokenService.CreateAccessToken(user);
@@ -98,8 +96,6 @@ public class AuthController : ControllerBase
             });
         }
 
-        ClearOldSessions(now);
-
         session.RevokedAt = now;
 
         var accessToken =
@@ -148,16 +144,4 @@ public class AuthController : ControllerBase
 
         return NoContent();
     }
-
-    private void ClearOldSessions(DateTime now)
-    {
-        var revokedCutoff = now.AddDays(-30);
-
-        _db.MobileSessions.RemoveRange(
-            _db.MobileSessions.Where(x =>
-                x.ExpiresAt <= now ||
-                (x.RevokedAt != null &&
-                x.RevokedAt <= revokedCutoff)));
-    }
-
 }
