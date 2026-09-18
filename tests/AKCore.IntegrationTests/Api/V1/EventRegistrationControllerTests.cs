@@ -13,7 +13,7 @@ namespace AKCore.IntegrationTests.Api.V1;
 public class EventRegistrationControllerTests
 {
     [Fact]
-    public async Task Put_AnonymousRequest_ReturnsUnauthorized()
+    public async Task Post_AnonymousRequest_ReturnsUnauthorized()
     {
         await using var factory = new CustomWebApplicationFactory();
 
@@ -31,7 +31,7 @@ public class EventRegistrationControllerTests
     }
 
     [Fact]
-    public async Task Put_AuthenticatedNonMember_ReturnsForbidden()
+    public async Task Post_AuthenticatedNonMember_ReturnsForbidden()
     {
         await using var factory = new CustomWebApplicationFactory();
         await factory.SeedEditorAsync();
@@ -52,7 +52,7 @@ public class EventRegistrationControllerTests
     }
 
     [Fact]
-    public async Task Put_MissingEvent_ReturnsNotFound()
+    public async Task Post_MissingEvent_ReturnsNotFound()
     {
         await using var factory = new CustomWebApplicationFactory();
         await factory.SeedMemberAsync();
@@ -70,7 +70,7 @@ public class EventRegistrationControllerTests
     }
 
     [Fact]
-    public async Task Put_NewRegistration_CreatesSignup()
+    public async Task Post_NewRegistration_CreatesSignup()
     {
         await using var factory = new CustomWebApplicationFactory();
 
@@ -114,7 +114,7 @@ public class EventRegistrationControllerTests
     }
 
     [Fact]
-    public async Task Put_WebsiteRegistration_UpdatesSameSignupWithoutDuplicate()
+    public async Task Post_WebsiteRegistration_UpdatesSameSignupWithoutDuplicate()
     {
         await using var factory = new CustomWebApplicationFactory();
 
@@ -176,7 +176,7 @@ public class EventRegistrationControllerTests
     }
 
     [Fact]
-    public async Task Put_MissingWhere_ReturnsBadRequest()
+    public async Task Post_MissingWhere_ReturnsBadRequest()
     {
         await using var factory = new CustomWebApplicationFactory();
         await factory.SeedMemberAsync();
@@ -197,7 +197,7 @@ public class EventRegistrationControllerTests
     }
 
     [Fact]
-    public async Task Put_InvalidWhere_ReturnsBadRequest()
+    public async Task Post_InvalidWhere_ReturnsBadRequest()
     {
         await using var factory = new CustomWebApplicationFactory();
         await factory.SeedMemberAsync();
@@ -218,7 +218,7 @@ public class EventRegistrationControllerTests
     }
 
     [Fact]
-    public async Task Put_DisabledEvent_ReturnsBadRequest()
+    public async Task Post_DisabledEvent_ReturnsBadRequest()
     {
         await using var factory = new CustomWebApplicationFactory();
         await factory.SeedMemberAsync();
@@ -250,7 +250,7 @@ public class EventRegistrationControllerTests
     }
 
     [Fact]
-    public async Task Put_OlderEvent_ReturnsBadRequest()
+    public async Task Post_OlderEvent_ReturnsBadRequest()
     {
         await using var factory = new CustomWebApplicationFactory();
         await factory.SeedMemberAsync();
@@ -282,7 +282,7 @@ public class EventRegistrationControllerTests
     }
 
     [Fact]
-    public async Task Put_YesterdaysEvent_RemainsAvailable()
+    public async Task Post_YesterdaysEvent_RemainsAvailable()
     {
         await using var factory = new CustomWebApplicationFactory();
         await factory.SeedMemberAsync();
@@ -313,7 +313,7 @@ public class EventRegistrationControllerTests
         bool instrument = true,
         string? comment = null,
         string? selectedInstrument = null) =>
-        client.PutAsJsonAsync(
+        client.PostAsJsonAsync(
             $"/api/v1/events/{eventId}/registration",
             new
             {
