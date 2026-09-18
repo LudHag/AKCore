@@ -27,6 +27,7 @@ public class EventRegistrationController : ControllerBase
     }
 
     [HttpPut]
+    [HttpPost]
     public async Task<IActionResult> Put(
         int id,
         EventRegistrationRequest request)
