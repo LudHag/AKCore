@@ -36,10 +36,10 @@
           <p>{{ e.day }}</p>
         </div>
         <div class="col-sm-4">
-          <p>{{ e.name }}</p>
+          <p>{{ eventName(e) }}</p>
         </div>
         <div class="col-sm-4">
-          <p>{{ e.type }}</p>
+          <p>{{ eventTypeLabel(e.type) }}</p>
         </div>
         <div class="col-sm-2">
           <a
@@ -78,6 +78,7 @@
 <script setup lang="ts">
 import Spinner from "../Spinner.vue";
 import AdminEventModal from "./AdminEventModal.vue";
+import { eventName, eventTypeLabel } from "../Upcoming/functions";
 import { getFromApi, postToApi } from "@services/apiservice";
 import { ref, computed, onMounted } from "vue";
 import { AdminEventModel } from "./models";
@@ -114,7 +115,9 @@ const newSort = (e: Event) => {
 
 const removeEvent = (e: UpcomingEvent) => {
   if (
-    confirm("Är du säker på att du vill ta bort event: " + e.day + " " + e.name)
+    confirm(
+      "Är du säker på att du vill ta bort event: " + e.day + " " + eventName(e),
+    )
   ) {
     postToApi(
       "/AdminEvent/Remove/" + e.id,

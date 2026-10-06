@@ -21,7 +21,7 @@ export const upcomingTranslations: Record<string, Translation> = {
     english:
       "Unfortunately we have no planned public concerts in the upcoming weeks",
   },
-  Rep: { swedish: "Rep", english: "Rehearsal" },
+  Rep: { swedish: "Orkesterrep", english: "Orchestra rehearsal" },
   Kårhusrep: {
     swedish: "Kårhusrep",
     english: "Student union building rehearsal",

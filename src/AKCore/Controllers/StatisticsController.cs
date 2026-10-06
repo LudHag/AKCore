@@ -88,11 +88,81 @@ public class StatisticsController(AKContext db, TranslationsService translations
         });
     }
 
+    [Route("FeatureUsage")]
+    public async Task<ActionResult> GetFeatureUsage(StatisticsRequestRange range = StatisticsRequestRange.Day)
+    {
+        var dataItems = await GetUsageItems(range);
+
+        var dates = dataItems
+            .Select(x => x.Created)
+            .Distinct()
+            .ToList();
+
+        var groupedItems = dataItems.GroupBy(x => x.Type)
+            .Select(x => new { Type = x.Key, Items = NormalizeUsageItems(x, dates) })
+            .OrderByDescending(x => x.Items.Sum(y => y.Amount));
+
+        CultureInfo culture = translationsService.IsEnglish() ? new("en-US") : new("sv-SE");
+
+        return Json(new
+        {
+            items = groupedItems,
+            dates = dates.Select(x => FormatTime(x, culture, range))
+        });
+    }
+
     private static string FormatTime(DateTime date, CultureInfo culture, StatisticsRequestRange range)
     {
         var perDay = range == StatisticsRequestRange.Month;
 
         return perDay ? date.ToString("dd MMM", culture) : date.ToString("ddd HH", culture);
+    }
+
+    private async Task<IEnumerable<StatisticsUsageModel>> GetUsageItems(StatisticsRequestRange range)
+    {
+        var perDay = range == StatisticsRequestRange.Month;
+
+        var dataItemsFiltered = db.UsageDatas
+            .Where(x => x.Created > GetRangeCompare(range));
+
+        if (perDay)
+        {
+            return await dataItemsFiltered.GroupBy(r => new
+            {
+                Created = r.Created.Date,
+                r.Type
+            })
+            .Select(g => new
+            {
+                g.Key.Created,
+                g.Key.Type,
+                Amount = g.Sum(r => r.Amount)
+            })
+            .Select(x => new StatisticsUsageModel(x.Created, x.Amount, x.Type))
+            .ToListAsync();
+        }
+
+        return await dataItemsFiltered
+            .Select(x => new StatisticsUsageModel(x.Created, x.Amount, x.Type))
+            .ToListAsync();
+    }
+
+    private static IEnumerable<StatisticsUsageModel> NormalizeUsageItems(
+        IEnumerable<StatisticsUsageModel> items,
+        IEnumerable<DateTime> dates)
+    {
+        var distinctItems = items.GroupBy(item => item.Created)
+            .Select(group => new StatisticsUsageModel(
+                group.Key,
+                group.Sum(item => item.Amount),
+                group.First().Type));
+
+        return dates
+            .Select(date =>
+            {
+                var item = distinctItems.FirstOrDefault(x => x.Created == date);
+                return new StatisticsUsageModel(date, item == null ? 0 : item.Amount, null);
+            });
     }
 
     private async Task<IEnumerable<StatisticsRequestModel>> GetRequestItems(bool loggedIn, bool loggedOut, StatisticsRequestRange range )

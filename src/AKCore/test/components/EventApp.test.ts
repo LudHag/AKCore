@@ -11,8 +11,10 @@ vi.mock("@scripts/general", () => ({
 import EventApp from "@components/Event/EventApp.vue";
 import {
   createEventDataPayload,
+  createMockSignup,
   mockEventDetailId,
   mockEventDetailName,
+  mockSignupPersonName,
 } from "@test/mocks/eventData";
 import {
   fetchRequestUrl,
@@ -59,6 +61,32 @@ test("after EventData loads, event title and signup form are shown", async () =>
   await expect
     .poll(() => screen.container.querySelector("#event-app form"))
     .not.toBeNull();
+});
+
+test("signups without an instrument are still listed", async () => {
+  vi.spyOn(globalThis, "fetch").mockImplementation((input) => {
+    const url = fetchRequestUrl(input);
+    if (url.includes("Event/EventData")) {
+      return jsonResponse(
+        createEventDataPayload({
+          signups: [createMockSignup({ instrumentName: null })],
+        }),
+      );
+    }
+    return Promise.reject(new Error(`Unexpected fetch: ${url}`));
+  });
+
+  const screen = await render(EventApp, {
+    props: { eventId: mockEventDetailId },
+  });
+
+  await expect
+    .poll(() => screen.container.textContent?.includes("Inget instrument"))
+    .toBe(true);
+
+  await expect
+    .poll(() => screen.container.textContent?.includes(mockSignupPersonName))
+    .toBe(true);
 });
 
 test("signup flow: submitting the form POSTs to /upcoming/Signup/{id} with field data", async () => {

@@ -1,4 +1,5 @@
 ﻿import { defaultFormSend } from "@services/apiservice";
+import { FeatureUsageTypes, recordFeatureUsage } from "@services/usage";
 
 const menu = document.getElementById("mobile-menu")!;
 
@@ -84,6 +85,7 @@ document.addEventListener("keydown", function (event: KeyboardEvent) {
 });
 
 function flojt() {
+  recordFeatureUsage(FeatureUsageTypes.FlojtEvent);
   const document: Document = window.document;
   let nodesContainer: HTMLDivElement | null = document.getElementById(
     "__cornify_nodes",

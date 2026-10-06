@@ -74,8 +74,8 @@
               <div class="form-group">
                 <label>Andra instrument</label>
                 <VueSelect
-                  is-multi
-                  :searchable="false"
+                  :teleport="false"
+                  multiple
                   name="OtherInstruments"
                   placeholder="Välj andra instrument"
                   :options="othInstruments"
@@ -112,8 +112,8 @@
               <div class="form-group" v-if="!user">
                 <label>Roller</label>
                 <VueSelect
-                  is-multi
-                  :searchable="false"
+                  :teleport="false"
+                  multiple
                   name="Roles"
                   :options="roleOptions"
                   v-model="editedUser.roles"
@@ -122,7 +122,8 @@
               <div class="form-group">
                 <label>Poster</label>
                 <VueSelect
-                  is-multi
+                  :teleport="false"
+                  multiple
                   name="Poster"
                   placeholder="Välj poster"
                   :options="postOptions"
@@ -169,7 +170,10 @@
 import { postToApi } from "@services/apiservice";
 import Modal from "../Modal.vue";
 import { INSTRUMENTS, ROLES, POSTS, MEDALS } from "../../constants";
-import VueSelect, { Option } from "vue3-select-component";
+import {
+  Select as VueSelect,
+  type SelectOptionData,
+} from "vue3-select-component";
 import { User } from "./models";
 import { ref, watch, computed } from "vue";
 
@@ -188,11 +192,11 @@ const editedUser = ref<User>({} as User);
 const error = ref<HTMLElement | null>(null);
 
 const postOptions = POSTS.map((post) => {
-  return { value: post, label: post } as Option<string>;
+  return { value: post, label: post } as SelectOptionData<string>;
 });
 
 const roleOptions = ROLES.map((role) => {
-  return { value: role, label: role } as Option<string>;
+  return { value: role, label: role } as SelectOptionData<string>;
 });
 
 watch(
@@ -212,7 +216,7 @@ const othInstruments = computed(() => {
   return INSTRUMENTS.filter((instr) => {
     return instr !== editedUser.value.instrument;
   }).map((instr) => {
-    return { value: instr, label: instr } as Option<string>;
+    return { value: instr, label: instr } as SelectOptionData<string>;
   });
 });
 

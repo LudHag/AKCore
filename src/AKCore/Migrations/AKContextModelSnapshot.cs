@@ -17,7 +17,7 @@ namespace AKCore.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.12")
+                .HasAnnotation("ProductVersion", "10.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             MySqlModelBuilderExtensions.HasCharSet(modelBuilder, "utf8mb4");
@@ -373,6 +373,45 @@ namespace AKCore.Migrations
                     b.ToTable("Menus");
                 });
 
+            modelBuilder.Entity("AKCore.DataModel.MobileSession", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime");
+
+                    b.Property<DateTime>("ExpiresAt")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("RefreshTokenHash")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
+
+                    b.Property<DateTime?>("RevokedAt")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasMaxLength(127)
+                        .HasColumnType("varchar(127)");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("UserId"), "latin1");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RefreshTokenHash")
+                        .IsUnique();
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("MobileSessions");
+                });
+
             modelBuilder.Entity("AKCore.DataModel.Page", b =>
                 {
                     b.Property<int>("Id")
@@ -576,7 +615,8 @@ namespace AKCore.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EventId");
+                    b.HasIndex("EventId", "PersonId")
+                        .IsUnique();
 
                     b.HasIndex("PersonId", "SignupTime");
 
@@ -646,6 +686,28 @@ namespace AKCore.Migrations
                     b.HasIndex("AlbumId");
 
                     b.ToTable("Tracks");
+                });
+
+            modelBuilder.Entity("AKCore.DataModel.UsageData", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Amount")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UsageDatas");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -797,6 +859,17 @@ namespace AKCore.Migrations
                         .HasForeignKey("LinkId");
 
                     b.Navigation("Link");
+                });
+
+            modelBuilder.Entity("AKCore.DataModel.MobileSession", b =>
+                {
+                    b.HasOne("AKCore.DataModel.AkUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("AKCore.DataModel.Revision", b =>

@@ -8,6 +8,8 @@
     <PackageId>AKCore</PackageId>
     <TypeScriptCompileBlocked>True</TypeScriptCompileBlocked>
     <CompressionEnabled>false</CompressionEnabled>
+    <!-- Removing warnings for lowerclass class names. -->
+    <NoWarn>$(NoWarn);CS8981</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
@@ -29,6 +31,7 @@
 
   <ItemGroup>
     <PackageReference Include="Azure.AI.OpenAI" Version="2.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="10.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="10.0.5" />

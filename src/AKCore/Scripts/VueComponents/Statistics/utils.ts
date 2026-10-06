@@ -1,3 +1,15 @@
+import { FeatureUsageTypes } from "@services/usage";
+
+const featureUsageLabels: Record<string, string> = {
+  [FeatureUsageTypes.AlbumAIGeneration]: "AI-beskrivning av skiva",
+  [FeatureUsageTypes.EventTranslation]: "Översättning av spelning",
+  [FeatureUsageTypes.PageTranslation]: "Översättning av sida",
+  [FeatureUsageTypes.FlojtEvent]: "Flöjt",
+};
+
+export const getFeatureUsageLabel = (type: string): string =>
+  featureUsageLabels[type] ?? type;
+
 const getStringHash = (str: string): number => {
   let hash = 0;
   if (str.length === 0) return hash;

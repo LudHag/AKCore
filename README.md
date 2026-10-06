@@ -37,3 +37,20 @@ För att få frontendresurser att bygga krävs NPM (Node package manager). Det i
 ## Vue.js
 
 [Vue 3](https://vuejs.org/) används för vissa dynamiska komponenter som inloggning, men ännu mer på inloggade sidor för att hantera dynamiska element och liknar mycket react i funktionalitet. Vi använder Vues composition api samt typescript.
+
+# API v1:
+
+JSON-API under `/api/v1`. Auth-endpoints är öppna; övriga kräver Bearer-token från login (`Authorization: Bearer ...`). Samma användare, evenemang och anmälningar som i övriga AKCore.
+
+**Auth**
+- `POST /api/v1/auth/login` – inloggning, returnerar access- och refresh-token
+- `POST /api/v1/auth/refresh` – förnya tokens
+- `POST /api/v1/auth/logout` – ogiltigförklara refresh-token
+
+**Övrigt**
+- `GET /api/v1/me` – inloggad användare
+- `GET /api/v1/calendar` – kommande evenemang
+- `GET /api/v1/events/{id}` – evenemangsdetaljer och anmälningslista
+- `PUT /api/v1/events/{id}/registration` – skapa eller uppdatera anmälan
+
+API:t finns främst för att stödja mobilappen AlteKamerer: https://github.com/AKCore-Services/AlteKamerer

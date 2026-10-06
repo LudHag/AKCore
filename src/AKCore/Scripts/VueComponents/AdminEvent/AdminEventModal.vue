@@ -23,7 +23,9 @@
               required
             >
               <option value>Typ av händelse</option>
-              <option v-for="e in EVENTTYPES" :key="e">{{ e }}</option>
+              <option v-for="e in EVENTTYPES" :key="e" :value="e">
+                {{ eventTypeLabel(e) }}
+              </option>
             </select>
           </div>
           <div class="editeventbody" v-if="eventType">
@@ -146,8 +148,8 @@
                 <div class="col-sm-6" v-if="repFika && eventType !== 'Fikarep'">
                   <label>Fika</label>
                   <VueSelect
-                    is-multi
-                    :searchable="false"
+                    :teleport="false"
+                    multiple
                     name="Fika"
                     :options="fikaOptions"
                     placeholder="Välj sektion"
@@ -246,11 +248,16 @@
 import { EVENTTYPES, SPELTYPER, SEKTIONER } from "../../constants";
 import Datepicker from "vue3-datepicker";
 import { postToApi } from "@services/apiservice";
+import { FeatureUsageTypes, recordFeatureUsage } from "@services/usage";
 import Modal from "../Modal.vue";
 import Spinner from "../Spinner.vue";
 import { UpcomingEvent } from "../Upcoming/models";
+import { eventTypeLabel } from "../Upcoming/functions";
 import { computed, onMounted, ref, watch } from "vue";
-import VueSelect, { Option } from "vue3-select-component";
+import {
+  Select as VueSelect,
+  type SelectOptionData,
+} from "vue3-select-component";
 
 const emit = defineEmits<{
   (e: "close"): void;
@@ -274,10 +281,11 @@ const close = () => {
 };
 
 const fikaOptions = SEKTIONER.map((section) => {
-  return { value: section, label: section } as Option<string>;
+  return { value: section, label: section } as SelectOptionData<string>;
 });
 
 const translateDescs = () => {
+  recordFeatureUsage(FeatureUsageTypes.EventTranslation);
   if (upcomingEvent.value?.description) {
     loadingDescTrans.value = true;
     postToApi(

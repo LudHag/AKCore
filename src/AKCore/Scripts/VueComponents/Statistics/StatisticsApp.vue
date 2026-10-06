@@ -88,6 +88,7 @@
       <PageViewGraph :data-points="dataPoints" :loading="loadingRequests" />
       <DeviceGraph :data-points="dataPoints" />
     </div>
+    <UsageSection />
   </div>
 </template>
 <script setup lang="ts">
@@ -96,6 +97,7 @@ import { getFromApi } from "@services/apiservice";
 import PageViewGraph from "./PageViewGraph.vue";
 import DeviceGraph from "./DeviceGraph.vue";
 import GigsGraph from "./GigsGraph.vue";
+import UsageSection from "./UsageSection.vue";
 
 import {
   RequestsRange,
