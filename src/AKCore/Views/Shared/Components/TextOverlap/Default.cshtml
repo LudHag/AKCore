@@ -8,10 +8,10 @@
     @if (!string.IsNullOrEmpty(Model.Image))
     {
         <div class="text-overlap-image">
-            <img src="@Model.Image" alt="@(Model.ImageAlt ?? "")" />
+            <img src="@settings.CDN@Model.Image" alt="@(Model.ImageAlt ?? "")" />
         </div>
     }
-    
+
     <div class="text-overlap-content">
         <div class="text-overlap-background">
             @if (!string.IsNullOrEmpty(Model.Text))

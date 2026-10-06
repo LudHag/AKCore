@@ -40,7 +40,7 @@ function getAssetsFromManifest(manifest: Manifest) {
 }
 
 export function manifestTransform(): Plugin {
-  const manifestPath = "manifest.json";
+  const manifestPath = "wwwroot/dist/manifest.json";
 
   return {
     name: "manifest-transform",

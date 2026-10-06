@@ -136,7 +136,7 @@
           </li>
           <li>
             <a href="#" @click.prevent="click('StartPageHero')">
-              Startsida hero 
+              Startsida hero
             </a>
           </li>
         </ul>

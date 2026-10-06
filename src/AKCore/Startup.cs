@@ -32,7 +32,7 @@ public class Startup
             .SetBasePath(env.ContentRootPath)
             .AddJsonFile("appsettings.json", true, true)
             .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true)
-            .AddJsonFile("manifest.json", true, true)
+            .AddJsonFile("wwwroot/dist/manifest.json", true, true)
             .AddEnvironmentVariables();
         Configuration = builder.Build();
     }

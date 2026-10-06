@@ -67,7 +67,7 @@ export default defineConfig({
     include: ["vue"],
   },
   build: {
-    manifest: "wwwroot/dist/manifest.json",
+    manifest: "manifest.json",
     outDir: "wwwroot/dist",
     emptyOutDir: false,
 
@@ -80,9 +80,9 @@ export default defineConfig({
         {} as Record<string, string>,
       ),
       output: {
-        assetFileNames: "wwwroot/dist/[name]-[hash].[ext]",
-        chunkFileNames: "wwwroot/dist/[name]-[hash].js",
-        entryFileNames: "wwwroot/dist/[name]-[hash].js",
+        assetFileNames: "[name]-[hash].[ext]",
+        chunkFileNames: "[name]-[hash].js",
+        entryFileNames: "[name]-[hash].js",
       },
     },
   },

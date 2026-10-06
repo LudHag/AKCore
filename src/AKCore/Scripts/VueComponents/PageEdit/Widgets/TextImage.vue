@@ -57,13 +57,13 @@ const emit = defineEmits<{
 <style lang="scss" scoped>
 .form-group {
   margin-bottom: 15px;
-  
+
   label {
     display: block;
     margin-bottom: 5px;
     font-weight: 500;
   }
-  
+
   select.form-control {
     width: 100%;
   }
