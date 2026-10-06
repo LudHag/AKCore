@@ -15,6 +15,8 @@ export const WIDGET_TYPES = [
   "CountDown",
   "ThreePuffs",
   "VideosHeader",
+  "TextOverlap",
+  "StartPageHero",
 ] as const;
 
 export type WidgetType = (typeof WIDGET_TYPES)[number];
