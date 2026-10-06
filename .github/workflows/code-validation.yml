@@ -50,10 +50,17 @@ jobs:
           cd src/AKCore
           npm run test:unit
 
-      - name: Component tests
+      - name: Install Playwright Chromium
+        timeout-minutes: 10
         run: |
           cd src/AKCore
-          timeout 2m npm run test:components
+          npx playwright install --with-deps chromium
+
+      - name: Component tests
+        timeout-minutes: 10
+        run: |
+          cd src/AKCore
+          npm run test:components
 
   backend-validation:
     runs-on: ubuntu-latest

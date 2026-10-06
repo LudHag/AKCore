@@ -16,8 +16,8 @@
     "lint": "eslint Scripts",
     "typecheck": "vue-tsc",
     "test:unit": "vitest run --project=unit-tests",
-    "test:components": "playwright install --with-deps chromium && vitest run --project=component-tests",
-    "test:components:debug": "playwright install --with-deps chromium && vitest --project=component-tests --browser.headless=false",
+    "test:components": "vitest run --project=component-tests",
+    "test:components:debug": "vitest --project=component-tests --browser.headless=false",
     "prettier": "prettier --write \"**/*.{ts,vue,scss}\""
   },
   "browserslist": {
