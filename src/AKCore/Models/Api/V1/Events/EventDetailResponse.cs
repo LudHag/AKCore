@@ -16,6 +16,8 @@ public class EventDetailResponse
 
     public string InternalDescription { get; set; } = "";
 
+    public string FikaCollection { get; set; } = "";
+
     public string Date { get; set; } = "";
 
     public string HalanTime { get; set; } = "";

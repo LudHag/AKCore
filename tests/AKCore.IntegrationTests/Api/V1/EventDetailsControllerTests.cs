@@ -103,6 +103,7 @@ public class EventDetailsControllerTests
         Assert.Equal("Gasquesalen", body.Place);
         Assert.Equal("Public description", body.Description);
         Assert.Equal("Member description", body.InternalDescription);
+        Assert.Equal("One,Two", body.FikaCollection);
         Assert.Equal(
             evt.Day.ToString("yyyy-MM-dd"),
             body.Date);
@@ -133,7 +134,6 @@ public class EventDetailsControllerTests
         Assert.DoesNotContain("\"secret\"", lowerJson);
         Assert.DoesNotContain("\"descriptioneng\"", lowerJson);
         Assert.DoesNotContain("\"internaldescriptioneng\"", lowerJson);
-        Assert.DoesNotContain("\"fikacollection\"", lowerJson);
         Assert.DoesNotContain("\"isnintendo\"", lowerJson);
         Assert.DoesNotContain("\"members\"", lowerJson);
     }

@@ -38,6 +38,7 @@ public class CalendarControllerTests
             Place = "Kårhuset",
             Description = "Public description",
             InternalDescription = "Member description",
+            FikaCollection = "Balett,Sax",
             Day = DateTime.UtcNow.Date.AddDays(1),
             HalanTime = new TimeSpan(8, 0, 0),
             ThereTime = new TimeSpan(8, 30, 0),
@@ -78,6 +79,7 @@ public class CalendarControllerTests
             Name = "Second event",
             Place = "Gasquesalen",
             Description = "Second description",
+            Fika = "Trumpet",
             Day = DateTime.UtcNow.Date.AddDays(1),
             HalanTime = new TimeSpan(7, 0, 0),
             ThereTime = new TimeSpan(8, 45, 0),
@@ -127,6 +129,7 @@ public class CalendarControllerTests
         Assert.Equal("Kårhuset", first.Place);
         Assert.Equal("Public description", first.Description);
         Assert.Equal("Member description", first.InternalDescription);
+        Assert.Equal("Balett,Sax", first.FikaCollection);
         Assert.Equal(
             firstEvent.Day.ToString("yyyy-MM-dd"),
             first.Date);
@@ -140,6 +143,7 @@ public class CalendarControllerTests
         Assert.True(first.Disabled);
 
         Assert.Equal(secondEvent.Id, body.Events[1].Id);
+        Assert.Equal("Trumpet", body.Events[1].FikaCollection);
 
         Assert.DoesNotContain("Past event", json);
 
@@ -149,7 +153,6 @@ public class CalendarControllerTests
         Assert.DoesNotContain("\"signups\"", lowerJson);
         Assert.DoesNotContain("\"descriptioneng\"", lowerJson);
         Assert.DoesNotContain("\"internaldescriptioneng\"", lowerJson);
-        Assert.DoesNotContain("\"fikacollection\"", lowerJson);
     }
 
     private static async Task<HttpClient> CreateMobileMemberClientAsync(
