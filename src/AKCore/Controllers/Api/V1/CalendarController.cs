@@ -53,6 +53,7 @@ public class CalendarController : ControllerBase
                     Place = x.Place ?? "",
                     Description = x.Description ?? "",
                     InternalDescription = x.InternalDescription ?? "",
+                    FikaCollection = x.FikaCollection ?? x.Fika ?? "",
                     Date = x.Day.ToString(
                         "yyyy-MM-dd",
                         CultureInfo.InvariantCulture),

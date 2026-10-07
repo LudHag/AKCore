@@ -87,6 +87,7 @@ public class EventDetailsController : ControllerBase
             Place = evt.Place ?? "",
             Description = evt.Description ?? "",
             InternalDescription = evt.InternalDescription ?? "",
+            FikaCollection = evt.FikaCollection ?? evt.Fika ?? "",
             Date = evt.Day.ToString(
                 "yyyy-MM-dd",
                 CultureInfo.InvariantCulture),
