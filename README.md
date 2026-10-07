@@ -54,3 +54,4 @@ JSON-API under `/api/v1`. Auth-endpoints är öppna; övriga kräver Bearer-toke
 - `PUT /api/v1/events/{id}/registration` – skapa eller uppdatera anmälan
 
 API:t finns främst för att stödja mobilappen AlteKamerer: https://github.com/AKCore-Services/AlteKamerer
+
