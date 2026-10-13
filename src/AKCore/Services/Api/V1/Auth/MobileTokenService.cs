@@ -33,6 +33,9 @@ public class MobileTokenService
         {
             new Claim(JwtRegisteredClaimNames.Sub, user.Id),
             new Claim(
+                "ak_security_stamp",
+                user.SecurityStamp ?? ""),
+            new Claim(
                 JwtRegisteredClaimNames.UniqueName,
                 user.UserName ?? ""),
             new Claim(
