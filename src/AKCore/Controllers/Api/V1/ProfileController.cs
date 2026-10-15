@@ -5,6 +5,7 @@ using AKCore.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -157,6 +158,7 @@ public class ProfileController : ControllerBase
 
 
     [HttpPut("username")]
+    [EnableRateLimiting(LoginRateLimit.PolicyName)]
     public async Task<IActionResult> ChangeUsername(
         [FromBody] ChangeUsernameRequest request)
     {
@@ -221,6 +223,7 @@ public class ProfileController : ControllerBase
 
 
     [HttpPut("password")]
+    [EnableRateLimiting(LoginRateLimit.PolicyName)]
     public async Task<IActionResult> ChangePassword(
         [FromBody] ChangePasswordRequest request)
     {

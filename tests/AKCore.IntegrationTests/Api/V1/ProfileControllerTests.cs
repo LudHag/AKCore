@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using AKCore.IntegrationTests.TestData;
+using AKCore.Models;
 using AKCore.Models.Api.V1.Profile;
 using AKCore.DataModel;
 using Microsoft.AspNetCore.Identity;
@@ -739,6 +740,56 @@ public class ProfileControllerTests
     }
 
     [Theory]
+    [InlineData("/api/v1/profile/username")]
+    [InlineData("/api/v1/profile/password")]
+    public async Task CurrentPassword_TooManyAttempts_ReturnsTooManyRequests(
+        string path)
+    {
+        await using var factory = new CustomWebApplicationFactory();
+        await factory.SeedMemberAsync();
+
+        var client = await CreateMobileClientAsync(factory);
+        var body = new
+        {
+            newUsername = "renamed-member",
+            currentPassword = "incorrect-password",
+            newPassword = "NewPassword2!"
+        };
+
+        // Login already used one permit on the shared login policy.
+        for (var i = 0; i < LoginRateLimit.PermitLimit - 1; i++)
+        {
+            var response = await client.PutAsJsonAsync(path, body);
+
+            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        }
+
+        var limitedResponse = await client.PutAsJsonAsync(path, body);
+
+        Assert.Equal(HttpStatusCode.TooManyRequests, limitedResponse.StatusCode);
+
+        var limitedBody = await limitedResponse.Content
+            .ReadFromJsonAsync<RateLimitResponse>();
+
+        Assert.NotNull(limitedBody);
+        Assert.Equal(
+            "Too many login attempts. Try again later.",
+            limitedBody.Message);
+
+        using var scope = factory.Services.CreateScope();
+        var userManager =
+            scope.ServiceProvider.GetRequiredService<UserManager<AkUser>>();
+
+        var user = await userManager.FindByNameAsync(
+            TestUsers.MemberUserName);
+
+        Assert.NotNull(user);
+        Assert.True(await userManager.CheckPasswordAsync(
+            user,
+            TestUsers.DefaultPassword));
+    }
+
+    [Theory]
     [InlineData("")]
     [InlineData("123")]
     public async Task ChangePassword_InvalidNewPassword_ReturnsBadRequest(
@@ -1083,5 +1134,10 @@ public class ProfileControllerTests
     private sealed class LoginResponse
     {
         public string AccessToken { get; set; } = "";
+    }
+
+    private sealed class RateLimitResponse
+    {
+        public string? Message { get; set; }
     }
 }
