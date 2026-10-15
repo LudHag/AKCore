@@ -185,6 +185,46 @@ public class Startup
 
                 options.TokenValidationParameters =
                     tokenValidationParameters;
+
+                options.Events = new Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerEvents
+                {
+                    OnTokenValidated = async context =>
+                    {
+                        var userId = context.Principal?
+                            .FindFirst("sub")?.Value;
+
+                        var tokenStamp = context.Principal?
+                            .FindFirst("ak_security_stamp")?.Value;
+
+                        if (string.IsNullOrWhiteSpace(userId) ||
+                            string.IsNullOrWhiteSpace(tokenStamp))
+                        {
+                            context.Fail("Invalid mobile token.");
+                            return;
+                        }
+
+                        var userManager = context.HttpContext
+                            .RequestServices
+                            .GetRequiredService<UserManager<AkUser>>();
+
+                        var user = await userManager
+                            .FindByIdAsync(userId);
+
+                        if (user == null)
+                        {
+                            context.Fail("Invalid mobile token.");
+                            return;
+                        }
+
+                        var currentStamp = await userManager
+                            .GetSecurityStampAsync(user);
+
+                        if (currentStamp != tokenStamp)
+                        {
+                            context.Fail("Mobile token revoked.");
+                        }
+                    }
+                };
             });
 
         services.ConfigureApplicationCookie(options => options.LoginPath = "/");
